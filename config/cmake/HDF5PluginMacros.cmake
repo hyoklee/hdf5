@@ -61,9 +61,13 @@ macro (EXTERNAL_PLUGIN_LIBRARY compress_type)
       add_dependencies (h5szf ${HDF5_LIBSH_TARGET})
       add_dependencies (h5ex_d_sz ${HDF5_LIBSH_TARGET})
 <<<<<<< HEAD
+<<<<<<< HEAD
       target_include_directories (h5ex_d_sz PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR}")
 =======
       target_include_directories (h5ex_d_szf PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR}")
+>>>>>>> Update HDF5PluginMacros.cmake
+=======
+      target_include_directories (h5ex_d_sz PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR}")
 >>>>>>> Update HDF5PluginMacros.cmake
     endif ()
     if (ENABLE_ZFP)

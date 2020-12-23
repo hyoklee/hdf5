@@ -95,7 +95,8 @@ set (ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of ZLIB package" FORCE)
 ######
 #
 set (BZ2_GIT_URL "https://github.com/hyoklee/bzip2.git" CACHE STRING "Use BZ2 from HDF repository" FORCE)
-set (BZ2_GIT_BRANCH "master" CACHE STRING "" FORCE)
+# set (BZ2_GIT_BRANCH "master" CACHE STRING "" FORCE)
+set (BZ2_GIT_BRANCH "main" CACHE STRING "" FORCE)
 
 set (BZ2_TGZ_NAME "BZ2.tar.gz" CACHE STRING "Use BZ2 from compressed file" FORCE)
 
@@ -117,7 +118,8 @@ set (FPZIP_PACKAGE_NAME "fpzip" CACHE STRING "Name of FPZIP package" FORCE)
 ######
 
 set (JPEG_GIT_URL "https://github.com/hyoklee/jpeg.git" CACHE STRING "Use JPEG from HDF repository" FORCE)
-set (JPEG_GIT_BRANCH "jpeg9c" CACHE STRING "" FORCE)
+# set (JPEG_GIT_BRANCH "jpeg9c" CACHE STRING "" FORCE)
+set (JPEG_GIT_BRANCH "main" CACHE STRING "" FORCE)
 
 #set (JPEG_TGZ_NAME "JPEG9c.tar.gz" CACHE STRING "Use JPEG from compressed file" FORCE)
 set (JPEG_TGZ_NAME "JPEG.tar.gz" CACHE STRING "Use JPEG from compressed file" FORCE)

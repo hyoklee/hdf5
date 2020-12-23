@@ -83,12 +83,20 @@ set (BLOSC_TGZ_NAME "c-blosc.tar.gz" CACHE STRING "Use BLOSC from compressed fil
 
 set (BLOSC_PACKAGE_NAME "blosc" CACHE STRING "Name of BLOSC package" FORCE)
 
+#######
+# zlib
+#######
 set (ZLIB_GIT_URL "https://github.com/hyoklee/zlib.git" CACHE STRING "Use ZLIB from HDF repo" FORCE)
 set (ZLIB_GIT_BRANCH "master" CACHE STRING "" FORCE)
-
 set (ZLIB_TGZ_NAME "ZLib.tar.gz" CACHE STRING "Use ZLib from compressed file" FORCE)
-
 set (ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of ZLIB package" FORCE)
+
+#######
+# szip
+#######
+set (SZIP_GIT_URL "https://github.com/hyoklee/szip.git" CACHE STRING "Use SZIP from HDF repo" FORCE)
+set (SZIP_GIT_BRANCH "main" CACHE STRING "" FORCE)
+
 
 #######
 # bzip2

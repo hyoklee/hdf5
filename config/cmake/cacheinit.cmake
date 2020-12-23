@@ -95,7 +95,7 @@ set (ZLIB_PACKAGE_NAME "zlib" CACHE STRING "Name of ZLIB package" FORCE)
 # szip
 #######
 set (SZIP_GIT_URL "https://github.com/hyoklee/szip.git" CACHE STRING "Use SZIP from HDF repo" FORCE)
-set (SZIP_GIT_BRANCH "main" CACHE STRING "" FORCE)
+set (SZIP_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 
 #######

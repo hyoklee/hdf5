@@ -192,7 +192,7 @@ set (ZFP_PACKAGE_NAME "zfp" CACHE STRING "Name of ZFP package" FORCE)
 ######
 # zstd
 ######
-set (ZSTD_GIT_URL "https://github.com/facebook/zstd.git" CACHE STRING "Use ZSTD from Github" FORCE)
+set (ZSTD_GIT_URL "https://github.com/hyoklee/zstd.git" CACHE STRING "Use ZSTD from Github" FORCE)
 set (ZSTD_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (ZSTD_TGZ_NAME "zstd.tar.gz" CACHE STRING "Use ZSTD from compressed file" FORCE)

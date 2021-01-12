@@ -202,10 +202,10 @@ set (ZSTD_PACKAGE_NAME "zstd" CACHE STRING "Name of ZSTD package" FORCE)
 ##########
 # bitgroom
 ##########
-set (BITGROOM_GIT_URL "https://github.com/hyoklee/bitgroom.git" CACHE STRING "Use BITGROOM from Github" FORCE)
-set (BITGROOM_GIT_BRANCH "master" CACHE STRING "" FORCE)
+# set (BITGROOM_GIT_URL "https://github.com/hyoklee/bitgroom.git" CACHE STRING "Use BITGROOM from Github" FORCE)
+# set (BITGROOM_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
-set (BITGROOM_TGZ_NAME "bitgroom.tar.gz" CACHE STRING "Use BITGROOM from compressed file" FORCE)
+# set (BITGROOM_TGZ_NAME "bitgroom.tar.gz" CACHE STRING "Use BITGROOM from compressed file" FORCE)
 
 set (BITGROOM_PACKAGE_NAME "bitgroom" CACHE STRING "Name of BITGROOM package" FORCE)
 

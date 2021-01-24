@@ -209,3 +209,7 @@ set (ZSTD_PACKAGE_NAME "zstd" CACHE STRING "Name of ZSTD package" FORCE)
 
 set (BITGROOM_PACKAGE_NAME "bitgroom" CACHE STRING "Name of BITGROOM package" FORCE)
 
+###########################
+# Pass-through external VOL
+###########################
+set (PV_PACKAGE_NAME "pv" CACHE STRING "Name of PV package" FORCE)

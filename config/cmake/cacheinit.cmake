@@ -213,3 +213,8 @@ set (BITGROOM_PACKAGE_NAME "bitgroom" CACHE STRING "Name of BITGROOM package" FO
 # Pass-through external VOL
 ###########################
 set (PV_PACKAGE_NAME "pv" CACHE STRING "Name of PV package" FORCE)
+
+###########
+# Async VOL
+###########
+set (AV_PACKAGE_NAME "av" CACHE STRING "Name of AV package" FORCE)

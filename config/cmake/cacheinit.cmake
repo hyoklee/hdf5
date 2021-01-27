@@ -218,3 +218,8 @@ set (PV_PACKAGE_NAME "pv" CACHE STRING "Name of PV package" FORCE)
 # Async VOL
 ###########
 set (AV_PACKAGE_NAME "av" CACHE STRING "Name of AV package" FORCE)
+
+###########
+# Cache VOL
+###########
+set (AV_PACKAGE_NAME "cv" CACHE STRING "Name of CV package" FORCE)

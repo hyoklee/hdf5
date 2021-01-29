@@ -105,7 +105,7 @@ SECTION, PIPELINE, I/O pipeline errors
 SECTION, SYSTEM, System level errors
 SECTION, PLUGIN, Plugin errors
 SECTION, MAP, Map related errors
-SECTION, ASYNC, Asynchronous I/O errors
+SECTION, ASYNC, Asynchronous operation errors
 SECTION, NONE, No error
 
 # Minor errors
@@ -290,6 +290,7 @@ MINOR, MAP, H5E_CANTPUT, Can't put value
 
 # Asynchronous operation errors
 MINOR, ASYNC, H5E_CANTWAIT, Can't wait on operation
+MINOR, ASYNC, H5E_CANTCANCEL, Can't cancel operation
 
 # No error, for backward compatibility */
 MINOR, NONE, H5E_NONE_MINOR, No error

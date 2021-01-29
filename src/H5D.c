@@ -229,7 +229,7 @@ H5Dcreate_async(const char *app_file, const char *app_func, unsigned app_line, h
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE11(FUNC, "*s*sIui*siiiiii", app_file, app_func, app_line, loc_id, name, type_id, space_id, lcpl_id, dcpl_id, dapl_id, es_id)) < 0) {
-        /* clang-format on */
+            /* clang-format on */
             if (H5I_dec_app_ref_always_close(ret_value) < 0)
                 HDONE_ERROR(H5E_DATASET, H5E_CANTDEC, H5I_INVALID_HID, "can't decrement count on dataset ID")
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, H5I_INVALID_HID, "can't insert token into event set")
@@ -438,7 +438,7 @@ H5Dopen_async(const char *app_file, const char *app_func, unsigned app_line, hid
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE7(FUNC, "*s*sIui*sii", app_file, app_func, app_line, loc_id, name, dapl_id, es_id)) < 0) {
-        /* clang-format on */
+            /* clang-format on */
             if (H5I_dec_app_ref_always_close(ret_value) < 0)
                 HDONE_ERROR(H5E_DATASET, H5E_CANTDEC, H5I_INVALID_HID, "can't decrement count on dataset ID")
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, H5I_INVALID_HID, "can't insert token into event set")
@@ -532,7 +532,7 @@ H5Dclose_async(const char *app_file, const char *app_func, unsigned app_line, hi
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE5(FUNC, "*s*sIuii", app_file, app_func, app_line, dset_id, es_id)) < 0)
-        /* clang-format on */
+            /* clang-format on */
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 
 done:
@@ -641,7 +641,7 @@ H5Dget_space_async(const char *app_file, const char *app_func, unsigned app_line
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE5(FUNC, "*s*sIuii", app_file, app_func, app_line, dset_id, es_id)) < 0) {
-        /* clang-format on */
+            /* clang-format on */
             if (H5I_dec_app_ref(ret_value) < 0)
                 HDONE_ERROR(H5E_DATASET, H5E_CANTDEC, H5I_INVALID_HID,
                             "can't decrement count on dataspace ID")
@@ -941,7 +941,11 @@ done:
  *
  *              The MEM_SPACE_ID can be the constant H5S_ALL in which case
  *              the memory dataspace is the same as the file dataspace
- *              defined when the dataset was created.
+ *              defined when the dataset was created.  The MEM_SPACE_ID can
+ *              also be the constant H5S_BLOCK, which indicates that the
+ *              buffer provided is a single contiguous block of memory, with
+ *              the same # of elements as specified in the FILE_SPACE_ID
+ *              selection.
  *
  *              The number of elements in the memory dataspace must match
  *              the number of elements in the file dataspace.
@@ -1012,7 +1016,7 @@ H5Dread_async(const char *app_file, const char *app_func, unsigned app_line, hid
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE10(FUNC, "*s*sIuiiiiixi", app_file, app_func, app_line, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf, es_id)) < 0)
-        /* clang-format on */
+            /* clang-format on */
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 
 done:
@@ -1032,13 +1036,13 @@ done:
  *---------------------------------------------------------------------------
  */
 herr_t
-H5Dread_chunk(hid_t dset_id, hid_t dxpl_id, const hsize_t *offset, uint32_t *filters, void *buf)
+H5Dread_chunk(hid_t dset_id, hid_t dxpl_id, const hsize_t *offset, uint32_t *filters, void *buf /*out*/)
 {
     H5VL_object_t *vol_obj   = NULL;
     herr_t         ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE5("e", "ii*h*Iu*x", dset_id, dxpl_id, offset, filters, buf);
+    H5TRACE5("e", "ii*h*Iux", dset_id, dxpl_id, offset, filters, buf);
 
     /* Check arguments */
     if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(dset_id, H5I_DATASET)))
@@ -1126,7 +1130,11 @@ done:
  *
  *              The MEM_SPACE_ID can be the constant H5S_ALL in which case
  *              the memory dataspace is the same as the file dataspace
- *              defined when the dataset was created.
+ *              defined when the dataset was created.  The MEM_SPACE_ID can
+ *              also be the constant H5S_BLOCK, which indicates that the
+ *              buffer provided is a single contiguous block of memory, with
+ *              the same # of elements as specified in the FILE_SPACE_ID
+ *              selection.
  *
  *              The number of elements in the memory dataspace must match
  *              the number of elements in the file dataspace.
@@ -1199,7 +1207,7 @@ H5Dwrite_async(const char *app_file, const char *app_func, unsigned app_line, hi
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE10(FUNC, "*s*sIuiiiii*xi", app_file, app_func, app_line, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf, es_id)) < 0)
-        /* clang-format on */
+            /* clang-format on */
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 
 done:
@@ -1756,7 +1764,7 @@ H5Dset_extent_async(const char *app_file, const char *app_func, unsigned app_lin
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                 H5ARG_TRACE6(FUNC, "*s*sIui*hi", app_file, app_func, app_line, dset_id, size, es_id)) < 0)
-        /* clang-format on */
+            /* clang-format on */
             HGOTO_ERROR(H5E_DATASET, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 
 done:
@@ -1800,41 +1808,6 @@ H5Dflush(hid_t dset_id)
 done:
     FUNC_LEAVE_API(ret_value)
 } /* H5Dflush */
-
-/*-------------------------------------------------------------------------
- * Function:    H5Dwait
- *
- * Purpose:     Wait for all operations on a dataset.
- *              Tang: added for async
- *
- * Return:      Non-negative on success/Negative on failure
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5Dwait(hid_t dset_id)
-{
-    H5VL_object_t *vol_obj;             /* Dataset for this operation */
-    herr_t         ret_value = SUCCEED; /* Return value */
-
-    FUNC_ENTER_API(FAIL)
-    H5TRACE1("e", "i", dset_id);
-
-    /* Check args */
-    if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(dset_id, H5I_DATASET)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "dset_id parameter is not a valid dataset identifier")
-
-    /* Set up collective metadata if appropriate */
-    if (H5CX_set_loc(dset_id) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set collective metadata read info")
-
-    if ((ret_value = H5VL_dataset_specific(vol_obj, H5VL_DATASET_WAIT, H5P_DATASET_XFER_DEFAULT,
-                                           H5_REQUEST_NULL, dset_id)) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPERATE, FAIL, "unable to wait dataset")
-
-done:
-    FUNC_LEAVE_API(ret_value)
-} /* H5Dwait*/
 
 /*-------------------------------------------------------------------------
  * Function:    H5Drefresh

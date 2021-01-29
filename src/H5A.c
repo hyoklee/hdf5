@@ -1057,7 +1057,7 @@ done:
  *--------------------------------------------------------------------------*/
 herr_t
 H5Aread_async(const char *app_file, const char *app_func, unsigned app_line, hid_t attr_id, hid_t dtype_id,
-              void *buf, hid_t es_id)
+              void *buf /*out*/, hid_t es_id)
 {
     H5VL_object_t *vol_obj   = NULL;            /* Object for attr_id */
     void *         token     = NULL;            /* Request token for async operation        */
@@ -1065,7 +1065,7 @@ H5Aread_async(const char *app_file, const char *app_func, unsigned app_line, hid
     herr_t         ret_value = SUCCEED;         /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE7("e", "*s*sIuii*xi", app_file, app_func, app_line, attr_id, dtype_id, buf, es_id);
+    H5TRACE7("e", "*s*sIuiixi", app_file, app_func, app_line, attr_id, dtype_id, buf, es_id);
 
     /* Set up request token pointer for asynchronous operation */
     if (H5ES_NONE != es_id)
@@ -1079,7 +1079,11 @@ H5Aread_async(const char *app_file, const char *app_func, unsigned app_line, hid
     if (NULL != token)
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
+<<<<<<< HEAD
                         H5ARG_TRACE7(FUNC, "*s*sIuii*xi", app_file, app_func, app_line, attr_id, dtype_id, buf, es_id)) < 0)
+=======
+                        H5ARG_TRACE7(FUNC, "*s*sIuiixi", app_file, app_func, app_line, attr_id, dtype_id, buf, es_id)) < 0)
+>>>>>>> OESS-126:Copy codes from hpc-io async branch.
             /* clang-format on */
             HGOTO_ERROR(H5E_ATTR, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 

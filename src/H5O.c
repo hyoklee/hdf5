@@ -70,7 +70,7 @@ static herr_t H5O__copy_api_common(hid_t src_loc_id, const char *src_name, hid_t
                                    H5VL_object_t **_vol_obj_ptr);
 static herr_t H5O__flush_api_common(hid_t obj_id, void **token_ptr, H5VL_object_t **_vol_obj_ptr);
 static herr_t H5O__refresh_api_common(hid_t oid, void **token_ptr, H5VL_object_t **_vol_obj_ptr);
-static htri_t H5O__close_check_common(hid_t object_id);
+static htri_t H5O__close_check_type(hid_t object_id);
 
 /*********************/
 /* Package Variables */
@@ -1794,23 +1794,23 @@ done:
 } /* end H5Ovisit_by_name3() */
 
 /*-------------------------------------------------------------------------
- * Function:    H5O__close_check_common
+ * Function:    H5O__close_check_type
  *
  * Purpose:     This is the common function to validate an object
- *              when closing it.
+ *              before closing it.
  *
  * Return:      TRUE/FALSE/FAIL
  *
  *-------------------------------------------------------------------------
  */
 static htri_t
-H5O__close_check_common(hid_t object_id)
+H5O__close_check_type(hid_t object_id)
 {
     htri_t ret_value = TRUE; /* Return value */
 
     FUNC_ENTER_STATIC
 
-    /* Get the type of the object and close it in the correct way */
+    /* Check for closeable object */
     switch (H5I_get_type(object_id)) {
         case H5I_GROUP:
         case H5I_DATATYPE:
@@ -1836,14 +1836,13 @@ H5O__close_check_common(hid_t object_id)
         case H5I_EVENTSET:
         case H5I_NTYPES:
         default:
-            HGOTO_ERROR(H5E_ARGS, H5E_CANTRELEASE, FALSE,
-                        "not a valid file object ID (dataset, group, or datatype)")
+            HGOTO_DONE(FALSE);
             break;
     } /* end switch */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* H5O__close_api_common() */
+} /* H5O__close_check_type() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5Oclose
@@ -1871,7 +1870,7 @@ H5Oclose(hid_t object_id)
     H5TRACE1("e", "i", object_id);
 
     /* Validate the object type before closing */
-    if (H5O__close_check_common(object_id) <= 0)
+    if (H5O__close_check_type(object_id) <= 0)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTRELEASE, FAIL, "not a valid object")
 
     if (H5I_dec_app_ref(object_id) < 0)
@@ -1903,7 +1902,7 @@ H5Oclose_async(const char *app_file, const char *app_func, unsigned app_line, hi
     H5TRACE5("e", "*s*sIuii", app_file, app_func, app_line, object_id, es_id);
 
     /* Validate the object type before closing */
-    if (H5O__close_check_common(object_id) <= 0)
+    if (H5O__close_check_type(object_id) <= 0)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTRELEASE, FAIL, "not a valid object")
 
     /* Prepare for possible asynchronous operation */

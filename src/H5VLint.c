@@ -261,15 +261,22 @@ H5VL_term_package(void)
                 n++;
             } /* end if */
             else {
-                /* Destroy the VOL connector ID group */
-                n += (H5I_dec_type_ref(H5I_VOL) > 0);
+                if (H5VL__num_opt_operation() > 0) {
+                    /* Unregister all dynamically registered optional operations */
+                    (void)H5VL__term_opt_operation();
+                    n++;
+                } /* end if */
+                else {
+                    /* Destroy the VOL connector ID group */
+                    n += (H5I_dec_type_ref(H5I_VOL) > 0);
 
-                /* Mark interface as closed */
-                if (0 == n)
-                    H5_PKG_INIT_VAR = FALSE;
-            } /* end else */
-        }     /* end else */
-    }         /* end if */
+                    /* Mark interface as closed */
+                    if (0 == n)
+                        H5_PKG_INIT_VAR = FALSE;
+                } /* end else */
+            }     /* end else */
+        }         /* end else */
+    }             /* end if */
 
     FUNC_LEAVE_NOAPI(n)
 } /* end H5VL_term_package() */
@@ -760,6 +767,57 @@ done:
 } /* end H5VL_register_using_existing_id() */
 
 /*-------------------------------------------------------------------------
+ * Function:	H5VL_new_connector
+ *
+ * Purpose:     Utility function to create a connector for a connector ID.
+ *
+ * Return:      Success:    Pointer to a new connector object
+ *              Failure:    NULL
+ *
+ *-------------------------------------------------------------------------
+ */
+H5VL_t *
+H5VL_new_connector(hid_t connector_id)
+{
+    H5VL_class_t *cls          = NULL;  /* VOL connector class */
+    H5VL_t *      connector    = NULL;  /* New VOL connector struct */
+    hbool_t       conn_id_incr = FALSE; /* Whether the VOL connector ID has been incremented */
+    H5VL_t *      ret_value    = NULL;  /* Return value */
+
+    FUNC_ENTER_NOAPI(NULL)
+
+    /* Get the VOL class object from the connector's ID */
+    if (NULL == (cls = (H5VL_class_t *)H5I_object_verify(connector_id, H5I_VOL)))
+        HGOTO_ERROR(H5E_VOL, H5E_BADTYPE, NULL, "not a VOL connector ID")
+
+    /* Setup VOL info struct */
+    if (NULL == (connector = H5FL_CALLOC(H5VL_t)))
+        HGOTO_ERROR(H5E_VOL, H5E_CANTALLOC, NULL, "can't allocate VOL connector struct")
+    connector->cls = cls;
+    connector->id  = connector_id;
+    if (H5I_inc_ref(connector->id, FALSE) < 0)
+        HGOTO_ERROR(H5E_VOL, H5E_CANTINC, NULL, "unable to increment ref count on VOL connector")
+    conn_id_incr = TRUE;
+
+    /* Set return value */
+    ret_value = connector;
+
+done:
+    /* Clean up on error */
+    if (NULL == ret_value) {
+        /* Decrement VOL connector ID ref count on error */
+        if (conn_id_incr && H5I_dec_ref(connector_id) < 0)
+            HDONE_ERROR(H5E_VOL, H5E_CANTDEC, NULL, "unable to decrement ref count on VOL connector")
+
+        /* Free VOL connector struct */
+        if (NULL != connector)
+            connector = H5FL_FREE(H5VL_t, connector);
+    } /* end if */
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5VL_new_connector() */
+
+/*-------------------------------------------------------------------------
  * Function:	H5VL_register_using_vol_id
  *
  * Purpose:     Utility function to create a user ID for an object created
@@ -774,25 +832,14 @@ done:
 hid_t
 H5VL_register_using_vol_id(H5I_type_t type, void *obj, hid_t connector_id, hbool_t app_ref)
 {
-    H5VL_class_t *cls          = NULL;            /* VOL connector class */
-    H5VL_t *      connector    = NULL;            /* VOL connector struct */
-    hbool_t       conn_id_incr = FALSE;           /* Whether the VOL connector ID has been incremented */
-    hid_t         ret_value    = H5I_INVALID_HID; /* Return value */
+    H5VL_t *connector = NULL;            /* VOL connector struct */
+    hid_t   ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
-    /* Get the VOL class object from the connector's ID */
-    if (NULL == (cls = (H5VL_class_t *)H5I_object_verify(connector_id, H5I_VOL)))
-        HGOTO_ERROR(H5E_VOL, H5E_BADTYPE, H5I_INVALID_HID, "not a VOL connector ID")
-
-    /* Setup VOL info struct */
-    if (NULL == (connector = H5FL_CALLOC(H5VL_t)))
-        HGOTO_ERROR(H5E_VOL, H5E_CANTALLOC, H5I_INVALID_HID, "can't allocate VOL info struct")
-    connector->cls = cls;
-    connector->id  = connector_id;
-    if (H5I_inc_ref(connector->id, FALSE) < 0)
-        HGOTO_ERROR(H5E_VOL, H5E_CANTINC, H5I_INVALID_HID, "unable to increment ref count on VOL connector")
-    conn_id_incr = TRUE;
+    /* Create new VOL connector object, using the connector ID */
+    if (NULL == (connector = H5VL_new_connector(connector_id)))
+        HGOTO_ERROR(H5E_VOL, H5E_CANTCREATE, H5I_INVALID_HID, "can't create VOL connector object")
 
     /* Get an ID for the VOL object */
     if ((ret_value = H5VL_register(type, obj, connector, app_ref)) < 0)
@@ -800,16 +847,11 @@ H5VL_register_using_vol_id(H5I_type_t type, void *obj, hid_t connector_id, hbool
 
 done:
     /* Clean up on error */
-    if (ret_value < 0) {
-        /* Decrement VOL connector ID ref count on error */
-        if (conn_id_incr && H5I_dec_ref(connector_id) < 0)
+    if (H5I_INVALID_HID == ret_value)
+        /* Release newly created connector */
+        if (connector && H5VL_conn_dec_rc(connector) < 0)
             HDONE_ERROR(H5E_VOL, H5E_CANTDEC, H5I_INVALID_HID,
                         "unable to decrement ref count on VOL connector")
-
-        /* Free VOL connector struct */
-        if (NULL != connector)
-            connector = H5FL_FREE(H5VL_t, connector);
-    } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5VL_register_using_vol_id() */
@@ -2482,6 +2524,33 @@ H5VL_check_plugin_load(const H5VL_class_t *cls, const H5PL_key_t *key, hbool_t *
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5VL_check_plugin_load() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5VL__is_default_conn
+ *
+ * Purpose:     Check if the default connector will be used for a container.
+ *
+ * Return:      SUCCEED / FAIL
+ *
+ *-------------------------------------------------------------------------
+ */
+void
+H5VL__is_default_conn(hid_t fapl_id, hid_t connector_id, hbool_t *is_default)
+{
+    FUNC_ENTER_PACKAGE_NOERR
+
+    /* Sanity checks */
+    HDassert(is_default);
+
+    /* Determine if the default VOL connector will be used, based on non-default
+     * values in the FAPL, connector ID, or the HDF5_VOL_CONNECTOR environment
+     * variable being set.
+     */
+    *is_default = (H5VL_def_conn_s.connector_id == H5_DEFAULT_VOL) &&
+                  ((H5P_FILE_ACCESS_DEFAULT == fapl_id) || connector_id == H5_DEFAULT_VOL);
+
+    FUNC_LEAVE_NOAPI_VOID
+} /* end H5VL__is_default_conn() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5VL_setup_args

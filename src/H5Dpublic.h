@@ -251,7 +251,7 @@ H5_DLL hid_t H5Dcreate_async(const char *app_file, const char *app_func, unsigne
  *          specified then the dataset will be created at the location
  *          where the attribute, dataset, or named datatype is attached.
  *
- *          The dataset’s datatype and dataspace are specified by
+ *          The dataset's datatype and dataspace are specified by
  *          \p type_id and \p space_id, respectively. These are the
  *          datatype and dataspace of the dataset as it will exist in
  *          the file, which may differ from the datatype and dataspace
@@ -273,7 +273,7 @@ H5_DLL hid_t H5Dcreate_async(const char *app_file, const char *app_func, unsigne
  *          \li H5Dcreate_anon() explicitly includes a dataset access property
  *          list. H5Dcreate() always uses default dataset access properties.
  *
- *          \li H5Dcreate_anon() neither provides the new dataset’s name nor
+ *          \li H5Dcreate_anon() neither provides the new dataset's name nor
  *          links it into the HDF5 file structure; those actions must be
  *          performed separately through a call to H5Olink(), which offers
  *          greater control over linking.
@@ -474,9 +474,9 @@ H5_DLL hid_t H5Dget_create_plist(hid_t dset_id);
  *          present in the returned dataset access property list. If
  *          the dataset does not use a chunked layout, then the chunk
  *          cache properties will be set to the default. The chunk cache
- *          properties in the returned list are considered to be “set”,
+ *          properties in the returned list are considered to be "set",
  *          and any use of this list will override the corresponding
- *          properties in the file’s file access property list.
+ *          properties in the file's file access property list.
  *
  *          All link access properties in the returned list will be set
  *          to the default values.
@@ -602,10 +602,10 @@ H5_DLL herr_t H5Dget_num_chunks(hid_t dset_id, hid_t fspace_id, hsize_t *nchunks
  * \brief Retrieves information about a chunk specified by its coordinates
  *
  * \dset_id
- * \param[in]  offset      Logical position of the chunk’s first element
+ * \param[in]  offset      Logical position of the chunk's first element
  * \param[out] filter_mask Indicating filters used with the chunk when written
  * \param[out] addr        Chunk address in the file
- * \param[out] size        Chunk size in bytes, 0 if chunk doesn’t exist
+ * \param[out] size        Chunk size in bytes, 0 if chunk doesn't exist
  *
  * \return \herr_t
  *
@@ -618,8 +618,8 @@ H5_DLL herr_t H5Dget_num_chunks(hid_t dset_id, hid_t fspace_id, hsize_t *nchunks
  *          filter_mask will not be modified.
  *
  *          \p offset is a pointer to a one-dimensional array with a size
- *          equal to the dataset’s rank. Each element is the logical
- *          position of the chunk’s first element in a dimension.
+ *          equal to the dataset's rank. Each element is the logical
+ *          position of the chunk's first element in a dimension.
  *
  * \since 1.10.5
  *
@@ -636,10 +636,10 @@ H5_DLL herr_t H5Dget_chunk_info_by_coord(hid_t dset_id, const hsize_t *offset, u
  * \dset_id
  * \param[in]  fspace_id File dataspace selection identifier (See Note below)
  * \param[in]  chk_idx   Index of the chunk
- * \param[out] offset    Logical position of the chunk’s first element
+ * \param[out] offset    Logical position of the chunk's first element
  * \param[out] filter_mask Indicating filters used with the chunk when written
  * \param[out] addr      Chunk address in the file
- * \param[out] size      Chunk size in bytes, 0 if chunk doesn’t exist
+ * \param[out] size      Chunk size in bytes, 0 if chunk doesn't exist
  *
  * \return \herr_t
  *
@@ -965,7 +965,7 @@ H5_DLL herr_t H5Dwrite_async(const char *app_file, const char *app_func, unsigne
  * \dset_id
  * \dxpl_id
  * \param[in]  filters  Mask for identifying the filters in use
- * \param[in]  offset   Logical position of the chunk’s first element in the
+ * \param[in]  offset   Logical position of the chunk's first element in the
  *                      dataspace
  * \param[in]  data_size    Size of the actual data to be written in bytes
  * \param[in]  buf          Buffer containing data to be written to the chunk
@@ -977,7 +977,7 @@ H5_DLL herr_t H5Dwrite_async(const char *app_file, const char *app_func, unsigne
  *          from the application memory buffer \p buf to the dataset in
  *          the file. Typically, the data in \p buf is preprocessed in
  *          memory by a custom transformation, such as compression. The
- *          chunk will bypass the library’s internal data transfer
+ *          chunk will bypass the library's internal data transfer
  *          pipeline, including filters, and will be written directly to
  *          the file. Only one chunk can be written with this function.
  *
@@ -989,12 +989,12 @@ H5_DLL herr_t H5Dwrite_async(const char *app_file, const char *app_func, unsigne
  *          \p filters is a mask providing a record of which filters are
  *          used with the the chunk. The default value of the mask is
  *          zero (0), indicating that all enabled filters are applied. A
- *          filter is skipped if the bit corresponding to the filter’s
- *          position in the pipeline (0 ≤ position < 32) is turned on.
+ *          filter is skipped if the bit corresponding to the filter's
+ *          position in the pipeline (0 <= position < 32) is turned on.
  *          This mask is saved with the chunk in the file.
  *
  *          \p offset is an array specifying the logical position of the
- *          first element of the chunk in the dataset’s dataspace. The
+ *          first element of the chunk in the dataset's dataspace. The
  *          length of the offset array must equal the number of dimensions,
  *          or rank, of the dataspace. The values in offset must not exceed
  *          the dimension limits and must specify a point that falls on
@@ -1034,7 +1034,7 @@ H5_DLL herr_t H5Dwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, con
  *
  * \dset_id
  * \dxpl_id
- * \param[in]  offset   Logical position of the chunk’s first element in the
+ * \param[in]  offset   Logical position of the chunk's first element in the
  *                      dataspace
  * \param[in,out]  filters  Mask for identifying the filters in use
  * \param[out]  buf     Buffer containing data to be written to the chunk
@@ -1045,11 +1045,11 @@ H5_DLL herr_t H5Dwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, con
  *          its logical offset \p offset in a chunked dataset \p dset_id
  *          from the dataset in the file into the application memory
  *          buffer \p buf. The data in \p buf is read directly from the
- *          file bypassing the library’s internal data transfer pipeline,
+ *          file bypassing the library's internal data transfer pipeline,
  *          including filters.
  *
  *          \p offset is an array specifying the logical position of the
- *          first element of the chunk in the dataset’s dataspace. The
+ *          first element of the chunk in the dataset's dataspace. The
  *          length of the \p offset array must equal the number of dimensions,
  *          or rank, of the dataspace. The values in \p offset must not exceed
  *          the dimension limits and must specify a point that falls on
@@ -1058,8 +1058,8 @@ H5_DLL herr_t H5Dwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, con
  *          The mask \p filters indicates which filters are used with the
  *          chunk when written. A zero value indicates that all enabled
  *          filters are applied on the chunk. A filter is skipped if the
- *          bit corresponding to the filter’s position in the pipeline
- *          (0 ≤ position < 32) is turned on.
+ *          bit corresponding to the filter's position in the pipeline
+ *          (0 <= position < 32) is turned on.
  *
  *          \p buf is the memory buffer containing the chunk read from
  *          the dataset in the file.
@@ -1144,7 +1144,7 @@ H5_DLL herr_t H5Dread_chunk(hid_t dset_id, hid_t dxpl_id, const hsize_t *offset,
  *          of the iteration. If operator needs to pass data back to the
  *          application, such data can be returned in this same buffer. This
  *          pointer is passed back to each step of the iteration in the
- *          operator callback function’s operator_data parameter.
+ *          operator callback function's operator_data parameter.
  *
  *          Unlike other HDF5 iterators, this iteration operation cannot
  *          be restarted at the point of exit; a second H5Diterate()
@@ -1230,7 +1230,7 @@ H5_DLL herr_t H5Dfill(const void *fill, hid_t fill_type_id, void *buf, hid_t buf
  * --------------------------------------------------------------------------
  * \ingroup H5D
  *
- * \brief Changes the sizes of a dataset’s dimensions
+ * \brief Changes the sizes of a dataset's dimensions
  *
  * \dset_id
  * \param[in] size[]   Array containing the new magnitude of each dimension
@@ -1242,7 +1242,7 @@ H5_DLL herr_t H5Dfill(const void *fill, hid_t fill_type_id, void *buf, hid_t buf
  *          chunked dataset \p dset_id to the sizes specified in size.
  *
  *          \p size is a 1-dimensional array with n elements, where \p n is
- *          the rank of the dataset’s current dataspace.
+ *          the rank of the dataset's current dataspace.
  *
  *          This function can be applied to the following datasets:
  *          - A chunked dataset with unlimited dimensions
@@ -1257,22 +1257,22 @@ H5_DLL herr_t H5Dfill(const void *fill, hid_t fill_type_id, void *buf, hid_t buf
  *          extended only along the first dimension.
  *
  *          Space on disk is immediately allocated for the new dataset extent if
- *          the dataset’s space allocation time is set to #H5D_ALLOC_TIME_EARLY.
+ *          the dataset's space allocation time is set to #H5D_ALLOC_TIME_EARLY.
  *
  *          Fill values will be written to the dataset in either of the
  *          following situations, but not otherwise:
  *
- *          - If the dataset’s fill time is set to #H5D_FILL_TIME_IFSET and a
+ *          - If the dataset's fill time is set to #H5D_FILL_TIME_IFSET and a
  *            fill value is defined (see H5Pset_fill_time() and
  *            H5Pset_fill_value())
- *          - If the dataset’s fill time is set to #H5D_FILL_TIME_ALLOC
+ *          - If the dataset's fill time is set to #H5D_FILL_TIME_ALLOC
  *            (see H5Pset_alloc_time())
  *
  *          \note
  *          \li If the sizes specified in \p size array are smaller than
- *          the dataset’s current dimension sizes, H5Dset_extent() will reduce
- *          the dataset’s dimension sizes to the specified values. It is the
- *          user application’s responsibility to ensure that valuable data is
+ *          the dataset's current dimension sizes, H5Dset_extent() will reduce
+ *          the dataset's dimension sizes to the specified values. It is the
+ *          user application's responsibility to ensure that valuable data is
  *          not lost as H5Dset_extent() does not check.
  *
  *          \li Except for external datasets, H5Dset_extent() is for use with

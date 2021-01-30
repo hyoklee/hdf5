@@ -41,7 +41,6 @@
 #include "H5Iprivate.h"  /* IDs                                  */
 #include "H5MMprivate.h" /* Memory management                    */
 #include "H5RSprivate.h" /* Reference-counted strings            */
-#include "H5Epubgen.h"	 /* H5E_CANTCANCEL */
 
 /****************/
 /* Local Macros */

@@ -95,12 +95,12 @@ AC_CONFIG_COMMANDS([pubconf], [
   sed 's/#define /#define H5_/' <src/H5config.h |\
     sed 's/#undef /#undef H5_/' >pubconf
   if test ! -f src/H5pubconf.h; then
-    /bin/mv -f pubconf src/H5pubconf.h
+    mv -f pubconf src/H5pubconf.h
   elif (diff pubconf src/H5pubconf.h >/dev/null); then
     rm -f pubconf
     echo "src/H5pubconf.h is unchanged"
   else
-    /bin/mv -f pubconf src/H5pubconf.h
+    mv -f pubconf src/H5pubconf.h
   fi
   echo "Post process src/libhdf5.settings"
   sed '/^#/d' < src/libhdf5.settings > libhdf5.settings.TMP

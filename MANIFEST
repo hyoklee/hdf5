@@ -139,6 +139,7 @@
 ./config/ibm-flags
 ./config/intel-fflags
 ./config/intel-flags
+./config/libhdf5.pc.in
 ./config/linux-gnu
 ./config/linux-gnuaout
 ./config/linux-gnueabihf
@@ -167,7 +168,9 @@
 ./config/gnu-warnings/7
 ./config/gnu-warnings/8
 ./config/gnu-warnings/9
+./config/gnu-warnings/9.3
 ./config/gnu-warnings/cxx-general
+./config/gnu-warnings/cxx-4.8
 ./config/gnu-warnings/cxx-4.9
 ./config/gnu-warnings/cxx-5
 ./config/gnu-warnings/cxx-error-5
@@ -177,6 +180,7 @@
 ./config/gnu-warnings/developer-4.8
 ./config/gnu-warnings/developer-7
 ./config/gnu-warnings/developer-8
+./config/gnu-warnings/developer-10
 ./config/gnu-warnings/developer-general
 ./config/gnu-warnings/error-5
 ./config/gnu-warnings/error-8
@@ -3511,7 +3515,6 @@
 ./config/cmake/jrunTest.cmake
 ./config/cmake/jvolTest.cmake
 ./config/cmake/libh5cc.in
-./config/cmake/libhdf5.pc.in
 ./config/cmake/libhdf5.settings.cmake.in
 ./config/cmake/mccacheinit.cmake
 ./config/cmake/patch.xml

@@ -14,7 +14,6 @@
 ## ----------------------------------------------------------------------
 ## Initialize configure.
 ##
-AC_REVISION($Id: configure.ac 22697 2012-08-19 14:35:47Z hdftest $)
 AC_PREREQ([2.69])
 
 ## AC_INIT takes the name of the package, the version number, and an
@@ -37,18 +36,46 @@ AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])]) # use silent rules where available - automake 1.11
 
-## AM_MAINTAINER_MODE turns off "rebuild rules" that contain dependencies
-## for Makefiles, configure, src/H5config.h, etc. If AM_MAINTAINER_MODE
-## is enabled, these files will be rebuilt if out of date. This is a
-## problem because if users try to build on a machine with
-## the wrong versions of autoconf and automake, these files will be
-## rebuilt with the wrong versions and bad things can happen.
-## Also, CVS doesn't preserve dependencies between timestamps, so
-## Makefiles will often think rebuilding needs to occur when it doesn't.
+## AM_MAINTAINER_MODE determines the behavior of "rebuild rules" that contain
+## dependencies for Makefile.in files, configure, src/H5config.h, etc. If
+## AM_MAINTAINER_MODE is enabled, these files will be rebuilt if out of date.
+## When disabled, the autotools build files can get out of sync and the build
+## system will not complain or try to regenerate downstream files.
 ##
-## By default, it is enabled. Users can configure with
-## --disable-maintainer-mode to prevent running the autotools.
-AM_MAINTAINER_MODE([disable])
+## The AM_MAINTAINER_MODE macro also determines whether the
+## --(enable|disable)-maintainer-mode configure option is available. When the
+## macro is present, with or without a parameter, the option will be added
+## to the generated configure script.
+##
+## In summary:
+##
+##  AM_MAINTAINER_MODE([enable])
+##      - Build dependencies ON by default
+##      - Configure option exists
+##
+##  AM_MAINTAINER_MODE([disable])
+##      - Build dependencies OFF by default
+##      - Configure option exists
+##
+##  AM_MAINTAINER_MODE
+##      - Build dependencies OFF by default
+##      - Configure option exists
+##
+##  No AM_MAINTAINER_MODE macro
+##      - Build dependencies ON by default
+##      - No configure option to control build dependencies
+##
+## The biggest concern for us is that version control systems like git
+## usually don't preserve dependencies between timestamps, so the build
+## system will often think that upstream build files like Makefile.am are
+## dirty and that rebuilding needs to occur when it doesn't. This is a problem
+## in release branches where we provide the autotools-generated files. Users
+## who don't have autoconf, automake, etc. will then have difficulty building
+## release branches checked out from git.
+##
+## By default, maintainer mode is enabled in development branches and disabled
+## in release branches.
+AM_MAINTAINER_MODE([enable])
 
 ## ----------------------------------------------------------------------
 ## Set prefix default (install directory) to a directory in the build area.
@@ -1958,10 +1985,10 @@ esac
 
 
 ## ----------------------------------------------------------------------
-## Does the struct stat have the st_blocks field?  This field is not Posix.
+## Does the struct stat have the st_blocks field? This field is not POSIX.
 ##
 AC_MSG_CHECKING([for st_blocks in struct stat])
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM[[
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
   #include <sys/stat.h>]],[[struct stat sb; sb.st_blocks=0;]])],
   [AC_DEFINE([HAVE_STAT_ST_BLOCKS], [1],
           [Define if struct stat has the st_blocks field])
@@ -2128,6 +2155,51 @@ AC_ARG_ENABLE([debug],
 AC_ARG_ENABLE([production],
               [AS_HELP_STRING([--enable-production], [OPTION CHANGE: use --enable-build-mode=production])],
               [AC_MSG_ERROR([--enable-production is no longer supported, use --enable-build-mode=production instead.])])
+
+
+## ----------------------------------------------------------------------
+## Check if the compiler should include build diagnostics
+##
+AC_MSG_CHECKING([enable build diagnostics])
+AC_ARG_ENABLE([diags],
+              [AS_HELP_STRING([--enable-diags=(yes|no|<custom>)],
+                              [Allow default enhanced diagnostics to the build.
+                               This is independent of the build mode and optimization
+                               level.
+                               [default=no]
+                               ])],
+              [DIAGS=$enableval])
+
+## Set default
+if test "X-$DIAGS" = X- ; then
+  DIAGS=no
+fi
+
+## Allow this variable to be substituted in
+## other files (src/libhdf5.settings.in, etc.)
+AC_SUBST([DIAGS])
+
+case "X-$DIAGS" in
+  X-yes)
+    H5_CFLAGS="$H5_CFLAGS $DIAGS_CFLAGS"
+    H5_CXXFLAGS="$H5_CXXFLAGS $DIAGS_CXXFLAGS"
+    H5_FCFLAGS="$H5_FCFLAGS $DIAGS_FCFLAGS"
+    AC_MSG_RESULT([yes])
+    ;;
+  X-no)
+    H5_CFLAGS="$H5_CFLAGS $NO_DIAGS_CFLAGS"
+    H5_CXXFLAGS="$H5_CXXFLAGS $NO_DIAGS_CXXFLAGS"
+    H5_FCFLAGS="$H5_FCFLAGS $NO_DIAGS_FCFLAGS"
+    AC_MSG_RESULT([no])
+    ;;
+  *)
+    H5_CFLAGS="$H5_CFLAGS $DIAGS"
+    H5_CXXFLAGS="$H5_CXXFLAGS $DIAGS"
+    H5_FCFLAGS="$H5_FCFLAGS $DIAGS"
+    DIAGS="custom ($DIAGS)"
+    AC_MSG_RESULT([$DIAGS])
+    ;;
+esac
 
 
 ## ----------------------------------------------------------------------

@@ -143,11 +143,8 @@ H5T__commit_api_common(hid_t loc_id, const char *name, hid_t type_id, hid_t lcpl
         HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to commit datatype")
 
     /* Set up VOL object */
-    if (NULL == (new_obj = H5FL_CALLOC(H5VL_object_t)))
-        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "can't allocate top object structure")
-    new_obj->connector = (*vol_obj_ptr)->connector;
-    new_obj->connector->nrefs++;
-    new_obj->data = data;
+    if (NULL == (new_obj = H5VL_create_object(data, (*vol_obj_ptr)->connector)))
+        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "can't create VOL object for committed datatype")
 
     /* Set the committed type object to the VOL connector pointer in the H5T_t struct */
     dt->vol_obj = new_obj;
@@ -222,7 +219,7 @@ H5Tcommit_async(const char *app_file, const char *app_func, unsigned app_line, h
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE10(FUNC, "*s*sIui*siiiii", app_file, app_func, app_line, loc_id, name, type_id, lcpl_id, tcpl_id, tapl_id, es_id)) < 0)
-        /* clang-format on */
+            /* clang-format on */
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINSERT, FAIL, "can't insert token into event set")
 
 done:
@@ -370,11 +367,8 @@ H5Tcommit_anon(hid_t loc_id, hid_t type_id, hid_t tcpl_id, hid_t tapl_id)
         HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to commit datatype")
 
     /* Setup VOL object */
-    if (NULL == (new_obj = H5FL_CALLOC(H5VL_object_t)))
-        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "can't allocate top object structure")
-    new_obj->connector = vol_obj->connector;
-    new_obj->connector->nrefs++;
-    new_obj->data = dt;
+    if (NULL == (new_obj = H5VL_create_object(dt, vol_obj->connector)))
+        HGOTO_ERROR(H5E_DATATYPE, H5E_CANTALLOC, FAIL, "can't create VOL object for committed datatype")
 
     /* Set the committed type object to the VOL connector pointer in the H5T_t struct */
     type->vol_obj = new_obj;
@@ -733,7 +727,7 @@ H5Topen_async(const char *app_file, const char *app_func, unsigned app_line, hid
         /* clang-format off */
         if (H5ES_insert(es_id, vol_obj->connector, token,
                         H5ARG_TRACE7(FUNC, "*s*sIui*sii", app_file, app_func, app_line, loc_id, name, tapl_id, es_id)) < 0) {
-        /* clang-format on */
+            /* clang-format on */
             if (H5I_dec_app_ref_always_close(ret_value) < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTDEC, H5I_INVALID_HID,
                             "can't decrement count on datatype ID")
@@ -1114,8 +1108,11 @@ H5T_open(const H5G_loc_t *loc)
 done:
     if (ret_value == NULL) {
         if (dt) {
-            if (shared_fo == NULL) /* Need to free shared fo */
+            if (shared_fo == NULL) { /* Need to free shared fo */
+                if (dt->shared->owned_vol_obj && H5VL_free_object(dt->shared->owned_vol_obj) < 0)
+                    HDONE_ERROR(H5E_DATATYPE, H5E_CANTCLOSEOBJ, NULL, "unable to close owned VOL object")
                 dt->shared = H5FL_FREE(H5T_shared_t, dt->shared);
+            } /* end if */
 
             H5O_loc_free(&(dt->oloc));
             H5G_name_free(&(dt->path));

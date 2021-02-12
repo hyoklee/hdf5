@@ -1,5 +1,5 @@
 # This is a basic workflow to test HDF5 with spack.
-name: Spack
+name: spack
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events for the develop branch
@@ -15,16 +15,16 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
-       	uses: actions/checkout@v2
-        with:
-          repository: hyoklee/spack
-          path: ./spack
-      # Runs a single command using the runners shell
-      - name: Install dependencies
-        run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin bison flex 
+      uses: actions/checkout@v2
+      with:
+        repository: hyoklee/spack
+        path: ./spack
+    # Runs a single command using the runners shell
+    - name: Install dependencies
+      run: sudo apt-get install ninja-build automake autoconf libtool libtool-bin bison flex 
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          ./spack/bin/spack install hdf5-cmake
+    # Runs a set of commands using the runners shell
+    - name: Run a multi-line script
+      run: |
+        ./spack/bin/spack install hdf5-cmake
 

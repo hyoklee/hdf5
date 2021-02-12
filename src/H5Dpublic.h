@@ -1335,8 +1335,6 @@ H5_DLL herr_t H5Dset_extent_async(const char *app_file, const char *app_func, un
  */
 H5_DLL herr_t H5Dflush(hid_t dset_id);
 
-H5_DLL herr_t H5Dwait(hid_t dset_id);
-
 /**
  * --------------------------------------------------------------------------
  * \ingroup H5D

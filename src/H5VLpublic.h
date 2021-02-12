@@ -116,6 +116,9 @@ typedef enum H5VL_subclass_t {
     H5VL_SUBCLS_REQUEST,  /**< 'Request' subclass */
     H5VL_SUBCLS_BLOB,     /**< 'Blob' subclass */
     H5VL_SUBCLS_TOKEN     /**< 'Token' subclass */
+                          /* NOTE: if more operations are added, the
+                           * H5VL_opt_vals_g[] array size should be updated.
+                           */
 } H5VL_subclass_t;
 
 /********************/

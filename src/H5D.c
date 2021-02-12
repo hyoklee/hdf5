@@ -941,7 +941,11 @@ done:
  *
  *              The MEM_SPACE_ID can be the constant H5S_ALL in which case
  *              the memory dataspace is the same as the file dataspace
- *              defined when the dataset was created.
+ *              defined when the dataset was created.  The MEM_SPACE_ID can
+ *              also be the constant H5S_BLOCK, which indicates that the
+ *              buffer provided is a single contiguous block of memory, with
+ *              the same # of elements as specified in the FILE_SPACE_ID
+ *              selection.
  *
  *              The number of elements in the memory dataspace must match
  *              the number of elements in the file dataspace.
@@ -1032,13 +1036,13 @@ done:
  *---------------------------------------------------------------------------
  */
 herr_t
-H5Dread_chunk(hid_t dset_id, hid_t dxpl_id, const hsize_t *offset, uint32_t *filters, void *buf)
+H5Dread_chunk(hid_t dset_id, hid_t dxpl_id, const hsize_t *offset, uint32_t *filters, void *buf /*out*/)
 {
     H5VL_object_t *vol_obj   = NULL;
     herr_t         ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE5("e", "ii*h*Iu*x", dset_id, dxpl_id, offset, filters, buf);
+    H5TRACE5("e", "ii*h*Iux", dset_id, dxpl_id, offset, filters, buf);
 
     /* Check arguments */
     if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(dset_id, H5I_DATASET)))
@@ -1126,7 +1130,11 @@ done:
  *
  *              The MEM_SPACE_ID can be the constant H5S_ALL in which case
  *              the memory dataspace is the same as the file dataspace
- *              defined when the dataset was created.
+ *              defined when the dataset was created.  The MEM_SPACE_ID can
+ *              also be the constant H5S_BLOCK, which indicates that the
+ *              buffer provided is a single contiguous block of memory, with
+ *              the same # of elements as specified in the FILE_SPACE_ID
+ *              selection.
  *
  *              The number of elements in the memory dataspace must match
  *              the number of elements in the file dataspace.
@@ -1800,41 +1808,6 @@ H5Dflush(hid_t dset_id)
 done:
     FUNC_LEAVE_API(ret_value)
 } /* H5Dflush */
-
-/*-------------------------------------------------------------------------
- * Function:    H5Dwait
- *
- * Purpose:     Wait for all operations on a dataset.
- *              Tang: added for async
- *
- * Return:      Non-negative on success/Negative on failure
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5Dwait(hid_t dset_id)
-{
-    H5VL_object_t *vol_obj;             /* Dataset for this operation */
-    herr_t         ret_value = SUCCEED; /* Return value */
-
-    FUNC_ENTER_API(FAIL)
-    H5TRACE1("e", "i", dset_id);
-
-    /* Check args */
-    if (NULL == (vol_obj = (H5VL_object_t *)H5I_object_verify(dset_id, H5I_DATASET)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "dset_id parameter is not a valid dataset identifier")
-
-    /* Set up collective metadata if appropriate */
-    if (H5CX_set_loc(dset_id) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "can't set collective metadata read info")
-
-    if ((ret_value = H5VL_dataset_specific(vol_obj, H5VL_DATASET_WAIT, H5P_DATASET_XFER_DEFAULT,
-                                           H5_REQUEST_NULL, dset_id)) < 0)
-        HGOTO_ERROR(H5E_DATASET, H5E_CANTOPERATE, FAIL, "unable to wait dataset")
-
-done:
-    FUNC_LEAVE_API(ret_value)
-} /* H5Dwait*/
 
 /*-------------------------------------------------------------------------
  * Function:    H5Drefresh

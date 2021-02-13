@@ -41,9 +41,7 @@ else ()
 # so this one is used.
 #-----------------------------------------------------------------------------
 macro (FORTRAN_RUN FUNCTION_NAME SOURCE_CODE RUN_RESULT_VAR1 COMPILE_RESULT_VAR1 RETURN_VAR)
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-      message (VERBOSE "Detecting Fortran ${FUNCTION_NAME}")
-    endif ()
+    message (STATUS "Detecting Fortran ${FUNCTION_NAME}")
     file (WRITE
         ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testFortranCompiler1.f90
         "${SOURCE_CODE}"
@@ -57,24 +55,18 @@ macro (FORTRAN_RUN FUNCTION_NAME SOURCE_CODE RUN_RESULT_VAR1 COMPILE_RESULT_VAR1
     if (${COMPILE_RESULT_VAR})
       set(${RETURN_VAR} ${RUN_RESULT_VAR})
       if (${RUN_RESULT_VAR} MATCHES 0)
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Testing Fortran ${FUNCTION_NAME} - OK")
-        endif ()
+        message (STATUS "Testing Fortran ${FUNCTION_NAME} - OK")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if the Fortran ${FUNCTION_NAME} exists passed\n"
         )
       else ()
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Testing Fortran ${FUNCTION_NAME} - Fail")
-        endif ()
+        message (STATUS "Testing Fortran ${FUNCTION_NAME} - Fail")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
             "Determining if the Fortran ${FUNCTION_NAME} exists failed: ${RUN_RESULT_VAR}\n"
         )
       endif ()
     else ()
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Compiling Fortran ${FUNCTION_NAME} - Fail")
-        endif ()
+        message (STATUS "Compiling Fortran ${FUNCTION_NAME} - Fail")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
             "Determining if the Fortran ${FUNCTION_NAME} compiles failed: ${COMPILE_RESULT_VAR}\n"
         )
@@ -289,9 +281,7 @@ string (REGEX REPLACE " " "" pack_int_sizeof "${pack_int_sizeof}")
 
 set (PAC_FC_ALL_INTEGER_KINDS_SIZEOF "\{${pack_int_sizeof}\}")
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-  message (VERBOSE "....FOUND SIZEOF for INTEGER KINDs ${PAC_FC_ALL_INTEGER_KINDS_SIZEOF}")
-endif ()
+message (STATUS "....FOUND SIZEOF for INTEGER KINDs ${PAC_FC_ALL_INTEGER_KINDS_SIZEOF}")
 # **********
 # REALS
 # **********
@@ -452,9 +442,7 @@ else ()
 # so this one is used.
 #-----------------------------------------------------------------------------
 macro (C_RUN FUNCTION_NAME SOURCE_CODE RETURN_VAR)
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-      message (VERBOSE "Detecting C ${FUNCTION_NAME}")
-    endif ()
+    message (STATUS "Detecting C ${FUNCTION_NAME}")
     if (HDF5_REQUIRED_LIBRARIES)
       set (CHECK_FUNCTION_EXISTS_ADD_LIBRARIES
           "-DLINK_LIBRARIES:STRING=${HDF5_REQUIRED_LIBRARIES}")
@@ -474,28 +462,22 @@ macro (C_RUN FUNCTION_NAME SOURCE_CODE RETURN_VAR)
 
     set (${RETURN_VAR} ${OUTPUT_VAR})
 
-    #if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-    #  message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-    #  message (TRACE "Test COMPILE_RESULT_VAR ${COMPILE_RESULT_VAR} ")
-    #  message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-    #  message (TRACE "Test RUN_RESULT_VAR ${RUN_RESULT_VAR} ")
-    #  message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-    #endif ()
+    #message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+    #message (STATUS "Test COMPILE_RESULT_VAR ${COMPILE_RESULT_VAR} ")
+    #message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+    #message (STATUS "Test RUN_RESULT_VAR ${RUN_RESULT_VAR} ")
+    #message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
 
     if (${COMPILE_RESULT_VAR})
       if (${RUN_RESULT_VAR} MATCHES 1)
         set (${RUN_RESULT_VAR} 1 CACHE INTERNAL "Have C function ${FUNCTION_NAME}")
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Testing C ${FUNCTION_NAME} - OK")
-        endif ()
+        message (STATUS "Testing C ${FUNCTION_NAME} - OK")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if the C ${FUNCTION_NAME} exists passed with the following output:\n"
             "${OUTPUT_VAR}\n\n"
         )
       else ()
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Testing C ${FUNCTION_NAME} - Fail")
-        endif ()
+        message (STATUS "Testing C ${FUNCTION_NAME} - Fail")
         set (${RUN_RESULT_VAR} 0 CACHE INTERNAL "Have C function ${FUNCTION_NAME}")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
             "Determining if the C ${FUNCTION_NAME} exists failed with the following output:\n"

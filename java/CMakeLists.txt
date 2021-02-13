@@ -9,14 +9,10 @@ find_package (Java)
 #-----------------------------------------------------------------------------
 include (${HDF_RESOURCES_DIR}/UseJava.cmake)
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-  message (VERBOSE "JAVA: JAVA_HOME=$ENV{JAVA_HOME} JAVA_ROOT=$ENV{JAVA_ROOT}")
-endif ()
+message (STATUS "JAVA: JAVA_HOME=$ENV{JAVA_HOME} JAVA_ROOT=$ENV{JAVA_ROOT}")
 find_package (JNI)
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-  message (VERBOSE "JNI_LIBRARIES=${JNI_LIBRARIES}")
-  message (VERBOSE "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
-endif ()
+message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
+message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
 
 
 if (WIN32)

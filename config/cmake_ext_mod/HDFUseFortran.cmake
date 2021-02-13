@@ -135,9 +135,7 @@ else ()
   # so this one is used for a sizeof test.
   #-----------------------------------------------------------------------------
   macro (CHECK_FORTRAN_FEATURE FUNCTION CODE VARIABLE)
-      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-        message (VERBOSE "Testing Fortran ${FUNCTION}")
-      endif ()
+      message (STATUS "Testing Fortran ${FUNCTION}")
       if (HDF5_REQUIRED_LIBRARIES)
         set (CHECK_FUNCTION_EXISTS_ADD_LIBRARIES
             "-DLINK_LIBRARIES:STRING=${HDF5_REQUIRED_LIBRARIES}")
@@ -155,17 +153,13 @@ else ()
           OUTPUT_VARIABLE OUTPUT
       )
 
-  #    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-  #      message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-  #      message (TRACE "Test result ${OUTPUT}")
-  #      message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-  #    endif ()
+  #    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+  #    message (STATUS "Test result ${OUTPUT}")
+  #    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
 
       if (${RESULT_VAR})
         set (${VARIABLE} 1 CACHE INTERNAL "Have Fortran function ${FUNCTION}")
-        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-          message (VERBOSE "Testing Fortran ${FUNCTION} - OK")
-        endif ()
+        message (STATUS "Testing Fortran ${FUNCTION} - OK")
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if the Fortran ${FUNCTION} exists passed with the following output:\n"
             "${OUTPUT}\n\n"

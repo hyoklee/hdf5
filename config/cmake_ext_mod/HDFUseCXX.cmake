@@ -70,9 +70,7 @@ macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
       )
     endif ()
 
-    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-      message (TRACE "Performing ${OTHER_TEST}")
-    endif ()
+    #message (STATUS "Performing ${OTHER_TEST}")
     TRY_COMPILE (${OTHER_TEST}
         ${CMAKE_BINARY_DIR}
         ${HDF_RESOURCES_EXT_DIR}/HDFCXXTests.cpp
@@ -82,13 +80,9 @@ macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
     )
     if (${OTHER_TEST} EQUAL 0)
       set (${OTHER_TEST} 1 CACHE INTERNAL "CXX test ${FUNCTION}")
-      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-        message (VERBOSE "Performing CXX Test ${OTHER_TEST} - Success")
-      endif ()
+      message (STATUS "Performing CXX Test ${OTHER_TEST} - Success")
     else ()
-      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-        message (VERBOSE "Performing CXX Test ${OTHER_TEST} - Failed")
-      endif ()
+      message (STATUS "Performing CXX Test ${OTHER_TEST} - Failed")
       set (${OTHER_TEST} "" CACHE INTERNAL "CXX test ${FUNCTION}")
       file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
           "Performing CXX Test ${OTHER_TEST} failed with the following output:\n"

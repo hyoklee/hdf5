@@ -32,13 +32,7 @@ if (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "GIT" OR HDF5_ALLOW_EXTERNAL_SUPPORT MAT
     set (ZLIB_URL ${TGZPATH}/${ZLIB_TGZ_NAME})
     if (NOT EXISTS "${ZLIB_URL}")
       set (HDF5_ENABLE_Z_LIB_SUPPORT OFF CACHE BOOL "" FORCE)
-<<<<<<< HEAD
       message (STATUS "Filter ZLIB file ${ZLIB_URL} not found")
-=======
-      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
-        message (VERBOSE "Filter ZLIB file ${ZLIB_URL} not found")
-      endif ()
->>>>>>> develop
     endif ()
     set (SZIP_URL ${TGZPATH}/${SZIP_TGZ_NAME})
     if (USE_LIBAEC)

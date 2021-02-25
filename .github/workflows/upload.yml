@@ -65,7 +65,12 @@ jobs:
       if: matrix.generator != 'autogen'
       run: ctest --build . -C ${{ matrix.build_type }} -V
       working-directory: ${{ runner.workspace }}/build
-      
+
+    - name: Submit
+      if: matrix.generator != 'autogen'
+      run: ctest -T submit
+      working-directory: ${{ runner.workspace }}/build
+
     - name: Upload
       if: matrix.generator != 'autogen'
       uses: actions/upload-artifact@v2

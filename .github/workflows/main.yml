@@ -1,4 +1,4 @@
-name: hdf5 dev CI
+name: hdf5 dev CI main
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 on:
@@ -217,8 +217,7 @@ jobs:
       if: matrix.generator != 'autogen'
       run: ctest --build . -C ${{ matrix.build_type }} -V
       working-directory: ${{ runner.workspace }}/build
-      - uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: Testing/Temporary/CTestCostData.txt
-      
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: Testing/Temporary/CTestCostData.txt

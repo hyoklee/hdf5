@@ -71,4 +71,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: build/Testing/Temporary/CTestCostData.txt
+        path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

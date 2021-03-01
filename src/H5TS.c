@@ -83,6 +83,7 @@ H5TS_key_t        H5TS_errstk_key_g;
 #endif
 
 #ifdef H5_HAVE_CODESTACK
+
 /* Function stack */
 #ifdef H5_HAVE_WIN_THREADS
 H5TS_key_t H5TS_funcstk_key_g = TLS_OUT_OF_INDEXES;
@@ -378,7 +379,7 @@ H5TS__mutex_acquire(H5TS_mutex_t *mutex, unsigned int lock_count, hbool_t *acqui
 #ifdef H5_HAVE_WIN_THREADS
     EnterCriticalSection(&mutex->CriticalSection);
     *acquired = TRUE;
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
     /* Attempt to acquire the mutex lock */
     if (0 == HDpthread_mutex_lock(&mutex->atomic_lock)) {
         pthread_t my_thread_id = HDpthread_self();
@@ -430,6 +431,8 @@ herr_t
 H5TSmutex_acquire(unsigned int lock_count, hbool_t *acquired){
     FUNC_ENTER_API_NAMECHECK_ONLY
 
+        /*NO TRACE*/
+
         FUNC_LEAVE_API_NAMECHECK_ONLY(H5TS__mutex_acquire(&H5_g.init_lock, lock_count, acquired))}
 /* end H5TSmutex_acquire() */
 
@@ -461,7 +464,7 @@ herr_t H5TS_mutex_lock(H5TS_mutex_t *mutex)
 
 #ifdef H5_HAVE_WIN_THREADS
     EnterCriticalSection(&mutex->CriticalSection);
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
     /* Acquire the "attempt" lock, increment the attempt lock count, release the lock */
     ret_value = HDpthread_mutex_lock(&mutex->atomic_lock2);
     if (ret_value)
@@ -527,7 +530,7 @@ H5TS__mutex_unlock(H5TS_mutex_t *mutex, unsigned int *lock_count)
 #ifdef H5_HAVE_WIN_THREADS
     /* Releases ownership of the specified critical section object. */
     LeaveCriticalSection(&mutex->CriticalSection);
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
 
     /* Reset the lock count for this thread */
     ret_value = HDpthread_mutex_lock(&mutex->atomic_lock);
@@ -583,7 +586,7 @@ H5TS_mutex_unlock(H5TS_mutex_t *mutex)
 #ifdef H5_HAVE_WIN_THREADS
     /* Releases ownership of the specified critical section object. */
     LeaveCriticalSection(&mutex->CriticalSection);
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
 
     /* Decrement the lock count for this thread */
     ret_value = HDpthread_mutex_lock(&mutex->atomic_lock);
@@ -626,10 +629,11 @@ H5TSmutex_get_attempt_count(unsigned int *count)
     herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_API_NAMECHECK_ONLY
+    /*NO TRACE*/
 
 #ifdef H5_HAVE_WIN_THREADS
     /* Add Win32 equivalent here when async is supported */
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
     ret_value = HDpthread_mutex_lock(&H5_g.init_lock.atomic_lock2);
     if (ret_value)
         HGOTO_DONE(ret_value);
@@ -663,6 +667,7 @@ H5TSmutex_release(unsigned int *lock_count)
     herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_API_NAMECHECK_ONLY
+    /*NO TRACE*/
 
     *lock_count = 0;
     if (0 != H5TS__mutex_unlock(&H5_g.init_lock, lock_count))
@@ -707,7 +712,7 @@ H5TS_cancel_count_inc(void)
 
 #ifdef H5_HAVE_WIN_THREADS
     /* unsupported */
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
     /* Acquire the thread's cancellation counter */
     cancel_counter = (H5TS_cancel_t *)H5TS_get_thread_local_value(H5TS_cancel_key_s);
 
@@ -781,7 +786,7 @@ H5TS_cancel_count_dec(void)
 
 #ifdef H5_HAVE_WIN_THREADS
     /* unsupported */
-#else  /* H5_HAVE_WIN_THREADS */
+#else /* H5_HAVE_WIN_THREADS */
     /* Acquire the thread's cancellation counter */
     cancel_counter = (H5TS_cancel_t *)H5TS_get_thread_local_value(H5TS_cancel_key_s);
 

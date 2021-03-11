@@ -717,7 +717,6 @@ H5Lcreate_hard_async(const char *app_file, const char *app_func, unsigned app_li
                      hid_t lapl_id, hid_t es_id)
 {
 
-
     H5VL_object_t   vol_obj;                        /* Object for loc_id */
     H5VL_object_t * vol_obj_ptr     = &vol_obj;     /* Pointer to object for loc_id */
     H5VL_object_t **vol_obj_ptr_ptr = &vol_obj_ptr; /* Pointer to object pointer */

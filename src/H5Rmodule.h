@@ -32,5 +32,4 @@
  *          HDF5 referenced objects.
  */
 
-
 #endif /* H5Rmodule_H */

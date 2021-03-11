@@ -40,5 +40,4 @@
  *          which is obtained by either creating or opening the dataset.
  */
 
-
 #endif /* H5Dmodule_H */

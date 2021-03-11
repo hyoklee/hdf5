@@ -121,7 +121,7 @@ main(void)
     if (env_h5_drvr == NULL)
         env_h5_drvr = "nomatch";
     /* Current VFD that does not support contigous address space */
-    contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") && HDstrcmp(env_h5_drvr, "multi"));
+    contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     /* Initialize random number seed */
     HDsrandom((unsigned)HDtime(NULL));
@@ -2677,6 +2677,4 @@ test_random_rank4_dump(unsigned ndim_sets, hsize_t dim_log[][4], hsize_t cdims[4
                  (unsigned)dim_log[i][1], (unsigned)dim_log[i][2], (unsigned)dim_log[i][3]);
     if (j >= 0)
         HDprintf("  First incorrect value read: ( %d, %d, %d, %d )\n", j, k, l, m);
-
-    return;
 } /* end test_random_rank4_dump */

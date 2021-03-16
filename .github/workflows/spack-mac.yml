@@ -1,19 +1,13 @@
-name: spack mac os x
+name: Mac
 
 on:
   push:
-    branches: [ develop ]
-    paths-ignore:
-    - 'doc/**'
-    - 'release_docs/**'
-  pull_request:
     branches: [ develop ]
   workflow_dispatch:
 
 jobs:
   build:
-
-    runs-on: macos-11.0
+    runs-on: macos-latest
 
     steps:
     - name: Checkout Spack

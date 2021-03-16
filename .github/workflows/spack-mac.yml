@@ -1,0 +1,35 @@
+name: spack mac os x
+
+on:
+  push:
+    branches: [ develop ]
+    paths-ignore:
+    - 'doc/**'
+    - 'release_docs/**'
+  pull_request:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-11.0
+    steps:
+    - name: Checkout Spack
+      uses: actions/checkout@v2
+      with:
+        repository: hyoklee/spack
+        path: ./spack
+
+    - name: Run a multi-line script
+      run: |
+        ./spack/bin/spack install py-h5py@master ^openblas@develop
+        ./spack/bin/spack install py-pytest
+        ./spack/bin/spack install py-ipython
+        ./spack/bin/spack install py-pip
+        . ./spack/share/spack/setup-env.sh
+        spack load py-h5py
+        spack load py-pytest
+        spack load py-ipython
+        spack load py-pip
+        pip install pytest-mpi
+        python -c "import h5py; h5py.run_tests(); print(h5py.version.info);"

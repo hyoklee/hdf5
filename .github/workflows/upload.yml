@@ -13,7 +13,7 @@ jobs:
         include:
           - name: "macOS Latest Clang"
             artifact: "macOS.tar.xz"
-            os: macos-latest
+            os: macos-11.0
             build_type: "Release"
             cpp: ON
             fortran: OFF

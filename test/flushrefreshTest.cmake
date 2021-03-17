@@ -9,8 +9,9 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-# runTest.cmake executes a command and captures the output in a file. File is then compared
-# against a reference file. Exit status of command can also be compared.
+# runTest.cmake executes a command and captures the output in a file.
+# File is then compared against a reference file.
+# Exit status of command can also be compared.
 cmake_policy(SET CMP0007 NEW)
 
 # arguments checking
@@ -63,7 +64,8 @@ execute_process (
 )
 message (STATUS "Background: ${SCRIPT_OUTPUT}")
 if (SCRIPT_RESULT)
-  message (FATAL_ERROR "Failed: The background script failed ${SCRIPT_RESULT}: ${SCRIPT_ERR}")
+  message (FATAL_ERROR \
+  "Failed: The background script failed ${SCRIPT_RESULT}: ${SCRIPT_ERR}")
 endif ()
 
 set (verification_done "0")
@@ -128,7 +130,8 @@ while (verification_done LESS "2")
 
     if (param1 MATCHES "VERIFICATION_DONE")
       set (verification_done "2")
-      file (WRITE ${TEST_FOLDER}/${TEST_ARGS2} "all refresh verification complete")
+      file (WRITE ${TEST_FOLDER}/${TEST_ARGS2} \
+      "all refresh verification complete")
       message (STATUS "write: ${TEST_FOLDER}/${TEST_ARGS2}")
     else ()
       message (STATUS "execute: ${TEST_PROGRAM} ${param1}")
@@ -163,7 +166,9 @@ if (NOT TEST_RESULT EQUAL TEST_EXPECT)
       message (STATUS "Output :\n${TEST_STREAM}")
     endif ()
   endif ()
-  message (FATAL_ERROR "Failed: Test program ${TEST_PROGRAM} exited != ${TEST_EXPECT}.\n${TEST_ERROR}")
+  message (FATAL_ERROR \
+  "Failed: Test program ${TEST_PROGRAM} exited != \
+ ${TEST_EXPECT}.\n${TEST_ERROR}")
 endif ()
 
 message (STATUS "COMMAND Error: ${TEST_ERROR}")

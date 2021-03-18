@@ -35,10 +35,10 @@
 
 ./.clang-format
 ./.github/CODEOWNERS  _DO_NOT_DISTRIBUTE_
-./.github/workflows/clang-format-fix.yml  _DO_NOT_DISTRIBUTE_
-./.github/workflows/clang-format-check.yml  _DO_NOT_DISTRIBUTE_
+# ./.github/workflows/clang-format-fix.yml  _DO_NOT_DISTRIBUTE_
+# ./.github/workflows/clang-format-check.yml  _DO_NOT_DISTRIBUTE_
 ./.github/workflows/main.yml  _DO_NOT_DISTRIBUTE_
-./.github/workflows/pr-check.yml  _DO_NOT_DISTRIBUTE_
+# ./.github/workflows/pr-check.yml  _DO_NOT_DISTRIBUTE_
 
 ./m4/aclocal_cxx.m4
 ./m4/aclocal_fc.m4
@@ -3782,3 +3782,9 @@
 ./tools/test/perform/Makefile.in
 ./utils/Makefile.in
 ./utils/mirror_vfd/Makefile.in
+./.github/workflows/dispatch.yml  _DO_NOT_DISTRIBUTE_
+./.github/workflows/main-mac.yml  _DO_NOT_DISTRIBUTE_
+./.github/workflows/spack-mac.yml _DO_NOT_DISTRIBUTE_
+./.github/workflows/spack.yml     _DO_NOT_DISTRIBUTE_
+./README.md
+./src/H5VLdyn_ops.c

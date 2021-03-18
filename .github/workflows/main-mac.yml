@@ -1,4 +1,4 @@
-name: upload
+name: hdf5 mac
 
 on:
   workflow_dispatch:

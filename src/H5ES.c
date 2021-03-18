@@ -484,7 +484,7 @@ H5ESregister_insert_func(hid_t es_id, H5ES_event_insert_func_t func, void *ctx)
     herr_t  ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "iEI*x", es_id, func, ctx);
+    H5TRACE3("e", "iEs*x", es_id, func, ctx);
 
     /* Check arguments */
     if (NULL == (es = H5I_object_verify(es_id, H5I_EVENTSET)))
@@ -523,7 +523,7 @@ H5ESregister_complete_func(hid_t es_id, H5ES_event_complete_func_t func, void *c
     herr_t  ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE3("e", "iEC*x", es_id, func, ctx);
+    H5TRACE3("e", "iEs*x", es_id, func, ctx);
 
     /* Check arguments */
     if (NULL == (es = H5I_object_verify(es_id, H5I_EVENTSET)))

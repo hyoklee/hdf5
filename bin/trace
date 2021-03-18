@@ -200,6 +200,8 @@ $Source = "";
                "H5VL_class_t"               => "#",
                "H5VL_loc_params_t"          => "#",
                "H5VL_request_status_t"      => "#",
+	       "H5ES_event_insert_func_t"   => "Es",
+	       "H5ES_event_complete_func_t" => "Es",
               );
 
 

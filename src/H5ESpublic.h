@@ -104,7 +104,8 @@ How to Trace Async Operations?
 */
 
 typedef int (*H5ES_event_insert_func_t)(const H5ES_op_info_t *op_info, void *ctx);
-typedef int (*H5ES_event_complete_func_t)(const H5ES_op_info_t *op_info, H5ES_status_t status,
+typedef int (*H5ES_event_complete_func_t)(const H5ES_op_info_t *op_info, 
+					  H5ES_status_t status,
                                           hid_t err_stack, void *ctx);
 
 /********************/

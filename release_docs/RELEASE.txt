@@ -49,6 +49,13 @@ New Features
 
     Configuration:
     -------------
+    - CMake no longer builds the C++ library by default
+
+      HDF5_BUILD_CPP_LIB now defaults to OFF, which is in line with the
+      Autotools build defaults.
+
+      (DER - 2021/04/20)
+
     - Removal of pre-VS2015 work-arounds
 
       HDF5 now requires Visual Studio 2015 or greater, so old work-around
@@ -407,6 +414,49 @@ New Features
 
     Library:
     --------
+    - H5Gcreate1() now rejects size_hint parameters larger than UINT32_MAX
+
+      The size_hint value is ultimately stored in a uint32_t struct field,
+      so specifying a value larger than this on a 64-bit machine can cause
+      undefined behavior including crashing the system.
+
+      The documentation for this API call was also incorrect, stating that
+      passing a negative value would cause the library to use a default
+      value. Instead, passing a "negative" value actually passes a very large
+      value, which is probably not what the user intends and can cause
+      crashes on 64-bit systems.
+
+      The Doxygen documentation has been updated and passing values larger
+      than UINT32_MAX for size_hint will now produce a normal HDF5 error.
+      
+        (DER - 2021/04/29, HDFFV-11241)
+
+
+    - H5Pset_fapl_log() no longer crashes when passed an invalid fapl ID
+
+      When passed an invalid fapl ID, H5Pset_fapl_log() would usually
+      segfault when attempting to free an uninitialized pointer in the error
+      handling code. This behavior is more common in release builds or
+      when the memory sanitization checks were not selected as a build
+      option.
+
+      The pointer is now correctly initialized and the API call now
+      produces a normal HDF5 error when fed an invalid fapl ID.
+
+        (DER - 2021/04/28, HDFFV-11240)
+
+    - Fixes a segfault when H5Pset_mdc_log_options() is called multiple times
+
+      The call incorrectly attempts to free an internal copy of the previous
+      log location string, which causes a segfault. This only happens
+      when the call is invoked multiple times on the same property list.
+      On the first call to a given fapl, the log location is set to NULL so
+      the segfault does not occur.
+
+      The string is now handled properly and the segfault no longer occurs.
+
+        (DER - 2021/04/27, HDFFV-11239)
+      
     - HSYS_GOTO_ERROR now emits the results of GetLastError() on Windows
 
       HSYS_GOTO_ERROR is an internal macro that is used to produce error
@@ -458,7 +508,7 @@ New Features
         semi would work, but was not mandatory. This change was made to allow
         clang-format to correctly format the source code.
 
-        (SAM - 2021/03-03)
+        (SAM - 2021/03/03)
 
     - Improved performance of H5Sget_select_elem_pointlist
 
@@ -773,7 +823,18 @@ Bug Fixes since HDF5-1.12.0 release
 ===================================
     Library
     -------
-    - Fixed CVE-2018-17435
+    - Fixed CVE-2018-14460
+
+        The tool h5repack produced a segfault when the rank in dataspace
+        message was corrupted, causing invalid read while decoding the
+        dimension sizes.
+
+        The problem was fixed by ensuring that decoding the dimension sizes
+        and max values will not go beyong the end of the buffer.
+
+        (BMR - 2021/05/12, HDFFV-11223)
+
+    - Fixed CVE-2018-11206
 
         The tool h5dump produced a segfault when the size of a fill value
         message was corrupted and caused a buffer overflow.
@@ -844,8 +905,8 @@ Bug Fixes since HDF5-1.12.0 release
         H5S_NO_CLASS is an internal class value that should not have been
         exposed via a public API call.
 
-        In debug builds of the library, this can cause assert() functions to trip. In
-        non-debug builds, it will produce normal library errors.
+        In debug builds of the library, this can cause assert() function to 
+        trip. In non-debug builds, it will produce normal library errors.
 
         The new library behavior is for H5Sset_extent_none() to convert
         the dataspace into one of type H5S_NULL, which is better handled
@@ -976,6 +1037,17 @@ Bug Fixes since HDF5-1.12.0 release
 
     Tools
     -----
+    - Changed how h5dump and h5ls identify long double.
+
+        Long double support is not consistent across platforms. Tools will always
+        identify long double as 128-bit [little/big]-endian float nn-bit precision.
+        New test file created for datasets with attributes for float, double and
+        long double. In addition any unknown integer or float datatype will now
+        also show the number of bits for precision.
+        These files are also used in the java tests.
+
+        (ADB - 2021/03/24, HDFFV-11229)
+
     - Fixed tools argument parsing.
 
         Tools parsing used the length of the option from the long array to match

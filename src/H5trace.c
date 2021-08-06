@@ -2903,6 +2903,10 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                                     H5RS_acat(rs, "H5VL_ATTR_DELETE");
                                     break;
 
+                                case H5VL_ATTR_DELETE_BY_IDX:
+                                    H5RS_acat(rs, "H5VL_ATTR_DELETE_BY_IDX");
+                                    break;
+
                                 case H5VL_ATTR_EXISTS:
                                     H5RS_acat(rs, "H5VL_ATTR_EXISTS");
                                     break;
@@ -2929,10 +2933,6 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                             switch (specific) {
                                 case H5VL_BLOB_DELETE:
                                     H5RS_acat(rs, "H5VL_BLOB_DELETE");
-                                    break;
-
-                                case H5VL_BLOB_GETSIZE:
-                                    H5RS_acat(rs, "H5VL_BLOB_GETSIZE");
                                     break;
 
                                 case H5VL_BLOB_ISNULL:
@@ -3027,6 +3027,10 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                             H5VL_datatype_get_t get = (H5VL_datatype_get_t)HDva_arg(ap, int);
 
                             switch (get) {
+                                case H5VL_DATATYPE_GET_BINARY_SIZE:
+                                    H5RS_acat(rs, "H5VL_DATATYPE_GET_BINARY_SIZE");
+                                    break;
+
                                 case H5VL_DATATYPE_GET_BINARY:
                                     H5RS_acat(rs, "H5VL_DATATYPE_GET_BINARY");
                                     break;
@@ -3119,14 +3123,6 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                                     H5RS_acat(rs, "H5VL_FILE_REOPEN");
                                     break;
 
-                                case H5VL_FILE_MOUNT:
-                                    H5RS_acat(rs, "H5VL_FILE_MOUNT");
-                                    break;
-
-                                case H5VL_FILE_UNMOUNT:
-                                    H5RS_acat(rs, "H5VL_FILE_UNMOUNT");
-                                    break;
-
                                 case H5VL_FILE_IS_ACCESSIBLE:
                                     H5RS_acat(rs, "H5VL_FILE_IS_ACCESSIBLE");
                                     break;
@@ -3171,6 +3167,14 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                             H5VL_group_specific_t specific = (H5VL_group_specific_t)HDva_arg(ap, int);
 
                             switch (specific) {
+                                case H5VL_GROUP_MOUNT:
+                                    H5RS_acat(rs, "H5VL_GROUP_MOUNT");
+                                    break;
+
+                                case H5VL_GROUP_UNMOUNT:
+                                    H5RS_acat(rs, "H5VL_GROUP_UNMOUNT");
+                                    break;
+
                                 case H5VL_GROUP_FLUSH:
                                     H5RS_acat(rs, "H5VL_GROUP_FLUSH");
                                     break;
@@ -3186,9 +3190,9 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                         }     /* end block */
                         break;
 
-                        case 'k': /* H5VL_link_create_type_t */
+                        case 'k': /* H5VL_link_create_t */
                         {
-                            H5VL_link_create_type_t create = (H5VL_link_create_type_t)HDva_arg(ap, int);
+                            H5VL_link_create_t create = (H5VL_link_create_t)HDva_arg(ap, int);
 
                             switch (create) {
                                 case H5VL_LINK_CREATE_HARD:
@@ -3356,24 +3360,8 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                             H5VL_request_specific_t specific = (H5VL_request_specific_t)HDva_arg(ap, int);
 
                             switch (specific) {
-                                case H5VL_REQUEST_WAITANY:
-                                    H5RS_acat(rs, "H5VL_REQUEST_WAITANY");
-                                    break;
-
-                                case H5VL_REQUEST_WAITSOME:
-                                    H5RS_acat(rs, "H5VL_REQUEST_WAITSOME");
-                                    break;
-
-                                case H5VL_REQUEST_WAITALL:
-                                    H5RS_acat(rs, "H5VL_REQUEST_WAITALL");
-                                    break;
-
                                 case H5VL_REQUEST_GET_ERR_STACK:
                                     H5RS_acat(rs, "H5VL_REQUEST_GET_ERR_STACK");
-                                    break;
-
-                                case H5VL_REQUEST_GET_TIME_ESTIMATE:
-                                    H5RS_acat(rs, "H5VL_REQUEST_GET_TIME_ESTIMATE");
                                     break;
 
                                 case H5VL_REQUEST_GET_EXEC_TIME:
@@ -3638,6 +3626,7 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                                     H5RS_acat(rs, "H5VL_NATIVE_FILE_SET_MIN_DSET_OHDR_FLAG");
                                     break;
 
+#ifdef H5_HAVE_PARALLEL
                                 case H5VL_NATIVE_FILE_GET_MPI_ATOMICITY:
                                     H5RS_acat(rs, "H5VL_NATIVE_FILE_GET_MPI_ATOMICITY");
                                     break;
@@ -3645,6 +3634,7 @@ H5_trace_args(H5RS_str_t *rs, const char *type, va_list ap)
                                 case H5VL_NATIVE_FILE_SET_MPI_ATOMICITY:
                                     H5RS_acat(rs, "H5VL_NATIVE_FILE_SET_MPI_ATOMICITY");
                                     break;
+#endif /* H5_HAVE_PARALLEL */
 
                                 case H5VL_NATIVE_FILE_POST_OPEN:
                                     H5RS_acat(rs, "H5VL_NATIVE_FILE_POST_OPEN");

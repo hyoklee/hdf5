@@ -2,13 +2,6 @@ cmake_minimum_required (VERSION 3.12)
 project (HDF5_CPP_SRC CXX)
 
 #-----------------------------------------------------------------------------
-# Generate configure file
-#-----------------------------------------------------------------------------
-configure_file (${HDF_RESOURCES_DIR}/H5cxx_config.h.in
-                ${HDF5_SRC_BINARY_DIR}/H5cxx_pubconf.h
-)
-
-#-----------------------------------------------------------------------------
 # Define cpp Library
 #-----------------------------------------------------------------------------
 set (CPP_SOURCES
@@ -199,11 +192,11 @@ set (_PKG_CONFIG_REQUIRES_PRIVATE "${HDF5_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}"
 
 configure_file (
     ${HDF_CONFIG_DIR}/libhdf5.pc.in
-    ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_CPP_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}.pc
+    ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_CPP_LIB_CORENAME}.pc
     @ONLY
 )
 install (
-    FILES ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_CPP_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}.pc
+    FILES ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_CPP_LIB_CORENAME}.pc
     DESTINATION ${HDF5_INSTALL_LIB_DIR}/pkgconfig
     COMPONENT cpplibraries
 )

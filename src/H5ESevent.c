@@ -139,14 +139,14 @@ H5ES__event_free(H5ES_event_t *ev)
     /* Sanity check */
     HDassert(ev);
 
-    if (ev->op_info.api_name)
-        H5MM_xfree_const(ev->op_info.api_name);
+    /* The 'app_func_name', 'app_file_name', and 'api_name' strings are statically allocated (by the compiler)
+     * and are not allocated, so there's no need to free them.
+     */
+    ev->op_info.api_name = NULL;
     if (ev->op_info.api_args)
         H5MM_xfree_const(ev->op_info.api_args);
-    if (ev->op_info.app_file_name)
-        H5MM_xfree_const(ev->op_info.app_file_name);
-    if (ev->op_info.app_func_name)
-        H5MM_xfree_const(ev->op_info.app_func_name);
+    ev->op_info.app_file_name = NULL;
+    ev->op_info.app_func_name = NULL;
     if (ev->request) {
         /* Free the request */
         if (H5VL_request_free(ev->request) < 0)
@@ -184,14 +184,6 @@ H5ES__event_completed(H5ES_event_t *ev, H5ES_event_list_t *el)
 
     /* Sanity check */
     HDassert(ev);
-
-    /*
-        HDfprintf(stderr,
-                  "%s: releasing event for '%s' (count: %llu, timestamp: %llu), with args '%s', in app source
-       " "file '%s', function '%s', and line %u\n", FUNC, ev->op_info.api_name, (unsigned long
-       long)ev->op_info.op_ins_count, (unsigned long long)ev->op_info.op_ins_ts, ev->op_info.api_args,
-       ev->op_info.app_file_name, ev->op_info.app_func_name, ev->op_info.app_line_num);
-    */
 
     /* Remove the event from the event list */
     H5ES__list_remove(el, ev);

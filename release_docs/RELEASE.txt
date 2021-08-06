@@ -49,6 +49,55 @@ New Features
 
     Configuration:
     -------------
+    - Adds C++ Autotools configuration file for Intel
+
+      * Checks for icpc as the compiler
+      * Sets std=c++11
+      * Copies most non-warning flags from intel-flags
+
+      (DER - 2021/06/02)
+
+    - Adds C++ Autotools configuration file for PGI
+
+      * Checks for pgc++ as the compiler name (was: pgCC)
+      * Sets -std=c++11
+      * Other options basically match new C options (below)
+
+      (DER - 2021/06/02)
+
+    - Updates PGI C options
+
+      * -Minform set to warn (was: inform) to suppress spurious messages
+      * Sets -gopt -O2 as debug options
+      * Sets -O4 as 'high optimization' option
+      * Sets -O0 as 'no optimization' option
+      * Removes specific settings for PGI 9 and 10
+
+      (DER - 2021/06/02)
+
+    - A C++11-compliant compiler is now required to build the C++ wrappers
+
+      CMAKE_CXX_STANDARD is now set to 11 when building with CMake and
+      -std=c++11 is added when building with clang/gcc via the Autotools.
+
+      (DER - 2021/05/27)
+
+    - CMake will now run the shell script tests in test/ by default
+
+      The test directory includes several shell script tests that previously
+      were not run by CMake. These are now run by default. TEST_SHELL_SCRIPTS
+      has been set to ON and SH_PROGRAM has been set to bash (some test
+      scripts use bash-isms). Platforms without bash (e.g., Windows) will
+      ignore the script tests.
+
+      (DER - 2021/05/23)
+
+    - Removed unused HDF5_ENABLE_HSIZET option from CMake
+
+      This has been unused for some time and has no effect.
+
+      (DER - 2021/05/23)
+
     - CMake no longer builds the C++ library by default
 
       HDF5_BUILD_CPP_LIB now defaults to OFF, which is in line with the
@@ -84,7 +133,7 @@ New Features
 
       To do so, set CMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 
-      (SAM - 2021/02/07, https://github.com/HDFGroup/hdf5/issues/311)
+      (SAM - 2021/02/07, github-311)
 
     - Added a configure-time option to control certain compiler warnings
       diagnostics
@@ -414,6 +463,38 @@ New Features
 
     Library:
     --------
+    - Change how the release part of version, in major.minor.release is checked
+      for compatibility
+
+      The HDF5 library uses a function, H5check_version, to check that
+      the version defined in the header files, which is used to compile an
+      application is compatible with the version codified in the library, which
+      the application loads at runtime. This previously required an exact match
+      or the library would print a warning, dump the build settings and then
+      abort or continue. An environment variable controlled the logic.
+
+      Now the function first checks that the library release version, in
+      major.minor.release, is not older than the version in the headers.
+      Secondly, if the release version is different, it checks if either
+      the library version or the header version is in the exception list, in
+      which case the release part of version, in major.minor.release, must
+      be exact. An environment variable still controls the logic.
+
+        (ADB - 2021/07/27)
+
+    - gcc warning suppression macros were moved out of H5public.h
+
+      The HDF5 library uses a set of macros to suppress warnings on gcc.
+      These warnings were originally located in H5public.h so that the
+      multi VFD (which only uses public headers) could also make use of them
+      but internal macros should not be publicly exposed like this.
+
+      These macros have now been moved to H5private.h. Pending future multi
+      VFD refactoring, the macros have been duplicated in H5FDmulti.c to
+      suppress the format string warnings there.
+
+        (DER - 2021/06/03)
+
     - H5Gcreate1() now rejects size_hint parameters larger than UINT32_MAX
 
       The size_hint value is ultimately stored in a uint32_t struct field,
@@ -428,7 +509,7 @@ New Features
 
       The Doxygen documentation has been updated and passing values larger
       than UINT32_MAX for size_hint will now produce a normal HDF5 error.
-      
+
         (DER - 2021/04/29, HDFFV-11241)
 
 
@@ -456,7 +537,7 @@ New Features
       The string is now handled properly and the segfault no longer occurs.
 
         (DER - 2021/04/27, HDFFV-11239)
-      
+
     - HSYS_GOTO_ERROR now emits the results of GetLastError() on Windows
 
       HSYS_GOTO_ERROR is an internal macro that is used to produce error
@@ -739,6 +820,15 @@ New Features
 
     Tools:
     ------
+    - Removed partial long exceptions
+
+        Some of the tools accepted shortened versions of the long options
+        (ex: --datas instead of --dataset). These were implemented inconsistently,
+        are difficult to maintian, and occasionally block useful long option
+        names. These partial long options have been removed from all the tools.
+
+        (DER - 2021/08/03)
+
     - h5repack added help text for user-defined filters.
 
         Added help text line that states the valid values of the filter flag
@@ -905,7 +995,7 @@ Bug Fixes since HDF5-1.12.0 release
         H5S_NO_CLASS is an internal class value that should not have been
         exposed via a public API call.
 
-        In debug builds of the library, this can cause assert() function to 
+        In debug builds of the library, this can cause assert() function to
         trip. In non-debug builds, it will produce normal library errors.
 
         The new library behavior is for H5Sset_extent_none() to convert
@@ -998,6 +1088,44 @@ Bug Fixes since HDF5-1.12.0 release
 
     Configuration
     -------------
+    - Better support for libaec (open-source Szip library) in CMake
+ 
+      Implemented better support for libaec 1.0.5 (or later) library. This version 
+      of libaec contains improvements for better integration with HDF5. Furthermore,
+      the variable USE_LIBAEC_STATIC has been introduced to allow to make use of 
+      static version of libaec library. Use libaec_DIR or libaec_ROOT to set
+      the location in which libaec can be found.
+
+      Be aware, the Szip library of libaec 1.0.4 depends on another library within
+      libaec library. This dependency is not specified in the current CMake
+      configuration which means that one can not use the static Szip library of
+      libaec 1.0.4 when building HDF5. This has been resolved in libaec 1.0.5.
+
+      (JWSB - 2021/06/22)
+
+    - Refactor CMake configure for Fortran
+
+      The Fortran configure tests for KINDs reused a single output file that was
+      read to form the Integer and Real Kinds defines. However, if config was run
+      more then once, the CMake completed variable prevented the tests from executing
+      again and the last value saved in the file was used to create the define.
+      Creating separate files for each KIND solved the issue.
+
+      In addition the test for H5_PAC_C_MAX_REAL_PRECISION was not pulling in
+      defines for proper operation and did not define H5_PAC_C_MAX_REAL_PRECISION
+      correctly for a zero value. This was fixed by supplying the required defines.
+      In addition it was moved from the Fortran specific HDF5UseFortran.camke file
+      to the C centric ConfigureChecks.cmake file.
+
+      (ADB - 2021/06/03)
+
+    - Move emscripten flag to compile flags
+
+      The emscripten flag, -O0, was removed from target_link_libraries command
+      to the correct target_compile_options command.
+
+      (ADB - 2021/04/26 HDFFV-11083)
+
     - Remove arbitrary warning flag groups from CMake builds
 
       The arbitrary groups were created to reduce the quantity of warnings being
@@ -1034,6 +1162,14 @@ Bug Fixes since HDF5-1.12.0 release
 
       (DER - 2021/01/07, HDFFV-11201)
 
+    - Add missing ENV variable line to hdfoptions.cmake file
+
+      Using the build options to use system SZIP/ZLIB libraries need to also
+      specify the library root directory. Setting the {library}_ROOT ENV
+      variable was added to the hdfoptions.cmake file.
+
+      (ADB - 2020/10/19 HDFFV-11108)
+
 
     Tools
     -----
@@ -1046,7 +1182,7 @@ Bug Fixes since HDF5-1.12.0 release
         also show the number of bits for precision.
         These files are also used in the java tests.
 
-        (ADB - 2021/03/24, HDFFV-11229)
+        (ADB - 2021/03/24, HDFFV-11229,HDFFV-11113)
 
     - Fixed tools argument parsing.
 
@@ -1093,7 +1229,7 @@ Bug Fixes since HDF5-1.12.0 release
           2 : All level 1 information plus extended attribute status report
           3 : All level 2 information plus file names
 
-        (ADB - 2020/07/20, HDFFV-10005)
+        (ADB - 2020/07/20, HDFFV-1005)
 
     - h5repack was fixed to repack the reference attributes properly.
 
@@ -1157,7 +1293,12 @@ Bug Fixes since HDF5-1.12.0 release
 
     C++ APIs
     --------
-    -
+    - Added DataSet::operator=
+
+        Some compilers complain if the copy constructor is given explicitly
+        but the assignment operator is implicitly set to default.
+
+        (2021/05/19)
 
 
     Testing
@@ -1296,15 +1437,22 @@ The following platforms are not supported but have been tested for this release.
     #1 SMP ppc64 GNU/Linux           IBM XL C/C++ for Linux, V13.1
     (ostrich)                        and IBM XL Fortran for Linux, V15.1
 
-    Fedora33 5.10.10-200.fc33.x86_64
-    #1 SMP x86_64  GNU/Linux         GNU gcc (GCC) 10.2.1 20201125 (Red Hat 10.2.1-9)
-                                     GNU Fortran (GCC) 10.2.1 20201125 (Red Hat 10.2.1-9)
+    Fedora33 5.11.18-200.fc33.x86_64
+    #1 SMP x86_64  GNU/Linux         GNU gcc (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
+                                     GNU Fortran (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
                                      clang version 11.0.0 (Fedora 11.0.0-2.fc33)
                                      (cmake and autotools)
 
-    Ubuntu20.10 5.8.0-41-generic-x86_64
-    #46-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 10.2.0-13ubuntu1
+    Ubuntu20.04 5.8.0-53-generic-x86_64
+    #60~20.04-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 9.3.0-17ubuntu1
+                                     GNU Fortran (GCC) 9.3.0-17ubuntu1
+                                     clang version 10.0.0-4ubuntu1
+                                     (cmake and autotools)
+
+    Ubuntu20.10 5.8.0-53-generic-x86_64
+    #60-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 10.2.0-13ubuntu1
                                      GNU Fortran (GCC) 10.2.0-13ubuntu1
+                                     Ubuntu clang version 11.0.0-2
                                      (cmake and autotools)
 
     SUSE15sp2 5.3.18-22-default
@@ -1316,6 +1464,10 @@ The following platforms are not supported but have been tested for this release.
 
 Known Problems
 ==============
+    Setting a variable-length dataset fill value will leak the memory allocated
+    for the p field of the hvl_t struct. A fix is in progress for this.
+    HDFFV-10840
+
     CMake files do not behave correctly with paths containing spaces.
     Do not use spaces in paths because the required escaping for handling spaces
     results in very complex and fragile build files.
@@ -1328,6 +1480,9 @@ Known Problems
 
     CPP ptable test fails on both VS2017 and VS2019 with Intel compiler, JIRA
     issue: HDFFV-10628.  This test will pass with VS2015 with Intel compiler.
+
+    The subsetting option in ph5diff currently will fail and should be avoided.
+    The subsetting option works correctly in serial h5diff.
 
     Known problems in previous releases can be found in the HISTORY*.txt files
     in the HDF5 source. Please report any new problems found to

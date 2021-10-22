@@ -5220,7 +5220,7 @@ test_file_lock_swmr_concur(hid_t H5_ATTR_UNUSED in_fapl)
 static int
 test_file_lock_swmr_concur(hid_t in_fapl)
 {
-    hid_t fid = -1;                     /* File ID */
+    hid_t fid = -1;                /* File ID */
     hid_t fapl;                    /* File access property list */
     char  filename[NAME_BUF_SIZE]; /* file name */
     pid_t childpid = 0;            /* Child process ID */

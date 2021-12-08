@@ -6,7 +6,7 @@ on:
   workflow_dispatch:    
 jobs:
   build:
-    runs-on: macosx-latest
+    runs-on: macos-latest
     steps:
     - name: Install Dependencies
       run: brew install ninja openmpi

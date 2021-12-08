@@ -43,9 +43,9 @@ set (UPDATE_TYPE git)
 set (VALGRIND_COMMAND "/usr/bin/valgrind")
 set (VALGRIND_COMMAND_OPTIONS "-v --tool=memcheck --leak-check=full --track-fds=yes --num-callers=50 --show-reachable=yes --track-origins=yes --malloc-fill=0xff --free-fill=0xfe")
 
-set (CTEST_TEST_TIMEOUT 1200 CACHE STRING
+set (CTEST_TEST_TIMEOUT 7200 CACHE STRING
     "Maximum time allowed before CTest will kill the test.")
-set (DART_TESTING_TIMEOUT 1200 CACHE STRING
+set (DART_TESTING_TIMEOUT 7200 CACHE STRING
     "Maximum time allowed before CTest will kill the test." FORCE)
 
 set (CTEST_SUBMIT_RETRY_DELAY 20 CACHE STRING

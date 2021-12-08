@@ -15,7 +15,7 @@ jobs:
             artifact: "macOS.tar.xz"
             os: macos-latest
             build_type: "Release"
-            cpp: ON
+            cpp: OFF
             fortran: OFF
             java: ON
             ts: OFF

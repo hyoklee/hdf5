@@ -1,0 +1,23 @@
+name: mac autotools
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:    
+jobs:
+  build:
+    runs-on: macosx-latest
+    steps:
+    - name: Install Dependencies
+      run: brew install ninja openmpi
+    - name: Get Source
+      uses: actions/checkout@v2
+    - name: Build and test
+      run: |
+        ./autogen.sh
+        ./bin/chkmanifest
+        ./configure --enable-parallel
+        make
+        make check
+
+    

@@ -1,4 +1,4 @@
-name: hdf5 mac
+name: mac CMake
 
 on:
   workflow_dispatch:

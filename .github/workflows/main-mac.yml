@@ -20,7 +20,7 @@ jobs:
             java: ON
             ts: OFF
             hl: ON
-            parallel: OFF
+            parallel: ON
             toolchain: "config/toolchain/clang.cmake"
             generator: "-G Ninja"
 

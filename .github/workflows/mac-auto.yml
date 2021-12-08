@@ -15,7 +15,7 @@ jobs:
     - name: Build and test
       run: |
         ./autogen.sh
-        ./configure --enable-parallel
+        ./configure --enable-parallel CC=mpicc
         make
         make check
 

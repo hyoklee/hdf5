@@ -15,7 +15,6 @@ jobs:
     - name: Build and test
       run: |
         ./autogen.sh
-        ./bin/chkmanifest
         ./configure --enable-parallel
         make
         make check

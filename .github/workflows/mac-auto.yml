@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-11
     steps:
     - name: Install Dependencies
-      run: brew install ninja openmpi
+      run: brew install ninja autoconf automake libtool openmpi
     - name: Get Source
       uses: actions/checkout@v2
     - name: Build and test

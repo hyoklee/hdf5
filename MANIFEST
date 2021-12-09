@@ -43,6 +43,8 @@
 ./.github/workflows/main-mac.yml _DO_NOT_DISTRIBUTE_
 ./.github/workflows/spack-mac.yml _DO_NOT_DISTRIBUTE_
 ./.github/workflows/spack.yml _DO_NOT_DISTRIBUTE_
+./.github/workflows/mac-auto.yml _DO_NOT_DISTRIBUTE_
+./.github/workflows/linux-auto.yml _DO_NOT_DISTRIBUTE_
 ./README.md _DO_NOT_DISTRIBUTE_
 ./.github/workflows/codespell.yml  _DO_NOT_DISTRIBUTE_
 

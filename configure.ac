@@ -2802,7 +2802,7 @@ case "X-$enable_parallel" in
 
     ## Set RUNPARALLEL to mpiexec if not set yet.
     if test "X$PARALLEL" = "Xyes" -a -z "$RUNPARALLEL"; then
-      RUNPARALLEL="mpiexec -n \$\${NPROCS:=2}"
+      RUNPARALLEL="mpiexec -n \$\${NPROCS:=3}"
     fi
     ;;
 

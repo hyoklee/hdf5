@@ -80,13 +80,13 @@ set (H5P_TESTS
     t_bigio
     t_pflush1
     t_pflush2
-    t_prestart    
+    t_prestart
+    t_pshutdown    
     )
 set (H5P_NOTESTS    
     t_cache
     t_cache_image
     t_pread
-    t_pshutdown
     t_init_term
     t_shapesame
     t_filters_parallel

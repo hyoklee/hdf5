@@ -80,8 +80,9 @@ set (H5P_TESTS
     t_bigio
     t_pflush1
     t_pflush2
-    t_prestart
     t_pshutdown    
+    t_prestart
+    t_2Gio    
     )
 set (H5P_NOTESTS    
     t_cache
@@ -90,7 +91,6 @@ set (H5P_NOTESTS
     t_init_term
     t_shapesame
     t_filters_parallel
-    t_2Gio
 )
 
 foreach (h5_testp ${H5P_TESTS})

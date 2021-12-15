@@ -597,7 +597,7 @@ H5L__link_cb(H5G_loc_t *grp_loc /*in*/, const char *name, const H5O_link_t H5_AT
     /* Set the link's name correctly */
     /* Casting away const OK -QAK */
     udata->lnk->name = strdup(name);
-    if(NULL == udata->lnk->name){
+    if (NULL == udata->lnk->name) {
         HGOTO_ERROR(H5E_LINK, H5E_CANTINIT, FAIL, "out of memory")
     }
     /* Insert link into group */
@@ -649,11 +649,9 @@ H5L__link_cb(H5G_loc_t *grp_loc /*in*/, const char *name, const H5O_link_t H5_AT
 
 done:
 
-
-    
     /* Check if an object was created */
     if (obj_created) {
-        if(NULL != udata->lnk->name){
+        if (NULL != udata->lnk->name) {
             HDfree(udata->lnk->name);
         }
 
@@ -1385,7 +1383,7 @@ H5L__move_dest_cb(H5G_loc_t *grp_loc /*in*/, const char *name, const H5O_link_t 
     /* Casting away const okay -JML */
     HDassert(udata->lnk->name == NULL);
     udata->lnk->name = strdup(name);
-    if(NULL == udata->lnk->name){
+    if (NULL == udata->lnk->name) {
         HGOTO_ERROR(H5E_LINK, H5E_CANTINIT, FAIL, "out of memory")
     }
 
@@ -1454,7 +1452,7 @@ done:
 
     /* Reset the "name" field in udata->lnk because it is owned by traverse()
      * and must not be manipulated after traverse closes */
-    if(NULL != udata->lnk->name){
+    if (NULL != udata->lnk->name) {
         HDfree(udata->lnk->name);
     }
     udata->lnk->name = NULL;

@@ -304,8 +304,14 @@ H5FD_ros3_init(void)
     HDfprintf(stdout, "H5FD_ros3_init() called.\n");
 #endif
 
-    if (H5I_VFL != H5I_get_type(H5FD_ROS3_g))
+    if (H5I_VFL != H5I_get_type(H5FD_ROS3_g)) {
         H5FD_ROS3_g = H5FD_register(&H5FD_ros3_g, sizeof(H5FD_class_t), FALSE);
+        if (H5I_INVALID_HID == H5FD_ROS3_g) {
+            HGOTO_ERROR(H5E_ID, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register ros3");
+        }
+  
+    }
+
 
 #if ROS3_STATS
     /* pre-compute statsbin boundaries
@@ -319,8 +325,8 @@ H5FD_ros3_init(void)
 #endif
 
     ret_value = H5FD_ROS3_g;
-
-done:
+    
+done:    
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD_ros3_init() */
 

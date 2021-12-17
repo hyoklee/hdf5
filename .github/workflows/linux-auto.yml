@@ -18,7 +18,7 @@ jobs:
       run: |
         set
         ./autogen.sh
-        ./configure --enable-parallel CC=mpicc
+        ./configure --enable-parallel --enable-direct-vfd --enable-mirror-vfd --enable-ros3-vfd CC=mpicc
         make
         make check
 

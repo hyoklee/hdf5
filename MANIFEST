@@ -40,7 +40,7 @@
 ./.github/workflows/main.yml  _DO_NOT_DISTRIBUTE_
 ./.github/workflows/pr-check.yml  _DO_NOT_DISTRIBUTE_
 ./.github/workflows/dispatch.yml _DO_NOT_DISTRIBUTE_
-./.github/workflows/main-mac.yml _DO_NOT_DISTRIBUTE_
+./.github/workflows/mac-cmake.yml _DO_NOT_DISTRIBUTE_
 ./.github/workflows/spack-mac.yml _DO_NOT_DISTRIBUTE_
 ./.github/workflows/spack.yml _DO_NOT_DISTRIBUTE_
 ./.github/workflows/mac-auto.yml _DO_NOT_DISTRIBUTE_

@@ -93,7 +93,7 @@ mirror_log_bytes(struct mirror_log_info *info, unsigned int level, ssize_t n_byt
     }
 
     if (level <= verbosity) {
-        ssize_t               bytes_written = 0;
+        ssize_t              bytes_written = 0;
         const unsigned char *b             = NULL;
 
         /* print whole lines */

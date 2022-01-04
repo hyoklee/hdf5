@@ -216,27 +216,27 @@ static off_t squareo(off_t);
 int
 main(int argc, const char *argv[])
 {
-    int             i = 0;     
+    int             i = 0;
     int             ret;
     int             exit_value = EXIT_SUCCESS;
     struct options *opts       = NULL;
-    char** obj = NULL;
+    char **         obj        = NULL;
 #ifndef STANDALONE
     /* Initialize h5tools lib */
     h5tools_init();
 #endif
 
     output = stdout;
-    if ((obj = (char **)HDcalloc((size_t)argc, sizeof(char*))) == NULL) {
+    if ((obj = (char **)HDcalloc((size_t)argc, sizeof(char *))) == NULL) {
         HDfprintf(stderr, "%s: HDcalloc call failed\n", progname);
         return EXIT_FAILURE;
     }
     else {
         for (i = 0; i < argc; i++) {
-            obj[i]  = HDstrdup(argv[i]);
+            obj[i] = HDstrdup(argv[i]);
         }
     }
-        
+
     /* initialize MPI and get the maximum num of processors we started with */
     /* MPI_Init(&argc, (char**) &argv); */
     MPI_Init(&argc, &obj);
@@ -296,7 +296,7 @@ finish:
     free(opts);
     if (obj) {
         for (i = 0; i < argc; i++) {
-            if (obj[i]) 
+            if (obj[i])
                 HDfree(obj[i]);
         }
         HDfree(obj);

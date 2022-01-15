@@ -1,10 +1,11 @@
+HDF5 version 1.13.1-1 currently under development
+
+# HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
 [![linux autotools](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
 [![spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml)
 [![mac autotools](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)
 [![mac CMake](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml)
 [![spack h5py mac](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml)
-
-# HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
 
 This branch is for testing
 * clang 13 to remove all compiler warnings.
@@ -14,8 +15,6 @@ This branch is for testing
   * New benchmark data will be added if and only if there's a change in this repository.
 
 ---
-
-HDF5 version 1.13.1-1 currently under development
 
 ![HDF5 Logo](doxygen/img/HDF5.png)
 

@@ -605,7 +605,7 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
   AC_SUBST([OBJECT_NAMELEN_DEFAULT_F])
 
   ## --------------------------------------------------------------------
-  ## Fortran source extention
+  ## Fortran source extension
   ##
   AC_FC_SRCEXT([f90])
 
@@ -843,11 +843,14 @@ AC_LANG_POP(C++)
 AC_SUBST([HDF5_HL])
 AC_SUBST([HDF5_HL_TOOLS])
 
-## The high-level library is enabled unless the build mode is clean.
+## The high-level library and high-level tools are enabled unless the build mode
+## is clean.
 if test "X-$BUILD_MODE" = "X-clean" ; then
   HDF5_HL=no
+  HDF5_HL_TOOLS=no
 else
   HDF5_HL=yes
+  HDF5_HL_TOOLS=yes
 fi
 
 ## high-level library directories (set when needed, blank until then)
@@ -1107,6 +1110,12 @@ else
   AC_MSG_RESULT([no])
 fi
 
+## These need to be exposed for some tests.
+AC_SUBST([H5_UTILS_TEST_BUILDDIR])
+H5_UTILS_TEST_BUILDDIR='utils/test'
+AC_SUBST([H5_TEST_BUILDDIR])
+H5_TEST_BUILDDIR='test'
+
 ## ----------------------------------------------------------------------
 ## Check if they would like to disable building tools
 ##
@@ -1198,7 +1207,7 @@ if test "X$HDF5_DOXYGEN" = "Xyes"; then
   DOXYGEN_HTML_HEADER='$(SRCDIR)/doxygen/hdf5_header.html'
   DOXYGEN_HTML_FOOTER='$(SRCDIR)/doxygen/hdf5_footer.html'
   DOXYGEN_HTML_EXTRA_STYLESHEET='$(SRCDIR)/doxygen/hdf5doxy.css'
-  DOXYGEN_HTML_EXTRA_FILES='$(SRCDIR)/doxygen/hdf5_navtree_hacks.js $(SRCDIR)/doxygen/img/ftv2node.png $(SRCDIR)/doxygen/img/ftv2pnode.png'
+  DOXYGEN_HTML_EXTRA_FILES='$(SRCDIR)/doxygen/hdf5_navtree_hacks.js $(SRCDIR)/doxygen/img/FF-IH_FileGroup.gif $(SRCDIR)/doxygen/img/FF-IH_FileObject.gif $(SRCDIR)/doxygen/img/FileFormatSpecChunkDiagram.jpg $(SRCDIR)/doxygen/img/ftv2node.png $(SRCDIR)/doxygen/img/ftv2pnode.png $(SRCDIR)/doxygen/img/HDFG-logo.png $(SRCDIR)/doxygen/img/IOFlow2.gif $(SRCDIR)/doxygen/img/IOFlow3.gif $(SRCDIR)/doxygen/img/IOFlow.gif $(SRCDIR)/doxygen/img/PaletteExample1.gif $(SRCDIR)/doxygen/img/Palettes.fm.anc.gif'
   DOXYGEN_TAG_FILE=hdf5.tag
   DOXYGEN_SERVER_BASED_SEARCH=NO
   DOXYGEN_EXTERNAL_SEARCH=NO

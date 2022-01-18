@@ -605,7 +605,7 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
   AC_SUBST([OBJECT_NAMELEN_DEFAULT_F])
 
   ## --------------------------------------------------------------------
-  ## Fortran source extention
+  ## Fortran source extension
   ##
   AC_FC_SRCEXT([f90])
 
@@ -846,8 +846,10 @@ AC_SUBST([HDF5_HL_TOOLS])
 ## The high-level library is enabled unless the build mode is clean.
 if test "X-$BUILD_MODE" = "X-clean" ; then
   HDF5_HL=no
+  HDF5_HL_TOOLS=no
 else
   HDF5_HL=yes
+  HDF5_HL_TOOLS=yes
 fi
 
 ## high-level library directories (set when needed, blank until then)
@@ -1106,6 +1108,12 @@ if test "X$HDF5_TESTS" = "Xno"; then
 else
   AC_MSG_RESULT([no])
 fi
+
+## These need to be exposed for some tests.
+AC_SUBST([H5_UTILS_TEST_BUILDDIR])
+H5_UTILS_TEST_BUILDDIR='utils/test'
+AC_SUBST([H5_TEST_BUILDDIR])
+H5_TEST_BUILDDIR='test'
 
 ## ----------------------------------------------------------------------
 ## Check if they would like to disable building tools

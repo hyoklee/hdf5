@@ -22,7 +22,7 @@
 herr_t  write_pad(int ofile, hsize_t old_where, hsize_t *new_where);
 hsize_t compute_user_block_size(hsize_t);
 hsize_t copy_some_to_file(int, int, hsize_t, hsize_t, ssize_t);
-void    parse_command_line(int, const char *[]);
+void    parse_command_line(int, const char *const *);
 
 int   do_clobber  = FALSE;
 char *output_file = NULL;
@@ -34,10 +34,10 @@ char *ub_file     = NULL;
  * parameters. The long-named ones can be partially spelled. When
  * adding more, make sure that they don't clash with each other.
  */
-static const char *           s_opts   = "hi:u:o:c:V";
-static struct h5_long_options l_opts[] = {{"help", no_arg, 'h'},    {"i", require_arg, 'i'},
-                                          {"u", require_arg, 'u'},  {"o", require_arg, 'o'},
-                                          {"clobber", no_arg, 'c'}, {NULL, 0, '\0'}};
+static const char *        s_opts   = "hi:u:o:c:V";
+static struct long_options l_opts[] = {{"help", no_arg, 'h'},    {"i", require_arg, 'i'},
+                                       {"u", require_arg, 'u'},  {"o", require_arg, 'o'},
+                                       {"clobber", no_arg, 'c'}, {NULL, 0, '\0'}};
 
 /*-------------------------------------------------------------------------
  * Function:    usage
@@ -104,21 +104,21 @@ leave(int ret)
  */
 
 void
-parse_command_line(int argc, const char *argv[])
+parse_command_line(int argc, const char *const *argv)
 {
     int opt = FALSE;
 
     /* parse command line options */
-    while ((opt = H5_get_option(argc, argv, s_opts, l_opts)) != EOF) {
+    while ((opt = get_option(argc, argv, s_opts, l_opts)) != EOF) {
         switch ((char)opt) {
             case 'o':
-                output_file = HDstrdup(H5_optarg);
+                output_file = HDstrdup(opt_arg);
                 break;
             case 'i':
-                input_file = HDstrdup(H5_optarg);
+                input_file = HDstrdup(opt_arg);
                 break;
             case 'u':
-                ub_file = HDstrdup(H5_optarg);
+                ub_file = HDstrdup(opt_arg);
                 break;
             case 'c':
                 do_clobber = TRUE;
@@ -149,7 +149,7 @@ parse_command_line(int argc, const char *argv[])
  *-------------------------------------------------------------------------
  */
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
     int       ufid  = -1;
     int       h5fid = -1;
@@ -174,7 +174,7 @@ main(int argc, const char *argv[])
     /* Initialize h5tools lib */
     h5tools_init();
 
-    parse_command_line(argc, argv);
+    parse_command_line(argc, (const char *const *)argv);
 
     /* enable error reporting if command line option */
     h5tools_error_report();
@@ -358,7 +358,7 @@ done:
  * Purpose:     Copy part of the input file to output.
  *      infid: fd of file to read
  *      outfid: fd of file to write
- *      startin: offset of where to read from infid
+ *      starting: offset of where to read from infid
  *      startout: offset of where to write to outfid
  *      limit: bytes to read/write
  *
@@ -373,7 +373,7 @@ done:
  *-------------------------------------------------------------------------
  */
 hsize_t
-copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout, ssize_t limit)
+copy_some_to_file(int infid, int outfid, hsize_t starting, hsize_t startout, ssize_t limit)
 {
     char      buf[1024];
     h5_stat_t sbuf;
@@ -386,9 +386,9 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout, ssiz
     ssize_t   toend;
     ssize_t   fromend;
 
-    if (startin > startout) {
+    if (starting > startout) {
         /* this case is prohibited */
-        error_msg("copy_some_to_file: panic: startin > startout?\n");
+        error_msg("copy_some_to_file: panic: starting > startout?\n");
         exit(EXIT_FAILURE);
     } /* end if */
 
@@ -409,7 +409,7 @@ copy_some_to_file(int infid, int outfid, hsize_t startin, hsize_t startout, ssiz
         return 0;
 
     toend   = (ssize_t)startout + howmuch;
-    fromend = (ssize_t)startin + howmuch;
+    fromend = (ssize_t)starting + howmuch;
 
     if (howmuch > 512) {
         to   = toend - 512;

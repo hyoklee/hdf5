@@ -64,15 +64,15 @@ static void error(const char *fmt, ...);
 static void compress_buffer(Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen);
 
 /* commandline options : long and short form */
-static const char *           s_opts   = "hB:b:c:p:rs:0123456789";
-static struct h5_long_options l_opts[] = {{"help", no_arg, 'h'},
-                                          {"compressability", require_arg, 'c'},
-                                          {"file-size", require_arg, 's'},
-                                          {"max-buffer-size", require_arg, 'B'},
-                                          {"min-buffer-size", require_arg, 'b'},
-                                          {"prefix", require_arg, 'p'},
-                                          {"random-test", no_arg, 'r'},
-                                          {NULL, 0, '\0'}};
+static const char *        s_opts   = "hB:b:c:p:rs:0123456789";
+static struct long_options l_opts[] = {{"help", no_arg, 'h'},
+                                       {"compressability", require_arg, 'c'},
+                                       {"file-size", require_arg, 's'},
+                                       {"max-buffer-size", require_arg, 'B'},
+                                       {"min-buffer-size", require_arg, 'b'},
+                                       {"prefix", require_arg, 'p'},
+                                       {"random-test", no_arg, 'r'},
+                                       {NULL, 0, '\0'}};
 
 /*
  * Function:    error
@@ -489,7 +489,7 @@ do_write_test(unsigned long file_size, unsigned long min_buf_size, unsigned long
  * Modifications:
  */
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
     unsigned long min_buf_size = 128 * ONE_KB, max_buf_size = ONE_MB;
     unsigned long file_size = 64 * ONE_MB;
@@ -500,7 +500,7 @@ main(int argc, const char *argv[])
     /* Initialize h5tools lib */
     h5tools_init();
 
-    while ((opt = H5_get_option(argc, argv, s_opts, l_opts)) > 0) {
+    while ((opt = get_option(argc, (const char *const *)argv, s_opts, l_opts)) > 0) {
         switch ((char)opt) {
             case '0':
             case '1':
@@ -515,13 +515,13 @@ main(int argc, const char *argv[])
                 compress_level = opt - '0';
                 break;
             case 'B':
-                max_buf_size = parse_size_directive(H5_optarg);
+                max_buf_size = parse_size_directive(opt_arg);
                 break;
             case 'b':
-                min_buf_size = parse_size_directive(H5_optarg);
+                min_buf_size = parse_size_directive(opt_arg);
                 break;
             case 'c':
-                compress_percent = (int)HDstrtol(H5_optarg, NULL, 10);
+                compress_percent = (int)HDstrtol(opt_arg, NULL, 10);
 
                 if (compress_percent < 0)
                     compress_percent = 0;
@@ -530,13 +530,13 @@ main(int argc, const char *argv[])
 
                 break;
             case 'p':
-                option_prefix = H5_optarg;
+                option_prefix = opt_arg;
                 break;
             case 'r':
                 random_test = TRUE;
                 break;
             case 's':
-                file_size = parse_size_directive(H5_optarg);
+                file_size = parse_size_directive(opt_arg);
                 break;
             case '?':
                 usage();
@@ -551,7 +551,7 @@ main(int argc, const char *argv[])
     }
 
     if (min_buf_size > max_buf_size)
-        error("minmum buffer size (%d) exceeds maximum buffer size (%d)", min_buf_size, max_buf_size);
+        error("minimum buffer size (%d) exceeds maximum buffer size (%d)", min_buf_size, max_buf_size);
 
     HDfprintf(stdout, "Filesize: %ld\n", file_size);
 

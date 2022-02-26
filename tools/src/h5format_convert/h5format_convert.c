@@ -38,11 +38,11 @@ static int   verbose_g = 0;
  * Command-line options: The user can specify short or long-named
  * parameters.
  */
-static const char *           s_opts   = "hVvd:n";
-static struct h5_long_options l_opts[] = {{"help", no_arg, 'h'},    {"version", no_arg, 'V'},
-                                          {"verbose", no_arg, 'v'}, {"dname", require_arg, 'd'},
-                                          {"noop", no_arg, 'n'},    {"enable-error-stack", no_arg, 'E'},
-                                          {NULL, 0, '\0'}};
+static const char *        s_opts   = "hVvd:n";
+static struct long_options l_opts[] = {{"help", no_arg, 'h'},    {"version", no_arg, 'V'},
+                                       {"verbose", no_arg, 'v'}, {"dname", require_arg, 'd'},
+                                       {"noop", no_arg, 'n'},    {"enable-error-stack", no_arg, 'E'},
+                                       {NULL, 0, '\0'}};
 
 /*-------------------------------------------------------------------------
  * Function: usage
@@ -94,7 +94,7 @@ usage(const char *prog)
  *-------------------------------------------------------------------------
  */
 static int
-parse_command_line(int argc, const char **argv)
+parse_command_line(int argc, const char *const *argv)
 {
     int opt;
 
@@ -106,7 +106,7 @@ parse_command_line(int argc, const char **argv)
     }
 
     /* parse command line options */
-    while ((opt = H5_get_option(argc, argv, s_opts, l_opts)) != EOF) {
+    while ((opt = get_option(argc, argv, s_opts, l_opts)) != EOF) {
         switch ((char)opt) {
             case 'h':
                 usage(h5tools_getprogname());
@@ -123,11 +123,11 @@ parse_command_line(int argc, const char **argv)
                 break;
 
             case 'd': /* -d dname */
-                if (H5_optarg != NULL && *H5_optarg)
-                    dname_g = HDstrdup(H5_optarg);
+                if (opt_arg != NULL && *opt_arg)
+                    dname_g = HDstrdup(opt_arg);
                 if (dname_g == NULL) {
                     h5tools_setstatus(EXIT_FAILURE);
-                    error_msg("No dataset name\n", H5_optarg);
+                    error_msg("No dataset name\n", opt_arg);
                     usage(h5tools_getprogname());
                     goto error;
                 }
@@ -150,14 +150,14 @@ parse_command_line(int argc, const char **argv)
         } /* switch */
     }     /* while */
 
-    if (argc <= H5_optind) {
+    if (argc <= opt_ind) {
         error_msg("missing file name\n");
         usage(h5tools_getprogname());
         h5tools_setstatus(EXIT_FAILURE);
         goto error;
     }
 
-    fname_g = HDstrdup(argv[H5_optind]);
+    fname_g = HDstrdup(argv[opt_ind]);
 
     return 0;
 
@@ -383,7 +383,7 @@ error:
  *-------------------------------------------------------------------------
  */
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
     hid_t fid = H5I_INVALID_HID;
 
@@ -394,7 +394,7 @@ main(int argc, const char *argv[])
     h5tools_init();
 
     /* Parse command line options */
-    if (parse_command_line(argc, argv) < 0)
+    if (parse_command_line(argc, (const char *const *)argv) < 0)
         goto done;
     else if (verbose_g)
         HDfprintf(stdout, "Process command line options\n");

@@ -24,8 +24,8 @@
  * parameters. The long-named ones can be partially spelled. When
  * adding more, make sure that they don't clash with each other.
  */
-static const char *           s_opts   = "h";
-static struct h5_long_options l_opts[] = {{"help", no_arg, 'h'}, {"hel", no_arg, 'h'}, {NULL, 0, '\0'}};
+static const char *        s_opts   = "h";
+static struct long_options l_opts[] = {{"help", no_arg, 'h'}, {"hel", no_arg, 'h'}, {NULL, 0, '\0'}};
 
 /*-------------------------------------------------------------------------
  * Function:    usage
@@ -56,12 +56,12 @@ usage(const char *prog)
  */
 
 static void
-parse_command_line(int argc, const char *argv[])
+parse_command_line(int argc, const char *const *argv)
 {
     int opt;
 
     /* parse command line options */
-    while ((opt = H5_get_option(argc, argv, s_opts, l_opts)) != EOF) {
+    while ((opt = get_option(argc, argv, s_opts, l_opts)) != EOF) {
         switch ((char)opt) {
             case 'h':
                 usage(h5tools_getprogname());
@@ -75,7 +75,7 @@ parse_command_line(int argc, const char *argv[])
     }
 
     /* check for file name to be processed */
-    if (argc <= H5_optind) {
+    if (argc <= opt_ind) {
         error_msg("missing file name\n");
         usage(h5tools_getprogname());
         h5tools_setstatus(EXIT_FAILURE);
@@ -98,7 +98,7 @@ leave(int ret)
  *-------------------------------------------------------------------------
  */
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
     char *  ifname;
     hid_t   ifile = H5I_INVALID_HID;
@@ -113,19 +113,19 @@ main(int argc, const char *argv[])
     /* Initialize h5tools lib */
     h5tools_init();
 
-    parse_command_line(argc, argv);
+    parse_command_line(argc, (const char *const *)argv);
 
     /* enable error reporting if command line option */
     h5tools_error_report();
 
-    if (argc <= (H5_optind)) {
+    if (argc <= (opt_ind)) {
         error_msg("missing file name\n");
         usage(h5tools_getprogname());
         h5tools_setstatus(EXIT_FAILURE);
         goto done;
     }
 
-    ifname = HDstrdup(argv[H5_optind]);
+    ifname = HDstrdup(argv[opt_ind]);
 
     testval = H5Fis_accessible(ifname, H5P_DEFAULT);
 

@@ -47,6 +47,51 @@ New Features
 
     Configuration:
     -------------
+    - CPack will now generate RPM/DEB packages.
+
+      Enabled the RPM and DEB CPack generators on linux. In addition to
+      generating STGZ and TGZ packages, CPack will try to package the 
+      library for RPM and DEB packages. This is the initial attempt and
+      may change as issues are resolved.
+
+      (ADB - 2022/03/25)
+
+    - Added new option to the h5cc scripts produced by CMake.
+
+      Add -showconfig option to h5cc scripts to cat the 
+      libhdf5-settings to the standard output.
+
+      (ADB - 2022/03/11)
+
+    - HDF5 memory allocation sanity checking is now off by default for
+      Autotools debug builds
+
+      HDF5 can be configured to perform sanity checking on internal memory
+      allocations by adding heap canaries to these allocations. However,
+      enabling this option can cause issues with external filter plugins
+      when working with (reallocating/freeing/allocating and passing back)
+      buffers.
+
+      Previously, this option was off by default for all CMake build types,
+      but only off by default for non-debug Autotools builds. Since debug
+      is the default build mode for HDF5 when built from source with
+      Autotools, this can result in surprising segfaults that don't occur
+      when an application is built against a release version of HDF5.
+      Therefore, this option is now off by default for all build types
+      across both CMake and Autotools.
+
+      (JTH - 2022/03/01)
+
+    - Added new configure options to enable dimension scales APIs (H5DS*) to
+      use new object references with the native VOL connector (aka native HDF5
+      library). New references are always used for non-native terminal VOL
+      connectors (e.g., DAOS).
+
+      Autotools   --enable-dimension-scales-with-new-ref
+      CMake       HDF5_DIMENSION_SCALES_NEW_REF=ON
+
+      (EIP - 2021/10/25, HDFFV-11180)
+
     - Refactored the utils folder.
 
       Added subfolder test and moved the 'swmr_check_compat_vfd.c file'
@@ -66,7 +111,13 @@ New Features
       that default ON/enabled.
 
       Add configure options (autotools - CMake):
-            enable-hltools       HDF5_BUILD_HL_TOOLS
+            --enable-hltools       HDF5_BUILD_HL_TOOLS
+
+      Disabling this option prevents building the gif tool which
+      contains the following CVEs:
+          HDFFV-10592 CVE-2018-17433
+          HDFFV-10593 CVE-2018-17436
+          HDFFV-11048 CVE-2020-10809
 
       (ADB - 2021/09/16, HDFFV-11266)
 
@@ -85,15 +136,6 @@ New Features
       This has been unused for some time and has no effect.
 
       (DER - 2021/05/23)
-
-    - Add CMake variable HDF5_LIB_INFIX
-
-      This infix is added to all library names after 'hdf5'.
-      e.g. the infix '_openmpi' results in the library name 'libhdf5_openmpi.so'
-      This name is used in packages on debian based systems.
-      (see https://packages.debian.org/jessie/amd64/libhdf5-openmpi-8/filelist)
-
-      (barcode - 2021/03/22)
 
 
     Library:
@@ -117,54 +159,49 @@ New Features
 
       (ADB - 2021/07/27)
 
-    - H5Gcreate1() now rejects size_hint parameters larger than UINT32_MAX
-
-      The size_hint value is ultimately stored in a uint32_t struct field,
-      so specifying a value larger than this on a 64-bit machine can cause
-      undefined behavior including crashing the system.
-
-      The documentation for this API call was also incorrect, stating that
-      passing a negative value would cause the library to use a default
-      value. Instead, passing a "negative" value actually passes a very large
-      value, which is probably not what the user intends and can cause
-      crashes on 64-bit systems.
-
-      The Doxygen documentation has been updated and passing values larger
-      than UINT32_MAX for size_hint will now produce a normal HDF5 error.
-
-      (DER - 2021/04/29, HDFFV-11241)
-
-
-    - H5Pset_fapl_log() no longer crashes when passed an invalid fapl ID
-
-      When passed an invalid fapl ID, H5Pset_fapl_log() would usually
-      segfault when attempting to free an uninitialized pointer in the error
-      handling code. This behavior is more common in release builds or
-      when the memory sanitization checks were not selected as a build
-      option.
-
-      The pointer is now correctly initialized and the API call now
-      produces a normal HDF5 error when fed an invalid fapl ID.
-
-      (DER - 2021/04/28, HDFFV-11240)
-
-    - Fixes a segfault when H5Pset_mdc_log_options() is called multiple times
-
-      The call incorrectly attempts to free an internal copy of the previous
-      log location string, which causes a segfault. This only happens
-      when the call is invoked multiple times on the same property list.
-      On the first call to a given fapl, the log location is set to NULL so
-      the segfault does not occur.
-
-      The string is now handled properly and the segfault no longer occurs.
-
-      (DER - 2021/04/27, HDFFV-11239)
-
 
     Parallel Library:
     -----------------
-    -
+    - Several improvements to parallel compression feature, including:
 
+      * Improved support for collective I/O (for both writes and reads)
+
+      * Significant reduction of memory usage for the feature as a whole
+
+      * Reduction of copying of application data buffers passed to H5Dwrite
+
+      * Addition of support for incremental file space allocation for filtered
+        datasets created in parallel. Incremental file space allocation is the
+        default for these types of datasets (early file space allocation is
+        also still supported), while early file space allocation is still the
+        default (and only supported allocation time) for unfiltered datasets
+        created in parallel. Incremental file space allocation should help with
+        parallel HDF5 applications that wish to use fill values on filtered
+        datasets, but would typically avoid doing so since dataset creation in
+        parallel would often take an excessive amount of time. Since these
+        datasets previously used early file space allocation, HDF5 would
+        allocate space for and write fill values to every chunk in the dataset
+        at creation time, leading to noticeable overhead. Instead, with
+        incremental file space allocation, allocation of file space for chunks
+        and writing of fill values to those chunks will be delayed until each
+        individual chunk is initially written to.
+
+      * Addition of support for HDF5's "don't filter partial edge chunks" flag
+        (https://portal.hdfgroup.org/display/HDF5/H5P_SET_CHUNK_OPTS)
+
+      * Addition of proper support for HDF5 fill values with the feature
+
+      * Addition of 'H5_HAVE_PARALLEL_FILTERED_WRITES' macro to H5pubconf.h
+        so HDF5 applications can determine at compile-time whether the feature
+        is available
+
+      * Addition of simple examples (ph5_filtered_writes.c and
+        ph5_filtered_writes_no_sel.c) under examples directory to demonstrate
+        usage of the feature
+
+      * Improved coverage of regression testing for the feature
+
+      (JTH - 2022/2/23)
 
     Fortran Library:
     ----------------
@@ -186,6 +223,14 @@ New Features
 
     Tools:
     ------
+    - h5repack added an optional verbose value for reporting R/W timing.
+
+      In addition to adding timing capture around the read/write calls in
+      h5repack, added help text to indicate how to show timing for read/write;
+           -v N, --verbose=N       Verbose mode, print object information.
+              N - is an integer greater than 1, 2 displays read/write timing
+      (ADB - 2022/04/01)
+      
     - Refactored the perform tools and removed depends on test library.
 
         Moved the perf and h5perf tools from tools/test/perform to
@@ -201,11 +246,10 @@ New Features
 
         Some of the tools accepted shortened versions of the long options
         (ex: --datas instead of --dataset). These were implemented inconsistently,
-        are difficult to maintian, and occasionally block useful long option
+        are difficult to maintain, and occasionally block useful long option
         names. These partial long options have been removed from all the tools.
 
         (DER - 2021/08/03)
-
 
 
 Support for new platforms, languages and compilers
@@ -217,6 +261,40 @@ Bug Fixes since HDF5-1.12.1 release
 ===================================
     Library
     -------
+    - Fixed a metadata cache bug when resizing a pinned/protected cache entry
+
+      When resizing a pinned/protected cache entry, the metadata
+      cache code previously would wait until after resizing the
+      entry to attempt to log the newly-dirtied entry. This would
+      cause H5C_resize_entry to mark the entry as dirty and make
+      H5AC_resize_entry think that it doesn't need to add the
+      newly-dirtied entry to the dirty entries skiplist.
+
+      Thus, a subsequent H5AC__log_moved_entry would think it
+      needs to allocate a new entry for insertion into the dirty
+      entry skip list, since the entry doesn't exist on that list.
+      This causes an assertion failure, as the code to allocate a
+      new entry assumes that the entry is not dirty.
+
+      (JRM - 2022/02/28)
+
+    - Issue #1436 identified a problem with the H5_VERS_RELEASE check in the
+      H5check_version function.
+
+      Investigating the original fix, #812, we discovered some inconsistencies
+      with a new block added to check H5_VERS_RELEASE for incompatibilities.
+      This new block was not using the new warning text dealing with the
+      H5_VERS_RELEASE check and would cause the warning to be duplicated.
+
+      By removing the H5_VERS_RELEASE argument in the first check for 
+      H5_VERS_MAJOR and H5_VERS_MINOR, the second check would only check
+      the H5_VERS_RELEASE for incompatible release versions. This adheres
+      to the statement that except for the develop branch, all release versions
+      in a major.minor maintenance branch should be compatible. The prerequisite
+      is that an application will not use any APIs not present in all release versions.
+
+      (ADB - 2022/03/11, #1438)
+
     - Unified handling of collective metadata reads to correctly fix old bugs
 
       Due to MPI-related issues occurring in HDF5 from mismanagement of the
@@ -237,6 +315,18 @@ Bug Fixes since HDF5-1.12.1 release
       metadata reads are enabled.
 
       (JTH - 2021/11/16, HDFFV-10501/HDFFV-10562)
+
+    - Fixed several potential MPI deadlocks in library failure conditions
+
+      In the parallel library, there were several places where MPI rank 0
+      could end up skipping past collective MPI operations when some failure
+      occurs in rank 0-specific processing. This would lead to deadlocks
+      where rank 0 completes an operation while other ranks wait in the
+      collective operation. These places have been rewritten to have rank 0
+      push an error and try to cleanup after the failure, then continue to
+      participate in the collective operation to the best of its ability.
+
+      (JTH - 2021/11/09)
 
     - Fixed an issue with collective metadata reads being permanently disabled
       after a dataset chunk lookup operation. This would usually cause a
@@ -281,6 +371,51 @@ Bug Fixes since HDF5-1.12.1 release
 
         (DER - 2021/08/12, HDFFV-11053)
 
+    - Fixed a segmentation fault
+
+      A segmentation fault occurred with a Mathworks corrupted file.
+
+      A detection of accessing a null pointer was added to prevent the problem.
+
+      (BMR - 2021/02/19, HDFFV-11150)
+
+    - H5Pset_fapl_log() no longer crashes when passed an invalid fapl ID
+
+        When passed an invalid fapl ID, H5Pset_fapl_log() would usually
+        segfault when attempting to free an uninitialized pointer in the error
+        handling code. This behavior is more common in release builds or
+        when the memory sanitization checks were not selected as a build
+        option.
+
+        The pointer is now correctly initialized and the API call now
+        produces a normal HDF5 error when fed an invalid fapl ID.
+
+        (DER - 2021/04/28, HDFFV-11240)
+
+    - Fixes a segfault when H5Pset_mdc_log_options() is called multiple times
+
+        The call incorrectly attempts to free an internal copy of the previous
+        log location string, which causes a segfault. This only happens
+        when the call is invoked multiple times on the same property list.
+        On the first call to a given fapl, the log location is set to NULL so
+        the segfault does not occur.
+
+        The string is now handled properly and the segfault no longer occurs.
+
+        (DER - 2021/04/27, HDFFV-11239)
+
+    - Fixed CVE-2018-17432
+
+        The tool h5repack produced a segfault on a corrupted file which had
+        invalid rank for scalar or NULL datatype.
+
+        The problem was fixed in HDF5 1.12.1 by modifying the dataspace encode 
+        and decode functions to detect and report invalid rank. h5repack now 
+        fails with an error message for the corrupted file.
+
+        (BMR - 2020/10/26, HDFFV-10590)
+
+
     Java Library
     ------------
     -
@@ -288,6 +423,17 @@ Bug Fixes since HDF5-1.12.1 release
 
     Configuration
     -------------
+    - Reworked corrected path searched by CMake find_package command
+
+      The install path for cmake find_package files had been changed to use
+        "share/cmake"
+      for all platforms. However setting the HDF5_ROOT variable failed to locate
+      the configuration files. The build variable HDF5_INSTALL_CMAKE_DIR is now
+      set to the <INSTALL_DIR>/cmake folder. The location of the configuration 
+      files can still be specified by the "HDF5_DIR" variable.
+
+      (ADB - 2022/03/11)
+
     - Corrected path searched by CMake find_package command
 
       The install path for cmake find_package files had been changed to use
@@ -361,12 +507,7 @@ Bug Fixes since HDF5-1.12.1 release
 
     C++ APIs
     --------
-    - Added DataSet::operator=
-
-      Some compilers complain if the copy constructor is given explicitly
-      but the assignment operator is implicitly set to default.
-
-      (2021/05/19)
+    - 
 
 
     Testing
@@ -374,8 +515,8 @@ Bug Fixes since HDF5-1.12.1 release
     -
 
 
-Supported Platforms
-===================
+    Supported Platforms
+    ===================
 
     Linux 2.6.32-696.16.1.el6.ppc64 gcc (GCC) 4.4.7 20120313 (Red Hat 4.4.7-18)
     #1 SMP ppc64 GNU/Linux        g++ (GCC) 4.4.7 20120313 (Red Hat 4.4.7-18)
@@ -385,11 +526,11 @@ Supported Platforms
 
     Linux 3.10.0-327.10.1.el7   GNU C (gcc), Fortran (gfortran), C++ (g++)
     #1 SMP x86_64 GNU/Linux       compilers:
-    (kituo/moohan)                Version 4.8.5 20150623 (Red Hat 4.8.5-4)
+    (kituo/moohan)                  Version 4.8.5 20150623 (Red Hat 4.8.5-4)
                                     Version 4.9.3, 5.2.0, 7.1.0
                                   Intel(R) C (icc), C++ (icpc), Fortran (icc)
                                   compilers:
-                                     Version 17.0.0.098 Build 20160721
+                                    Version 17.0.0.098 Build 20160721
                                   MPICH 3.1.4
 
     Linux-3.10.0-                 spectrum-mpi/rolling-release with cmake>3.10 and
@@ -419,7 +560,7 @@ Supported Platforms
     SunOS 5.11 32- and 64-bit     Sun C 5.12 SunOS_sparc
     (emu)                         Sun Fortran 95 8.6 SunOS_sparc
                                   Sun C++ 5.12 SunOS_sparc
-
+    
     Windows 10 x64                Visual Studio 2015 w/ Intel Fortran 18 (cmake)
                                   Visual Studio 2017 w/ Intel Fortran 19 (cmake)
                                   Visual Studio 2019 w/ Intel Fortran 19 (cmake)
@@ -456,7 +597,7 @@ Tested Configuration Features Summary
           <blank> = testing incomplete on this feature or platform
 
 Platform                              C         F90/   F90      C++  zlib  SZIP
-                                      parallel  F2003  parallel
+                                  parallel  F2003  parallel
 Solaris2.11 32-bit                      n        y/y    n        y    y     y
 Solaris2.11 64-bit                      n        y/n    n        y    y     y
 Windows 10                              y        y/y    n        y    y     y
@@ -474,7 +615,7 @@ Linux 2.6.32-573.18.1.el6.ppc64         n        y/n    n        y    y     y
 
 
 Platform                                 Shared  Shared    Shared    Thread-
-                                         C libs  F90 libs  C++ libs  safe
+                                     C libs  F90 libs  C++ libs  safe
 Solaris2.11 32-bit                         y       y         y         y
 Solaris2.11 64-bit                         y       y         y         y
 Windows 10                                 y       y         y         y
@@ -498,56 +639,56 @@ More Tested Platforms
 =====================
 The following platforms are not supported but have been tested for this release.
 
-    Linux 2.6.32-573.22.1.el6    GNU C (gcc), Fortran (gfortran), C++ (g++)
-    #1 SMP x86_64 GNU/Linux       compilers:
-    (mayll/platypus)                 Version 4.4.7 20120313
-                                     Version 4.9.3, 5.3.0, 6.2.0
-                                  PGI C, Fortran, C++ for 64-bit target on
-                                  x86-64;
-                                      Version 17.10-0
-                                  Intel(R) C (icc), C++ (icpc), Fortran (icc)
-                                  compilers:
-                                     Version 17.0.4.196 Build 20170411
-                                  MPICH 3.1.4 compiled with GCC 4.9.3
+Linux 2.6.32-573.22.1.el6    GNU C (gcc), Fortran (gfortran), C++ (g++)
+#1 SMP x86_64 GNU/Linux       compilers:
+(mayll/platypus)                 Version 4.4.7 20120313
+                                 Version 4.9.3, 5.3.0, 6.2.0
+                              PGI C, Fortran, C++ for 64-bit target on
+                              x86-64;
+                                  Version 17.10-0
+                              Intel(R) C (icc), C++ (icpc), Fortran (icc)
+                              compilers:
+                                 Version 17.0.4.196 Build 20170411
+                              MPICH 3.1.4 compiled with GCC 4.9.3
 
-    Linux 3.10.0-327.18.2.el7     GNU C (gcc) and C++ (g++) compilers
-    #1 SMP x86_64 GNU/Linux          Version 4.8.5 20150623 (Red Hat 4.8.5-4)
-    (jelly)                       with NAG Fortran Compiler Release 6.1(Tozai)
-                                  GCC Version 7.1.0
-                                  OpenMPI 3.0.0-GCC-7.2.0-2.29
-                                  Intel(R) C (icc) and C++ (icpc) compilers
-                                     Version 17.0.0.098 Build 20160721
-                                  with NAG Fortran Compiler Release 6.1(Tozai)
-                                  PGI C (pgcc), C++ (pgc++), Fortran (pgf90)
-                                  compilers:
-                                     Version 18.4, 19.4
-                                  MPICH 3.3
-                                  OpenMPI 2.1.5, 3.1.3, 4.0.0
+Linux 3.10.0-327.18.2.el7     GNU C (gcc) and C++ (g++) compilers
+#1 SMP x86_64 GNU/Linux          Version 4.8.5 20150623 (Red Hat 4.8.5-4)
+(jelly)                       with NAG Fortran Compiler Release 6.1(Tozai)
+                              GCC Version 7.1.0
+                              OpenMPI 3.0.0-GCC-7.2.0-2.29
+                              Intel(R) C (icc) and C++ (icpc) compilers
+                                 Version 17.0.0.098 Build 20160721
+                              with NAG Fortran Compiler Release 6.1(Tozai)
+                              PGI C (pgcc), C++ (pgc++), Fortran (pgf90)
+                              compilers:
+                                 Version 18.4, 19.4
+                              MPICH 3.3
+                              OpenMPI 2.1.5, 3.1.3, 4.0.0
 
 
-    Fedora33 5.11.18-200.fc33.x86_64
-    #1 SMP x86_64  GNU/Linux         GNU gcc (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
-                                     GNU Fortran (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
-                                     clang version 11.0.0 (Fedora 11.0.0-2.fc33)
-                                     (cmake and autotools)
+Fedora33 5.11.18-200.fc33.x86_64
+#1 SMP x86_64  GNU/Linux         GNU gcc (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
+                                 GNU Fortran (GCC) 10.3.1 20210422 (Red Hat 10.3.1-1)
+                                 clang version 11.0.0 (Fedora 11.0.0-2.fc33)
+                                 (cmake and autotools)
 
-    Ubuntu20.04 5.8.0-53-generic-x86_64
-    #60~20.04-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 9.3.0-17ubuntu1
-                                     GNU Fortran (GCC) 9.3.0-17ubuntu1
-                                     clang version 10.0.0-4ubuntu1
-                                     (cmake and autotools)
+Ubuntu20.04 5.8.0-53-generic-x86_64
+#60~20.04-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 9.3.0-17ubuntu1
+                                 GNU Fortran (GCC) 9.3.0-17ubuntu1
+                                 clang version 10.0.0-4ubuntu1
+                                 (cmake and autotools)
 
-    Ubuntu20.10 5.8.0-53-generic-x86_64
-    #60-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 10.2.0-13ubuntu1
-                                     GNU Fortran (GCC) 10.2.0-13ubuntu1
-                                     Ubuntu clang version 11.0.0-2
-                                     (cmake and autotools)
+Ubuntu20.10 5.8.0-53-generic-x86_64
+#60-Ubuntu SMP x86_64  GNU/Linux GNU gcc (GCC) 10.2.0-13ubuntu1
+                                 GNU Fortran (GCC) 10.2.0-13ubuntu1
+                                 Ubuntu clang version 11.0.0-2
+                                 (cmake and autotools)
 
-    SUSE15sp2 5.3.18-22-default
-    #1 SMP x86_64  GNU/Linux         GNU gcc (SUSE Linux) 7.5.0
-                                     GNU Fortran (SUSE Linux) 7.5.0
-                                     clang version 7.0.1 (tags/RELEASE_701/final 349238)
-                                     (cmake and autotools)
+SUSE15sp2 5.3.18-22-default
+#1 SMP x86_64  GNU/Linux         GNU gcc (SUSE Linux) 7.5.0
+                                 GNU Fortran (SUSE Linux) 7.5.0
+                                 clang version 7.0.1 (tags/RELEASE_701/final 349238)
+                                 (cmake and autotools)
 
 
 Known Problems
@@ -618,3 +759,11 @@ The share folder will have the most differences because CMake builds include
 a number of CMake specific files for support of CMake's find_package and support
 for the HDF5 Examples CMake project.
 
+The issues with the gif tool are:
+HDFFV-10592 CVE-2018-17433
+HDFFV-10593 CVE-2018-17436
+HDFFV-11048 CVE-2020-10809
+These CVE issues have not yet been addressed and can be avoided by not building
+the gif tool. Disable building the High-Level tools with these options:
+autotools:   --disable-hltools
+cmake:       HDF5_BUILD_HL_TOOLS=OFF

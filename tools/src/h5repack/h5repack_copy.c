@@ -39,7 +39,8 @@
  */
 static int  get_hyperslab(hid_t dcpl_id, int rank_dset, const hsize_t dims_dset[], size_t size_datum,
                           hsize_t dims_hslab[], hsize_t *hslab_nbytes_p);
-static void print_dataset_info(hid_t dcpl_id, char *objname, double per, int pr);
+static void print_dataset_info(hid_t dcpl_id, char *objname, double per, int pr, pack_opt_t *options,
+                               double read_time, double write_time);
 static int  do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *options);
 static int  copy_user_block(const char *infile, const char *outfile, hsize_t size);
 #if defined(H5REPACK_DEBUG_USER_BLOCK)
@@ -298,7 +299,7 @@ copy_objects(const char *fnamein, const char *fnameout, pack_opt_t *options)
      * create the output file
      *-------------------------------------------------------------------------
      */
-    if (options->verbose)
+    if (options->verbose > 0)
         HDprintf("Making new file ...\n");
 
     if ((fidout = H5Fcreate(fnameout, H5F_ACC_TRUNC, fcpl, options->fout_fapl)) < 0)
@@ -626,6 +627,7 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
     hid_t              wtype_id      = H5I_INVALID_HID; /* read/write type ID */
     hid_t              ocpl_id       = H5I_INVALID_HID; /* property to pass copy options */
     hid_t              lcpl_id       = H5I_INVALID_HID; /* link creation property list */
+    hid_t              dxpl_id       = H5I_INVALID_HID; /* dataset transfer property list */
     named_dt_t *       named_dt_head = NULL;            /* Pointer to the stack of named datatypes copied */
     size_t             msize;                           /* size of type */
     hsize_t            nelmts;                          /* number of elements in dataset */
@@ -642,6 +644,10 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
     int                req_filter;         /* there was a request for a filter */
     int                req_obj_layout = 0; /* request layout to current object */
     unsigned           crt_order_flags;    /* group creation order flag */
+    H5_timer_t         timer;              /* Timer for read/write operations */
+    H5_timevals_t      times;              /* Elapsed time for each operation */
+    static double      read_time  = 0;
+    static double      write_time = 0;
     h5tool_link_info_t linkinfo;
     unsigned           i;
     unsigned           u;
@@ -660,7 +666,12 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
      *-------------------------------------------------------------------------
      */
 
-    if (options->verbose) {
+    if (options->verbose == 2) {
+        HDprintf("-----------------------------------------------------------------\n");
+        HDprintf(" Type     Filter (Compression)        Timing read/write    Name\n");
+        HDprintf("-----------------------------------------------------------------\n");
+    }
+    else {
         HDprintf("-----------------------------------------\n");
         HDprintf(" Type     Filter (Compression)     Name\n");
         HDprintf("-----------------------------------------\n");
@@ -681,7 +692,9 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                      *-------------------------------------------------------------------------
                      */
                 case H5TRAV_TYPE_GROUP:
-                    if (options->verbose)
+                    if (options->verbose == 2)
+                        HDprintf(FORMAT_OBJ_NOTIME, "group", travt->objs[i].name);
+                    else
                         HDprintf(FORMAT_OBJ, "group", travt->objs[i].name);
 
                     /* open input group */
@@ -747,6 +760,9 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                  */
                 case H5TRAV_TYPE_DATASET: {
                     hbool_t use_h5ocopy;
+
+                    read_time  = 0.0;
+                    write_time = 0.0;
 
                     has_filter = 0;
                     req_filter = 0;
@@ -971,7 +987,7 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                                       H5P_DEFAULT, dcpl_out, H5P_DEFAULT);
                                 if (dset_out == H5I_INVALID_HID) {
                                     H5TOOLS_INFO("H5Dcreate2 failed");
-                                    if (options->verbose)
+                                    if (options->verbose > 0)
                                         HDprintf(" warning: could not create dataset <%s>. Applying original "
                                                  "settings\n",
                                                  travt->objs[i].name);
@@ -995,13 +1011,44 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                     if (need < H5TOOLS_MALLOCSIZE)
                                         buf = HDmalloc(need);
 
+                                    /* Set up collective write if using filters in parallel */
+                                    {
+#ifdef H5_HAVE_PARALLEL
+                                        hbool_t parallel = (H5FD_MPIO == H5Pget_driver(options->fout_fapl));
+
+                                        if (parallel && apply_s && apply_f) {
+                                            if ((dxpl_id = H5Pcreate(H5P_DATASET_XFER)) < 0)
+                                                H5TOOLS_GOTO_ERROR((-1), "H5Pcreate failed");
+                                            if (H5Pset_dxpl_mpio(dxpl_id, H5FD_MPIO_COLLECTIVE) < 0)
+                                                H5TOOLS_GOTO_ERROR((-1), "H5Pset_dxpl_mpio failed");
+                                        }
+                                        else
+#endif
+                                            dxpl_id = H5P_DEFAULT;
+                                    }
+
                                     if (buf != NULL) {
+                                        if (options->verbose == 2) {
+                                            H5_timer_init(&timer);
+                                            H5_timer_start(&timer);
+                                        }
                                         if (H5Dread(dset_in, wtype_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf) <
                                             0)
                                             H5TOOLS_GOTO_ERROR((-1), "H5Dread failed");
-                                        if (H5Dwrite(dset_out, wtype_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf) <
-                                            0)
+                                        if (options->verbose == 2) {
+                                            H5_timer_stop(&timer);
+                                            H5_timer_get_times(timer, &times);
+                                            read_time += times.elapsed;
+                                            H5_timer_init(&timer);
+                                            H5_timer_start(&timer);
+                                        }
+                                        if (H5Dwrite(dset_out, wtype_id, H5S_ALL, H5S_ALL, dxpl_id, buf) < 0)
                                             H5TOOLS_GOTO_ERROR((-1), "H5Dwrite failed");
+                                        if (options->verbose == 2) {
+                                            H5_timer_stop(&timer);
+                                            H5_timer_get_times(timer, &times);
+                                            write_time += times.elapsed;
+                                        }
 
                                         /* Check if we have VL data in the dataset's
                                          * datatype that must be reclaimed */
@@ -1099,12 +1146,28 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                                 hs_select_nelmts = 1;
                                             } /* end (else) rank  == 0 */
 
+                                            if (options->verbose == 2) {
+                                                H5_timer_init(&timer);
+                                                H5_timer_start(&timer);
+                                            }
                                             if (H5Dread(dset_in, wtype_id, hslab_space, f_space_id,
                                                         H5P_DEFAULT, hslab_buf) < 0)
                                                 H5TOOLS_GOTO_ERROR((-1), "H5Dread failed");
-                                            if (H5Dwrite(dset_out, wtype_id, hslab_space, f_space_id,
-                                                         H5P_DEFAULT, hslab_buf) < 0)
+                                            if (options->verbose == 2) {
+                                                H5_timer_stop(&timer);
+                                                H5_timer_get_times(timer, &times);
+                                                read_time += times.elapsed;
+                                                H5_timer_init(&timer);
+                                                H5_timer_start(&timer);
+                                            }
+                                            if (H5Dwrite(dset_out, wtype_id, hslab_space, f_space_id, dxpl_id,
+                                                         hslab_buf) < 0)
                                                 H5TOOLS_GOTO_ERROR((-1), "H5Dwrite failed");
+                                            if (options->verbose == 2) {
+                                                H5_timer_stop(&timer);
+                                                H5_timer_get_times(timer, &times);
+                                                write_time += times.elapsed;
+                                            }
 
                                             /* reclaim any VL memory, if necessary */
                                             if (vl_data)
@@ -1133,7 +1196,7 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                  * print amount of compression used
                                  *-------------------------------------------------------------------------
                                  */
-                                if (options->verbose) {
+                                if (options->verbose > 0) {
                                     double ratio = 0;
 
                                     /* only print the compression ration if there was a filter request */
@@ -1144,10 +1207,12 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                         /* compression ratio = uncompressed size /  compressed size */
                                         if (dsize_out != 0)
                                             ratio = (double)dsize_in / (double)dsize_out;
-                                        print_dataset_info(dcpl_out, travt->objs[i].name, ratio, 1);
+                                        print_dataset_info(dcpl_out, travt->objs[i].name, ratio, 1, options,
+                                                           read_time, write_time);
                                     }
                                     else
-                                        print_dataset_info(dcpl_in, travt->objs[i].name, ratio, 0);
+                                        print_dataset_info(dcpl_in, travt->objs[i].name, ratio, 0, options,
+                                                           read_time, write_time);
 
                                     /* print a message that the filter was not applied
                                      * (in case there was a filter)
@@ -1204,6 +1269,10 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                         if (H5Pset_copy_object(ocpl_id, H5O_COPY_WITHOUT_ATTR_FLAG) < 0)
                             H5TOOLS_GOTO_ERROR((-1), "H5Pset_copy_object failed");
 
+                        if (options->verbose == 2) {
+                            H5_timer_init(&timer);
+                            H5_timer_start(&timer);
+                        }
                         if (H5Ocopy(fidin,               /* Source file or group identifier */
                                     travt->objs[i].name, /* Name of the source object to be copied */
                                     fidout,              /* Destination file or group identifier  */
@@ -1211,6 +1280,11 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                     ocpl_id,             /* Properties which apply to the copy   */
                                     H5P_DEFAULT) < 0)    /* Properties which apply to the new hard link */
                             H5TOOLS_GOTO_ERROR((-1), "H5Ocopy failed");
+                        if (options->verbose == 2) {
+                            H5_timer_stop(&timer);
+                            H5_timer_get_times(timer, &times);
+                            write_time += times.elapsed;
+                        }
 
                         if (H5Pclose(ocpl_id) < 0)
                             H5TOOLS_GOTO_ERROR((-1), "H5Pclose failed");
@@ -1231,7 +1305,9 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                         if (H5Dclose(dset_out) < 0)
                             H5TOOLS_GOTO_ERROR((-1), "H5Dclose failed");
 
-                        if (options->verbose)
+                        if (options->verbose == 2)
+                            HDprintf(FORMAT_OBJ_TIME, "dset", 0.0, write_time, travt->objs[i].name);
+                        else
                             HDprintf(FORMAT_OBJ, "dset", travt->objs[i].name);
 
                     } /* end whether we have request for filter/chunking */
@@ -1244,7 +1320,9 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                  *-------------------------------------------------------------------------
                  */
                 case H5TRAV_TYPE_NAMED_DATATYPE:
-                    if (options->verbose)
+                    if (options->verbose == 2)
+                        HDprintf(FORMAT_OBJ_NOTIME, "type", travt->objs[i].name);
+                    else
                         HDprintf(FORMAT_OBJ, "type", travt->objs[i].name);
 
                     if ((type_in = H5Topen2(fidin, travt->objs[i].name, H5P_DEFAULT)) < 0)
@@ -1284,7 +1362,9 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                  */
                 case H5TRAV_TYPE_LINK:
                 case H5TRAV_TYPE_UDLINK:
-                    if (options->verbose)
+                    if (options->verbose == 2)
+                        HDprintf(FORMAT_OBJ_NOTIME, "link", travt->objs[i].name);
+                    else
                         HDprintf(FORMAT_OBJ, "link", travt->objs[i].name);
 
                     /* Check -X option. */
@@ -1382,6 +1462,7 @@ done:
         H5Pclose(dcpl_in);
         H5Pclose(gcpl_in);
         H5Pclose(gcpl_out);
+        H5Pclose(dxpl_id);
         H5Sclose(f_space_id);
         H5Dclose(dset_in);
         H5Dclose(dset_out);
@@ -1408,7 +1489,8 @@ done:
  *-------------------------------------------------------------------------
  */
 static void
-print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr)
+print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr, pack_opt_t *options, double read_time,
+                   double write_time)
 {
     char strfilter[255];
 #if defined(PRINT_DEBUG)
@@ -1497,7 +1579,10 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr)
     }     /* end for each filter */
 
     if (!pr)
-        HDprintf(FORMAT_OBJ, "dset", objname);
+        if (options->verbose == 2)
+            HDprintf(FORMAT_OBJ_TIME, "dset", read_time, write_time, objname);
+        else
+            HDprintf(FORMAT_OBJ, "dset", objname);
     else {
         char str[512], temp[512];
 
@@ -1505,7 +1590,10 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr)
         HDstrcat(str, strfilter);
         HDsprintf(temp, "  (%.3f:1)", ratio);
         HDstrcat(str, temp);
-        HDprintf(FORMAT_OBJ, str, objname);
+        if (options->verbose == 2)
+            HDprintf(FORMAT_OBJ_TIME, str, read_time, write_time, objname);
+        else
+            HDprintf(FORMAT_OBJ, str, objname);
     }
 } /* end print_dataset_info() */
 

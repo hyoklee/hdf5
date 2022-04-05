@@ -63,15 +63,14 @@
 #include <sys/time.h>
 #endif
 #ifdef H5_HAVE_UNISTD_H
+#include <unistd.h>
+#include <sys/types.h>
+#endif
 #ifdef H5_HAVE_PWD_H
 #include <pwd.h>
 #endif
-#include <sys/types.h>
-#include <unistd.h>
-#endif
-#ifdef _POSIX_VERSION
+#ifdef H5_HAVE_WAITPID
 #include <sys/wait.h>
-#include <pwd.h>
 #endif
 
 /*
@@ -233,7 +232,7 @@
  */
 #define BEGIN_MPE_LOG                                                                                        \
     if (H5_MPEinit_g) {                                                                                      \
-        sprintf(p_event_start, "start %s", FUNC);                                                            \
+        snprintf(p_event_start, sizeof(p_event_start), "start %s", FUNC);                                    \
         if (eventa(FUNC) == -1 && eventb(FUNC) == -1) {                                                      \
             const char *p_color = "red";                                                                     \
             eventa(FUNC)        = MPE_Log_get_event_number();                                                \
@@ -516,6 +515,25 @@ typedef long int32_t;
 #define HSSIZET_MAX ((hssize_t)LLONG_MAX)
 #define HSSIZET_MIN (~(HSSIZET_MAX))
 
+#ifdef H5_HAVE_PARALLEL
+
+/* Define a type for safely sending size_t values with MPI */
+#if SIZE_MAX == UCHAR_MAX
+#define H5_SIZE_T_AS_MPI_TYPE MPI_UNSIGNED_CHAR
+#elif SIZE_MAX == USHRT_MAX
+#define H5_SIZE_T_AS_MPI_TYPE MPI_UNSIGNED_SHORT
+#elif SIZE_MAX == UINT_MAX
+#define H5_SIZE_T_AS_MPI_TYPE MPI_UNSIGNED
+#elif SIZE_MAX == ULONG_MAX
+#define H5_SIZE_T_AS_MPI_TYPE MPI_UNSIGNED_LONG
+#elif SIZE_MAX == ULLONG_MAX
+#define H5_SIZE_T_AS_MPI_TYPE MPI_UNSIGNED_LONG_LONG
+#else
+#error "no suitable MPI type for size_t"
+#endif
+
+#endif /* H5_HAVE_PARALLEL */
+
 /*
  * Types and max sizes for POSIX I/O.
  * OS X (Darwin) is odd since the max I/O size does not match the types.
@@ -587,6 +605,9 @@ typedef long int32_t;
 #define LOCK_NB 0x04
 #define LOCK_UN 0x08
 #endif /* H5_HAVE_FLOCK */
+
+/* Function pointer typedef for qsort */
+typedef int (*H5_sort_func_cb_t)(const void *, const void *);
 
 /* Typedefs and functions for timing certain parts of the library. */
 
@@ -2169,6 +2190,8 @@ H5_DLL herr_t H5CX_pop(void);
     /* Push the API context */                                                                               \
     if (H5CX_push() < 0)                                                                                     \
         HGOTO_ERROR(H5E_FUNC, H5E_CANTSET, err, "can't set API context")                                     \
+    else                                                                                                     \
+        api_ctx_pushed = TRUE;                                                                               \
                                                                                                              \
     BEGIN_MPE_LOG
 
@@ -2176,6 +2199,8 @@ H5_DLL herr_t H5CX_pop(void);
 #define FUNC_ENTER_API(err)                                                                                  \
     {                                                                                                        \
         {                                                                                                    \
+            hbool_t api_ctx_pushed = FALSE;                                                                  \
+                                                                                                             \
             FUNC_ENTER_API_COMMON                                                                            \
             FUNC_ENTER_API_INIT(err);                                                                        \
             FUNC_ENTER_API_PUSH(err);                                                                        \
@@ -2190,6 +2215,8 @@ H5_DLL herr_t H5CX_pop(void);
 #define FUNC_ENTER_API_NOCLEAR(err)                                                                          \
     {                                                                                                        \
         {                                                                                                    \
+            hbool_t api_ctx_pushed = FALSE;                                                                  \
+                                                                                                             \
             FUNC_ENTER_API_COMMON                                                                            \
             FUNC_ENTER_API_INIT(err);                                                                        \
             FUNC_ENTER_API_PUSH(err);                                                                        \
@@ -2417,14 +2444,17 @@ H5_DLL herr_t H5CX_pop(void);
     H5_API_SET_CANCEL
 
 #define FUNC_LEAVE_API_COMMON(ret_value)                                                                     \
-    ;                                                                                                        \
-    } /*end scope from end of FUNC_ENTER*/                                                                   \
     FINISH_MPE_LOG                                                                                           \
     H5TRACE_RETURN(ret_value);
 
 #define FUNC_LEAVE_API(ret_value)                                                                            \
+    ;                                                                                                        \
+    } /*end scope from end of FUNC_ENTER*/                                                                   \
     FUNC_LEAVE_API_COMMON(ret_value);                                                                        \
-    (void)H5CX_pop();                                                                                        \
+    if (api_ctx_pushed) {                                                                                    \
+        (void)H5CX_pop();                                                                                    \
+        api_ctx_pushed = FALSE;                                                                              \
+    }                                                                                                        \
     H5_POP_FUNC                                                                                              \
     if (err_occurred)                                                                                        \
         (void)H5E_dump_api_stack(TRUE);                                                                      \
@@ -2435,6 +2465,8 @@ H5_DLL herr_t H5CX_pop(void);
 
 /* Use this macro to match the FUNC_ENTER_API_NOINIT macro */
 #define FUNC_LEAVE_API_NOINIT(ret_value)                                                                     \
+    ;                                                                                                        \
+    } /*end scope from end of FUNC_ENTER*/                                                                   \
     FUNC_LEAVE_API_COMMON(ret_value);                                                                        \
     H5_POP_FUNC                                                                                              \
     if (err_occurred)                                                                                        \
@@ -2447,6 +2479,8 @@ H5_DLL herr_t H5CX_pop(void);
 
 /* Use this macro to match the FUNC_ENTER_API_NOINIT_NOERR_NOFS macro */
 #define FUNC_LEAVE_API_NOFS(ret_value)                                                                       \
+    ;                                                                                                        \
+    } /*end scope from end of FUNC_ENTER*/                                                                   \
     FUNC_LEAVE_API_COMMON(ret_value);                                                                        \
     FUNC_LEAVE_API_THREADSAFE                                                                                \
     return (ret_value);                                                                                      \
@@ -2656,6 +2690,14 @@ H5_DLL herr_t  H5_mpi_comm_cmp(MPI_Comm comm1, MPI_Comm comm2, int *result);
 H5_DLL herr_t  H5_mpi_info_cmp(MPI_Info info1, MPI_Info info2, int *result);
 H5_DLL herr_t  H5_mpio_create_large_type(hsize_t num_elements, MPI_Aint stride_bytes, MPI_Datatype old_type,
                                          MPI_Datatype *new_type);
+H5_DLL herr_t  H5_mpio_gatherv_alloc(void *send_buf, int send_count, MPI_Datatype send_type,
+                                     const int recv_counts[], const int displacements[],
+                                     MPI_Datatype recv_type, hbool_t allgather, int root, MPI_Comm comm,
+                                     int mpi_rank, int mpi_size, void **out_buf, size_t *out_buf_num_entries);
+H5_DLL herr_t  H5_mpio_gatherv_alloc_simple(void *send_buf, int send_count, MPI_Datatype send_type,
+                                            MPI_Datatype recv_type, hbool_t allgather, int root, MPI_Comm comm,
+                                            int mpi_rank, int mpi_size, void **out_buf,
+                                            size_t *out_buf_num_entries);
 #endif /* H5_HAVE_PARALLEL */
 
 /* Functions for debugging */

@@ -71,13 +71,6 @@
 #endif
 #endif
 
-/* Include the Windows API adapter header early */
-#include "H5api_adpt.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Macros for enabling/disabling particular GCC warnings */
 /* (see the following web-sites for more info:
  *      http://www.dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
@@ -108,15 +101,15 @@ extern "C" {
 /**
  * For tweaks, bug-fixes, or development
  */
-#define H5_VERS_RELEASE 2
+#define H5_VERS_RELEASE 3
 /**
  * For pre-releases like \c snap0. Empty string for official releases.
  */
-#define H5_VERS_SUBRELEASE "2"
+#define H5_VERS_SUBRELEASE "1"
 /**
  * Full version string
  */
-#define H5_VERS_INFO "HDF5 library version: 1.12.2-2"
+#define H5_VERS_INFO "HDF5 library version: 1.12.3-1"
 
 #define H5check() H5check_version(H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE)
 
@@ -484,6 +477,13 @@ typedef struct H5_alloc_stats_t {
     size_t             curr_alloc_blocks_count;  /**< Current # of blocks allocated */
     size_t             peak_alloc_blocks_count;  /**< Peak # of blocks allocated */
 } H5_alloc_stats_t;
+
+/* API adapter header (defines H5_DLL, etc.) */
+#include "H5api_adpt.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Functions in H5.c */
 /**

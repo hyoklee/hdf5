@@ -111,7 +111,7 @@
 #endif
 
 /*
- * Longjumps are used to detect alignment constrants
+ * Longjumps are used to detect alignment constraints
  */
 #ifdef H5_HAVE_SETJMP_H
 #include <setjmp.h>
@@ -166,8 +166,8 @@
 #include <dirent.h>
 #endif
 
-/* Define the default VFD for this platform.
- * Since the removal of the Windows VFD, this is sec2 for all platforms.
+/* Define the default VFD for this platform.  Since the removal of the
+ * Windows VFD, this is sec2 for all platforms.
  */
 #define H5_DEFAULT_VFD H5FD_SEC2
 

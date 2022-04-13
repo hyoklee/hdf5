@@ -1,4 +1,4 @@
-HDF5 version 1.12.2-2 currently under development
+HDF5 version 1.12.3-1 currently under development
 
 ![HDF5 Logo](doxygen/img/HDF5.png)
 
@@ -67,6 +67,26 @@ Posting requires completing a simple registration and allows one to join in the
 conversation.  Please read the following instructions pertaining to the Forum's
 use and configuration
     https://forum.hdfgroup.org/t/quickstart-guide-welcome-to-the-new-hdf-forum
+
+
+RELEASE SCHEDULE
+----------------
+
+![HDF5 release schedule](doc/img/release-schedule.png) 
+
+HDF5 does not release on a regular schedule. Instead, releases are driven by
+new features and bug fixes, though we try to have at least one release of each
+maintenance branch per year. Future HDF5 releases indicated on this schedule
+are tentative. 
+
+| Release | New Features |
+| ------- | ------------ |
+| 1.13.2 | VFD SWMR, Onion VFD, Selection I/O |
+| 1.13.3 | Multi-Dataset I/O |
+| 1.13.4 | Subfiling |
+
+This list of feature release versions is also tentative, and the specific release
+in which a feature is introduced may change.
 
 
 SNAPSHOTS, PREVIOUS RELEASES AND SOURCE CODE

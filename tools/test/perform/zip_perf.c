@@ -267,7 +267,7 @@ usage(void)
     HDfprintf(stdout, "                                data you want [default: 0]");
     HDfprintf(stdout, "     -s S, --file-size=S        Maximum size of uncompressed file [default: 64M]\n");
     HDfprintf(stdout, "     -B S, --max-buffer_size=S  Maximum size of buffer [default: 1M]\n");
-    HDfprintf(stdout, "     -b S, --min-buffer_size=S  Minumum size of buffer [default: 128K]\n");
+    HDfprintf(stdout, "     -b S, --min-buffer_size=S  Minimum size of buffer [default: 128K]\n");
     HDfprintf(stdout, "     -p D, --prefix=D           The directory prefix to place the file\n");
     HDfprintf(stdout, "     -r, --random-test          Use random data to write to the file\n");
     HDfprintf(stdout, "                                [default: no]\n");
@@ -336,8 +336,8 @@ parse_size_directive(const char *size)
 static void
 fill_with_random_data(Bytef *src, uLongf src_len)
 {
-    register unsigned u;
-    h5_stat_t         stat_buf;
+    unsigned  u;
+    h5_stat_t stat_buf;
 
     if (HDstat("/dev/urandom", &stat_buf) == 0) {
         uLongf len = src_len;
@@ -386,7 +386,7 @@ do_write_test(unsigned long file_size, unsigned long min_buf_size, unsigned long
     Bytef *        src;
 
     for (src_len = min_buf_size; src_len <= max_buf_size; src_len <<= 1) {
-        register unsigned long i, iters;
+        unsigned long i, iters;
 
         iters = file_size / src_len;
         src   = (Bytef *)HDcalloc(1, sizeof(Bytef) * src_len);

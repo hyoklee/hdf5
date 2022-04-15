@@ -108,7 +108,7 @@ H5RS__xstrdup(H5RS_str_t *rs, const char *s)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(rs);
@@ -172,7 +172,7 @@ H5RS__prepare_for_append(H5RS_str_t *rs)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(rs);
@@ -224,7 +224,7 @@ H5RS__resize_for_append(H5RS_str_t *rs, size_t len)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(rs);
@@ -350,7 +350,7 @@ done:
  */
 /* Disable warning for "format not a string literal" here -QAK */
 /*
- *      This pragma only needs to surround the sprintf() calls with
+ *      This pragma only needs to surround the snprintf() calls with
  *      format_templ in the code below, but early (4.4.7, at least) gcc only
  *      allows diagnostic pragmas to be toggled outside of functions.
  */

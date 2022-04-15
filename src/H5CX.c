@@ -705,7 +705,7 @@ H5CX__get_context(void)
 {
     H5CX_node_t **ctx = NULL;
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     ctx = (H5CX_node_t **)H5TS_get_thread_local_value(H5TS_apictx_key_g);
 
@@ -754,7 +754,7 @@ H5CX__push_common(H5CX_node_t *cnode)
 {
     H5CX_node_t **head = NULL; /* Pointer to head of API context list */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity check */
     HDassert(cnode);
@@ -1397,9 +1397,7 @@ H5CX_set_apl(hid_t *acspl_id, const H5P_libclass_t *libclass,
 
         /* If parallel is enabled and the file driver used is the MPI-IO
          * VFD, issue an MPI barrier for easier debugging if the API function
-         * calling this is supposed to be called collectively. Note that this
-         * happens only when the environment variable H5_COLL_BARRIER is set
-         * to non 0.
+         * calling this is supposed to be called collectively.
          */
         if (H5_coll_api_sanity_check_g) {
             MPI_Comm mpi_comm; /* File communicator */
@@ -1425,7 +1423,7 @@ done:
  * Purpose:     Sanity checks and sets up collective operations.
  *
  * Note:        Should be called for all API routines that modify file
- *              file metadata but don't pass in an access property list.
+ *              metadata but don't pass in an access property list.
  *
  * Return:      Non-negative on success / Negative on failure
  *
@@ -1456,9 +1454,7 @@ H5CX_set_loc(hid_t
 
     /* If parallel is enabled and the file driver used is the MPI-IO
      * VFD, issue an MPI barrier for easier debugging if the API function
-     * calling this is supposed to be called collectively. Note that this
-     * happens only when the environment variable H5_COLL_BARRIER is set
-     * to non 0.
+     * calling this is supposed to be called collectively.
      */
     if (H5_coll_api_sanity_check_g) {
         MPI_Comm mpi_comm; /* File communicator */
@@ -3592,9 +3588,9 @@ H5CX__pop_common(hbool_t update_dxpl_props)
     H5CX_node_t * ret_value = NULL; /* Return value */
 
 #ifdef H5_HAVE_PARALLEL
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 #else
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 #endif
 
     /* Sanity check */

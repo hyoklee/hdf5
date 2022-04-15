@@ -230,7 +230,7 @@ H5C__construct_cache_image_buffer(H5F_t *f, H5C_t *cache_ptr)
     unsigned u;                   /* Local index variable */
     herr_t   ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -814,7 +814,7 @@ done:
 static herr_t
 H5C__free_image_entries_array(H5C_t *cache_ptr)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -977,7 +977,7 @@ H5C__read_cache_image(H5F_t *f, H5C_t *cache_ptr)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -997,6 +997,9 @@ H5C__read_cache_image(H5F_t *f, H5C_t *cache_ptr)
 #endif /* H5_HAVE_PARALLEL */
 
             /* Read the buffer (if serial access, or rank 0 of parallel access) */
+            /* NOTE: if this block read is being performed on rank 0 only, throwing
+             * an error here will cause other ranks to hang in the following MPI_Bcast.
+             */
             if (H5F_block_read(f, H5FD_MEM_SUPER, cache_ptr->image_addr, cache_ptr->image_len,
                                cache_ptr->image_buffer) < 0)
                 HGOTO_ERROR(H5E_CACHE, H5E_READERROR, FAIL, "Can't read metadata cache image block")
@@ -1196,7 +1199,7 @@ H5C__image_entry_cmp(const void *_entry1, const void *_entry2)
         (const H5C_image_entry_t *)_entry2; /* Pointer to second image entry to compare */
     int ret_value = 0;                      /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(entry1);
@@ -1686,7 +1689,7 @@ H5C__cache_image_block_entry_header_size(const H5F_t *f)
 {
     size_t ret_value = 0; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Set return value */
     ret_value = (size_t)(1 +                  /* type                     */
@@ -1722,7 +1725,7 @@ H5C__cache_image_block_header_size(const H5F_t *f)
 {
     size_t ret_value = 0; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Set return value */
     ret_value = (size_t)(4 +                  /* signature           */
@@ -1760,7 +1763,7 @@ H5C__decode_cache_image_header(const H5F_t *f, H5C_t *cache_ptr, const uint8_t *
     const uint8_t *p;
     herr_t         ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -1857,7 +1860,7 @@ H5C__decode_cache_image_entry(const H5F_t *f, const H5C_t *cache_ptr, const uint
     const uint8_t *    p;
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -2013,7 +2016,7 @@ H5C__destroy_pf_entry_child_flush_deps(H5C_t *cache_ptr, H5C_cache_entry_t *pf_e
     hbool_t            found;
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -2129,7 +2132,7 @@ H5C__encode_cache_image_header(const H5F_t *f, const H5C_t *cache_ptr, uint8_t *
     uint8_t *p;                   /* Pointer into cache image buffer */
     herr_t   ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -2205,7 +2208,7 @@ H5C__encode_cache_image_entry(H5F_t *f, H5C_t *cache_ptr, uint8_t **buf, unsigne
     unsigned           u;                   /* Local index value */
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -2365,7 +2368,7 @@ H5C__prep_for_file_close__compute_fd_heights(const H5C_t *cache_ptr)
     unsigned           u; /* Local index variable */
     herr_t             ret_value = SUCCEED;
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* sanity checks */
     HDassert(cache_ptr);
@@ -2587,7 +2590,7 @@ done:
 static void
 H5C__prep_for_file_close__compute_fd_heights_real(H5C_cache_entry_t *entry_ptr, uint32_t fd_height)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(entry_ptr);
@@ -2639,7 +2642,7 @@ H5C__prep_for_file_close__setup_image_entries_array(H5C_t *cache_ptr)
     unsigned           u;                   /* Local index variable */
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -2783,7 +2786,7 @@ H5C__prep_for_file_close__scan_entries(const H5F_t *f, H5C_t *cache_ptr)
     unsigned           j;
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -3019,7 +3022,7 @@ H5C__reconstruct_cache_contents(H5F_t *f, H5C_t *cache_ptr)
     unsigned           u, v;                /* Local index variable */
     herr_t             ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -3231,7 +3234,7 @@ H5C__reconstruct_cache_entry(const H5F_t *f, H5C_t *cache_ptr, const uint8_t **b
     hbool_t            file_is_rw;
     H5C_cache_entry_t *ret_value = NULL; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr);
@@ -3401,7 +3404,7 @@ H5C__write_cache_image_superblock_msg(H5F_t *f, hbool_t create)
     unsigned mesg_flags = H5O_MSG_FLAG_FAIL_IF_UNKNOWN_ALWAYS;
     herr_t   ret_value  = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);
@@ -3456,7 +3459,7 @@ H5C__write_cache_image(H5F_t *f, const H5C_t *cache_ptr)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f);

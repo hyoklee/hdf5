@@ -452,7 +452,7 @@ H5Z__check_unregister(hid_t ocpl_id, H5Z_filter_t filter_id)
     H5P_genplist_t *plist;             /* Property list */
     htri_t          ret_value = FALSE; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Get the plist structure of object creation */
     if (NULL == (plist = H5P_object_verify(ocpl_id, H5P_OBJECT_CREATE)))
@@ -488,7 +488,7 @@ H5Z__check_unregister_group_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void 
     htri_t        filter_in_pline = FALSE;
     int           ret_value       = FALSE; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(obj_ptr);
 
@@ -538,7 +538,7 @@ H5Z__check_unregister_dset_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void *
     htri_t        filter_in_pline = FALSE;
     int           ret_value       = FALSE; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(obj_ptr);
 
@@ -585,7 +585,7 @@ H5Z__flush_file_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void H5_ATTR_PARA
 #endif                     /* H5_HAVE_PARALLEL */
     int ret_value = FALSE; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(obj_ptr);
@@ -594,14 +594,9 @@ H5Z__flush_file_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void H5_ATTR_PARA
     /* Do a global flush if the file is opened for write */
     if (H5F_ACC_RDWR & H5F_INTENT(f)) {
 
-/* When parallel HDF5 is defined, check for collective metadata reads on this
- *      file and set the flag for metadata I/O in the API context.  -QAK, 2018/02/14
- */
 #ifdef H5_HAVE_PARALLEL
         /* Check if MPIO driver is used */
         if (H5F_HAS_FEATURE(f, H5FD_FEAT_HAS_MPI)) {
-            H5P_coll_md_read_flag_t coll_md_read; /* Do all metadata reads collectively */
-
             /* Sanity check for collectively calling H5Zunregister, if requested */
             /* (Sanity check assumes that a barrier on one file's comm
              *  is sufficient (i.e. that there aren't different comms for
@@ -621,13 +616,8 @@ H5Z__flush_file_cb(void *obj_ptr, hid_t H5_ATTR_UNUSED obj_id, void H5_ATTR_PARA
                 /* Set the "sanity checked" flag */
                 object->sanity_checked = TRUE;
             } /* end if */
-
-            /* Check whether to use the collective metadata read DXPL */
-            coll_md_read = H5F_COLL_MD_READ(f);
-            if (H5P_USER_TRUE == coll_md_read)
-                H5CX_set_coll_metadata_read(TRUE);
-        } /* end if */
-#endif    /* H5_HAVE_PARALLEL */
+        }     /* end if */
+#endif        /* H5_HAVE_PARALLEL */
 
         /* Call the flush routine for mounted file hierarchies */
         if (H5F_flush_mounts((H5F_t *)obj_ptr) < 0)
@@ -720,7 +710,7 @@ H5Z__prelude_callback(const H5O_pline_t *pline, hid_t dcpl_id, hid_t type_id, hi
     size_t        u;                /* Local index variable */
     htri_t        ret_value = TRUE; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(pline->nused > 0);
 
@@ -800,7 +790,7 @@ H5Z__prepare_prelude_callback_dcpl(hid_t dcpl_id, hid_t type_id, H5Z_prelude_typ
     H5O_layout_t *dcpl_layout = NULL;    /* Dataset's layout information */
     herr_t        ret_value   = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(H5I_GENPROP_LST == H5I_get_type(dcpl_id));
     HDassert(H5I_DATATYPE == H5I_get_type(type_id));
@@ -1226,7 +1216,7 @@ H5Z__find_idx(H5Z_filter_t id)
     size_t i;                /* Local index variable */
     int    ret_value = FAIL; /* Return value */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     for (i = 0; i < H5Z_table_used_g; i++)
         if (H5Z_table_g[i].id == id)

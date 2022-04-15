@@ -273,7 +273,7 @@ H5AC__broadcast_candidate_list(H5AC_t *cache_ptr, unsigned *num_entries_ptr, had
     unsigned    num_entries;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);
@@ -304,8 +304,10 @@ H5AC__broadcast_candidate_list(H5AC_t *cache_ptr, unsigned *num_entries_ptr, had
          * are used to receiving from process 0, and also load it
          * into a buffer for transmission.
          */
-        if (H5AC__copy_candidate_list_to_buffer(cache_ptr, &chk_num_entries, &haddr_buf_ptr) < 0)
-            HGOTO_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't construct candidate buffer.")
+        if (H5AC__copy_candidate_list_to_buffer(cache_ptr, &chk_num_entries, &haddr_buf_ptr) < 0) {
+            /* Push an error, but still participate in following MPI_Bcast */
+            HDONE_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't construct candidate buffer.")
+        }
         HDassert(chk_num_entries == num_entries);
         HDassert(haddr_buf_ptr != NULL);
 
@@ -351,7 +353,7 @@ H5AC__broadcast_clean_list_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_uda
     H5AC_addr_list_ud_t *udata           = (H5AC_addr_list_ud_t *)_udata; /* Context for callback */
     haddr_t              addr;
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(slist_entry_ptr);
@@ -404,7 +406,7 @@ H5AC__broadcast_clean_list(H5AC_t *cache_ptr)
     unsigned    num_entries = 0;
     herr_t      ret_value   = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);
@@ -428,18 +430,23 @@ H5AC__broadcast_clean_list(H5AC_t *cache_ptr)
 
         /* allocate a buffer to store the list of entry base addresses in */
         buf_size = sizeof(haddr_t) * num_entries;
-        if (NULL == (addr_buf_ptr = (haddr_t *)H5MM_malloc(buf_size)))
-            HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, FAIL, "memory allocation failed for addr buffer")
+        if (NULL == (addr_buf_ptr = (haddr_t *)H5MM_malloc(buf_size))) {
+            /* Push an error, but still participate in following MPI_Bcast */
+            HDONE_ERROR(H5E_CACHE, H5E_CANTALLOC, FAIL, "memory allocation failed for addr buffer")
+        }
+        else {
+            /* Set up user data for callback */
+            udata.aux_ptr      = aux_ptr;
+            udata.addr_buf_ptr = addr_buf_ptr;
+            udata.u            = 0;
 
-        /* Set up user data for callback */
-        udata.aux_ptr      = aux_ptr;
-        udata.addr_buf_ptr = addr_buf_ptr;
-        udata.u            = 0;
-
-        /* Free all the clean list entries, building the address list in the callback */
-        /* (Callback also removes the matching entries from the dirtied list) */
-        if (H5SL_free(aux_ptr->c_slist_ptr, H5AC__broadcast_clean_list_cb, &udata) < 0)
-            HGOTO_ERROR(H5E_CACHE, H5E_CANTFREE, FAIL, "Can't build address list for clean entries")
+            /* Free all the clean list entries, building the address list in the callback */
+            /* (Callback also removes the matching entries from the dirtied list) */
+            if (H5SL_free(aux_ptr->c_slist_ptr, H5AC__broadcast_clean_list_cb, &udata) < 0) {
+                /* Push an error, but still participate in following MPI_Bcast */
+                HDONE_ERROR(H5E_CACHE, H5E_CANTFREE, FAIL, "Can't build address list for clean entries")
+            }
+        }
 
         /* Now broadcast the list of cleaned entries */
         if (MPI_SUCCESS !=
@@ -486,7 +493,7 @@ H5AC__construct_candidate_list(H5AC_t *cache_ptr, H5AC_aux_t H5_ATTR_NDEBUG_UNUS
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);
@@ -542,7 +549,7 @@ H5AC__copy_candidate_list_to_buffer_cb(void *_item, void H5_ATTR_UNUSED *_key, v
     H5AC_slist_entry_t * slist_entry_ptr = (H5AC_slist_entry_t *)_item;   /* Address of item */
     H5AC_addr_list_ud_t *udata           = (H5AC_addr_list_ud_t *)_udata; /* Context for callback */
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(slist_entry_ptr);
@@ -600,7 +607,7 @@ H5AC__copy_candidate_list_to_buffer(const H5AC_t *cache_ptr, unsigned *num_entri
     unsigned            num_entries = 0;
     herr_t              ret_value   = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);
@@ -1214,7 +1221,7 @@ H5AC__propagate_and_apply_candidate_list(H5F_t *f)
     unsigned    num_candidates = 0;
     herr_t      ret_value      = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -1377,7 +1384,7 @@ H5AC__propagate_flushed_and_still_clean_entries_list(H5F_t *f)
     H5AC_aux_t *aux_ptr;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -1428,7 +1435,7 @@ H5AC__receive_haddr_list(MPI_Comm mpi_comm, unsigned *num_entries_ptr, haddr_t *
     unsigned num_entries;
     herr_t   ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(num_entries_ptr != NULL);
@@ -1448,8 +1455,10 @@ H5AC__receive_haddr_list(MPI_Comm mpi_comm, unsigned *num_entries_ptr, haddr_t *
 
         /* allocate buffers to store the list of entry base addresses in */
         buf_size = sizeof(haddr_t) * num_entries;
-        if (NULL == (haddr_buf_ptr = (haddr_t *)H5MM_malloc(buf_size)))
-            HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, FAIL, "memory allocation failed for haddr buffer")
+        if (NULL == (haddr_buf_ptr = (haddr_t *)H5MM_malloc(buf_size))) {
+            /* Push an error, but still participate in following MPI_Bcast */
+            HDONE_ERROR(H5E_CACHE, H5E_CANTALLOC, FAIL, "memory allocation failed for haddr buffer")
+        }
 
         /* Now receive the list of candidate entries */
         if (MPI_SUCCESS !=
@@ -1498,7 +1507,7 @@ H5AC__receive_and_apply_clean_list(H5F_t *f)
     unsigned    num_entries   = 0;
     herr_t      ret_value     = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(f != NULL);
@@ -1558,7 +1567,7 @@ H5AC__receive_candidate_list(const H5AC_t *cache_ptr, unsigned *num_entries_ptr,
     H5AC_aux_t *aux_ptr;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);
@@ -1639,7 +1648,7 @@ H5AC__rsp__dist_md_write__flush(H5F_t *f)
     unsigned    num_entries = 0;
     herr_t      ret_value   = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -1783,7 +1792,7 @@ H5AC__rsp__dist_md_write__flush_to_min_clean(H5F_t *f)
     hbool_t     evictions_enabled;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -1800,10 +1809,14 @@ H5AC__rsp__dist_md_write__flush_to_min_clean(H5F_t *f)
 
     if (evictions_enabled) {
         /* construct candidate list -- process 0 only */
-        if (aux_ptr->mpi_rank == 0)
+        if (aux_ptr->mpi_rank == 0) {
+            /* If constructing candidate list fails, push an error but still participate
+             * in collective operations during following candidate list propagation
+             */
             if (H5AC__construct_candidate_list(cache_ptr, aux_ptr, H5AC_SYNC_POINT_OP__FLUSH_TO_MIN_CLEAN) <
                 0)
-                HGOTO_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't construct candidate list.")
+                HDONE_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't construct candidate list.")
+        }
 
         /* propagate and apply candidate list -- all processes */
         if (H5AC__propagate_and_apply_candidate_list(f) < 0)
@@ -1860,7 +1873,7 @@ H5AC__rsp__p0_only__flush(H5F_t *f)
     int         mpi_result;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -1899,15 +1912,21 @@ H5AC__rsp__p0_only__flush(H5F_t *f)
         aux_ptr->write_permitted = FALSE;
 
         /* Check for error on the write operation */
-        if (result < 0)
-            HGOTO_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't flush.")
-
-        /* this code exists primarily for the test bed -- it allows us to
-         * enforce POSIX semantics on the server that pretends to be a
-         * file system in our parallel tests.
-         */
-        if (aux_ptr->write_done)
-            (aux_ptr->write_done)();
+        if (result < 0) {
+            /* If write operation fails, push an error but still participate
+             * in collective operations during following cache entry
+             * propagation
+             */
+            HDONE_ERROR(H5E_CACHE, H5E_CANTFLUSH, FAIL, "Can't flush.")
+        }
+        else {
+            /* this code exists primarily for the test bed -- it allows us to
+             * enforce POSIX semantics on the server that pretends to be a
+             * file system in our parallel tests.
+             */
+            if (aux_ptr->write_done)
+                (aux_ptr->write_done)();
+        }
     } /* end if */
 
     /* Propagate cleaned entries to other ranks. */
@@ -1968,7 +1987,7 @@ H5AC__rsp__p0_only__flush_to_min_clean(H5F_t *f)
     hbool_t     evictions_enabled;
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(f != NULL);
@@ -2019,15 +2038,21 @@ H5AC__rsp__p0_only__flush_to_min_clean(H5F_t *f)
             aux_ptr->write_permitted = FALSE;
 
             /* Check for error on the write operation */
-            if (result < 0)
-                HGOTO_ERROR(H5E_CACHE, H5E_SYSTEM, FAIL, "H5C_flush_to_min_clean() failed.")
-
-            /* this call exists primarily for the test code -- it is used
-             * to enforce POSIX semantics on the process used to simulate
-             * reads and writes in t_cache.c.
-             */
-            if (aux_ptr->write_done)
-                (aux_ptr->write_done)();
+            if (result < 0) {
+                /* If write operation fails, push an error but still participate
+                 * in collective operations during following cache entry
+                 * propagation
+                 */
+                HDONE_ERROR(H5E_CACHE, H5E_SYSTEM, FAIL, "H5C_flush_to_min_clean() failed.")
+            }
+            else {
+                /* this call exists primarily for the test code -- it is used
+                 * to enforce POSIX semantics on the process used to simulate
+                 * reads and writes in t_cache.c.
+                 */
+                if (aux_ptr->write_done)
+                    (aux_ptr->write_done)();
+            }
         } /* end if */
 
         if (H5AC__propagate_flushed_and_still_clean_entries_list(f) < 0)
@@ -2211,7 +2236,7 @@ H5AC__tidy_cache_0_lists(H5AC_t *cache_ptr, unsigned num_candidates, haddr_t *ca
     H5AC_aux_t *aux_ptr;
     unsigned    u;
 
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity checks */
     HDassert(cache_ptr != NULL);

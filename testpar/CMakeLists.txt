@@ -91,6 +91,8 @@ set (H5P_NOTESTS
     t_init_term
     t_shapesame
     t_filters_parallel
+    t_2Gio
+    t_vfd
 )
 
 foreach (h5_testp ${H5P_TESTS})

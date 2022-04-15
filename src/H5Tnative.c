@@ -43,7 +43,7 @@ static herr_t H5T__cmp_offset(size_t *comp_size, size_t *offset, size_t elem_siz
  *
  * Purpose:     High-level API to return the native type of a datatype.
  *              The native type is chosen by matching the size and class of
- *              querried datatype from the following native premitive
+ *              queried datatype from the following native primitive
  *              datatypes:
  *                      H5T_NATIVE_CHAR         H5T_NATIVE_UCHAR
  *                      H5T_NATIVE_SHORT        H5T_NATIVE_USHORT
@@ -56,7 +56,7 @@ static herr_t H5T__cmp_offset(size_t *comp_size, size_t *offset, size_t elem_siz
  *                      H5T_NATIVE_LDOUBLE
  *
  *              Compound, array, enum, and VL types all choose among these
- *              types for their members.  Time, Bifield, Opaque, Reference
+ *              types for their members.  Time, Bitfield, Opaque, Reference
  *              types are only copy out.
  *
  * Return:      Success:        Returns the native data type if successful.
@@ -140,7 +140,7 @@ H5T__get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_ali
     unsigned    u;                     /* Local index variable */
     H5T_t *     ret_value = NULL;      /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(dtype);
 
@@ -566,7 +566,7 @@ H5T__get_native_integer(size_t prec, H5T_sign_t sign, H5T_direction_t direction,
     } match          = H5T_NATIVE_INT_MATCH_UNKNOWN;
     H5T_t *ret_value = NULL; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     if (direction == H5T_DIR_DEFAULT || direction == H5T_DIR_ASCEND) {
         if (prec <= H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_SCHAR_g))) {
@@ -696,7 +696,7 @@ H5_GCC_DIAG_OFF("duplicated-branches")
 /*-------------------------------------------------------------------------
  * Function:    H5T__get_native_float
  *
- * Purpose:     Returns the native floatt type of a datatype.
+ * Purpose:     Returns the native float type of a datatype.
  *
  * Return:      Success:        Returns the native data type if successful.
  *
@@ -723,7 +723,7 @@ H5T__get_native_float(size_t size, H5T_direction_t direction, size_t *struct_ali
     } match          = H5T_NATIVE_FLOAT_MATCH_UNKNOWN;
     H5T_t *ret_value = NULL; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     HDassert(size > 0);
 
@@ -831,7 +831,7 @@ H5T__get_native_bitfield(size_t prec, H5T_direction_t direction, size_t *struct_
     size_t native_size = 0;    /* Datatype size of the native type */
     H5T_t *ret_value   = NULL; /* Return value */
 
-    FUNC_ENTER_STATIC
+    FUNC_ENTER_PACKAGE
 
     if (direction == H5T_DIR_DEFAULT || direction == H5T_DIR_ASCEND) {
         if (prec <= H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B8_g))) {
@@ -920,7 +920,7 @@ static herr_t
 H5T__cmp_offset(size_t *comp_size, size_t *offset, size_t elem_size, size_t nelems, size_t align,
                 size_t *struct_align)
 {
-    FUNC_ENTER_STATIC_NOERR
+    FUNC_ENTER_PACKAGE_NOERR
 
     if (offset && comp_size) {
         if (align > 1 && *comp_size % align) {

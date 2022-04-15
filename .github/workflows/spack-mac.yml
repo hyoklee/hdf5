@@ -18,6 +18,7 @@ jobs:
 
     - name: Run a multi-line script
       run: |
+        ./spack/bin/spack external find perl
         ./spack/bin/spack install py-h5py@master ^openblas@develop
         ./spack/bin/spack install py-pytest
         ./spack/bin/spack install py-ipython

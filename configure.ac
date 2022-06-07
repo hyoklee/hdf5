@@ -862,7 +862,7 @@ AC_MSG_CHECKING([if the high-level tools are enabled])
 AC_ARG_ENABLE([hltools],
      [AS_HELP_STRING([--enable-hltools],
                      [Enable the high-level tools.
-                     [default=yes)]
+                     [default=yes]
                      ])],
      [HDF5_HL_TOOLS=$enableval])
 
@@ -1118,6 +1118,32 @@ AC_SUBST([H5_UTILS_TEST_BUILDDIR])
 H5_UTILS_TEST_BUILDDIR='utils/test'
 AC_SUBST([H5_TEST_BUILDDIR])
 H5_TEST_BUILDDIR='test'
+
+## ----------------------------------------------------------------------
+## Check what level of testing should be enabled
+##
+
+## Default is quickest testing
+TEST_EXPRESS_LEVEL_DEFAULT=3
+
+AC_MSG_CHECKING([if HDF5 testing intensity level is set])
+
+AC_ARG_ENABLE([test-express],
+              [AS_HELP_STRING([--enable-test-express=(0-3)],
+                              [Set HDF5 testing intensity level (0-3) [0 = exhaustive testing; 3 = quicker testing; default=3] Set environment variable HDF5TestExpress to override configured setting])],
+              [TEST_EXPRESS_LEVEL_DEFAULT=$enableval])
+
+case "X-$TEST_EXPRESS_LEVEL_DEFAULT" in
+  X-0|X-1|X-2|X-3)
+    AC_MSG_RESULT([$TEST_EXPRESS_LEVEL_DEFAULT])
+    ;;
+  *)
+    AC_MSG_RESULT([error])
+    AC_MSG_ERROR([$TEST_EXPRESS_LEVEL_DEFAULT is not a valid test express level])
+    ;;
+esac
+
+AC_DEFINE_UNQUOTED([TEST_EXPRESS_LEVEL_DEFAULT], [$TEST_EXPRESS_LEVEL_DEFAULT], [HDF5 testing intensity level])
 
 ## ----------------------------------------------------------------------
 ## Check if they would like to disable building tools
@@ -2752,14 +2778,6 @@ fi
 if test "X${ALLOW_UNSUPPORTED}" != "Xyes"; then
   if test "X${HDF_JAVA}" = "Xyes" -a "X${enable_parallel}" = "Xyes"; then
     AC_MSG_ERROR([--enable-java and --enable-parallel flags are incompatible. Use --enable-unsupported to override this error.])
-  fi
-fi
-
-## --enable-parallel is also incompatible with --enable-threadsafe, unless
-## --enable-unsupported has been specified on the configure line.
-if test "X${ALLOW_UNSUPPORTED}" != "Xyes"; then
-  if test "X${THREADSAFE}" = "Xyes" -a "X${enable_parallel}" = "Xyes"; then
-    AC_MSG_ERROR([--enable-threadsafe and --enable-parallel flags are incompatible. Use --enable-unsupported to override this error.])
   fi
 fi
 

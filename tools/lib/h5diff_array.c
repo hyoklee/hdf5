@@ -1391,6 +1391,9 @@ character_compare_opt(unsigned char *mem1, unsigned char *mem2, hsize_t elemtno,
     hbool_t       both_zero = FALSE;
     double        per;
 
+    /* both_zero is set in the PER_UNSIGN macro but not used in this function */
+    (void)both_zero;
+
     HDmemcpy(&temp1_uchar, mem1, sizeof(unsigned char));
     HDmemcpy(&temp2_uchar, mem2, sizeof(unsigned char));
     H5TOOLS_START_DEBUG(" %d=%d", temp1_uchar, temp2_uchar);
@@ -1855,7 +1858,7 @@ diff_ldouble_element(unsigned char *mem1, unsigned char *mem2, hsize_t elem_idx,
             opts->print_percentage = 0;
             print_pos(opts, elem_idx, 0);
             if (print_data(opts)) {
-                parallel_print(F_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
+                parallel_print(LD_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
             }
             nfound++;
         }
@@ -1902,7 +1905,7 @@ diff_ldouble_element(unsigned char *mem1, unsigned char *mem2, hsize_t elem_idx,
             opts->print_percentage = 0;
             print_pos(opts, elem_idx, 0);
             if (print_data(opts)) {
-                parallel_print(F_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
+                parallel_print(LD_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
             }
             nfound++;
         }
@@ -1949,7 +1952,7 @@ diff_ldouble_element(unsigned char *mem1, unsigned char *mem2, hsize_t elem_idx,
             opts->print_percentage = 0;
             print_pos(opts, elem_idx, 0);
             if (print_data(opts)) {
-                parallel_print(F_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
+                parallel_print(LD_FORMAT, temp1_double, temp2_double, ABS(temp1_double - temp2_double));
             }
             nfound++;
         }

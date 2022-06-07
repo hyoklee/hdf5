@@ -108,7 +108,7 @@ extern "C" {
 /**
  * For tweaks, bug-fixes, or development
  */
-#define H5_VERS_RELEASE 9
+#define H5_VERS_RELEASE 10
 /**
  * For pre-releases like \c snap0. Empty string for official releases.
  */
@@ -116,7 +116,7 @@ extern "C" {
 /**
  * Full version string
  */
-#define H5_VERS_INFO "HDF5 library version: 1.10.9-1"
+#define H5_VERS_INFO "HDF5 library version: 1.10.10-1"
 
 #define H5check() H5check_version(H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE)
 
@@ -334,6 +334,10 @@ H5_GCC_DIAG_ON("long-long")
 #define HSIZE_UNDEF        ULLONG_MAX
 #else
 #error "nothing appropriate for hsize_t"
+#endif
+
+#ifdef H5_HAVE_PARALLEL
+#define HSIZE_AS_MPI_TYPE MPI_UINT64_T
 #endif
 
 /**

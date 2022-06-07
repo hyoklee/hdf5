@@ -45,7 +45,7 @@
 
 /* General stuff */
 static H5D_shared_t *H5D__new(hid_t dcpl_id, hid_t dapl_id, hbool_t creating, hbool_t vl_type);
-static herr_t        H5D__init_type(H5F_t *file, const H5D_t *dset, hid_t type_id, const H5T_t *type);
+static herr_t        H5D__init_type(H5F_t *file, const H5D_t *dset, hid_t type_id, H5T_t *type);
 static herr_t        H5D__cache_dataspace_info(const H5D_t *dset);
 static herr_t        H5D__init_space(H5F_t *file, const H5D_t *dset, const H5S_t *space);
 static herr_t        H5D__update_oh_info(H5F_t *file, H5D_t *dset, hid_t dapl_id);
@@ -357,40 +357,18 @@ H5D__get_space_status(const H5D_t *dset, H5D_space_status_t *allocation)
 
     /* Check for chunked layout */
     if (dset->shared->layout.type == H5D_CHUNKED) {
-        hsize_t  space_allocated; /* The number of bytes allocated for chunks */
-        hssize_t snelmts;         /* Temporary holder for number of elements in dataspace */
-        hsize_t  nelmts;          /* Number of elements in dataspace */
-        size_t   dt_size;         /* Size of datatype */
-        hsize_t  full_size;       /* The number of bytes in the dataset when fully populated */
+        hsize_t n_chunks_total = dset->shared->layout.u.chunk.nchunks;
+        hsize_t n_chunks_alloc = 0;
 
-        /* For chunked layout set the space status by the storage size */
-        /* Get the dataset's dataspace */
-        HDassert(dset->shared->space);
+        if (H5D__get_num_chunks(dset, dset->shared->space, &n_chunks_alloc) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL,
+                        "unable to retrieve number of allocated chunks in dataset")
 
-        /* Get the total number of elements in dataset's dataspace */
-        if ((snelmts = H5S_GET_EXTENT_NPOINTS(dset->shared->space)) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "unable to retrieve number of elements in dataspace")
-        nelmts = (hsize_t)snelmts;
+        HDassert(n_chunks_alloc <= n_chunks_total);
 
-        /* Get the size of the dataset's datatype */
-        if (0 == (dt_size = H5T_GET_SIZE(dset->shared->type)))
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "unable to retrieve size of datatype")
-
-        /* Compute the maximum size of the dataset in bytes */
-        full_size = nelmts * dt_size;
-
-        /* Check for overflow during multiplication */
-        if (nelmts != (full_size / dt_size))
-            HGOTO_ERROR(H5E_DATASET, H5E_OVERFLOW, FAIL, "size of dataset's storage overflowed")
-
-        /* Difficult to error check, since the error value is 0 and 0 is a valid value... :-/ */
-        if (H5D__get_storage_size(dset, &space_allocated) < 0)
-            HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get size of dataset's storage")
-
-        /* Decide on how much of the space is allocated */
-        if (space_allocated == 0)
+        if (n_chunks_alloc == 0)
             *allocation = H5D_SPACE_STATUS_NOT_ALLOCATED;
-        else if (space_allocated == full_size)
+        else if (n_chunks_alloc == n_chunks_total)
             *allocation = H5D_SPACE_STATUS_ALLOCATED;
         else
             *allocation = H5D_SPACE_STATUS_PART_ALLOCATED;
@@ -492,7 +470,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5D__init_type(H5F_t *file, const H5D_t *dset, hid_t type_id, const H5T_t *type)
+H5D__init_type(H5F_t *file, const H5D_t *dset, hid_t type_id, H5T_t *type)
 {
     htri_t  relocatable;         /* Flag whether the type is relocatable */
     htri_t  immutable;           /* Flag whether the type is immutable */
@@ -548,8 +526,8 @@ H5D__init_type(H5F_t *file, const H5D_t *dset, hid_t type_id, const H5T_t *type)
 
         /* Use existing datatype */
         dset->shared->type_id = type_id;
-        dset->shared->type    = (H5T_t *)type; /* (Cast away const OK - QAK) */
-    }                                          /* end else */
+        dset->shared->type    = type;
+    } /* end else */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1142,7 +1120,7 @@ done:
 H5D_t *
 H5D__create(H5F_t *file, hid_t type_id, const H5S_t *space, hid_t dcpl_id, hid_t dapl_id)
 {
-    const H5T_t *   type; /* Datatype for dataset */
+    H5T_t *         type; /* Datatype for dataset */
     H5D_t *         new_dset      = NULL;
     H5P_genplist_t *dc_plist      = NULL;  /* New Property list */
     hbool_t         has_vl_type   = FALSE; /* Flag to indicate a VL-type for dataset */
@@ -1163,7 +1141,7 @@ H5D__create(H5F_t *file, hid_t type_id, const H5S_t *space, hid_t dcpl_id, hid_t
     HDassert(H5I_GENPROP_LST == H5I_get_type(dcpl_id));
 
     /* Get the dataset's datatype */
-    if (NULL == (type = (const H5T_t *)H5I_object(type_id)))
+    if (NULL == (type = (H5T_t *)H5I_object(type_id)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a datatype")
 
     /* Check if the datatype is "sensible" for use in a dataset */
@@ -1279,8 +1257,17 @@ H5D__create(H5F_t *file, hid_t type_id, const H5S_t *space, hid_t dcpl_id, hid_t
             HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, NULL, "can't set latest indexing")
     } /* end if */
 
-    /* Check if this dataset is going into a parallel file and set space allocation time */
+    /* Check if the file driver would like to force early space allocation */
     if (H5F_HAS_FEATURE(file, H5FD_FEAT_ALLOCATE_EARLY))
+        new_dset->shared->dcpl_cache.fill.alloc_time = H5D_ALLOC_TIME_EARLY;
+
+    /*
+     * Check if this dataset is going into a parallel file and set space allocation time.
+     * If the dataset has filters applied to it, writes to the dataset must be collective,
+     * so we don't need to force early space allocation. Otherwise, we force early space
+     * allocation to facilitate independent raw data operations.
+     */
+    if (H5F_HAS_FEATURE(file, H5FD_FEAT_HAS_MPI) && (new_dset->shared->dcpl_cache.pline.nused == 0))
         new_dset->shared->dcpl_cache.fill.alloc_time = H5D_ALLOC_TIME_EARLY;
 
     /* Set the dataset's I/O operations */
@@ -2212,7 +2199,7 @@ H5D_oloc(H5D_t *dataset)
  *-------------------------------------------------------------------------
  */
 H5G_name_t *
-H5D_nameof(const H5D_t *dataset)
+H5D_nameof(H5D_t *dataset)
 {
     /* Use FUNC_ENTER_NOAPI_NOINIT_NOERR here to avoid performance issues */
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -3316,7 +3303,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5D_flush_all(const H5F_t *f)
+H5D_flush_all(H5F_t *f)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 

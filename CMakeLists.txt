@@ -2,10 +2,13 @@ cmake_minimum_required (VERSION 3.12)
 project (HDF5 C)
 
 if (POLICY CMP0074)
+  # find_package() uses <PackageName>_ROOT variables.
   cmake_policy (SET CMP0074 NEW)
 endif ()
 
 if (POLICY CMP0083)
+  # To control generation of Position Independent Executable (PIE) or not,
+  # some flags are required at link time.
   cmake_policy (SET CMP0083 NEW)
 endif ()
 
@@ -708,10 +711,14 @@ if (HDF5_ENABLE_PARALLEL)
 
     # Used by Parallel Compression feature
     set (PARALLEL_FILTERED_WRITES ON)
-    CHECK_SYMBOL_EXISTS (MPI_Mprobe "mpi.h" H5_HAVE_MPI_Mprobe)
-    CHECK_SYMBOL_EXISTS (MPI_Imrecv "mpi.h" H5_HAVE_MPI_Imrecv)
-    if (NOT H5_HAVE_MPI_Mprobe OR NOT H5_HAVE_MPI_Imrecv)
-      message (WARNING "The MPI_Mprobe and/or MPI_Imrecv functions could not be located.
+    CHECK_SYMBOL_EXISTS (MPI_Ibarrier "mpi.h" H5_HAVE_MPI_Ibarrier)
+    CHECK_SYMBOL_EXISTS (MPI_Issend "mpi.h" H5_HAVE_MPI_Issend)
+    CHECK_SYMBOL_EXISTS (MPI_Iprobe "mpi.h" H5_HAVE_MPI_Iprobe)
+    CHECK_SYMBOL_EXISTS (MPI_Irecv "mpi.h" H5_HAVE_MPI_Irecv)
+    if (H5_HAVE_MPI_Ibarrier AND H5_HAVE_MPI_Issend AND H5_HAVE_MPI_Iprobe AND H5_HAVE_MPI_Irecv)
+      set (H5_HAVE_PARALLEL_FILTERED_WRITES 1)
+    else ()
+      message (WARNING "The MPI_Ibarrier/MPI_Issend/MPI_Iprobe/MPI_Irecv functions could not be located.
                Parallel writes of filtered data will be disabled.")
       set (PARALLEL_FILTERED_WRITES OFF)
     endif ()
@@ -924,8 +931,13 @@ if (BUILD_TESTING)
     H5_SET_VFD_LIST()
   endif ()
 
-  option (HDF_TEST_EXPRESS "Control testing framework (0-3)" "0")
+  set (H5_TEST_EXPRESS_LEVEL_DEFAULT "3")
+  set (HDF_TEST_EXPRESS "${H5_TEST_EXPRESS_LEVEL_DEFAULT}"
+      CACHE STRING "Control testing framework (0-3) (0 = exhaustive testing; 3 = quicker testing)")
   mark_as_advanced (HDF_TEST_EXPRESS)
+  if (NOT "${HDF_TEST_EXPRESS}" STREQUAL "")
+    set (H5_TEST_EXPRESS_LEVEL_DEFAULT "${HDF_TEST_EXPRESS}")
+  endif ()
 
   enable_testing ()
   include (CTest)

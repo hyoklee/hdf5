@@ -103,6 +103,9 @@
 /* Local Typedefs */
 /******************/
 
+/* Alias for pointer to cache entry, for use when allocating sequences of them */
+typedef H5C_cache_entry_t *H5C_cache_entry_ptr_t;
+
 /********************/
 /* Local Prototypes */
 /********************/
@@ -188,8 +191,8 @@ H5FL_DEFINE(H5C_tag_info_t);
 /* Declare a free list to manage the H5C_t struct */
 H5FL_DEFINE_STATIC(H5C_t);
 
-/* Declare a free list to manage flush dependency arrays */
-H5FL_BLK_DEFINE_STATIC(parent);
+/* Declare a free list to manage arrays of cache entries */
+H5FL_SEQ_DEFINE_STATIC(H5C_cache_entry_ptr_t);
 
 /*-------------------------------------------------------------------------
  * Function:    H5C_create
@@ -2332,9 +2335,14 @@ H5C_protect(H5F_t *f, const H5C_class_t *type, haddr_t addr, void *udata, unsign
                     H5MM_memcpy(((uint8_t *)entry_ptr->image_ptr) + entry_ptr->size, H5C_IMAGE_SANITY_VALUE,
                                 H5C_IMAGE_EXTRA_SPACE);
 #endif /* H5C_DO_MEMORY_SANITY_CHECKS */
-                    if (0 == mpi_rank)
-                        if (H5C__generate_image(f, cache_ptr, entry_ptr) < 0)
-                            HGOTO_ERROR(H5E_CACHE, H5E_CANTGET, NULL, "can't generate entry's image")
+                    if (0 == mpi_rank) {
+                        if (H5C__generate_image(f, cache_ptr, entry_ptr) < 0) {
+                            /* If image generation fails, push an error but
+                             * still participate in the following MPI_Bcast
+                             */
+                            HDONE_ERROR(H5E_CACHE, H5E_CANTGET, NULL, "can't generate entry's image")
+                        }
+                    }
                 } /* end if */
                 HDassert(entry_ptr->image_ptr);
 
@@ -3934,8 +3942,8 @@ done:
                 /* Array does not exist yet, allocate it */
                 HDassert(!child_entry->flush_dep_parent);
 
-                if (NULL == (child_entry->flush_dep_parent = (H5C_cache_entry_t **)H5FL_BLK_MALLOC(
-                                 parent, H5C_FLUSH_DEP_PARENT_INIT * sizeof(H5C_cache_entry_t *))))
+                if (NULL == (child_entry->flush_dep_parent =
+                                 H5FL_SEQ_MALLOC(H5C_cache_entry_ptr_t, H5C_FLUSH_DEP_PARENT_INIT)))
                     HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL,
                                 "memory allocation failed for flush dependency parent list")
                 child_entry->flush_dep_parent_nalloc = H5C_FLUSH_DEP_PARENT_INIT;
@@ -3944,9 +3952,9 @@ done:
                 /* Resize existing array */
                 HDassert(child_entry->flush_dep_parent);
 
-                if (NULL == (child_entry->flush_dep_parent = (H5C_cache_entry_t **)H5FL_BLK_REALLOC(
-                                 parent, child_entry->flush_dep_parent,
-                                 2 * child_entry->flush_dep_parent_nalloc * sizeof(H5C_cache_entry_t *))))
+                if (NULL == (child_entry->flush_dep_parent =
+                                 H5FL_SEQ_REALLOC(H5C_cache_entry_ptr_t, child_entry->flush_dep_parent,
+                                                  2 * child_entry->flush_dep_parent_nalloc)))
                     HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL,
                                 "memory allocation failed for flush dependency parent list")
                 child_entry->flush_dep_parent_nalloc *= 2;
@@ -4110,14 +4118,14 @@ done:
         /* Shrink or free the parent array if apporpriate */
         if (child_entry->flush_dep_nparents == 0) {
             child_entry->flush_dep_parent =
-                (H5C_cache_entry_t **)H5FL_BLK_FREE(parent, child_entry->flush_dep_parent);
+                H5FL_SEQ_FREE(H5C_cache_entry_ptr_t, child_entry->flush_dep_parent);
             child_entry->flush_dep_parent_nalloc = 0;
         } /* end if */
         else if (child_entry->flush_dep_parent_nalloc > H5C_FLUSH_DEP_PARENT_INIT &&
                  child_entry->flush_dep_nparents <= (child_entry->flush_dep_parent_nalloc / 4)) {
-            if (NULL == (child_entry->flush_dep_parent = (H5C_cache_entry_t **)H5FL_BLK_REALLOC(
-                             parent, child_entry->flush_dep_parent,
-                             (child_entry->flush_dep_parent_nalloc / 4) * sizeof(H5C_cache_entry_t *))))
+            if (NULL == (child_entry->flush_dep_parent =
+                             H5FL_SEQ_REALLOC(H5C_cache_entry_ptr_t, child_entry->flush_dep_parent,
+                                              child_entry->flush_dep_parent_nalloc / 4)))
                 HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL,
                             "memory allocation failed for flush dependency parent list")
             child_entry->flush_dep_parent_nalloc /= 4;
@@ -7207,8 +7215,20 @@ done:
 #ifdef H5_HAVE_PARALLEL
                 if (!coll_access || 0 == mpi_rank) {
 #endif /* H5_HAVE_PARALLEL */
-                    if (H5F_block_read(f, type->mem_type, addr, len, image) < 0)
-                        HGOTO_ERROR(H5E_CACHE, H5E_READERROR, NULL, "Can't read image*")
+
+                    if (H5F_block_read(f, type->mem_type, addr, len, image) < 0) {
+
+#ifdef H5_HAVE_PARALLEL
+                        if (coll_access) {
+                            /* Push an error, but still participate in following MPI_Bcast */
+                            HDmemset(image, 0, len);
+                            HDONE_ERROR(H5E_CACHE, H5E_READERROR, NULL, "Can't read image*")
+                        }
+                        else
+#endif
+                            HGOTO_ERROR(H5E_CACHE, H5E_READERROR, NULL, "Can't read image*")
+                    }
+
 #ifdef H5_HAVE_PARALLEL
                 } /* end if */
                 /* if the collective metadata read optimization is turned on,
@@ -7255,8 +7275,19 @@ done:
                                  * loaded thing, go get the on-disk image again (the extra portion).
                                  */
                                 if (H5F_block_read(f, type->mem_type, addr + len, actual_len - len,
-                                                   image + len) < 0)
-                                    HGOTO_ERROR(H5E_CACHE, H5E_CANTLOAD, NULL, "can't read image")
+                                                   image + len) < 0) {
+
+#ifdef H5_HAVE_PARALLEL
+                                    if (coll_access) {
+                                        /* Push an error, but still participate in following MPI_Bcast */
+                                        HDmemset(image + len, 0, actual_len - len);
+                                        HDONE_ERROR(H5E_CACHE, H5E_CANTLOAD, NULL, "can't read image")
+                                    }
+                                    else
+#endif
+                                        HGOTO_ERROR(H5E_CACHE, H5E_CANTLOAD, NULL, "can't read image")
+                                }
+
 #ifdef H5_HAVE_PARALLEL
                             }
                             /* If the collective metadata read optimization is turned on,

@@ -188,14 +188,13 @@ typedef struct H5F_t H5F_t;
 
 #define INT32DECODE(p, i)                                                                                    \
     {                                                                                                        \
-        (i) = ((int32_t)(*(p) & (unsigned)0xff));                                                            \
+        (i) = ((int32_t)(*(p)&0xff));                                                                        \
         (p)++;                                                                                               \
-        (i) |= ((int32_t)(*(p) & (unsigned)0xff) << 8);                                                      \
+        (i) |= ((int32_t)(*(p)&0xff) << 8);                                                                  \
         (p)++;                                                                                               \
-        (i) |= ((int32_t)(*(p) & (unsigned)0xff) << 16);                                                     \
+        (i) |= ((int32_t)(*(p)&0xff) << 16);                                                                 \
         (p)++;                                                                                               \
-        (i) |= ((int32_t)(((*(p) & (unsigned)0xff) << 24) |                                                  \
-                          ((*(p) & (unsigned)0x80) ? (unsigned)(~0xffffffff) : (unsigned)0x0)));             \
+        (i) |= ((int32_t)(((*(p) & (unsigned)0xff) << 24) | ((*(p)&0x80) ? ~0xffffffffULL : 0x0ULL)));       \
         (p)++;                                                                                               \
     }
 
@@ -951,7 +950,8 @@ H5_DLL int      H5F_mpi_get_rank(const H5F_t *f);
 H5_DLL MPI_Comm H5F_mpi_get_comm(const H5F_t *f);
 H5_DLL int      H5F_mpi_get_size(const H5F_t *f);
 H5_DLL herr_t   H5F_mpi_retrieve_comm(hid_t loc_id, hid_t acspl_id, MPI_Comm *mpi_comm);
-H5_DLL hbool_t  H5F_get_coll_metadata_reads(const H5F_t *f);
+H5_DLL herr_t  H5F_mpi_get_file_block_type(hbool_t commit, MPI_Datatype *new_type, hbool_t *new_type_derived);
+H5_DLL hbool_t H5F_get_coll_metadata_reads(const H5F_t *f);
 H5_DLL void H5F_set_coll_metadata_reads(H5F_t *f, H5P_coll_md_read_flag_t *file_flag, hbool_t *context_flag);
 #endif /* H5_HAVE_PARALLEL */
 

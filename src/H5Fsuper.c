@@ -518,12 +518,9 @@ H5F__super_read(H5F_t *f, H5P_genplist_t *fa_plist, hbool_t initial_read)
      * base address and "end of file" address if so.
      */
     if (!H5F_addr_eq(super_addr, sblock->base_addr)) {
-        /* Check if the superblock moved earlier in the file */
-        if (H5F_addr_lt(super_addr, sblock->base_addr))
-            udata.stored_eof -= (sblock->base_addr - super_addr);
-        else
-            /* The superblock moved later in the file */
-            udata.stored_eof += (super_addr - sblock->base_addr);
+        /* If the superblock moved in the file, adjust the EOF */
+        /* (Handles moving earlier & later) */
+        udata.stored_eof -= (sblock->base_addr - super_addr);
 
         /* Adjust base address for offsets of the HDF5 data in the file */
         sblock->base_addr = super_addr;
@@ -1043,7 +1040,7 @@ done:
                 HDONE_ERROR(H5E_FILE, H5E_CANTUNPIN, FAIL, "unable to unpin driver info")
 
             /* Evict the driver info block from the cache */
-            if (H5AC_expunge_entry(f, H5AC_DRVRINFO, sblock->driver_addr, H5AC__NO_FLAGS_SET) < 0)
+            if (sblock && H5AC_expunge_entry(f, H5AC_DRVRINFO, sblock->driver_addr, H5AC__NO_FLAGS_SET) < 0)
                 HDONE_ERROR(H5E_FILE, H5E_CANTEXPUNGE, FAIL, "unable to expunge driver info block")
         } /* end if */
 

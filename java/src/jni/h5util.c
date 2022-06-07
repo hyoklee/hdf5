@@ -832,11 +832,8 @@ h5str_sprintf(JNIEnv *env, h5str_t *out_str, hid_t container, hid_t tid, void *i
             }
             else {
                 if (typeSize > 0) {
-                    if (NULL == (this_str = (char *)HDmalloc(typeSize + 1)))
+                    if (NULL == (this_str = HDstrdup(tmp_str)))
                         H5_OUT_OF_MEMORY_ERROR(ENVONLY, "h5str_sprintf: failed to allocate string buffer");
-
-                    HDstrncpy(this_str, tmp_str, typeSize);
-                    this_str[typeSize] = '\0';
                 }
             }
 
@@ -3390,18 +3387,13 @@ obj_info_all(hid_t loc_id, const char *name, const H5L_info_t *info, void *op_da
     info_all_t *datainfo = (info_all_t *)op_data;
     H5O_info_t  object_info;
     htri_t      object_exists;
-    size_t      str_len;
 
     datainfo->otype[datainfo->count] = -1;
     datainfo->ltype[datainfo->count] = -1;
     datainfo->objno[datainfo->count] = (unsigned long)-1;
 
-    str_len = HDstrlen(name);
-    if (NULL == (datainfo->objname[datainfo->count] = (char *)HDmalloc(str_len + 1)))
+    if (NULL == (datainfo->objname[datainfo->count] = HDstrdup(name)))
         goto done;
-
-    HDstrncpy(datainfo->objname[datainfo->count], name, str_len);
-    (datainfo->objname[datainfo->count])[str_len] = '\0';
 
     if ((object_exists = H5Oexists_by_name(loc_id, name, H5P_DEFAULT)) < 0)
         goto done;
@@ -3434,7 +3426,6 @@ obj_info_max(hid_t loc_id, const char *name, const H5L_info_t *info, void *op_da
 {
     info_all_t *datainfo = (info_all_t *)op_data;
     H5O_info_t  object_info;
-    size_t      str_len;
 
     datainfo->otype[datainfo->count]   = -1;
     datainfo->ltype[datainfo->count]   = -1;
@@ -3442,12 +3433,8 @@ obj_info_max(hid_t loc_id, const char *name, const H5L_info_t *info, void *op_da
     datainfo->objno[datainfo->count]   = (unsigned long)-1;
 
     /* This will be freed by h5str_array_free(oName, n) */
-    str_len = HDstrlen(name);
-    if (NULL == (datainfo->objname[datainfo->count] = (char *)HDmalloc(str_len + 1)))
+    if (NULL == (datainfo->objname[datainfo->count] = HDstrdup(name)))
         goto done;
-
-    HDstrncpy(datainfo->objname[datainfo->count], name, str_len);
-    (datainfo->objname[datainfo->count])[str_len] = '\0';
 
     if (H5Oget_info2(loc_id, &object_info, H5O_INFO_ALL) < 0)
         goto done;
@@ -3521,6 +3508,74 @@ done:
         UNPIN_JAVA_STRING(ENVONLY, object_path, object_name);
     if (dataset_id >= 0)
         H5Dclose(dataset_id);
+} /* end Java_hdf_hdf5lib_H5_H5export_1dataset */
+
+/*
+ * Class:     hdf_hdf5lib_H5
+ * Method:    _H5export_dataset_string
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
+ */
+JNIEXPORT void JNICALL
+Java_hdf_hdf5lib_H5__1H5export_1dataset_1string(JNIEnv *env, jclass clss, jstring file_export_name,
+                                                jstring file_name, jstring object_path, jint binary_order)
+{
+    const char *file_export = NULL;
+    const char *fileName    = NULL;
+    const char *object_name = NULL;
+    jboolean    isCopy;
+    herr_t      ret_val    = FAIL;
+    hid_t       file_id    = H5I_INVALID_HID;
+    hid_t       dataset_id = H5I_INVALID_HID;
+    FILE *      stream     = NULL;
+
+    UNUSED(clss);
+
+    if (NULL == file_export_name)
+        H5_NULL_ARGUMENT_ERROR(ENVONLY, "H5export_dataset: file_export_name is NULL");
+
+    if (NULL == file_name)
+        H5_NULL_ARGUMENT_ERROR(ENVONLY, "H5export_dataset: file_name is NULL");
+
+    if (NULL == object_path)
+        H5_NULL_ARGUMENT_ERROR(ENVONLY, "H5export_dataset: object_path is NULL");
+
+    PIN_JAVA_STRING(ENVONLY, file_name, fileName, NULL, "H5export_dataset: file name not pinned");
+
+    if ((file_id = H5Fopen(fileName, (unsigned)H5F_ACC_RDWR, (hid_t)H5P_DEFAULT)) < 0)
+        H5_LIBRARY_ERROR(ENVONLY);
+
+    PIN_JAVA_STRING(ENVONLY, object_path, object_name, &isCopy, "H5export_dataset: object_path not pinned");
+
+    if ((dataset_id = H5Dopen2(file_id, object_name, H5P_DEFAULT)) < 0)
+        H5_LIBRARY_ERROR(ENVONLY);
+
+    PIN_JAVA_STRING(ENVONLY, file_export_name, file_export, NULL,
+                    "H5export_dataset: file_export name not pinned");
+
+    if (NULL == (stream = HDfopen(file_export, "w+")))
+        H5_JNI_FATAL_ERROR(ENVONLY, "HDfopen failed");
+
+    if ((ret_val = h5str_dump_simple_dset(ENVONLY, stream, dataset_id, binary_order)) < 0)
+        H5_ASSERTION_ERROR(ENVONLY, "h5str_dump_simple_dset failed");
+
+    if (stream) {
+        HDfclose(stream);
+        stream = NULL;
+    }
+
+done:
+    if (stream)
+        HDfclose(stream);
+    if (file_export)
+        UNPIN_JAVA_STRING(ENVONLY, file_export_name, file_export);
+    if (object_name)
+        UNPIN_JAVA_STRING(ENVONLY, object_path, object_name);
+    if (fileName)
+        UNPIN_JAVA_STRING(ENVONLY, file_name, fileName);
+    if (dataset_id >= 0)
+        H5Dclose(dataset_id);
+    if (file_id >= 0)
+        H5Fclose(file_id);
 } /* end Java_hdf_hdf5lib_H5_H5export_1dataset */
 
 /*

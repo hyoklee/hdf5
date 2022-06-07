@@ -1044,6 +1044,9 @@ H5C__read_cache_image(H5F_t *f, H5C_t *cache_ptr)
 #endif /* H5_HAVE_PARALLEL */
 
             /* Read the buffer (if serial access, or rank 0 of parallel access) */
+            /* NOTE: if this block read is being performed on rank 0 only, throwing
+             * an error here will cause other ranks to hang in the following MPI_Bcast.
+             */
             if (H5F_block_read(f, H5FD_MEM_SUPER, cache_ptr->image_addr, cache_ptr->image_len,
                                cache_ptr->image_buffer) < 0)
                 HGOTO_ERROR(H5E_CACHE, H5E_READERROR, FAIL, "Can't read metadata cache image block")
@@ -2734,10 +2737,11 @@ H5C__prep_for_file_close__setup_image_entries_array(H5C_t *cache_ptr)
              */
             if (entry_ptr->type->id == H5AC_PREFETCHED_ENTRY_ID) {
                 image_entries[u].type_id = entry_ptr->prefetch_type_id;
-                image_entries[u].age     = entry_ptr->age + 1;
 
-                if (image_entries[u].age > H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX)
+                if (entry_ptr->age >= H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX)
                     image_entries[u].age = H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX;
+                else
+                    image_entries[u].age = entry_ptr->age + 1;
             } /* end if */
             else {
                 image_entries[u].type_id = entry_ptr->type->id;

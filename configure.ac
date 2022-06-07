@@ -23,7 +23,7 @@ AC_PREREQ([2.69])
 ## NOTE: Do not forget to change the version number here when we do a
 ## release!!!
 ##
-AC_INIT([HDF5], [1.10.9-1], [help@hdfgroup.org])
+AC_INIT([HDF5], [1.10.10-1], [help@hdfgroup.org])
 
 AC_CONFIG_SRCDIR([src/H5.c])
 AC_CONFIG_HEADERS([src/H5config.h])
@@ -231,9 +231,10 @@ AC_CACHE_CHECK([for cached host], [hdf5_cv_host], [hdf5_cv_host="none"]);
 if test $hdf5_cv_host = "none"; then
   hdf5_cv_host=$host
 elif test $hdf5_cv_host != $host; then
-  echo "The config.cache file was generated on $hdf5_cv_host but"
-  echo "this is $host.  Please remove that file and try again."
-  AC_MSG_ERROR([config.cache file is invalid])
+  AC_MSG_ERROR([
+     The config.cache file was generated on $hdf5_cv_host but
+     this is $host.  Please remove that file and try again.
+     config.cache file is invalid])
 fi
 
 ## ----------------------------------------------------------------------
@@ -390,7 +391,7 @@ if test "X$CC_BASENAME" = "Xclang"; then
   # 'address;undefined'.  Which and which combinations of these are
   #  supported varies by compiler version, but unsupported options
   # or combinations will result in configure errors reported in config.log.
-  # Comma separated lists of sanitize options wil be entered intact in
+  # Comma separated lists of sanitize options will be entered intact in
   # one -fsanitize=<list> flag.  Space separated lists will be entered in
   # separate -fsanitize=<item> flags.
   # NOTE: No sanity checking done here!
@@ -573,11 +574,7 @@ AC_ARG_ENABLE([fortran],
                               [Compile the Fortran interface [default=no]])],
               [HDF_FORTRAN=$enableval])
 
-if test "X$HDF_FORTRAN" = "Xyes"; then
-  echo "yes"
-else
-  echo "no"
-fi
+AC_MSG_RESULT([$HDF_FORTRAN])
 
 if test "X$HDF_FORTRAN" = "Xyes"; then
 
@@ -800,9 +797,9 @@ AC_ARG_ENABLE([cxx],
               [AS_HELP_STRING([--enable-cxx],
                               [Compile the C++ interface [default=no]])],
               [HDF_CXX=$enableval])
+AC_MSG_RESULT([$HDF_CXX])
 
 if test "X$HDF_CXX" = "Xyes"; then
-  echo "yes"
   HDF5_INTERFACES="$HDF5_INTERFACES c++"
 
   ## Expose the compiler for *.in files
@@ -826,7 +823,6 @@ if test "X$HDF_CXX" = "Xyes"; then
   PAC_PROG_CXX_OFFSETOF
 
 else
-  AC_MSG_RESULT([no])
   CXX="no"
 fi
 
@@ -886,7 +882,7 @@ AC_MSG_CHECKING([if the high-level tools are enabled])
 AC_ARG_ENABLE([hltools],
      [AS_HELP_STRING([--enable-hltools],
                      [Enable the high-level tools.
-                     [default=yes)]
+                     [default=yes]
                      ])],
      [HDF5_HL_TOOLS=$enableval])
 
@@ -1010,7 +1006,7 @@ AC_ARG_ENABLE([java],
 
 if test "X$HDF_JAVA" = "Xyes"; then
   if test "X${enable_shared}" != "Xno"; then
-    echo "yes"
+    AC_MSG_RESULT([yes])
     if test "X$CLASSPATH" = "X"; then
       H5_CLASSPATH=".:$srcdir/java/lib"
     else
@@ -1103,18 +1099,39 @@ AC_ARG_ENABLE([tests],
                               [Compile the HDF5 tests [default=yes]])],
               [HDF5_TESTS=$enableval])
 
-if test "X$HDF5_TESTS" = "Xno"; then
-  AC_MSG_RESULT([yes])
-  echo "Building HDF5 tests is disabled"
-else
-  AC_MSG_RESULT([no])
-fi
+AC_MSG_RESULT([$HDF5_TESTS])
 
 ## These need to be exposed for some tests.
 AC_SUBST([H5_UTILS_TEST_BUILDDIR])
 H5_UTILS_TEST_BUILDDIR='utils/test'
 AC_SUBST([H5_TEST_BUILDDIR])
 H5_TEST_BUILDDIR='test'
+
+## ----------------------------------------------------------------------
+## Check what level of testing should be enabled
+##
+
+## Default is quickest testing
+TEST_EXPRESS_LEVEL_DEFAULT=3
+
+AC_MSG_CHECKING([if HDF5 testing intensity level is set])
+
+AC_ARG_ENABLE([test-express],
+              [AS_HELP_STRING([--enable-test-express=(0-3)],
+                              [Set HDF5 testing intensity level (0-3) [0 = exhaustive testing; 3 = quicker testing; default=3]  Set environment variable HDF5TestExpress to override configured setting])],
+              [TEST_EXPRESS_LEVEL_DEFAULT=$enableval])
+
+case "X-$TEST_EXPRESS_LEVEL_DEFAULT" in
+  X-0|X-1|X-2|X-3)
+    AC_MSG_RESULT([$TEST_EXPRESS_LEVEL_DEFAULT])
+    ;;
+  *)
+    AC_MSG_RESULT([error])
+    AC_MSG_ERROR([$TEST_EXPRESS_LEVEL_DEFAULT is not a valid test express level])
+    ;;
+esac
+
+AC_DEFINE_UNQUOTED([TEST_EXPRESS_LEVEL_DEFAULT], [$TEST_EXPRESS_LEVEL_DEFAULT], [HDF5 testing intensity level])
 
 ## ----------------------------------------------------------------------
 ## Check if they would like to disable building tools
@@ -1133,12 +1150,7 @@ AC_ARG_ENABLE([tools],
                               [Compile the HDF5 tools [default=yes]])],
               [HDF5_TOOLS=$enableval])
 
-if test "X$HDF5_TOOLS" = "Xno"; then
-  AC_MSG_RESULT([yes])
-  echo "Building HDF5 tools is disabled"
-else
-  AC_MSG_RESULT([no])
-fi
+AC_MSG_RESULT([$HDF5_TOOLS])
 
 ## ----------------------------------------------------------------------
 ## Check if they would like to enable building doxygen files
@@ -1157,8 +1169,9 @@ AC_ARG_ENABLE([doxygen],
                               [Compile the HDF5 doxygen files [default=no]])],
               [HDF5_DOXYGEN=$enableval])
 
+AC_MSG_RESULT([$HDF5_DOXYGEN])
+
 if test "X$HDF5_DOXYGEN" = "Xyes"; then
-  AC_MSG_RESULT([yes])
   DX_DOXYGEN_FEATURE(ON)
   DX_DOT_FEATURE(OFF)
   DX_HTML_FEATURE(ON)
@@ -1216,10 +1229,6 @@ if test "X$HDF5_DOXYGEN" = "Xyes"; then
   DOXYGEN_PREDEFINED='H5_HAVE_DIRECT H5_HAVE_LIBHDFS H5_HAVE_MAP_API H5_HAVE_PARALLEL H5_HAVE_ROS3_VFD'
 
   DX_INIT_DOXYGEN([HDF5], [./doxygen/Doxyfile], [hdf5lib_docs])
-
-else
-  AC_MSG_RESULT([no])
-  echo "Doxygen support is disabled"
 fi
 
 
@@ -1249,18 +1258,17 @@ AC_ARG_ENABLE([static_exec],
                               [Install only statically linked executables
                                [default=no]])],
               [STATIC_EXEC=$enableval])
+AC_MSG_RESULT([$STATIC_EXEC])
 
 if test "X$STATIC_EXEC" = "Xyes"; then
-  echo "yes"
   ## Issue a warning if -static flag is not supported.
   if test "X$lt_cv_prog_compiler_static_works" = "Xno"; then
-    echo "    warning: -static flag not supported on this system; executable won't statically link shared system libraries."
+    AC_MSG_WARN([-static flag not supported on this system; executable won't statically link shared system libraries.])
     LT_STATIC_EXEC=""
   else
     LT_STATIC_EXEC="-all-static"
   fi
 else
-  echo "no"
   LT_STATIC_EXEC=""
 fi
 AM_CONDITIONAL([USE_PLUGINS_CONDITIONAL], [test "X$LT_STATIC_EXEC" = X])
@@ -1613,6 +1621,7 @@ case "X-$withval" in
     ;;
 esac
 
+
 ## ----------------------------------------------------------------------
 ## Make the external filters list available to *.in files
 ## At this point it's unset (no external filters by default) but it
@@ -1721,6 +1730,7 @@ fi
 ## command-line switch. The value is an include path and/or a library path.
 ## If the library path is specified then it must be preceded by a comma.
 ##
+AC_SUBST([LL_PATH])
 AC_SUBST([USE_FILTER_SZIP]) USE_FILTER_SZIP="no"
 AC_ARG_WITH([szlib],
             [AS_HELP_STRING([--with-szlib=DIR],
@@ -1805,7 +1815,7 @@ if test "x$HAVE_SZLIB" = "xyes" -a "x$HAVE_SZLIB_H" = "xyes"; then
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$szlib_lib"
   fi
 
-  AC_SUBST([LL_PATH]) LL_PATH="$LD_LIBRARY_PATH"
+  LL_PATH="$LD_LIBRARY_PATH"
 
   AC_CACHE_VAL([hdf5_cv_szlib_can_encode],
         [AC_RUN_IFELSE(
@@ -1853,13 +1863,8 @@ AM_CONDITIONAL([BUILD_SHARED_SZIP_CONDITIONAL], [test "X$USE_FILTER_SZIP" = "Xye
 AC_CACHE_SAVE
 
 ## ----------------------------------------------------------------------
-## Enable thread-safe version of library (requires Pthreads on POSIX
-## systems). We usually pick up the system Pthreads library, so --with-pthread
-## is only necessary if you are using a custom Pthreads library or if
-## your OS hides its implementation in an unusual location.
-##
-## On Windows, we use Win32 threads and no special configuration should be
-## required to use them.
+## Enable thread-safe version of library.  It requires Pthreads support
+## on POSIX systems.
 ##
 AC_SUBST([THREADSAFE])
 
@@ -2012,10 +2017,8 @@ if test "X$THREADSAFE" = "Xyes"; then
     AC_CACHE_VAL([hdf5_cv_system_scope_threads],
       [AC_RUN_IFELSE(
         [AC_LANG_PROGRAM([
-            #if STDC_HEADERS
             #include <stdlib.h>
             #include <pthread.h>
-            #endif
         ],[
               pthread_attr_t attribute;
               int ret;
@@ -2226,7 +2229,7 @@ for hdf5_cv_printf_ll in ll l L q unknown; do
         ],[[
             char *s = malloc(128);
             long long x = (long long)1048576 * (long long)1048576;
-            sprintf(s,"%${hdf5_cv_printf_ll}d",x);
+            snprintf(s,128,"%${hdf5_cv_printf_ll}d",x);
             exit(strcmp(s,"1099511627776"));
         ]])]
    , [break],,[continue])
@@ -2782,9 +2785,11 @@ AC_ARG_ENABLE([memory-alloc-sanity-check],
                               [Enable this option to turn on internal memory
                               allocation sanity checking.  This could cause
                               more memory use and somewhat slower allocation.
-                              This option is orthogonal to the
-                              --enable-using-memchecker option.
-                               [default=yes if debug build, otherwise no]
+                              This option may also cause issues with HDF5
+                              filter plugins, so should not be enabled if
+                              filters are to be used.  This option is orthogonal
+                              to the --enable-using-memchecker option.
+                               [default=no]
                               ])],
               [MEMORYALLOCSANITYCHECK=$enableval])
 
@@ -2794,11 +2799,10 @@ AC_SUBST([MEMORYALLOCSANITYCHECK])
 
 ## Set default
 if test "X-$MEMORYALLOCSANITYCHECK" = X- ; then
-  if test "X-$BUILD_MODE" = "X-debug" ; then
-    MEMORYALLOCSANITYCHECK=yes
-  else
-    MEMORYALLOCSANITYCHECK=no
-  fi
+# Should consider enabling this option by default for
+# 'developer' builds if that build mode is added in
+# the future
+  MEMORYALLOCSANITYCHECK=no
 fi
 
 case "X-$MEMORYALLOCSANITYCHECK" in
@@ -3059,11 +3063,11 @@ if test -n "$PARALLEL"; then
   fi
 
   ## ----------------------------------------------------------------------
-  ## Check for the MPI-3 functions necessary for the Parallel Compression
+  ## Check for the MPI functions necessary for the Parallel Compression
   ## feature. If these are not present, issue a warning that Parallel
   ## Compression will be disabled.
   ##
-  AC_MSG_CHECKING([for MPI_Mprobe and MPI_Imrecv functions])
+  AC_MSG_CHECKING([for MPI_Ibarrier/MPI_Issend/MPI_Iprobe/MPI_Irecv functions])
 
   AC_LINK_IFELSE(
       [AC_LANG_PROGRAM(
@@ -3071,16 +3075,19 @@ if test -n "$PARALLEL"; then
               #include <mpi.h>
           ]],
           [[
-              MPI_Message message;
+              int flag;
               MPI_Init(0, (void *) 0);
-              MPI_Mprobe(0, 0, 0, &message, (void *) 0);
-              MPI_Imrecv((void *) 0, 0, 0, (void *) 0, (void *) 0);
+              MPI_Ibarrier(0, (void *) 0);
+              MPI_Issend((void *) 0, 0, 0, 0, 0, 0, (void *) 0);
+              MPI_Iprobe(0, 0, 0, &flag, (void *) 0);
+              MPI_Irecv((void *) 0, 0, 0, 0, 0, 0, (void *) 0);
           ]]
       )],
       [AC_MSG_RESULT([yes])
-       PARALLEL_FILTERED_WRITES=yes],
+       PARALLEL_FILTERED_WRITES=yes
+       AC_DEFINE([HAVE_PARALLEL_FILTERED_WRITES], [1], [Define if we have support for writing to filtered datasets in parallel])],
       [AC_MSG_RESULT([no])
-       AC_MSG_WARN([A simple MPI program using the MPI_Mprobe and MPI_Imrecv functions could not be compiled and linked.
+       AC_MSG_WARN([A simple MPI program using the MPI_Ibarrier, MPI_Issend, MPI_Iprobe and MPI_Irecv functions could not be compiled and linked.
                     Parallel writes of filtered data will be disabled.])
        PARALLEL_FILTERED_WRITES=no]
   )
@@ -3396,7 +3403,7 @@ fi
 
 ## ----------------------------------------------------------------------
 ## Decide whether the data accuracy has higher priority during data
-## conversions.  If not, some hard conversions will still be prefered even
+## conversions.  If not, some hard conversions will still be preferred even
 ## though the data may be wrong (for example, some compilers don't
 ## support denormalized floating values) to maximize speed.
 ##
@@ -3410,7 +3417,7 @@ AC_ARG_ENABLE([dconv-accuracy],
 if test "$DATA_ACCURACY" = "yes"; then
   AC_MSG_RESULT([yes])
   AC_DEFINE([WANT_DATA_ACCURACY], [1],
-            [Data accuracy is prefered to speed during data conversions])
+            [Data accuracy is preferred to speed during data conversions])
 else
   AC_MSG_RESULT([no])
 fi
@@ -3586,8 +3593,8 @@ fi
 ## and installed with the libraries (used to generate libhdf5.settings).
 ##
 
-## HDF5 version from the first line of the README.txt file.
-H5_VERSION="`cut -d' ' -f3 $srcdir/README.txt | head -1`"
+## HDF5 version from the first line of the README.md file.
+H5_VERSION="`cut -d' ' -f3 $srcdir/README.md | head -1`"
 AC_SUBST([H5_VERSION])
 
 ## Configuration date
@@ -3731,12 +3738,7 @@ AC_ARG_ENABLE([build-all],
                      [Build helper programs that only developers should need [default=no]])],
      [BUILD_ALL=$enableval],
      [BUILD_ALL=no])
-
-if test "X$BUILD_ALL" = "Xyes"; then
- echo "yes"
-else
- echo "no"
-fi
+AC_MSG_RESULT([$BUILD_ALL])
 AM_CONDITIONAL([BUILD_ALL_CONDITIONAL], [test "X$BUILD_ALL" = "Xyes"])
 
 ## ----------------------------------------------------------------------

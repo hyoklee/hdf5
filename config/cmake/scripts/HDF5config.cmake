@@ -37,7 +37,7 @@ cmake_minimum_required (VERSION 3.12)
 #     CTEST_SOURCE_NAME  -  source folder
 ##############################################################################
 
-set (CTEST_SOURCE_VERSION "1.10.9")
+set (CTEST_SOURCE_VERSION "1.10.10")
 set (CTEST_SOURCE_VERSEXT "-1")
 
 ##############################################################################
@@ -79,7 +79,7 @@ set (CTEST_CONFIGURATION_TYPE "$ENV{CMAKE_CONFIG_TYPE}")
 
 if (NOT DEFINED INSTALLDIR)
   if (WIN32)
-    set (INSTALLDIR "C:/Program Files/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
+    set (INSTALLDIR "%ProgramFiles%/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
   else ()
     set (INSTALLDIR "${CTEST_SCRIPT_DIRECTORY}/HDF_Group/HDF5/${CTEST_SOURCE_VERSION}")
   endif ()

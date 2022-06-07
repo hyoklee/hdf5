@@ -1187,12 +1187,14 @@ H5P__file_driver_free(void *value)
 
                 /* Allow driver to free info or do it ourselves */
                 if (driver->fapl_free) {
-                    if ((driver->fapl_free)((void *)info->driver_info) < 0) /* Casting away const OK -QAK */
+                    /* Free the const pointer */
+                    /* Cast through uintptr_t to de-const memory */
+                    if ((driver->fapl_free)((void *)(uintptr_t)info->driver_info) < 0)
                         HGOTO_ERROR(H5E_PLIST, H5E_CANTFREE, FAIL, "driver info free request failed")
                 } /* end if */
                 else
-                    H5MM_xfree((void *)info->driver_info); /* Casting away const OK -QAK */
-            }                                              /* end if */
+                    H5MM_xfree_const(info->driver_info);
+            } /* end if */
 
             /* Decrement reference count for driver */
             if (H5I_dec_ref(info->driver_id) < 0)
@@ -4826,8 +4828,7 @@ H5Pset_all_coll_metadata_ops(hid_t plist_id, hbool_t is_collective)
     /* (Dataset, group, attribute, and named datatype access property lists
      *  are sub-classes of link access property lists -QAK)
      */
-    if (TRUE != H5P_isa_class(plist_id, H5P_LINK_ACCESS) &&
-        TRUE != H5P_isa_class(plist_id, H5P_FILE_ACCESS) && TRUE != H5P_isa_class(plist_id, H5P_DATASET_XFER))
+    if (TRUE != H5P_isa_class(plist_id, H5P_LINK_ACCESS) && TRUE != H5P_isa_class(plist_id, H5P_FILE_ACCESS))
         HGOTO_ERROR(H5E_PLIST, H5E_CANTREGISTER, FAIL, "property list is not an access plist")
 
     /* set property to either TRUE if > 0, or FALSE otherwise */
@@ -4877,8 +4878,7 @@ H5Pget_all_coll_metadata_ops(hid_t plist_id, hbool_t *is_collective)
     /* (Dataset, group, attribute, and named datatype access property lists
      *  are sub-classes of link access property lists -QAK)
      */
-    if (TRUE != H5P_isa_class(plist_id, H5P_LINK_ACCESS) &&
-        TRUE != H5P_isa_class(plist_id, H5P_FILE_ACCESS) && TRUE != H5P_isa_class(plist_id, H5P_DATASET_XFER))
+    if (TRUE != H5P_isa_class(plist_id, H5P_LINK_ACCESS) && TRUE != H5P_isa_class(plist_id, H5P_FILE_ACCESS))
         HGOTO_ERROR(H5E_PLIST, H5E_CANTREGISTER, FAIL, "property list is not an access plist")
 
     /* Get value */

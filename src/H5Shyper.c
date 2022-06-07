@@ -160,7 +160,7 @@ static herr_t  H5S__hyper_iter_get_seq_list_opt(H5S_sel_iter_t *iter, size_t max
 static herr_t  H5S__hyper_iter_get_seq_list_single(H5S_sel_iter_t *iter, size_t maxseq, size_t maxelem,
                                                    size_t *nseq, size_t *nelem, hsize_t *off, size_t *len);
 static herr_t  H5S__hyper_proj_int_build_proj(H5S_hyper_project_intersect_ud_t *udata);
-static herr_t  H5S__hyper_proj_int_iterate(const H5S_hyper_span_info_t *ss_span_info,
+static herr_t  H5S__hyper_proj_int_iterate(H5S_hyper_span_info_t *      ss_span_info,
                                            const H5S_hyper_span_info_t *sis_span_info, hsize_t count,
                                            unsigned depth, H5S_hyper_project_intersect_ud_t *udata);
 static void    H5S__hyper_get_clip_diminfo(hsize_t start, hsize_t stride, hsize_t *count, hsize_t *block,
@@ -173,8 +173,8 @@ static herr_t   H5S__hyper_copy(H5S_t *dst, const H5S_t *src, hbool_t share_sele
 static herr_t   H5S__hyper_release(H5S_t *space);
 static htri_t   H5S__hyper_is_valid(const H5S_t *space);
 static hsize_t  H5S__hyper_span_nblocks(H5S_hyper_span_info_t *spans);
-static hssize_t H5S__hyper_serial_size(const H5S_t *space);
-static herr_t   H5S__hyper_serialize(const H5S_t *space, uint8_t **p);
+static hssize_t H5S__hyper_serial_size(H5S_t *space);
+static herr_t   H5S__hyper_serialize(H5S_t *space, uint8_t **p);
 static herr_t   H5S__hyper_deserialize(H5S_t **space, const uint8_t **p);
 static herr_t   H5S__hyper_bounds(const H5S_t *space, hsize_t *start, hsize_t *end);
 static herr_t   H5S__hyper_offset(const H5S_t *space, hsize_t *offset);
@@ -182,14 +182,14 @@ static int      H5S__hyper_unlim_dim(const H5S_t *space);
 static herr_t   H5S__hyper_num_elem_non_unlim(const H5S_t *space, hsize_t *num_elem_non_unlim);
 static htri_t   H5S__hyper_is_contiguous(const H5S_t *space);
 static htri_t   H5S__hyper_is_single(const H5S_t *space);
-static htri_t   H5S__hyper_is_regular(const H5S_t *space);
-static htri_t   H5S__hyper_shape_same(const H5S_t *space1, const H5S_t *space2);
-static htri_t   H5S__hyper_intersect_block(const H5S_t *space, const hsize_t *start, const hsize_t *end);
+static htri_t   H5S__hyper_is_regular(H5S_t *space);
+static htri_t   H5S__hyper_shape_same(H5S_t *space1, H5S_t *space2);
+static htri_t   H5S__hyper_intersect_block(H5S_t *space, const hsize_t *start, const hsize_t *end);
 static herr_t   H5S__hyper_adjust_u(H5S_t *space, const hsize_t *offset);
 static herr_t   H5S__hyper_adjust_s(H5S_t *space, const hssize_t *offset);
 static herr_t   H5S__hyper_project_scalar(const H5S_t *space, hsize_t *offset);
 static herr_t   H5S__hyper_project_simple(const H5S_t *space, H5S_t *new_space, hsize_t *offset);
-static herr_t   H5S__hyper_iter_init(const H5S_t *space, H5S_sel_iter_t *iter);
+static herr_t   H5S__hyper_iter_init(H5S_t *space, H5S_sel_iter_t *iter);
 
 /* Selection iteration callbacks */
 static herr_t  H5S__hyper_iter_coords(const H5S_sel_iter_t *iter, hsize_t *coords);
@@ -294,12 +294,12 @@ H5S__hyper_print_spans_helper(FILE *f, const H5S_hyper_span_t *span, unsigned de
     FUNC_ENTER_STATIC_NOERR
 
     while (span) {
-        HDfprintf(f, "%s: %*sdepth=%u, span=%p, (%Hu, %Hu), next=%p\n", FUNC, depth * 2, "", depth, span,
-                  span->low, span->high, span->next);
+        HDfprintf(f, "%s: %*sdepth=%u, span=%p, (%" PRIuHSIZE ", %" PRIuHSIZE "), next=%p\n", FUNC, depth * 2,
+                  "", depth, (void *)span, span->low, span->high, (void *)span->next);
         if (span->down) {
-            HDfprintf(f, "%s: %*sspans=%p, count=%u, bounds[0]={%Hu, %Hu}, head=%p\n", FUNC, (depth + 1) * 2,
-                      "", span->down, span->down->count, span->down->low_bounds[0],
-                      span->down->high_bounds[0], span->down->head);
+            HDfprintf(f, "%s: %*sspans=%p, count=%u, bounds[0]={%" PRIuHSIZE ", %" PRIuHSIZE "}, head=%p\n",
+                      FUNC, (depth + 1) * 2, "", (void *)span->down, span->down->count,
+                      span->down->low_bounds[0], span->down->high_bounds[0], (void *)span->down->head);
             H5S__hyper_print_spans_helper(f, span->down->head, depth + 1);
         } /* end if */
         span = span->next;
@@ -314,8 +314,9 @@ H5S__hyper_print_spans(FILE *f, const H5S_hyper_span_info_t *span_lst)
     FUNC_ENTER_STATIC_NOERR
 
     if (span_lst != NULL) {
-        HDfprintf(f, "%s: spans=%p, count=%u, bounds[0]={%Hu, %Hu}, head=%p\n", FUNC, span_lst,
-                  span_lst->count, span_lst->low_bounds[0], span_lst->high_bounds[0], span_lst->head);
+        HDfprintf(f, "%s: spans=%p, count=%u, bounds[0]={%" PRIuHSIZE ", %" PRIuHSIZE "}, head=%p\n", FUNC,
+                  (void *)span_lst, span_lst->count, span_lst->low_bounds[0], span_lst->high_bounds[0],
+                  (void *)span_lst->head);
         H5S__hyper_print_spans_helper(f, span_lst->head, 0);
     } /* end if */
 
@@ -342,16 +343,16 @@ H5S__hyper_print_diminfo_helper(FILE *f, const char *field, unsigned ndims, cons
     if (dinfo != NULL) {
         HDfprintf(f, "%s: %s: start=[", FUNC, field);
         for (u = 0; u < ndims; u++)
-            HDfprintf(f, "%Hd%s", dinfo[u].start, (u < (ndims - 1) ? ", " : "]\n"));
+            HDfprintf(f, "%" PRIuHSIZE "%s", dinfo[u].start, (u < (ndims - 1) ? ", " : "]\n"));
         HDfprintf(f, "%s: %s: stride=[", FUNC, field);
         for (u = 0; u < ndims; u++)
-            HDfprintf(f, "%Hu%s", dinfo[u].stride, (u < (ndims - 1) ? ", " : "]\n"));
+            HDfprintf(f, "%" PRIuHSIZE "%s", dinfo[u].stride, (u < (ndims - 1) ? ", " : "]\n"));
         HDfprintf(f, "%s: %s: count=[", FUNC, field);
         for (u = 0; u < ndims; u++)
-            HDfprintf(f, "%Hu%s", dinfo[u].count, (u < (ndims - 1) ? ", " : "]\n"));
+            HDfprintf(f, "%" PRIuHSIZE "%s", dinfo[u].count, (u < (ndims - 1) ? ", " : "]\n"));
         HDfprintf(f, "%s: %s: block=[", FUNC, field);
         for (u = 0; u < ndims; u++)
-            HDfprintf(f, "%Hu%s", dinfo[u].block, (u < (ndims - 1) ? ", " : "]\n"));
+            HDfprintf(f, "%" PRIuHSIZE "%s", dinfo[u].block, (u < (ndims - 1) ? ", " : "]\n"));
     } /* end if */
     else
         HDfprintf(f, "%s: %s==NULL\n", FUNC, field);
@@ -410,31 +411,31 @@ H5S__hyper_print_spans_dfs(FILE *f, const H5S_hyper_span_info_t *span_lst, unsig
 
     for (u = 0; u < depth; u++)
         HDfprintf(f, "\t");
-    HDfprintf(f, "DIM[%u]: ref_count=%u, #elems=%u, head=%p, tail=%p, actual_tail=%p, matched=%t\n", depth,
-              span_lst->count, num_elems, span_lst->head, span_lst->tail, actual_tail,
+    HDfprintf(f, "DIM[%u]: ref_count=%u, #elems=%u, head=%p, tail=%p, actual_tail=%p, matched=%d\n", depth,
+              span_lst->count, num_elems, (void *)span_lst->head, (void *)span_lst->tail, (void *)actual_tail,
               (span_lst->tail == actual_tail));
 
     for (u = 0; u < depth; u++)
         HDfprintf(f, "\t");
     HDfprintf(f, "low_bounds=[");
     for (u = 0; u < dims - 1; u++)
-        HDfprintf(f, "%llu,", span_lst->low_bounds[u]);
-    HDfprintf(f, "%llu]\n", span_lst->low_bounds[dims - 1]);
+        HDfprintf(f, "%" PRIuHSIZE ",", span_lst->low_bounds[u]);
+    HDfprintf(f, "%" PRIuHSIZE "]\n", span_lst->low_bounds[dims - 1]);
 
     for (u = 0; u < depth; u++)
         HDfprintf(f, "\t");
     HDfprintf(f, "high_bounds=[");
     for (u = 0; u < dims - 1; u++)
-        HDfprintf(f, "%llu,", span_lst->high_bounds[u]);
-    HDfprintf(f, "%llu]\n", span_lst->high_bounds[dims - 1]);
+        HDfprintf(f, "%" PRIuHSIZE ",", span_lst->high_bounds[u]);
+    HDfprintf(f, "%" PRIuHSIZE "]\n", span_lst->high_bounds[dims - 1]);
 
     cur_elem = span_lst->head;
     elem_idx = 0;
     while (cur_elem) {
         for (u = 0; u < depth; u++)
             HDfprintf(f, "\t");
-        HDfprintf(f, "ELEM[%u]: ptr=%p, low=%Hu, high=%Hu, down=%p\n", elem_idx++, cur_elem, cur_elem->low,
-                  cur_elem->high, cur_elem->down);
+        HDfprintf(f, "ELEM[%u]: ptr=%p, low=%" PRIuHSIZE ", high=%" PRIuHSIZE ", down=%p\n", elem_idx++,
+                  (void *)cur_elem, cur_elem->low, cur_elem->high, (void *)cur_elem->down);
         if (cur_elem->down)
             H5S__hyper_print_spans_dfs(f, cur_elem->down, depth + 1, dims);
         cur_elem = cur_elem->next;
@@ -471,7 +472,7 @@ H5S__hyper_print_space_dfs(FILE *f, const H5S_t *space)
     HDassert(hslab);
 
     HDfprintf(f, "=======================\n");
-    HDfprintf(f, "SPACE: span_lst=%p, #dims=%u, offset_changed=%d\n", hslab->span_lst, dims,
+    HDfprintf(f, "SPACE: span_lst=%p, #dims=%u, offset_changed=%d\n", (void *)hslab->span_lst, dims,
               space->select.offset_changed);
 
     HDfprintf(f, "       offset=[");
@@ -482,25 +483,25 @@ H5S__hyper_print_space_dfs(FILE *f, const H5S_t *space)
     HDfprintf(f, "       low_bounds=[");
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES) {
         for (u = 0; u < dims - 1; u++)
-            HDfprintf(f, "%llu,", space->select.sel_info.hslab->diminfo.low_bounds[u]);
-        HDfprintf(f, "%llu]\n", space->select.sel_info.hslab->diminfo.low_bounds[dims - 1]);
+            HDfprintf(f, "%" PRIuHSIZE ",", space->select.sel_info.hslab->diminfo.low_bounds[u]);
+        HDfprintf(f, "%" PRIuHSIZE "]\n", space->select.sel_info.hslab->diminfo.low_bounds[dims - 1]);
     } /* end if */
     else {
         for (u = 0; u < dims - 1; u++)
-            HDfprintf(f, "%llu,", space->select.sel_info.hslab->span_lst->low_bounds[u]);
-        HDfprintf(f, "%llu]\n", space->select.sel_info.hslab->span_lst->low_bounds[dims - 1]);
+            HDfprintf(f, "%" PRIuHSIZE ",", space->select.sel_info.hslab->span_lst->low_bounds[u]);
+        HDfprintf(f, "%" PRIuHSIZE "]\n", space->select.sel_info.hslab->span_lst->low_bounds[dims - 1]);
     } /* end else */
 
     HDfprintf(f, "       high_bounds=[");
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES) {
         for (u = 0; u < dims - 1; u++)
-            HDfprintf(f, "%llu,", space->select.sel_info.hslab->diminfo.high_bounds[u]);
-        HDfprintf(f, "%llu]\n", space->select.sel_info.hslab->diminfo.high_bounds[dims - 1]);
+            HDfprintf(f, "%" PRIuHSIZE ",", space->select.sel_info.hslab->diminfo.high_bounds[u]);
+        HDfprintf(f, "%" PRIuHSIZE "]\n", space->select.sel_info.hslab->diminfo.high_bounds[dims - 1]);
     } /* end if */
     else {
         for (u = 0; u < dims - 1; u++)
-            HDfprintf(f, "%llu,", space->select.sel_info.hslab->span_lst->high_bounds[u]);
-        HDfprintf(f, "%llu]\n", space->select.sel_info.hslab->span_lst->high_bounds[dims - 1]);
+            HDfprintf(f, "%" PRIuHSIZE ",", space->select.sel_info.hslab->span_lst->high_bounds[u]);
+        HDfprintf(f, "%" PRIuHSIZE "]\n", space->select.sel_info.hslab->span_lst->high_bounds[dims - 1]);
     } /* end else */
 
     /* Print out diminfo, if it's valid */
@@ -557,7 +558,7 @@ H5S__hyper_get_op_gen(void)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5S__hyper_iter_init(const H5S_t *space, H5S_sel_iter_t *iter)
+H5S__hyper_iter_init(H5S_t *space, H5S_sel_iter_t *iter)
 {
     hsize_t *slab_size;           /* Pointer to the dataspace dimensions to use for calc. slab */
     hsize_t  acc;                 /* Accumulator for computing cumulative sizes */
@@ -584,7 +585,7 @@ H5S__hyper_iter_init(const H5S_t *space, H5S_sel_iter_t *iter)
      * to be impossible.
      */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_NO)
-        H5S__hyper_rebuild((H5S_t *)space); /* Casting away const OK -NAF */
+        H5S__hyper_rebuild(space);
 
     /* Check for the special case of just one H5Sselect_hyperslab call made */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES) {
@@ -3498,39 +3499,6 @@ done:
 
 /*--------------------------------------------------------------------------
  NAME
-    H5S__hyper_get_enc_size_real
- PURPOSE
-    Determine the size to encode the hyperslab selection info
- USAGE
-    hssize_t H5S__hyper_get_enc_size_real(max_size, enc_size)
-        hsize_t max_size:       IN: The maximum size of the hyperslab selection info
-        unint8_t *enc_size:     OUT:The encoding size
- RETURNS
-    The size to encode hyperslab selection info
- DESCRIPTION
-    Determine the size by comparing "max_size" with (2^32 - 1) and (2^16 - 1).
- GLOBAL VARIABLES
- COMMENTS, BUGS, ASSUMPTIONS
- EXAMPLES
- REVISION LOG
---------------------------------------------------------------------------*/
-static uint8_t
-H5S__hyper_get_enc_size_real(hsize_t max_size)
-{
-    uint8_t ret_value;
-
-    FUNC_ENTER_STATIC_NOERR
-
-    if (max_size > H5S_UINT32_MAX)
-        ret_value = H5S_SELECT_INFO_ENC_SIZE_8;
-    else
-        ret_value = H5S_SELECT_INFO_ENC_SIZE_4;
-
-    FUNC_LEAVE_NOAPI(ret_value)
-} /* H5S__hyper_get_enc_size_real() */
-
-/*--------------------------------------------------------------------------
- NAME
     H5S__hyper_get_version_enc_size
  PURPOSE
     Determine the version and encoded size to use for encoding hyperslab selection info
@@ -3555,7 +3523,7 @@ H5S__hyper_get_enc_size_real(hsize_t max_size)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S__hyper_get_version_enc_size(const H5S_t *space, hsize_t block_count, uint32_t *version, uint8_t *enc_size)
+H5S__hyper_get_version_enc_size(H5S_t *space, hsize_t block_count, uint32_t *version, uint8_t *enc_size)
 {
     hsize_t      bounds_start[H5S_MAX_RANK]; /* Starting coordinate of bounding box */
     hsize_t      bounds_end[H5S_MAX_RANK];   /* Opposite coordinate of bounding box */
@@ -3659,7 +3627,7 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static hssize_t
-H5S__hyper_serial_size(const H5S_t *space)
+H5S__hyper_serial_size(H5S_t *space)
 {
     hsize_t  block_count = 0; /* block counter for regular hyperslabs */
     uint32_t version;         /* Version number */
@@ -3819,7 +3787,7 @@ H5S__hyper_serialize_helper(const H5S_hyper_span_info_t *spans, hsize_t *start, 
     Serialize the current selection into a user-provided buffer.
  USAGE
     herr_t H5S__hyper_serialize(space, p)
-        const H5S_t *space;     IN: Dataspace with selection to serialize
+        H5S_t *space;           IN: Dataspace with selection to serialize
         uint8_t **p;            OUT: Pointer to buffer to put serialized
                                 selection.  Will be advanced to end of
                                 serialized selection.
@@ -3834,7 +3802,7 @@ H5S__hyper_serialize_helper(const H5S_hyper_span_info_t *spans, hsize_t *start, 
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S__hyper_serialize(const H5S_t *space, uint8_t **p)
+H5S__hyper_serialize(H5S_t *space, uint8_t **p)
 {
     const H5S_hyper_dim_t *diminfo;                 /* Alias for dataspace's diminfo information */
     hsize_t                tmp_count[H5S_MAX_RANK]; /* Temporary hyperslab counts */
@@ -5136,7 +5104,7 @@ done:
     Check if a hyperslab selection is "regular"
  USAGE
     htri_t H5S__hyper_is_regular(space)
-        const H5S_t *space;     IN: Dataspace pointer to check
+        H5S_t *space;     IN: Dataspace pointer to check
  RETURNS
     TRUE/FALSE/FAIL
  DESCRIPTION
@@ -5149,7 +5117,7 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S__hyper_is_regular(const H5S_t *space)
+H5S__hyper_is_regular(H5S_t *space)
 {
     htri_t ret_value = FAIL; /* return value */
 
@@ -5162,7 +5130,7 @@ H5S__hyper_is_regular(const H5S_t *space)
      * to be impossible.
      */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_NO)
-        H5S__hyper_rebuild((H5S_t *)space); /* Casting away const OK -NAF */
+        H5S__hyper_rebuild(space);
 
     /* Only simple check for regular hyperslabs for now... */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES)
@@ -5386,8 +5354,8 @@ H5S__hyper_spans_shape_same(const H5S_hyper_span_info_t *span_info1, const H5S_h
     Check if a two hyperslab selections are the same shape
  USAGE
     htri_t H5S__hyper_shape_same(space1, space2)
-        const H5S_t *space1;     IN: First dataspace to check
-        const H5S_t *space2;     IN: Second dataspace to check
+        H5S_t *space1;           IN: First dataspace to check
+        H5S_t *space2;           IN: Second dataspace to check
  RETURNS
     TRUE / FALSE / FAIL
  DESCRIPTION
@@ -5404,7 +5372,7 @@ H5S__hyper_spans_shape_same(const H5S_hyper_span_info_t *span_info1, const H5S_h
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S__hyper_shape_same(const H5S_t *space1, const H5S_t *space2)
+H5S__hyper_shape_same(H5S_t *space1, H5S_t *space2)
 {
     unsigned space1_rank;      /* Number of dimensions of first dataspace */
     unsigned space2_rank;      /* Number of dimensions of second dataspace */
@@ -5427,9 +5395,9 @@ H5S__hyper_shape_same(const H5S_t *space1, const H5S_t *space2)
     /* Rebuild diminfo if it is invalid and has not been confirmed to be
      * impossible */
     if (space1->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_NO)
-        H5S__hyper_rebuild((H5S_t *)space1); /* Casting away const OK -QAK */
+        H5S__hyper_rebuild(space1);
     if (space2->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_NO)
-        H5S__hyper_rebuild((H5S_t *)space2); /* Casting away const OK -QAK */
+        H5S__hyper_rebuild(space2);
 
     /* If both are regular hyperslabs, compare their diminfo values */
     if (space1->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES &&
@@ -5474,11 +5442,11 @@ H5S__hyper_shape_same(const H5S_t *space1, const H5S_t *space2)
 
         /* Make certain that both selections have span trees */
         if (NULL == space1->select.sel_info.hslab->span_lst)
-            if (H5S__hyper_generate_spans((H5S_t *)space1) < 0) /* Casting away const OK -QAK */
+            if (H5S__hyper_generate_spans(space1) < 0)
                 HGOTO_ERROR(H5E_DATASPACE, H5E_UNINITIALIZED, FAIL,
                             "can't construct span tree for hyperslab selection")
         if (NULL == space2->select.sel_info.hslab->span_lst)
-            if (H5S__hyper_generate_spans((H5S_t *)space2) < 0) /* Casting away const OK -QAK */
+            if (H5S__hyper_generate_spans(space2) < 0)
                 HGOTO_ERROR(H5E_DATASPACE, H5E_UNINITIALIZED, FAIL,
                             "can't construct span tree for hyperslab selection")
 
@@ -6065,7 +6033,7 @@ done:
     Detect intersections of selection with block
  USAGE
     htri_t H5S__hyper_intersect_block(space, start, end)
-        const H5S_t *space;     IN: Dataspace with selection to use
+        H5S_t *space;           IN: Dataspace with selection to use
         const hsize_t *start;   IN: Starting coordinate for block
         const hsize_t *end;     IN: Ending coordinate for block
  RETURNS
@@ -6080,7 +6048,7 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S__hyper_intersect_block(const H5S_t *space, const hsize_t *start, const hsize_t *end)
+H5S__hyper_intersect_block(H5S_t *space, const hsize_t *start, const hsize_t *end)
 {
     htri_t ret_value = FAIL; /* Return value */
 
@@ -6096,7 +6064,7 @@ H5S__hyper_intersect_block(const H5S_t *space, const hsize_t *start, const hsize
      * to be impossible.
      */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_NO)
-        H5S__hyper_rebuild((H5S_t *)space); /* Casting away const OK -QAK */
+        H5S__hyper_rebuild(space);
 
     /* Check for regular hyperslab intersection */
     if (space->select.sel_info.hslab->diminfo_valid == H5S_DIMINFO_VALID_YES) {
@@ -11143,9 +11111,8 @@ sis_span_info unsigned depth;         IN: Depth of iteration (in terms of rank)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S__hyper_proj_int_iterate(const H5S_hyper_span_info_t *ss_span_info,
-                            const H5S_hyper_span_info_t *sis_span_info, hsize_t count, unsigned depth,
-                            H5S_hyper_project_intersect_ud_t *udata)
+H5S__hyper_proj_int_iterate(H5S_hyper_span_info_t *ss_span_info, const H5S_hyper_span_info_t *sis_span_info,
+                            hsize_t count, unsigned depth, H5S_hyper_project_intersect_ud_t *udata)
 {
     const H5S_hyper_span_t *ss_span;             /* Current span in source space */
     const H5S_hyper_span_t *sis_span;            /* Current span in source intersect space */
@@ -11404,11 +11371,11 @@ also that proj_space can share some span trees with dst_space, so proj_space mus
 if dst_space must be preserved. GLOBAL VARIABLES COMMENTS, BUGS, ASSUMPTIONS EXAMPLES REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5S__hyper_project_intersection(const H5S_t *src_space, const H5S_t *dst_space,
-                                const H5S_t *src_intersect_space, H5S_t *proj_space, hbool_t share_selection)
+H5S__hyper_project_intersection(H5S_t *src_space, H5S_t *dst_space, H5S_t *src_intersect_space,
+                                H5S_t *proj_space, hbool_t share_selection)
 {
     H5S_hyper_project_intersect_ud_t udata; /* User data for subroutines */
-    const H5S_hyper_span_info_t *    ss_span_info;
+    H5S_hyper_span_info_t *          ss_span_info;
     const H5S_hyper_span_info_t *    ds_span_info;
     H5S_hyper_span_info_t *          ss_span_info_buf = NULL;
     H5S_hyper_span_info_t *          ds_span_info_buf = NULL;
@@ -11434,7 +11401,7 @@ H5S__hyper_project_intersection(const H5S_t *src_space, const H5S_t *dst_space,
     if (H5S_GET_SELECT_TYPE(src_space) == H5S_SEL_HYPERSLABS) {
         /* Make certain the selection has a span tree */
         if (NULL == src_space->select.sel_info.hslab->span_lst)
-            if (H5S__hyper_generate_spans((H5S_t *)src_space) < 0) /* Casting away const OK -NAF */
+            if (H5S__hyper_generate_spans(src_space) < 0)
                 HGOTO_ERROR(H5E_DATASPACE, H5E_UNINITIALIZED, FAIL,
                             "can't construct span tree for source hyperslab selection")
 
@@ -11456,7 +11423,7 @@ H5S__hyper_project_intersection(const H5S_t *src_space, const H5S_t *dst_space,
     if (H5S_GET_SELECT_TYPE(dst_space) == H5S_SEL_HYPERSLABS) {
         /* Make certain the selection has a span tree */
         if (NULL == dst_space->select.sel_info.hslab->span_lst)
-            if (H5S__hyper_generate_spans((H5S_t *)dst_space) < 0) /* Casting away const OK -NAF */
+            if (H5S__hyper_generate_spans(dst_space) < 0)
                 HGOTO_ERROR(H5E_DATASPACE, H5E_UNINITIALIZED, FAIL,
                             "can't construct span tree for dsetination hyperslab selection")
 
@@ -11476,7 +11443,7 @@ H5S__hyper_project_intersection(const H5S_t *src_space, const H5S_t *dst_space,
 
     /* Make certain the source intersect selection has a span tree */
     if (NULL == src_intersect_space->select.sel_info.hslab->span_lst)
-        if (H5S__hyper_generate_spans((H5S_t *)src_intersect_space) < 0) /* Casting away const OK -NAF */
+        if (H5S__hyper_generate_spans(src_intersect_space) < 0)
             HGOTO_ERROR(H5E_DATASPACE, H5E_UNINITIALIZED, FAIL,
                         "can't construct span tree for source intersect hyperslab selection")
 

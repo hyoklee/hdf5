@@ -289,4 +289,14 @@ Group::~Group()
     }
 }
 
+//--------------------------------------------------------------------------
+// Function:    Copy assignment operator
+Group & Group::operator= (const Group &other)
+{
+    if (&other != this) {
+    }
+
+    return *this;
+}
+
 } // namespace H5

@@ -552,13 +552,4 @@ CompType::setSize(size_t size) const
     }
 }
 
-//--------------------------------------------------------------------------
-// Function:    CompType destructor
-///\brief       Properly terminates access to this compound datatype.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-CompType::~CompType()
-{
-}
-
 } // namespace H5

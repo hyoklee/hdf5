@@ -328,13 +328,4 @@ AbstractDs::getVarLenType() const
     }
 }
 
-//--------------------------------------------------------------------------
-// Function:    AbstractDs destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-AbstractDs::~AbstractDs()
-{
-}
-
 } // namespace H5

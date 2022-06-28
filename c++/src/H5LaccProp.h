@@ -52,7 +52,7 @@ class H5_DLLCPP LinkAccPropList : public PropList {
     size_t getNumLinks() const;
 
     // Noop destructor
-    virtual ~LinkAccPropList() override;
+    virtual ~LinkAccPropList() override = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

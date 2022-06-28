@@ -2430,13 +2430,4 @@ f_DataSpace_setId(DataSpace *dspace, hid_t new_id)
     dspace->p_setId(new_id);
 }
 
-//--------------------------------------------------------------------------
-// Function:    H5Location destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-H5Location::~H5Location()
-{
-}
-
 } // namespace H5

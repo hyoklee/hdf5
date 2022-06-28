@@ -555,13 +555,4 @@ DSetMemXferPropList::getEDCCheck() const
     return (check);
 }
 
-//--------------------------------------------------------------------------
-// Function:    DSetMemXferPropList destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-DSetMemXferPropList::~DSetMemXferPropList()
-{
-}
-
 } // namespace H5

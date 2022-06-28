@@ -82,7 +82,7 @@ class H5_DLLCPP IdComponent {
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
     // Destructor
-    virtual ~IdComponent();
+    virtual ~IdComponent() = default;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

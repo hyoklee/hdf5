@@ -787,13 +787,4 @@ DSetCreatPropList::setVirtual(const DataSpace &vspace, const H5std_string src_fn
     setVirtual(vspace, src_fname.c_str(), src_dsname.c_str(), sspace);
 }
 
-//--------------------------------------------------------------------------
-// Function:    DSetCreatPropList destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-DSetCreatPropList::~DSetCreatPropList()
-{
-}
-
 } // namespace H5

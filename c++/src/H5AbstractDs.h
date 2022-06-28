@@ -68,7 +68,7 @@ class H5_DLLCPP AbstractDs {
     virtual H5std_string fromClass() const = 0;
 
     // Destructor
-    virtual ~AbstractDs();
+    virtual ~AbstractDs() = default;
 
   protected:
     // Default constructor

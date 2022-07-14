@@ -1380,16 +1380,9 @@ H5L__move_dest_cb(H5G_loc_t *grp_loc /*in*/, const char *name, const H5O_link_t 
 
     /* Give the object its new name */
     HDassert(udata->lnk->name == NULL);
-<<<<<<< HEAD
-    udata->lnk->name = strdup(name);
-    if (NULL == udata->lnk->name) {
-        HGOTO_ERROR(H5E_LINK, H5E_CANTINIT, FAIL, "out of memory")
-    }
-=======
     H5_GCC_CLANG_DIAG_OFF("cast-qual")
     udata->lnk->name = (char *)name;
     H5_GCC_CLANG_DIAG_ON("cast-qual")
->>>>>>> upstream/develop
 
     /* Insert the link into the group */
     if (H5G_obj_insert(grp_loc->oloc, name, udata->lnk, TRUE, H5O_TYPE_UNKNOWN, NULL) < 0)

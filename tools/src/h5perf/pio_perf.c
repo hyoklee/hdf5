@@ -80,11 +80,6 @@
 #define PIO_MPI   0x2
 #define PIO_HDF5  0x4
 
-#ifdef STANDALONE
-#define DBL_EPSILON            2.2204460492503131e-16
-#define H5_DBL_ABS_EQUAL(X, Y) (fabs((X) - (Y)) < DBL_EPSILON)
-#endif
-
 /* report 0.0 in case t is zero too */
 #define MB_PER_SEC(bytes, t) (H5_DBL_ABS_EQUAL((t), 0.0) ? 0.0 : ((((double)bytes) / ONE_MB) / (t)))
 
@@ -214,32 +209,19 @@ static off_t squareo(off_t);
  * Modifications:
  */
 int
-main(int argc, const char *argv[])
+main(int argc, char *argv[])
 {
-    int             i = 0;
     int             ret;
     int             exit_value = EXIT_SUCCESS;
     struct options *opts       = NULL;
-    char **         obj        = NULL;
-#ifndef STANDALONE
+
     /* Initialize h5tools lib */
     h5tools_init();
-#endif
 
     output = stdout;
-    if ((obj = (char **)HDcalloc((size_t)argc, sizeof(char *))) == NULL) {
-        HDfprintf(stderr, "%s: HDcalloc call failed\n", progname);
-        return EXIT_FAILURE;
-    }
-    else {
-        for (i = 0; i < argc; i++) {
-            obj[i] = HDstrdup(argv[i]);
-        }
-    }
 
     /* initialize MPI and get the maximum num of processors we started with */
-    /* MPI_Init(&argc, (char**) &argv); */
-    MPI_Init(&argc, &obj);
+    MPI_Init(&argc, &argv);
     ret = MPI_Comm_size(MPI_COMM_WORLD, &comm_world_nprocs_g);
 
     if (ret != MPI_SUCCESS) {
@@ -294,13 +276,6 @@ main(int argc, const char *argv[])
 finish:
     MPI_Finalize();
     free(opts);
-    if (obj) {
-        for (i = 0; i < argc; i++) {
-            if (obj[i])
-                HDfree(obj[i]);
-        }
-        HDfree(obj);
-    }
     return exit_value;
 }
 

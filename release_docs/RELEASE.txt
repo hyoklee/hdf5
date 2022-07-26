@@ -47,6 +47,22 @@ New Features
 
     Configuration:
     -------------
+    - Correct the usage of CMAKE_Fortran_MODULE_DIRECTORY and where to
+      install Fortran mod files.
+
+      The Fortran modules files, ending in .mod are files describing a
+      Fortran 90 (and above) module API and ABI. These are not like C
+      header files describing an API, they are compiler dependent and
+      arch dependent, and not easily readable by a human being. They are
+      nevertheless searched for in the includes directories by gfortran
+      (in directories specified with -I).
+
+      Autotools configure uses the -fmoddir option to specify the folder.
+      CMake will use "mod" folder by default unless overridden by the CMake
+      variable; HDF5_INSTALL_MODULE_DIR.
+
+      (ADB - 2022/07/21)
+
     - HDF5 memory allocation sanity checking is now off by default for
       Autotools debug builds
 
@@ -132,6 +148,21 @@ New Features
 
     Tools:
     ------
+    - Building h5perf/h5perf_serial in "standalone mode" has been removed
+
+      Building h5perf separately from the library was added circa 2008
+      in HDF5 1.6.8. It's unclear what purpose this serves and the current
+      implementation is currently broken. The existing files require
+      H5private.h and the symbols we use to determine how the copied
+      platform-independence scheme should be used come from H5pubconf.h,
+      which may not match the compiler being used to build standalone h5perf.
+
+      Due to the maintenance overhead and lack of a clear use case, support
+      for building h5perf and h5perf_serial separately from the HDF5 library
+      has been removed.
+
+      (DER - 2022/07/15)
+
     - The perf tool has been removed
 
       The small `perf` tool didn't really do anything special and the name

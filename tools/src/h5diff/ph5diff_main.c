@@ -48,7 +48,7 @@ main(int argc, char *argv[])
 {
     int         i        = 0;
     int         nID      = 0;
-    char **     args     = NULL;
+    char      **args     = NULL;
     const char *fname1   = NULL;
     const char *fname2   = NULL;
     const char *objname1 = NULL;

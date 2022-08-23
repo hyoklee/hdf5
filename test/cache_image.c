@@ -7528,9 +7528,6 @@ evict_on_close_test(hbool_t H5_ATTR_PARALLEL_UNUSED single_file_vfd)
 #ifdef H5_HAVE_PARALLEL
     SKIPPED();
     HDputs("    EoC not supported in the parallel library.");
-    if (!single_file_vfd) {
-        HDputs("    Cache image not supported with the current VFD.");
-    }
     return 0;
 #else
 

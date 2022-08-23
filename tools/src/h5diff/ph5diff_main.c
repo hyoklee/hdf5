@@ -46,9 +46,7 @@ static void ph5diff_worker(int);
 int
 main(int argc, char *argv[])
 {
-    int         i        = 0;
     int         nID      = 0;
-    char      **args     = NULL;
     const char *fname1   = NULL;
     const char *fname2   = NULL;
     const char *objname1 = NULL;
@@ -64,16 +62,7 @@ main(int argc, char *argv[])
     outBuffOffset = 0;
     g_Parallel    = 1;
 
-    if ((args = (char **)HDcalloc((size_t)argc, sizeof(char *))) == NULL) {
-        HDfprintf(stderr, "%s: HDcalloc call failed\n", PROGRAMNAME);
-        return EXIT_FAILURE;
-    }
-    else {
-        for (i = 0; i < argc; i++) {
-            args[i] = HDstrdup(argv[i]);
-        }
-    }
-    MPI_Init(&argc, &args);
+    MPI_Init(&argc, (char ***)&argv);
 
     MPI_Comm_rank(MPI_COMM_WORLD, &nID);
     MPI_Comm_size(MPI_COMM_WORLD, &g_nTasks);
@@ -114,13 +103,7 @@ main(int argc, char *argv[])
     } /* end else */
 
     MPI_Finalize();
-    if (args) {
-        for (i = 0; i < argc; i++) {
-            if (args[i])
-                HDfree(args[i]);
-        }
-        HDfree(args);
-    }
+
     return 0;
 }
 

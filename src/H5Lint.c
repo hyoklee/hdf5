@@ -647,13 +647,8 @@ H5L__link_cb(H5G_loc_t *grp_loc /*in*/, const char *name, const H5O_link_t H5_AT
     }     /* end if */
 
 done:
-
     /* Check if an object was created */
     if (obj_created) {
-        if (NULL != udata->lnk->name) {
-            HDfree(udata->lnk->name);
-        }
-
         H5O_loc_t oloc; /* Object location for created object */
 
         /* Set up object location */
@@ -681,6 +676,7 @@ done:
     /* Indicate that this callback didn't take ownership of the group *
      * location for the object */
     *own_loc = H5G_OWN_NONE;
+
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5L__link_cb() */
 
@@ -1449,10 +1445,8 @@ done:
 
     /* Reset the "name" field in udata->lnk because it is owned by traverse()
      * and must not be manipulated after traverse closes */
-    if (NULL != udata->lnk->name) {
-        HDfree(udata->lnk->name);
-    }
     udata->lnk->name = NULL;
+
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5L__move_dest_cb() */
 

@@ -878,7 +878,7 @@ AC_MSG_CHECKING([if the high-level tools are enabled])
 AC_ARG_ENABLE([hltools],
      [AS_HELP_STRING([--enable-hltools],
                      [Enable the high-level tools.
-                     [default=yes]
+                     [default=no]
                      ])],
      [HDF5_HL_TOOLS=$enableval])
 

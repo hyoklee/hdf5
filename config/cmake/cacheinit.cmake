@@ -87,6 +87,7 @@ set (BLOSC_TGZ_NAME "c-blosc.tar.gz" CACHE STRING "Use BLOSC from compressed fil
 
 set (BLOSC_PACKAGE_NAME "blosc" CACHE STRING "Name of BLOSC package" FORCE)
 
+
 #######
 # zlib
 #######
@@ -105,7 +106,8 @@ set (SZIP_GIT_BRANCH "main" CACHE STRING "" FORCE)
 ########
 # bzip2
 ########
-set (BZ2_GIT_URL "https://github.com/hyoklee/bzip2.git" CACHE STRING "Use BZ2 from HDF repository" FORCE)
+set (BZ2_GIT_URL "https://someurl/bzip2.git" CACHE STRING "Use BZ2 from HDF Group repository" FORCE)
+
 set (BZ2_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (BZ2_TGZ_NAME "BZ2.tar.gz" CACHE STRING "Use BZ2 from compressed file" FORCE)
@@ -127,6 +129,7 @@ set (FPZIP_PACKAGE_NAME "fpzip" CACHE STRING "Name of FPZIP package" FORCE)
 # jpeg
 #######
 
+
 set (JPEG_GIT_URL "https://github.com/hyoklee/jpeg.git" CACHE STRING "Use JPEG from HDF repository" FORCE)
 # set (JPEG_GIT_BRANCH "jpeg9c" CACHE STRING "" FORCE)
 set (JPEG_GIT_BRANCH "main" CACHE STRING "" FORCE)
@@ -142,8 +145,8 @@ set (JPEG_PACKAGE_NAME "jpeg" CACHE STRING "Name of JPEG package" FORCE)
 
 set (BUILD_LZ4_LIBRARY_SOURCE ON CACHE BOOL "build the lz4 library within the plugin" FORCE)
 
-
 set (LZ4_GIT_URL "https://github.com/hyoklee/lz4.git" CACHE STRING "Use LZ4 from HDF repository" FORCE)
+
 set (LZ4_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (LZ4_TGZ_NAME "lz4.tar.gz" CACHE STRING "Use LZ4 from compressed file" FORCE)
@@ -154,7 +157,9 @@ set (LZ4_PACKAGE_NAME "lz4" CACHE STRING "Name of LZ4 package" FORCE)
 # lzf
 ######
 
+
 set (LZF_GIT_URL "https://github.com/hyoklee/lzf.git" CACHE STRING "Use LZF from HDF repository" FORCE)
+
 set (LZF_GIT_BRANCH "master" CACHE STRING "" FORCE)
 
 set (LZF_TGZ_NAME "lzf.tar.gz" CACHE STRING "Use LZF from compressed file" FORCE)

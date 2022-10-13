@@ -69,7 +69,7 @@ class H5_DLLCPP Group : public H5Object, public CommonFG {
     virtual ~Group() override;
 
     // Copy assignment operator.
-    Group & operator= (const Group &other);
+    Group &operator=(const Group &other);
 
     // Creates a copy of an existing group using its id.
     Group(const hid_t group_id);

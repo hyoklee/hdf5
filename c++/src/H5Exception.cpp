@@ -553,7 +553,6 @@ ReferenceException::ReferenceException(const H5std_string &func, const H5std_str
 {
 }
 
-
 //--------------------------------------------------------------------------
 // Subclass:    LibraryIException
 // Programmer   Binh-Minh Ribler - 2000
@@ -599,7 +598,6 @@ LocationException::LocationException(const H5std_string &func, const H5std_strin
     : Exception(func, message)
 {
 }
-
 
 //--------------------------------------------------------------------------
 // Subclass:    IdComponentException

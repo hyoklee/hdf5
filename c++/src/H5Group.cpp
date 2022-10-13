@@ -291,7 +291,8 @@ Group::~Group()
 
 //--------------------------------------------------------------------------
 // Function:    Copy assignment operator
-Group & Group::operator= (const Group &other)
+Group &
+Group::operator=(const Group &other)
 {
     if (&other != this) {
     }

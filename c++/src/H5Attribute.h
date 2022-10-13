@@ -80,7 +80,7 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     virtual ~Attribute() override;
 
     // Copy assignment operator.
-    Attribute & operator= (const Attribute &other);
+    Attribute &operator=(const Attribute &other);
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
   protected:

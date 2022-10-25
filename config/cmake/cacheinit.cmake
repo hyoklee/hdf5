@@ -199,12 +199,14 @@ set (ZFP_PACKAGE_NAME "zfp" CACHE STRING "Name of ZFP package" FORCE)
 ######
 # zstd
 ######
-set (ZSTD_GIT_URL "https://github.com/hyoklee/zstd.git" CACHE STRING "Use ZSTD from Github" FORCE)
-set (ZSTD_GIT_BRANCH "master" CACHE STRING "" FORCE)
+
+set (ZSTD_GIT_URL "https://github.com/facebook/zstd" CACHE STRING "Use ZSTD from repository" FORCE)
+set (ZSTD_GIT_BRANCH "dev" CACHE STRING "" FORCE)
 
 set (ZSTD_TGZ_NAME "zstd.tar.gz" CACHE STRING "Use ZSTD from compressed file" FORCE)
 
 set (ZSTD_PACKAGE_NAME "zstd" CACHE STRING "Name of ZSTD package" FORCE)
+
 
 ##########
 # bitgroom
@@ -230,3 +232,5 @@ set (AV_PACKAGE_NAME "av" CACHE STRING "Name of AV package" FORCE)
 # Cache VOL
 ###########
 set (CV_PACKAGE_NAME "cv" CACHE STRING "Name of CV package" FORCE)
+
+

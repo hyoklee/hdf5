@@ -1,4 +1,4 @@
-HDF5 version 1.13.3-1 currently under development
+HDF5 version 1.13.4-1 currently under development
 
 # HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
 [![linux autotools](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)

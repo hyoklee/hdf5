@@ -68,7 +68,15 @@ New Features
 
     Library:
     --------
-    -
+    - Added multi dataset I/O feature
+
+      Added H5Dread_multi, H5Dread_multi_async, H5Dwrite_multi, and
+      H5Dwrite_multi_async API routines to allow I/O on multiple datasets with a
+      single API call. Added H5Dread_multi_f and H5Dwrite_multi_f Fortran
+      wrappers. Updated VOL callbacks for dataset I/O to support multi dataset
+      I/O.
+
+      (NAF - 2022/10/19)
 
 
     Parallel Library:
@@ -175,7 +183,14 @@ Bug Fixes since HDF5-1.13.2 release
 
     Java Library
     ------------
-    -
+    - Improve variable-length datatype handling in JNI.
+
+      The existing JNI read-write functions could handle variable-length datatypes
+      that were simple variable-length datatype with an atomic sub-datatype. More
+      complex combinations could not be handled. Reworked the JNI read-write functions
+      to recursively inspect datatypes for variable-length sub-datatypes.
+
+      (ADB - 2022/10/12, HDFFV-8701,10375)
 
 
     Configuration

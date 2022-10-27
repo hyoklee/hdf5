@@ -1,4 +1,4 @@
-name: linux autotools
+name: linux autotools parallel vfds
 
 on:
   push:

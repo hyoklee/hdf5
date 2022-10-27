@@ -1,6 +1,7 @@
 HDF5 version 1.13.4-1 currently under development
 
 # HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
+[![linux atutools threadsafe parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
 [![linux autotools](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
 [![spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml)
 [![mac autotools](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)

@@ -1,4 +1,4 @@
-name: linux atutools threadsafe parallel vfds
+name: linux atutools parallel threadsafe vfds
 
 on:
   push:

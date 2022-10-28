@@ -1,4 +1,4 @@
-name: mac CMake
+name: mac CMake java parallel 
 
 on:
   workflow_dispatch:

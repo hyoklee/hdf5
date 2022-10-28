@@ -1,11 +1,12 @@
 HDF5 version 1.13.4-1 currently under development
 
 # HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
-[![linux atutools threadsafe parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
-[![linux autotools](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
+[![linux atutools parallel threadsafe vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
+[![linux autotools parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
+[![mac autotools parallel](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)
+[![mac CMake java parallel](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml)
+[![mac CMake java parallel threadsafe](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake-ts.yml)
 [![spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml)
-[![mac autotools](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)
-[![mac CMake](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml)
 [![spack h5py mac](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml)
 
 This branch is for testing

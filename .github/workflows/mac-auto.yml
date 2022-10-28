@@ -1,4 +1,4 @@
-name: mac autotools
+name: mac autotools parallel
 
 on:
   push:

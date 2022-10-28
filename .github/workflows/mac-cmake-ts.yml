@@ -1,0 +1,79 @@
+name: mac CMake java parallel threadsafe
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+    
+jobs:
+  build:
+    strategy:
+      matrix:
+        name: ["macOS Latest Clang"]
+        include:
+          - name: "macOS Latest Clang"
+            artifact: "macOS.tar.xz"
+            os: macos-latest
+            build_type: "Release"
+            cpp: OFF
+            fortran: OFF
+            java: ON
+            ts: ON
+            hl: OFF
+            parallel: ON
+            toolchain: "config/toolchain/clang.cmake"
+            generator: "-G Ninja"
+
+    name: ${{ matrix.name }}
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+          
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Install Dependencies (Windows)
+      run: choco install ninja
+      if: matrix.os == 'windows-latest'
+    - name: Install Dependencies (macOS)
+      run: brew install ninja openmpi
+      if: matrix.os == 'macos-latest'
+    - name: Set environment for MSVC (Windows)
+      if:  matrix.os == 'windows-latest'
+      run: |
+        # Set these env vars so cmake picks the correct compiler
+        echo "CXX=cl.exe" >> $GITHUB_ENV
+        echo "CC=cl.exe" >> $GITHUB_ENV
+    
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Get Sources
+      uses: actions/checkout@v3
+
+    - name: Configure
+      if: matrix.generator != 'autogen'
+      run: |
+        mkdir "${{ runner.workspace }}/build"
+        cd "${{ runner.workspace }}/build"
+        cmake ${{ matrix.generator }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DBUILD_SHARED_LIBS=ON -DHDF5_ENABLE_ALL_WARNINGS=ON -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} -DHDF5_BUILD_JAVA=${{ matrix.java }} -DMPIEXEC_MAX_NUMPROCS:STRING=2 $GITHUB_WORKSPACE
+      shell: bash
+
+    - name: Build
+      if: matrix.generator != 'autogen'
+      run: cmake --build . --config ${{ matrix.build_type }}
+      working-directory: ${{ runner.workspace }}/build      
+
+    - name: Test
+      if: matrix.generator != 'autogen'
+      run: ctest --build . -C ${{ matrix.build_type }} -V
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Submit
+      if: matrix.generator != 'autogen'
+      run: ctest -T submit
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Upload
+      if: matrix.generator != 'autogen'
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

@@ -111,12 +111,11 @@ H5FL_DEFINE(H5O_pline_t);
  *-------------------------------------------------------------------------
  */
 
-#define VERIFY_LIMIT(p,s,l)                                                  \
-  if (p + s - 1 > l) {                                                       \
-    HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL,                             \
-                "ran off the end of the buffer: current p = %p, p_end = %p", \
-                p + s, l);                                                   \
-  };
+#define VERIFY_LIMIT(p, s, l)                                                                                \
+    if (p + s - 1 > l) {                                                                                     \
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL,                                                         \
+                    "ran off the end of the buffer: current p = %p, p_end = %p", p + s, l);                  \
+    };
 
 static void *
 H5O__pline_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSED mesg_flags,
@@ -179,7 +178,7 @@ H5O__pline_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh, unsign
             if (pline->version == H5O_PLINE_VERSION_1 && name_length % 8)
                 HGOTO_ERROR(H5E_PLINE, H5E_CANTLOAD, NULL, "filter name length is not a multiple of eight")
             VERIFY_LIMIT(p, 4, p_end) /* with name_length 4 bytes to go */
-        } /* end if */
+        }                             /* end if */
 
         /* Filter flags */
         UINT16DECODE(p, filter->flags);

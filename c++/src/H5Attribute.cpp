@@ -627,4 +627,15 @@ Attribute::~Attribute()
     }
 }
 
+//--------------------------------------------------------------------------
+// Function:    Copy assignment operator
+Attribute &
+Attribute::operator=(const Attribute &other)
+{
+    if (&other != this) {
+    }
+
+    return *this;
+}
+
 } // namespace H5

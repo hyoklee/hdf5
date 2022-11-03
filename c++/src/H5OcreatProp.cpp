@@ -208,13 +208,4 @@ ObjCreatPropList::getAttrCrtOrder() const
     return (crt_order_flags);
 }
 
-//--------------------------------------------------------------------------
-// Function:    ObjCreatPropList destructor
-///\brief       Noop destructor
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-ObjCreatPropList::~ObjCreatPropList()
-{
-}
-
 } // namespace H5

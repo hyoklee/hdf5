@@ -158,13 +158,4 @@ DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double 
     }
 }
 
-//--------------------------------------------------------------------------
-// Function:    DSetAccPropList destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-DSetAccPropList::~DSetAccPropList()
-{
-}
-
 } // namespace H5

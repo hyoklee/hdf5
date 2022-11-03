@@ -360,15 +360,6 @@ CommonFG::CommonFG()
 }
 
 //--------------------------------------------------------------------------
-// Function:    CommonFG destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-CommonFG::~CommonFG()
-{
-}
-
-//--------------------------------------------------------------------------
 // Function:    f_DataType_setId - friend
 // Purpose:     This function is friend to class H5::DataType so that it
 //              can set DataType::id in order to work around a problem

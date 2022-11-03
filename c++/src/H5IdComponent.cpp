@@ -320,15 +320,6 @@ IdComponent::setId(const hid_t new_id)
     incRefCount();
 }
 
-//--------------------------------------------------------------------------
-// Function:    IdComponent destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-IdComponent::~IdComponent()
-{
-}
-
 //
 // Implementation of protected functions for HDF5 Reference Interface
 // and miscellaneous helpers.

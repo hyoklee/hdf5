@@ -342,13 +342,4 @@ FloatType::setInpad(H5T_pad_t inpad) const
     }
 }
 
-//--------------------------------------------------------------------------
-// Function:    FloatType destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-FloatType::~FloatType()
-{
-}
-
 } // namespace H5

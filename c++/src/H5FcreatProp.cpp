@@ -375,13 +375,4 @@ FileCreatPropList::getFileSpacePagesize() const
     return (fsp_psize);
 }
 
-//--------------------------------------------------------------------------
-// Function:    FileCreatPropList destructor
-///\brief       Noop destructor.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-FileCreatPropList::~FileCreatPropList()
-{
-}
-
 } // namespace H5

@@ -147,13 +147,4 @@ LinkAccPropList::getNumLinks() const
     return (nlinks);
 }
 
-//--------------------------------------------------------------------------
-// Function:    LinkAccPropList destructor
-///\brief       Noop destructor
-// Programmer   Binh-Minh Ribler - December, 2016
-//--------------------------------------------------------------------------
-LinkAccPropList::~LinkAccPropList()
-{
-}
-
 } // namespace H5

@@ -335,13 +335,4 @@ EnumType::getMemberValue(unsigned memb_no, void *value) const
     }
 }
 
-//--------------------------------------------------------------------------
-// Function:    EnumType destructor
-///\brief       Properly terminates access to this enum datatype.
-// Programmer   Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-EnumType::~EnumType()
-{
-}
-
 } // namespace H5

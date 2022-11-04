@@ -29,7 +29,12 @@
 #define H5_MY_PKG_ERR  H5E_ATOM
 #define H5_MY_PKG_INIT NO
 
-/**\defgroup H5I H5I
+/** \page H5I_UG The HDF5 Identifiers
+ * @todo Under Construction
+ */
+
+/**
+ * \defgroup H5I Identifiers (H5I)
  *
  * Use the functions in this module to manage identifiers defined by the HDF5
  * library. See \ref H5IUD for user-defined identifiers and identifier

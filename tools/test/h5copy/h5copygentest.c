@@ -281,7 +281,7 @@ gent_nested_vl(hid_t loc_id)
     hid_t   sid, did, tid1, tid2;
     hsize_t dims[1] = {2};
     hvl_t   buf[2];
-    hvl_t * tvl;
+    hvl_t  *tvl;
 
     /* allocate and initialize VL dataset to write */
     buf[0].len         = 1;
@@ -923,7 +923,7 @@ out:
 /*-------------------------------------------------------------------------
  * Function: Test_Extlink_Copy
  *
- * Purpose: gerenate external link files
+ * Purpose: generate external link files
  *
  *------------------------------------------------------------------------*/
 static void

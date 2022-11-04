@@ -84,7 +84,7 @@
 
 /*
  * The `struct stat' data type for stat() and fstat(). This is a POSIX file
- * but often apears on non-POSIX systems also.  The `struct stat' is required
+ * but often appears on non-POSIX systems also.  The `struct stat' is required
  * for HDF5 to compile, although only a few fields are actually used.
  */
 #ifdef H5_HAVE_SYS_STAT_H
@@ -639,7 +639,7 @@ H5_DLL herr_t   H5_timer_start(H5_timer_t *timer /*in,out*/);
 H5_DLL herr_t   H5_timer_stop(H5_timer_t *timer /*in,out*/);
 H5_DLL herr_t   H5_timer_get_times(H5_timer_t timer, H5_timevals_t *times /*in,out*/);
 H5_DLL herr_t   H5_timer_get_total_times(H5_timer_t timer, H5_timevals_t *times /*in,out*/);
-H5_DLL char *   H5_timer_get_time_string(double seconds);
+H5_DLL char    *H5_timer_get_time_string(double seconds);
 
 /* Depth of object copy */
 typedef enum {
@@ -1840,17 +1840,17 @@ typedef enum {
 } H5_pkg_t;
 
 typedef struct H5_debug_open_stream_t {
-    FILE *                         stream; /* Open output stream */
+    FILE                          *stream; /* Open output stream */
     struct H5_debug_open_stream_t *next;   /* Next open output stream */
 } H5_debug_open_stream_t;
 
 typedef struct H5_debug_t {
-    FILE *  trace;  /*API trace output stream  */
+    FILE   *trace;  /*API trace output stream  */
     hbool_t ttop;   /*Show only top-level calls?    */
     hbool_t ttimes; /*Show trace event times?       */
     struct {
         const char *name;   /*package name      */
-        FILE *      stream; /*output stream  or NULL    */
+        FILE       *stream; /*output stream  or NULL    */
     } pkg[H5_NPKGS];
     H5_debug_open_stream_t *open_stream; /* Stack of open output streams */
 } H5_debug_t;
@@ -2041,7 +2041,7 @@ typedef struct H5_api_struct {
 #define H5_FIRST_THREAD_INIT pthread_once(&H5TS_first_init_g, H5TS_pthread_first_thread_init);
 #endif
 
-/* Macros for threadsafe HDF-5 Phase I locks */
+/* Macros for threadsafe HDF5 Phase I locks */
 #ifdef H5_USE_RECURSIVE_WRITER_LOCKS
 #define H5_API_LOCK   H5TS_rw_wrlock(&H5_g.init_rw_lock);
 #define H5_API_UNLOCK H5TS_rw_unlock(&H5_g.init_rw_lock);
@@ -2668,7 +2668,7 @@ enum h5_arg_level {
  * end.
  */
 struct h5_long_options {
-    const char *      name;     /* Name of the long option */
+    const char       *name;     /* Name of the long option */
     enum h5_arg_level has_arg;  /* Whether we should look for an arg */
     char              shortval; /* The shortname equivalent of long arg
                                  * this gets returned from get_option

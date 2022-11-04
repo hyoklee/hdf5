@@ -210,7 +210,7 @@ H5_init_library(void)
      * Install atexit() library cleanup routines unless the H5dont_atexit()
      * has been called.  Once we add something to the atexit() list it stays
      * there permanently, so we set H5_dont_atexit_g after we add it to prevent
-     * adding it again later if the library is cosed and reopened.
+     * adding it again later if the library is closed and reopened.
      */
     if (!H5_dont_atexit_g) {
 
@@ -679,7 +679,7 @@ done:
 static void
 H5__debug_mask(const char *s)
 {
-    FILE *  stream = stderr;
+    FILE   *stream = stderr;
     char    pkg_name[32], *rest;
     size_t  i;
     hbool_t clear;
@@ -861,8 +861,8 @@ H5check_version(unsigned majnum, unsigned minnum, unsigned relnum)
     char                substr[]                 = H5_VERS_SUBRELEASE;
     static int          checked                  = 0; /* If we've already checked the version info */
     static unsigned int disable_version_check    = 0; /* Set if the version check should be disabled */
-    static const char * version_mismatch_warning = VERSION_MISMATCH_WARNING;
-    static const char * release_mismatch_warning = RELEASE_MISMATCH_WARNING;
+    static const char  *version_mismatch_warning = VERSION_MISMATCH_WARNING;
+    static const char  *release_mismatch_warning = RELEASE_MISMATCH_WARNING;
     herr_t              ret_value                = SUCCEED; /* Return value */
 
     FUNC_ENTER_API_NOINIT_NOERR_NOFS

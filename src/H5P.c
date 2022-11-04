@@ -43,7 +43,7 @@
 typedef struct {
     H5P_iterate_t iter_func; /* Iterator callback */
     hid_t         id;        /* Property list or class ID */
-    void *        iter_data; /* Iterator callback pointer */
+    void         *iter_data; /* Iterator callback pointer */
 } H5P_iter_ud_t;
 
 /********************/
@@ -664,7 +664,7 @@ H5Pset(hid_t plist_id, const char *name, const void *value)
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property name");
     if (value == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalied property value");
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property value");
 
     /* Go set the value */
     if (H5P_set(plist, name, value) < 0)
@@ -1018,7 +1018,7 @@ done:
 htri_t
 H5Pequal(hid_t id1, hid_t id2)
 {
-    void * obj1, *obj2;       /* Property objects to compare */
+    void  *obj1, *obj2;       /* Property objects to compare */
     htri_t ret_value = FALSE; /* return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1195,7 +1195,7 @@ H5Piterate(hid_t id, int *idx, H5P_iterate_t iter_func, void *iter_data)
 {
     H5P_iter_ud_t udata;        /* User data for internal iterator callback */
     int           fake_idx = 0; /* Index when user doesn't provide one */
-    void *        obj;          /* Property object to copy */
+    void         *obj;          /* Property object to copy */
     int           ret_value;    /* return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1276,7 +1276,7 @@ H5Pget(hid_t plist_id, const char *name, void *value)
     if (!name || !*name)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property name");
     if (value == NULL)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalied property value");
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid property value");
 
     /* Go get the value */
     if (H5P_get(plist, name, value) < 0)
@@ -1522,7 +1522,7 @@ char *
 H5Pget_class_name(hid_t pclass_id)
 {
     H5P_genclass_t *pclass;    /* Property class to query */
-    char *          ret_value; /* return value */
+    char           *ret_value; /* return value */
 
     FUNC_ENTER_API(NULL)
     H5TRACE1("*s", "i", pclass_id);

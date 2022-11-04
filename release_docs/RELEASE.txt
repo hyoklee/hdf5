@@ -47,7 +47,21 @@ New Features
 
     Configuration:
     -------------
-    -
+    - Correct the usage of CMAKE_Fortran_MODULE_DIRECTORY and where to
+      install Fortran mod files.
+
+      The Fortran modules files, ending in .mod are files describing a
+      Fortran 90 (and above) module API and ABI. These are not like C
+      header files describing an API, they are compiler dependent and
+      arch dependent, and not easily readable by a human being. They are
+      nevertheless searched for in the includes directories by gfortran
+      (in directories specified with -I).
+
+      Autotools configure uses the -fmoddir option to specify the folder.
+      CMake will use "mod" folder by default unless overridden by the CMake
+      variable; HDF5_INSTALL_MODULE_DIR.
+
+      (ADB - 2022/07/21)
 
 
     Library:
@@ -72,6 +86,13 @@ New Features
 
     Java Library:
     -------------
+    - Added version of H5Rget_name to return the name as a Java string.
+
+      Other functions that get_name process the get_size then get the name
+      within the JNI implementation. Now H5Rget_name has a H5Rget_name_string.
+
+      (ADB - 2022/07/12)
+
     - Added reference support to H5A and H5D read write vlen JNI functions.
 
       Added the implementation to handle VL references as an Array of Lists
@@ -133,7 +154,11 @@ New Features
 
     Documentation:
     --------------
-    -
+    - Doxygen User Guide documentation is available when configured and generated.
+      The resulting documentation files will be in the share/html subdirectory
+      of the HDF5 install directory.
+
+        (ADB - 2022/08/09)
 
 
 Support for new platforms, languages and compilers
@@ -145,7 +170,52 @@ Bug Fixes since HDF5-1.12.1 release
 ===================================
     Library
     -------
-    -
+    - Fixed an issue with variable length attributes
+
+      Previously, if a variable length attribute was held open while its file
+      was opened through another handle, the same attribute was opened through
+      the second file handle, and the second file and attribute handles were
+      closed, attempting to write to the attribute through the first handle
+      would cause an error.
+
+      (NAF - 2022/10/24)
+
+    - Fixed an issue with hyperslab selections
+
+      Previously, when combining hyperslab selections, it was possible for the
+      library to produce an incorrect combined selection.
+
+      (NAF - 2022/09/25)
+
+    - Fixed an issue with attribute type conversion with compound datatypes
+
+      Previously, when performing type conversion for attribute I/O with a
+      compound datatype, the library would not fill the background buffer with
+      the contents of the destination, potentially causing data to be lost when
+      only writing to a subset of the compound fields.
+
+      (NAF - 2022/08/22, GitHub #2016)
+
+    - Modified H5Fstart_swmr_write() to preserve DAPL properties
+
+      Internally, H5Fstart_swmr_write() closes and reopens the file in question
+      as part of its process for making the file SWMR-safe.  Previously, when
+      the library reopened the file it would simply use the default access
+      properties.  Modified the library to instead save these properties and use
+      them when reopening the file.
+
+      (NAF - 2022/07/18, HDFFV-11308)
+
+    - Converted an assertion on (possibly corrupt) file contents to a normal
+      error check
+
+      Previously, the library contained an assertion check that a read superblock
+      doesn't contain a superblock extension message when the superblock
+      version < 2. When a corrupt HDF5 file is read, this assertion can be triggered
+      in debug builds of HDF5. In production builds, this situation could cause
+      either a library error or a crash, depending on the platform.
+
+      (JTH - 2022/07/08, HDFFV-11316, HDFFV-11317)
 
 
     Java Library

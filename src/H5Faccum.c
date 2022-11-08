@@ -868,8 +868,8 @@ H5F__accum_free(H5F_shared_t *f_sh, H5FD_mem_t H5_ATTR_UNUSED type, haddr_t addr
     file = f_sh->lf;
 
     /* Adjust the metadata accumulator to remove the freed block, if it overlaps */
-    if ((f_sh->feature_flags & H5FD_FEAT_ACCUMULATE_METADATA) &&
-        H5F_LOC_VALID(accum->loc) && H5F_addr_overlap(addr, size, accum->loc, accum->size)) {
+    if ((f_sh->feature_flags & H5FD_FEAT_ACCUMULATE_METADATA) && H5F_LOC_VALID(accum->loc) &&
+        H5F_addr_overlap(addr, size, accum->loc, accum->size)) {
         size_t overlap_size; /* Size of overlap with accumulator */
 
         /* Sanity check */

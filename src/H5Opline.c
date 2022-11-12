@@ -193,7 +193,7 @@ H5O__pline_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh, unsign
             /* Determine actual name length (without padding, but with null terminator) */
             actual_name_length = HDstrnlen((const char *)p, len);
             if (actual_name_length == len)
-                HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "filter name not null terminated")
+                HGOTO_ERROR(H5E_OHDR, H5E_NOSPACE, NULL, "filter name not null terminated")
             actual_name_length += 1; /* include \0 byte */
             HDassert(actual_name_length <= name_length);
 

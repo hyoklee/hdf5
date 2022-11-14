@@ -22,7 +22,6 @@ jobs:
 
           # Set an output parameter `uname` for use in subsequent steps
           run: |
-            # uname -a
             git clone https://github.com/hyoklee/hdf5
             cd hdf5
             mkdir build

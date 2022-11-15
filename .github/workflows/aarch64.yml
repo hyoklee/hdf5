@@ -31,7 +31,7 @@ jobs:
             cd build
             cmake ..
             make
-            make check
+            make test
             echo ::set-output name=uname::$(uname -a)
 
       - name: Get the output

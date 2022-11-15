@@ -22,6 +22,9 @@ jobs:
 
           # Set an output parameter `uname` for use in subsequent steps
           run: |
+            apt-get update -q -y
+            apt-get install -q -y git
+            apt-get install -q -y cmake
             git clone https://github.com/hyoklee/hdf5
             cd hdf5
             mkdir build

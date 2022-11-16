@@ -1,4 +1,4 @@
-name: spack h5py
+name: linux spack h5py
 
 on:
   push:

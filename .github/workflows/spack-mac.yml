@@ -1,4 +1,4 @@
-name: spack h5py mac
+name: mac spack h5py
 
 on:
   push:

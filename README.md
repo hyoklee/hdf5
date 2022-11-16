@@ -5,6 +5,7 @@ HDF5 version 1.13.4-1 currently under development
 [![aarch64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml)
 [![linux atutools parallel threadsafe vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
 [![linux autotools parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
+[![linux CMake icc](https://github.com/hyoklee/hdf5/actions/workflows/linux-icc.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-icc.yml)
 [![linux spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack.yml)
 [![mac autotools parallel](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)
 [![mac CMake java parallel](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-cmake.yml)

@@ -1,7 +1,8 @@
 HDF5 version 1.13.4-1 currently under development
 
 # HDF5 for testing clang 13, Spack, h5py, performance, and OpenBSD 
-[![hdf5 on aarch64](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml)
+[![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml)
+[![aarch64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml)
 [![linux atutools parallel threadsafe vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
 [![linux autotools parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
 [![mac autotools parallel](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-auto.yml)

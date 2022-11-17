@@ -6,7 +6,7 @@ on:
   workflow_dispatch:    
 jobs:
   build:
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - name: Install Dependencies
       run: brew install ninja autoconf automake libtool openmpi

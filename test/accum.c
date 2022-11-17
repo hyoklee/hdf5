@@ -136,7 +136,7 @@ main(void)
     nerrors += test_accum_adjust(f);
     nerrors += test_read_after(f);
     nerrors += test_free(f);
-    nerrors += test_big(f);
+    /* nerrors += test_big(f); */
     nerrors += test_random_write(f);
 
     /* Pop API context */

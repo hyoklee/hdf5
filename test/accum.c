@@ -148,11 +148,11 @@ main(void)
     if (H5Fclose(fid) < 0)
         TEST_ERROR;
 
-    /* This test uses a different file 
+    /* This test uses a different file
     nerrors += test_swmr_write_big(TRUE);
     nerrors += test_swmr_write_big(FALSE);
     */
-    
+
     if (nerrors)
         goto error;
     HDputs("All metadata accumulator tests passed.");

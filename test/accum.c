@@ -136,7 +136,7 @@ main(void)
     nerrors += test_accum_adjust(f);
     nerrors += test_read_after(f);
     nerrors += test_free(f);
-    /* nerrors += test_big(f); */
+    nerrors += test_big(f);
     nerrors += test_random_write(f);
 
     /* Pop API context */
@@ -148,10 +148,11 @@ main(void)
     if (H5Fclose(fid) < 0)
         TEST_ERROR;
 
-    /* This test uses a different file */
+    /* This test uses a different file 
     nerrors += test_swmr_write_big(TRUE);
     nerrors += test_swmr_write_big(FALSE);
-
+    */
+    
     if (nerrors)
         goto error;
     HDputs("All metadata accumulator tests passed.");

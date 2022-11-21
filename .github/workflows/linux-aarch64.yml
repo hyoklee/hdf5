@@ -5,38 +5,28 @@ on:
   push:
     branches: [ develop ]
 jobs:
-  aarch64_job:
-    # The host should always be Linux
-    runs-on: ubuntu-latest
-    name: Build on ubuntu-latest aarch64
+  build:
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
-        id: runcmd
-        with:
-          arch: aarch64
-          distro: ubuntu_latest
-
-          # Not required, but speeds up builds by storing container images in
-          # a GitHub package registry.
-          githubToken: ${{ github.token }}
-          install: |
-            apt-get update -q -y
-            apt-get install -q -y git
-            apt-get install -q -y cmake
-            apt-get install -q -y gcc-aarch64-linux-gnu            
-          run: |
-            echo ::set-output name=uname::$(uname -a)
-            git clone https://github.com/hyoklee/hdf5
-            cd hdf5
-            mkdir build
-            cd build
-            cmake -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_AR=aarch64-linux-gnu-ar ..
-            make
-            make test
-
-      - name: Get the output
-        # Echo the `uname` output parameter from the `runcmd` step
-        run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+    - name: Install gcc-arch64
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu
+        sudo apt-get install binfmt-support qemu qemu-user-static
+    - name: Get Sources
+      uses: actions/checkout@v3
+    - name: Build and Test
+      run: |
+        echo $PWD
+        wget https://musl.cc/aarch64-linux-musl-cross.tgz
+        tar -xvzf aarch64-linux-musl-cross.tgz      
+        ./aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc --version
+        ls ./aarch64-linux-musl-cross/bin/
+        sudo cp -r ./aarch64-linux-musl-cross/aarch64-linux-musl/lib/* /lib/
+        ls /lib/
+        ls
+        mkdir build
+        cd build
+        cmake -DCMAKE_C_COMPILER=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc -DCMAKE_AR=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm ..        
+        make
+        make test

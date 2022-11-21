@@ -1,0 +1,23 @@
+name: linux CMake aarch64-gcc
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Intel Compilers
+      run: |
+        sudo apt-get update
+        sudo apt-get install -q -y gcc-aarch64-linux-gnu
+    - name: Get Sources
+      uses: actions/checkout@v3
+    - name: Build and Test
+      run: |
+        mkdir build
+        cd build
+        cmake  -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_AR=aarch64-linux-gnu-ar ..
+        make
+        make test

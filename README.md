@@ -1,5 +1,7 @@
 HDF5 version 1.13.4-1 currently under development
 
+![H5](H5.svg)
+
 # HDF5 for testing ARM, clang, h5py, icc, OpenBSD, performance, and Spack
 [![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml)
 [![aarch64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml)
@@ -14,7 +16,7 @@ HDF5 version 1.13.4-1 currently under development
 [![mac spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/spack-mac.yml)
 
 This branch is for testing
-* clang 13 to remove all compiler warnings.
+* clang to remove all compiler warnings.
 * [hdf5_plugins](https://github.com/hyoklee/hdf5_plugins) with [Spack](https://github.com/hyoklee/spack) and CMake.
 * [h5py](https://github.com/hyoklee/h5py) using the above.
 * [performance](https://github.com/hyoklee/hpf) using GitHub Actions.

@@ -3,8 +3,9 @@ HDF5 version 1.13.4-1 currently under development
 ![H5](H5.svg)
 
 # HDF5 for testing ARM, clang, h5py, icc, OpenBSD, performance, and Spack
+[![OpenBSD 7.1 CMake](https://github.com/hyoklee/hdf5/actions/workflows/openbsd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/openbsd.yml)
 [![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml)
-[![aarch64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/aarch64.yml)
+[![arm64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml)
 [![linux atutools parallel threadsafe vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto-ts.yml)
 [![linux autotools parallel vfds](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-auto.yml)
 [![linux CMake aarch64-gcc](https://github.com/hyoklee/hdf5/actions/workflows/linux-aarch64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-aarch64.yml)

@@ -1,4 +1,4 @@
-name: armv7 CMake
+name: armv7 linux CMake
 
 on: [push, pull_request]
 

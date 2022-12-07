@@ -1,4 +1,4 @@
-name: amd64 OpenBSD 7.1 CMake
+name: OpenBSD 7.1 CMake
 
 on:
   push:

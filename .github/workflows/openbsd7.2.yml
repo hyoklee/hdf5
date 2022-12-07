@@ -27,4 +27,9 @@ jobs:
           ls -lah
           whoami
           env
-          git
+          mkdir build
+          cd build
+          cmake ..
+          make
+          make test
+          

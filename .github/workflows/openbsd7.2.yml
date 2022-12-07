@@ -21,7 +21,6 @@ jobs:
         usesh: true
         prepare: |
           pkg_add git
-          pkg_add cmake
         run: |
           pwd
           ls -lah
@@ -29,6 +28,7 @@ jobs:
           env
           mkdir build
           cd build
+          pkg_add cmake
           cmake ..
           make
           make test

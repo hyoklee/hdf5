@@ -22,13 +22,16 @@ jobs:
         prepare: |
           pkg_add git
         run: |
+          pkg_add cmake        
           pwd
-          ls -lah
-          whoami
-          env
+          ls
+          cd ..
+          mv hdf5 /home
+          cd /home/hdf5
+          pwd
+          ls
           mkdir build
           cd build
-          pkg_add cmake
           cmake ..
           make
           make test

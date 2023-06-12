@@ -1,0 +1,28 @@
+name: linux atutools parallel threadsafe vfds
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Dependencies
+      run:  |
+        sudo apt-get update
+        sudo apt-get install ninja-build autoconf automake libtool libtool-bin libopenmpi-dev libpthread-stubs0-dev libcurl4-openssl-dev
+    - name: Get Source
+      uses: actions/checkout@v3
+    - name: Build and test
+      env:
+        NPROCS: 2
+      run: |
+        set
+        ./autogen.sh
+        ./configure --enable-parallel --enable-direct-vfd --enable-mirror-vfd \
+         --enable-subfiling-vfd --enable-ros3-vfd --enable-threadsafe --disable-hl CC=mpicc
+        make
+        make check
+
+    

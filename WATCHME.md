@@ -1,0 +1,16 @@
+# HDF5 for testing OpenBSD, ARM, icc/x, clang, and Spack+h5py
+
+| Test | Status |
+| -----| ------ |
+| OpenBSD | [![OpenBSD 7.3 CMake](https://github.com/hdfeos/hdf5/actions/workflows/openbsd.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/openbsd.yml) |
+| ARM | [![armv7 CMake](https://github.com/hdfeos/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/armv7.yml) [![arm64 CMake](https://github.com/hdfeos/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/arm64.yml) [![linux CMake aarch64-gcc](https://github.com/hdfeos/hdf5/actions/workflows/linux-aarch64.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-aarch64.yml)|
+| icc/x | [![linux CMake icc](https://github.com/hdfeos/hdf5/actions/workflows/linux-icc.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-icc.yml) [![linux CMake icx](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx.yml) [![linux autotools icx](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx-auto.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx-auto.yml) [![linux autotools icx debug](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx-auto-debug.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-icx-auto-debug.yml)|
+| clang | [![mac CMake java parallel](https://github.com/hdfeos/hdf5/actions/workflows/mac-cmake.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/mac-cmake.yml) [![mac CMake java parallel threadsafe](https://github.com/hdfeos/hdf5/actions/workflows/mac-cmake-ts.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/mac-cmake-ts.yml) |
+| Spack | [![linux spack h5py](https://github.com/hdfeos/hdf5/actions/workflows/spack.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/spack.yml) [![mac spack h5py](https://github.com/hdfeos/hdf5/actions/workflows/spack-mac.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/spack-mac.yml) |
+| Extra | [![linux atutools parallel threadsafe vfds](https://github.com/hdfeos/hdf5/actions/workflows/linux-auto-ts.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-auto-ts.yml) [![linux autotools parallel vfds](https://github.com/hdfeos/hdf5/actions/workflows/linux-auto.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/linux-auto.yml) [![mac autotools parallel](https://github.com/hdfeos/hdf5/actions/workflows/mac-auto.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/mac-auto.yml) [![netCDF](https://github.com/hdfeos/hdf5/actions/workflows/netcdf.yml/badge.svg)](https://github.com/hdfeos/hdf5/actions/workflows/netcdf.yml) |
+
+
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/HDFGroup/hdf5.svg)](http://isitmaintained.com/project/HDFGroup/hdf5 "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/HDFGroup/hdf5.svg)](http://isitmaintained.com/project/HDFGroup/hdf5 "Percentage of issues still open")
+
+![reology](https://repology.org/badge/vertical-allrepos/hdf5.svg?header=hdf5)

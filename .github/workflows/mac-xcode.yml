@@ -1,0 +1,19 @@
+name: mac Xcode
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+    
+jobs:
+  build:
+    name: Generate Xcode project
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate Xcode project
+        run: |
+          mkdir build
+          cd build
+          cmake -G Xcode ..
+          

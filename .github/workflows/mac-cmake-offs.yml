@@ -1,0 +1,87 @@
+name: macos-13 CMake OFF
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    name: macos-13 CMake OFF
+    runs-on: macos-13
+    steps:
+    - name: Install Dependencies (macOS)
+      run: brew install ninja openmpi
+    - name: Get Sources
+      uses: actions/checkout@v3
+    - name: Configure
+      run: |
+        mkdir "${{ runner.workspace }}/build"
+        cd "${{ runner.workspace }}/build"
+        cmake \
+        -DBUILD_SHARED_LIBS:BOOL=ON \
+        -DBUILD_STATIC_EXECS:BOOL=OFF \
+        -DBUILD_STATIC_LIBS:BOOL=OFF \
+        -DBUILD_SZIP_WITH_FETCHCONTENT:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=OFF \
+        -DBUILD_USER_DEFINED_LIBS:BOOL=OFF \
+        -DBUILD_ZLIB_WITH_FETCHCONTENT:BOOL=OFF \
+        -DHDF5_BATCH_H5DETECT:BOOL=OFF \
+        -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
+        -DHDF5_BUILD_DOC:BOOL=OFF \
+        -DHDF5_BUILD_EXAMPLES:BOOL=OFF \
+        -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+        -DHDF5_BUILD_FRAMEWORKS:BOOL=OFF \
+        -DHDF5_BUILD_GENERATORS:BOOL=OFF \
+        -DHDF5_BUILD_HL_GIF_TOOLS:BOOL=OFF \
+        -DHDF5_BUILD_HL_LIB:BOOL=OFF \
+        -DHDF5_BUILD_JAVA:BOOL=OFF \
+        -DHDF5_BUILD_PARALLEL_TOOLS:BOOL=OFF \
+        -DHDF5_BUILD_TOOLS:BOOL=OFF \
+        -DHDF5_BUILD_UTILS:BOOL=OFF \
+        -DHDF5_BUILD_WITH_INSTALL_NAME:BOOL=OFF \
+        -DHDF5_DIMENSION_SCALES_NEW_REF:BOOL=OFF \
+        -DHDF5_DISABLE_COMPILER_WARNINGS:BOOL=OFF \
+        -DHDF5_ENABLE_ALL_WARNINGS:BOOL=OFF \
+        -DHDF5_ENABLE_COVERAGE:BOOL=OFF \
+        -DHDF5_ENABLE_DEBUG_APIS:BOOL=OFF \
+        -DHDF5_ENABLE_DEPRECATED_SYMBOLS=OFF \
+        -DHDF5_ENABLE_DEV_WARNINGS=OFF \
+        -DHDF5_ENABLE_DIRECT_VFD=OFF \
+        -DHDF5_ENABLE_EMBEDDED_LIBINFO=OFF \
+        -DHDF5_ENABLE_HDFS=OFF \
+        -DHDF5_ENABLE_MAP_API=OFF \
+        -DHDF5_ENABLE_MIRROR_VFD=OFF \
+        -DHDF5_ENABLE_PARALLEL:BOOL=OFF \
+        -DHDF5_ENABLE_PLUGIN_SUPPORT:BOOL=OFF \
+        -DHDF5_ENABLE_ROS3_VFD:BOOL=OFF \
+        -DHDF5_ENABLE_SUBFILING_VFD:BOOL=OFF \
+        -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+        -DHDF5_ENABLE_THREADSAFE:BOOL=OFF \
+        -DHDF5_ENABLE_USING_MEMCHECKER:BOOL=OFF \
+        -DHDF5_ENABLE_WARNINGS_AS_ERRORS:BOOL=OFF \
+        -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF \
+        -DHDF5_GENERATE_HEADERS:BOOL=OFF \
+        -DHDF5_IGNORE_DISABLED_FILE_LOCK:BOOL=OFF \
+        -DHDF5_MINGW_STATIC_GCC_LIBS:BOOL=OFF \
+        -DHDF5_MSVC_NAMING_CONVENTION:BOOL=OFF \
+        -DHDF5_PACKAGE_EXTLIBS:BOOL=OFF \
+        -DHDF5_PACK_EXAMPLES:BOOL=OFF \
+        -DHDF5_PACK_MACOSX_FRAMEWORK:BOOL=OFF \
+        -DHDF5_USE_FILE_LOCKING:BOOL=OFF \
+        -DDF5_USE_GNU_DIRS:BOOL=OFF \
+        -DHDF5_USE_PREGEN:BOOL=OFF \
+        -DSZIP_USE_EXTERNAL:BOOL=OFF \
+        -DTEST_SHELL_SCRIPTS:BOOL=OFF \
+        -DUSE_LIBAEC_STATIC:BOOL=OFF \
+        -DZLIB_USE_EXTERNAL:BOOL=OFF \
+        $GITHUB_WORKSPACE
+      shell: bash
+
+    - name: Build
+      run: cmake --build .
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Test
+      run: ctest --build . -V
+      working-directory: ${{ runner.workspace }}/build

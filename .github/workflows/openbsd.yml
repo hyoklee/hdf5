@@ -2,7 +2,7 @@ name: amd64 OpenBSD 7.3 CMake
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
 
 jobs:
   test: # make sure the action works on a clean machine without building

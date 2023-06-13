@@ -1,4 +1,4 @@
-name: mac-13 CMake OFF
+name: mac-13 CMake ROS3
 
 on:
   workflow_dispatch:
@@ -7,11 +7,11 @@ on:
 
 jobs:
   build:
-    name: macos-13 CMake OFF
+    name: macos-13 CMake ROS3
     runs-on: macos-13
     steps:
-    - name: Install Dependencies (macOS)
-      run: brew install ninja openmpi
+    - name: Install Dependencies
+      run: brew install curl openssl
     - name: Get Sources
       uses: actions/checkout@v3
     - name: Configure
@@ -23,7 +23,7 @@ jobs:
         -DBUILD_STATIC_EXECS:BOOL=OFF \
         -DBUILD_STATIC_LIBS:BOOL=OFF \
         -DBUILD_SZIP_WITH_FETCHCONTENT:BOOL=OFF \
-        -DBUILD_TESTING:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=ON \
         -DBUILD_USER_DEFINED_LIBS:BOOL=OFF \
         -DBUILD_ZLIB_WITH_FETCHCONTENT:BOOL=OFF \
         -DHDF5_BATCH_H5DETECT:BOOL=OFF \
@@ -54,7 +54,7 @@ jobs:
         -DHDF5_ENABLE_MIRROR_VFD=OFF \
         -DHDF5_ENABLE_PARALLEL:BOOL=OFF \
         -DHDF5_ENABLE_PLUGIN_SUPPORT:BOOL=OFF \
-        -DHDF5_ENABLE_ROS3_VFD:BOOL=OFF \
+        -DHDF5_ENABLE_ROS3_VFD:BOOL=ON \
         -DHDF5_ENABLE_SUBFILING_VFD:BOOL=OFF \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DHDF5_ENABLE_THREADSAFE:BOOL=OFF \

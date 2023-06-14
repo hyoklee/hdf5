@@ -633,7 +633,7 @@ H5Pget_fapl_ros3_token(hid_t fapl_id, size_t size, char *token_dst /*out*/)
     herr_t          ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE2("e", "i*s", fapl_id, token);
+    H5TRACE3("e", "izx", fapl_id, size, token_dst);
 
 #if ROS3_DEBUG
     HDfprintf(stdout, "H5Pget_fapl_ros3_token() called.\n");

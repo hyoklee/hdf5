@@ -52,7 +52,7 @@
 
 /* toggle debugging (enable with 1)
  */
-#define S3COMMS_DEBUG 0
+#define S3COMMS_DEBUG 1
 
 /* manipulate verbosity of CURL output
  * operates separately from S3COMMS_DEBUG
@@ -1037,7 +1037,7 @@ H5FD_s3comms_s3r_open(const char *url, const char *region, const char *id, const
     FUNC_ENTER_NOAPI_NOINIT
 
 #if S3COMMS_DEBUG
-    HDfprintf(stdout, "called H5FD_s3comms_s3r_open.\n");
+      HDfprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
 #endif
 
     if (url == NULL || url[0] == '\0')
@@ -1521,7 +1521,7 @@ H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
         if (sds == NULL)
             HDfprintf(stderr, "sds is NULL!\n");
         else {
-            HDfprintf(stderr, "sds: 0x%lx\n", (long long)sds);
+            HDfprintf(stderr, "sds: 0x%llx\n", (long long)sds);
             HDfprintf(stderr, "sds->size: %d\n", (int)sds->size);
             if (len > sds->size)
                 HDfprintf(stderr, "buffer overwrite\n");
@@ -1966,19 +1966,21 @@ done:
  */
 static herr_t
 H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, char *key_id, char *access_key,
-                                       char *aws_region)
+                                       char *aws_region, char* session_token)
 {
     char        profile_line[32];
-    char        buffer[128];
+    char        buffer[4096];
     const char *setting_names[] = {
         "region",
         "aws_access_key_id",
         "aws_secret_access_key",
+        "aws_session_token"        
     };
     char *const setting_pointers[] = {
         aws_region,
         key_id,
         access_key,
+        session_token
     };
     unsigned setting_count = 3;
     herr_t   ret_value     = SUCCEED;
@@ -2000,10 +2002,10 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
     /* look for start of profile */
     do {
         /* clear buffer */
-        for (buffer_i = 0; buffer_i < 128; buffer_i++)
+        for (buffer_i = 0; buffer_i < 4096; buffer_i++)
             buffer[buffer_i] = 0;
 
-        line_buffer = HDfgets(line_buffer, 128, file);
+        line_buffer = HDfgets(line_buffer, 4096, file);
         if (line_buffer == NULL) /* reached end of file */
             goto done;
     } while (HDstrncmp(line_buffer, profile_line, HDstrlen(profile_line)));
@@ -2011,11 +2013,12 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
     /* extract credentials from lines */
     do {
         /* clear buffer */
-        for (buffer_i = 0; buffer_i < 128; buffer_i++)
+        for (buffer_i = 0; buffer_i < 4096; buffer_i++)
             buffer[buffer_i] = 0;
 
         /* collect a line from file */
-        line_buffer = HDfgets(line_buffer, 128, file);
+        line_buffer = HDfgets(line_buffer, 4096, file);
+        printf("line_buffer=%s\n", line_buffer);
         if (line_buffer == NULL)
             goto done; /* end of file */
 
@@ -2023,17 +2026,17 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
         for (setting_i = 0; setting_i < setting_count; setting_i++) {
             size_t      setting_name_len = 0;
             const char *setting_name     = NULL;
-            char        line_prefix[128];
+            char        line_prefix[4096];
 
             setting_name     = setting_names[setting_i];
             setting_name_len = HDstrlen(setting_name);
-            if (HDsnprintf(line_prefix, 128, "%s=", setting_name) < 0)
+            if (HDsnprintf(line_prefix, 4096, "%s=", setting_name) < 0)
                 HGOTO_ERROR(H5E_ARGS, H5E_CANTCOPY, FAIL, "unable to format line prefix")
 
             /* found a matching name? */
             if (!HDstrncmp(line_buffer, line_prefix, setting_name_len + 1)) {
                 found_setting = 1;
-
+                printf("line_prefix=%s\n", line_prefix);
                 /* skip NULL destination buffer */
                 if (setting_pointers[setting_i] == NULL)
                     break;
@@ -2049,7 +2052,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
 
                 /* copy line buffer into out pointer */
                 HDstrncpy(setting_pointers[setting_i], (const char *)line_buffer, HDstrlen(line_buffer));
-
+                printf("setting_pointers[%d]=%s\n", setting_i, line_buffer);
                 /* "trim" tailing whitespace by replacing with null terminator*/
                 buffer_i = 0;
                 while (!HDisspace(setting_pointers[setting_i][buffer_i]))
@@ -2099,7 +2102,7 @@ done:
  */
 herr_t
 H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *secret_access_key_out,
-                              char *aws_region_out)
+                              char *aws_region_out, char *session_token_out)
 {
     herr_t ret_value = SUCCEED;
     FILE  *credfile  = NULL;
@@ -2127,7 +2130,7 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
     credfile = HDfopen(filepath, "r");
     if (credfile != NULL) {
         if (H5FD__s3comms_load_aws_creds_from_file(credfile, profile_name, key_id_out, secret_access_key_out,
-                                                   aws_region_out) == FAIL)
+                                                   aws_region_out, session_token_out) == FAIL)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to load from aws credentials")
         if (HDfclose(credfile) == EOF)
             HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, FAIL, "unable to close credentials file")
@@ -2142,7 +2145,8 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
         if (H5FD__s3comms_load_aws_creds_from_file(
                 credfile, profile_name, (*key_id_out == 0) ? key_id_out : NULL,
                 (*secret_access_key_out == 0) ? secret_access_key_out : NULL,
-                (*aws_region_out == 0) ? aws_region_out : NULL) == FAIL)
+                (*aws_region_out == 0) ? aws_region_out : NULL,
+                (*session_token_out == 0) ? session_token_out : NULL                                   ) == FAIL)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to load from aws config")
         if (HDfclose(credfile) == EOF)
             HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, FAIL, "unable to close config file")

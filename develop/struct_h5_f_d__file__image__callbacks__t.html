@@ -142,6 +142,8 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the buffer being reallocated </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_image_op</td><td>A value from <a class="el" href="_h5_f_dpublic_8h.html#aa95ee1806ea4db9f035cd53844c008dd">H5FD_file_image_op_t</a> indicating the operation being performed on the file image when this callback is invoked </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">udata</td><td>Value passed in in the H5Pset_file_image_callbacks parameter <code>udata</code> </td></tr>
   </table>
   </dd>
@@ -186,6 +188,7 @@ Data Fields</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">dest</td><td>Address of the destination buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>Address of the source buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size in bytes of the file image buffer to allocate </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">file_image_op</td><td>A value from <a class="el" href="_h5_f_dpublic_8h.html#aa95ee1806ea4db9f035cd53844c008dd">H5FD_file_image_op_t</a> indicating the operation being performed on the file image when this callback is invoked </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">udata</td><td>Value passed in in the H5Pset_file_image_callbacks parameter <code>udata</code> </td></tr>
   </table>
@@ -208,6 +211,7 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>Pointer to the buffer being reallocated </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size in bytes of the file image buffer to allocate </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">file_image_op</td><td>A value from <a class="el" href="_h5_f_dpublic_8h.html#aa95ee1806ea4db9f035cd53844c008dd">H5FD_file_image_op_t</a> indicating the operation being performed on the file image when this callback is invoked </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">udata</td><td>Value passed in in the H5Pset_file_image_callbacks parameter <code>udata</code> </td></tr>
   </table>
@@ -281,7 +285,7 @@ Data Fields</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="struct_h5_f_d__file__image__callbacks__t.html">H5FD_file_image_callbacks_t</a></li>
-    <li class="footer">Generated on Thu Jun 1 2023 19:21:20 for HDF5 by
+    <li class="footer">Generated on Wed Jun 14 2023 17:43:16 for HDF5 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.1 </li>
   </ul>

@@ -692,8 +692,8 @@ H5FD__ros3_str_token_copy(const char *name, size_t size, void *_value)
 #endif
 
     if (*value)
-        if (NULL == (*value = HDstrdup(*value)))
-            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't copy string property token")
+        if (NULL == (*value = HDstrndup(*value, size)))
+          HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't copy string property token for %s", name)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value);
@@ -724,7 +724,7 @@ H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t size)
 
     if (*value1) {
         if (*value2)
-            ret_value = HDstrcmp(*value1, *value2);
+            ret_value = HDstrncmp(*value1, *value2, size);
         else
             ret_value = 1;
     }
@@ -757,11 +757,14 @@ H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
 {
     char **value     = (char **)_value;
     herr_t ret_value = SUCCEED;
-
+    
     FUNC_ENTER_PACKAGE_NOERR
 
     if (*value)
         HDfree(*value);
+    else
+        HDfprintf(stdout, "H5FD__ros3_str_token_close(%s, %zu) got NULL *value.\n",
+                  name, size);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_close */
@@ -791,6 +794,10 @@ H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *
 
     if (*value)
         HDfree(*value);
+    else
+        HDfprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n",
+                  prop_id, name, size);
+        
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_delete */

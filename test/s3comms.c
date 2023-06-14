@@ -2594,7 +2594,7 @@ main(void)
     s3_test_aws_access_key_id[0]     = '\0';
     s3_test_aws_secret_access_key[0] = '\0';
     s3_test_aws_region[0]            = '\0';
-    s3_test_aws_security_token[0]         = '\0';    
+    s3_test_aws_security_token[0]    = '\0';
     s3_test_bucket_url[0]            = '\0';
 
     /* TODO: unit/regression test for H5FD_s3comms_load_aws_profile()
@@ -2604,7 +2604,8 @@ main(void)
      * if unable, certain tests will be skipped
      */
     if (SUCCEED == H5FD_s3comms_load_aws_profile(S3_TEST_PROFILE_NAME, s3_test_aws_access_key_id,
-                                                 s3_test_aws_secret_access_key, s3_test_aws_region, s3_test_aws_security_token)) {
+                                                 s3_test_aws_secret_access_key, s3_test_aws_region,
+                                                 s3_test_aws_security_token)) {
         s3_test_credentials_loaded = 1;
     }
 

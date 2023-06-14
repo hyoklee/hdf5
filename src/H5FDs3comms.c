@@ -1037,7 +1037,7 @@ H5FD_s3comms_s3r_open(const char *url, const char *region, const char *id, const
     FUNC_ENTER_NOAPI_NOINIT
 
 #if S3COMMS_DEBUG
-      HDfprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
+    HDfprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
 #endif
 
     if (url == NULL || url[0] == '\0')
@@ -1966,28 +1966,19 @@ done:
  */
 static herr_t
 H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, char *key_id, char *access_key,
-                                       char *aws_region, char* session_token)
+                                       char *aws_region, char *session_token)
 {
     char        profile_line[32];
     char        buffer[4096];
-    const char *setting_names[] = {
-        "region",
-        "aws_access_key_id",
-        "aws_secret_access_key",
-        "aws_session_token"        
-    };
-    char *const setting_pointers[] = {
-        aws_region,
-        key_id,
-        access_key,
-        session_token
-    };
-    unsigned setting_count = 3;
-    herr_t   ret_value     = SUCCEED;
-    unsigned buffer_i      = 0;
-    unsigned setting_i     = 0;
-    int      found_setting = 0;
-    char    *line_buffer   = &(buffer[0]);
+    const char *setting_names[]    = {"region", "aws_access_key_id", "aws_secret_access_key",
+                                   "aws_session_token"};
+    char *const setting_pointers[] = {aws_region, key_id, access_key, session_token};
+    unsigned    setting_count      = 3;
+    herr_t      ret_value          = SUCCEED;
+    unsigned    buffer_i           = 0;
+    unsigned    setting_i          = 0;
+    int         found_setting      = 0;
+    char       *line_buffer        = &(buffer[0]);
 
     FUNC_ENTER_PACKAGE
 
@@ -2146,7 +2137,7 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
                 credfile, profile_name, (*key_id_out == 0) ? key_id_out : NULL,
                 (*secret_access_key_out == 0) ? secret_access_key_out : NULL,
                 (*aws_region_out == 0) ? aws_region_out : NULL,
-                (*session_token_out == 0) ? session_token_out : NULL                                   ) == FAIL)
+                (*session_token_out == 0) ? session_token_out : NULL) == FAIL)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to load from aws config")
         if (HDfclose(credfile) == EOF)
             HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, FAIL, "unable to close config file")

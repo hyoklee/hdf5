@@ -52,21 +52,3 @@ jobs:
           destination_dir: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Build 1.14.1 Documentation
-        run: |
-          rm -rf ./hdf5
-          git clone https://github.com/HDFGroup/hdf5.git
-          cd hdf5
-          git checkout hdf5-1_14_1-2
-          mkdir build
-          cd build
-          cmake -DHDF5_BUILD_DOC:BOOL=ON ..
-          make doxygen
-
-      - name: Deploy 1.14.1
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          publish_dir: ./hdf5/build/hdf5lib_docs/html
-          destination_dir: 1.14.1
-          github_token: ${{ secrets.GITHUB_TOKEN }}

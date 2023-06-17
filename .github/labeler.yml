@@ -1,0 +1,21 @@
+# Add 'repo' label to any root file changes
+repo:
+- '*'
+
+# Add 'test' label to any change to *.spec.js files within the source dir
+test:
+- test/**
+
+# Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
+fix:
+- any: ['src/**', '!src/docs/*']
+
+# Add 'docs` label to any change to docs/ release_docs  files
+docs:
+- any: ['docs/**', 'release_docs/**']
+
+# Add 'ci` label to any change to .github/** files.
+ci:
+- any: ['.github/**']
+
+  

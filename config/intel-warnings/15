@@ -6,7 +6,6 @@
 -Wmain
 -Wmissing-declarations
 -Wmissing-prototypes
--Wp64
 -Wpointer-arith
 -Wreturn-type
 -Wshadow

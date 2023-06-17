@@ -58,6 +58,7 @@ jobs:
           ./autogen.sh
           ./configure  --enable-fortran --enable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/2021.9.0/lib -L/opt/intel/oneapi/mpi/2021.9.0/lib/release/"
           make -j
+          export SYCL_DEVICE_FILTER=opencl.cpu
           make check -j 
           sudo make install
           sudo make uninstall

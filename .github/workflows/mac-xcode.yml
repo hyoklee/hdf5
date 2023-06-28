@@ -15,8 +15,8 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G Xcode -C Debug ..
-          cmake --build .
-          ctest --build .
+          cmake -G Xcode ..
+          cmake --build . --config Debug
+          ctest --build . -C Debug
           sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -P cmake_install.cmake
           

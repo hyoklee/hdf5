@@ -363,7 +363,7 @@ Functions</h2></td></tr>
 <div class="line">            <span class="comment">/* Get the size of the compressed chunk */</span></div>
 <div class="line">            ret = <a class="code" href="group___h5_d.html#gaaeea958861de082db9051fc4bf215234">H5Dget_chunk_storage_size</a>(dataset, offset, &amp;read_chunk_nbytes);</div>
 <div class="line"> </div>
-<div class="line">            readbuf    = HDmalloc(read_chunk_nbytes);</div>
+<div class="line">            readbuf    = malloc(read_chunk_nbytes);</div>
 <div class="line">            pt_readbuf = (<span class="keyword">const</span> Bytef *)readbuf;</div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">/* Use H5DOread_chunk() to read the chunk back */</span></div>
@@ -594,7 +594,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jun 28 2023 21:46:42 for HDF5 by
+    <li class="footer">Generated on Wed Jun 28 2023 23:20:12 for HDF5 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.1 </li>
   </ul>

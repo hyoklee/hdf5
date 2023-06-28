@@ -2624,7 +2624,7 @@ This function is dangerous if called on an invalid address. The risk can be safe
 <div class="line">        FAIL_STACK_ERROR;</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code" href="_h5_opublic_8h.html#a929ff459574495f461657f6be804cdeca5ca744a77f8cd2b28dda90c37807ae31">H5O_TYPE_DATASET</a> != oinfo2.type) {</div>
 <div class="line">        H5_FAILED();</div>
-<div class="line">        HDprintf(<span class="stringliteral">&quot;    %d: Unexpected object type should have been a dataset\n&quot;</span>, __LINE__);</div>
+<div class="line">        printf(<span class="stringliteral">&quot;    %d: Unexpected object type should have been a dataset\n&quot;</span>, __LINE__);</div>
 <div class="line">        TEST_ERROR;</div>
 <div class="line">    } <span class="comment">/* end if */</span></div>
 <div class="line"> </div>
@@ -3332,7 +3332,7 @@ On failure, returns a negative value if something goes wrong within the library,
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Jun 28 2023 15:04:14 for HDF5 by
+    <li class="footer">Generated on Wed Jun 28 2023 20:22:16 for HDF5 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.1 </li>
   </ul>

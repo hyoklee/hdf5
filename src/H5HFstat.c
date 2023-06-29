@@ -10,9 +10,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:  Quincey Koziol
- *              Monday, March  6, 2006
- *
+/*
  * Purpose:	Fractal heap metadata statistics functions.
  *
  */
@@ -78,8 +76,8 @@ H5HF_stat_info(const H5HF_t *fh, H5HF_stat_t *stats)
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments. */
-    HDassert(fh);
-    HDassert(stats);
+    assert(fh);
+    assert(stats);
 
     /* Report statistics for fractal heap */
     stats->man_size       = fh->hdr->man_size;
@@ -124,8 +122,8 @@ H5HF_size(const H5HF_t *fh, hsize_t *heap_size)
     /*
      * Check arguments.
      */
-    HDassert(fh);
-    HDassert(heap_size);
+    assert(fh);
+    assert(heap_size);
 
     /* Get "convenience" pointer to fractal heap header */
     hdr = fh->hdr;

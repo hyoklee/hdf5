@@ -179,7 +179,7 @@ test_iter_group(FileAccPropList &fapl)
         check_values(lnames[NDATASETS], "HDstrdup returns NULL", __LINE__, __FILE__);
 
         /* Sort the dataset names */
-        HDqsort(lnames, NDATASETS + 2, sizeof(char *), iter_strcmp);
+        qsort(lnames, NDATASETS + 2, sizeof(char *), iter_strcmp);
 
         /* Iterate through the datasets in the root group in various ways */
 
@@ -267,7 +267,7 @@ test_iter_group(FileAccPropList &fapl)
 
         /* Free the dataset names */
         for (int i = 0; i < NDATASETS + 2; i++)
-            HDfree(lnames[i]);
+            free(lnames[i]);
 
         // Everything will be closed as they go out of scope
 

@@ -159,36 +159,35 @@ check_stats(const H5F_t *f, const H5FS_t *frsp, H5FS_stat_t *state)
 {
     H5FS_stat_t frspace_stats; /* Statistics about the heap */
 
-    HDassert(f);
-    HDassert(frsp);
+    assert(f);
+    assert(frsp);
 
     /* Get statistics for free-space and verify they are correct */
     if (H5FS_stat_info(f, frsp, &frspace_stats) < 0)
         FAIL_STACK_ERROR;
 
     if (frspace_stats.tot_space != state->tot_space) {
-        HDfprintf(stdout, "frspace_stats.tot_space = %" PRIuHSIZE ", state->tot_space = %" PRIuHSIZE "\n",
-                  frspace_stats.tot_space, state->tot_space);
+        fprintf(stdout, "frspace_stats.tot_space = %" PRIuHSIZE ", state->tot_space = %" PRIuHSIZE "\n",
+                frspace_stats.tot_space, state->tot_space);
         TEST_ERROR;
     } /* end if */
     if (frspace_stats.tot_sect_count != state->tot_sect_count) {
-        HDfprintf(stdout,
-                  "frspace_stats.tot_sect_count = %" PRIuHSIZE ", state->tot_sect_count = %" PRIuHSIZE "\n",
-                  frspace_stats.tot_sect_count, state->tot_sect_count);
+        fprintf(stdout,
+                "frspace_stats.tot_sect_count = %" PRIuHSIZE ", state->tot_sect_count = %" PRIuHSIZE "\n",
+                frspace_stats.tot_sect_count, state->tot_sect_count);
         TEST_ERROR;
     } /* end if */
     if (frspace_stats.serial_sect_count != state->serial_sect_count) {
-        HDfprintf(stdout,
-                  "frspace_stats.serial_sect_count = %" PRIuHSIZE ", state->serial_sect_count = %" PRIuHSIZE
-                  "\n",
-                  frspace_stats.serial_sect_count, state->serial_sect_count);
+        fprintf(stdout,
+                "frspace_stats.serial_sect_count = %" PRIuHSIZE ", state->serial_sect_count = %" PRIuHSIZE
+                "\n",
+                frspace_stats.serial_sect_count, state->serial_sect_count);
         TEST_ERROR;
     } /* end if */
     if (frspace_stats.ghost_sect_count != state->ghost_sect_count) {
-        HDfprintf(stdout,
-                  "frspace_stats.ghost_sect_count = %" PRIuHSIZE ", state->ghost_sect_count = %" PRIuHSIZE
-                  "\n",
-                  frspace_stats.ghost_sect_count, state->ghost_sect_count);
+        fprintf(stdout,
+                "frspace_stats.ghost_sect_count = %" PRIuHSIZE ", state->ghost_sect_count = %" PRIuHSIZE "\n",
+                frspace_stats.ghost_sect_count, state->ghost_sect_count);
         TEST_ERROR;
     } /* end if */
 
@@ -6204,7 +6203,7 @@ test_mf_bug1(const char *env_h5_drvr, hid_t fapl)
 
             /* Free memb_name */
             for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
-                HDfree(memb_name[mt]);
+                free(memb_name[mt]);
         } /* end else */
     }     /* end if */
 
@@ -6315,7 +6314,7 @@ test_mf_fs_persist_split(void)
      * with the split file driver.
      */
     SKIPPED();
-    HDfprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
+    fprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
     return 0; /* <========== note return */
 
     /* File creation property list template */
@@ -6325,7 +6324,7 @@ test_mf_fs_persist_split(void)
          * with the split file driver.
          */
         SKIPPED();
-    HDfprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
+    fprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
     return 0; /* <========== note return */
 
     /* File creation property list template */
@@ -6638,14 +6637,14 @@ test_mf_fs_persist_multi(void)
      * with the multi file driver.
      */
     SKIPPED();
-    HDfprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
+    fprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
     return 0; /* <========== note return */
 
     /* for now, we don't support persistent free space managers
      * with the multi file driver.
      */
     SKIPPED();
-    HDfprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
+    fprintf(stdout, " Persistent FSMs disabled in multi file driver.\n");
     return 0; /* <========== note return */
 
     /* File creation property list template */
@@ -7415,7 +7414,7 @@ test_mf_strat_thres_persist(const char *env_h5_drvr, hid_t fapl, hbool_t new_for
 
                     if (nsects) {
                         /* Allocate storage for the free space section information */
-                        sect_info = (H5F_sect_info_t *)HDcalloc((size_t)nsects, sizeof(H5F_sect_info_t));
+                        sect_info = (H5F_sect_info_t *)calloc((size_t)nsects, sizeof(H5F_sect_info_t));
 
                         H5Fget_free_sections(file, H5FD_MEM_DEFAULT, (size_t)nsects, sect_info);
 
@@ -7424,7 +7423,7 @@ test_mf_strat_thres_persist(const char *env_h5_drvr, hid_t fapl, hbool_t new_for
                             if (sect_info[i].size < fs_threshold)
                                 TEST_ERROR;
                         if (sect_info)
-                            HDfree(sect_info);
+                            free(sect_info);
                     }
                 }
                 else {
@@ -7756,7 +7755,7 @@ set_multi_split(hid_t fapl, hsize_t pagesize, hbool_t is_multi_or_split)
     hbool_t    relax;
     H5FD_mem_t mt;
 
-    HDassert(is_multi_or_split);
+    assert(is_multi_or_split);
 
     HDmemset(memb_name, 0, sizeof memb_name);
 
@@ -7782,7 +7781,7 @@ set_multi_split(hid_t fapl, hsize_t pagesize, hbool_t is_multi_or_split)
 
     /* Free memb_name */
     for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
-        HDfree(memb_name[mt]);
+        free(memb_name[mt]);
 
     return 0;
 
@@ -8941,7 +8940,7 @@ test_page_alignment(const char *env_h5_drvr, hid_t fapl)
 
             /* Free memb_name */
             for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
-                HDfree(memb_name[mt]);
+                free(memb_name[mt]);
 
             /* Close memb_fapl */
             if (H5Pclose(memb_fapl) < 0)

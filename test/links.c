@@ -639,7 +639,7 @@ cklinks(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5O_TYPE_DATASET != oinfo2.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
         TEST_ERROR;
     } /* end if */
 
@@ -689,7 +689,7 @@ cklinks(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5O_TYPE_DATASET != oinfo2.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5Otoken_cmp(file, &oinfo1.token, &oinfo2.token, &token_cmp) < 0)
@@ -725,12 +725,12 @@ cklinks(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5L_TYPE_SOFT != linfo.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5Lget_val(file, "grp1/dangle", linkval, sizeof linkval, H5P_DEFAULT) < 0) {
         H5_FAILED();
-        HDprintf("    %d: Can't retrieve link value\n", __LINE__);
+        printf("    %d: Can't retrieve link value\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (HDstrcmp(linkval, "foobar") != 0) {
@@ -756,12 +756,12 @@ cklinks(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5L_TYPE_SOFT != linfo.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5Lget_val(file, "grp1/recursive", linkval, sizeof linkval, H5P_DEFAULT) < 0) {
         H5_FAILED();
-        HDprintf("    %d: Can't retrieve link value\n", __LINE__);
+        printf("    %d: Can't retrieve link value\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (HDstrcmp(linkval, "/grp1/recursive") != 0) {
@@ -824,7 +824,7 @@ ck_new_links(hid_t fapl, hbool_t new_format)
     /* Check hard links */
     if (H5O_TYPE_DATASET != oi_hard1.type || H5O_TYPE_DATASET != oi_hard2.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
         TEST_ERROR;
     }
 
@@ -884,7 +884,7 @@ long_links(hid_t fapl, hbool_t new_format)
         TEST_ERROR;
 
     /* Construct very long file name */
-    if ((objname = (char *)HDmalloc((size_t)(MAX_NAME_LEN + 1))) == NULL)
+    if ((objname = (char *)malloc((size_t)(MAX_NAME_LEN + 1))) == NULL)
         TEST_ERROR;
     for (u = 0; u < MAX_NAME_LEN; u++)
         objname[u] = 'a';
@@ -912,7 +912,7 @@ long_links(hid_t fapl, hbool_t new_format)
         TEST_ERROR;
 
     /* Release memory */
-    HDfree(objname);
+    free(objname);
 
     PASSED();
     return SUCCEED;
@@ -925,7 +925,7 @@ error:
         H5Fclose(fid);
     }
     H5E_END_TRY
-    HDfree(objname);
+    free(objname);
     return FAIL;
 }
 
@@ -955,7 +955,7 @@ toomany(hid_t fapl, hbool_t new_format)
     /* XXX: should probably make a "generic" test that creates the proper
      *          # of links based on this value - QAK
      */
-    HDassert(H5L_NUM_LINKS == 16);
+    assert(H5L_NUM_LINKS == 16);
 
     /* Create file */
     h5_fixname(FILENAME[1], fapl, filename, sizeof filename);
@@ -2162,7 +2162,7 @@ cklinks_deprec(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5O_TYPE_DATASET != oinfo2.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5_addr_ne(oinfo1.addr, oinfo2.addr)) {
@@ -2207,7 +2207,7 @@ cklinks_deprec(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5O_TYPE_DATASET != oinfo2.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a dataset\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5_addr_ne(oinfo1.addr, oinfo2.addr)) {
@@ -2241,12 +2241,12 @@ cklinks_deprec(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5L_TYPE_SOFT != linfo.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5Lget_val(file, "grp1/dangle", linkval, sizeof linkval, H5P_DEFAULT) < 0) {
         H5_FAILED();
-        HDprintf("    %d: Can't retrieve link value\n", __LINE__);
+        printf("    %d: Can't retrieve link value\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (HDstrcmp(linkval, "foobar") != 0) {
@@ -2272,12 +2272,12 @@ cklinks_deprec(hid_t fapl, hbool_t new_format)
         FAIL_STACK_ERROR;
     if (H5L_TYPE_SOFT != linfo.type) {
         H5_FAILED();
-        HDprintf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
+        printf("    %d: Unexpected object type should have been a symbolic link\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (H5Lget_val(file, "grp1/recursive", linkval, sizeof linkval, H5P_DEFAULT) < 0) {
         H5_FAILED();
-        HDprintf("    %d: Can't retrieve link value\n", __LINE__);
+        printf("    %d: Can't retrieve link value\n", __LINE__);
         TEST_ERROR;
     } /* end if */
     if (HDstrcmp(linkval, "/grp1/recursive") != 0) {
@@ -4148,7 +4148,7 @@ lapl_nlinks_deprec(hid_t fapl, hbool_t new_format)
     /* XXX: should probably make a "generic" test that creates the proper
      *          # of links based on this value - QAK
      */
-    HDassert(H5L_NUM_LINKS == 16);
+    assert(H5L_NUM_LINKS == 16);
 
     /* Create file */
     h5_fixname(FILENAME[1], fapl, filename, sizeof filename);
@@ -6349,7 +6349,7 @@ link_iterate_check_deprec(hid_t group_id, H5_index_t idx_type, H5_iter_order_t o
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -6384,7 +6384,7 @@ link_iterate_check_deprec(hid_t group_id, H5_index_t idx_type, H5_iter_order_t o
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -6481,7 +6481,7 @@ link_iterate_deprec(hid_t fapl)
 
     /* Allocate the "visited link" array */
     iter_info.max_visit = max_compact * 2;
-    if (NULL == (visited = (hbool_t *)HDmalloc(sizeof(hbool_t) * iter_info.max_visit)))
+    if (NULL == (visited = (hbool_t *)malloc(sizeof(hbool_t) * iter_info.max_visit)))
         TEST_ERROR;
     iter_info.visited = visited;
 
@@ -6510,7 +6510,7 @@ link_iterate_deprec(hid_t fapl)
                                     "creation order index using deprecated routines");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("iterating over links by creation order index in native order w/creation "
                                     "order index using deprecated routines");
@@ -6537,7 +6537,7 @@ link_iterate_deprec(hid_t fapl)
                                     "order index using deprecated routines");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("iterating over links by name index in native order w/creation order "
                                     "index using deprecated routines");
@@ -6653,7 +6653,7 @@ link_iterate_deprec(hid_t fapl)
 
     /* Free resources */
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return SUCCEED;
 
@@ -6668,7 +6668,7 @@ error:
     H5E_END_TRY
 
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return FAIL;
 } /* end link_iterate_deprec() */
@@ -6832,7 +6832,7 @@ link_iterate_old_check_deprec(hid_t group_id, H5_iter_order_t order, unsigned ma
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -6867,7 +6867,7 @@ link_iterate_old_check_deprec(hid_t group_id, H5_iter_order_t order, unsigned ma
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -6964,7 +6964,7 @@ link_iterate_old_deprec(hid_t fapl)
 
     /* Allocate the "visited link" array */
     iter_info.max_visit = CORDER_NLINKS;
-    if (NULL == (visited = (hbool_t *)HDmalloc(sizeof(hbool_t) * iter_info.max_visit)))
+    if (NULL == (visited = (hbool_t *)malloc(sizeof(hbool_t) * iter_info.max_visit)))
         TEST_ERROR;
     iter_info.visited = visited;
 
@@ -6980,7 +6980,7 @@ link_iterate_old_deprec(hid_t fapl)
                     "deprecated routines");
         } /* end else */
         else {
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
             TESTING("iterating over links by name index in native order in old-style group using deprecated "
                     "routines");
         } /* end else */
@@ -7055,7 +7055,7 @@ link_iterate_old_deprec(hid_t fapl)
 
     /* Free resources */
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return SUCCEED;
 
@@ -7069,7 +7069,7 @@ error:
     H5E_END_TRY
 
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return FAIL;
 } /* end link_iterate_old_deprec() */
@@ -7986,7 +7986,7 @@ external_link_toomany(hid_t fapl, hbool_t new_format)
     /* XXX: should probably make a "generic" test that creates the proper
      *          # of links based on this value - QAK
      */
-    HDassert(H5L_NUM_LINKS == 16);
+    assert(H5L_NUM_LINKS == 16);
 
     /* Set up filenames */
     h5_fixname(FILENAME[3], fapl, filename1, sizeof filename1);
@@ -8064,7 +8064,7 @@ external_link_toomany(hid_t fapl, hbool_t new_format)
     H5E_END_TRY
     if (gid >= 0) {
         H5_FAILED();
-        HDprintf("%d:    Should have failed for sequence of too many nested links.", __LINE__);
+        printf("%d:    Should have failed for sequence of too many nested links.", __LINE__);
         goto error;
     }
 
@@ -9242,13 +9242,13 @@ external_set_elink_fapl2(hid_t fapl, hbool_t new_format)
         TESTING("H5Pset/get_elink_fapl() with same physical layout");
 
     /* Set up file names and paths */
-    if (NULL == (filename1 = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename1 = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename2 = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename2 = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (tmpname = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (tmpname = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (cwdpath = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (cwdpath = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
 
     if ((HDmkdir(TMPDIR, (mode_t)0755) < 0 && errno != EEXIST) ||
@@ -9256,9 +9256,9 @@ external_set_elink_fapl2(hid_t fapl, hbool_t new_format)
         TEST_ERROR;
 
     /* Set up data array */
-    if (NULL == (points_data = (int *)HDcalloc(NUM40 * NUM40, sizeof(int))))
+    if (NULL == (points_data = (int *)calloc(NUM40 * NUM40, sizeof(int))))
         TEST_ERROR;
-    if (NULL == (points = (int **)HDcalloc(NUM40, sizeof(points_data))))
+    if (NULL == (points = (int **)calloc(NUM40, sizeof(points_data))))
         TEST_ERROR;
     for (i = 0; i < NUM40; i++)
         points[i] = points_data + (i * NUM40);
@@ -9371,13 +9371,13 @@ external_set_elink_fapl2(hid_t fapl, hbool_t new_format)
     if (H5Pclose(core_fapl) < 0)
         TEST_ERROR;
 
-    HDfree(points);
-    HDfree(points_data);
+    free(points);
+    free(points_data);
 
-    HDfree(filename1);
-    HDfree(filename2);
-    HDfree(tmpname);
-    HDfree(cwdpath);
+    free(filename1);
+    free(filename2);
+    free(tmpname);
+    free(cwdpath);
 
     PASSED();
     return SUCCEED;
@@ -9396,13 +9396,13 @@ error:
     }
     H5E_END_TRY
 
-    HDfree(points);
-    HDfree(points_data);
+    free(points);
+    free(points_data);
 
-    HDfree(filename1);
-    HDfree(filename2);
-    HDfree(tmpname);
-    HDfree(cwdpath);
+    free(filename1);
+    free(filename2);
+    free(tmpname);
+    free(cwdpath);
 
     return FAIL;
 } /* end external_set_elink_fapl2() */
@@ -12476,27 +12476,27 @@ external_symlink(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
         return SUCCEED;
     }
 
-    if (NULL == (filename1 = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename1 = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename2a = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename2a = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename2b = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename2b = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename3a = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename3a = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename3b = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename3b = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename4a = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename4a = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename4b = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename4b = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename5a = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename5a = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (filename5b = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (filename5b = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (tmpname = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (tmpname = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
-    if (NULL == (cwdpath = (char *)HDcalloc(NAME_BUF_SIZE, sizeof(char))))
+    if (NULL == (cwdpath = (char *)calloc(NAME_BUF_SIZE, sizeof(char))))
         TEST_ERROR;
 
     /* set up name for main file: "extlinks21A" */
@@ -12519,7 +12519,7 @@ external_symlink(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
 
     /* Create symbolic link #1 in temporary directory #1 to file #2 in temporary directory #2 */
     /* (i.e. tmp_links/sym1.h5 -> <full path to>/tmp2_links/extlinks21B.h5) */
-    if (HDsymlink(filename2b, SYMLINK1) < 0 && errno != EEXIST)
+    if (symlink(filename2b, SYMLINK1) < 0 && errno != EEXIST)
         TEST_ERROR;
 
     /* set up name for file #3 in temporary directory #2: "tmp2_links/extlinks21C" */
@@ -12533,7 +12533,7 @@ external_symlink(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
 
     /* Create symbolic link #2 in temporary directory #2 to file #4 in temporary directory #1 */
     /* (i.e. tmp2_links/sym2.h5 -> <full path to>/tmp_links/extlinks21D.h5) */
-    if (HDsymlink(filename4b, SYMLINK2) < 0 && errno != EEXIST)
+    if (symlink(filename4b, SYMLINK2) < 0 && errno != EEXIST)
         TEST_ERROR;
 
     /* set up name for file #5 in temporary directory #1: "tmp_links/extlinks21E" */
@@ -12666,17 +12666,17 @@ external_symlink(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
     if (H5Fclose(file1) < 0)
         TEST_ERROR;
 
-    HDfree(filename1);
-    HDfree(filename2a);
-    HDfree(filename2b);
-    HDfree(filename3a);
-    HDfree(filename3b);
-    HDfree(filename4a);
-    HDfree(filename4b);
-    HDfree(filename5a);
-    HDfree(filename5b);
-    HDfree(tmpname);
-    HDfree(cwdpath);
+    free(filename1);
+    free(filename2a);
+    free(filename2b);
+    free(filename3a);
+    free(filename3b);
+    free(filename4a);
+    free(filename4b);
+    free(filename5a);
+    free(filename5b);
+    free(tmpname);
+    free(cwdpath);
 
     PASSED();
 
@@ -12697,17 +12697,17 @@ error:
     }
     H5E_END_TRY
 
-    HDfree(filename1);
-    HDfree(filename2a);
-    HDfree(filename2b);
-    HDfree(filename3a);
-    HDfree(filename3b);
-    HDfree(filename4a);
-    HDfree(filename4b);
-    HDfree(filename5a);
-    HDfree(filename5b);
-    HDfree(tmpname);
-    HDfree(cwdpath);
+    free(filename1);
+    free(filename2a);
+    free(filename2b);
+    free(filename3a);
+    free(filename3b);
+    free(filename4a);
+    free(filename4b);
+    free(filename5a);
+    free(filename5b);
+    free(tmpname);
+    free(cwdpath);
 
     return FAIL;
 
@@ -15244,7 +15244,7 @@ lapl_nlinks(hid_t fapl, hbool_t new_format)
     /* XXX: should probably make a "generic" test that creates the proper
      *          # of links based on this value - QAK
      */
-    HDassert(H5L_NUM_LINKS == 16);
+    assert(H5L_NUM_LINKS == 16);
 
     /* Create file */
     h5_fixname(FILENAME[1], fapl, filename, sizeof filename);
@@ -19534,7 +19534,7 @@ link_iterate_check(hid_t group_id, H5_index_t idx_type, H5_iter_order_t order, u
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -19570,7 +19570,7 @@ link_iterate_check(hid_t group_id, H5_index_t idx_type, H5_iter_order_t order, u
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -19670,7 +19670,7 @@ link_iterate(hid_t fapl)
 
     /* Allocate the "visited link" array */
     iter_info.max_visit = max_compact * 2;
-    if (NULL == (visited = (hbool_t *)HDmalloc(sizeof(hbool_t) * iter_info.max_visit)))
+    if (NULL == (visited = (hbool_t *)malloc(sizeof(hbool_t) * iter_info.max_visit)))
         TEST_ERROR;
     iter_info.visited = visited;
 
@@ -19699,7 +19699,7 @@ link_iterate(hid_t fapl)
                                     "creation order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("iterating over links by creation order index in native order w/creation "
                                     "order index");
@@ -19726,7 +19726,7 @@ link_iterate(hid_t fapl)
                                     "order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING(
                                 "iterating over links by name index in native order w/creation order index");
@@ -19842,7 +19842,7 @@ link_iterate(hid_t fapl)
 
     /* Free resources */
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return SUCCEED;
 
@@ -19857,7 +19857,7 @@ error:
     H5E_END_TRY
 
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return FAIL;
 } /* end link_iterate() */
@@ -20031,7 +20031,7 @@ link_iterate_old_check(hid_t group_id, H5_iter_order_t order, unsigned max_links
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -20067,7 +20067,7 @@ link_iterate_old_check(hid_t group_id, H5_iter_order_t order, unsigned max_links
     else {
         unsigned nvisit = 0; /* # of links visited */
 
-        HDassert(order == H5_ITER_NATIVE);
+        assert(order == H5_ITER_NATIVE);
         for (v = 0; v < max_links; v++)
             if (iter_info->visited[v] == TRUE)
                 nvisit++;
@@ -20169,7 +20169,7 @@ link_iterate_old(hid_t fapl)
 
     /* Allocate the "visited link" array */
     iter_info.max_visit = CORDER_NLINKS;
-    if (NULL == (visited = (hbool_t *)HDmalloc(sizeof(hbool_t) * iter_info.max_visit)))
+    if (NULL == (visited = (hbool_t *)malloc(sizeof(hbool_t) * iter_info.max_visit)))
         TEST_ERROR;
     iter_info.visited = visited;
 
@@ -20183,7 +20183,7 @@ link_iterate_old(hid_t fapl)
             TESTING("iterating over links by name index in decreasing order in old-style group");
         } /* end else */
         else {
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
             TESTING("iterating over links by name index in native order in old-style group");
         } /* end else */
 
@@ -20257,7 +20257,7 @@ link_iterate_old(hid_t fapl)
 
     /* Free resources */
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return SUCCEED;
 
@@ -20271,7 +20271,7 @@ error:
     H5E_END_TRY
 
     if (visited)
-        HDfree(visited);
+        free(visited);
 
     return FAIL;
 } /* end link_iterate_old() */
@@ -20428,7 +20428,7 @@ open_by_idx(hid_t fapl)
         TEST_ERROR;
 
     /* Allocate object token array */
-    if (NULL == (objno = (H5O_token_t *)HDmalloc(sizeof(H5O_token_t) * (max_compact * 2))))
+    if (NULL == (objno = (H5O_token_t *)malloc(sizeof(H5O_token_t) * (max_compact * 2))))
         TEST_ERROR;
 
     /* Create file to mount */
@@ -20461,7 +20461,7 @@ open_by_idx(hid_t fapl)
                                     "order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING(
                                 "open object by creation order index in native order w/creation order index");
@@ -20484,7 +20484,7 @@ open_by_idx(hid_t fapl)
                             TESTING("open object by name index in decreasing order w/o creation order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("open object by name index in native order w/creation order index");
                         else
@@ -20635,7 +20635,7 @@ open_by_idx(hid_t fapl)
 
     /* Free resources */
     if (objno)
-        HDfree(objno);
+        free(objno);
 
     return SUCCEED;
 
@@ -20652,7 +20652,7 @@ error:
     H5E_END_TRY
 
     if (objno)
-        HDfree(objno);
+        free(objno);
 
     return FAIL;
 } /* end open_by_idx() */
@@ -20810,7 +20810,7 @@ open_by_idx_old(hid_t fapl)
             TESTING("open object by name index in decreasing order in old-style group");
         } /* end else */
         else {
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
             TESTING("open object by name index in native order in old-style group");
         } /* end else */
 
@@ -21046,7 +21046,7 @@ object_info(hid_t fapl)
         TEST_ERROR;
 
     /* Allocate object token array */
-    if (NULL == (objno = (H5O_token_t *)HDmalloc(sizeof(H5O_token_t) * (max_compact * 2))))
+    if (NULL == (objno = (H5O_token_t *)malloc(sizeof(H5O_token_t) * (max_compact * 2))))
         TEST_ERROR;
 
     /* Create dataspace for attributes */
@@ -21078,7 +21078,7 @@ object_info(hid_t fapl)
                                     "creation order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("query object info by creation order index in native order w/creation "
                                     "order index");
@@ -21105,7 +21105,7 @@ object_info(hid_t fapl)
                                     "index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("query object info by name index in native order w/creation order index");
                         else
@@ -21288,7 +21288,7 @@ object_info(hid_t fapl)
     if (H5Sclose(space_id) < 0)
         TEST_ERROR;
     if (objno)
-        HDfree(objno);
+        free(objno);
 
     return SUCCEED;
 
@@ -21305,7 +21305,7 @@ error:
     H5E_END_TRY
 
     if (objno)
-        HDfree(objno);
+        free(objno);
 
     return FAIL;
 } /* end object_info() */
@@ -21435,7 +21435,7 @@ object_info_old(hid_t fapl)
             TESTING("query object info by name index in decreasing order in old-style group");
         } /* end else */
         else {
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
             TESTING("query object info by name index in native order in old-style group");
         } /* end else */
 
@@ -21629,7 +21629,7 @@ group_info(hid_t fapl)
                                     "creation order index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("query group info by creation order index in native order w/creation "
                                     "order index");
@@ -21656,7 +21656,7 @@ group_info(hid_t fapl)
                                     "index");
                     } /* end else */
                     else {
-                        HDassert(order == H5_ITER_NATIVE);
+                        assert(order == H5_ITER_NATIVE);
                         if (use_index)
                             TESTING("query group info by name index in native order w/creation order index");
                         else
@@ -22149,7 +22149,7 @@ group_info_old(hid_t fapl)
             TESTING("query group info by name index in decreasing order in old-style group");
         } /* end else */
         else {
-            HDassert(order == H5_ITER_NATIVE);
+            assert(order == H5_ITER_NATIVE);
             TESTING("query group info by name index in native order in old-style group");
         } /* end else */
 
@@ -22678,13 +22678,13 @@ main(void)
 
     for (minimize_dset_oh = 0; minimize_dset_oh <= 1; minimize_dset_oh++) {
         if (minimize_dset_oh) {
-            HDprintf("\n-Testing with minimized dataset object headers-\n");
+            printf("\n-Testing with minimized dataset object headers-\n");
             dcpl_g = H5Pcreate(H5P_DATASET_CREATE);
             if (0 > dcpl_g)
                 TEST_ERROR;
         }
         else {
-            HDprintf("\n-Testing with unminimzed dataset object headers-\n");
+            printf("\n-Testing with unminimzed dataset object headers-\n");
             dcpl_g = H5P_DEFAULT;
         }
 
@@ -22694,11 +22694,11 @@ main(void)
             /* Check for FAPL to use */
             if (new_format) {
                 my_fapl = fapl2;
-                HDprintf("\n--Testing with 'new format'--\n");
+                printf("\n--Testing with 'new format'--\n");
             }
             else {
                 my_fapl = fapl;
-                HDprintf("\n--Testing with 'old format'--\n");
+                printf("\n--Testing with 'old format'--\n");
             }
 
             /* always enter tests without external cache */
@@ -22752,12 +22752,12 @@ main(void)
                     if (efc) {
                         if (H5Pset_elink_file_cache_size(my_fapl, 8) < 0)
                             TEST_ERROR;
-                        HDprintf("\n---Testing with external file cache---\n");
+                        printf("\n---Testing with external file cache---\n");
                     } /* end if */
                     else {
                         if (H5Pset_elink_file_cache_size(my_fapl, 0) < 0)
                             TEST_ERROR;
-                        HDprintf("\n---Testing without external file cache---\n");
+                        printf("\n---Testing without external file cache---\n");
                     } /* end else */
 
                     nerrors += external_link_root(my_fapl, new_format) < 0 ? 1 : 0;
@@ -22941,10 +22941,10 @@ main(void)
 
     /* Results */
     if (nerrors) {
-        HDprintf("***** %d LINK TEST%s FAILED! *****\n", nerrors, 1 == nerrors ? "" : "S");
-        HDexit(EXIT_FAILURE);
+        printf("***** %d LINK TEST%s FAILED! *****\n", nerrors, 1 == nerrors ? "" : "S");
+        exit(EXIT_FAILURE);
     }
-    HDprintf("All link tests passed.\n");
+    printf("All link tests passed.\n");
 
     /* clean up symlink created by external link tests */
     HDremove(SYMLINK1);
@@ -22954,9 +22954,9 @@ main(void)
     HDrmdir(TMPDIR);
     HDrmdir(TMPDIR2);
 
-    HDexit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 
 error:
     HDputs("*** TESTS FAILED ***");
-    HDexit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
 } /* end main() */

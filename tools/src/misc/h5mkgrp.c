@@ -58,18 +58,18 @@ leave(int ret)
     size_t curr_group;
 
     if (params_g.fname)
-        HDfree(params_g.fname);
+        free(params_g.fname);
     if (params_g.ngroups) {
         for (curr_group = 0; curr_group < params_g.ngroups; curr_group++)
-            HDfree(params_g.groups[curr_group]);
-        HDfree(params_g.groups);
+            free(params_g.groups[curr_group]);
+        free(params_g.groups);
     }
     if (H5I_INVALID_HID != params_g.fapl_id && H5P_DEFAULT != params_g.fapl_id)
         if (H5Pclose(params_g.fapl_id) < 0)
             error_msg("Could not close file access property list\n");
 
     h5tools_close();
-    HDexit(ret);
+    exit(ret);
 } /* end leave() */
 
 /*-------------------------------------------------------------------------
@@ -105,6 +105,13 @@ usage(const char *prog)
     PRINTVALSTREAM(rawoutstream,
                    "      --vol-info         VOL-specific info to pass to the VOL connector used for\n");
     PRINTVALSTREAM(rawoutstream, "                         opening the HDF5 file specified\n");
+    PRINTVALSTREAM(rawoutstream,
+                   "                         If none of the above options are used to specify a VOL, then\n");
+    PRINTVALSTREAM(
+        rawoutstream,
+        "                         the VOL named by HDF5_VOL_CONNECTOR (or the native VOL connector,\n");
+    PRINTVALSTREAM(rawoutstream,
+                   "                         if that environment variable is unset) will be used\n");
     PRINTVALSTREAM(rawoutstream,
                    "      --vfd-value        Value (ID) of the VFL driver to use for opening the\n");
     PRINTVALSTREAM(rawoutstream, "                         HDF5 file specified\n");
@@ -182,7 +189,7 @@ parse_command_line(int argc, const char *const *argv, mkgrp_opt_t *options)
 
             case '1':
                 vol_info.type    = VOL_BY_VALUE;
-                vol_info.u.value = (H5VL_class_value_t)HDatoi(H5_optarg);
+                vol_info.u.value = (H5VL_class_value_t)atoi(H5_optarg);
                 custom_vol       = TRUE;
                 break;
 
@@ -198,7 +205,7 @@ parse_command_line(int argc, const char *const *argv, mkgrp_opt_t *options)
 
             case '4':
                 vfd_info.type    = VFD_BY_VALUE;
-                vfd_info.u.value = (H5FD_class_value_t)HDatoi(H5_optarg);
+                vfd_info.u.value = (H5FD_class_value_t)atoi(H5_optarg);
                 custom_vfd       = TRUE;
                 break;
 
@@ -239,7 +246,7 @@ parse_command_line(int argc, const char *const *argv, mkgrp_opt_t *options)
 
     /* Allocate space for the group name pointers */
     options->ngroups = (size_t)(argc - H5_optind);
-    options->groups  = (char **)HDmalloc(options->ngroups * sizeof(char *));
+    options->groups  = (char **)malloc(options->ngroups * sizeof(char *));
 
     /* Retrieve the group names */
     curr_group = 0;
@@ -320,7 +327,7 @@ main(int argc, char *argv[])
 
         /* Display some output if requested */
         if (params_g.verbose)
-            HDprintf("%s: Creating groups with latest version of the format\n", h5tools_getprogname());
+            printf("%s: Creating groups with latest version of the format\n", h5tools_getprogname());
     }
 
     /* Attempt to open an existing HDF5 file first */
@@ -354,7 +361,7 @@ main(int argc, char *argv[])
 
         /* Display some output if requested */
         if (params_g.verbose)
-            HDprintf("%s: Creating parent groups\n", h5tools_getprogname());
+            printf("%s: Creating parent groups\n", h5tools_getprogname());
     }
 
     /* Loop over creating requested groups */
@@ -375,7 +382,7 @@ main(int argc, char *argv[])
 
         /* Display some output if requested */
         if (params_g.verbose)
-            HDprintf("%s: created group '%s'\n", h5tools_getprogname(), params_g.groups[curr_group]);
+            printf("%s: created group '%s'\n", h5tools_getprogname(), params_g.groups[curr_group]);
     } /* end for */
 
     /* Close link creation property list */

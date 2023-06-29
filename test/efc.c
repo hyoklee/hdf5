@@ -10,10 +10,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:  Neil Fortner
- *              December 16, 2010
- */
-
 #include "h5test.h"
 
 #define H5F_FRIEND /*suppress error about including H5Fpkg	  */
@@ -2666,7 +2662,7 @@ main(void)
 
     /* Allocate memory for filenames */
     for (i = 0; i < N_FILENAMES; i++) {
-        filename[i] = (char *)HDcalloc(PATH_MAX, sizeof(char));
+        filename[i] = (char *)calloc(PATH_MAX, sizeof(char));
     }
 
     /* Patch filenames */
@@ -2716,7 +2712,7 @@ main(void)
     h5_clean_files(FILENAME, fapl_id);
 
     for (i = 0; i < N_FILENAMES; i++) {
-        HDfree(filename[i]);
+        free(filename[i]);
     }
 
     return EXIT_SUCCESS;
@@ -2734,7 +2730,7 @@ error:
         H5CX_pop(FALSE);
 
     for (i = 0; i < N_FILENAMES; i++) {
-        HDfree(filename[i]);
+        free(filename[i]);
     }
 
     return EXIT_FAILURE;

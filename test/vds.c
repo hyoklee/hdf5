@@ -55,7 +55,7 @@ static const char *FILENAME[] = {"vds_virt_0", "vds_virt_1", "vds_src_0",  "vds_
 /* Print config directly to output */
 #define PRINT_CONFIG(...)                                                                                    \
     do {                                                                                                     \
-        HDprintf("Config: " __VA_ARGS__);                                                                    \
+        printf("Config: " __VA_ARGS__);                                                                      \
         HDputs("");                                                                                          \
     } while (0)
 
@@ -80,11 +80,11 @@ char vds_test_str_g[128]   = "";
 /* Replacement for TEST_ERROR for non-verbose output */
 #define TEST_ERROR_SUPPRESSED                                                                                \
     do {                                                                                                     \
-        HDprintf("Failed config: %s\nFailed test: %s\n", vds_config_str_g, vds_test_str_g);                  \
+        printf("Failed config: %s\nFailed test: %s\n", vds_config_str_g, vds_test_str_g);                    \
         TEST_ERROR;                                                                                          \
     } while (0)
 
-/* Replacement for HDprintf for printing configuration for non-verbose output */
+/* Replacement for printf for printing configuration for non-verbose output */
 #define PRINT_CONFIG(...)                                                                                    \
     do {                                                                                                     \
         HDsnprintf(vds_config_str_g, sizeof(vds_config_str_g), __VA_ARGS__);                                 \
@@ -164,9 +164,9 @@ vds_select_equal(hid_t space1, hid_t space2)
 
             /* Allocate point lists.  Do not return directly after
              * allocating, to make sure buffers are freed. */
-            if (NULL == (buf1 = (hsize_t *)HDmalloc((size_t)rank1 * (size_t)npoints1 * sizeof(hsize_t))))
+            if (NULL == (buf1 = (hsize_t *)malloc((size_t)rank1 * (size_t)npoints1 * sizeof(hsize_t))))
                 TEST_ERROR;
-            if (NULL == (buf2 = (hsize_t *)HDmalloc((size_t)rank1 * (size_t)npoints1 * sizeof(hsize_t))))
+            if (NULL == (buf2 = (hsize_t *)malloc((size_t)rank1 * (size_t)npoints1 * sizeof(hsize_t))))
                 TEST_ERROR;
 
             /* Get and compare point lists */
@@ -181,9 +181,9 @@ vds_select_equal(hid_t space1, hid_t space2)
                 }
 
             /* Free buffers */
-            HDfree(buf1);
+            free(buf1);
             buf1 = NULL;
-            HDfree(buf2);
+            free(buf2);
             buf2 = NULL;
         } /* end block */
 
@@ -214,10 +214,10 @@ vds_select_equal(hid_t space1, hid_t space2)
             /* Allocate block lists.  Do not return directly after
              * allocating, to make sure buffers are freed. */
             if (NULL ==
-                (buf1 = (hsize_t *)HDmalloc((size_t)2 * (size_t)rank1 * (size_t)nblocks1 * sizeof(*buf1))))
+                (buf1 = (hsize_t *)malloc((size_t)2 * (size_t)rank1 * (size_t)nblocks1 * sizeof(*buf1))))
                 TEST_ERROR;
             if (NULL ==
-                (buf2 = (hsize_t *)HDmalloc((size_t)2 * (size_t)rank1 * (size_t)nblocks1 * sizeof(*buf2))))
+                (buf2 = (hsize_t *)malloc((size_t)2 * (size_t)rank1 * (size_t)nblocks1 * sizeof(*buf2))))
                 TEST_ERROR;
 
             /* Get and compare block lists */
@@ -232,9 +232,9 @@ vds_select_equal(hid_t space1, hid_t space2)
                 }
 
             /* Free buffers */
-            HDfree(buf1);
+            free(buf1);
             buf1 = NULL;
-            HDfree(buf2);
+            free(buf2);
             buf2 = NULL;
         } /* end block */
 
@@ -250,9 +250,9 @@ vds_select_equal(hid_t space1, hid_t space2)
 
 error:
     if (buf1)
-        HDfree(buf1);
+        free(buf1);
     if (buf2)
-        HDfree(buf2);
+        free(buf2);
 
     return -1;
 } /* end vds_select_equal() */
@@ -277,11 +277,11 @@ vds_check_mapping(hid_t dcpl, size_t i, hid_t vspace, hid_t srcspace, const char
     htri_t  tri_ret;
     ssize_t str_len;
 
-    HDassert(dcpl >= 0);
-    HDassert(vspace >= 0);
-    HDassert(srcspace >= 0);
-    HDassert(filename);
-    HDassert(dsetname);
+    assert(dcpl >= 0);
+    assert(vspace >= 0);
+    assert(srcspace >= 0);
+    assert(filename);
+    assert(dsetname);
 
     /* Check vspace */
     if ((space_out = H5Pget_virtual_vspace(dcpl, i)) < 0)
@@ -314,7 +314,7 @@ vds_check_mapping(hid_t dcpl, size_t i, hid_t vspace, hid_t srcspace, const char
         TEST_ERROR;
     if ((size_t)str_len != HDstrlen(filename))
         TEST_ERROR;
-    HDassert((size_t)str_len < sizeof(name_out));
+    assert((size_t)str_len < sizeof(name_out));
     if ((str_len = H5Pget_virtual_filename(dcpl, i, name_out, sizeof(name_out))) < 0)
         TEST_ERROR;
     if ((size_t)str_len != HDstrlen(filename))
@@ -327,7 +327,7 @@ vds_check_mapping(hid_t dcpl, size_t i, hid_t vspace, hid_t srcspace, const char
         TEST_ERROR;
     if ((size_t)str_len != HDstrlen(dsetname))
         TEST_ERROR;
-    HDassert((size_t)str_len < sizeof(name_out));
+    assert((size_t)str_len < sizeof(name_out));
     if ((str_len = H5Pget_virtual_dsetname(dcpl, i, name_out, sizeof(name_out))) < 0)
         TEST_ERROR;
     if ((size_t)str_len != HDstrlen(dsetname))
@@ -368,13 +368,13 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
     H5O_native_info_t  ninfo;            /* Object info struct */
     htri_t             tri_ret;
 
-    HDassert((config >= TEST_API_BASIC) && (config < TEST_API_NTESTS));
-    HDassert(fapl >= 0);
-    HDassert(dcpl >= 0);
-    HDassert(ex_dcpl);
-    HDassert(*ex_dcpl < 0);
-    HDassert(vspace >= 0);
-    HDassert(filename);
+    assert((config >= TEST_API_BASIC) && (config < TEST_API_NTESTS));
+    assert(fapl >= 0);
+    assert(dcpl >= 0);
+    assert(ex_dcpl);
+    assert(*ex_dcpl < 0);
+    assert(vspace >= 0);
+    assert(filename);
 
     /* Take different action depending on test configuration */
     if (config >= TEST_API_CREATE_DSET) {
@@ -426,9 +426,8 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
             TEST_ERROR;
         if (config == TEST_API_REOPEN_FILE) {
             if (ninfo.meta_size.obj.heap_size != exp_meta_size) {
-                HDprintf("VDS metadata size: %llu Expected: %llu\n",
-                         (long long unsigned)ninfo.meta_size.obj.heap_size,
-                         (long long unsigned)exp_meta_size);
+                printf("VDS metadata size: %llu Expected: %llu\n",
+                       (long long unsigned)ninfo.meta_size.obj.heap_size, (long long unsigned)exp_meta_size);
                 TEST_ERROR;
             }
         }
@@ -471,7 +470,7 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
         /* Encode property list to plist_buf */
         if (H5Pencode2(dcpl, NULL, &plist_buf_size, fapl) < 0)
             TEST_ERROR;
-        if (NULL == (plist_buf = HDmalloc(plist_buf_size)))
+        if (NULL == (plist_buf = malloc(plist_buf_size)))
             TEST_ERROR;
         if (H5Pencode2(dcpl, plist_buf, &plist_buf_size, fapl) < 0)
             TEST_ERROR;
@@ -481,7 +480,7 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
             TEST_ERROR;
 
         /* Free plist_buf */
-        HDfree(plist_buf);
+        free(plist_buf);
         plist_buf = NULL;
     }
     else {
@@ -513,7 +512,7 @@ error:
     }
     H5E_END_TRY
     if (plist_buf)
-        HDfree(plist_buf);
+        free(plist_buf);
 
     return -1;
 } /* end test_api_get_ex_dcpl() */
@@ -1208,15 +1207,15 @@ test_vds_prefix_first(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 
     TESTING_2_SUPPRESSED("basic virtual dataset I/O via H5Pset_vds_prefix(): all selection");
 
-    if ((srcfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilename_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((vfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((vfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
 
     h5_fixname(FILENAME[0], vds_fapl, vfilename, FILENAME_BUF_SIZE);
@@ -1409,11 +1408,11 @@ test_vds_prefix_first(unsigned config, hid_t vds_fapl, hid_t src_fapl)
         TEST_ERROR_SUPPRESSED;
     dcpl = -1;
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(vfilename);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(vfilename);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     PASSED_SUPPRESSED();
     return 0;
@@ -1440,11 +1439,11 @@ error:
     if (HDsetenv("HDF5_VDS_PREFIX", "", 1) < 0)
         TEST_ERROR_SUPPRESSED;
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(vfilename);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(vfilename);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     return 1;
 } /* end test_vds_prefix */
@@ -1495,17 +1494,17 @@ test_basic_io(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 
     TESTING_2_SUPPRESSED("basic virtual dataset I/O");
 
-    if ((srcfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilename_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((vfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((vfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((vfilename2 = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((vfilename2 = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
 
     h5_fixname(FILENAME[0], vds_fapl, vfilename, FILENAME_BUF_SIZE);
@@ -4341,12 +4340,12 @@ test_basic_io(unsigned config, hid_t vds_fapl, hid_t src_fapl)
         TEST_ERROR_SUPPRESSED;
     dcpl = -1;
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(vfilename);
-    HDfree(vfilename2);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(vfilename);
+    free(vfilename2);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     PASSED_SUPPRESSED();
     return 0;
@@ -4370,12 +4369,12 @@ error:
     }
     H5E_END_TRY
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(vfilename);
-    HDfree(vfilename2);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(vfilename);
+    free(vfilename2);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     return 1;
 } /* end test_basic_io() */
@@ -7436,21 +7435,21 @@ test_printf(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 
     TESTING_2_SUPPRESSED("virtual dataset I/O with printf source");
 
-    if ((srcfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilename_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilename2 = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename2 = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilename2_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilename2_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((vfilename = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((vfilename = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((printf_srcfilename_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((printf_srcfilename_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
-    if ((srcfilenamepct_map = (char *)HDcalloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
+    if ((srcfilenamepct_map = (char *)calloc(FILENAME_BUF_SIZE, sizeof(char))) == NULL)
         TEST_ERROR_SUPPRESSED;
 
     h5_fixname(FILENAME[0], vds_fapl, vfilename, FILENAME_BUF_SIZE);
@@ -11059,14 +11058,14 @@ test_printf(unsigned config, hid_t vds_fapl, hid_t src_fapl)
         TEST_ERROR_SUPPRESSED;
     memspace = -1;
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(srcfilename2);
-    HDfree(srcfilename2_map);
-    HDfree(vfilename);
-    HDfree(printf_srcfilename_map);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(srcfilename2);
+    free(srcfilename2_map);
+    free(vfilename);
+    free(printf_srcfilename_map);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     PASSED_SUPPRESSED();
     return 0;
@@ -11090,14 +11089,14 @@ error:
     }
     H5E_END_TRY
 
-    HDfree(srcfilename);
-    HDfree(srcfilename_map);
-    HDfree(srcfilename2);
-    HDfree(srcfilename2_map);
-    HDfree(vfilename);
-    HDfree(printf_srcfilename_map);
-    HDfree(srcfilenamepct);
-    HDfree(srcfilenamepct_map);
+    free(srcfilename);
+    free(srcfilename_map);
+    free(srcfilename2);
+    free(srcfilename2_map);
+    free(vfilename);
+    free(printf_srcfilename_map);
+    free(srcfilenamepct);
+    free(srcfilenamepct_map);
 
     return 1;
 } /* end test_printf() */
@@ -12326,7 +12325,7 @@ main(void)
      */
     if (driver_is_parallel || !HDstrcmp(env_h5_drvr, "splitter")) {
         HDputs(" -- SKIPPED for incompatible VFD --");
-        HDexit(EXIT_SUCCESS);
+        exit(EXIT_SUCCESS);
     }
 
     h5_fixname(FILENAME[0], fapl, filename, sizeof(filename));
@@ -12437,13 +12436,13 @@ main(void)
 
     if (nerrors)
         goto error;
-    HDprintf("All virtual dataset tests passed.\n");
+    printf("All virtual dataset tests passed.\n");
     h5_cleanup(FILENAME, fapl);
 
     return EXIT_SUCCESS;
 
 error:
     nerrors = MAX(1, nerrors);
-    HDprintf("***** %d VIRTUAL DATASET TEST%s FAILED! *****\n", nerrors, 1 == nerrors ? "" : "S");
+    printf("***** %d VIRTUAL DATASET TEST%s FAILED! *****\n", nerrors, 1 == nerrors ? "" : "S");
     return EXIT_FAILURE;
 } /* end main() */

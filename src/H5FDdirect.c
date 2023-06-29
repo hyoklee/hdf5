@@ -349,7 +349,7 @@ H5FD__direct_populate_config(size_t boundary, size_t block_size, size_t cbuf_siz
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(fa_out);
+    assert(fa_out);
 
     HDmemset(fa_out, 0, sizeof(H5FD_direct_fapl_t));
 
@@ -432,7 +432,7 @@ H5FD__direct_fapl_copy(const void *_old_fa)
 
     FUNC_ENTER_PACKAGE_NOERR
 
-    HDassert(new_fa);
+    assert(new_fa);
 
     /* Copy the general information */
     H5MM_memcpy(new_fa, old_fa, sizeof(H5FD_direct_fapl_t));
@@ -476,7 +476,7 @@ H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
     FUNC_ENTER_PACKAGE
 
     /* Sanity check on file offsets */
-    HDassert(sizeof(HDoff_t) >= sizeof(size_t));
+    assert(sizeof(HDoff_t) >= sizeof(size_t));
 
     /* Check arguments */
     if (!name || !*name)
@@ -549,12 +549,12 @@ H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
      * is to handle correctly the case that the file is in a different file system
      * than the one where the program is running.
      */
-    /* NOTE: Use HDmalloc and HDfree here to ensure compatibility with
-     *       HDposix_memalign.
+    /* NOTE: Use malloc and free here to ensure compatibility with
+     *       posix_memalign().
      */
-    buf1 = HDmalloc(sizeof(int));
-    if (HDposix_memalign(&buf2, file->fa.mboundary, file->fa.fbsize) != 0)
-        HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, NULL, "HDposix_memalign failed")
+    buf1 = malloc(sizeof(int));
+    if (posix_memalign(&buf2, file->fa.mboundary, file->fa.fbsize) != 0)
+        HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, NULL, "posix_memalign failed")
 
     if (o_flags & O_CREAT) {
         if (HDwrite(file->fd, buf1, sizeof(int)) < 0) {
@@ -591,9 +591,9 @@ H5FD__direct_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxad
     }
 
     if (buf1)
-        HDfree(buf1);
+        free(buf1);
     if (buf2)
-        HDfree(buf2);
+        free(buf2);
 
     /* Set return value */
     ret_value = (H5FD_t *)file;
@@ -882,8 +882,8 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(file && file->pub.cls);
-    HDassert(buf);
+    assert(file && file->pub.cls);
+    assert(buf);
 
     /* Check for overflow conditions */
     if (HADDR_UNDEF == addr)
@@ -924,8 +924,8 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
                 HDmemset(buf, 0, size);
                 break;
             }
-            HDassert(nbytes >= 0);
-            HDassert((size_t)nbytes <= size);
+            assert(nbytes >= 0);
+            assert((size_t)nbytes <= size);
             H5_CHECK_OVERFLOW(nbytes, ssize_t, size_t);
             size -= (size_t)nbytes;
             H5_CHECK_OVERFLOW(nbytes, ssize_t, haddr_t);
@@ -943,12 +943,12 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
         alloc_size = ((copy_offset + size - 1) / _fbsize + 1) * _fbsize;
         if (alloc_size > _cbsize)
             alloc_size = _cbsize;
-        HDassert(!(alloc_size % _fbsize));
-        if (HDposix_memalign(&copy_buf, _boundary, alloc_size) != 0)
-            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "HDposix_memalign failed")
+        assert(!(alloc_size % _fbsize));
+        if (posix_memalign(&copy_buf, _boundary, alloc_size) != 0)
+            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "posix_memalign failed")
 
         /* look for the aligned position for reading the data */
-        HDassert(!(((addr / _fbsize) * _fbsize) % _fbsize));
+        assert(!(((addr / _fbsize) * _fbsize) % _fbsize));
         if (HDlseek(file->fd, (HDoff_t)((addr / _fbsize) * _fbsize), SEEK_SET) < 0)
             HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
 
@@ -972,7 +972,7 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
             else
                 read_size = alloc_size;
 
-            HDassert(!(read_size % _fbsize));
+            assert(!(read_size % _fbsize));
             do {
                 nbytes = HDread(file->fd, copy_buf, read_size);
             } while (-1 == nbytes && EINTR == errno);
@@ -1003,8 +1003,8 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
         addr = (haddr_t)(((addr + size - 1) / _fbsize + 1) * _fbsize);
 
         if (copy_buf) {
-            /* Free with HDfree since it came from posix_memalign */
-            HDfree(copy_buf);
+            /* Free with free since it came from posix_memalign */
+            free(copy_buf);
             copy_buf = NULL;
         } /* end if */
     }
@@ -1015,9 +1015,9 @@ H5FD__direct_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_U
 
 done:
     if (ret_value < 0) {
-        /* Free with HDfree since it came from posix_memalign */
+        /* Free with free since it came from posix_memalign */
         if (copy_buf)
-            HDfree(copy_buf);
+            free(copy_buf);
 
         /* Reset last file I/O information */
         file->pos = HADDR_UNDEF;
@@ -1065,8 +1065,8 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(file && file->pub.cls);
-    HDassert(buf);
+    assert(file && file->pub.cls);
+    assert(buf);
 
     /* Check for overflow conditions */
     if (HADDR_UNDEF == addr)
@@ -1101,8 +1101,8 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
             } while (-1 == nbytes && EINTR == errno);
             if (-1 == nbytes) /* error */
                 HSYS_GOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "file write failed")
-            HDassert(nbytes > 0);
-            HDassert((size_t)nbytes <= size);
+            assert(nbytes > 0);
+            assert((size_t)nbytes <= size);
             H5_CHECK_OVERFLOW(nbytes, ssize_t, size_t);
             size -= (size_t)nbytes;
             H5_CHECK_OVERFLOW(nbytes, ssize_t, haddr_t);
@@ -1123,10 +1123,10 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
         alloc_size = ((copy_offset + size - 1) / _fbsize + 1) * _fbsize;
         if (alloc_size > _cbsize)
             alloc_size = _cbsize;
-        HDassert(!(alloc_size % _fbsize));
+        assert(!(alloc_size % _fbsize));
 
-        if (HDposix_memalign(&copy_buf, _boundary, alloc_size) != 0)
-            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "HDposix_memalign failed")
+        if (posix_memalign(&copy_buf, _boundary, alloc_size) != 0)
+            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "posix_memalign failed")
 
         /* look for the right position for reading or writing the data */
         if (HDlseek(file->fd, (HDoff_t)write_addr, SEEK_SET) < 0)
@@ -1154,7 +1154,7 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
 
             if (copy_offset > 0) {
                 if ((write_addr + write_size) > (addr + size)) {
-                    HDassert((write_addr + write_size) - (addr + size) < _fbsize);
+                    assert((write_addr + write_size) - (addr + size) < _fbsize);
                     read_size = write_size;
                     p1        = copy_buf;
                 } /* end if */
@@ -1164,12 +1164,12 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
                 } /* end else */
             }     /* end if */
             else if ((write_addr + write_size) > (addr + size)) {
-                HDassert((write_addr + write_size) - (addr + size) < _fbsize);
+                assert((write_addr + write_size) - (addr + size) < _fbsize);
                 read_size = _fbsize;
                 p1        = (unsigned char *)copy_buf + write_size - _fbsize;
 
                 /* Seek to the last block, for reading */
-                HDassert(!((write_addr + write_size - _fbsize) % _fbsize));
+                assert(!((write_addr + write_size - _fbsize) % _fbsize));
                 if (HDlseek(file->fd, (HDoff_t)(write_addr + write_size - _fbsize), SEEK_SET) < 0)
                     HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
             } /* end if */
@@ -1177,7 +1177,7 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
                 p1 = NULL;
 
             if (p1) {
-                HDassert(!(read_size % _fbsize));
+                assert(!(read_size % _fbsize));
                 do {
                     nbytes = HDread(file->fd, p1, read_size);
                 } while (-1 == nbytes && EINTR == errno);
@@ -1205,7 +1205,7 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
             } /* end else */
 
             /*look for the aligned position for writing the data*/
-            HDassert(!(write_addr % _fbsize));
+            assert(!(write_addr % _fbsize));
             if (HDlseek(file->fd, (HDoff_t)write_addr, SEEK_SET) < 0)
                 HSYS_GOTO_ERROR(H5E_IO, H5E_SEEKERROR, FAIL, "unable to seek to proper position")
 
@@ -1213,7 +1213,7 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
              * Write the data. It doesn't truncate the extra data introduced by
              * alignment because that step is done in H5FD_direct_flush.
              */
-            HDassert(!(write_size % _fbsize));
+            assert(!(write_size % _fbsize));
             do {
                 nbytes = HDwrite(file->fd, copy_buf, write_size);
             } while (-1 == nbytes && EINTR == errno);
@@ -1230,8 +1230,8 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
         buf  = (const char *)buf + size;
 
         if (copy_buf) {
-            /* Free with HDfree since it came from posix_memalign */
-            HDfree(copy_buf);
+            /* Free with free since it came from posix_memalign */
+            free(copy_buf);
             copy_buf = NULL;
         } /* end if */
     }
@@ -1244,9 +1244,9 @@ H5FD__direct_write(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_
 
 done:
     if (ret_value < 0) {
-        /* Free with HDfree since it came from posix_memalign */
+        /* Free with free since it came from posix_memalign */
         if (copy_buf)
-            HDfree(copy_buf);
+            free(copy_buf);
 
         /* Reset last file I/O information */
         file->pos = HADDR_UNDEF;
@@ -1279,7 +1279,7 @@ H5FD__direct_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_AT
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(file);
+    assert(file);
 
     /* Extend the file to make sure it's large enough */
     if (file->eoa != file->eof) {
@@ -1343,7 +1343,7 @@ H5FD__direct_lock(H5FD_t *_file, hbool_t rw)
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(file);
+    assert(file);
 
     /* Set exclusive or shared lock based on rw status */
     lock_flags = rw ? LOCK_EX : LOCK_SH;
@@ -1383,7 +1383,7 @@ H5FD__direct_unlock(H5FD_t *_file)
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(file);
+    assert(file);
 
     if (HDflock(file->fd, LOCK_UN) < 0) {
         if (file->ignore_disabled_file_locks && ENOSYS == errno) {
@@ -1416,7 +1416,7 @@ H5FD__direct_delete(const char *filename, hid_t H5_ATTR_UNUSED fapl_id)
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(filename);
+    assert(filename);
 
     if (HDremove(filename) < 0)
         HSYS_GOTO_ERROR(H5E_VFL, H5E_CANTDELETEFILE, FAIL, "unable to delete file")

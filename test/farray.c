@@ -177,20 +177,20 @@ check_stats(const H5FA_t *fa, const farray_state_t *state)
 
     /* Compare information */
     if (farray_stats.hdr_size != state->hdr_size) {
-        HDfprintf(stdout, "farray_stats.hdr_size = %" PRIuHSIZE ", state->hdr_size = %" PRIuHSIZE "\n",
-                  farray_stats.hdr_size, state->hdr_size);
+        fprintf(stdout, "farray_stats.hdr_size = %" PRIuHSIZE ", state->hdr_size = %" PRIuHSIZE "\n",
+                farray_stats.hdr_size, state->hdr_size);
         TEST_ERROR;
     }
 
     if (farray_stats.dblk_size != state->dblk_size) {
-        HDfprintf(stdout, "farray_stats.dblk_size = %" PRIuHSIZE ", state->dblk_size = %" PRIuHSIZE "\n",
-                  farray_stats.dblk_size, state->dblk_size);
+        fprintf(stdout, "farray_stats.dblk_size = %" PRIuHSIZE ", state->dblk_size = %" PRIuHSIZE "\n",
+                farray_stats.dblk_size, state->dblk_size);
         TEST_ERROR;
     }
 
     if (farray_stats.nelmts != state->nelmts) {
-        HDfprintf(stdout, "farray_stats.nelmts = %" PRIuHSIZE ", state->nelmts = %" PRIuHSIZE "\n",
-                  farray_stats.nelmts, state->nelmts);
+        fprintf(stdout, "farray_stats.nelmts = %" PRIuHSIZE ", state->nelmts = %" PRIuHSIZE "\n",
+                farray_stats.nelmts, state->nelmts);
         TEST_ERROR;
     }
 
@@ -216,8 +216,8 @@ set_fa_state(const H5FA_create_t *cparam, farray_state_t *state)
     size_t dblk_page_nelmts; /* # of elements per page */
 
     /* Sanity check */
-    HDassert(cparam);
-    HDassert(state);
+    assert(cparam);
+    assert(state);
 
     /* Compute the state of the fixed array */
     state->hdr_size = FA_HDR_SIZE;
@@ -982,8 +982,8 @@ fiter_fw_init(const H5FA_create_t H5_ATTR_UNUSED *cparam, const farray_test_para
     fiter_fw_t *fiter; /* Forward element iteration object */
 
     /* Allocate space for the element iteration object */
-    fiter = (fiter_fw_t *)HDmalloc(sizeof(fiter_fw_t));
-    HDassert(fiter);
+    fiter = (fiter_fw_t *)malloc(sizeof(fiter_fw_t));
+    assert(fiter);
 
     /* Initialize the element iteration object */
     fiter->idx = 0;
@@ -1009,7 +1009,7 @@ fiter_fw_next(void *_fiter)
     hssize_t    ret_val;
 
     /* Sanity check */
-    HDassert(fiter);
+    assert(fiter);
 
     /* Get the next array index to test */
     ret_val = (hssize_t)fiter->idx++;
@@ -1031,10 +1031,10 @@ static int
 fiter_term(void *fiter)
 {
     /* Sanity check */
-    HDassert(fiter);
+    assert(fiter);
 
     /* Free iteration object */
-    HDfree(fiter);
+    free(fiter);
 
     return (0);
 } /* end fiter_term() */
@@ -1068,8 +1068,8 @@ fiter_rv_init(const H5FA_create_t *cparam, const farray_test_param_t H5_ATTR_UNU
     fiter_rv_t *fiter; /* Reverse element iteration object */
 
     /* Allocate space for the element iteration object */
-    fiter = (fiter_rv_t *)HDmalloc(sizeof(fiter_rv_t));
-    HDassert(fiter);
+    fiter = (fiter_rv_t *)malloc(sizeof(fiter_rv_t));
+    assert(fiter);
 
     /* Initialize reverse iteration info */
     fiter->idx = cparam->nelmts - 1;
@@ -1095,7 +1095,7 @@ fiter_rv_next(void *_fiter)
     hssize_t    ret_val;
 
     /* Sanity check */
-    HDassert(fiter);
+    assert(fiter);
 
     /* Get the next array index to test */
     ret_val = (hssize_t)fiter->idx--;
@@ -1134,12 +1134,12 @@ fiter_rnd_init(const H5FA_create_t H5_ATTR_UNUSED *cparam, const farray_test_par
     size_t       u;     /* Local index variable */
 
     /* Allocate space for the element iteration object */
-    fiter = (fiter_rnd_t *)HDmalloc(sizeof(fiter_rnd_t));
-    HDassert(fiter);
+    fiter = (fiter_rnd_t *)malloc(sizeof(fiter_rnd_t));
+    assert(fiter);
 
     /* Allocate space for the array of shuffled indices */
-    fiter->idx = (hsize_t *)HDmalloc(sizeof(hsize_t) * (size_t)cnt);
-    HDassert(fiter->idx);
+    fiter->idx = (hsize_t *)malloc(sizeof(hsize_t) * (size_t)cnt);
+    assert(fiter->idx);
 
     /* Initialize reverse iteration info */
     fiter->pos = 0;
@@ -1180,7 +1180,7 @@ fiter_rnd_next(void *_fiter)
     hssize_t     ret_val;
 
     /* Sanity check */
-    HDassert(fiter);
+    assert(fiter);
 
     /* Get the next array index to test */
     ret_val = (hssize_t)fiter->idx[fiter->pos];
@@ -1205,14 +1205,14 @@ fiter_rnd_term(void *_fiter)
     fiter_rnd_t *fiter = (fiter_rnd_t *)_fiter;
 
     /* Sanity check */
-    HDassert(fiter);
-    HDassert(fiter->idx);
+    assert(fiter);
+    assert(fiter->idx);
 
     /* Free shuffled index array */
-    HDfree(fiter->idx);
+    free(fiter->idx);
 
     /* Free iteration object */
-    HDfree(fiter);
+    free(fiter);
 
     return (0);
 } /* end fiter_rnd_term() */
@@ -1248,8 +1248,8 @@ fiter_cyc_init(const H5FA_create_t H5_ATTR_UNUSED *cparam, const farray_test_par
     fiter_cyc_t *fiter; /* Cyclic element iteration object */
 
     /* Allocate space for the element iteration object */
-    fiter = (fiter_cyc_t *)HDmalloc(sizeof(fiter_cyc_t));
-    HDassert(fiter);
+    fiter = (fiter_cyc_t *)malloc(sizeof(fiter_cyc_t));
+    assert(fiter);
 
     /* Initialize reverse iteration info */
     fiter->pos = 0;
@@ -1277,7 +1277,7 @@ fiter_cyc_next(void *_fiter)
     hssize_t     ret_val;
 
     /* Sanity check */
-    HDassert(fiter);
+    assert(fiter);
 
     /* Get the next array index to test */
     ret_val = (hssize_t)fiter->pos;
@@ -1356,7 +1356,7 @@ test_set_elmts(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam, h
     hsize_t        fa_nelmts;             /* # of elements in fixed array */
     haddr_t        fa_addr = HADDR_UNDEF; /* Array address in file */
 
-    HDassert(nelmts);
+    assert(nelmts);
     /*
      * Display testing message
      */
@@ -1642,7 +1642,7 @@ main(void)
     fapl        = h5_fileaccess();
     ExpressMode = GetTestExpress();
     if (ExpressMode > 1)
-        HDprintf("***Express test mode on.  Some tests may be skipped\n");
+        printf("***Express test mode on.  Some tests may be skipped\n");
 
     /* Set the filename to use for this test (dependent on fapl) */
     h5_fixname(FILENAME[0], fapl, filename_g, sizeof(filename_g));
@@ -1792,7 +1792,7 @@ main(void)
     /* Clean up file used */
     h5_cleanup(FILENAME, fapl);
 
-    HDexit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 
 error:
     HDputs("*** TESTS FAILED ***");
@@ -1806,5 +1806,5 @@ error:
     if (api_ctx_pushed)
         H5CX_pop(FALSE);
 
-    HDexit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
 } /* end main() */

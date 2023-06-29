@@ -72,13 +72,13 @@ AddTest(const char *TheName, void (*TheCall)(void), void (*Cleanup)(void), const
 {
     /* Sanity checking */
     if (HDstrlen(TheDescr) >= MAXTESTDESC) {
-        HDprintf("Test description ('%s') too long, increase MAXTESTDESC(%d).\n", TheDescr, MAXTESTDESC);
-        HDexit(EXIT_FAILURE);
-    } /* end if */
+        printf("Test description ('%s') too long, increase MAXTESTDESC(%d).\n", TheDescr, MAXTESTDESC);
+        exit(EXIT_FAILURE);
+    }
     if (HDstrlen(TheName) >= MAXTESTNAME) {
-        HDprintf("Test name too long, increase MAXTESTNAME(%d).\n", MAXTESTNAME);
-        HDexit(EXIT_FAILURE);
-    } /* end if */
+        printf("Test name too long, increase MAXTESTNAME(%d).\n", MAXTESTNAME);
+        exit(EXIT_FAILURE);
+    }
 
     /* Check for increasing the Test array size */
     if (Index >= TestAlloc) {
@@ -86,16 +86,16 @@ AddTest(const char *TheName, void (*TheCall)(void), void (*Cleanup)(void), const
         unsigned    newAlloc = MAX(1, TestAlloc * 2); /* New array size */
 
         /* Reallocate array */
-        if (NULL == (newTest = (TestStruct *)HDrealloc(Test, newAlloc * sizeof(TestStruct)))) {
-            HDprintf("Out of memory for tests, Index = %u, TestAlloc = %u, newAlloc = %u\n", Index, TestAlloc,
-                     newAlloc);
-            HDexit(EXIT_FAILURE);
-        } /* end if */
+        if (NULL == (newTest = (TestStruct *)realloc(Test, newAlloc * sizeof(TestStruct)))) {
+            printf("Out of memory for tests, Index = %u, TestAlloc = %u, newAlloc = %u\n", Index, TestAlloc,
+                   newAlloc);
+            exit(EXIT_FAILURE);
+        }
 
         /* Update info */
         Test      = newTest;
         TestAlloc = newAlloc;
-    } /* end if */
+    }
 
     /* Set up test function */
     HDstrcpy(Test[Index].Description, TheDescr);
@@ -230,7 +230,7 @@ TestParseCmdLine(int argc, char *argv[])
             }
             else {
                 TestUsage();
-                HDexit(EXIT_FAILURE);
+                exit(EXIT_FAILURE);
             }
         }
         else if (((HDstrcmp(*argv, "-exclude") == 0) || (HDstrcmp(*argv, "-x") == 0))) {
@@ -241,7 +241,7 @@ TestParseCmdLine(int argc, char *argv[])
             }
             else {
                 TestUsage();
-                HDexit(EXIT_FAILURE);
+                exit(EXIT_FAILURE);
             }
         }
         else if (((HDstrcmp(*argv, "-begin") == 0) || (HDstrcmp(*argv, "-b") == 0))) {
@@ -252,7 +252,7 @@ TestParseCmdLine(int argc, char *argv[])
             }
             else {
                 TestUsage();
-                HDexit(EXIT_FAILURE);
+                exit(EXIT_FAILURE);
             }
         }
         else if (((HDstrcmp(*argv, "-only") == 0) || (HDstrcmp(*argv, "-o") == 0))) {
@@ -272,7 +272,7 @@ TestParseCmdLine(int argc, char *argv[])
             }
             else {
                 TestUsage();
-                HDexit(EXIT_FAILURE);
+                exit(EXIT_FAILURE);
             }
         }
         else if ((HDstrcmp(*argv, "-summary") == 0) || (HDstrcmp(*argv, "-s") == 0))
@@ -281,7 +281,7 @@ TestParseCmdLine(int argc, char *argv[])
             enable_error_stack = 1;
         else if ((HDstrcmp(*argv, "-help") == 0) || (HDstrcmp(*argv, "-h") == 0)) {
             TestUsage();
-            HDexit(EXIT_SUCCESS);
+            exit(EXIT_SUCCESS);
         }
         else if ((HDstrcmp(*argv, "-cleanoff") == 0) || (HDstrcmp(*argv, "-c") == 0))
             SetTestNoCleanup();
@@ -295,7 +295,7 @@ TestParseCmdLine(int argc, char *argv[])
     if (NULL != TestPrivateParser) {
         ret_code = TestPrivateParser(argc + 1, argv - 1);
         if (ret_code != 0)
-            HDexit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
     }
 }
 
@@ -378,7 +378,7 @@ void
 TestShutdown(void)
 {
     if (Test)
-        HDfree(Test);
+        free(Test);
 }
 
 /*
@@ -530,7 +530,7 @@ ParseTestVerbosity(char *argv)
     else if (*argv == 'h')
         SetTestVerbosity(VERBO_HI);
     else
-        SetTestVerbosity(HDatoi(argv));
+        SetTestVerbosity(atoi(argv));
 }
 
 /*
@@ -624,7 +624,7 @@ SetTest(const char *testname, int action)
             break;
         default:
             /* error */
-            HDprintf("*** ERROR: Unknown action (%d) for SetTest\n", action);
+            printf("*** ERROR: Unknown action (%d) for SetTest\n", action);
             break;
     }
 }
@@ -643,10 +643,10 @@ TestAlarmOn(void)
 
     /* Get the alarm value from the environment variable, if set */
     if (env_val != NULL)
-        alarm_sec = (unsigned)HDstrtoul(env_val, (char **)NULL, 10);
+        alarm_sec = (unsigned)strtoul(env_val, (char **)NULL, 10);
 
     /* Set the number of seconds before alarm goes off */
-    HDalarm((unsigned)alarm_sec);
+    alarm((unsigned)alarm_sec);
 #endif
 }
 
@@ -656,6 +656,6 @@ TestAlarmOff(void)
 {
 #ifdef H5_HAVE_ALARM
     /* Set the number of seconds to zero */
-    HDalarm(0);
+    alarm(0);
 #endif
 }

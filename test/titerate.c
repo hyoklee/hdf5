@@ -108,7 +108,7 @@ liter_cb(hid_t H5_ATTR_UNUSED group, const char *name, const H5L_info2_t H5_ATTR
             return (count2 > 10 ? 1 : 0);
 
         default:
-            HDprintf("invalid iteration command");
+            printf("invalid iteration command");
             return (-1);
     } /* end switch */
 } /* end liter_cb() */
@@ -194,7 +194,7 @@ test_iter_group(hid_t fapl, hbool_t new_format)
     CHECK(ret, FAIL, "H5Fclose");
 
     /* Sort the dataset names */
-    HDqsort(lnames, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
+    qsort(lnames, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
 
     /* Iterate through the datasets in the root group in various ways */
     file = H5Fopen(DATAFILE, H5F_ACC_RDONLY, fapl);
@@ -364,7 +364,7 @@ test_iter_group(hid_t fapl, hbool_t new_format)
 
     /* Free the dataset names */
     for (i = 0; i < (NDATASETS + 2); i++)
-        HDfree(lnames[i]);
+        free(lnames[i]);
 } /* test_iter_group() */
 
 /****************************************************************
@@ -397,7 +397,7 @@ aiter_cb(hid_t H5_ATTR_UNUSED group, const char *name, const H5A_info_t H5_ATTR_
             return (count2 > 10 ? 1 : 0);
 
         default:
-            HDprintf("invalid iteration command");
+            printf("invalid iteration command");
             return (-1);
     } /* end switch */
 } /* end aiter_cb() */
@@ -557,7 +557,7 @@ test_iter_attr(hid_t fapl, hbool_t new_format)
 
     /* Free the attribute names */
     for (i = 0; i < NATTR; i++)
-        HDfree(anames[i]);
+        free(anames[i]);
 
 } /* test_iter_attr() */
 
@@ -632,8 +632,8 @@ test_iter_group_large(hid_t fapl)
     } s1_t;
 
     /* Allocate & initialize array */
-    names = (iter_info *)HDcalloc(sizeof(iter_info), (ITER_NGROUPS + 2));
-    CHECK_PTR(names, "HDcalloc");
+    names = (iter_info *)calloc(sizeof(iter_info), (ITER_NGROUPS + 2));
+    CHECK_PTR(names, "calloc");
 
     /* Output message about test being performed */
     MESSAGE(5, ("Testing Large Group Iteration Functionality\n"));
@@ -706,7 +706,7 @@ test_iter_group_large(hid_t fapl)
     CHECK(ret, FAIL, "H5Tclose");
 
     /* Need to sort the names in the root group, cause that's what the library does */
-    HDqsort(names, (size_t)(ITER_NGROUPS + 2), sizeof(iter_info), iter_strcmp2);
+    qsort(names, (size_t)(ITER_NGROUPS + 2), sizeof(iter_info), iter_strcmp2);
 
     /* Iterate through the file to see members of the root group */
     curr_name = &names[0];
@@ -725,7 +725,7 @@ test_iter_group_large(hid_t fapl)
     CHECK(ret, FAIL, "H5Fclose");
 
     /* Release memory */
-    HDfree(names);
+    free(names);
 } /* test_iterate_group_large() */
 
 /****************************************************************
@@ -804,7 +804,7 @@ test_grp_memb_funcs(hid_t fapl)
     CHECK(ret, FAIL, "H5Fclose");
 
     /* Sort the dataset names */
-    HDqsort(dnames, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
+    qsort(dnames, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
 
     /* Iterate through the datasets in the root group in various ways */
     file = H5Fopen(DATAFILE, H5F_ACC_RDONLY, fapl);
@@ -861,7 +861,7 @@ test_grp_memb_funcs(hid_t fapl)
     VERIFY(ret, FAIL, "H5Lget_name_by_idx");
 
     /* Sort the dataset names */
-    HDqsort(obj_names, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
+    qsort(obj_names, (size_t)(NDATASETS + 2), sizeof(char *), iter_strcmp);
 
     /* Compare object names */
     for (i = 0; i < (int)ginfo.nlinks; i++) {
@@ -877,8 +877,8 @@ test_grp_memb_funcs(hid_t fapl)
 
     /* Free the dataset names */
     for (i = 0; i < (NDATASETS + 2); i++) {
-        HDfree(dnames[i]);
-        HDfree(obj_names[i]);
+        free(dnames[i]);
+        free(obj_names[i]);
     } /* end for */
 } /* test_grp_memb_funcs() */
 
@@ -1024,7 +1024,7 @@ test_corrupted_attnamelen(void)
     CHECK(ret, FAIL, "h5_driver_is_default_vfd_compatible");
 
     if (!driver_is_default_compatible) {
-        HDprintf("-- SKIPPED --\n");
+        printf("-- SKIPPED --\n");
         return;
     }
 

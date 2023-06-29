@@ -209,7 +209,7 @@ test_h5s_basic(void)
             CHECK_I(ret, "H5Fclose");
         }
         else
-            HDprintf("***cannot open the pre-created H5S_MAX_RANK test file (%s)\n", testfile);
+            printf("***cannot open the pre-created H5S_MAX_RANK test file (%s)\n", testfile);
     }
 
     /* Verify that incorrect dimensions don't work */
@@ -710,7 +710,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
         }
@@ -731,7 +731,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata_short[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
                 }
             }
         }
@@ -804,7 +804,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
 
@@ -829,8 +829,8 @@ test_h5s_zero_dim(void)
                 for (k = 0; k < SPACE1_DIM3; k++) {
                     if (rdata_real[i][j][k] != wdata_real[i][j][k]) {
                         H5_FAILED();
-                        HDprintf("element [%d][%d][%d] is %d but should have been %d\n", i, j, k,
-                                 rdata_real[i][j][k], wdata_real[i][j][k]);
+                        printf("element [%d][%d][%d] is %d but should have been %d\n", i, j, k,
+                               rdata_real[i][j][k], wdata_real[i][j][k]);
                     }
                 }
             }
@@ -853,7 +853,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
 
@@ -901,7 +901,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
 
@@ -944,7 +944,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
         }
@@ -975,7 +975,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
         }
@@ -996,7 +996,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata_short[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
                 }
             }
         }
@@ -1056,8 +1056,8 @@ test_h5s_zero_dim(void)
                 for (k = 0; k < SPACE1_DIM3; k++) {
                     if (rdata_real[i][j][k] != wdata_real[i][j][k]) {
                         H5_FAILED();
-                        HDprintf("element [%d][%d][%d] is %d but should have been %d\n", i, j, k,
-                                 rdata_real[i][j][k], wdata_real[i][j][k]);
+                        printf("element [%d][%d][%d] is %d but should have been %d\n", i, j, k,
+                               rdata_real[i][j][k], wdata_real[i][j][k]);
                     }
                 }
             }
@@ -1143,7 +1143,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata[i][j]);
                 }
             }
         }
@@ -1180,7 +1180,7 @@ test_h5s_zero_dim(void)
             for (j = 0; j < SPACE1_DIM3; j++) {
                 if (rdata_short[i][j] != 7) {
                     H5_FAILED();
-                    HDprintf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
+                    printf("element [%d][%d] is %d but should have been 7\n", i, j, rdata_short[i][j]);
                 }
             }
         }
@@ -1256,8 +1256,8 @@ test_h5s_encode(H5F_libver_t low, H5F_libver_t high)
     CHECK(ret, FAIL, "H5Sencode2");
 
     if (sbuf_size > 0) {
-        sbuf = (unsigned char *)HDcalloc((size_t)1, sbuf_size);
-        CHECK_PTR(sbuf, "HDcalloc");
+        sbuf = (unsigned char *)calloc((size_t)1, sbuf_size);
+        CHECK_PTR(sbuf, "calloc");
     }
 
     /* Try decoding bogus buffer */
@@ -1318,8 +1318,8 @@ test_h5s_encode(H5F_libver_t low, H5F_libver_t high)
     CHECK(ret, FAIL, "H5Sencode");
 
     if (null_size > 0) {
-        null_sbuf = (unsigned char *)HDcalloc((size_t)1, null_size);
-        CHECK_PTR(null_sbuf, "HDcalloc");
+        null_sbuf = (unsigned char *)calloc((size_t)1, null_size);
+        CHECK_PTR(null_sbuf, "calloc");
     }
 
     /* Encode the null dataspace in the buffer */
@@ -1354,8 +1354,8 @@ test_h5s_encode(H5F_libver_t low, H5F_libver_t high)
     CHECK(ret, FAIL, "H5Sencode");
 
     if (scalar_size > 0) {
-        scalar_buf = (unsigned char *)HDcalloc((size_t)1, scalar_size);
-        CHECK_PTR(scalar_buf, "HDcalloc");
+        scalar_buf = (unsigned char *)calloc((size_t)1, scalar_size);
+        CHECK_PTR(scalar_buf, "calloc");
     }
 
     /* Encode the scalar dataspace in the buffer */
@@ -1393,11 +1393,11 @@ test_h5s_encode(H5F_libver_t low, H5F_libver_t high)
 
     /* Release resources */
     if (sbuf)
-        HDfree(sbuf);
+        free(sbuf);
     if (null_sbuf)
-        HDfree(null_sbuf);
+        free(null_sbuf);
     if (scalar_buf)
-        HDfree(scalar_buf);
+        free(scalar_buf);
 } /* test_h5s_encode() */
 
 #ifndef H5_NO_DEPRECATED_SYMBOLS
@@ -1448,8 +1448,8 @@ test_h5s_encode1(void)
     CHECK(ret, FAIL, "H5Sencode2");
 
     if (sbuf_size > 0) {
-        sbuf = (unsigned char *)HDcalloc((size_t)1, sbuf_size);
-        CHECK_PTR(sbuf, "HDcalloc");
+        sbuf = (unsigned char *)calloc((size_t)1, sbuf_size);
+        CHECK_PTR(sbuf, "calloc");
     }
 
     /* Try decoding bogus buffer */
@@ -1510,8 +1510,8 @@ test_h5s_encode1(void)
     CHECK(ret, FAIL, "H5Sencode");
 
     if (null_size > 0) {
-        null_sbuf = (unsigned char *)HDcalloc((size_t)1, null_size);
-        CHECK_PTR(null_sbuf, "HDcalloc");
+        null_sbuf = (unsigned char *)calloc((size_t)1, null_size);
+        CHECK_PTR(null_sbuf, "calloc");
     }
 
     /* Encode the null dataspace in the buffer */
@@ -1546,8 +1546,8 @@ test_h5s_encode1(void)
     CHECK(ret, FAIL, "H5Sencode");
 
     if (scalar_size > 0) {
-        scalar_buf = (unsigned char *)HDcalloc((size_t)1, scalar_size);
-        CHECK_PTR(scalar_buf, "HDcalloc");
+        scalar_buf = (unsigned char *)calloc((size_t)1, scalar_size);
+        CHECK_PTR(scalar_buf, "calloc");
     }
 
     /* Encode the scalar dataspace in the buffer */
@@ -1581,11 +1581,11 @@ test_h5s_encode1(void)
 
     /* Release resources */
     if (sbuf)
-        HDfree(sbuf);
+        free(sbuf);
     if (null_sbuf)
-        HDfree(null_sbuf);
+        free(null_sbuf);
     if (scalar_buf)
-        HDfree(scalar_buf);
+        free(scalar_buf);
 } /* test_h5s_encode1() */
 
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
@@ -1633,8 +1633,8 @@ test_h5s_check_encoding(hid_t in_fapl, hid_t in_sid, uint32_t expected_version, 
         CHECK(ret, FAIL, "H5Sencode2");
 
         /* Allocate the buffer for encoding */
-        buf = (char *)HDmalloc(buf_size);
-        CHECK_PTR(buf, "HDmalloc");
+        buf = (char *)malloc(buf_size);
+        CHECK_PTR(buf, "malloc");
 
         /* Encode according to the setting in in_fapl */
         ret = H5Sencode2(in_sid, buf, &buf_size, in_fapl);
@@ -1693,7 +1693,7 @@ test_h5s_check_encoding(hid_t in_fapl, hid_t in_sid, uint32_t expected_version, 
         ret = H5Sclose(d_sid);
         CHECK(ret, FAIL, "H5Sclose");
         if (buf)
-            HDfree(buf);
+            free(buf);
     }
 
     return (0);
@@ -1772,7 +1772,7 @@ test_h5s_encode_regular_hyper(H5F_libver_t low, H5F_libver_t high)
 
                     break;
                 default:
-                    HDassert(0);
+                    assert(0);
                     break;
             } /* end switch */
 
@@ -1797,7 +1797,7 @@ test_h5s_encode_regular_hyper(H5F_libver_t low, H5F_libver_t high)
                     expected_enc_size = (uint8_t)(expected_version == 3 ? 4 : 8);
                     break;
                 default:
-                    HDassert(0);
+                    assert(0);
                     break;
             } /* end switch */
 
@@ -1822,7 +1822,7 @@ test_h5s_encode_regular_hyper(H5F_libver_t low, H5F_libver_t high)
                     expected_enc_size = 8;
                     break;
                 default:
-                    HDassert(0);
+                    assert(0);
                     break;
             }
 
@@ -1847,7 +1847,7 @@ test_h5s_encode_regular_hyper(H5F_libver_t low, H5F_libver_t high)
                     expected_enc_size = 8;
                     break;
                 default:
-                    HDassert(0);
+                    assert(0);
                     break;
             } /* end switch */
 
@@ -1872,7 +1872,7 @@ test_h5s_encode_regular_hyper(H5F_libver_t low, H5F_libver_t high)
                     expected_enc_size = 8;
                     break;
                 default:
-                    HDassert(0);
+                    assert(0);
                     break;
             }
 
@@ -1966,7 +1966,7 @@ test_h5s_encode_irregular_hyper(H5F_libver_t low, H5F_libver_t high)
                 break;
 
             default:
-                HDassert(0);
+                assert(0);
                 break;
         }
 
@@ -1995,7 +1995,7 @@ test_h5s_encode_irregular_hyper(H5F_libver_t low, H5F_libver_t high)
                 break;
 
             default:
-                HDassert(0);
+                assert(0);
                 break;
         }
 
@@ -2008,7 +2008,7 @@ test_h5s_encode_irregular_hyper(H5F_libver_t low, H5F_libver_t high)
         VERIFY(is_regular, FALSE, "H5Sis_regular_hyperslab");
 
         /* Verify the version and encoded size expected for the configuration */
-        HDassert(expected_enc_size <= 255);
+        assert(expected_enc_size <= 255);
         ret = test_h5s_check_encoding(fapl, sid, expected_version, (uint8_t)expected_enc_size,
                                       expected_to_fail);
         CHECK(ret, FAIL, "test_h5s_check_encoding");
@@ -2159,7 +2159,7 @@ test_h5s_encode_length(void)
 
     /* Allocate the buffer */
     if (sbuf_size > 0) {
-        sbuf = (unsigned char *)HDcalloc((size_t)1, sbuf_size);
+        sbuf = (unsigned char *)calloc((size_t)1, sbuf_size);
         CHECK_PTR(sbuf, "H5Sencode2");
     }
 
@@ -2184,7 +2184,7 @@ test_h5s_encode_length(void)
 
     /* Free the buffer */
     if (sbuf)
-        HDfree(sbuf);
+        free(sbuf);
 
     /* Close the original dataspace */
     ret = H5Sclose(sid);
@@ -2461,10 +2461,10 @@ test_h5s_compound_scalar_read(void)
     ret = H5Dread(dataset, type, H5S_ALL, H5S_ALL, H5P_DEFAULT, &rdata);
     CHECK(ret, FAIL, "H5Dread");
     if (HDmemcmp(&space4_data, &rdata, sizeof(struct space4_struct)) != 0) {
-        HDprintf("scalar data different: space4_data.c1=%c, read_data4.c1=%c\n", space4_data.c1, rdata.c1);
-        HDprintf("scalar data different: space4_data.u=%u, read_data4.u=%u\n", space4_data.u, rdata.u);
-        HDprintf("scalar data different: space4_data.f=%f, read_data4.f=%f\n", (double)space4_data.f,
-                 (double)rdata.f);
+        printf("scalar data different: space4_data.c1=%c, read_data4.c1=%c\n", space4_data.c1, rdata.c1);
+        printf("scalar data different: space4_data.u=%u, read_data4.u=%u\n", space4_data.u, rdata.u);
+        printf("scalar data different: space4_data.f=%f, read_data4.f=%f\n", (double)space4_data.f,
+               (double)rdata.f);
         TestErrPrintf("scalar data different: space4_data.c1=%c, read_data4.c1=%c\n", space4_data.c1,
                       rdata.c2);
     } /* end if */
@@ -2513,17 +2513,17 @@ test_h5s_chunk(void)
     int      i, j;
 
     /* Allocate memory */
-    chunk_data_dbl_data = (double *)HDcalloc(CHUNK_DATA_NX * CHUNK_DATA_NY, sizeof(double));
-    CHECK_PTR(chunk_data_dbl_data, "HDcalloc");
-    chunk_data_dbl = (double **)HDcalloc(CHUNK_DATA_NX, sizeof(chunk_data_dbl_data));
-    CHECK_PTR(chunk_data_dbl, "HDcalloc");
+    chunk_data_dbl_data = (double *)calloc(CHUNK_DATA_NX * CHUNK_DATA_NY, sizeof(double));
+    CHECK_PTR(chunk_data_dbl_data, "calloc");
+    chunk_data_dbl = (double **)calloc(CHUNK_DATA_NX, sizeof(chunk_data_dbl_data));
+    CHECK_PTR(chunk_data_dbl, "calloc");
     for (i = 0; i < CHUNK_DATA_NX; i++)
         chunk_data_dbl[i] = chunk_data_dbl_data + (i * CHUNK_DATA_NY);
 
-    chunk_data_flt_data = (float *)HDcalloc(CHUNK_DATA_NX * CHUNK_DATA_NY, sizeof(float));
-    CHECK_PTR(chunk_data_flt_data, "HDcalloc");
-    chunk_data_flt = (float **)HDcalloc(CHUNK_DATA_NX, sizeof(chunk_data_flt_data));
-    CHECK_PTR(chunk_data_flt, "HDcalloc");
+    chunk_data_flt_data = (float *)calloc(CHUNK_DATA_NX * CHUNK_DATA_NY, sizeof(float));
+    CHECK_PTR(chunk_data_flt_data, "calloc");
+    chunk_data_flt = (float **)calloc(CHUNK_DATA_NX, sizeof(chunk_data_flt_data));
+    CHECK_PTR(chunk_data_flt, "calloc");
     for (i = 0; i < CHUNK_DATA_NX; i++)
         chunk_data_flt[i] = chunk_data_flt_data + (i * CHUNK_DATA_NY);
 
@@ -2593,10 +2593,10 @@ test_h5s_chunk(void)
         } /* end for */
     }     /* end for */
 
-    HDfree(chunk_data_dbl);
-    HDfree(chunk_data_dbl_data);
-    HDfree(chunk_data_flt);
-    HDfree(chunk_data_flt_data);
+    free(chunk_data_dbl);
+    free(chunk_data_dbl_data);
+    free(chunk_data_flt);
+    free(chunk_data_flt_data);
 } /* test_h5s_chunk() */
 
 /****************************************************************

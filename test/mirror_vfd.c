@@ -63,8 +63,8 @@ static unsigned int g_verbosity = DEFAULT_VERBOSITY;
 #define LOGPRINT(lvl, ...)                                                                                   \
     do {                                                                                                     \
         if ((lvl) <= g_verbosity) {                                                                          \
-            HDfprintf(g_log_stream, __VA_ARGS__);                                                            \
-            HDfflush(g_log_stream);                                                                          \
+            fprintf(g_log_stream, __VA_ARGS__);                                                              \
+            fflush(g_log_stream);                                                                            \
         }                                                                                                    \
     } while (0)
 
@@ -140,7 +140,7 @@ populate_filepath(const char *dirname, const char *basename, hid_t fapl_id, char
     if ((basename == NULL) || (*basename == 0) || (dirname == NULL) || (*dirname == 0) || (path_out == NULL))
         TEST_ERROR;
 
-    if (NULL == (path = HDcalloc(H5FD_SPLITTER_PATH_MAX, sizeof(char))))
+    if (NULL == (path = calloc(H5FD_SPLITTER_PATH_MAX, sizeof(char))))
         TEST_ERROR;
 
     if (HDsnprintf(path, H5FD_SPLITTER_PATH_MAX, "%s%s%s", dirname,
@@ -157,12 +157,12 @@ populate_filepath(const char *dirname, const char *basename, hid_t fapl_id, char
             TEST_ERROR;
     }
 
-    HDfree(path);
+    free(path);
 
     return SUCCEED;
 
 error:
-    HDfree(path);
+    free(path);
     return FAIL;
 } /* end populate_filepath() */
 
@@ -181,7 +181,7 @@ build_paths(const char *basename, H5FD_splitter_vfd_config_t *splitter_config,
 {
     char *baselogname = NULL;
 
-    if (NULL == (baselogname = HDcalloc(H5FD_SPLITTER_PATH_MAX, sizeof(char))))
+    if (NULL == (baselogname = calloc(H5FD_SPLITTER_PATH_MAX, sizeof(char))))
         TEST_ERROR;
 
     if (populate_filepath(MIRROR_RW_DIR, basename, splitter_config->rw_fapl_id, names->rw, TRUE) < 0)
@@ -198,12 +198,12 @@ build_paths(const char *basename, H5FD_splitter_vfd_config_t *splitter_config,
     if (populate_filepath(MIRROR_WO_DIR, baselogname, splitter_config->wo_fapl_id, names->log, FALSE) < 0)
         TEST_ERROR;
 
-    HDfree(baselogname);
+    free(baselogname);
 
     return SUCCEED;
 
 error:
-    HDfree(baselogname);
+    free(baselogname);
     return FAIL;
 } /* end build_paths() */
 
@@ -274,16 +274,16 @@ error:
         }                                                                                                    \
         if (_x != (len)) {                                                                                   \
             size_t _y = 0;                                                                                   \
-            HDprintf("First bytes differ at %zu\n", _x);                                                     \
-            HDprintf("exp  ");                                                                               \
+            printf("First bytes differ at %zu\n", _x);                                                       \
+            printf("exp  ");                                                                                 \
             for (_y = _x; _y < (len); _y++) {                                                                \
-                HDprintf("%02X", (unsigned char)(exp)[_y]);                                                  \
+                printf("%02X", (unsigned char)(exp)[_y]);                                                    \
             }                                                                                                \
-            HDprintf("\nact  ");                                                                             \
+            printf("\nact  ");                                                                               \
             for (_y = _x; _y < (len); _y++) {                                                                \
-                HDprintf("%02X", (unsigned char)(act)[_y]);                                                  \
+                printf("%02X", (unsigned char)(act)[_y]);                                                    \
             }                                                                                                \
-            HDprintf("\n");                                                                                  \
+            printf("\n");                                                                                    \
         }                                                                                                    \
     } while (0); /* end PRINT_BUFFER_DIFF */
 
@@ -877,13 +877,13 @@ test_encdec_open(H5FD_mirror_xmit_t xmit_mock)
         FAIL_PUTS_ERROR("shared header structure is not in expected state");
 
     /* Allocate memory */
-    if (NULL == (buf = HDmalloc((H5FD_MIRROR_XMIT_OPEN_SIZE + 8) * sizeof(unsigned char))))
+    if (NULL == (buf = malloc((H5FD_MIRROR_XMIT_OPEN_SIZE + 8) * sizeof(unsigned char))))
         FAIL_PUTS_ERROR("Unable to allocate memory for buf");
-    if (NULL == (expected = HDmalloc((H5FD_MIRROR_XMIT_OPEN_SIZE + 8) * sizeof(unsigned char))))
+    if (NULL == (expected = malloc((H5FD_MIRROR_XMIT_OPEN_SIZE + 8) * sizeof(unsigned char))))
         FAIL_PUTS_ERROR("Unable to allocate memory for expected");
-    if (NULL == (xmit_in = HDmalloc(sizeof(H5FD_mirror_xmit_open_t))))
+    if (NULL == (xmit_in = malloc(sizeof(H5FD_mirror_xmit_open_t))))
         FAIL_PUTS_ERROR("Unable to allocate memory for xmit_in");
-    if (NULL == (xmit_out = HDmalloc(sizeof(H5FD_mirror_xmit_open_t))))
+    if (NULL == (xmit_out = malloc(sizeof(H5FD_mirror_xmit_open_t))))
         FAIL_PUTS_ERROR("Unable to allocate memory for xmit_out");
 
     /* Populate the expected buffer; expect end padding of 0xFF */
@@ -970,19 +970,19 @@ test_encdec_open(H5FD_mirror_xmit_t xmit_mock)
         TEST_ERROR;
     }
 
-    HDfree(buf);
-    HDfree(expected);
-    HDfree(xmit_in);
-    HDfree(xmit_out);
+    free(buf);
+    free(expected);
+    free(xmit_in);
+    free(xmit_out);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(buf);
-    HDfree(expected);
-    HDfree(xmit_in);
-    HDfree(xmit_out);
+    free(buf);
+    free(expected);
+    free(xmit_in);
+    free(xmit_out);
 
     return -1;
 }
@@ -1209,7 +1209,7 @@ create_mirroring_split_fapl(const char *basename, struct mirrortest_filenames *n
     H5FD_mirror_fapl_t          mirror_conf;
     hid_t                       ret_value = H5I_INVALID_HID;
 
-    if (NULL == (splitter_config = HDmalloc(sizeof(H5FD_splitter_vfd_config_t))))
+    if (NULL == (splitter_config = malloc(sizeof(H5FD_splitter_vfd_config_t))))
         TEST_ERROR;
 
     /* Initialize the fapls, too, so the library doesn't try to
@@ -1263,7 +1263,7 @@ create_mirroring_split_fapl(const char *basename, struct mirrortest_filenames *n
     if (H5Pclose(splitter_config->wo_fapl_id) < 0)
         TEST_ERROR;
 
-    HDfree(splitter_config);
+    free(splitter_config);
 
     return ret_value;
 
@@ -1275,7 +1275,7 @@ error:
         H5Pclose(ret_value);
     }
     H5E_END_TRY
-    HDfree(splitter_config);
+    free(splitter_config);
 
     return H5I_INVALID_HID;
 } /* end create_mirroring_split_fapl() */
@@ -1302,7 +1302,7 @@ test_create_and_close(const struct mt_opts *opts)
 
     TESTING("File creation and immediate close");
 
-    if (NULL == (names = HDmalloc(sizeof(struct mirrortest_filenames))))
+    if (NULL == (names = malloc(sizeof(struct mirrortest_filenames))))
         TEST_ERROR;
 
     /* Create FAPL for splitter[sec2|mirror] */
@@ -1317,13 +1317,13 @@ test_create_and_close(const struct mt_opts *opts)
     if (H5Pclose(fapl_id) < 0)
         TEST_ERROR;
 
-    HDfree(names);
+    free(names);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(names);
+    free(names);
     H5E_BEGIN_TRY
     {
         H5Fclose(file_id);
@@ -1359,9 +1359,9 @@ create_datasets(hid_t file_id, unsigned min_dset, unsigned max_dset)
     hsize_t      chunk_dims[2] = {CHUNK_DIM, CHUNK_DIM};
     hsize_t      dset_dims[2]  = {DSET_DIM, DSET_DIM};
 
-    HDassert(file_id >= 0);
-    HDassert(min_dset <= max_dset);
-    HDassert(max_dset <= MAX_DSET_COUNT);
+    assert(file_id >= 0);
+    assert(min_dset <= max_dset);
+    assert(max_dset <= MAX_DSET_COUNT);
 
     LOGPRINT(2, "create_dataset()\n");
 
@@ -1678,9 +1678,9 @@ verify_datasets(hid_t file_id, unsigned min_dset, unsigned max_dset)
     hid_t   memspace_id   = H5I_INVALID_HID;
     hsize_t chunk_dims[2] = {CHUNK_DIM, CHUNK_DIM};
 
-    HDassert(file_id >= 0);
-    HDassert(min_dset <= max_dset);
-    HDassert(max_dset <= MAX_DSET_COUNT);
+    assert(file_id >= 0);
+    assert(min_dset <= max_dset);
+    assert(max_dset <= MAX_DSET_COUNT);
 
     LOGPRINT(2, "verify_datasets()\n");
 
@@ -1741,7 +1741,7 @@ test_basic_dataset_write(const struct mt_opts *opts)
 
     TESTING("Mirror open and dataset writing");
 
-    if (NULL == (names = HDmalloc(sizeof(struct mirrortest_filenames))))
+    if (NULL == (names = malloc(sizeof(struct mirrortest_filenames))))
         TEST_ERROR;
 
     /* Create FAPL for Splitter[sec2|mirror] */
@@ -1749,7 +1749,7 @@ test_basic_dataset_write(const struct mt_opts *opts)
         TEST_ERROR;
 
     /* Prepare data to be written */
-    if (NULL == (buf = HDmalloc(DATABUFFER_SIZE * DATABUFFER_SIZE * sizeof(int))))
+    if (NULL == (buf = malloc(DATABUFFER_SIZE * DATABUFFER_SIZE * sizeof(int))))
         TEST_ERROR;
     for (i = 0; i < DATABUFFER_SIZE; i++) {
         for (j = 0; j < DATABUFFER_SIZE; j++) {
@@ -1798,15 +1798,15 @@ test_basic_dataset_write(const struct mt_opts *opts)
     if (h5_compare_file_bytes(names->rw, names->wo) < 0)
         TEST_ERROR;
 
-    HDfree(buf);
-    HDfree(names);
+    free(buf);
+    free(names);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(buf);
-    HDfree(names);
+    free(buf);
+    free(names);
 
     H5E_BEGIN_TRY
     {
@@ -1841,7 +1841,7 @@ test_chunked_dataset_write(const struct mt_opts *opts)
 
     TESTING("Mirror open and dataset writing (chunked)");
 
-    if (NULL == (names = HDmalloc(sizeof(struct mirrortest_filenames))))
+    if (NULL == (names = malloc(sizeof(struct mirrortest_filenames))))
         TEST_ERROR;
 
     /* Create FAPL for Splitter[sec2|mirror] */
@@ -1891,13 +1891,13 @@ test_chunked_dataset_write(const struct mt_opts *opts)
         TEST_ERROR;
     }
 
-    HDfree(names);
+    free(names);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(names);
+    free(names);
     H5E_BEGIN_TRY
     {
         H5Fclose(file_id);
@@ -1931,7 +1931,7 @@ test_on_disk_zoo(const struct mt_opts *opts)
 
     TESTING("'Zoo' of on-disk structures");
 
-    if (NULL == (names = HDmalloc(sizeof(struct mirrortest_filenames))))
+    if (NULL == (names = malloc(sizeof(struct mirrortest_filenames))))
         TEST_ERROR;
 
     /* Create FAPL for Splitter[sec2|mirror] */
@@ -1963,7 +1963,7 @@ test_on_disk_zoo(const struct mt_opts *opts)
         validate_zoo(file_id, grp_name, 0); /* sanity-check */
 
     if (!pass) {
-        HDprintf("%s", failure_mssg);
+        printf("%s", failure_mssg);
         TEST_ERROR;
     }
 
@@ -1982,13 +1982,13 @@ test_on_disk_zoo(const struct mt_opts *opts)
     if (h5_compare_file_bytes(names->rw, names->wo) < 0)
         TEST_ERROR;
 
-    HDfree(names);
+    free(names);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(names);
+    free(names);
     H5E_BEGIN_TRY
     {
         H5Fclose(file_id);
@@ -2035,9 +2035,9 @@ test_vanishing_datasets(const struct mt_opts *opts)
 
     TESTING("Vanishing Datasets");
 
-    if (NULL == (names = HDmalloc(sizeof(struct mirrortest_filenames))))
+    if (NULL == (names = malloc(sizeof(struct mirrortest_filenames))))
         TEST_ERROR;
-    if (NULL == (buf = HDcalloc(1, sizeof(*buf))))
+    if (NULL == (buf = calloc(1, sizeof(*buf))))
         TEST_ERROR;
 
     /* -------------------- */
@@ -2095,7 +2095,7 @@ test_vanishing_datasets(const struct mt_opts *opts)
     if (H5Gget_info(file_id, &group_info) < 0)
         TEST_ERROR;
     if (group_info.nlinks > 0) {
-        HDfprintf(stderr, "links in rw file: %" PRIuHSIZE "\n", group_info.nlinks);
+        fprintf(stderr, "links in rw file: %" PRIuHSIZE "\n", group_info.nlinks);
         TEST_ERROR;
     }
     if (H5Fclose(file_id) < 0)
@@ -2105,7 +2105,7 @@ test_vanishing_datasets(const struct mt_opts *opts)
     if (H5Gget_info(file_id, &group_info) < 0)
         TEST_ERROR;
     if (group_info.nlinks > 0) {
-        HDfprintf(stderr, "links in wo file: %" PRIuHSIZE "\n", group_info.nlinks);
+        fprintf(stderr, "links in wo file: %" PRIuHSIZE "\n", group_info.nlinks);
         TEST_ERROR;
     }
     if (H5Fclose(file_id) < 0)
@@ -2121,15 +2121,15 @@ test_vanishing_datasets(const struct mt_opts *opts)
     if (H5Pclose(fapl_id) < 0)
         TEST_ERROR;
 
-    HDfree(names);
-    HDfree(buf);
+    free(names);
+    free(buf);
 
     PASSED();
     return 0;
 
 error:
-    HDfree(names);
-    HDfree(buf);
+    free(names);
+    free(buf);
     H5E_BEGIN_TRY
     {
         H5Pclose(fapl_id);
@@ -2173,7 +2173,7 @@ test_concurrent_access(const struct mt_opts *opts)
 
     TESTING("Concurrent opened mirrored files");
 
-    if (NULL == (bundle = HDmalloc(sizeof(struct file_bundle) * CONCURRENT_COUNT)))
+    if (NULL == (bundle = malloc(sizeof(struct file_bundle) * CONCURRENT_COUNT)))
         TEST_ERROR;
 
     /* Initialize bundle */
@@ -2198,7 +2198,7 @@ test_concurrent_access(const struct mt_opts *opts)
     }
 
     /* Prepare data to be written */
-    if (NULL == (buf = HDmalloc(DATABUFFER_SIZE * DATABUFFER_SIZE * sizeof(int))))
+    if (NULL == (buf = malloc(DATABUFFER_SIZE * DATABUFFER_SIZE * sizeof(int))))
         TEST_ERROR;
     for (i = 0; i < DATABUFFER_SIZE; i++) {
         for (j = 0; j < DATABUFFER_SIZE; j++) {
@@ -2258,8 +2258,8 @@ test_concurrent_access(const struct mt_opts *opts)
         if (h5_compare_file_bytes(bundle[i].names.rw, bundle[i].names.wo) < 0)
             TEST_ERROR;
 
-    HDfree(bundle);
-    HDfree(buf);
+    free(bundle);
+    free(buf);
 
     PASSED();
     return 0;
@@ -2275,8 +2275,8 @@ error:
         }
     }
     H5E_END_TRY
-    HDfree(bundle);
-    HDfree(buf);
+    free(bundle);
+    free(buf);
     return -1;
 } /* end test_concurrent_access() */
 
@@ -2302,9 +2302,9 @@ parse_args(int argc, char **argv, struct mt_opts *opts)
         if (!HDstrncmp(argv[i], "--ip=", 5))
             HDstrncpy(opts->ip, argv[i] + 5, H5FD_MIRROR_MAX_IP_LEN);
         else if (!HDstrncmp(argv[i], "--port=", 7))
-            opts->portno = HDatoi(argv[i] + 7);
+            opts->portno = atoi(argv[i] + 7);
         else {
-            HDprintf("Unrecognized option: '%s'\n", argv[i]);
+            printf("Unrecognized option: '%s'\n", argv[i]);
             return -1;
         }
     } /* end for each argument from command line */
@@ -2334,7 +2334,7 @@ confirm_server(struct mt_opts *opts)
 
     live_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (live_socket < 0) {
-        HDprintf("ERROR socket()\n");
+        printf("ERROR socket()\n");
         return -1;
     }
 
@@ -2346,25 +2346,25 @@ confirm_server(struct mt_opts *opts)
     while (1) {
         if (connect(live_socket, (struct sockaddr *)&target_addr, (socklen_t)sizeof(target_addr)) < 0) {
             if (attempt > 10) {
-                HDprintf("ERROR connect() (%d)\n%s\n", errno, HDstrerror(errno));
+                printf("ERROR connect() (%d)\n%s\n", errno, HDstrerror(errno));
                 return -1;
             }
 
             /* Close socket during sleep() */
             if (HDclose(live_socket) < 0) {
-                HDprintf("ERROR close() can't close socket\n");
+                printf("ERROR close() can't close socket\n");
                 return -1;
             }
             live_socket = -1;
 
             attempt++;
             HDsleep(1);
-            HDprintf("attempt #%u: ERROR connect() (%d)\n%s\n", attempt, errno, HDstrerror(errno));
+            printf("attempt #%u: ERROR connect() (%d)\n%s\n", attempt, errno, HDstrerror(errno));
 
             /* Re-open socket for retry */
             live_socket = socket(AF_INET, SOCK_STREAM, 0);
             if (live_socket < 0) {
-                HDprintf("ERROR socket()\n");
+                printf("ERROR socket()\n");
                 return -1;
             }
         }
@@ -2374,22 +2374,22 @@ confirm_server(struct mt_opts *opts)
 
     /* Request confirmation from the server */
     if (HDwrite(live_socket, "CONFIRM", 8) == -1) {
-        HDprintf("ERROR write() (%d)\n%s\n", errno, HDstrerror(errno));
+        printf("ERROR write() (%d)\n%s\n", errno, HDstrerror(errno));
         return -1;
     }
 
     /* Read & verify response from port connection.  */
     if (HDread(live_socket, &mybuf, sizeof(mybuf)) == -1) {
-        HDprintf("ERROR read() can't receive data\n");
+        printf("ERROR read() can't receive data\n");
         return -1;
     }
     if (HDstrncmp("ALIVE", mybuf, 6)) {
-        HDprintf("ERROR read() didn't receive data from server\n");
+        printf("ERROR read() didn't receive data from server\n");
         return -1;
     }
 
     if (HDclose(live_socket) < 0) {
-        HDprintf("ERROR close() can't close socket\n");
+        printf("ERROR close() can't close socket\n");
         return -1;
     }
 
@@ -2415,7 +2415,7 @@ main(int argc, char **argv)
 
     g_log_stream = stdout; /* default debug/logging output stream */
 
-    HDprintf("Testing Mirror VFD functionality.\n");
+    printf("Testing Mirror VFD functionality.\n");
 
     /* SETUP */
 
@@ -2430,13 +2430,13 @@ main(int argc, char **argv)
     }
 
     if (parse_args(argc, argv, &opts) < 0) {
-        HDprintf("Unable to parse arguments\n");
-        HDexit(EXIT_FAILURE);
+        printf("Unable to parse arguments\n");
+        exit(EXIT_FAILURE);
     }
 
     if (confirm_server(&opts) < 0) {
-        HDprintf("Unable to confirm server is running\n");
-        HDexit(EXIT_FAILURE);
+        printf("Unable to confirm server is running\n");
+        exit(EXIT_FAILURE);
     }
 
     /* TESTS */
@@ -2477,11 +2477,11 @@ main(int argc, char **argv)
     }
 
     if (nerrors) {
-        HDprintf("***** %d Mirror VFD TEST%s FAILED! *****\n", nerrors, nerrors > 1 ? "S" : "");
+        printf("***** %d Mirror VFD TEST%s FAILED! *****\n", nerrors, nerrors > 1 ? "S" : "");
         return EXIT_FAILURE;
     }
 
-    HDprintf("All Mirror Virtual File Driver tests passed.\n");
+    printf("All Mirror Virtual File Driver tests passed.\n");
     return EXIT_SUCCESS;
 } /* end main() */
 
@@ -2490,8 +2490,8 @@ main(int argc, char **argv)
 int
 main(void)
 {
-    HDprintf("Testing Mirror VFD functionality.\n");
-    HDprintf("SKIPPED - Mirror VFD not built.\n");
+    printf("Testing Mirror VFD functionality.\n");
+    printf("SKIPPED - Mirror VFD not built.\n");
     return EXIT_SUCCESS;
 }
 

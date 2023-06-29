@@ -10,11 +10,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer: Robb Matzke
- *	       Friday, September 19, 1997
- *
- */
-
 /****************/
 /* Module Setup */
 /****************/
@@ -132,9 +127,9 @@ H5G__stab_create_components(H5F_t *f, H5O_stab_t *stab, size_t size_hint)
     /*
      * Check arguments.
      */
-    HDassert(f);
-    HDassert(stab);
-    HDassert(size_hint > 0);
+    assert(f);
+    assert(stab);
+    assert(size_hint > 0);
 
     /* Create the B-tree */
     if (H5B_create(f, H5B_SNODE, NULL, &(stab->btree_addr) /*out*/) < 0)
@@ -155,7 +150,7 @@ H5G__stab_create_components(H5F_t *f, H5O_stab_t *stab, size_t size_hint)
     /* B-trees won't work if the first name isn't at the beginning
      * of the heap.
      */
-    HDassert(0 == name_offset);
+    assert(0 == name_offset);
 
 done:
     /* Release resources */
@@ -196,8 +191,8 @@ H5G__stab_create(H5O_loc_t *grp_oloc, const H5O_ginfo_t *ginfo, H5O_stab_t *stab
     /*
      * Check arguments.
      */
-    HDassert(grp_oloc);
-    HDassert(stab);
+    assert(grp_oloc);
+    assert(stab);
 
     /* Adjust the size hint, if necessary */
     if (ginfo->lheap_size_hint == 0)
@@ -251,10 +246,10 @@ H5G__stab_insert_real(H5F_t *f, const H5O_stab_t *stab, const char *name, H5O_li
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(f);
-    HDassert(stab);
-    HDassert(name && *name);
-    HDassert(obj_lnk);
+    assert(f);
+    assert(stab);
+    assert(name && *name);
+    assert(obj_lnk);
 
     /* Pin the heap down in memory */
     if (NULL == (heap = H5HL_protect(f, stab->heap_addr, H5AC__NO_FLAGS_SET)))
@@ -303,9 +298,9 @@ H5G__stab_insert(const H5O_loc_t *grp_oloc, const char *name, H5O_link_t *obj_ln
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(grp_oloc && grp_oloc->file);
-    HDassert(name && *name);
-    HDassert(obj_lnk);
+    assert(grp_oloc && grp_oloc->file);
+    assert(name && *name);
+    assert(obj_lnk);
 
     /* Retrieve symbol table message */
     if (NULL == H5O_msg_read(grp_oloc, H5O_STAB_ID, &stab))
@@ -340,8 +335,8 @@ H5G__stab_remove(const H5O_loc_t *loc, H5RS_str_t *grp_full_path_r, const char *
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(loc && loc->file);
-    HDassert(name && *name);
+    assert(loc && loc->file);
+    assert(name && *name);
 
     /* Read in symbol table message */
     if (NULL == H5O_msg_read(loc, H5O_STAB_ID, &stab))
@@ -393,7 +388,7 @@ H5G__stab_remove_by_idx(const H5O_loc_t *grp_oloc, H5RS_str_t *grp_full_path_r, 
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(grp_oloc && grp_oloc->file);
+    assert(grp_oloc && grp_oloc->file);
 
     /* Look up name of link to remove, by index */
     if (H5G__stab_lookup_by_idx(grp_oloc, order, n, &obj_lnk) < 0)
@@ -450,10 +445,10 @@ H5G__stab_delete(H5F_t *f, const H5O_stab_t *stab)
 
     FUNC_ENTER_PACKAGE
 
-    HDassert(f);
-    HDassert(stab);
-    HDassert(H5_addr_defined(stab->btree_addr));
-    HDassert(H5_addr_defined(stab->heap_addr));
+    assert(f);
+    assert(stab);
+    assert(H5_addr_defined(stab->btree_addr));
+    assert(H5_addr_defined(stab->heap_addr));
 
     /* Pin the heap down in memory */
     if (NULL == (heap = H5HL_protect(f, stab->heap_addr, H5AC__NO_FLAGS_SET)))
@@ -508,8 +503,8 @@ H5G__stab_iterate(const H5O_loc_t *oloc, H5_iter_order_t order, hsize_t skip, hs
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(oloc);
-    HDassert(op);
+    assert(oloc);
+    assert(op);
 
     /* Get the B-tree info */
     if (NULL == H5O_msg_read(oloc, H5O_STAB_ID, &stab))
@@ -596,8 +591,8 @@ H5G__stab_count(const H5O_loc_t *oloc, hsize_t *num_objs)
     FUNC_ENTER_PACKAGE_TAG(oloc->addr)
 
     /* Sanity check */
-    HDassert(oloc);
-    HDassert(num_objs);
+    assert(oloc);
+    assert(num_objs);
 
     /* Reset the number of objects in the group */
     *num_objs = 0;
@@ -636,9 +631,9 @@ H5G__stab_bh_size(H5F_t *f, const H5O_stab_t *stab, H5_ih_info_t *bh_info)
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(f);
-    HDassert(stab);
-    HDassert(bh_info);
+    assert(f);
+    assert(stab);
+    assert(bh_info);
 
     /* Set up user data for B-tree iteration */
     snode_size = 0;
@@ -683,8 +678,8 @@ H5G__stab_get_name_by_idx_cb(const H5G_entry_t *ent, void *_udata)
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(ent);
-    HDassert(udata && udata->heap);
+    assert(ent);
+    assert(udata && udata->heap);
 
     /* Get name offset in heap */
     name_off = ent->name_off;
@@ -727,7 +722,7 @@ H5G__stab_get_name_by_idx(const H5O_loc_t *oloc, H5_iter_order_t order, hsize_t 
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
-    HDassert(oloc);
+    assert(oloc);
 
     /* Get the B-tree & local heap info */
     if (NULL == H5O_msg_read(oloc, H5O_STAB_ID, &stab))
@@ -843,10 +838,10 @@ H5G__stab_lookup(const H5O_loc_t *grp_oloc, const char *name, hbool_t *found, H5
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(grp_oloc && grp_oloc->file);
-    HDassert(name && *name);
-    HDassert(found);
-    HDassert(lnk);
+    assert(grp_oloc && grp_oloc->file);
+    assert(name && *name);
+    assert(found);
+    assert(lnk);
 
     /* Retrieve the symbol table message for the group */
     if (NULL == H5O_msg_read(grp_oloc, H5O_STAB_ID, &stab))
@@ -903,8 +898,8 @@ H5G__stab_lookup_by_idx_cb(const H5G_entry_t *ent, void *_udata)
     FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(ent);
-    HDassert(udata && udata->heap);
+    assert(ent);
+    assert(udata && udata->heap);
 
     /* Get a pointer to the link name */
     if ((name = (const char *)H5HL_offset_into(udata->heap, ent->name_off)) == NULL)
@@ -942,8 +937,8 @@ H5G__stab_lookup_by_idx(const H5O_loc_t *grp_oloc, H5_iter_order_t order, hsize_
     FUNC_ENTER_PACKAGE
 
     /* check arguments */
-    HDassert(grp_oloc && grp_oloc->file);
-    HDassert(lnk);
+    assert(grp_oloc && grp_oloc->file);
+    assert(lnk);
 
     /* Get the B-tree & local heap info */
     if (NULL == H5O_msg_read(grp_oloc, H5O_STAB_ID, &stab))

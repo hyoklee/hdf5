@@ -139,22 +139,22 @@ struct server_run {
 static void
 usage(void)
 {
-    HDfprintf(stdout,
-              "mirror_server [options]\n"
-              "\n"
-              "Application for providing Mirror Writer process to "
-              " Mirror VFD on file-open.\n"
-              "Listens on a dedicated socket; forks as a Writer upon receipt"
-              " of a valid OPEN xmit.\n"
-              "\n"
-              "Options:\n"
-              "--help [-h]         : Print this help message and quit.\n"
-              "--logpath=PATH      : File path for logging output "
-              "(default none, to stdout).\n"
-              "--port=PORT         : Primary port (default %d).\n"
-              "--verbosity=NUM     : Debug printing level "
-              "0..4, (default %d).\n",
-              DEFAULT_PORT, MIRROR_LOG_DEFAULT_VERBOSITY);
+    fprintf(stdout,
+            "mirror_server [options]\n"
+            "\n"
+            "Application for providing Mirror Writer process to "
+            " Mirror VFD on file-open.\n"
+            "Listens on a dedicated socket; forks as a Writer upon receipt"
+            " of a valid OPEN xmit.\n"
+            "\n"
+            "Options:\n"
+            "--help [-h]         : Print this help message and quit.\n"
+            "--logpath=PATH      : File path for logging output "
+            "(default none, to stdout).\n"
+            "--port=PORT         : Primary port (default %d).\n"
+            "--verbosity=NUM     : Debug printing level "
+            "0..4, (default %d).\n",
+            DEFAULT_PORT, MIRROR_LOG_DEFAULT_VERBOSITY);
 } /* end usage() */
 
 /* ---------------------------------------------------------------------------
@@ -194,11 +194,11 @@ parse_args(int argc, char **argv, struct op_args *args_out)
         } /* end if help */
         else if (!HDstrncmp(argv[i], "--port=", 7)) {
             mirror_log(NULL, V_INFO, "parsing 'main_port' (%s)", argv[i] + 7);
-            args_out->main_port = HDatoi(argv[i] + 7);
+            args_out->main_port = atoi(argv[i] + 7);
         } /* end if port */
         else if (!HDstrncmp(argv[i], "--verbosity=", 12)) {
             mirror_log(NULL, V_INFO, "parsing 'verbosity' (%s)", argv[i] + 12);
-            args_out->verbosity = (unsigned int)HDatoi(argv[i] + 12);
+            args_out->verbosity = (unsigned int)atoi(argv[i] + 12);
         } /* end if verbosity */
         else if (!HDstrncmp(argv[i], "--logpath=", 10)) {
             mirror_log(NULL, V_INFO, "parsing 'logpath' (%s)", argv[i] + 10);
@@ -291,7 +291,7 @@ init_server_run(int argc, char **argv)
 {
     struct server_run *run;
 
-    run = (struct server_run *)HDmalloc(sizeof(struct server_run));
+    run = (struct server_run *)malloc(sizeof(struct server_run));
     if (run == NULL) {
         mirror_log(NULL, V_ERR, "can't allocate server_run struct");
         return NULL;
@@ -324,7 +324,7 @@ init_server_run(int argc, char **argv)
 
 error:
     if (run != NULL) {
-        HDfree(run);
+        free(run);
     }
     return NULL;
 
@@ -362,7 +362,7 @@ term_server_run(struct server_run *run)
 
     (run->magic)++;
     (run->opts.magic)++;
-    HDfree(run);
+    free(run);
     return 0;
 } /* end term_server_run() */
 
@@ -479,11 +479,11 @@ handle_requests(struct server_run *run)
         return 1;
     }
 
-    if (NULL == (mybuf = HDmalloc(H5FD_MIRROR_XMIT_OPEN_SIZE * sizeof(char)))) {
+    if (NULL == (mybuf = malloc(H5FD_MIRROR_XMIT_OPEN_SIZE * sizeof(char)))) {
         mirror_log(NULL, V_ERR, "out of memory");
         goto error;
     }
-    if (NULL == (xopen = HDmalloc(sizeof(H5FD_mirror_xmit_open_t)))) {
+    if (NULL == (xopen = malloc(sizeof(H5FD_mirror_xmit_open_t)))) {
         mirror_log(NULL, V_ERR, "out of memory");
         goto error;
     }
@@ -562,14 +562,14 @@ handle_requests(struct server_run *run)
             else if (pid == 0) { /* child process (writer side of fork) */
                 mirror_log(run->loginfo, V_INFO, "executing writer");
                 if (run_writer(connfd, xopen) < 0) {
-                    HDprintf("can't run writer\n");
+                    printf("can't run writer\n");
                 }
                 else {
-                    HDprintf("writer OK\n");
+                    printf("writer OK\n");
                 }
                 HDclose(connfd);
 
-                HDexit(EXIT_SUCCESS);
+                exit(EXIT_SUCCESS);
             }      /* end if writer side of fork */
             else { /* parent process (server side of fork) */
                 mirror_log(run->loginfo, V_INFO, "tidying up from handshake");
@@ -591,8 +591,8 @@ done:
         HDclose(connfd);
     }
 
-    HDfree(mybuf);
-    HDfree(xopen);
+    free(mybuf);
+    free(xopen);
 
     return ret_value;
 
@@ -600,8 +600,8 @@ error:
     if (connfd >= 0) {
         HDclose(connfd);
     }
-    HDfree(mybuf);
-    HDfree(xopen);
+    free(mybuf);
+    free(xopen);
     return -1;
 } /* end handle_requests() */
 
@@ -614,7 +614,7 @@ main(int argc, char **argv)
     run = init_server_run(argc, argv);
     if (NULL == run) {
         mirror_log(NULL, V_ERR, "can't initialize run");
-        HDexit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
 
     if (handle_requests(run) < 0) {
@@ -623,10 +623,10 @@ main(int argc, char **argv)
 
     if (term_server_run(run) < 0) {
         mirror_log(NULL, V_ERR, "problem closing server run");
-        HDexit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
 
-    HDexit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 } /* end main() */
 
 #else /* H5_HAVE_MIRROR_VFD */
@@ -634,8 +634,8 @@ main(int argc, char **argv)
 int
 main(void)
 {
-    HDprintf("Mirror VFD was not built -- cannot launch server.\n");
-    HDexit(EXIT_FAILURE);
+    printf("Mirror VFD was not built -- cannot launch server.\n");
+    exit(EXIT_FAILURE);
 }
 
 #endif /* H5_HAVE_MIRROR_VFD */

@@ -116,7 +116,7 @@ print_incoming_data(void)
             MPI_Recv(data, PRINT_DATA_MAX_SIZE, MPI_CHAR, Status.MPI_SOURCE, MPI_TAG_PRINT_DATA,
                      MPI_COMM_WORLD, &Status);
 
-            HDprintf("%s", data);
+            printf("%s", data);
         }
     } while (incomingMessage);
 }
@@ -297,7 +297,7 @@ free_exclude_path_list(diff_opt_t *opts)
 
     while (NULL != curr) {
         next = curr->next;
-        HDfree(curr);
+        free(curr);
         curr = next;
     }
 }
@@ -315,7 +315,7 @@ free_exclude_attr_list(diff_opt_t *opts)
 
     while (NULL != curr) {
         next = curr->next;
-        HDfree(curr);
+        free(curr);
         curr = next;
     }
 }
@@ -575,7 +575,7 @@ trav_grp_symlinks(const char *path, const H5L_info2_t *linfo, void *udata)
 
 done:
     if (lnk_info.trg_path)
-        HDfree(lnk_info.trg_path);
+        free(lnk_info.trg_path);
     H5TOOLS_ENDDEBUG(" ");
     return ret_value;
 }
@@ -706,11 +706,11 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
         if (HDstrncmp(objname1, "/", 1) != 0) {
 #ifdef H5_HAVE_ASPRINTF
             /* Use the asprintf() routine, since it does what we're trying to do below */
-            if (HDasprintf(&obj1fullname, "/%s", objname1) < 0)
+            if (asprintf(&obj1fullname, "/%s", objname1) < 0)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
 #else  /* H5_HAVE_ASPRINTF */
             /* (malloc 2 more for "/" and end-of-line) */
-            if ((obj1fullname = (char *)HDmalloc(HDstrlen(objname1) + 2)) == NULL)
+            if ((obj1fullname = (char *)malloc(HDstrlen(objname1) + 2)) == NULL)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
 
             HDstrcpy(obj1fullname, "/");
@@ -725,11 +725,11 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
         if (HDstrncmp(objname2, "/", 1) != 0) {
 #ifdef H5_HAVE_ASPRINTF
             /* Use the asprintf() routine, since it does what we're trying to do below */
-            if (HDasprintf(&obj2fullname, "/%s", objname2) < 0)
+            if (asprintf(&obj2fullname, "/%s", objname2) < 0)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
 #else  /* H5_HAVE_ASPRINTF */
             /* (malloc 2 more for "/" and end-of-line) */
-            if ((obj2fullname = (char *)HDmalloc(HDstrlen(objname2) + 2)) == NULL)
+            if ((obj2fullname = (char *)malloc(HDstrlen(objname2) + 2)) == NULL)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
             HDstrcpy(obj2fullname, "/");
             HDstrcat(obj2fullname, objname2);
@@ -997,8 +997,7 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
         int i;
 
         if ((HDstrlen(fname1) > MAX_FILENAME) || (HDstrlen(fname2) > MAX_FILENAME)) {
-            HDfprintf(stderr, "The parallel diff only supports path names up to %d characters\n",
-                      MAX_FILENAME);
+            fprintf(stderr, "The parallel diff only supports path names up to %d characters\n", MAX_FILENAME);
             MPI_Abort(MPI_COMM_WORLD, 0);
         } /* end if */
 
@@ -1068,15 +1067,15 @@ done:
 
     /* free buffers */
     if (obj1fullname)
-        HDfree(obj1fullname);
+        free(obj1fullname);
     if (obj2fullname)
-        HDfree(obj2fullname);
+        free(obj2fullname);
 
     /* free link info buffer */
     if (trg_linfo1.trg_path)
-        HDfree(trg_linfo1.trg_path);
+        free(trg_linfo1.trg_path);
     if (trg_linfo2.trg_path)
-        HDfree(trg_linfo2.trg_path);
+        free(trg_linfo2.trg_path);
 
     /* close */
     H5E_BEGIN_TRY
@@ -1165,7 +1164,7 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
      */
 #ifdef H5_HAVE_PARALLEL
     {
-        char                *workerTasks = (char *)HDmalloc((size_t)(g_nTasks - 1) * sizeof(char));
+        char                *workerTasks = (char *)malloc((size_t)(g_nTasks - 1) * sizeof(char));
         int                  n;
         int                  busyTasks = 0;
         struct diffs_found   nFoundbyWorker;
@@ -1183,11 +1182,11 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                 /* make full path for obj1 */
 #ifdef H5_HAVE_ASPRINTF
                 /* Use the asprintf() routine, since it does what we're trying to do below */
-                if (HDasprintf(&obj1_fullpath, "%s%s", grp1_path, table->objs[i].name) < 0) {
+                if (asprintf(&obj1_fullpath, "%s%s", grp1_path, table->objs[i].name) < 0) {
                     H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
                 }
 #else  /* H5_HAVE_ASPRINTF */
-            if ((obj1_fullpath = (char *)HDmalloc(HDstrlen(grp1_path) + HDstrlen(table->objs[i].name) + 1)) ==
+            if ((obj1_fullpath = (char *)malloc(HDstrlen(grp1_path) + HDstrlen(table->objs[i].name) + 1)) ==
                 NULL) {
                 H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
             }
@@ -1201,11 +1200,11 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                 /* make full path for obj2 */
 #ifdef H5_HAVE_ASPRINTF
                 /* Use the asprintf() routine, since it does what we're trying to do below */
-                if (HDasprintf(&obj2_fullpath, "%s%s", grp2_path, table->objs[i].name) < 0) {
+                if (asprintf(&obj2_fullpath, "%s%s", grp2_path, table->objs[i].name) < 0) {
                     H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
                 }
 #else  /* H5_HAVE_ASPRINTF */
-            if ((obj2_fullpath = (char *)HDmalloc(HDstrlen(grp2_path) + HDstrlen(table->objs[i].name) + 1)) ==
+            if ((obj2_fullpath = (char *)malloc(HDstrlen(grp2_path) + HDstrlen(table->objs[i].name) + 1)) ==
                 NULL) {
                 H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
             }
@@ -1248,7 +1247,7 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
 
                     /*Set up args to pass to worker task. */
                     if (HDstrlen(obj1_fullpath) > 255 || HDstrlen(obj2_fullpath) > 255) {
-                        HDprintf("The parallel diff only supports object names up to 255 characters\n");
+                        printf("The parallel diff only supports object names up to 255 characters\n");
                         MPI_Abort(MPI_COMM_WORLD, 0);
                     } /* end if */
 
@@ -1393,7 +1392,7 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                                          MPI_COMM_WORLD);
                             } /* end else-if */
                             else {
-                                HDprintf("ERROR: Invalid tag (%d) received \n", Status.MPI_TAG);
+                                printf("ERROR: Invalid tag (%d) received \n", Status.MPI_TAG);
                                 MPI_Abort(MPI_COMM_WORLD, 0);
                                 MPI_Finalize();
                             } /* end else */
@@ -1402,9 +1401,9 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                 }             /* end else */
 #endif                        /* H5_HAVE_PARALLEL */
                 if (obj1_fullpath)
-                    HDfree(obj1_fullpath);
+                    free(obj1_fullpath);
                 if (obj2_fullpath)
-                    HDfree(obj2_fullpath);
+                    free(obj2_fullpath);
             } /* end if */
         }     /* end for */
         H5TOOLS_DEBUG("done with for loop - errstat:%d", opts->err_stat);
@@ -1478,10 +1477,10 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                     MPI_Recv(data, PRINT_DATA_MAX_SIZE, MPI_CHAR, Status.MPI_SOURCE, MPI_TAG_PRINT_DATA,
                              MPI_COMM_WORLD, &Status);
 
-                    HDprintf("%s", data);
+                    printf("%s", data);
                 } /* end else-if */
                 else {
-                    HDprintf("ph5diff-manager: ERROR!! Invalid tag (%d) received \n", Status.MPI_TAG);
+                    printf("ph5diff-manager: ERROR!! Invalid tag (%d) received \n", Status.MPI_TAG);
                     MPI_Abort(MPI_COMM_WORLD, 0);
                 } /* end else */
             }     /* end while */
@@ -1494,7 +1493,7 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
         } /* end if */
         H5TOOLS_DEBUG("done with if block");
 
-        HDfree(workerTasks);
+        free(workerTasks);
     }
 #endif /* H5_HAVE_PARALLEL */
 
@@ -1913,9 +1912,9 @@ done:
 
     /* free link info buffer */
     if (linkinfo1.trg_path)
-        HDfree(linkinfo1.trg_path);
+        free(linkinfo1.trg_path);
     if (linkinfo2.trg_path)
-        HDfree(linkinfo2.trg_path);
+        free(linkinfo2.trg_path);
 
     /* close */
     /* disable error reporting */

@@ -599,14 +599,14 @@ parse_mask_list(const char *h_list)
 
     /* sanity check */
     if (h_list) {
-        HDmemset(packed_mask, 0, sizeof(packed_mask));
+        memset(packed_mask, 0, sizeof(packed_mask));
 
         packed_bits_num = 0;
         /* scan in pair of offset,length separated by commas. */
         ptr = h_list;
         while (*ptr) {
             /* scan for an offset which is an unsigned int */
-            if (!HDisdigit(*ptr)) {
+            if (!isdigit(*ptr)) {
                 error_msg("Bad mask list(%s)\n", h_list);
                 return FAIL;
             }
@@ -619,7 +619,7 @@ parse_mask_list(const char *h_list)
             }
 
             /* skip to end of integer */
-            while (HDisdigit(*++ptr))
+            while (isdigit(*++ptr))
                 ;
             /* Look for the common separator */
             if (*ptr++ != ',') {
@@ -628,7 +628,7 @@ parse_mask_list(const char *h_list)
             }
 
             /* scan for a length which is a positive int */
-            if (!HDisdigit(*ptr)) {
+            if (!isdigit(*ptr)) {
                 error_msg("Bad mask list(%s)\n", h_list);
                 return FAIL;
             }
@@ -645,7 +645,7 @@ parse_mask_list(const char *h_list)
             }
 
             /* skip to end of int */
-            while (HDisdigit(*++ptr))
+            while (isdigit(*++ptr))
                 ;
 
             /* store the offset,length pair */

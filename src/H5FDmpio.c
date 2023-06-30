@@ -11,11 +11,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Thursday, July 29, 1999
- *
  * Purpose:     This is the MPI-2 I/O driver.
- *
  */
 
 #include "H5FDdrvr_module.h" /* This source code file is part of the H5FD driver module */
@@ -181,9 +177,6 @@ static int H5FD_mpio_debug_rank_s = -1;
  *
  * Returns:     N/A
  *
- * Programmer:  Quincey Koziol
- *              Wednesday, Aug 12, 2020
- *
  *---------------------------------------------------------------------------
  */
 static void
@@ -251,9 +244,6 @@ H5FD__mem_t_to_str(H5FD_mem_t mem_type)
  * Return:      Success:    The driver ID for the mpio driver
  *              Failure:    H5I_INVALID_HID
  *
- * Programmer:  Robb Matzke
- *              Thursday, August 5, 1999
- *
  *-------------------------------------------------------------------------
  */
 hid_t
@@ -290,12 +280,12 @@ H5FD_mpio_init(void)
 
         /* Allow MPI buf-and-file-type optimizations? */
         s = HDgetenv("HDF5_MPI_OPT_TYPES");
-        if (s && HDisdigit(*s))
+        if (s && isdigit(*s))
             H5FD_mpi_opt_types_g = (0 == strtol(s, NULL, 0)) ? FALSE : TRUE;
 
 #ifdef H5FDmpio_DEBUG
         /* Clear the flag buffer */
-        HDmemset(H5FD_mpio_debug_flags_s, 0, sizeof(H5FD_mpio_debug_flags_s));
+        memset(H5FD_mpio_debug_flags_s, 0, sizeof(H5FD_mpio_debug_flags_s));
 
         /* Retrieve MPI-IO debugging environment variable */
         s = HDgetenv("H5FD_mpio_Debug");
@@ -319,9 +309,6 @@ done:
  * Purpose:     Shut down the VFD
  *
  * Returns:     Non-negative on success or negative on failure
- *
- * Programmer:  Quincey Koziol
- *              Friday, Jan 30, 2004
  *
  *---------------------------------------------------------------------------
  */
@@ -373,9 +360,6 @@ H5FD__mpio_term(void)
  * Return:      Success:    Non-negative
  *              Failure:    Negative
  *
- * Programmer:  Albert Cheng
- *              Feb 3, 1998
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -425,9 +409,6 @@ done:
  *                          not affect them and it is the responsibility
  *                          of the application to free them.
  *              Failure:    Negative
- *
- * Programmer:  Robb Matzke
- *              Thursday, February 26, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -493,9 +474,6 @@ done:
  * Return:      Success:    Non-negative
  *              Failure:    Negative
  *
- * Programmer:  Albert Cheng
- *              April 2, 1998
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -534,9 +512,6 @@ done:
  *                          non-null.
  *              Failure:    Negative
  *
- * Programmer:  Albert Cheng
- *              April 2, 1998
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -574,8 +549,6 @@ done:
  *
  * Return:      Success:    Non-negative
  *              Failure:    Negative
- *
- * Programmer:  Kent Yang
  *
  *-------------------------------------------------------------------------
  */
@@ -616,8 +589,6 @@ done:
  * Return:      Success:    Non-negative
  *              Failure:    Negative
  *
- * Programmer:  Kent Yang
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -654,8 +625,6 @@ done:
  *
  * Return:      Success:    Non-negative
  *              Failure:    Negative
- *
- * Programmer:  Kent Yang
  *
  *-------------------------------------------------------------------------
  */
@@ -697,8 +666,6 @@ done:
  * Return:      Success:    Non-negative
  *              Failure:    Negative
  *
- * Programmer:  Kent Yang
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -730,9 +697,6 @@ done:
  * Purpose:     Sets the atomicity mode
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Mohamad Chaarawi
- *              Feb 14, 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -772,9 +736,6 @@ done:
  * Purpose:     Returns the atomicity mode
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Mohamad Chaarawi
- *              Feb 14, 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -826,9 +787,6 @@ done:
  *
  * Return:      Success:    A new file pointer
  *              Failure:    NULL
- *
- * Programmer:  Robert Kim Yates
- *              January 30, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -1030,9 +988,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Unknown
- *              January 30, 1998
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1083,9 +1038,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Quincey Koziol
- *              Friday, August 25, 2000
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1116,9 +1068,6 @@ H5FD__mpio_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags /* out
  * Return:      Success:    The end-of-address marker
  *              Failure:    HADDR_UNDEF
  *
- * Programmer:  Robb Matzke
- *              Friday, August  6, 1999
- *
  *-------------------------------------------------------------------------
  */
 static haddr_t
@@ -1143,9 +1092,6 @@ H5FD__mpio_get_eoa(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
  *              to tell the driver where the end of the HDF5 data is located.
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Robb Matzke
- *              Friday, August 6, 1999
  *
  *-------------------------------------------------------------------------
  */
@@ -1186,9 +1132,6 @@ H5FD__mpio_set_eoa(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, haddr_t addr)
  * Return:      Success:    The end-of-file marker
  *              Failure:    HADDR_UNDEF
  *
- * Programmer:  Robb Matzke
- *              Friday, August  6, 1999
- *
  *-------------------------------------------------------------------------
  */
 static haddr_t
@@ -1211,9 +1154,6 @@ H5FD__mpio_get_eof(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
  * Purpose:        Returns the file handle of MPIO file driver.
  *
  * Returns:        SUCCEED/FAIL
- *
- * Programmer:     Raymond Lu
- *                 Sept. 16, 2002
  *
  *-------------------------------------------------------------------------
  */
@@ -1250,8 +1190,6 @@ done:
  *                          buffer BUF.
  *
  *              Failure:    FAIL. Contents of buffer BUF are undefined.
- *
- * Programmer:  rky, 1998-01-30
  *
  *-------------------------------------------------------------------------
  */
@@ -1298,7 +1236,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
     assert(buf);
 
     /* Portably initialize MPI status variable */
-    HDmemset(&mpi_stat, 0, sizeof(MPI_Status));
+    memset(&mpi_stat, 0, sizeof(MPI_Status));
 
     /* some numeric conversions */
     if (H5FD_mpi_haddr_to_MPIOff(addr, &mpi_off /*out*/) < 0)
@@ -1492,7 +1430,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
      * This gives us zeroes beyond end of physical MPI file.
      */
     if ((n = (io_size - bytes_read)) > 0)
-        HDmemset((char *)buf + bytes_read, 0, (size_t)n);
+        memset((char *)buf + bytes_read, 0, (size_t)n);
 
 done:
     if (derived_type)
@@ -1521,9 +1459,6 @@ done:
  *                          access params are altered.
  *              Failure:    FAIL. USE_TYPES and OLD_USE_TYPES in the
  *                          access params may be altered.
- *
- * Programmer:  Robert Kim Yates
- *              January 30, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -1571,7 +1506,7 @@ H5FD__mpio_write(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED dxpl_id, h
     assert(!H5CX_get_mpi_file_flushing());
 
     /* Portably initialize MPI status variable */
-    HDmemset(&mpi_stat, 0, sizeof(MPI_Status));
+    memset(&mpi_stat, 0, sizeof(MPI_Status));
 
     /* some numeric conversions */
     if (H5FD_mpi_haddr_to_MPIOff(addr, &mpi_off) < 0)
@@ -1747,9 +1682,6 @@ done:
  *
  * Return:      Success:    SUCCEED.
  *              Failure:    FAIL.
- *
- * Programmer:  Neil Fortner
- *              March 14, 2022
  *
  *-------------------------------------------------------------------------
  */
@@ -2109,9 +2041,6 @@ done:
  * Return:      Success:    SUCCEED.
  *              Failure:    FAIL.
  *
- * Programmer:  John Mainzer
- *              March 15, 2021
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -2203,7 +2132,7 @@ H5FD__mpio_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t cou
             }
 
         /* Portably initialize MPI status variable */
-        HDmemset(&mpi_stat, 0, sizeof(mpi_stat));
+        memset(&mpi_stat, 0, sizeof(mpi_stat));
 
 #ifdef H5FDmpio_DEBUG
         if (H5FD_mpio_debug_r_flag)
@@ -2335,7 +2264,7 @@ H5FD__mpio_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t cou
 #endif
                 assert(bytes_read >= 0);
 
-                HDmemset((char *)s_bufs[i] + bytes_read, 0, (size_t)io_size);
+                memset((char *)s_bufs[i] + bytes_read, 0, (size_t)io_size);
 
                 n -= io_size;
                 i--;
@@ -2402,7 +2331,7 @@ H5FD__mpio_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t cou
             /* Check if we actually need to do I/O */
             if (addrs[i] < max_addr) {
                 /* Portably initialize MPI status variable */
-                HDmemset(&mpi_stat, 0, sizeof(mpi_stat));
+                memset(&mpi_stat, 0, sizeof(mpi_stat));
 
                 /* Issue read */
                 if (MPI_SUCCESS !=
@@ -2435,13 +2364,13 @@ H5FD__mpio_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t cou
                  * addresses.
                  */
                 if ((n = (io_size - bytes_read)) > 0) {
-                    HDmemset((char *)bufs[i] + bytes_read, 0, (size_t)n);
+                    memset((char *)bufs[i] + bytes_read, 0, (size_t)n);
                     max_addr = addrs[i] + (haddr_t)bytes_read;
                 }
             }
             else {
                 /* Read is past the max address, fill in zeroes */
-                HDmemset((char *)bufs[i], 0, size);
+                memset((char *)bufs[i], 0, size);
             }
         }
     }
@@ -2511,9 +2440,6 @@ done:
  *
  * Return:      Success:    SUCCEED.
  *              Failure:    FAIL.
- *
- * Programmer:  John Mainzer
- *              March 15, 2021
  *
  *-------------------------------------------------------------------------
  */
@@ -2612,7 +2538,7 @@ H5FD__mpio_write_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t co
         }
 
         /* Portably initialize MPI status variable */
-        HDmemset(&mpi_stat, 0, sizeof(MPI_Status));
+        memset(&mpi_stat, 0, sizeof(MPI_Status));
 
 #ifdef H5FDmpio_DEBUG
         if (H5FD_mpio_debug_w_flag)
@@ -2795,9 +2721,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Robb Matzke
- *              January 30, 1998
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -2852,9 +2775,6 @@ done:
  *              with the current EOA.
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Quincey Koziol
- *              January 31, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -3042,8 +2962,6 @@ done:
  *              support MPI.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  JRM -- 8/3/21
  *
  *-------------------------------------------------------------------------
  */

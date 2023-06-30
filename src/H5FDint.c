@@ -178,7 +178,7 @@ H5FD_locate_signature(H5FD_t *file, haddr_t *sig_addr)
             HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to set EOA value for file signature")
         if (H5FD_read(file, H5FD_MEM_SUPER, addr, (size_t)H5F_SIGNATURE_LEN, buf) < 0)
             HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to read file signature")
-        if (!HDmemcmp(buf, H5F_SIGNATURE, (size_t)H5F_SIGNATURE_LEN))
+        if (!memcmp(buf, H5F_SIGNATURE, (size_t)H5F_SIGNATURE_LEN))
             break;
     }
 
@@ -344,8 +344,6 @@ done:
  *
  *              Failure:    FAIL
  *                          The contents of supplied buffers are undefined.
- *
- * Programmer:  JRM -- 6/10/20
  *
  *-------------------------------------------------------------------------
  */
@@ -561,8 +559,6 @@ done:
  *              Failure:    FAIL
  *                          One or more writes failed.
  *
- * Programmer:  JRM -- 6/10/20
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -748,8 +744,6 @@ done:
  *
  *              Failure:    FAIL
  *                          The contents of supplied buffers are undefined.
- *
- * Programmer:  NAF -- 5/13/21
  *
  *-------------------------------------------------------------------------
  */
@@ -1079,8 +1073,6 @@ done:
  *              Failure:    FAIL
  *                          The contents of supplied buffers are undefined.
  *
- * Programmer:  NAF -- 3/29/21
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1243,8 +1235,6 @@ done:
  *              Failure:    FAIL
  *                          The contents of supplied buffers are undefined.
  *
- * Programmer:  NAF -- 5/19/21
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1395,8 +1385,6 @@ done:
  *
  *              Failure:    FAIL
  *                          One or more writes failed.
- *
- * Programmer:  NAF -- 5/13/21
  *
  *-------------------------------------------------------------------------
  */
@@ -1724,8 +1712,6 @@ done:
  *              Failure:    FAIL
  *                          One or more writes failed.
  *
- * Programmer:  NAF -- 3/29/21
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1879,8 +1865,6 @@ done:
  *
  *              Failure:    FAIL
  *                          One or more writes failed.
- *
- * Programmer:  NAF -- 5/19/21
  *
  *-------------------------------------------------------------------------
  */

@@ -125,7 +125,6 @@ static char *xml_escape_the_name(const char *);
  *
  *              Failure:        FAIL
  *
- * Programmer:  Ruey-Hsia Li
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -141,9 +140,9 @@ xml_dump_all_cb(hid_t group, const char *name, const H5L_info2_t *linfo, void H5
     hsize_t           curr_pos = 0; /* total data element position */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -648,7 +647,6 @@ static const char *apos  = "&apos;";
  *
  * Return:      The revised string.
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static char *
@@ -738,7 +736,6 @@ xml_escape_the_name(const char *str)
  *
  * Return:      The revised string.
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static char *
@@ -844,7 +841,6 @@ xml_escape_the_string(const char *str, int slen)
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static void
@@ -877,9 +873,9 @@ xml_print_datatype(hid_t type, unsigned in_group)
     hsize_t           curr_pos = 0; /* total data element position   */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -1562,7 +1558,6 @@ xml_print_datatype(hid_t type, unsigned in_group)
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 void
@@ -1575,9 +1570,9 @@ xml_dump_datatype(hid_t type)
     hsize_t           curr_pos = 0; /* total data element position   */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -1691,7 +1686,6 @@ xml_dump_datatype(hid_t type)
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 void
@@ -1710,9 +1704,9 @@ xml_dump_dataspace(hid_t space)
     H5S_class_t space_type = H5Sget_simple_extent_type(space);
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -1881,13 +1875,13 @@ xml_dump_data(hid_t obj_id, int obj_data, struct subset_t H5_ATTR_UNUSED *sset, 
     h5tool_format_t  *outputformat = &xml_dataformat;
     h5tool_format_t   string_dataformat;
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
     /* Print all the values. */
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
     string_dataformat = *outputformat;
 
@@ -1941,7 +1935,7 @@ xml_dump_data(hid_t obj_id, int obj_data, struct subset_t H5_ATTR_UNUSED *sset, 
             status = xml_print_strs(obj_id, DATASET_DATA);
         else {
             h5tools_context_t datactx;
-            HDmemset(&datactx, 0, sizeof(datactx));
+            memset(&datactx, 0, sizeof(datactx));
             datactx.need_prefix  = TRUE;
             datactx.indent_level = ctx.indent_level;
             datactx.cur_column   = ctx.cur_column;
@@ -1971,7 +1965,7 @@ xml_dump_data(hid_t obj_id, int obj_data, struct subset_t H5_ATTR_UNUSED *sset, 
             }
             else {
                 h5tools_context_t datactx;
-                HDmemset(&datactx, 0, sizeof(datactx));
+                memset(&datactx, 0, sizeof(datactx));
                 datactx.need_prefix  = TRUE;
                 datactx.indent_level = ctx.indent_level;
                 datactx.cur_column   = ctx.cur_column;
@@ -2031,7 +2025,6 @@ xml_dump_data(hid_t obj_id, int obj_data, struct subset_t H5_ATTR_UNUSED *sset, 
  *
  * Return:      herr_t
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -2051,9 +2044,9 @@ xml_dump_attr(hid_t attr, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED
     char *t_aname = xml_escape_the_name(attr_name);
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -2352,7 +2345,6 @@ xml_dump_attr(hid_t attr, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED
  *
  * Return:      herr_t
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 void
@@ -2383,9 +2375,9 @@ xml_dump_named_datatype(hid_t type, const char *name)
     HDstrcat(tmp, name);
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -2556,7 +2548,6 @@ done:
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 void
@@ -2603,9 +2594,9 @@ xml_dump_group(hid_t gid, const char *name)
     }
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -2940,7 +2931,6 @@ xml_dump_group(hid_t gid, const char *name)
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static int
@@ -3008,9 +2998,9 @@ xml_print_refs(hid_t did, int source)
     refbuf = (H5R_ref_t *)((void *)buf);
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -3090,7 +3080,6 @@ error:
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static int
@@ -3165,9 +3154,9 @@ xml_print_strs(hid_t did, int source)
     }
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -3261,7 +3250,6 @@ error:
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static void
@@ -3281,9 +3269,9 @@ check_filters(hid_t dcpl)
     hsize_t           curr_pos = 0; /* total data element position   */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -3422,9 +3410,9 @@ xml_dump_fill_value(hid_t dcpl, hid_t type)
     hsize_t           curr_pos = 0; /* total data element position   */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -3799,9 +3787,9 @@ xml_dump_dataset(hid_t did, const char *name, struct subset_t H5_ATTR_UNUSED *ss
     HDstrcat(tmp, name);
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -4370,7 +4358,6 @@ xml_dump_dataset(hid_t did, const char *name, struct subset_t H5_ATTR_UNUSED *ss
  *
  * Return:      void
  *
- * Programmer:  REMcG
  *-------------------------------------------------------------------------
  */
 static void
@@ -4391,9 +4378,9 @@ xml_print_enum(hid_t type)
     hsize_t           curr_pos = 0; /* total data element position   */
 
     /* setup */
-    HDmemset(&buffer, 0, sizeof(h5tools_str_t));
+    memset(&buffer, 0, sizeof(h5tools_str_t));
 
-    HDmemset(&ctx, 0, sizeof(ctx));
+    memset(&ctx, 0, sizeof(ctx));
     ctx.indent_level = dump_indent / COL;
     ctx.cur_column   = dump_indent;
 
@@ -4527,13 +4514,13 @@ xml_print_enum(hid_t type)
         else if (H5T_SGN_NONE == H5Tget_sign(native)) {
             unsigned long long copy;
 
-            HDmemcpy(&copy, value + i * dst_size, sizeof(copy));
+            memcpy(&copy, value + i * dst_size, sizeof(copy));
             h5tools_str_append(&buffer, "%llu", copy);
         }
         else {
             long long copy;
 
-            HDmemcpy(&copy, value + i * dst_size, sizeof(copy));
+            memcpy(&copy, value + i * dst_size, sizeof(copy));
             h5tools_str_append(&buffer, "%lld", copy);
         }
         h5tools_render_element(rawoutstream, outputformat, &ctx, &buffer, &curr_pos,

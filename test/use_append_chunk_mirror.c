@@ -86,8 +86,6 @@
  *         o The Reader will see all new data written by Writer.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Created: Jacob Smith, 2019 */
-
 #include "use.h"
 
 /* This test uses many POSIX things that are not available on
@@ -118,7 +116,7 @@ int
 setup_parameters(int argc, char *const argv[], options_t *opts)
 {
     /* use case defaults */
-    HDmemset(opts, 0, sizeof(options_t));
+    memset(opts, 0, sizeof(options_t));
     opts->chunksize   = Chunksize_DFT;
     opts->use_swmr    = TRUE;
     opts->iterations  = 1;

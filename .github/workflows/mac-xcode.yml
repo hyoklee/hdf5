@@ -15,7 +15,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G Xcode ..
+          cmake -DHDF5_ENABLE_ROS3_VFD:BOOL=ON -G Xcode ..
           cmake --build . --config Debug
           ctest --build . -C Debug
           sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_CONFIG_NAME=Debug -P cmake_install.cmake

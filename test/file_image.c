@@ -74,9 +74,6 @@ typedef struct {
  * Returns:     Success: 0
  *              Failure: 1
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static int
@@ -132,7 +129,7 @@ test_properties(void)
     VERIFY(temp != NULL, "temp is null!");
     VERIFY(temp_size == size, "Sizes of buffers don't match");
     VERIFY(temp != buffer, "Retrieved buffer is the same as original");
-    VERIFY(0 == HDmemcmp(temp, buffer, size), "Buffers contain different data");
+    VERIFY(0 == memcmp(temp, buffer, size), "Buffers contain different data");
 
     /* Copy the fapl */
     if ((fapl_2 = H5Pcopy(fapl_1)) < 0)
@@ -147,7 +144,7 @@ test_properties(void)
     VERIFY(temp2 != NULL, "Received buffer not set");
     VERIFY(temp2 != buffer, "Retrieved buffer is the same as original");
     VERIFY(temp2 != temp, "Retrieved buffer is the same as previously retrieved buffer");
-    VERIFY(0 == HDmemcmp(temp2, buffer, size), "Buffers contain different data");
+    VERIFY(0 == memcmp(temp2, buffer, size), "Buffers contain different data");
 
     retval = 0;
 
@@ -175,9 +172,6 @@ error:
  *
  * Returns:     The result of a standard malloc
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static void *
@@ -197,9 +191,6 @@ malloc_cb(size_t size, H5FD_file_image_op_t op, void *udata)
  *
  * Returns:     The result of a standard memcpy
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static void *
@@ -209,7 +200,7 @@ memcpy_cb(void *dest, const void *src, size_t size, H5FD_file_image_op_t op, voi
 
     u->used_callbacks |= MEMCPY;
     u->memcpy_src = op;
-    return HDmemcpy(dest, src, size);
+    return memcpy(dest, src, size);
 }
 
 /******************************************************************************
@@ -218,9 +209,6 @@ memcpy_cb(void *dest, const void *src, size_t size, H5FD_file_image_op_t op, voi
  * Purpose:     This function allows calls to the realloc callback to be tracked.
  *
  * Returns:     The result of a standard realloc
- *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
  *
  ******************************************************************************
  */
@@ -238,9 +226,6 @@ realloc_cb(void *ptr, size_t size, H5FD_file_image_op_t op, void *udata)
  * Function:    free_cb
  *
  * Purpose:     This function allows calls to the free callback to be tracked.
- *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
  *
  ******************************************************************************
  */
@@ -264,9 +249,6 @@ free_cb(void *ptr, H5FD_file_image_op_t op, void *udata)
  *
  * Returns:     A pointer to the same udata that was passed in.
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static void *
@@ -287,9 +269,6 @@ udata_copy_cb(void *udata)
  *              udata_copy callback doesn't copy, only one instance of the udata
  *              is kept alive and such it must be freed explicitly at the end of the tests.
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static herr_t
@@ -307,9 +286,6 @@ udata_free_cb(void *udata)
  * Purpose:     Resets the udata to default values. This facilitates storing only
  *              the results of a single operation in the udata.
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static void
@@ -323,9 +299,6 @@ reset_udata(udata_t *u)
  * Function:    test_callbacks
  *
  * Purpose:     Tests that callbacks are called properly in property list functions.
- *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
  *
  ******************************************************************************
  */
@@ -543,9 +516,6 @@ error:
  * Purpose:     Tests that callbacks are called properly in the core VFD and
  *              that the initial file image works properly.
  *
- * Programmer:  Jacob Gruber
- *              Monday, August 22, 2011
- *
  ******************************************************************************
  */
 static int
@@ -695,9 +665,6 @@ error:
  * Function:    test_get_file_image
  *
  * Purpose:     Test the H5Fget_file_image() call.
- *
- * Programmer:  John Mainzer
- *              Tuesday, November 15, 2011
  *
  ******************************************************************************
  */
@@ -977,9 +944,6 @@ H5_GCC_CLANG_DIAG_ON("format-nonliteral")
  * Function:    test_get_file_image_error_rejection
  *
  * Purpose:     Verify that H5Fget_file_image() rejects invalid input.
- *
- * Programmer:  John Mainzer
- *              Tuesday, November 22, 2011
  *
  ******************************************************************************
  */

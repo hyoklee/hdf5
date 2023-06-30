@@ -10,11 +10,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*
- * Programmer:  Robb Matzke
- *              Thursday, March 12, 1998
- */
-
 /* See H5private.h for how to include headers */
 #include "hdf5.h"
 
@@ -45,9 +40,6 @@
  * Purpose:  Prints statistics
  *
  * Return:  void
- *
- * Programmer:  Robb Matzke
- *              Thursday, March 12, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -86,9 +78,6 @@ print_stats(const char *prefix,
  *
  * Return:  void
  *
- * Programmer:  Robb Matzke
- *              Thursday, March 12, 1998
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -115,9 +104,6 @@ synchronize(void)
  * Return:  Success:
  *
  *    Failure:
- *
- * Programmer:  Robb Matzke
- *              Thursday, March 12, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -162,7 +148,7 @@ main(void)
     the_data = (unsigned char *)malloc((size_t)(size[0] * size[1]));
 
     /* initial fill for lazy malloc */
-    HDmemset(the_data, 0xAA, (size_t)(size[0] * size[1]));
+    memset(the_data, 0xAA, (size_t)(size[0] * size[1]));
 
     /* Fill raw */
     synchronize();
@@ -174,7 +160,7 @@ main(void)
     for (u = 0; u < nwrite; u++) {
         HDputc(PROGRESS, stderr);
         fflush(stderr);
-        HDmemset(the_data, 0xAA, (size_t)(size[0] * size[1]));
+        memset(the_data, 0xAA, (size_t)(size[0] * size[1]));
     }
 #ifdef H5_HAVE_GETRUSAGE
     getrusage(RUSAGE_SELF, &r_stop);

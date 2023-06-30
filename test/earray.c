@@ -174,16 +174,13 @@ h5_stat_size_t empty_size_g;
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 21, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
 init_cparam(H5EA_create_t *cparam)
 {
     /* Wipe out background */
-    HDmemset(cparam, 0, sizeof(*cparam));
+    memset(cparam, 0, sizeof(*cparam));
 
     /* General parameters */
     cparam->cls                       = H5EA_CLS_TEST;
@@ -207,9 +204,6 @@ init_cparam(H5EA_create_t *cparam)
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, September 25, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -220,7 +214,7 @@ init_tparam(earray_test_param_t *tparam, const H5EA_create_t *cparam)
     size_t  u;          /* Local index variable */
 
     /* Wipe out background */
-    HDmemset(tparam, 0, sizeof(*tparam));
+    memset(tparam, 0, sizeof(*tparam));
 
     /* Compute general information */
     tparam->nsblks = 1 + (cparam->max_nelmts_bits - H5VM_log2_of2(cparam->data_blk_min_elmts));
@@ -254,9 +248,6 @@ init_tparam(earray_test_param_t *tparam, const H5EA_create_t *cparam)
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, September 25, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -276,9 +267,6 @@ finish_tparam(earray_test_param_t *tparam)
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -311,9 +299,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Thursday, August 21, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -403,9 +388,6 @@ error:
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -463,9 +445,6 @@ error:
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -488,7 +467,7 @@ create_array(H5F_t *f, const H5EA_create_t *cparam, H5EA_t **ea, haddr_t *ea_add
         FAIL_STACK_ERROR;
     if (!H5_addr_defined(*ea_addr))
         TEST_ERROR;
-    HDmemset(&state, 0, sizeof(state));
+    memset(&state, 0, sizeof(state));
     state.hdr_size = EA_HDR_SIZE;
     if (check_stats(*ea, &state))
         TEST_ERROR;
@@ -508,9 +487,6 @@ error:
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -519,7 +495,7 @@ verify_cparam(const H5EA_t *ea, const H5EA_create_t *cparam)
     H5EA_create_t test_cparam; /* Creation parameters for array */
 
     /* Retrieve creation parameters */
-    HDmemset(&test_cparam, 0, sizeof(H5EA_create_t));
+    memset(&test_cparam, 0, sizeof(H5EA_create_t));
     if (H5EA__get_cparam_test(ea, &test_cparam) < 0)
         FAIL_STACK_ERROR;
 
@@ -542,9 +518,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -588,9 +561,6 @@ error:
  * Return:    Success: 0
  *        Failure: 1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August  7, 2008
- *
  *-------------------------------------------------------------------------
  */
 static unsigned
@@ -615,7 +585,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
         H5EA_create_t test_cparam; /* Creation parameters for array */
 
         /* Set invalid element size */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.raw_elmt_size = 0;
         H5E_BEGIN_TRY
         {
@@ -632,7 +602,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
         } /* end if */
 
         /* Set invalid max. # of elements bits */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.max_nelmts_bits = 0;
         H5E_BEGIN_TRY
         {
@@ -648,7 +618,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
             TEST_ERROR;
         } /* end if */
 
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.max_nelmts_bits = 65;
         H5E_BEGIN_TRY
         {
@@ -665,7 +635,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
         } /* end if */
 
         /* Set invalid min. # of data block pointers in super blocks */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.sup_blk_min_data_ptrs = 0;
         H5E_BEGIN_TRY
         {
@@ -680,7 +650,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
             /* Indicate error */
             TEST_ERROR;
         } /* end if */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.sup_blk_min_data_ptrs = 1;
         H5E_BEGIN_TRY
         {
@@ -695,7 +665,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
             /* Indicate error */
             TEST_ERROR;
         } /* end if */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.sup_blk_min_data_ptrs = 6;
         H5E_BEGIN_TRY
         {
@@ -712,7 +682,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
         } /* end if */
 
         /* Set invalid min. # of elements per data block */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.data_blk_min_elmts = 0;
         H5E_BEGIN_TRY
         {
@@ -730,7 +700,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
 
         /* Set invalid max. # of elements per data block page bits */
         if (test_cparam.idx_blk_elmts > 0) {
-            HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+            memcpy(&test_cparam, cparam, sizeof(test_cparam));
             test_cparam.max_dblk_page_nelmts_bits =
                 (uint8_t)(H5VM_log2_gen((uint64_t)test_cparam.idx_blk_elmts) - 1);
             H5E_BEGIN_TRY
@@ -747,7 +717,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
                 TEST_ERROR;
             } /* end if */
         }     /* end if */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.max_dblk_page_nelmts_bits = 4; /* corresponds to 16 elements in data block page, which is
                                                       less than the 64 elements for the default settings */
         H5E_BEGIN_TRY
@@ -763,7 +733,7 @@ test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSE
             /* Indicate error */
             TEST_ERROR;
         } /* end if */
-        HDmemcpy(&test_cparam, cparam, sizeof(test_cparam));
+        memcpy(&test_cparam, cparam, sizeof(test_cparam));
         test_cparam.max_dblk_page_nelmts_bits = (uint8_t)(test_cparam.max_nelmts_bits + 1);
         H5E_BEGIN_TRY
         {
@@ -833,9 +803,6 @@ error:
  * Return:    Success:    0
  *        Failure:    1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
- *
  *-------------------------------------------------------------------------
  */
 static unsigned
@@ -903,9 +870,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    1
- *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1013,9 +977,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    1
- *
- * Programmer:    Quincey Koziol
- *              Friday, December 18, 2015
  *
  *-------------------------------------------------------------------------
  */
@@ -1154,9 +1115,6 @@ error:
  * Return:    Success:    0
  *        Failure:    1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, August 28, 2008
- *
  *-------------------------------------------------------------------------
  */
 static unsigned
@@ -1283,9 +1241,6 @@ typedef struct eiter_fw_t {
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
  *
- * Programmer:    Quincey Koziol
- *              Thursday, October  2, 2008
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -1314,9 +1269,6 @@ eiter_fw_init(const H5EA_create_t H5_ATTR_UNUSED *cparam, const earray_test_para
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static hssize_t
@@ -1342,9 +1294,6 @@ eiter_fw_next(void *in_eiter)
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static H5_ATTR_PURE hssize_t
@@ -1366,9 +1315,6 @@ eiter_fw_max(const void *in_eiter)
  *
  * Return:    Success:    Non-negative
  *        Failure:    Negative
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1427,9 +1373,6 @@ eiter_fw_state(void *in_eiter, const H5EA_create_t *cparam, const earray_test_pa
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Thursday, October  2, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1471,9 +1414,6 @@ typedef struct eiter_rv_t {
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -1514,9 +1454,6 @@ eiter_rv_init(const H5EA_create_t *cparam, const earray_test_param_t *tparam, hs
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static hssize_t
@@ -1542,9 +1479,6 @@ eiter_rv_next(void *in_eiter)
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static H5_ATTR_PURE hssize_t
@@ -1566,9 +1500,6 @@ eiter_rv_max(const void *in_eiter)
  *
  * Return:    Success:    Non-negative
  *        Failure:    Negative
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1652,9 +1583,6 @@ eiter_rv_state(void *in_eiter, const H5EA_create_t *cparam, const earray_test_pa
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  4, 2008
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1692,9 +1620,6 @@ typedef struct eiter_rnd_t {
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
- *
- * Programmer:    Quincey Koziol
- *              Thursday, November  6, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1744,9 +1669,6 @@ eiter_rnd_init(const H5EA_create_t H5_ATTR_UNUSED *cparam, const earray_test_par
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Thursday, November  6, 2008
- *
  *-------------------------------------------------------------------------
  */
 static hssize_t
@@ -1777,9 +1699,6 @@ eiter_rnd_next(void *in_eiter)
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  6, 2008
- *
  *-------------------------------------------------------------------------
  */
 static H5_ATTR_PURE hssize_t
@@ -1801,9 +1720,6 @@ eiter_rnd_max(const void *in_eiter)
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, November  6, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1841,9 +1757,6 @@ static const earray_iter_t ea_iter_rnd = {
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
- *
- * Programmer:    Quincey Koziol
- *              Thursday, November 11, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1925,9 +1838,6 @@ typedef struct eiter_cyc_t {
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November 11, 2008
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -1957,9 +1867,6 @@ eiter_cyc_init(const H5EA_create_t H5_ATTR_UNUSED *cparam, const earray_test_par
  *
  * Return:    Success:    Non-negative
  *        Failure:    Negative
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, November 11, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -1993,9 +1900,6 @@ eiter_cyc_next(void *in_eiter)
  * Return:    Success:    Non-negative
  *        Failure:    Negative
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November 11, 2008
- *
  *-------------------------------------------------------------------------
  */
 static H5_ATTR_PURE hssize_t
@@ -2017,9 +1921,6 @@ eiter_cyc_max(const void *in_eiter)
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, November 11, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -2053,9 +1954,6 @@ static const earray_iter_t ea_iter_cyc = {
  *
  * Return:    Success:    0
  *        Failure:    1
- *
- * Programmer:    Quincey Koziol
- *              Thursday, September 22, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -2107,7 +2005,7 @@ test_set_elmts(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam, h
         TEST_ERROR;
 
     /* Verify array state */
-    HDmemset(&state, 0, sizeof(state));
+    memset(&state, 0, sizeof(state));
     state.hdr_size = EA_HDR_SIZE;
     if (check_stats(ea, &state))
         TEST_ERROR;
@@ -2232,9 +2130,6 @@ error:
  * Return:    Success:    0
  *        Failure:    1
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, November 11, 2008
- *
  *-------------------------------------------------------------------------
  */
 static unsigned
@@ -2281,7 +2176,7 @@ test_skip_elmts(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam, 
         TEST_ERROR;
 
     /* Verify array state */
-    HDmemset(&state, 0, sizeof(state));
+    memset(&state, 0, sizeof(state));
     state.hdr_size = EA_HDR_SIZE;
     if (check_stats(ea, &state))
         TEST_ERROR;
@@ -2311,7 +2206,7 @@ test_skip_elmts(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam, 
         TEST_ERROR;
 
     /* Set array state */
-    HDmemset(&state, 0, sizeof(state));
+    memset(&state, 0, sizeof(state));
     state.hdr_size       = EA_HDR_SIZE;
     state.nindex_blks    = 1;
     state.index_blk_size = EA_IBLOCK_SIZE;
@@ -2390,9 +2285,6 @@ error:
  *
  * Return:    Success: 0
  *        Failure: 1
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, June 17, 2008
  *
  *-------------------------------------------------------------------------
  */

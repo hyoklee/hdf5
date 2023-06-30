@@ -114,9 +114,6 @@ static const H5Z_class2_t H5Z_BOGUS2[1] = {{
  * Return:        Success:    0
  *                Failure:    1
  *
- * Programmer:  Raymond Lu
- *              30 November 2012
- *
  *-------------------------------------------------------------------------
  */
 #ifdef H5_HAVE_FILTER_DEFLATE
@@ -382,9 +379,6 @@ error:
  * Return:      Success:    0
  *              Failure:    1
  *
- * Programmer:  Dana Robinson
- *              Spring 2017
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -490,9 +484,6 @@ error:
  *
  * Return:    Success:    0
  *            Failure:    1
- *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -620,7 +611,7 @@ test_skip_compress_write1(hid_t file)
         goto error;
 
     /* Read the raw chunk back */
-    HDmemset(&read_direct_buf, 0, sizeof(read_direct_buf));
+    memset(&read_direct_buf, 0, sizeof(read_direct_buf));
     if ((status = H5Dread_chunk(dataset, H5P_DEFAULT, offset, &read_filter_mask, read_direct_buf)) < 0)
         goto error;
     if (read_filter_mask != filter_mask)
@@ -672,9 +663,6 @@ error:
  *
  * Return:        Success:    Data chunk size
  *
- * Programmer:  Raymond Lu
- *              30 November 2012
- *
  *-------------------------------------------------------------------------
  */
 static size_t
@@ -709,8 +697,6 @@ filter_bogus1(unsigned int flags, size_t H5_ATTR_UNUSED cd_nelmts,
  *
  * Return:    Success:    Data chunk size
  *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *-------------------------------------------------------------------------
  */
 static size_t
@@ -746,9 +732,6 @@ filter_bogus2(unsigned int flags, size_t H5_ATTR_UNUSED cd_nelmts,
  *
  * Return:    Success:    0
  *            Failure:    1
- *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -896,7 +879,7 @@ test_skip_compress_write2(hid_t file)
         goto error;
 
     /* Read the raw chunk back */
-    HDmemset(&read_direct_buf, 0, sizeof(read_direct_buf));
+    memset(&read_direct_buf, 0, sizeof(read_direct_buf));
     if ((status = H5Dread_chunk(dataset, H5P_DEFAULT, offset, &read_filter_mask, read_direct_buf)) < 0)
         goto error;
     if (read_filter_mask != filter_mask)
@@ -948,9 +931,6 @@ error:
  *
  * Return:    Success:    0
  *            Failure:    1
- *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -1184,9 +1164,6 @@ error:
  *
  * Return:      Success:    0
  *              Failure:    1
- *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -1430,9 +1407,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        1
- *
- * Programmer:  Matthew Strong (GE Healthcare)
- *              14 February 2016
  *
  *-------------------------------------------------------------------------
  */
@@ -1812,9 +1786,6 @@ error:
  * Return:      Success:        0
  *              Failure:        1
  *
- * Programmer:  Matthew Strong (GE Healthcare)
- *              30 November 2016
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1910,7 +1881,7 @@ test_read_unfiltered_dset(hid_t file)
             offset[0] = (hsize_t)i * CHUNK_NX;
             offset[1] = (hsize_t)j * CHUNK_NY;
             /* Read the raw chunk back */
-            HDmemset(&direct_buf, 0, sizeof(direct_buf));
+            memset(&direct_buf, 0, sizeof(direct_buf));
             filter_mask = UINT_MAX;
             if ((status = H5Dread_chunk(dataset, dxpl, offset, &filter_mask, direct_buf)) < 0)
                 goto error;
@@ -1968,9 +1939,6 @@ error:
  * Return:      Success:        0
  *              Failure:        1
  *
- * Programmer:  Matthew Strong (GE Healthcare)
- *              30 November 2016
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -2014,7 +1982,7 @@ test_read_unallocated_chunk(hid_t file)
         FAIL_STACK_ERROR;
 
     /* Write a single chunk to initialize the chunk storage */
-    HDmemset(direct_buf, 0, CHUNK_NX * CHUNK_NY * sizeof(int));
+    memset(direct_buf, 0, CHUNK_NX * CHUNK_NY * sizeof(int));
     offset[0] = 0;
     offset[1] = 0;
 
@@ -2252,9 +2220,6 @@ error:
  *
  * Return:        Success:    0
  *                Failure:    1
- *
- * Programmer:  Raymond Lu
- *              30 November 2012
  *
  *-------------------------------------------------------------------------
  */

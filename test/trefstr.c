@@ -22,12 +22,6 @@
    BUGS/LIMITATIONS
 
    EXPORTED ROUTINES
-
-   AUTHOR
-       Quincey Koziol
-
-   MODIFICATION HISTORY
-       12/17/02 - Started coding
  */
 
 #include "testhdf5.h"
@@ -377,7 +371,7 @@ test_refstr_acat(void)
     /* Append a large string to ref-counted string */
     large_str = malloc(1024);
     CHECK_PTR(large_str, "malloc");
-    HDmemset(large_str, 'a', 1024);
+    memset(large_str, 'a', 1024);
     large_str[1023] = '\0';
     ret             = H5RS_acat(rs, large_str);
     CHECK(ret, FAIL, "H5RS_acat");
@@ -389,7 +383,7 @@ test_refstr_acat(void)
     large_str2 = malloc(1024 + 6);
     CHECK_PTR(large_str2, "malloc");
     HDstrcpy(large_str2, "foobar");
-    HDmemset(&large_str2[6], 'a', 1024);
+    memset(&large_str2[6], 'a', 1024);
     large_str2[1029] = '\0';
     cmp              = HDstrcmp(s, large_str2);
     VERIFY(cmp, 0, "HDstrcmp");

@@ -52,7 +52,7 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
     unsigned    pixels_per_block;
 
     /* initialize compression  info */
-    HDmemset(filt, 0, sizeof(filter_info_t));
+    memset(filt, 0, sizeof(filter_info_t));
     *is_glb = 0;
 
     /* check for the end of object list and number of objects */
@@ -95,7 +95,7 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
                     sobj[k + 1] = '\0';
 
                 HDstrcpy(obj_list[n].obj, sobj);
-                HDmemset(sobj, 0, sizeof(sobj));
+                memset(sobj, 0, sizeof(sobj));
                 n++;
                 k = -1;
             }
@@ -132,7 +132,7 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
                             u++;             /* skip ',' */
                         }
                         c = str[u];
-                        if (!HDisdigit(c) && l == -1) {
+                        if (!isdigit(c) && l == -1) {
                             if (obj_list)
                                 free(obj_list);
                             error_msg("compression parameter not digit in <%s>\n", str);
@@ -182,7 +182,7 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
                             u++;             /* skip ',' */
                         }
                         c = str[u];
-                        if (!HDisdigit(c) && l == -1) {
+                        if (!isdigit(c) && l == -1) {
                             if (obj_list)
                                 free(obj_list);
                             error_msg("compression parameter is not a digit in <%s>\n", str);
@@ -242,13 +242,13 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
                             u++; /* skip ',' */
                         }
                         c = str[u];
-                        if (!HDisdigit(c) && l == -1) {
+                        if (!isdigit(c) && l == -1) {
                             if (obj_list)
                                 free(obj_list);
                             error_msg("filter number parameter is not a digit in <%s>\n", str);
                             exit(EXIT_FAILURE);
                         }
-                        else if (!HDisdigit(c) && f == -1) {
+                        else if (!isdigit(c) && f == -1) {
                             if (obj_list)
                                 free(obj_list);
                             error_msg("filter flag parameter is not a digit in <%s>\n", str);
@@ -267,7 +267,7 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
                     /* here we could have 1 or 2 digits  */
                     for (m = 0, u = i + 1; u < len; u++, m++) {
                         c = str[u];
-                        if (!HDisdigit(c)) {
+                        if (!isdigit(c)) {
                             if (obj_list)
                                 free(obj_list);
                             error_msg("compression parameter is not a digit in <%s>\n", str);
@@ -477,10 +477,6 @@ parse_filter(const char *str, unsigned *n_objs, filter_info_t *filt, pack_opt_t 
  * Example:
  * "AA,B,CDE:CHUNK=10X10"
  *
- * Programmer: Pedro Vicente
- *
- * Date: December 30, 2003
- *
  *-------------------------------------------------------------------------
  */
 obj_list_t *
@@ -496,9 +492,9 @@ parse_layout(const char *str, unsigned *n_objs, pack_info_t *pack, /* info about
     char        sdim[10];
     char        slayout[10];
 
-    HDmemset(sdim, '\0', sizeof(sdim));
-    HDmemset(sobj, '\0', sizeof(sobj));
-    HDmemset(slayout, '\0', sizeof(slayout));
+    memset(sdim, '\0', sizeof(sdim));
+    memset(sobj, '\0', sizeof(sobj));
+    memset(slayout, '\0', sizeof(slayout));
 
     /* check for the end of object list and number of objects */
     for (i = 0, n = 0; i < len; i++) {
@@ -532,7 +528,7 @@ parse_layout(const char *str, unsigned *n_objs, pack_info_t *pack, /* info about
                 else
                     sobj[k + 1] = '\0';
                 HDstrcpy(obj_list[n].obj, sobj);
-                HDmemset(sobj, 0, sizeof(sobj));
+                memset(sobj, 0, sizeof(sobj));
                 n++;
                 k = -1;
             }
@@ -585,7 +581,7 @@ parse_layout(const char *str, unsigned *n_objs, pack_info_t *pack, /* info about
             sdim[k] = c;
             k++; /*increment sdim index */
 
-            if (!HDisdigit(c) && c != 'x' && c != 'N' && c != 'O' && c != 'N' && c != 'E') {
+            if (!isdigit(c) && c != 'x' && c != 'N' && c != 'O' && c != 'N' && c != 'E') {
                 if (obj_list)
                     free(obj_list);
                 error_msg("in parse layout, <%s> Not a valid character in <%s>\n", sdim, str);

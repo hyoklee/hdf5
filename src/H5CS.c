@@ -71,9 +71,6 @@ H5CS_t H5CS_stack_g[1];
  *
  *		Failure:	NULL
  *
- * Programmer:	Quincey Koziol
- *              February 6, 2003
- *
  *-------------------------------------------------------------------------
  */
 static H5CS_t *
@@ -118,9 +115,6 @@ H5CS__get_stack(void)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *              Thursday, February 6, 2003
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -159,9 +153,6 @@ H5CS_print_stack(const H5CS_t *fstack, FILE *stream)
  *		thread.
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Quincey Koziol
- *		Thursday, February 6, 2003
  *
  *-------------------------------------------------------------------------
  */
@@ -205,9 +196,6 @@ H5CS_push(const char *func_name)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *		Thursday, February 6, 2003
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -235,9 +223,6 @@ H5CS_pop(void)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *		Tuesday, August 9, 2005
- *
  *-------------------------------------------------------------------------
  */
 H5CS_t *
@@ -263,7 +248,7 @@ H5CS_copy_stack(void)
 
     /* Copy pointers on old stack to new one */
     /* (Strings don't need to be duplicated, they are statically allocated) */
-    HDmemcpy(new_stack->rec, old_stack->rec, sizeof(char *) * old_stack->nused);
+    memcpy(new_stack->rec, old_stack->rec, sizeof(char *) * old_stack->nused);
     new_stack->nused = new_stack->nalloc = old_stack->nused;
 
     /* Set the return value */
@@ -279,9 +264,6 @@ done:
  * Purpose:	Closes and frees a copy of a stack
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Quincey Koziol
- *		Tuesday, August 9, 2005
  *
  *-------------------------------------------------------------------------
  */

@@ -187,7 +187,7 @@ parse_hsize_list(const char *h_list, subset_d *d)
     H5TOOLS_START_DEBUG(" - h_list:%s", h_list);
     /* count how many integers do we have */
     for (ptr = h_list; ptr && *ptr && *ptr != ';' && *ptr != ']'; ptr++)
-        if (HDisdigit(*ptr)) {
+        if (isdigit(*ptr)) {
             if (!last_digit)
                 /* the last read character wasn't a digit */
                 size_count++;
@@ -209,11 +209,11 @@ parse_hsize_list(const char *h_list, subset_d *d)
         H5TOOLS_INFO("Unable to allocate space for subset data");
 
     for (ptr = h_list; i < size_count && ptr && *ptr && *ptr != ';' && *ptr != ']'; ptr++)
-        if (HDisdigit(*ptr)) {
+        if (isdigit(*ptr)) {
             /* we should have an integer now */
             p_list[i++] = (hsize_t)strtoull(ptr, NULL, 0);
 
-            while (HDisdigit(*ptr))
+            while (isdigit(*ptr))
                 /* scroll to end of integer */
                 ptr++;
         }
@@ -336,9 +336,6 @@ parse_subset_params(const char *dset)
  *                           be null-terminated.
  *                 NOTE: `cpy_out` string is malloc'd by function,
  *                       and should be freed when done.
- *
- * Programmer: Jacob Smith
- *             2017-11-10
  *
  *****************************************************************************
  */
@@ -787,7 +784,7 @@ add_obj(table_t *table, const H5O_token_t *obj_token, const char *objname, hbool
     u = table->nobjs++;
 
     /* Set information about object */
-    HDmemcpy(&table->objs[u].obj_token, obj_token, sizeof(H5O_token_t));
+    memcpy(&table->objs[u].obj_token, obj_token, sizeof(H5O_token_t));
     table->objs[u].objname   = HDstrdup(objname);
     table->objs[u].recorded  = record;
     table->objs[u].displayed = 0;
@@ -930,7 +927,7 @@ H5tools_get_symlink_info(hid_t file_id, const char *linkpath, h5tool_link_info_t
         } /* end if */
 
         /* set target obj type to return */
-        HDmemcpy(&link_info->obj_token, &trg_oinfo.token, sizeof(H5O_token_t));
+        memcpy(&link_info->obj_token, &trg_oinfo.token, sizeof(H5O_token_t));
         link_info->trg_type = trg_oinfo.type;
         link_info->fileno   = trg_oinfo.fileno;
     } /* end if */
@@ -1124,9 +1121,6 @@ done:
  *                 * (&fa, token, {"...", "...", "...", ""})
  *                 * (&fa, token, {"...", "...", "...", "..."})
  *
- * Programmer: Jacob Smith
- *             2017-11-13
- *
  *----------------------------------------------------------------------------
  */
 int
@@ -1209,7 +1203,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            HDmemcpy(fa->fa.aws_region, values[0], (HDstrlen(values[0]) + 1));
+            memcpy(fa->aws_region, values[0], (HDstrlen(values[0]) + 1));
             if (show_progress) {
                 printf("  aws_region set\n");
             }
@@ -1221,7 +1215,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            HDmemcpy(fa->fa.secret_id, values[1], (HDstrlen(values[1]) + 1));
+            memcpy(fa->secret_id, values[1], (HDstrlen(values[1]) + 1));
             if (show_progress) {
                 printf("  secret_id set\n");
             }
@@ -1233,7 +1227,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            HDmemcpy(fa->fa.secret_key, values[2], (HDstrlen(values[2]) + 1));
+            memcpy(fa->secret_key, values[2], (HDstrlen(values[2]) + 1));
             if (show_progress) {
                 printf("  secret_key set\n");
             }

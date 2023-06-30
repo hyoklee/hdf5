@@ -25,9 +25,6 @@
  * Connect to remote host, send and receive HTTP requests and responses
  * as part of the AWS REST API, authenticating requests as appropriate.
  *
- * Programmer: Jacob Smith
- *             2017-11-30
- *
  *****************************************************************************/
 
 /****************/
@@ -129,9 +126,6 @@ herr_t H5FD_s3comms_s3r_getsize(s3r_t *handle);
  *         - Should equal number of bytes passed to callback.
  *         - Failure will result in curl error: CURLE_WRITE_ERROR.
  *
- * Programmer: Jacob Smith
- *             2017-08-17
- *
  *----------------------------------------------------------------------------
  */
 size_t
@@ -200,9 +194,6 @@ curlwritecallback(char *ptr, size_t size, size_t nmemb, void *userdata)
  *         - Unable to perform operation
  *             - Forbidden (attempting to remove absent node, e.g.)
  *             - Internal error
- *
- * Programmer: Jacob Smith
- *             2017-09-22
  *
  *----------------------------------------------------------------------------
  */
@@ -596,9 +587,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - `buf->magic != S3COMMS_HRB_MAGIC`
  *
- * Programmer: Jacob Smith
- *             2017-07-21
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -653,9 +641,6 @@ done:
  *
  *     - SUCCESS: pointer to new `hrb_t`
  *     - FAILURE: `NULL`
- *
- * Programmer: Jacob Smith
- *             2017-07-21
  *
  *----------------------------------------------------------------------------
  */
@@ -768,9 +753,6 @@ done:
  *         - fails if handle is null or has invalid magic number
  *
  *
- * Programmer: Jacob Smith
- *             2017-08-31
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -824,8 +806,6 @@ done:
  *     - SUCCESS: size of file, in bytes, if handle is valid.
  *     - FAILURE: 0, if handle is NULL or undefined.
  *
- * Programmer: Jacob Smith 2017-01-14
- *
  *----------------------------------------------------------------------------
  */
 size_t
@@ -867,9 +847,6 @@ H5FD_s3comms_s3r_get_filesize(s3r_t *handle)
  *
  *     - SUCCESS: `SUCCEED`
  *     - FAILURE: `FAIL`
- *
- * Programmer: Jacob Smith
- *             2017-08-23
  *
  *----------------------------------------------------------------------------
  */
@@ -1018,9 +995,6 @@ done:
  *             - url is NULL (no filename)
  *             - unable to parse url (malformed?)
  *             - error while performing `getsize()`
- *
- * Programmer: Jacob Smith
- *             2017-09-01
  *
  *----------------------------------------------------------------------------
  */
@@ -1210,9 +1184,6 @@ done:
  *
  *     - SUCCESS: `SUCCEED`
  *     - FAILURE: `FAIL`
- *
- * Programmer: Jacob Smith
- *             2017-08-22
  *
  *----------------------------------------------------------------------------
  */
@@ -1604,9 +1575,6 @@ done:
  *
  *    Pointer to resulting `struct tm`,as created by gmtime(time_t * T).
  *
- * Programmer: Jacob Smith
- *             2017-07-12
- *
  *----------------------------------------------------------------------------
  */
 struct tm *
@@ -1658,9 +1626,6 @@ gmnow(void)
  *     - FAILURE: `FAIL`
  *         - one or more input argument was NULL
  *         - internal error
- *
- * Programmer: Jacob Smith
- *             2017-10-04
  *
  *----------------------------------------------------------------------------
  */
@@ -1785,9 +1750,6 @@ done:
  *         - `dest == NULL`
  *         - `msg == NULL`
  *
- * Programmer: Jacob Smith
- *             2017-07-12
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -1831,9 +1793,6 @@ done:
  * Return:
  *
  *     `SUCCEED` (never fails)
- *
- * Programmer: Jacob Smith
- *             2017-11-01
  *
  *----------------------------------------------------------------------------
  */
@@ -1889,9 +1848,6 @@ H5FD_s3comms_free_purl(parsed_url_t *purl)
  *     - FAILURE: `FAIL`
  *         - `dest == NULL`
  *         - error while generating hex string output
- *
- * Programmer: Jacob Smith
- *             2017-07-??
  *
  *----------------------------------------------------------------------------
  */
@@ -1964,9 +1920,6 @@ done:
  *         + -1 :: unable to format profile label
  *         + -2 :: profile name/label not found in file
  *         + -3 :: some other error
- *
- * Programmer: Jacob Smith
- *             2018-02-27
  *
  *-----------------------------------------------------------------------------
  */
@@ -2052,7 +2005,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
                 printf("setting_pointers[%d]=%s\n", setting_i, line_buffer);
                 /* "trim" tailing whitespace by replacing with null terminator*/
                 buffer_i = 0;
-                while (!HDisspace(setting_pointers[setting_i][buffer_i]))
+                while (!isspace(setting_pointers[setting_i][buffer_i]))
                     buffer_i++;
                 setting_pointers[setting_i][buffer_i] = '\0';
 
@@ -2091,9 +2044,6 @@ done:
  *         + internal error occurred
  *         + unable to locate profile
  *         + region, key id, and secret key were not all found and set
- *
- * Programmer: Jacob Smith
- *             2018-02-27
  *
  *----------------------------------------------------------------------------
  */
@@ -2183,9 +2133,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - `dest == NULL`
  *
- * Programmer: Jacob Smith
- *             2017-09-18
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -2240,9 +2187,6 @@ done:
  *         - unable to parse
  *             - `purl` is unaltered (probably NULL)
  *
- * Programmer: Jacob Smith
- *             2017-10-30
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -2290,7 +2234,7 @@ H5FD_s3comms_parse_url(const char *str, parsed_url_t **_purl)
     /* check for restrictions */
     for (i = 0; i < len; i++) {
         /* scheme = [a-zA-Z+-.]+ (terminated by ":") */
-        if (!HDisalpha(curstr[i]) && '+' != curstr[i] && '-' != curstr[i] && '.' != curstr[i])
+        if (!isalpha(curstr[i]) && '+' != curstr[i] && '-' != curstr[i] && '.' != curstr[i])
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid SCHEME construction");
     }
 
@@ -2356,7 +2300,7 @@ H5FD_s3comms_parse_url(const char *str, parsed_url_t **_purl)
         else if (len > urllen)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "problem with length of PORT substring");
         for (i = 0; i < len; i++)
-            if (!HDisdigit(curstr[i]))
+            if (!isdigit(curstr[i]))
                 HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "PORT is not a decimal string");
 
         /* copy port */
@@ -2456,8 +2400,6 @@ done:
  *         - 'repr' is null-terminated
  *     - FAILURE: `FAIL`
  *         - `c` or `repr` was NULL
- *
- * Programmer: Jacob Smith
  *
  *----------------------------------------------------------------------------
  */
@@ -2604,9 +2546,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - if any input arguments was NULL
  *
- * Programmer: Jacob Smith
- *             2017-07-13
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -2694,9 +2633,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - if any of the inputs are NULL
  *         - if an error is encountered while computing checksum
- *
- * Programmer: Jacob Smith
- *             2017-07-??
  *
  *----------------------------------------------------------------------------
  */
@@ -2789,9 +2725,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - `dest == NULL`
  *
- * Programmer: Jacob Smith
- *             2017-09-18
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -2814,7 +2747,7 @@ H5FD_s3comms_trim(char *dest, char *s, size_t s_len, size_t *n_written)
         /* Find first non-whitespace character from start;
          * reduce total length per character.
          */
-        while ((s_len > 0) && HDisspace((unsigned char)s[0]) && s_len > 0) {
+        while ((s_len > 0) && isspace((unsigned char)s[0]) && s_len > 0) {
             s++;
             s_len--;
         }
@@ -2826,7 +2759,7 @@ H5FD_s3comms_trim(char *dest, char *s, size_t s_len, size_t *n_written)
         if (s_len > 0) {
             do {
                 s_len--;
-            } while (HDisspace((unsigned char)s[s_len]));
+            } while (isspace((unsigned char)s[s_len]));
             s_len++;
 
             /* write output into dest */
@@ -2873,9 +2806,6 @@ done:
  *         - source strings `s` or destination `dest` are NULL
  *         - error while attempting to percent-encode a character
  *
- * Programmer: Jacob Smith
- *             2017-07-??
- *
  *----------------------------------------------------------------------------
  */
 herr_t
@@ -2906,8 +2836,7 @@ H5FD_s3comms_uriencode(char *dest, const char *s, size_t s_len, hbool_t encode_s
      */
     for (s_off = 0; s_off < s_len; s_off++) {
         c = s[s_off];
-        if (HDisalnum(c) || c == '.' || c == '-' || c == '_' || c == '~' ||
-            (c == '/' && encode_slash == FALSE))
+        if (isalnum(c) || c == '.' || c == '-' || c == '_' || c == '~' || (c == '/' && encode_slash == FALSE))
             dest[dest_off++] = c;
         else {
             hex_off = 0;

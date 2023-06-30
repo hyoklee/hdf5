@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Raymond Lu
- *              Tuesday, Sept 24, 2002
- *
  * Purpose:     Tests the basic features of Virtual File Drivers
  */
 
@@ -189,9 +186,6 @@ static herr_t  H5FD__ctl_test_vfd_ctl(H5FD_t *_file, uint64_t op_code, uint64_t 
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Raymond Lu
- *              Tuesday, Sept 24, 2002
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -303,9 +297,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  Raymond Lu
- *              Tuesday, Sept 24, 2002
  *
  *-------------------------------------------------------------------------
  */
@@ -498,7 +489,7 @@ test_core(void)
     for (i = 0; i < CORE_DSET_DIM1; i++)
         for (j = 0; j < CORE_DSET_DIM2; j++)
             *pw++ = val++;
-    HDmemset(data_r, 0, DSET1_DIM1 * DSET1_DIM2 * sizeof(int));
+    memset(data_r, 0, DSET1_DIM1 * DSET1_DIM2 * sizeof(int));
 
     /* Create the dataspace */
     dims[0] = CORE_DSET_DIM1;
@@ -589,7 +580,7 @@ test_core(void)
         TEST_ERROR;
 
     /* Read the data back from the dataset */
-    HDmemset(data_r, 0, DSET1_DIM1 * DSET1_DIM2 * sizeof(int));
+    memset(data_r, 0, DSET1_DIM1 * DSET1_DIM2 * sizeof(int));
     if (H5Dread(did, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, data_r) < 0)
         TEST_ERROR;
 
@@ -695,9 +686,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  Raymond Lu
- *              Wednesday, 20 September 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -925,9 +913,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Raymond Lu
- *              Thursday, May 19, 2005
- *
  *-------------------------------------------------------------------------
  */
 /* Disable warning for "format not a string literal" here -QAK */
@@ -1009,9 +994,6 @@ H5_GCC_CLANG_DIAG_ON("format-nonliteral")
  * Purpose:     Tests the file handle interface for FAMILY driver
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Raymond Lu
- *              Tuesday, Sept 24, 2002
  *
  *-------------------------------------------------------------------------
  */
@@ -1216,9 +1198,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Raymond Lu
- *              June 3, 2005
- *
  *-------------------------------------------------------------------------
  */
 /* Disable warning for "format not a string literal" here -QAK */
@@ -1321,9 +1300,6 @@ H5_GCC_CLANG_DIAG_ON("format-nonliteral")
  * Purpose:     Actually use the member fapl input to the member vfd.
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Jacob Smith
- *              21 May 2019
  *
  *-------------------------------------------------------------------------
  */
@@ -1442,9 +1418,6 @@ error:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Raymond Lu
- *              Thursday, May 19, 2005
- *
  *-------------------------------------------------------------------------
  */
 /* Disable warning for "format not a string literal" here -QAK */
@@ -1481,9 +1454,6 @@ H5_GCC_CLANG_DIAG_ON("format-nonliteral")
  * Purpose:     Tests the file handle interface for MULTI driver
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Raymond Lu
- *              Tuesday, Sept 24, 2002
  *
  *-------------------------------------------------------------------------
  */
@@ -1525,11 +1495,11 @@ test_multi(void)
     if ((fapl = H5Pcreate(H5P_FILE_ACCESS)) < 0)
         TEST_ERROR;
 
-    HDmemset(memb_map, 0, sizeof(memb_map));
-    HDmemset(memb_fapl, 0, sizeof(memb_fapl));
-    HDmemset(memb_name, 0, sizeof(memb_name));
-    HDmemset(memb_addr, 0, sizeof(memb_addr));
-    HDmemset(sv, 0, sizeof(sv));
+    memset(memb_map, 0, sizeof(memb_map));
+    memset(memb_fapl, 0, sizeof(memb_fapl));
+    memset(memb_name, 0, sizeof(memb_name));
+    memset(memb_addr, 0, sizeof(memb_addr));
+    memset(sv, 0, sizeof(sv));
 
     for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++) {
         memb_fapl[mt] = H5P_DEFAULT;
@@ -1741,9 +1711,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Raymond Lu
- *              21 June 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1777,11 +1744,11 @@ test_multi_compat(void)
     if ((fapl = H5Pcreate(H5P_FILE_ACCESS)) < 0)
         TEST_ERROR;
 
-    HDmemset(memb_map, 0, sizeof memb_map);
-    HDmemset(memb_fapl, 0, sizeof memb_fapl);
-    HDmemset(memb_name, 0, sizeof memb_name);
-    HDmemset(memb_addr, 0, sizeof memb_addr);
-    HDmemset(sv, 0, sizeof sv);
+    memset(memb_map, 0, sizeof memb_map);
+    memset(memb_fapl, 0, sizeof memb_fapl);
+    memset(memb_name, 0, sizeof memb_name);
+    memset(memb_addr, 0, sizeof memb_addr);
+    memset(sv, 0, sizeof sv);
 
     for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
         memb_map[mt] = H5FD_MEM_SUPER;
@@ -1926,9 +1893,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Dana Robinson
- *              Tuesday, March 22, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -2052,9 +2016,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Dana Robinson
- *              Tuesday, March 22, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -2158,9 +2119,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  Dana Robinson
- *              Tuesday, March 22, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -2290,9 +2248,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  John Mainzer
- *              7/12/17
  *
  *-------------------------------------------------------------------------
  */
@@ -2996,7 +2951,7 @@ splitter_compare_expected_data(hid_t file_id, const struct splitter_dataset_def 
     if (sizeof((void *)buf) != sizeof(data->buf)) {
         SPLITTER_TEST_FAULT("invariant size of expected data does not match that received!\n");
     }
-    HDmemcpy(expected, data->buf, sizeof(expected));
+    memcpy(expected, data->buf, sizeof(expected));
 
     dset_id = H5Dopen2(file_id, data->dset_name, H5P_DEFAULT);
     if (dset_id < 0) {
@@ -3486,8 +3441,6 @@ error:
  *             testpar/t_cache.c modified for use in serial tests.
  *
  * Return:     void.
- *
- * Programmer: JRM -- 6/20/20
  *
  *****************************************************************************/
 static void
@@ -4042,9 +3995,6 @@ error:
  * Return:      Return TRUE if successful, and FALSE if any errors
  *              are encountered.
  *
- * Programmer:  John Mainzer
- *              6/21/20
- *
  *-------------------------------------------------------------------------
  */
 
@@ -4143,9 +4093,6 @@ test_vector_io__setup_v(uint32_t count, H5FD_mem_t types[], haddr_t addrs[], siz
  *
  * Return:      Return TRUE if successful, and FALSE if any errors
  *              are encountered.
- *
- * Programmer:  John Mainzer
- *              3/10/21
  *
  *-------------------------------------------------------------------------
  */
@@ -4277,9 +4224,6 @@ test_vector_io__setup_fixed_size_v(uint32_t count, H5FD_mem_t types[], haddr_t a
  * Return:      Return TRUE if successful, and FALSE if any errors
  *              are encountered.
  *
- * Programmer:  John Mainzer
- *              6/21/20
- *
  *-------------------------------------------------------------------------
  */
 
@@ -4328,9 +4272,6 @@ test_vector_io__read_v_indiv(H5FD_t *lf, uint32_t count, H5FD_mem_t types[], had
  * Return:      Return TRUE if successful, and FALSE if any errors
  *              are encountered.
  *
- * Programmer:  John Mainzer
- *              6/21/20
- *
  *-------------------------------------------------------------------------
  */
 
@@ -4376,9 +4317,6 @@ test_vector_io__write_v_indiv(H5FD_t *lf, uint32_t count, H5FD_mem_t types[], ha
  *
  * Return:      TRUE if the read and write vectors are identical, and
  *              FALSE otherwise.
- *
- * Programmer:  John Mainzer
- *              6/21/20
  *
  *-------------------------------------------------------------------------
  */
@@ -4445,9 +4383,6 @@ test_vector_io__verify_v(uint32_t count, H5FD_mem_t types[], size_t sizes[], con
  *              of char.
  *
  * Return:      void.
- *
- * Programmer:  John Mainzer
- *              6/21/20
  *
  *-------------------------------------------------------------------------
  */
@@ -4519,9 +4454,6 @@ test_vector_io__dump_test_vectors(uint32_t count, H5FD_mem_t types[], haddr_t ad
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  John Mainzer
- *              6/20/20
  *
  *-------------------------------------------------------------------------
  */
@@ -5010,9 +4942,6 @@ error:
  * Return:      Success:        TRUE
  *              Failure:        FALSE
  *
- * Programmer:  Neil Fortner
- *              7/1/21
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -5083,9 +5012,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        -1
- *
- * Programmer:  Neil Fortner
- *              7/1/21
  *
  *-------------------------------------------------------------------------
  */

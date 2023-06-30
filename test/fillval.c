@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Thursday, October  1, 1998
- *
  * Purpose:    Tests dataset fill values.
  */
 #include "h5test.h"
@@ -59,9 +56,6 @@ typedef struct {
  *
  *              Failure:        -1
  *
- * Programmer:  Raymond Lu
- *              Monday, Jan 26, 2001
- *
  *-------------------------------------------------------------------------
  */
 static hid_t
@@ -99,9 +93,6 @@ error:
  * Return:      Success:        datatype ID
  *
  *              Failure:        -1
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, July 3, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -153,9 +144,6 @@ error:
  * Return:    Success:    0
  *
  *        Failure:    number of errors
- *
- * Programmer:    Robb Matzke
- *              Thursday, October  1, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -281,9 +269,6 @@ error:
  * Return:    Success:    0
  *        Failure:    number of errors
  *
- * Programmer:    Quincey Koziol
- *              Thursday, May 31, 2007
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -396,9 +381,6 @@ error:
  * Return:    Success:    0
  *
  *        Failure:    number of errors
- *
- * Programmer:    Robb Matzke
- *              Thursday, October  1, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -855,9 +837,6 @@ error:
  *
  *        Failure:    1
  *
- * Programmer:    Robb Matzke
- *              Thursday, October  1, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1032,7 +1011,7 @@ test_rdwr_cases(hid_t file, hid_t dcpl, const char *dname, void *_fillval, H5D_f
     }
     /* case for compound datatype */
     else if (datatype == H5T_COMPOUND) {
-        HDmemset(buf_c, 0, ((size_t)nelmts * sizeof(comp_datatype)));
+        memset(buf_c, 0, ((size_t)nelmts * sizeof(comp_datatype)));
         for (u = 0; u < nelmts; u++) {
             buf_c[u].a = 1111.11F;
             buf_c[u].x = 2222;
@@ -1191,9 +1170,6 @@ error:
  *
  *              Failure:        number of errors
  *
- * Programmer:  Robb Matzke
- *              Thursday, October  1, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1285,7 +1261,7 @@ test_rdwr(hid_t fapl, const char *base_name, H5D_layout_t layout)
          * as compound type */
         if (H5Pset_fill_time(dcpl, H5D_FILL_TIME_ALLOC) < 0)
             goto error;
-        HDmemset(&fill_ctype, 0, sizeof(fill_ctype));
+        memset(&fill_ctype, 0, sizeof(fill_ctype));
         fill_ctype.y = 4444.4444;
         if (H5Pset_fill_value(dcpl, ctype_id, &fill_ctype) < 0)
             goto error;
@@ -1351,7 +1327,7 @@ test_rdwr(hid_t fapl, const char *base_name, H5D_layout_t layout)
      * as compound type */
     if (H5Pset_fill_time(dcpl, H5D_FILL_TIME_ALLOC) < 0)
         goto error;
-    HDmemset(&fill_ctype, 0, sizeof(fill_ctype));
+    memset(&fill_ctype, 0, sizeof(fill_ctype));
     fill_ctype.y = 4444.4444;
     if (H5Pset_fill_value(dcpl, ctype_id, &fill_ctype) < 0)
         goto error;
@@ -1388,9 +1364,6 @@ error:
  * Return:    Success:    0
  *        Failure:    < 0
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1414,9 +1387,6 @@ test_extend_init_integer(void *_buf, size_t nelmts, const void *_val)
  *
  * Return:    Success:    0
  *        Failure:    < 0
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -1452,9 +1422,6 @@ error:
  * Return:    Success:    0
  *        Failure:    < 0
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1470,9 +1437,6 @@ test_extend_release_integer(void H5_ATTR_UNUSED *_elmt)
  *
  * Return:    Success:    0
  *        Failure:    < 0
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -1504,9 +1468,6 @@ test_extend_init_cmpd_vl(void *_buf, size_t nelmts, const void *_val)
  *
  * Return:    Success:    0
  *        Failure:    < 0
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -1545,9 +1506,6 @@ error:
  * Return:    Success:    0
  *        Failure:    < 0
  *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1569,9 +1527,6 @@ test_extend_release_cmpd_vl(void *_elmt)
  *
  * Return:    Success:    0
  *        Failure:    number of errors
- *
- * Programmer:    Quincey Koziol
- *              Tuesday, July  3, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -1677,7 +1632,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -1741,7 +1696,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -1789,7 +1744,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -1835,7 +1790,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -1883,7 +1838,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -1938,7 +1893,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
         TEST_ERROR;
 
     /* Clear the read buffer */
-    HDmemset(val_rd, 0, val_size);
+    memset(val_rd, 0, val_size);
 
     /* Set location for another element initialized by H5Dset_extent() */
     hs_offset[3] -= 1;
@@ -1960,7 +1915,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
         TEST_ERROR;
 
     /* Clear the read buffer */
-    HDmemset(val_rd, 0, val_size);
+    memset(val_rd, 0, val_size);
 
     /* Read some data and make sure it's the right value */
     for (i = 0; i < 1000; i++) {
@@ -1991,7 +1946,7 @@ test_extend_cases(hid_t file, hid_t _dcpl, const char *dset_name, const hsize_t 
             TEST_ERROR;
 
         /* Clear the read buffer */
-        HDmemset(val_rd, 0, val_size);
+        memset(val_rd, 0, val_size);
     } /* end for */
     if (H5Sclose(mspace) < 0)
         TEST_ERROR;
@@ -2039,9 +1994,6 @@ error:
  * Return:    Success:    0
  *
  *        Failure:    number of errors
- *
- * Programmer:    Robb Matzke
- *              Monday, October  5, 1998
  *
  *-------------------------------------------------------------------------
  */
@@ -2202,9 +2154,6 @@ skip:
  *
  *              Failure:        number of errors
  *
- * Programmer:  Raymond Lu
- *              Feb 27, 2002
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -2355,9 +2304,6 @@ error:
  *
  *        Failure:    1
  *
- * Programmer:    Joel Plutchak
- *              April 15, 2013
- *
  *-------------------------------------------------------------------------
  */
 
@@ -2479,9 +2425,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        number of errors
- *
- * Programmer:  Joel Plutchak
- *              April 15, 2013
  *
  *-------------------------------------------------------------------------
  */
@@ -2624,9 +2567,6 @@ error:
  * Return:    Success:
  *
  *        Failure:
- *
- * Programmer:    Robb Matzke
- *              Thursday, October  1, 1998
  *
  *-------------------------------------------------------------------------
  */

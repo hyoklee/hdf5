@@ -119,10 +119,6 @@ static void test_vlstr_free_custom(void *_mem, void *info)
  * Purpose      Test writing/reading VL strings on datasets.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 // String for testing datasets
@@ -183,7 +179,7 @@ test_vlstring_dataset()
         dset1 = root.createDataSet("test_scalar_small", vlst, ds_space);
 
         dynstring_ds_write = static_cast<char *>(calloc(2, sizeof(char)));
-        HDmemset(dynstring_ds_write, 'A', 1);
+        memset(dynstring_ds_write, 'A', 1);
 
         // Write data to the dataset, then read it back.
         dset1.write(&dynstring_ds_write, vlst);
@@ -224,10 +220,6 @@ test_vlstring_dataset()
  * Purpose      Test writing/reading VL string array to/from datasets.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler
- *              July, 2009
- *
  *-------------------------------------------------------------------------
  */
 const H5std_string DSSTRARR_NAME("StringArray_dset");
@@ -285,7 +277,7 @@ test_vlstring_array_dataset()
         // Create and write another dataset.
         DataSet dataset2(file1->createDataSet("Dataset2", vlst, scalar_space));
         char   *wdata2 = static_cast<char *>(calloc(65534, sizeof(char)));
-        HDmemset(wdata2, 'A', 65533);
+        memset(wdata2, 'A', 65533);
         dataset2.write(&wdata2, vlst);
 
         char *rdata2;
@@ -322,10 +314,6 @@ test_vlstring_array_dataset()
  *              zero-sized.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -442,10 +430,6 @@ test_vlstrings_special()
  * Purpose      Test if VL string is treated as string.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 const H5std_string VLSTR_TYPE("vl_string_type");
@@ -541,10 +525,6 @@ test_vlstring_type()
  * Purpose      Test storing VL strings in compact datasets.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -620,10 +600,6 @@ test_compact_vlstring()
  * Purpose      Test writing/reading VL strings on attributes.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 static char       *string_att_write = NULL;
@@ -678,7 +654,7 @@ test_vlstring_attribute()
         gr_attr = root.createAttribute("test_scalar_large", vlst, att_space);
 
         string_att_write = static_cast<char *>(calloc(8192, sizeof(char)));
-        HDmemset(string_att_write, 'A', 8191);
+        memset(string_att_write, 'A', 8191);
 
         // Write data to the attribute, then read it back.
         gr_attr.write(vlst, &string_att_write);
@@ -711,10 +687,6 @@ test_vlstring_attribute()
  * Purpose      Test reading VL strings from attributes.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 static void test_read_vl_string_attribute()
@@ -773,10 +745,6 @@ static void test_read_vl_string_attribute()
  * Purpose      Test writing/reading VL string array to/from attributes.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler
- *              July, 2009
- *
  *-------------------------------------------------------------------------
  */
 const H5std_string ATTRSTRARR_NAME("StringArray_attr");
@@ -886,10 +854,6 @@ read_scalar_dset(H5File &file, DataType &type, DataSpace &space, char *name, cha
  *              have been linked/unlinked.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler (use C version)
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 const H5std_string FILENAME2("tvlstr2.h5");
@@ -967,10 +931,6 @@ test_vl_rewrite()
  * Purpose      VL string testing main routine.
  *
  * Return       None
- *
- * Programmer   Binh-Minh Ribler
- *              January, 2007
- *
  *-------------------------------------------------------------------------
  */
 extern "C" void

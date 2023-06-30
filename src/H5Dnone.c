@@ -104,8 +104,6 @@ const H5D_chunk_ops_t H5D_COPS_NONE[1] = {{
  * Return:	Non-negative on success
  *		Negative on failure.
  *
- * Programmer:	Vailin Choi; September 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -149,8 +147,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; September 2010
- *
  *-------------------------------------------------------------------------
  */
 static hbool_t
@@ -171,8 +167,6 @@ H5D__none_idx_is_space_alloc(const H5O_storage_chunk_t *storage)
  *		Save the retrieved information in the udata supplied.
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; Sept 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -213,8 +207,6 @@ H5D__none_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *udata
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; September 2010
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -241,7 +233,7 @@ H5D__none_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t ch
     assert(H5_addr_defined(idx_info->storage->idx_addr));
 
     /* Initialize generic chunk record */
-    HDmemset(&chunk_rec, 0, sizeof(chunk_rec));
+    memset(&chunk_rec, 0, sizeof(chunk_rec));
     chunk_rec.nbytes      = idx_info->layout->size;
     chunk_rec.filter_mask = 0;
 
@@ -293,8 +285,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; Sept 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -315,8 +305,6 @@ H5D__none_idx_remove(const H5D_chk_idx_info_t H5_ATTR_UNUSED *idx_info,
  *
  * Return:	Success:	Non-negative
  *		Failure:	negative
- *
- * Programmer:	Vailin Choi; Sept 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -354,8 +342,6 @@ done:
  * Purpose:	Set up any necessary information for copying chunks
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; Sept 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -405,8 +391,6 @@ done:
  * Return:      Success:        Non-negative
  *              Failure:        negative
  *
- * Programmer:	Vailin Choi; Sept 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -428,8 +412,6 @@ H5D__none_idx_size(const H5D_chk_idx_info_t H5_ATTR_UNUSED *idx_info, hsize_t *i
  * Purpose:	Reset indexing information.
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; Sept 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -454,8 +436,6 @@ H5D__none_idx_reset(H5O_storage_chunk_t *storage, hbool_t reset_addr)
  * Purpose:	Dump
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; September 2010
  *
  *-------------------------------------------------------------------------
  */

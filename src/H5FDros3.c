@@ -13,9 +13,6 @@
 /*
  * Read-Only S3 Virtual File Driver (VFD)
  *
- * Programmer: Jacob Smith
- *             2017-10-13
- *
  * Purpose:
  *
  *     Provide read-only access to files hosted on Amazon's S3 service.
@@ -121,10 +118,6 @@ static unsigned long long ros3_stats_boundaries[ROS3_STATS_BIN_COUNT];
  *
  *     Largest read size in this bin.
  *
- *
- *
- * Programmer: Jacob Smith
- *
  ***************************************************************************/
 typedef struct {
     unsigned long long count;
@@ -189,10 +182,6 @@ typedef struct {
  *     reserved for "big" reads, with no defined upper bound.
  *
  * *** end ROS3_STATS ***
- *
- *
- *
- * Programmer: Jacob Smith
  *
  ***************************************************************************/
 typedef struct H5FD_ros3_t {
@@ -300,8 +289,6 @@ H5FL_DEFINE_STATIC(H5FD_ros3_t);
  * Return:      Success:    The driver ID for the ros3 driver.
  *              Failure:    Negative
  *
- * Programmer:  Jacob Smith 2017
- *
  *-------------------------------------------------------------------------
  */
 hid_t
@@ -349,8 +336,6 @@ done:
  *
  * Returns:     SUCCEED (Can't fail)
  *
- * Programmer:  Jacob Smith 2017
- *
  *---------------------------------------------------------------------------
  */
 static herr_t
@@ -377,9 +362,6 @@ H5FD__ros3_term(void)
  *              initialized instance of H5FD_ros3_fapl_t
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  John Mainzer
- *              9/10/17
  *
  *-------------------------------------------------------------------------
  */
@@ -426,9 +408,6 @@ done:
  * Return:      SUCCEED if instance of H5FD_ros3_fapl_t contains internally
  *              consistent data, FAIL otherwise.
  *
- * Programmer:  Jacob Smith
- *              9/10/17
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -461,9 +440,6 @@ done:
  * Return:      Success:        Non-negative
  *
  *              Failure:        Negative
- *
- * Programmer:  John Mainzer
- *              9/10/17
  *
  *-------------------------------------------------------------------------
  */
@@ -512,9 +488,6 @@ done:
  *
  *              Failure:        NULL
  *
- * Programmer:  John Mainzer
- *              9/8/17
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -553,9 +526,6 @@ done:
  *
  *              Failure:        NULL
  *
- * Programmer:  John Mainzer
- *              9/8/17
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -588,9 +558,6 @@ done:
  * Purpose:     Frees the ros3-specific file access properties.
  *
  * Return:      SUCCEED (cannot fail)
- *
- * Programmer:  John Mainzer
- *              9/8/17
  *
  *-------------------------------------------------------------------------
  */
@@ -878,9 +845,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - Occurs if the file is invalid somehow
  *
- * Programmer: Jacob Smith
- *             2017-12-08
- *
  *----------------------------------------------------------------------------
  */
 static herr_t
@@ -940,9 +904,6 @@ done:
  *              always H5FD_open().
  *
  *     Failure: NULL
- *
- * Programmer: Jacob Smith
- *             2017-11-02
  *
  *-------------------------------------------------------------------------
  */
@@ -1106,8 +1067,6 @@ done:
  *     - FAILURE: `FAIL`
  *         - occurs if the file passed in is invalid
  *         - TODO: if stream is invalid? how can we check this?
- *
- * Programmer: Jacob Smith
  *
  *----------------------------------------------------------------------------
  */
@@ -1348,9 +1307,6 @@ done:
  *
  *     SUCCEED/FAIL
  *
- * Programmer: Jacob Smith
- *             2017-11-02
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1413,9 +1369,6 @@ done:
  *
  *     - Equivalent:      0
  *     - Not Equivalent: -1
- *
- * Programmer: Jacob Smith
- *             2017-11-06
  *
  *-------------------------------------------------------------------------
  */
@@ -1532,9 +1485,6 @@ done:
  *
  * Return:      SUCCEED (Can't fail)
  *
- * Programmer:  John Mainzer
- *              9/11/17
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1570,9 +1520,6 @@ H5FD__ros3_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags)
  *
  *     The end-of-address marker.
  *
- * Programmer: Jacob Smith
- *             2017-11-02
- *
  *-------------------------------------------------------------------------
  */
 static haddr_t
@@ -1600,9 +1547,6 @@ H5FD__ros3_get_eoa(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
  * Return:
  *
  *      SUCCEED  (can't fail)
- *
- * Programmer: Jacob Smith
- *             2017-11-03
  *
  *-------------------------------------------------------------------------
  */
@@ -1635,9 +1579,6 @@ H5FD__ros3_set_eoa(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, haddr_t addr)
  *     EOF: the first address past the end of the "file", either the
  *     filesystem file or the HDF5 file.
  *
- * Programmer: Jacob Smith
- *             2017-11-02
- *
  *-------------------------------------------------------------------------
  */
 static haddr_t
@@ -1665,9 +1606,6 @@ H5FD__ros3_get_eof(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
  * Returns:
  *
  *     SUCCEED/FAIL
- *
- * Programmer: Jacob Smith
- *             2017-11-02
  *
  *-------------------------------------------------------------------------
  */
@@ -1708,9 +1646,6 @@ done:
  *     Failure: `FAIL`
  *         - Unable to complete read.
  *         - Contents of buffer `buf` are undefined.
- *
- * Programmer: Jacob Smith
- *             2017-11-??
  *
  *-------------------------------------------------------------------------
  */
@@ -1786,9 +1721,6 @@ done:
  *
  *     FAIL (Not possible with Read-Only S3 file.)
  *
- * Programmer: Jacob Smith
- *             2017-10-23
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1823,9 +1755,6 @@ done:
  * Return:
  *
  *     FAIL (Not possible on Read-Only S3 files.)
- *
- * Programmer: Jacob Smith
- *             2017-10-23
  *
  *-------------------------------------------------------------------------
  */

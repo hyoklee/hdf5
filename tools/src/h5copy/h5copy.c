@@ -43,9 +43,6 @@ static char                  *str_flag  = NULL;
  *
  * Return:      Does not return
  *
- * Programmer:  Quincey Koziol
- *              Saturday, 31. January 2004
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -72,8 +69,6 @@ leave(int ret)
  * Purpose: Prints a usage message on stderr and then returns.
  *
  * Return: void
- *
- * Programmer: Pedro Vicente Nunes, 7/8/2006
  *
  *-------------------------------------------------------------------------
  */
@@ -153,8 +148,6 @@ usage(void)
  * Return: Success:    SUCCEED
  *         Failure:    FAIL
  *
- * Programmer: Pedro Vicente Nunes, 7/8/2006
- *
  *-------------------------------------------------------------------------
  */
 
@@ -199,8 +192,6 @@ parse_flag(const char *s_flag, unsigned *flag)
  *
  * Purpose: main program
  *
- * Programmer: Pedro Vicente Nunes
- *
  *-------------------------------------------------------------------------
  */
 
@@ -226,7 +217,7 @@ main(int argc, char *argv[])
     h5tools_init();
 
     /* init linkinfo struct */
-    HDmemset(&linkinfo, 0, sizeof(h5tool_link_info_t));
+    memset(&linkinfo, 0, sizeof(h5tool_link_info_t));
 
     /* Check for no command line parameters */
     if (argc == 1) {

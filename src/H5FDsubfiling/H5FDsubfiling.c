@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Richard Warren
- *
- *
  * Purpose: An initial implementation of a subfiling VFD which is
  *          derived from other "stacked" VFDs such as the splitter,
  *          mirror, and family VFDs.
@@ -84,8 +81,6 @@ static hbool_t H5FD_mpi_self_initialized = FALSE;
  *  Recall that the existing fields are inherited from the sec2 driver
  *  and should be kept or not as appropriate for the sub-filing VFD.
  *
- *
- * Programmer: Richard Warren
  *
  ***************************************************************************/
 
@@ -283,8 +278,6 @@ H5FD__subfiling_mpi_finalize(void)
  * Return:      Success:    The driver ID for the subfiling driver
  *              Failure:    H5I_INVALID_HID
  *
- * Programmer:  Richard Warren
- *
  *-------------------------------------------------------------------------
  */
 hid_t
@@ -443,9 +436,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  John Mainzer
- *              9/10/17
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -530,9 +520,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  John Mainzer
- *              9/10/17
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -566,7 +553,7 @@ H5Pget_fapl_subfiling(hid_t fapl_id, H5FD_subfiling_config_t *config_out)
     }
     else {
         /* Copy the subfiling fapl data out */
-        HDmemcpy(config_out, config_ptr, sizeof(H5FD_subfiling_config_t));
+        memcpy(config_out, config_ptr, sizeof(H5FD_subfiling_config_t));
 
         /* Copy the driver info value */
         if (H5FD__copy_plist(config_ptr->ioc_fapl_id, &(config_out->ioc_fapl_id)) < 0)
@@ -587,7 +574,7 @@ H5FD__subfiling_get_default_config(hid_t fapl_id, H5FD_subfiling_config_t *confi
 
     assert(config_out);
 
-    HDmemset(config_out, 0, sizeof(*config_out));
+    memset(config_out, 0, sizeof(*config_out));
 
     config_out->magic       = H5FD_SUBFILING_FAPL_MAGIC;
     config_out->version     = H5FD_SUBFILING_CURR_FAPL_VERSION;
@@ -824,7 +811,7 @@ H5FD__subfiling_sb_encode(H5FD_t *_file, char *name, unsigned char *buf)
 
     /* Encode config file prefix string */
     if (sf_context->config_file_prefix) {
-        HDmemcpy(p, sf_context->config_file_prefix, prefix_len);
+        memcpy(p, sf_context->config_file_prefix, prefix_len);
         p += prefix_len;
     }
 
@@ -832,14 +819,14 @@ H5FD__subfiling_sb_encode(H5FD_t *_file, char *name, unsigned char *buf)
     if (file->sf_file) {
         char ioc_name[9];
 
-        HDmemset(ioc_name, 0, sizeof(ioc_name));
+        memset(ioc_name, 0, sizeof(ioc_name));
 
         if (H5FD_sb_encode(file->sf_file, ioc_name, p + 9) < 0)
             H5_SUBFILING_GOTO_ERROR(H5E_VFL, H5E_CANTENCODE, FAIL,
                                     "unable to encode IOC VFD's superblock information");
 
         /* Copy the IOC VFD's name into our buffer */
-        HDmemcpy(p, ioc_name, 9);
+        memcpy(p, ioc_name, 9);
     }
 
 done:
@@ -906,7 +893,7 @@ H5FD__subfiling_sb_decode(H5FD_t *_file, const char *name, const unsigned char *
                 H5_SUBFILING_GOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL,
                                         "can't allocate space for config file prefix string");
 
-            HDmemcpy(sf_context->config_file_prefix, p, tmpu64);
+            memcpy(sf_context->config_file_prefix, p, tmpu64);
 
             /* Just in case.. */
             sf_context->config_file_prefix[tmpu64 - 1] = '\0';
@@ -918,7 +905,7 @@ H5FD__subfiling_sb_decode(H5FD_t *_file, const char *name, const unsigned char *
     if (file->sf_file) {
         char ioc_name[9];
 
-        HDmemcpy(ioc_name, p, 9);
+        memcpy(ioc_name, p, 9);
         p += 9;
 
         if (H5FD_sb_load(file->sf_file, ioc_name, p) < 0)
@@ -957,9 +944,6 @@ done:
  *
  *              Failure:        NULL
  *
- * Programmer:  John Mainzer
- *              9/8/17
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -976,7 +960,7 @@ H5FD__subfiling_fapl_get(H5FD_t *_file)
     }
 
     /* Copy the fields of the structure */
-    HDmemcpy(fa, &(file->fa), sizeof(H5FD_subfiling_config_t));
+    memcpy(fa, &(file->fa), sizeof(H5FD_subfiling_config_t));
 
     /* Copy the driver info value */
     if (H5FD__copy_plist(file->fa.ioc_fapl_id, &(fa->ioc_fapl_id)) < 0)
@@ -1038,9 +1022,6 @@ done:
  *
  *              Failure:        NULL
  *
- * Programmer:  John Mainzer
- *              9/8/17
- *
  *-------------------------------------------------------------------------
  */
 static void *
@@ -1055,7 +1036,7 @@ H5FD__subfiling_fapl_copy(const void *_old_fa)
         H5_SUBFILING_GOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed");
     }
 
-    HDmemcpy(new_fa, old_fa, sizeof(H5FD_subfiling_config_t));
+    memcpy(new_fa, old_fa, sizeof(H5FD_subfiling_config_t));
 
     if (H5FD__copy_plist(old_fa->ioc_fapl_id, &(new_fa->ioc_fapl_id)) < 0)
         H5_SUBFILING_GOTO_ERROR(H5E_VFL, H5E_BADVALUE, NULL, "can't copy the IOC FAPL");
@@ -1079,9 +1060,6 @@ done:
  * Purpose:     Frees the subfiling-specific file access properties.
  *
  * Return:      SUCCEED (cannot fail)
- *
- * Programmer:  John Mainzer
- *              9/8/17
  *
  *-------------------------------------------------------------------------
  */
@@ -1111,8 +1089,6 @@ H5FD__subfiling_fapl_free(void *_fa)
  *                          public fields will be initialized by the
  *                          caller, which is always H5FD_open().
  *              Failure:    NULL
- *
- * Programmer:  Richard Warren
  *
  *-------------------------------------------------------------------------
  */
@@ -1193,7 +1169,7 @@ H5FD__subfiling_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t ma
         config_ptr = &default_config;
     }
 
-    HDmemcpy(&file_ptr->fa, config_ptr, sizeof(H5FD_subfiling_config_t));
+    memcpy(&file_ptr->fa, config_ptr, sizeof(H5FD_subfiling_config_t));
     if (H5FD__copy_plist(config_ptr->ioc_fapl_id, &(file_ptr->fa.ioc_fapl_id)) < 0) {
         file_ptr->fa.ioc_fapl_id = H5I_INVALID_HID;
         H5_SUBFILING_GOTO_ERROR(H5E_VFL, H5E_BADVALUE, NULL, "can't copy FAPL");
@@ -1366,8 +1342,6 @@ done:
  * Return:      Success:    SUCCEED
  *              Failure:    FAIL, file not closed.
  *
- * Programmer:  Richard Warren
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1392,8 +1366,6 @@ done:
  * Return:      Success:    A value like strcmp()
  *              Failure:    never fails (arguments were checked by the
  *                          caller).
- *
- * Programmer:  Richard Warren
  *
  *-------------------------------------------------------------------------
  */
@@ -1424,9 +1396,6 @@ H5FD__subfiling_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
  *
  * Return:      SUCCEED (Can't fail)
  *
- * Programmer:  John Mainzer
- *              11/15/21
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -1454,8 +1423,6 @@ H5FD__subfiling_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags /
  *
  * Return:      The end-of-address marker.
  *
- * Programmer:  Richard Warren
- *
  *-------------------------------------------------------------------------
  */
 static haddr_t
@@ -1477,8 +1444,6 @@ H5FD__subfiling_get_eoa(const H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type)
  *              to tell the driver where the end of the HDF5 data is located.
  *
  * Return:      SUCCEED (Can't fail)
- *
- * Programmer:  Richard Warren
  *
  *-------------------------------------------------------------------------
  */
@@ -1563,8 +1528,6 @@ done:
  * Return:      Success:    SUCCEED. Result is stored in caller-supplied
  *                          buffer BUF.
  *              Failure:    FAIL, Contents of buffer BUF are undefined.
- *
- * Programmer:  Richard Warren
  *
  *-------------------------------------------------------------------------
  */
@@ -1799,8 +1762,6 @@ done:
  *              DXPL_ID.
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Richard Warren
  *
  *-------------------------------------------------------------------------
  */
@@ -2069,8 +2030,6 @@ done:
  *              Failure:    FAIL
  *                          The contents of supplied buffers are undefined.
  *
- * Programmer:  RAW -- ??/??/21
- *
  * Notes:       Thus function doesn't actually implement vector read.
  *              Instead, it comverts the vector read call into a series
  *              of scalar read calls.  Fix this when time permits.
@@ -2231,8 +2190,6 @@ done:
  *                          input arguments are not valid, or the actual
  *                          subfiling writes have failed for some reason.
  *
- * Programmer:  RAW -- ??/??/21
- *
  * Notes:       Thus function doesn't actually implement vector write.
  *              Instead, it comverts the vector write call into a series
  *              of scalar read calls.  Fix this when time permits.
@@ -2380,8 +2337,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Richard Warren
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -2458,8 +2413,6 @@ done:
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi; May 2013
- *
  *-------------------------------------------------------------------------
  */
 #if 0
@@ -2491,8 +2444,6 @@ done:
  * Purpose:     To remove the existing lock on the file
  *
  * Return:      SUCCEED/FAIL
- *
- * Programmer:  Vailin Choi; May 2013
  *
  *-------------------------------------------------------------------------
  */
@@ -2568,8 +2519,6 @@ done:
  *              support MPI.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  JRM -- 8/3/21
  *
  *-------------------------------------------------------------------------
  */
@@ -2895,9 +2844,9 @@ init_indep_io(subfiling_context_t *sf_context, int64_t file_offset, size_t io_ne
         _target_file_offset = target_file_offset + output_offset;
         _io_block_len       = io_block_len + output_offset;
 
-        HDmemset(_mem_buf_offset, 0, (max_iovec_len * sizeof(*_mem_buf_offset)));
-        HDmemset(_target_file_offset, 0, (max_iovec_len * sizeof(*_target_file_offset)));
-        HDmemset(_io_block_len, 0, (max_iovec_len * sizeof(*_io_block_len)));
+        memset(_mem_buf_offset, 0, (max_iovec_len * sizeof(*_mem_buf_offset)));
+        memset(_target_file_offset, 0, (max_iovec_len * sizeof(*_target_file_offset)));
+        memset(_io_block_len, 0, (max_iovec_len * sizeof(*_io_block_len)));
 
         if (total_bytes == data_size) {
             *n_subfiles_used = i;
@@ -3062,9 +3011,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Richard Warren
- *              7/17/2020
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -3160,9 +3106,6 @@ done:
  *              memory/file offsets and the last I/O size.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Richard Warren
- *              7/17/2020
  *
  *-------------------------------------------------------------------------
  */
@@ -3292,9 +3235,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Richard Warren
- *              7/17/2020
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -3402,9 +3342,6 @@ done:
  *              'sf_blocksize_per_stripe' bytes of data.
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Richard Warren
- *              7/17/2020
  *
  *-------------------------------------------------------------------------
  */

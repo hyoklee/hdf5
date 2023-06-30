@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:    Robb Matzke
- *        Tuesday, December  9, 1997
- *
  * Purpose:    Tests the dataset interface (H5D)
  */
 #define H5D_FRIEND /*suppress error about including H5Dpkg      */
@@ -1824,11 +1821,11 @@ filter_corrupt(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_valu
 
     if (NULL == (data = malloc((size_t)length)))
         TEST_ERROR;
-    HDmemset(data, (int)value, (size_t)length);
+    memset(data, (int)value, (size_t)length);
 
     if (flags & H5Z_FLAG_REVERSE) { /* Verify data is actually corrupted during read */
         dst += offset;
-        if (HDmemcmp(data, dst, (size_t)length) != 0)
+        if (memcmp(data, dst, (size_t)length) != 0)
             TEST_ERROR;
         else {
             *buf_size = nbytes;
@@ -1837,7 +1834,7 @@ filter_corrupt(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_valu
     }      /* end if */
     else { /* Write corrupted data */
         dst += offset;
-        HDmemcpy(dst, data, (size_t)length);
+        memcpy(dst, data, (size_t)length);
         *buf_size = nbytes;
         ret_value = *buf_size;
     } /* end else */
@@ -3692,9 +3689,6 @@ error:
  *
  *              Failure:        -1
  *
- * Programmer:  Xiaowen Wu
- *              Tuesday, Jan. 18th, 2005
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -3906,9 +3900,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Xiaowen Wu
- *              Tuesday, Jan. 18th, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -4259,9 +4250,6 @@ error:
  *
  *              Failure:        -1
  *
- * Programmer:  Xiaowen Wu
- *              Thursday, Mar. 31th, 2005
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -4348,7 +4336,7 @@ test_nbit_compound_3(hid_t file)
     /* Initialize data */
     for (i = 0; i < (size_t)size[0]; i++) {
         power = HDpow(2.0, 17.0 - 1.0);
-        HDmemset(&orig_data[i], 0, sizeof(orig_data[i]));
+        memset(&orig_data[i], 0, sizeof(orig_data[i]));
         orig_data[i].i = (int)(HDrandom() % (long)power);
         HDstrcpy(orig_data[i].str, "fixed-length C string");
         orig_data[i].vl_str = HDstrdup("variable-length C string");
@@ -4462,9 +4450,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Raymond Lu
- *              19 November 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -4642,9 +4627,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Raymond Lu
- *              19 November 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -4851,9 +4833,6 @@ error:
  *
  *              Failure:        -1
  *
- * Programmer:  Xiaowen Wu
- *              Monday, Feb. 14th, 2005
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -4972,9 +4951,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Xiaowen Wu
- *              Tuesday, March 15th, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -5116,9 +5092,6 @@ error:
  *
  *              Failure:        -1
  *
- * Programmer:  Xiaowen Wu
- *              Wednesday, Apr. 20th, 2005
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -5238,9 +5211,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Xiaowen Wu
- *              Wednesday, Apr. 20th, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -5383,9 +5353,6 @@ error:
  *
  *              Failure:        -1
  *
- * Programmer:  Xiaowen Wu
- *              Monday, Apr. 25th, 2005
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -5505,9 +5472,6 @@ error:
  * Return:      Success:        0
  *
  *              Failure:        -1
- *
- * Programmer:  Xiaowen Wu
- *              Monday, Apr. 25th, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -5653,9 +5617,6 @@ error:
  *
  *              Failure:    -1
  *
- * Programmer:  Robb Matzke
- *              Tuesday, June  9, 1998
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -5730,9 +5691,6 @@ error:
  * Return:    Success:    0
  *
  *        Failure:    -1
- *
- * Programmer:    Robb Matzke
- *              Monday, June  7, 1999
  *
  *-------------------------------------------------------------------------
  */
@@ -5852,9 +5810,6 @@ const H5Z_class2_t H5Z_CAN_APPLY_TEST[1] = {{
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Friday, April  5, 2003
  *
  *-------------------------------------------------------------------------
  */
@@ -6037,9 +5992,6 @@ const H5Z_class2_t H5Z_CAN_APPLY_TEST2[1] = {{
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Raymond Lu
- *              4 August 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -6181,9 +6133,6 @@ error:
  * Return:      Success:    SUCCEED
  *              Failure:    FAIL
  *
- * Programmer:  Binh-Minh Ribler
- *              24 July 2020
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -6288,9 +6237,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Monday, April  7, 2003
  *
  *-------------------------------------------------------------------------
  */
@@ -6498,9 +6444,6 @@ const H5Z_class2_t H5Z_SET_LOCAL_TEST[1] = {{
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Quincey Koziol
- *              Monday, April  7, 2003
  *
  *-------------------------------------------------------------------------
  */
@@ -6766,9 +6709,6 @@ error:
  * Return:    Success:    0
  *        Failure:    -1
  *
- * Programmer:    Quincey Koziol
- *              Wednesday, January  7, 2004
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -6868,9 +6808,6 @@ error:
  *
  * Return:    Success:    0
  *        Failure:    -1
- *
- * Programmer:    Raymond Lu
- *              28 January 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -7029,9 +6966,6 @@ error:
  * Return: Success: 0
  *  Failure: -1
  *
- * Programmer: Pedro Vicente
- *              Monday, January 26, 2004
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -7182,9 +7116,6 @@ error:
  * Return: Success: 0
  *  Failure: -1
  *
- * Programmer: Pedro Vicente
- *              Monday, March 8, 2004
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -7212,7 +7143,7 @@ auxread_fdata(hid_t fid, const char *name)
         goto error;
     if ((rank = H5Sget_simple_extent_ndims(space_id)) < 0)
         goto error;
-    HDmemset(dims, 0, sizeof dims);
+    memset(dims, 0, sizeof dims);
     if (H5Sget_simple_extent_dims(space_id, dims, NULL) < 0)
         goto error;
     nelmts = 1;
@@ -7266,9 +7197,6 @@ error:
  *
  * Return: Success: 0
  *  Failure: -1
- *
- * Programmer: Pedro Vicente
- *              Monday, March 8, 2004
  *
  *-------------------------------------------------------------------------
  */
@@ -7343,9 +7271,6 @@ error:
  *
  * Return: Success: 0
  *  Failure: -1
- *
- * Programmer: Quincey Koziol
- *              Tuesday, July 27, 2004
  *
  *-------------------------------------------------------------------------
  */
@@ -7554,9 +7479,6 @@ error:
  *
  * Return: Success: 0
  *  Failure: -1
- *
- * Programmer: Quincey Koziol
- *              Tuesday, August 25, 2004
  *
  *-------------------------------------------------------------------------
  */
@@ -7879,9 +7801,6 @@ make_random_offset_and_increment(long nelts, long *offsetp, long *incp)
  *
  * Return: Success: 0
  *  Failure: -1
- *
- * Programmer: Christian Chilan
- *             Monday, March 26, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -8360,9 +8279,6 @@ error:
  * Return: Success: 0
  *  Failure: -1
  *
- * Programmer: Christian Chilan
- *             Monday, March 26, 2007
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -8407,9 +8323,6 @@ const H5Z_class1_t H5Z_DEPREC[1] = {{
  *
  * Return: Success: 0
  *  Failure: -1
- *
- * Programmer: Quincey Koziol
- *             Monday, October 8, 2007
  *
  *-------------------------------------------------------------------------
  */
@@ -8624,9 +8537,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Quincey Koziol
- *              Thursday, May  1, 2008
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -8754,9 +8664,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Neil Fortner
- *              Wednesday, October 29, 2008
  *
  *-------------------------------------------------------------------------
  */
@@ -9026,9 +8933,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Raymond Lu
- *              11 Feb 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -9398,9 +9302,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, February  3, 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -9819,9 +9720,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Vailin Choi
- *              April 13, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -9955,9 +9853,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Neil Fortner
- *              March 22, 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -10123,9 +10018,6 @@ static size_t filter_expand_factor_g = 0;
  * Return:    Success:    Data chunk size
  *        Failure:    0
  *
- * Programmer:    Quincey Koziol
- *              Mar 31, 2009
- *
  *-------------------------------------------------------------------------
  */
 static size_t
@@ -10165,9 +10057,6 @@ filter_expand(unsigned int flags, size_t H5_ATTR_UNUSED cd_nelmts,
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, March 31, 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -10711,8 +10600,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Vailin Choi; 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -11250,8 +11137,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Vailin Choi; July 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -11451,7 +11336,7 @@ test_single_chunk(hid_t fapl)
             if ((did = H5Dopen2(fid, DSET_SINGLE_NOMAX, H5P_DEFAULT)) < 0)
                 TEST_ERROR;
 
-            HDmemset(rbuf, 0, sizeof(int) * (DSET_DIM1 * DSET_DIM2));
+            memset(rbuf, 0, sizeof(int) * (DSET_DIM1 * DSET_DIM2));
 
             /* Read from dataset */
             if (H5Dread(did, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, t_rbuf) < 0)
@@ -11530,8 +11415,6 @@ error:
  *    Verify that the library can read datasets created with
  *    1.6/1.8 library that use the B-tree indexing method.
  *
- *  Programmer: Vailin Choi; 26th August, 2009
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -11608,8 +11491,6 @@ error:
  *  test_unfiltered_edge_chunks():
  *      Tests that partial edge chunks aren't filtered when the
  *      H5D_CHUNK_FILTER_PARTIAL_CHUNKS option is set.
- *
- *  Programmer: Neil Fortner; 17th March, 2010
  *
  *-------------------------------------------------------------------------
  */
@@ -11753,9 +11634,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Neil Fortner
- *              Monday, November 31, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -11888,9 +11766,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Mohamad Chaarawi
- *              Wednesdat, July 9, 2014
  *
  *-------------------------------------------------------------------------
  */
@@ -12534,7 +12409,7 @@ test_bt2_hdr_fd(const char *env_h5_driver, hid_t fapl)
     TESTING("Version 2 B-tree chunk index header flush dependencies handled correctly");
 
     /* Initialize struct */
-    HDmemset(&info, 0, sizeof(info));
+    memset(&info, 0, sizeof(info));
 
     /* Skip this test if SWMR I/O is not supported for the VFD specified
      * by the environment variable.
@@ -12635,9 +12510,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Quincey Koziol
- *              Monday, April 11, 2016
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -12691,7 +12563,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -12740,7 +12612,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -12801,7 +12673,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -12862,7 +12734,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -12923,7 +12795,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -12984,7 +12856,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -13045,7 +12917,7 @@ test_storage_size(hid_t fapl)
         FAIL_STACK_ERROR;
 
     /* Initialize buffer to zeroes */
-    HDmemset(wdata, 0, sizeof(wdata));
+    memset(wdata, 0, sizeof(wdata));
 
     /* write elements to dataset */
     if (H5Dwrite(dsid, H5T_NATIVE_INT, sid, sid, H5P_DEFAULT, wdata) < 0)
@@ -13126,8 +12998,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Vailin Choi; June 2017
  *
  *-------------------------------------------------------------------------
  */
@@ -13220,9 +13090,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Neil Fortner
- *              Wednesday, January 16, 2013
- *
  *-------------------------------------------------------------------------
  */
 typedef struct scatter_info_t {
@@ -13304,14 +13171,14 @@ test_scatter(void)
         TEST_ERROR;
 
     /* Initialize dst_buf and expect_dst_buf */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     for (i = 0; i < 8; i++)
         expect_dst_buf[0][0][i] = src_buf[i];
 
     /* Loop over buffer sizes */
     for (src_buf_size = 1; src_buf_size <= 9; src_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Set up scatter info */
         scatter_info.src_buf = src_buf;
@@ -13340,7 +13207,7 @@ test_scatter(void)
         TEST_ERROR;
 
     /* Initialize expect_dst_buf */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     src_i = 0;
     for (i = 3; i < 5; i++)
         for (j = 2; j < 5; j++)
@@ -13350,7 +13217,7 @@ test_scatter(void)
     /* Loop over buffer sizes */
     for (src_buf_size = 1; src_buf_size <= 13; src_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Set up scatter info */
         scatter_info.src_buf = src_buf;
@@ -13388,7 +13255,7 @@ test_scatter(void)
     /* Iterate over block containing selection, checking if each element is in
      * selection.  Note that the algorithm used here (if statement) would not
      * work for overlapping hyperslabs. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     src_i = 0;
     for (i = 1; i < 8; i++)
         for (j = 1; j < 4; j++)
@@ -13404,7 +13271,7 @@ test_scatter(void)
     /* Loop over buffer sizes */
     for (src_buf_size = 1; src_buf_size <= 37; src_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Set up scatter info */
         scatter_info.src_buf = src_buf;
@@ -13443,7 +13310,7 @@ test_scatter(void)
     /* Initialize expect_dst_buf */
     /* Iterate over block containing selection, checking if each element is in
      * selection. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     src_i = 0;
     for (i = 1; i < 4; i++)
         for (j = 1; j < 4; j++)
@@ -13459,7 +13326,7 @@ test_scatter(void)
     /* Loop over buffer sizes */
     for (src_buf_size = 1; src_buf_size <= 17; src_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Set up scatter info */
         scatter_info.src_buf = src_buf;
@@ -13484,14 +13351,14 @@ test_scatter(void)
     /* Initialize expect_dst_buf */
     /* Iterate over block containing selection, checking if each element is in
      * selection. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     for (i = 0; i < (int)(sizeof(point) / sizeof(point[0])); i++)
         expect_dst_buf[point[i][0]][point[i][1]][point[i][2]] = src_buf[i];
 
     /* Loop over buffer sizes */
     for (src_buf_size = 1; src_buf_size <= 5; src_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Set up scatter info */
         scatter_info.src_buf = src_buf;
@@ -13531,9 +13398,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Neil Fortner
- *              Wednesday, January 16, 2013
  *
  *-------------------------------------------------------------------------
  */
@@ -13625,14 +13489,14 @@ test_gather(void)
         TEST_ERROR;
 
     /* Initialize expect_dst_buf */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     for (i = 0; i < 8; i++)
         expect_dst_buf[i] = src_buf[0][0][i];
 
     /* Loop over buffer sizes */
     for (dst_buf_size = 1; dst_buf_size <= 9; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Initialize gather_info */
         gather_info.expect_dst_buf = expect_dst_buf;
@@ -13653,7 +13517,7 @@ test_gather(void)
     /* Loop over buffer sizes */
     for (dst_buf_size = 8; dst_buf_size <= 9; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Gather data */
         if (H5Dgather(sid, src_buf, H5T_NATIVE_INT, dst_buf_size * sizeof(dst_buf[0]), dst_buf, NULL, NULL) <
@@ -13669,7 +13533,7 @@ test_gather(void)
     /* Test with a dst_buf_size that is not a multiple of the datatype size */
     /* Reset dst_buf */
     dst_buf_size = 7;
-    (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+    (void)memset(dst_buf, 0, sizeof(dst_buf));
 
     /* Initialize gather_info */
     gather_info.expect_dst_buf = expect_dst_buf;
@@ -13699,7 +13563,7 @@ test_gather(void)
         TEST_ERROR;
 
     /* Initialize expect_dst_buf */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     dst_i = 0;
     for (i = 3; i < 5; i++)
         for (j = 2; j < 5; j++)
@@ -13709,7 +13573,7 @@ test_gather(void)
     /* Loop over buffer sizes */
     for (dst_buf_size = 1; dst_buf_size <= 13; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Initialize gather_info */
         gather_info.expect_dst_buf = expect_dst_buf;
@@ -13749,7 +13613,7 @@ test_gather(void)
     /* Iterate over block containing selection, checking if each element is in
      * selection.  Note that the algorithm used here (if statement) would not
      * work for overlapping hyperslabs. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     dst_i = 0;
     for (i = 1; i < 8; i++)
         for (j = 1; j < 4; j++)
@@ -13765,7 +13629,7 @@ test_gather(void)
     /* Loop over buffer sizes */
     for (dst_buf_size = 1; dst_buf_size <= 37; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Initialize gather_info */
         gather_info.expect_dst_buf = expect_dst_buf;
@@ -13806,7 +13670,7 @@ test_gather(void)
     /* Initialize expect_dst_buf */
     /* Iterate over block containing selection, checking if each element is in
      * selection. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     dst_i = 0;
     for (i = 1; i < 4; i++)
         for (j = 1; j < 4; j++)
@@ -13822,7 +13686,7 @@ test_gather(void)
     /* Loop over buffer sizes */
     for (dst_buf_size = 1; dst_buf_size <= 17; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Initialize gather_info */
         gather_info.expect_dst_buf = expect_dst_buf;
@@ -13849,14 +13713,14 @@ test_gather(void)
     /* Initialize expect_dst_buf */
     /* Iterate over block containing selection, checking if each element is in
      * selection. */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     for (i = 0; i < (int)(sizeof(point) / sizeof(point[0])); i++)
         expect_dst_buf[i] = src_buf[point[i][0]][point[i][1]][point[i][2]];
 
     /* Loop over buffer sizes */
     for (dst_buf_size = 1; dst_buf_size <= 5; dst_buf_size++) {
         /* Reset dst_buf */
-        (void)HDmemset(dst_buf, 0, sizeof(dst_buf));
+        (void)memset(dst_buf, 0, sizeof(dst_buf));
 
         /* Initialize gather_info */
         gather_info.expect_dst_buf = expect_dst_buf;
@@ -13898,9 +13762,6 @@ error:
  *
  * Return:      Success: 0
  *              Failure: -1
- *
- * Programmer:  Neil Fortner
- *              Monday, February 4, 2013
  *
  *-------------------------------------------------------------------------
  */
@@ -14132,9 +13993,6 @@ error:
  * Return:      Success: 0
  *              Failure: -1
  *
- * Programmer:  Neil Fortner
- *              Monday, February 4, 2013
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -14173,7 +14031,7 @@ test_gather_error(void)
         TEST_ERROR;
 
     /* Initialize expect_dst_buf */
-    (void)HDmemset(expect_dst_buf, 0, sizeof(expect_dst_buf));
+    (void)memset(expect_dst_buf, 0, sizeof(expect_dst_buf));
     for (i = 0; i < 6; i++)
         expect_dst_buf[i] = src_buf[i + 2];
 
@@ -14590,8 +14448,6 @@ error:
  * Return:      Success:        0
  *              Failure:        -1
  *
- * Programmer:  Vailin Choi; April 2017
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -14871,8 +14727,6 @@ error:
  * Return:     Success/pass:   0
  *             Failure/error: -1
  *
- * Programmer: Jacob Smith
- *             2018 August 15
  *-----------------------------------------------------------------------------
  */
 static herr_t
@@ -14998,9 +14852,6 @@ error:
  * Return:     Success/pass:   0
  *             Failure/error: -1
  *
- * Programmer: Quincey Koziol
- *             3 November 2020
- *
  *-----------------------------------------------------------------------------
  */
 static herr_t
@@ -15053,7 +14904,7 @@ test_h5s_block(void)
         FAIL_STACK_ERROR;
 
     /* Reset the memory buffer */
-    HDmemset(buf, 0, sizeof(buf));
+    memset(buf, 0, sizeof(buf));
 
     /* Read the entire dataset */
     if (H5Dread(dset_id, H5T_NATIVE_INT, H5S_BLOCK, H5S_ALL, H5P_DEFAULT, buf) < 0)
@@ -15119,9 +14970,6 @@ error:
  *
  * Return:     Success/pass:   0
  *             Failure/error: -1
- *
- * Programmer: Quincey Koziol
- *             28 January 2021
  *
  *-----------------------------------------------------------------------------
  */
@@ -15234,7 +15082,7 @@ test_h5s_plist(void)
         FAIL_STACK_ERROR;
 
     /* Reset the memory buffer */
-    HDmemset(buf, 0, sizeof(buf));
+    memset(buf, 0, sizeof(buf));
 
     /* Read the entire dataset */
     if (H5Dread(dset_id, H5T_NATIVE_INT, H5S_BLOCK, H5S_ALL, H5P_DEFAULT, buf) < 0)
@@ -15246,7 +15094,7 @@ test_h5s_plist(void)
             TEST_ERROR;
 
     /* Reset the memory buffer */
-    HDmemset(buf, 0, sizeof(buf));
+    memset(buf, 0, sizeof(buf));
 
     /* Set valid selection in DXPL */
     if (H5Pset_dataset_io_hyperslab_selection(dxpl_id, 1, H5S_SELECT_SET, &start, &stride, &count, &block) <
@@ -15263,7 +15111,7 @@ test_h5s_plist(void)
             TEST_ERROR;
 
     /* Reset the memory buffer */
-    HDmemset(buf, 0, sizeof(buf));
+    memset(buf, 0, sizeof(buf));
 
     /* Check for copying property list w/selection */
     if ((dxpl_id_copy = H5Pcopy(dxpl_id)) < 0)
@@ -15361,9 +15209,6 @@ error:
  *
  * Return:     Success/pass:   0
  *             Failure/error: -1
- *
- * Programmer: Quincey Koziol
- *             2020 April 30
  *
  *-----------------------------------------------------------------------------
  */
@@ -15464,7 +15309,7 @@ test_0sized_dset_metadata_alloc(hid_t fapl_id)
                     FAIL_STACK_ERROR;
 
                 /* Retrieve & verify the dataset's index info */
-                HDmemset(&nat_info, 0, sizeof(nat_info));
+                memset(&nat_info, 0, sizeof(nat_info));
                 if (H5Oget_native_info(dset_id, &nat_info, H5O_NATIVE_INFO_META_SIZE) < 0)
                     FAIL_STACK_ERROR;
                 if (0 != nat_info.meta_size.obj.index_size)
@@ -15503,7 +15348,7 @@ test_0sized_dset_metadata_alloc(hid_t fapl_id)
                         FAIL_STACK_ERROR;
 
                     /* Retrieve & verify the dataset's index info */
-                    HDmemset(&nat_info, 0, sizeof(nat_info));
+                    memset(&nat_info, 0, sizeof(nat_info));
                     if (H5Oget_native_info(dset_id, &nat_info, H5O_NATIVE_INFO_META_SIZE) < 0)
                         FAIL_STACK_ERROR;
                     if (0 == nat_info.meta_size.obj.index_size)
@@ -15554,9 +15399,6 @@ error:
  * Purpose:     Tests the dataset interface (H5D)
  *
  * Return:      EXIT_SUCCESS/EXIT_FAILURE
- *
- * Programmer:  Robb Matzke
- *              Tuesday, December  9, 1997
  *
  *-------------------------------------------------------------------------
  */

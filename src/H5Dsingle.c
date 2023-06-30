@@ -103,9 +103,6 @@ const H5D_chunk_ops_t H5D_COPS_SINGLE[1] = {{
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Vailin Choi
- *              July, 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -143,8 +140,6 @@ H5D__single_idx_init(const H5D_chk_idx_info_t *idx_info, const H5S_t H5_ATTR_UNU
  * Return:	Non-negative on success
  *		Negative on failure.
  *
- * Programmer:	Vailin Choi; July 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -177,8 +172,6 @@ H5D__single_idx_create(const H5D_chk_idx_info_t *idx_info)
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; July 2011
- *
  *-------------------------------------------------------------------------
  */
 static hbool_t
@@ -198,8 +191,6 @@ H5D__single_idx_is_space_alloc(const H5O_storage_chunk_t *storage)
  * Purpose:	Allocate space for the single chunk
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; July 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -247,8 +238,6 @@ done:
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; July 2010
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -288,8 +277,6 @@ H5D__single_idx_get_addr(const H5D_chk_idx_info_t *idx_info, H5D_chunk_ud_t *uda
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Vailin Choi; July 2010
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -311,7 +298,7 @@ H5D__single_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t 
     assert(H5_addr_defined(idx_info->storage->idx_addr));
 
     /* Initialize generic chunk record */
-    HDmemset(&chunk_rec, 0, sizeof(chunk_rec));
+    memset(&chunk_rec, 0, sizeof(chunk_rec));
     chunk_rec.chunk_addr = idx_info->storage->idx_addr;
 
     if (idx_info->layout->flags & H5O_LAYOUT_CHUNK_SINGLE_INDEX_WITH_FILTER) {
@@ -336,8 +323,6 @@ H5D__single_idx_iterate(const H5D_chk_idx_info_t *idx_info, H5D_chunk_cb_func_t 
  * Purpose:	Remove the single chunk
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; July 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -379,8 +364,6 @@ done:
  * Return:	Success:	Non-negative
  *		Failure:	negative
  *
- * Programmer:	Vailin Choi; Sept 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -411,8 +394,6 @@ H5D__single_idx_delete(const H5D_chk_idx_info_t *idx_info)
  * Purpose:	Set up any necessary information for copying the single chunk
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; Sept 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -460,8 +441,6 @@ done:
  * Return:      Success:        Non-negative
  *              Failure:        negative
  *
- * Programmer:	Vailin Choi; Sept 2011
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -483,8 +462,6 @@ H5D__single_idx_size(const H5D_chk_idx_info_t H5_ATTR_UNUSED *idx_info, hsize_t 
  * Purpose:	Reset indexing information.
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; Sept 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -509,8 +486,6 @@ H5D__single_idx_reset(H5O_storage_chunk_t *storage, hbool_t reset_addr)
  * Purpose:	Dump the address of the single chunk
  *
  * Return:	Non-negative on success/Negative on failure
- *
- * Programmer:	Vailin Choi; September 2011
  *
  *-------------------------------------------------------------------------
  */

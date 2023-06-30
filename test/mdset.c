@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Neil Fortner
- *              March 10, 2014
- *
  * Purpose:     Test H5Dwrite_multi() and H5Dread_multi using randomized
  *              parameters.  Also tests H5Dwrite() and H5Dread() using a similar
  *              method.
@@ -171,9 +168,6 @@ error:
  *              way that the shapesame code is not designed to handle.
  *
  * Return:      Number of errors
- *
- * Programmer:  Neil Fortner
- *              Monday, March 10, 2014
  *
  *-------------------------------------------------------------------------
  */
@@ -378,8 +372,8 @@ test_mdset(size_t niter, unsigned flags, hid_t fapl_id)
         } /* end for */
 
         /* Initialize read buffer and expected read buffer */
-        (void)HDmemset(rbuf, 0, buf_size);
-        (void)HDmemset(erbuf, 0, buf_size);
+        (void)memset(rbuf, 0, buf_size);
+        (void)memset(erbuf, 0, buf_size);
 
         /* Initialize write buffer */
         for (j = 0; j < max_dsets; j++)
@@ -388,7 +382,7 @@ test_mdset(size_t niter, unsigned flags, hid_t fapl_id)
                     wbufi[j][k][l] = (unsigned)((j * MAX_DSET_X * MAX_DSET_Y) + (k * MAX_DSET_Y) + l);
 
         /* Initialize expected file buffer */
-        (void)HDmemset(efbuf, 0, buf_size);
+        (void)memset(efbuf, 0, buf_size);
 
         /* Perform read/write operations */
         for (j = 0; j < OPS_PER_FILE; j++) {
@@ -637,9 +631,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        1
- *
- * Programmer:  Neil Fortner
- *              Monday, March 10, 2014
  *
  *-------------------------------------------------------------------------
  */

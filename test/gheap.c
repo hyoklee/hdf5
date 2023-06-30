@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:  Robb Matzke
- *              Tuesday, March 31, 1998
- *
  * Purpose:     Tests the global heap.  The global heap is the set of all
  *              collections but the collections are not related to one
  *              another by anything that appears in the file format.
@@ -59,9 +56,6 @@ static const char *FILENAME[] = {"gheap1", "gheap2", "gheap3", "gheap4", "gheapo
  *
  *              Failure:    number of errors
  *
- * Programmer:    Robb Matzke
- *              Tuesday, March 31, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -101,7 +95,7 @@ test_1(hid_t fapl)
      */
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         size = u + 1;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         status = H5HG_insert(f, size, out, obj + u);
         if (status < 0) {
@@ -121,14 +115,14 @@ test_1(hid_t fapl)
      */
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         size = u + 1;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         if (NULL == H5HG_read(f, obj + u, in, NULL)) {
             H5_FAILED();
             HDputs("    Unable to read object");
             nerrors++;
         }
-        else if (HDmemcmp(in, out, size) != 0) {
+        else if (memcmp(in, out, size) != 0) {
             H5_FAILED();
             HDputs("    Value read doesn't match value written");
             nerrors++;
@@ -168,9 +162,6 @@ error:
  *
  *              Failure:     number of errors
  *
- * Programmer:  Robb Matzke
- *              Tuesday, March 31, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -207,7 +198,7 @@ test_2(hid_t fapl)
      */
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         size = GHEAP_TEST_NOBJS - u;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         if (H5HG_insert(f, size, out, obj + u) < 0) {
             H5_FAILED();
@@ -221,14 +212,14 @@ test_2(hid_t fapl)
      */
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         size = GHEAP_TEST_NOBJS - u;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         if (NULL == H5HG_read(f, obj + u, in, NULL)) {
             H5_FAILED();
             HDputs("    Unable to read object");
             nerrors++;
         }
-        else if (HDmemcmp(in, out, size) != 0) {
+        else if (memcmp(in, out, size) != 0) {
             H5_FAILED();
             HDputs("    Value read doesn't match value written");
             nerrors++;
@@ -268,9 +259,6 @@ error:
  *
  *              Failure:    number of errors
  *
- * Programmer:    Robb Matzke
- *              Tuesday, March 31, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -305,7 +293,7 @@ test_3(hid_t fapl)
     /* Create some stuff */
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         size = u % 30 + 100;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         status = H5HG_insert(f, size, out, obj + u);
         if (status < 0) {
@@ -359,9 +347,6 @@ error:
  *
  *              Failure:    number of errors
  *
- * Programmer:    Robb Matzke
- *              Tuesday, March 31, 1998
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -396,7 +381,7 @@ test_4(hid_t fapl)
     for (u = 0; u < GHEAP_TEST_NOBJS; u++) {
         /* Insert */
         size = u % 30 + 100;
-        HDmemset(out, (int)('A' + u % 26), size);
+        memset(out, (int)('A' + u % 26), size);
         H5Eclear2(H5E_DEFAULT);
         status = H5HG_insert(f, size, out, obj + u);
         if (status < 0) {
@@ -417,7 +402,7 @@ test_4(hid_t fapl)
                 HDputs("    Unable to remove object");
                 nerrors++;
             }
-            HDmemset(obj + u - 1, 0, sizeof *obj);
+            memset(obj + u - 1, 0, sizeof *obj);
         }
     }
 
@@ -455,9 +440,6 @@ error:
  * Return:      Success:    0
  *
  *              Failure:    number of errors
- *
- * Programmer:    Neil Fortner
- *              Monday, October 26, 2009
  *
  *-------------------------------------------------------------------------
  */

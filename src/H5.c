@@ -183,7 +183,7 @@ H5_init_library(void)
     /*
      * Make sure the package information is updated.
      */
-    HDmemset(&H5_debug_g, 0, sizeof H5_debug_g);
+    memset(&H5_debug_g, 0, sizeof H5_debug_g);
     H5_debug_g.pkg[H5_PKG_A].name  = "a";
     H5_debug_g.pkg[H5_PKG_AC].name = "ac";
     H5_debug_g.pkg[H5_PKG_B].name  = "b";
@@ -641,9 +641,6 @@ done:
  * Return:    Success:    non-negative
  *        Failure:    negative
  *
- * Programmer:  Quincey Koziol
- *              Friday, March 6, 2020
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -696,7 +693,7 @@ H5__debug_mask(const char *s)
 
     while (s && *s) {
 
-        if (HDisalpha(*s) || '-' == *s || '+' == *s) {
+        if (isalpha(*s) || '-' == *s || '+' == *s) {
 
             /* Enable or Disable debugging? */
             if ('-' == *s) {
@@ -712,7 +709,7 @@ H5__debug_mask(const char *s)
             } /* end if */
 
             /* Get the name */
-            for (i = 0; HDisalpha(*s); i++, s++)
+            for (i = 0; isalpha(*s); i++, s++)
                 if (i < sizeof pkg_name)
                     pkg_name[i] = *s;
             pkg_name[MIN(sizeof(pkg_name) - 1, i)] = '\0';
@@ -744,7 +741,7 @@ H5__debug_mask(const char *s)
                     fprintf(stderr, "HDF5_DEBUG: ignored %s\n", pkg_name);
             } /* end if-else */
         }
-        else if (HDisdigit(*s)) {
+        else if (isdigit(*s)) {
             int                     fd = (int)strtol(s, &rest, 0);
             H5_debug_open_stream_t *open_stream;
 
@@ -888,7 +885,7 @@ H5check_version(unsigned majnum, unsigned minnum, unsigned relnum)
         /* Allow different versions of the header files and library? */
         s = HDgetenv("HDF5_DISABLE_VERSION_CHECK");
 
-        if (s && HDisdigit(*s))
+        if (s && isdigit(*s))
             disable_version_check = (unsigned int)strtol(s, NULL, 0);
     }
 

@@ -11,9 +11,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:     Peter X. Cao
- *                 May 01, 2005
- *
  * Purpose:    Test H5Ocopy().
  */
 
@@ -179,9 +176,6 @@ static int compare_attribute_compound_vlstr(hid_t loc, hid_t loc2);
  *
  * Return:      void
  *
- * Programmer:  Quincey Koziol
- *              Saturday, November  5, 2005
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -213,9 +207,6 @@ token_insert(H5O_info2_t *oi)
  * Return:      Success:    TRUE/FALSE
  *              Failure:    (can't fail)
  *
- * Programmer:  Quincey Koziol
- *              Saturday, November  5, 2005
- *
  *-------------------------------------------------------------------------
  */
 static H5_ATTR_PURE hbool_t
@@ -244,9 +235,6 @@ token_lookup(hid_t loc_id, H5O_info2_t *oi)
  *
  * Return:      void
  *
- * Programmer:  Quincey Koziol
- *              Saturday, November  5, 2005
- *
  *-------------------------------------------------------------------------
  */
 static void
@@ -264,9 +252,6 @@ token_reset(void)
  * Purpose:     Create an attribute with object references
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Peter Cao
- *              Friday, August 4, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -341,9 +326,6 @@ error:
  * Purpose:     Create an attribute with object references
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Peter Cao
- *              Monday, March 5, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -437,9 +419,6 @@ error:
  * Purpose:     Create a dataset with region references
  *
  * Return:      Non-negative on success/Negative on failure
- *
- * Programmer:  Peter Cao
- *              Friday, August 4, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -563,9 +542,6 @@ error:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Peter Cao
- *              Saturday, December 17, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -620,9 +596,6 @@ done:
  * Purpose:     Attach NUM_ATTRIBUTES attributes to the object to be copied
  *
  * Return:    Non-negative on success/Negative on failure
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -690,9 +663,6 @@ done:
  * Purpose:     Attach NUM_ATTRIBUTES attributes to a pair of objects to be copied
  *
  * Return:    Non-negative on success/Negative on failure
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 1, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -769,9 +739,6 @@ done:
  * Purpose:     Compare two attributes to check that they are equal
  *
  * Return:      TRUE if attributes are equal/FALSE if they are different
- *
- * Programmer:  Peter Cao
- *              Saturday, December 17, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -930,9 +897,6 @@ error:
  *
  * Return:    TRUE if objects have same attributes/FALSE if they are different
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  * Note:    This isn't very general, the attributes are assumed to be
  *              those written in test_copy_attach_attributes().
  *
@@ -1017,9 +981,6 @@ error:
  *
  * Return:    TRUE if buffer are equal/FALSE if they are different
  *
- * Programmer:  Quincey Koziol
- *              Monday, November 21, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1102,7 +1063,7 @@ compare_data(hid_t parent1, hid_t parent2, hid_t pid, hid_t tid, size_t nelmts, 
 
                 /* Iterate over all elements, calling memcmp() for each */
                 for (elmt = 0; elmt < nelmts; elmt++) {
-                    if (HDmemcmp(memb1, memb2, memb_size) != 0)
+                    if (memcmp(memb1, memb2, memb_size) != 0)
                         TEST_ERROR;
 
                     /* Update member pointers */
@@ -1324,7 +1285,7 @@ compare_data(hid_t parent1, hid_t parent2, hid_t pid, hid_t tid, size_t nelmts, 
         else
             TEST_ERROR;
     } /* end else */
-    else if (HDmemcmp(buf1, buf2, (elmt_size * nelmts)) != 0)
+    else if (memcmp(buf1, buf2, (elmt_size * nelmts)) != 0)
         TEST_ERROR;
 
     /* Data should be the same. :-) */
@@ -1340,9 +1301,6 @@ error:
  * Purpose:     Compare two datasets to check that they are equal
  *
  * Return:    TRUE if datasets are equal/FALSE if they are different
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, October 25, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -1544,9 +1502,6 @@ error:
  *
  * Return:    TRUE if group are equal/FALSE if they are different
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -1715,7 +1670,7 @@ compare_groups(hid_t gid, hid_t gid2, hid_t pid, int depth, unsigned copy_flags)
                         TEST_ERROR;
 
                     /* Compare link data */
-                    if (HDmemcmp(linkval, linkval2, linfo.u.val_size) != 0)
+                    if (memcmp(linkval, linkval2, linfo.u.val_size) != 0)
                         TEST_ERROR;
                 } /* end else-if */
                 else {
@@ -1749,8 +1704,6 @@ error:
  * Return:    TRUE if the index type retrieved for the dataset DID is
  *            as expected
  *            FALSE if not
- *
- * Programmer:  Vailin Choi; August 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -1788,9 +1741,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -1899,9 +1849,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 22, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -2008,9 +1955,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 22, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -2128,9 +2072,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil
- *              Friday, March 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -2309,9 +2250,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -2652,9 +2590,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Thursday, January 15, 2009
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -2776,9 +2711,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -2914,9 +2846,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -2938,7 +2867,7 @@ test_copy_dataset_compound(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t
 
     TESTING("H5Ocopy(): compound dataset");
 
-    HDmemset(buf, 0, sizeof(buf));
+    memset(buf, 0, sizeof(buf));
     for (i = 0; i < DIM_SIZE_1; i++) {
         buf[i].a = i;
         buf[i].d = 1.0 / (double)(i + 1);
@@ -3068,9 +2997,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -3596,9 +3522,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -4099,9 +4022,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -4478,9 +4398,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -4900,11 +4817,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Tuesday, May 11, 2010
- *              Mostly copied from test_copy_dataset_compressed, by
- *              Quincey Koziol
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -5087,9 +4999,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -5245,9 +5154,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -5394,9 +5300,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Monday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -5538,9 +5441,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, October 31, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -5706,9 +5606,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, October 31, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -5877,9 +5774,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, October 31, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -6053,9 +5947,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, October 31, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -6224,9 +6115,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -6383,9 +6271,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, December 10, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -6601,9 +6486,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Sunday, December 11, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -6772,9 +6654,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Saturday, December , 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -6911,8 +6790,6 @@ error:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Vailin Choi; Aug 2016
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -6994,8 +6871,6 @@ done:
  *
  * Return:      Non-negative on success/Negative on failure
  *
- * Programmer:  Vailin Choi; Aug 2016
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -7043,7 +6918,7 @@ compare_attribute_compound_vlstr(hid_t loc, hid_t loc2)
         FAIL_STACK_ERROR;
     if (HDstrlen(rbuf.v) != HDstrlen(rbuf2.v))
         FAIL_STACK_ERROR;
-    if (HDmemcmp(rbuf.v, rbuf2.v, HDstrlen(rbuf.v)) != 0)
+    if (memcmp(rbuf.v, rbuf2.v, HDstrlen(rbuf.v)) != 0)
         FAIL_STACK_ERROR;
 
     /* Reclaim vlen buffer */
@@ -7100,8 +6975,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:
  *
  *-------------------------------------------------------------------------
  */
@@ -7263,9 +7136,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Tuesday, December 27, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -7454,9 +7324,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -7563,9 +7430,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              August 8, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -7723,9 +7587,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -7881,9 +7742,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 1, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -8051,9 +7909,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 1, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -8182,9 +8037,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, November 1, 2005
  *
  * Note:        Create groups w/lots of entries in each level, so that "dense"
  *              group form is used.
@@ -8335,9 +8187,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -8665,9 +8514,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, September 30, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -8822,9 +8668,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  James Laird
- *              Friday, June 16, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -8988,9 +8831,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, November  8, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -9114,9 +8954,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Tuesday, November  8, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -9280,9 +9117,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Quincey Koziol
- *              Tuesday, November  8, 2005
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -9361,9 +9195,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Quincey Koziol
- *              Thursday, November 30, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -9474,9 +9305,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, February 4, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -9660,9 +9488,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Saturday, February 11, 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -9835,9 +9660,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, February 11, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -10033,9 +9855,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Saturday, February 11, 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -10220,9 +10039,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, February 11, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -10415,9 +10231,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, February 11, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -10615,9 +10428,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Saturday, March 11, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -10854,9 +10664,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Peter Cao
- *              Saturday, March 11, 2006
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -11067,9 +10874,6 @@ typedef struct cmpd_vl_t {
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Tuesday, September 29, 2009
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -11242,9 +11046,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Wednesdat, September 30 , 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -11428,9 +11229,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *              Sunday, December 11, 2005
  *
  *-------------------------------------------------------------------------
  */
@@ -11618,9 +11416,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Wednesday, March 31, 2010
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -11641,7 +11436,7 @@ test_copy_null_ref(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t dst_fap
     TESTING("H5Ocopy(): NULL references");
 
     /* Initialize "zeros" array */
-    HDmemset(zeros, 0, sizeof(zeros));
+    memset(zeros, 0, sizeof(zeros));
 
     /* Initialize the filenames */
     h5_fixname(FILENAME[0], src_fapl, src_filename, sizeof src_filename);
@@ -11717,9 +11512,9 @@ test_copy_null_ref(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t dst_fap
         TEST_ERROR;
 
     /* Verify that the references contain only "0" bytes */
-    if (HDmemcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
+    if (memcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
         TEST_ERROR;
-    if (HDmemcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
+    if (memcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
         TEST_ERROR;
 
     /* Close datasets */
@@ -11762,9 +11557,9 @@ test_copy_null_ref(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t dst_fap
         TEST_ERROR;
 
     /* Verify that the references contain only "0" bytes */
-    if (HDmemcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
+    if (memcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
         TEST_ERROR;
-    if (HDmemcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
+    if (memcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
         TEST_ERROR;
 
     /* Close */
@@ -11812,9 +11607,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Wednesday, March 31, 2010
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -11839,7 +11631,7 @@ test_copy_null_ref_open(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
     TESTING("H5Ocopy(): NULL references for opened datasets");
 
     /* Initialize "zeros" array */
-    HDmemset(zeros, 0, sizeof(zeros));
+    memset(zeros, 0, sizeof(zeros));
 
     /* Initialize the filenames */
     h5_fixname(FILENAME[0], src_fapl, src_filename, sizeof src_filename);
@@ -11924,9 +11716,9 @@ test_copy_null_ref_open(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
 
     /* Verify that the references contain only "0" bytes */
-    if (HDmemcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
+    if (memcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
         TEST_ERROR;
-    if (HDmemcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
+    if (memcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
         TEST_ERROR;
 
     /* Create destination file */
@@ -11969,9 +11761,9 @@ test_copy_null_ref_open(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
 
     /* Verify that the references contain only "0" bytes */
-    if (HDmemcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
+    if (memcmp(obj_buf, zeros, sizeof(obj_buf)) != 0)
         TEST_ERROR;
-    if (HDmemcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
+    if (memcmp(reg_buf, zeros, sizeof(reg_buf)) != 0)
         TEST_ERROR;
 
     /* Close */
@@ -12019,9 +11811,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Friday, January 20, 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -12154,9 +11943,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Tuesday, October 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -12320,7 +12106,7 @@ test_copy_committed_datatype_merge(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fap
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -12408,7 +12194,7 @@ test_copy_committed_datatype_merge(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fap
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -12474,9 +12260,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Tuesday, October 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -12636,7 +12419,7 @@ test_copy_committed_datatype_merge_same_file(hid_t fcpl, hid_t fapl, hbool_t reo
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -12694,7 +12477,7 @@ test_copy_committed_datatype_merge_same_file(hid_t fcpl, hid_t fapl, hbool_t reo
         TEST_ERROR;
     if (!token_cmp)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -12777,7 +12560,7 @@ test_copy_committed_datatype_merge_same_file(hid_t fcpl, hid_t fapl, hbool_t reo
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -12811,7 +12594,7 @@ test_copy_committed_datatype_merge_same_file(hid_t fcpl, hid_t fapl, hbool_t reo
         TEST_ERROR;
     if (!token_cmp)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -12870,9 +12653,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Thursday, November 3, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -13026,7 +12806,7 @@ test_copy_committed_dt_merge_sugg(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -13081,7 +12861,7 @@ test_copy_committed_dt_merge_sugg(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -13106,7 +12886,7 @@ test_copy_committed_dt_merge_sugg(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -13168,9 +12948,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Neil Fortner
- *              Thursday, November 3, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -13332,7 +13109,7 @@ test_copy_committed_dt_merge_attr(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Aclose(aid) < 0)
@@ -13443,8 +13220,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Vailin Choi; January 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -13648,7 +13423,7 @@ test_copy_cdt_hier_merge(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t d
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token_int, &oinfo.token, sizeof(exp_token_int));
+    memcpy(&exp_token_int, &oinfo.token, sizeof(exp_token_int));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -13657,7 +13432,7 @@ test_copy_cdt_hier_merge(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t d
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token_short, &oinfo.token, sizeof(exp_token_short));
+    memcpy(&exp_token_short, &oinfo.token, sizeof(exp_token_short));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -13916,8 +13691,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Vailin Choi; January 2012
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -14106,7 +13879,7 @@ test_copy_cdt_merge_cdt(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14127,7 +13900,7 @@ test_copy_cdt_merge_cdt(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14148,7 +13921,7 @@ test_copy_cdt_merge_cdt(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14169,7 +13942,7 @@ test_copy_cdt_merge_cdt(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t ds
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14230,8 +14003,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Vailin Choi; January 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -14341,7 +14112,7 @@ test_copy_cdt_merge_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t 
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14389,7 +14160,7 @@ test_copy_cdt_merge_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t 
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14444,7 +14215,7 @@ test_copy_cdt_merge_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t 
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14494,7 +14265,7 @@ test_copy_cdt_merge_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t 
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14545,8 +14316,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Vailin Choi; Dec 12, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -14687,7 +14456,7 @@ test_copy_cdt_merge_dset_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -14741,7 +14510,7 @@ test_copy_cdt_merge_dset_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -14804,7 +14573,7 @@ test_copy_cdt_merge_dset_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -14862,7 +14631,7 @@ test_copy_cdt_merge_dset_suggs(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
     if (H5Dclose(did) < 0)
@@ -14920,8 +14689,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Vailin Choi; January 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -15550,8 +15317,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Vailin Choi; January 2012
- *
  *-------------------------------------------------------------------------
  */
 /* User data struct for the callback */
@@ -15724,7 +15489,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -15791,7 +15556,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -15846,7 +15611,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -15871,7 +15636,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -15935,7 +15700,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -15960,7 +15725,7 @@ test_copy_set_mcdt_search_cb(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid
         TEST_ERROR;
     if (H5Oget_info3(tid, &oinfo, H5O_INFO_BASIC) < 0)
         TEST_ERROR;
-    HDmemcpy(&exp_token, &oinfo.token, sizeof(exp_token));
+    memcpy(&exp_token, &oinfo.token, sizeof(exp_token));
     if (H5Tclose(tid) < 0)
         TEST_ERROR;
 
@@ -16020,8 +15785,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Vailin Choi; January 2012
  *
  *-------------------------------------------------------------------------
  */
@@ -16377,9 +16140,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Neil Fortner
- *              Thursday, July 12, 2012
- *
  *-------------------------------------------------------------------------
  */
 static herr_t
@@ -16542,9 +16302,6 @@ error:
  *
  * Return:      Success:        0
  *              Failure:        number of errors
- *
- * Programmer:  Peter Cao
- *               March 11, 2006
  *
  *-------------------------------------------------------------------------
  */
@@ -16953,9 +16710,6 @@ error:
  * Return:      Success:        0
  *              Failure:        number of errors
  *
- * Programmer:  Vailin Choi
- *              Feb 7, 2012
- *
  *-------------------------------------------------------------------------
  */
 static int
@@ -17363,9 +17117,6 @@ error:
  *              both, or neither of the source and destination files.
  *
  * Return:      EXIT_SUCCESS/EXIT_FAILURE
- *
- * Programmer:  Peter Cao
- *              Friday, September 30, 2005
  *
  *-------------------------------------------------------------------------
  */

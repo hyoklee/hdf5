@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.18)
 project (HDF5_SRC C)
 
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.lib")
+
 #-----------------------------------------------------------------------------
 # List Source Files
 #-----------------------------------------------------------------------------

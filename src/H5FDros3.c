@@ -636,7 +636,7 @@ H5Pget_fapl_ros3_token(hid_t fapl_id, size_t size, char *token_dst /*out*/)
     H5TRACE3("e", "izx", fapl_id, size, token_dst);
 
 #if ROS3_DEBUG
-    HDfprintf(stdout, "H5Pget_fapl_ros3_token() called.\n");
+    fprintf(stdout, "H5Pget_fapl_ros3_token() called.\n");
 #endif
 
     if (size == 0)
@@ -688,7 +688,7 @@ H5FD__ros3_str_token_copy(const char *name, size_t size, void *_value)
     FUNC_ENTER_PACKAGE
 
 #if ROS3_DEBUG
-    HDfprintf(stdout, "H5FD__ros3_str_token_copy() called.\n");
+    fprintf(stdout, "H5FD__ros3_str_token_copy() called.\n");
 #endif
 
     if (*value)
@@ -761,9 +761,9 @@ H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
     FUNC_ENTER_PACKAGE_NOERR
 
     if (*value)
-        HDfree(*value);
+        free(*value);
     else
-        HDfprintf(stdout, "H5FD__ros3_str_token_close(%s, %zu) got NULL *value.\n", name, size);
+        fprintf(stdout, "H5FD__ros3_str_token_close(%s, %zu) got NULL *value.\n", name, size);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_close */
@@ -792,9 +792,9 @@ H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *
     FUNC_ENTER_PACKAGE_NOERR
 
     if (*value)
-        HDfree(*value);
+        free(*value);
     else
-        HDfprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n", prop_id, name,
+        fprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n", prop_id, name,
                   size);
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -826,7 +826,7 @@ H5Pset_fapl_ros3_token(hid_t fapl_id, const char *token)
     H5TRACE2("e", "i*s", fapl_id, token);
 
 #if ROS3_DEBUG
-    HDfprintf(stdout, "H5Pset_fapl_ros3_token() called.\n");
+    fprintf(stdout, "H5Pset_fapl_ros3_token() called.\n");
 #endif
 
     if (fapl_id == H5P_DEFAULT)

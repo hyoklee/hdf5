@@ -15,7 +15,7 @@ jobs:
         run: brew install curl openssl
       - name: Generate Xcode project
         run: |
-          export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.0
+          export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1
           mkdir build
           cd build
           cmake -DHDF5_ENABLE_ROS3_VFD:BOOL=ON -G Xcode ..

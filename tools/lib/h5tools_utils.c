@@ -1203,7 +1203,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            memcpy(fa->aws_region, values[0], (HDstrlen(values[0]) + 1));
+            memcpy(fa->fa.aws_region, values[0], (HDstrlen(values[0]) + 1));
             if (show_progress) {
                 printf("  aws_region set\n");
             }
@@ -1215,7 +1215,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            memcpy(fa->secret_id, values[1], (HDstrlen(values[1]) + 1));
+            memcpy(fa->fa.secret_id, values[1], (HDstrlen(values[1]) + 1));
             if (show_progress) {
                 printf("  secret_id set\n");
             }
@@ -1227,7 +1227,7 @@ h5tools_populate_ros3_fapl(H5FD_ros3_fapl_ext_t *fa, const char **values)
                 ret_value = 0;
                 goto done;
             }
-            memcpy(fa->secret_key, values[2], (HDstrlen(values[2]) + 1));
+            memcpy(fa->fa.secret_key, values[2], (HDstrlen(values[2]) + 1));
             if (show_progress) {
                 printf("  secret_key set\n");
             }

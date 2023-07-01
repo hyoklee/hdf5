@@ -609,7 +609,7 @@ test_populate_ros3_fa(void)
         const char          *values[] = {"x", "y", "z"};
 
         if (show_progress) {
-            HDprintf("NULL token pointer\n");
+            printf("NULL token pointer\n");
         }
 
         JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "token pointer cannot be null")
@@ -838,7 +838,7 @@ test_populate_ros3_fa(void)
         const char          *values[] = {"x", "y", "z", NULL};
 
         if (show_progress) {
-            HDprintf("NULL key\n");
+            printf("NULL key\n");
         }
 
         JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill token")

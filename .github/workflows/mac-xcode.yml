@@ -11,6 +11,8 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: brew install curl openssl
       - name: Generate Xcode project
         run: |
           export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.0

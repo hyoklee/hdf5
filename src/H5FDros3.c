@@ -761,8 +761,7 @@ H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *
     if (*value)
         free(*value);
     else
-        fprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n", prop_id, name,
-                  size);
+        fprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n", prop_id, name, size);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_delete */

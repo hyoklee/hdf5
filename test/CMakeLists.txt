@@ -41,7 +41,7 @@ if (BUILD_STATIC_LIBS)
   )
   TARGET_C_PROPERTIES (${HDF5_TEST_LIB_TARGET} STATIC)
   target_link_libraries (${HDF5_TEST_LIB_TARGET}
-      PUBLIC ${LINK_LIBS} ${HDF5_LIB_TARGET} "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:CURL::libcurl>"
+      PUBLIC ${LINK_LIBS} ${HDF5_LIB_TARGET} "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:CURL::libcurl>" "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:OpenSSL::crypto>" "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:OpenSSL::ssl>"
       PRIVATE "$<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:MinGW>>:ws2_32.lib>"
   )
   if (MINGW)

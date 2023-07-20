@@ -990,7 +990,7 @@ test_set_configured_fapl(void)
     };
 =======          
 >>>>>>> upstream/develop
-#endif          
+#endif
 
 #endif /* H5_HAVE_ROS3_VFD */
 #ifdef H5_HAVE_LIBHDFS

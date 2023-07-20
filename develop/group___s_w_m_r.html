@@ -269,7 +269,7 @@ Functions</h2></td></tr>
 <li>Check that the file is not already marked in SWMR writing mode. </li>
 <li>Enable reading retries for check-summed metadata to remedy possible checksum failures from reading inconsistent metadata on a system that is not atomic. </li>
 <li>Turn off usage of the library's accumulator to avoid possible ordering problem on a system that is not atomic. </li>
-<li>Perform a flush of the file’s data buffers and metadata to set a consistent state for starting SWMR write operations.</li>
+<li>Perform a flush of the file's data buffers and metadata to set a consistent state for starting SWMR write operations.</li>
 </ul>
 <p>Library objects are groups, datasets, and committed datatypes. For the current implementation, groups and datasets can remain open when activating SWMR writing mode, but not committed datatypes. Attributes attached to objects cannot remain open either.</p>
 <dl class="section since"><dt>Since</dt><dd>1.10.0 </dd></dl>
@@ -281,7 +281,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jul 4 2023 14:20:19 for HDF5 by
+    <li class="footer">Generated on Thu Jul 20 2023 20:25:44 for HDF5 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.1 </li>
   </ul>

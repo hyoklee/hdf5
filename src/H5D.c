@@ -791,13 +791,13 @@ done:
  *
  *              The chunk cache parameters in the returned property lists will be
  *              those used by the dataset.  If the properties in the file access
- *              property list were used to determine the dataset’s chunk cache
+ *              property list were used to determine the dataset's chunk cache
  *              configuration, then those properties will be present in the
  *              returned dataset access property list.  If the dataset does not
  *              use a chunked layout, then the chunk cache properties will be set
  *              to the default.  The chunk cache properties in the returned list
  *              are considered to be “set”, and any use of this list will override
- *              the corresponding properties in the file’s file access property
+ *              the corresponding properties in the file's file access property
  *              list.
  *
  *              All link access properties in the returned list will be set to the
@@ -1127,7 +1127,7 @@ H5Dread_multi(size_t count, hid_t dset_id[], hid_t mem_type_id[], hid_t mem_spac
     H5TRACE7("e", "z*i*i*i*iix", count, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf);
 
     if (count == 0)
-        HGOTO_DONE(SUCCEED)
+        HGOTO_DONE(SUCCEED);
 
     /* Read the data */
     if (H5D__read_api_common(count, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf, NULL,
@@ -1438,7 +1438,7 @@ H5Dwrite_multi(size_t count, hid_t dset_id[], hid_t mem_type_id[], hid_t mem_spa
     H5TRACE7("e", "z*i*i*i*ii**x", count, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf);
 
     if (count == 0)
-        HGOTO_DONE(SUCCEED)
+        HGOTO_DONE(SUCCEED);
 
     /* Write the data */
     if (H5D__write_api_common(count, dset_id, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf, NULL,
@@ -2264,7 +2264,7 @@ H5Dget_chunk_storage_size(hid_t dset_id, const hsize_t *offset, hsize_t *chunk_n
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get storage size of chunk")
 
 done:
-    FUNC_LEAVE_API(ret_value);
+    FUNC_LEAVE_API(ret_value)
 } /* H5Dget_chunk_storage_size() */
 
 /*-------------------------------------------------------------------------
@@ -2313,7 +2313,7 @@ H5Dget_num_chunks(hid_t dset_id, hid_t fspace_id, hsize_t *nchunks /*out*/)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get number of chunks")
 
 done:
-    FUNC_LEAVE_API(ret_value);
+    FUNC_LEAVE_API(ret_value)
 } /* H5Dget_num_chunks() */
 
 /*-------------------------------------------------------------------------
@@ -2325,7 +2325,7 @@ done:
  *              hid_t dset_id;          IN: Chunked dataset ID
  *              hid_t fspace_id;        IN: File dataspace ID
  *              hsize_t index;          IN: Index of written chunk
- *              hsize_t *offset         OUT: Logical position of the chunk’s
+ *              hsize_t *offset         OUT: Logical position of the chunk's
  *                                           first element in the dataspace
  *              unsigned *filter_mask   OUT: Mask for identifying the filters in use
  *              haddr_t *addr           OUT: Address of the chunk
@@ -2384,7 +2384,7 @@ H5Dget_chunk_info(hid_t dset_id, hid_t fspace_id, hsize_t chk_index, hsize_t *of
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get chunk info by index")
 
 done:
-    FUNC_LEAVE_API(ret_value);
+    FUNC_LEAVE_API(ret_value)
 } /* H5Dget_chunk_info() */
 
 /*-------------------------------------------------------------------------
@@ -2395,7 +2395,7 @@ done:
  *
  * Parameters:
  *              hid_t dset_id;          IN: Chunked dataset ID
- *              hsize_t *offset         IN: Logical position of the chunk’s
+ *              hsize_t *offset         IN: Logical position of the chunk's
  *                                           first element in the dataspace
  *              unsigned *filter_mask   OUT: Mask for identifying the filters in use
  *              haddr_t *addr           OUT: Address of the chunk

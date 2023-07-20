@@ -57,16 +57,16 @@ h5lcopy_c(hid_t_f *src_loc_id, _fcd src_name, size_t_f *src_namelen, hid_t_f *de
      * Convert FORTRAN name to C name
      */
     if (NULL == (c_src_name = HD5f2cstring(src_name, (size_t)*src_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
     if (NULL == (c_dest_name = HD5f2cstring(dest_name, (size_t)*dest_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     /*
      * Call H5Lcopy function.
      */
     if (H5Lcopy((hid_t)*src_loc_id, c_src_name, (hid_t)*dest_loc_id, c_dest_name, (hid_t)*lcpl_id,
                 (hid_t)*lapl_id) < 0)
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
 done:
     if (c_src_name)
@@ -150,8 +150,8 @@ done:
  * OUTPUTS
  *
  *
- *  cset - indicates the character set used for link’s name.
- *  corder - specifies the link’s creation order position.
+ *  cset - indicates the character set used for link's name.
+ *  corder - specifies the link's creation order position.
  *  corder_valid - indicates whether the value in corder is valid.
  *  link_type -  specifies the link class:
  *     	                H5L_LINK_HARD_F      - Hard link
@@ -221,7 +221,7 @@ done:
  *
  *  corder_valid - Indicates whether the creation order data is valid for this attribute
  *  corder - Is a positive integer containing the creation order of the attribute
- *  cset - Indicates the character set used for the attribute’s name
+ *  cset - Indicates the character set used for the attribute's name
  *  data_size - indicates the size, in the number of characters, of the attribute
  *
  * RETURNS
@@ -350,16 +350,16 @@ h5lmove_c(hid_t_f *src_loc_id, _fcd src_name, size_t_f *src_namelen, hid_t_f *de
      * Convert FORTRAN name to C name
      */
     if (NULL == (c_src_name = HD5f2cstring(src_name, (size_t)*src_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
     if (NULL == (c_dest_name = HD5f2cstring(dest_name, (size_t)*dest_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     /*
      * Call H5Lmove function.
      */
     if (H5Lmove((hid_t)*src_loc_id, c_src_name, (hid_t)*dest_loc_id, c_dest_name, (hid_t)*lcpl_id,
                 (hid_t)*lapl_id) < 0)
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
 done:
     if (c_src_name)
@@ -407,7 +407,7 @@ h5lget_name_by_idx_c(hid_t_f *loc_id, _fcd group_name, size_t_f *group_namelen, 
      * Convert FORTRAN name to C name
      */
     if (NULL == (c_group_name = HD5f2cstring(group_name, (size_t)*group_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     c_size = (size_t)*size + 1;
 
@@ -415,12 +415,12 @@ h5lget_name_by_idx_c(hid_t_f *loc_id, _fcd group_name, size_t_f *group_namelen, 
      * Allocate buffer to hold name of an attribute
      */
     if (NULL == (c_name = (char *)malloc(c_size)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     if ((c_size_link =
              H5Lget_name_by_idx((hid_t)*loc_id, c_group_name, (H5_index_t)*index_field,
                                 (H5_iter_order_t)*order, (hsize_t)*n, c_name, c_size, (hid_t)*lapl_id)) < 0)
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     *size = (size_t_f)c_size_link;
 
@@ -625,13 +625,13 @@ h5lget_val_c(hid_t_f *link_loc_id, _fcd link_name, size_t_f *link_namelen, size_
      * Convert FORTRAN name to C name
      */
     if (NULL == (c_link_name = HD5f2cstring(link_name, (size_t)*link_namelen)))
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
     /*
      * Call H5Lget_val
      */
     if (H5Lget_val((hid_t)*link_loc_id, c_link_name, &linkval_buff, (size_t)*size, (hid_t)*lapl_id) < 0)
-        HGOTO_DONE(FAIL)
+        HGOTO_DONE(FAIL);
 
 done:
     if (c_link_name)

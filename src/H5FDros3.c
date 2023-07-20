@@ -603,7 +603,7 @@ H5Pget_fapl_ros3_token(hid_t fapl_id, size_t size, char *token_dst /*out*/)
     H5TRACE3("e", "izx", fapl_id, size, token_dst);
 
 #if ROS3_DEBUG
-    fprintf(stdout, "H5Pget_fapl_ros3_token() called.\n");
+    printf("H5Pget_fapl_ros3_token() called.\n");
 #endif
 
     if (size == 0)
@@ -647,7 +647,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD__ros3_str_token_copy(const char *name, size_t size, void *_value)
+H5FD__ros3_str_token_copy(const char H5_ATTR_UNUSED *name, size_t size, void *_value)
 {
     char **value     = (char **)_value;
     herr_t ret_value = SUCCEED;
@@ -655,7 +655,7 @@ H5FD__ros3_str_token_copy(const char *name, size_t size, void *_value)
     FUNC_ENTER_PACKAGE
 
 #if ROS3_DEBUG
-    fprintf(stdout, "H5FD__ros3_str_token_copy() called.\n");
+    printf("H5FD__ros3_str_token_copy() called.\n");
 #endif
 
     if (*value)
@@ -751,6 +751,7 @@ H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
  *-------------------------------------------------------------------------
  */
 static herr_t
+
 H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *_value)
 {
     char **value     = (char **)_value;
@@ -792,7 +793,7 @@ H5Pset_fapl_ros3_token(hid_t fapl_id, const char *token)
     H5TRACE2("e", "i*s", fapl_id, token);
 
 #if ROS3_DEBUG
-    fprintf(stdout, "H5Pset_fapl_ros3_token() called.\n");
+    printf("H5Pset_fapl_ros3_token() called.\n");
 #endif
 
     if (fapl_id == H5P_DEFAULT)
@@ -815,7 +816,9 @@ H5Pset_fapl_ros3_token(hid_t fapl_id, const char *token)
         memcpy(token_src, token, HDstrlen(token) + 1);
     }
     else {
-        token_src = malloc(sizeof(char) * (H5FD_ROS3_MAX_SECRET_TOK_LEN + 1));
+        token_src = (char *)malloc(sizeof(char) * (H5FD_ROS3_MAX_SECRET_TOK_LEN + 1));
+        if (token_src == NULL)
+            HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "cannot make space for token_src variable.");
         memcpy(token_src, token, HDstrlen(token) + 1);
         if (H5P_insert(plist, ROS3_TOKEN_PROP_NAME, sizeof(char *), &token_src, NULL, NULL, NULL, NULL,
                        H5FD__ros3_str_token_delete, H5FD__ros3_str_token_copy, H5FD__ros3_str_token_cmp,
@@ -1400,71 +1403,71 @@ H5FD__ros3_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
 
     /* URL: SCHEME */
     if (HDstrcmp(purl1->scheme, purl2->scheme))
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* URL: HOST */
     if (HDstrcmp(purl1->host, purl2->host))
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* URL: PORT */
     if (purl1->port && purl2->port) {
         if (HDstrcmp(purl1->port, purl2->port))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (purl1->port)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (purl2->port)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* URL: PATH */
     if (purl1->path && purl2->path) {
         if (HDstrcmp(purl1->path, purl2->path))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (purl1->path && !purl2->path)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (purl2->path && !purl1->path)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* URL: QUERY */
     if (purl1->query && purl2->query) {
         if (HDstrcmp(purl1->query, purl2->query))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (purl1->query && !purl2->query)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (purl2->query && !purl1->query)
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* FAPL: AWS_REGION */
     if (f1->fa.aws_region[0] != '\0' && f2->fa.aws_region[0] != '\0') {
         if (HDstrcmp(f1->fa.aws_region, f2->fa.aws_region))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (f1->fa.aws_region[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (f2->fa.aws_region[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* FAPL: SECRET_ID */
     if (f1->fa.secret_id[0] != '\0' && f2->fa.secret_id[0] != '\0') {
         if (HDstrcmp(f1->fa.secret_id, f2->fa.secret_id))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (f1->fa.secret_id[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (f2->fa.secret_id[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
     /* FAPL: SECRET_KEY */
     if (f1->fa.secret_key[0] != '\0' && f2->fa.secret_key[0] != '\0') {
         if (HDstrcmp(f1->fa.secret_key, f2->fa.secret_key))
-            HGOTO_DONE(-1)
+            HGOTO_DONE(-1);
     }
     else if (f1->fa.secret_key[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
     else if (f2->fa.secret_key[0] != '\0')
-        HGOTO_DONE(-1)
+        HGOTO_DONE(-1);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

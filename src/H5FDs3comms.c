@@ -913,7 +913,7 @@ H5FD_s3comms_s3r_getsize(s3r_t *handle)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "No HTTP metadata")
 #if S3COMMS_DEBUG
     else
-        fprintf(stderr, "GETSIZE: OK\n");
+        fprintf(stdout, "GETSIZE: OK\n");
 #endif
 
     /******************
@@ -944,6 +944,10 @@ H5FD_s3comms_s3r_getsize(s3r_t *handle)
                     start); /* range is null-terminated, remember */
 
     handle->filesize = (size_t)content_length;
+
+#if S3COMMS_DEBUG
+    fprintf(stdout, "FILESIZE: %zu\n", handle->filesize);
+#endif
 
     /**********************
      * UNDO HEAD SETTINGS *
@@ -1270,8 +1274,8 @@ H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
     }
 
 #if S3COMMS_DEBUG
-    fprintf(stderr, "%s: Bytes %" PRIuHADDR " - %" PRIuHADDR ", Request Size: %zu\n", handle->httpverb,
-            offset, offset + len, len);
+    fprintf(stdout, "%s: Bytes %" PRIuHADDR " - %" PRIuHADDR ", Request Size: %zu\n", handle->httpverb,
+            offset, offset + len - 1, len);
 #endif
 
     /*******************
@@ -1478,7 +1482,6 @@ H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
                 HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "problem getting response code")
             fprintf(stderr, "CURL ERROR CODE: %d\nHTTP CODE: %d\n", p_status, httpcode);
             fprintf(stderr, "%s\n", curl_easy_strerror(p_status));
-
             HGOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, FAIL, "problem while performing request.");
         }
         if (CURLE_OK != curl_easy_setopt(curlh, CURLOPT_ERRORBUFFER, NULL))
@@ -1493,19 +1496,19 @@ H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
 
 #if S3COMMS_DEBUG
     if (dest != NULL) {
-        fprintf(stderr, "len: %d\n", (int)len);
-        fprintf(stderr, "CHECKING FOR BUFFER OVERFLOW\n");
+        fprintf(stdout, "len: %d\n", (int)len);
+        fprintf(stdout, "CHECKING FOR BUFFER OVERFLOW\n");
         if (sds == NULL)
-            fprintf(stderr, "sds is NULL!\n");
+            fprintf(stdout, "sds is NULL!\n");
         else {
-            fprintf(stderr, "sds: 0x%lx\n", (long long)sds);
-            fprintf(stderr, "sds->size: %d\n", (int)sds->size);
+            fprintf(stdout, "sds: 0x%llx\n", (long long)sds);
+            fprintf(stdout, "sds->size: %d\n", (int)sds->size);
             if (len > sds->size)
-                fprintf(stderr, "buffer overwrite\n");
+                fprintf(stdout, "buffer overwrite\n");
         }
     }
     else
-        fprintf(stderr, "performed on entire file\n");
+        fprintf(stdout, "performed on entire file\n");
 #endif
 
 done:

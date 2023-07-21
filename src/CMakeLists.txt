@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 3.18)
 project (HDF5_SRC C)
 
-set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.lib")
-
 #-----------------------------------------------------------------------------
 # List Source Files
 #-----------------------------------------------------------------------------
@@ -1076,7 +1074,7 @@ if (BUILD_STATIC_LIBS)
   TARGET_C_PROPERTIES (${HDF5_LIB_TARGET} STATIC)
   target_link_libraries (${HDF5_LIB_TARGET}
       PRIVATE ${LINK_LIBS} ${LINK_COMP_LIBS}
-      PUBLIC "$<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_DL_LIBS}>" "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:MPI::MPI_C>" "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:CURL::libcurl>" "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:${OPENSSL_CRYPTO_LIBRARY}>" "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:${OPENSSL_SSL_LIBRARY}>"  secur32 advapi32 shell32 crypt32 
+      PUBLIC "$<$<NOT:$<PLATFORM_ID:Windows>>:${CMAKE_DL_LIBS}>" "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:MPI::MPI_C>"
   )
   if (NOT WIN32)
     target_link_libraries (${HDF5_LIB_TARGET}

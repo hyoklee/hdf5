@@ -41,8 +41,8 @@ if (BUILD_STATIC_LIBS)
   )
   TARGET_C_PROPERTIES (${HDF5_TEST_LIB_TARGET} STATIC)
   target_link_libraries (${HDF5_TEST_LIB_TARGET}
-      PUBLIC ${LINK_LIBS} ${HDF5_LIB_TARGET} "$<$<BOOL:${HDF5_ENABLE_ROS3_VFD}>:CURL::libcurl>" ws2_32.lib wldap32.lib secur32 advapi32 shell32 crypt32 
-      PRIVATE "$<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:MinGW>>:ws2_32.lib>" 
+      PUBLIC ${LINK_LIBS} ${HDF5_LIB_TARGET}
+      PRIVATE "$<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:MinGW>>:ws2_32.lib>"
   )
   if (MINGW)
     target_link_libraries (${HDF5_TEST_LIB_TARGET} PRIVATE "wsock32.lib")

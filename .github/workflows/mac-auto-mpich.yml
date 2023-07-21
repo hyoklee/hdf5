@@ -1,0 +1,25 @@
+name: mac autotools mpich
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:    
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - name: Install Dependencies
+      run: brew install ninja autoconf automake libtool mpich
+    - name: Get Source
+      uses: actions/checkout@v3
+    - name: Build and test
+      env:
+        NPROCS: 2
+      run: |
+        set
+        ./autogen.sh
+        ./configure --enable-parallel CC=mpicc
+        make
+        make check
+
+    

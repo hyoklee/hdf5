@@ -16,6 +16,7 @@ jobs:
       env:
         NPROCS: 2
       run: |
+        export HDF5_Make_Ignore=yes
         set
         ./autogen.sh
         ./configure --enable-parallel CC=mpicc

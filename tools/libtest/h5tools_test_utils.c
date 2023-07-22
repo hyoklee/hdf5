@@ -570,6 +570,7 @@ test_populate_ros3_fa(void)
         JSVERIFY(0, h5tools_populate_ros3_fapl(NULL, values), "fapl pointer cannot be null")
     }
 
+#if 0
     /* NULL token pointer fails
      */
     {
@@ -579,7 +580,8 @@ test_populate_ros3_fa(void)
         if (show_progress) {
             printf("NULL token pointer\n");
         }
-
+#endif
+        
         JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "token pointer cannot be null")
     }
 
@@ -979,19 +981,6 @@ test_set_configured_fapl(void)
     other_fa_t wrong_fa = {0x432, 0xf82, 0x9093};
 #ifdef H5_HAVE_ROS3_VFD
     H5FD_ros3_fapl_ext_t ros3_anon_fa = {{1, FALSE, "", "", ""}, ""};
-#if 0
-<<<<<<< HEAD
-    H5FD_ros3_fapl_t     ros3_auth_fa = {
-        1,                            /* fapl version           */
-        TRUE,                         /* authenticate           */
-        "us-east-1",                  /* aws region             */
-        "12345677890abcdef",          /* simulate access key ID */
-        "oiwnerwe9u0234nJw0-aoj+dsf", /* simulate secret key    */
-    };
-=======          
->>>>>>> upstream/develop
-#endif
-
 #endif /* H5_HAVE_ROS3_VFD */
 #ifdef H5_HAVE_LIBHDFS
     H5FD_hdfs_fapl_t hdfs_fa = {

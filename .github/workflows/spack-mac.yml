@@ -13,20 +13,19 @@ jobs:
     - name: Checkout Spack
       uses: actions/checkout@v3
       with:
-        repository: hyoklee/spack
+        repository: spack/spack
         path: ./spack
 
     - name: Run a multi-line script
       run: |
+        sed -i 's/hdf5@1.8.4:1.14/hdf5@1.8.4:/g' ./spack/var/spack/repos/builtin/packages/py-h5py/package.py      
         ./spack/bin/spack external find perl
         ./spack/bin/spack install py-h5py@master+mpi ^openblas@develop
         ./spack/bin/spack install py-pytest
         ./spack/bin/spack install py-ipython
-        ./spack/bin/spack install py-pip
         . ./spack/share/spack/setup-env.sh
         spack load py-h5py
         spack load py-pytest
         spack load py-ipython
-        spack load py-pip
         pip install pytest-mpi
         python -c "import h5py; h5py.run_tests(); print(h5py.version.info);"

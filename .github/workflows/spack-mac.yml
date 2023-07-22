@@ -18,7 +18,7 @@ jobs:
 
     - name: Run a multi-line script
       run: |
-        sed -i 's/hdf5@1.8.4:1.14/hdf5@1.8.4:/g' ./spack/var/spack/repos/builtin/packages/py-h5py/package.py      
+        sed -i '' 's/hdf5@1.8.4:1.14/hdf5@1.8.4:/g' ./spack/var/spack/repos/builtin/packages/py-h5py/package.py      
         ./spack/bin/spack external find perl
         ./spack/bin/spack install py-h5py@master+mpi ^openblas@develop
         ./spack/bin/spack install py-pytest

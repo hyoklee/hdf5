@@ -570,364 +570,349 @@ test_populate_ros3_fa(void)
         JSVERIFY(0, h5tools_populate_ros3_fapl(NULL, values), "fapl pointer cannot be null")
     }
 
-#if 0
-    /* NULL token pointer fails
+    /* NULL values pointer yields default fapl
      */
     {
-        H5FD_ros3_fapl_ext_t fa       = {{bad_version, TRUE, "u", "v", "w"}, 0};
-        const char          *values[] = {"x", "y", "z"};
+        H5FD_ros3_fapl_ext_t fa = {{bad_version, TRUE, "u", "v", "w"}, "x"};
 
         if (show_progress) {
-            printf("NULL token pointer\n");
+            printf("NULL values pointer\n");
         }
-#endif
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "token pointer cannot be null")
-}
-
-/* NULL values pointer yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa = {{bad_version, TRUE, "u", "v", "w"}, "x"};
-
-    if (show_progress) {
-        printf("NULL values pointer\n");
+        JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, NULL), "NULL values pointer yields \"default\" fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, NULL), "NULL values pointer yields \"default\" fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* all-empty values
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, TRUE, "u", "v", "w"}, "x"};
+        const char          *values[] = {"", "", "", ""};
 
-/* all-empty values
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, TRUE, "u", "v", "w"}, "x"};
-    const char          *values[] = {"", "", "", ""};
+        if (show_progress) {
+            printf("all empty values\n");
+        }
 
-    if (show_progress) {
-        printf("all empty values\n");
+        JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "empty values yields \"default\" fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "empty values yields \"default\" fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* successfully set fapl with values
+     * excess value is ignored
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "y", "z", "a", "b"};
 
-/* successfully set fapl with values
- * excess value is ignored
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "y", "z", "a", "b"};
+        if (show_progress) {
+            printf("successful full set\n");
+        }
 
-    if (show_progress) {
-        printf("successful full set\n");
+        JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "four values")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(TRUE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("z", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("a", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "four values")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(TRUE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("z", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("a", fa.token, (char *)NULL)
-}
+    /* NULL region
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {NULL, "y", "z", ""};
 
-/* NULL region
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {NULL, "y", "z", ""};
+        if (show_progress) {
+            printf("NULL region\n");
+        }
 
-    if (show_progress) {
-        printf("NULL region\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* empty region
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"", "y", "z", ""};
 
-/* empty region
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"", "y", "z", ""};
+        if (show_progress) {
+            printf("empty region; non-empty id, key\n");
+        }
 
-    if (show_progress) {
-        printf("empty region; non-empty id, key\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* region overflow
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"somewhere over the rainbow not too high "
+                                         "there is another rainbow bounding some darkened sky",
+                                "y", "z", ""};
 
-/* region overflow
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"somewhere over the rainbow not too high "
-                                     "there is another rainbow bounding some darkened sky",
-                            "y", "z", ""};
+        if (show_progress) {
+            printf("region overflow\n");
+        }
 
-    if (show_progress) {
-        printf("region overflow\n");
+        assert(HDstrlen(values[0]) > H5FD_ROS3_MAX_REGION_LEN);
+
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    assert(HDstrlen(values[0]) > H5FD_ROS3_MAX_REGION_LEN);
+    /* NULL id
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", NULL, "z", ""};
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+        if (show_progress) {
+            printf("NULL id\n");
+        }
 
-/* NULL id
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", NULL, "z", ""};
-
-    if (show_progress) {
-        printf("NULL id\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* empty id (non-empty region, key)
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "", "z", ""};
 
-/* empty id (non-empty region, key)
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "", "z", ""};
+        if (show_progress) {
+            printf("empty id; non-empty region and key\n");
+        }
 
-    if (show_progress) {
-        printf("empty id; non-empty region and key\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* id overflow
+     * partial set: region
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x",
+                                "Why is it necessary to solve the problem? "
+                                         "What benefits will you receive by solving the problem? "
+                                         "What is the unknown? "
+                                         "What is it you don't yet understand? "
+                                         "What is the information you have? "
+                                         "What isn't the problem? "
+                                         "Is the information insufficient, redundant, or contradictory? "
+                                         "Should you draw a diagram or figure of the problem? "
+                                         "What are the boundaries of the problem? "
+                                         "Can you separate the various parts of the problem?",
+                                "z", ""};
 
-/* id overflow
- * partial set: region
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x",
-                            "Why is it necessary to solve the problem? "
-                                     "What benefits will you receive by solving the problem? "
-                                     "What is the unknown? "
-                                     "What is it you don't yet understand? "
-                                     "What is the information you have? "
-                                     "What isn't the problem? "
-                                     "Is the information insufficient, redundant, or contradictory? "
-                                     "Should you draw a diagram or figure of the problem? "
-                                     "What are the boundaries of the problem? "
-                                     "Can you separate the various parts of the problem?",
-                            "z", ""};
+        if (show_progress) {
+            printf("id overflow\n");
+        }
 
-    if (show_progress) {
-        printf("id overflow\n");
+        assert(HDstrlen(values[1]) > H5FD_ROS3_MAX_SECRET_ID_LEN);
+
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    assert(HDstrlen(values[1]) > H5FD_ROS3_MAX_SECRET_ID_LEN);
+    /* NULL key
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "y", NULL, ""};
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+        if (show_progress) {
+            printf("NULL key\n");
+        }
 
-/* NULL key
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "y", NULL, ""};
-
-    if (show_progress) {
-        printf("NULL key\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* NULL token
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "y", "z", NULL};
 
-/* NULL token
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "y", "z", NULL};
+        if (show_progress) {
+            printf("NULL key\n");
+        }
 
-    if (show_progress) {
-        printf("NULL key\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill token")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill token")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* empty key (non-empty region, id)
+     * yields authenticating fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "y", "", ""};
 
-/* empty key (non-empty region, id)
- * yields authenticating fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "y", "", ""};
+        if (show_progress) {
+            printf("empty key; non-empty region and id\n");
+        }
 
-    if (show_progress) {
-        printf("empty key; non-empty region and id\n");
+        JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(TRUE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(TRUE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* empty key, region (non-empty id)
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"", "y", "", ""};
 
-/* empty key, region (non-empty id)
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"", "y", "", ""};
+        if (show_progress) {
+            printf("empty key and region; non-empty id\n");
+        }
 
-    if (show_progress) {
-        printf("empty key and region; non-empty id\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* empty key, id (non-empty region)
+     * yields default fapl
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "", "", ""};
 
-/* empty key, id (non-empty region)
- * yields default fapl
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "", "", ""};
+        if (show_progress) {
+            printf("empty key and id; non-empty region\n");
+        }
 
-    if (show_progress) {
-        printf("empty key and id; non-empty region\n");
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    /* key overflow
+     * partial set: region, id
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
+        const char          *values[] = {"x", "y",
+                                "Why is it necessary to solve the problem? "
+                                         "What benefits will you receive by solving the problem? "
+                                         "What is the unknown? "
+                                         "What is it you don't yet understand? "
+                                         "What is the information you have? "
+                                         "What isn't the problem? "
+                                         "Is the information insufficient, redundant, or contradictory? "
+                                         "Should you draw a diagram or figure of the problem? "
+                                         "What are the boundaries of the problem? "
+                                         "Can you separate the various parts of the problem?",
+                                ""};
 
-/* key overflow
- * partial set: region, id
- */
-{
-    H5FD_ros3_fapl_ext_t fa       = {{bad_version, FALSE, "a", "b", "c"}, "d"};
-    const char          *values[] = {"x", "y",
-                            "Why is it necessary to solve the problem? "
-                                     "What benefits will you receive by solving the problem? "
-                                     "What is the unknown? "
-                                     "What is it you don't yet understand? "
-                                     "What is the information you have? "
-                                     "What isn't the problem? "
-                                     "Is the information insufficient, redundant, or contradictory? "
-                                     "Should you draw a diagram or figure of the problem? "
-                                     "What are the boundaries of the problem? "
-                                     "Can you separate the various parts of the problem?",
-                            ""};
+        if (show_progress) {
+            printf("key overflow\n");
+        }
 
-    if (show_progress) {
-        printf("key overflow\n");
+        assert(HDstrlen(values[2]) > H5FD_ROS3_MAX_SECRET_KEY_LEN);
+
+        JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
+        JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
+        JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
+        JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
+        JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
+        JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
+        JSVERIFY_STR("", fa.token, (char *)NULL)
     }
 
-    assert(HDstrlen(values[2]) > H5FD_ROS3_MAX_SECRET_KEY_LEN);
+    /* use case
+     */
+    {
+        H5FD_ros3_fapl_ext_t fa       = {{0, 0, "", "", ""}, ""};
+        const char          *values[] = {"us-east-2", "AKIAIMC3D3XLYXLN5COA",
+                                "ugs5aVVnLFCErO/8uW14iWE3K5AgXMpsMlWneO/+", ""};
+        JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "unable to set use case")
+        JSVERIFY(1, fa.fa.version, "version check")
+        JSVERIFY(1, fa.fa.authenticate, "should authenticate")
+    }
 
-    JSVERIFY(0, h5tools_populate_ros3_fapl(&fa, values), "could not fill fapl")
-    JSVERIFY(H5FD_CURR_ROS3_FAPL_T_VERSION, fa.fa.version, (char *)NULL)
-    JSVERIFY(FALSE, fa.fa.authenticate, (char *)NULL)
-    JSVERIFY_STR("x", fa.fa.aws_region, (char *)NULL)
-    JSVERIFY_STR("y", fa.fa.secret_id, (char *)NULL)
-    JSVERIFY_STR("", fa.fa.secret_key, (char *)NULL)
-    JSVERIFY_STR("", fa.token, (char *)NULL)
-}
+    PASSED();
+    return 0;
 
-/* use case
- */
-{
-    H5FD_ros3_fapl_ext_t fa = {{0, 0, "", "", ""}, ""};
-    const char *values[] = {"us-east-2", "AKIAIMC3D3XLYXLN5COA", "ugs5aVVnLFCErO/8uW14iWE3K5AgXMpsMlWneO/+",
-                            ""};
-    JSVERIFY(1, h5tools_populate_ros3_fapl(&fa, values), "unable to set use case")
-    JSVERIFY(1, fa.fa.version, "version check")
-    JSVERIFY(1, fa.fa.authenticate, "should authenticate")
-}
-
-PASSED();
-return 0;
-
-error :
+error:
     /***********
      * CLEANUP *
      ***********/

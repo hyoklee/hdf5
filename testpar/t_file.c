@@ -996,10 +996,10 @@ test_delete(void)
 
     /* In parallel distributed file system, file deletion is not guaranteed. */
     if (FALSE == is_accessible) {
-      VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
+        VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
     }
     else {
-      VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
+        VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
     }
 
     /* Release file-access plist */

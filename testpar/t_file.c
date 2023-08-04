@@ -993,7 +993,14 @@ test_delete(void)
         is_accessible = H5Fis_accessible(filename, fapl_id);
     }
     H5E_END_TRY
-    VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
+
+    /* In parallel distributed file system, file deletion is not guaranteed. */
+    if (FALSE == is_accessible) {
+      VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
+    }
+    else {
+      VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
+    }
 
     /* Release file-access plist */
     ret = H5Pclose(fapl_id);

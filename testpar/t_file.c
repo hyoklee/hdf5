@@ -104,7 +104,7 @@ test_split_comm_access(void)
         {
             ret = H5Fdelete(filename, acc_tpl);
         }
-        H5E_END_TRY;
+        H5E_END_TRY
         VRFY((ret >= 0), "H5Fdelete succeeded");
 
         /* Release file-access template */
@@ -994,12 +994,11 @@ test_delete(void)
     }
     H5E_END_TRY
 
-    /* In parallel distributed file system, file deletion is not guaranteed. */
     if (FALSE == is_accessible) {
         VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
     }
-    else {
-        VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
+    if (FAIL == is_accessible) {
+      VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
     }
 
     /* Release file-access plist */

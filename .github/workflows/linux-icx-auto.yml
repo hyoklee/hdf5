@@ -2,22 +2,11 @@ name: linux autotools icx
 
 on:
   workflow_dispatch:
-  push:
-  pull_request:
-    branches: [ develop ]
-    paths-ignore:
-      - '.github/CODEOWNERS'
-      - '.github/FUNDING.yml'
-      - 'doc/**'
-      - 'release_docs/**'
-      - 'ACKNOWLEDGEMENTS'
-      - 'COPYING**'
-      - '**.md'
+  schedule:
+    - cron: "6 0 * * *"
 
-# Using concurrency to cancel any in-progress job or run
-concurrency:
-  group: ${{ github.workflow }}-${{ github.sha || github.event.pull_request.number }}
-  cancel-in-progress: true
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -54,9 +43,9 @@ jobs:
         shell: bash
         run: |
           source /opt/intel/oneapi/setvars.sh
-          export PATH=$PATH:/opt/intel/oneapi/mpi/2021.9.0/bin:/opt/intel/oneapi/compiler/2023.1.0/linux/bin
+          export PATH=$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin:/opt/intel/oneapi/compiler/2023.2.1/linux/bin
           ./autogen.sh
-          ./configure  --enable-fortran --enable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/2021.9.0/lib -L/opt/intel/oneapi/mpi/2021.9.0/lib/release/"
+          ./configure  --enable-fortran --enable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/2021.10.0/lib -L/opt/intel/oneapi/mpi/2021.10.0/lib/release/"
           make -j
           export SYCL_DEVICE_FILTER=opencl.cpu
           make check -j 

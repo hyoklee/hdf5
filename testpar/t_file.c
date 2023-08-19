@@ -1003,14 +1003,12 @@ test_delete(void)
     }
     H5E_END_TRY
 
-
     if (FALSE == is_accessible) {
         VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
     }
     if (FAIL == is_accessible) {
         VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
     }
-
 
     /* Release file-access plist */
     ret = H5Pclose(fapl_id);

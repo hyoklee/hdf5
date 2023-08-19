@@ -1985,7 +1985,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
             setting_name     = setting_names[setting_i];
             setting_name_len = HDstrlen(setting_name);
             if (HDsnprintf(line_prefix, 4096, "%s=", setting_name) < 0)
-                HGOTO_ERROR(H5E_ARGS, H5E_CANTCOPY, FAIL, "unable to format line prefix")
+              HGOTO_ERROR(H5E_ARGS, H5E_CANTCOPY, FAIL, "unable to format line prefix");
 
             /* found a matching name? */
             if (!HDstrncmp(line_buffer, line_prefix, setting_name_len + 1)) {

@@ -986,6 +986,15 @@ test_delete(void)
     ret = H5Fdelete(filename, fapl_id);
     VRFY((SUCCEED == ret), "H5Fdelete");
 
+    /*
+     * Work around a Cray MPICH bug that causes
+     * H5Fis_accessible to re-create the just-deleted
+     * file as a 0-byte file with strange Unix
+     * permissions, causing the routine to return
+     * false here instead of FAIL.
+     */
+    H5Pset_fapl_mpio(fapl_id, comm, info);
+
     /* Verify that the file is NO LONGER an HDF5 file */
     /* This should fail since there is no file */
     H5E_BEGIN_TRY
@@ -994,6 +1003,7 @@ test_delete(void)
     }
     H5E_END_TRY
 
+
     if (FALSE == is_accessible) {
         VRFY((FALSE == is_accessible), "H5Fis_accessible returned FALSE");
     }
@@ -1001,8 +1011,60 @@ test_delete(void)
         VRFY((FAIL == is_accessible), "H5Fis_accessible failed");
     }
 
+
     /* Release file-access plist */
     ret = H5Pclose(fapl_id);
     VRFY((SUCCEED == ret), "H5Pclose");
 
 } /* end test_delete() */
+
+/*
+ * Tests for an assertion failure during file close that used
+ * to occur when the library fails to create a file in parallel
+ * due to an invalid library version bounds setting
+ */
+void
+test_invalid_libver_bounds_file_close_assert(void)
+{
+    const char *filename = NULL;
+    MPI_Comm    comm     = MPI_COMM_WORLD;
+    MPI_Info    info     = MPI_INFO_NULL;
+    herr_t      ret;
+    hid_t       fid     = H5I_INVALID_HID;
+    hid_t       fapl_id = H5I_INVALID_HID;
+    hid_t       fcpl_id = H5I_INVALID_HID;
+
+    filename = (const char *)GetTestParameters();
+
+    /* set up MPI parameters */
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+
+    /* setup file access plist */
+    fapl_id = H5Pcreate(H5P_FILE_ACCESS);
+    VRFY((fapl_id != H5I_INVALID_HID), "H5Pcreate");
+    ret = H5Pset_fapl_mpio(fapl_id, comm, info);
+    VRFY((SUCCEED == ret), "H5Pset_fapl_mpio");
+    ret = H5Pset_libver_bounds(fapl_id, H5F_LIBVER_EARLIEST, H5F_LIBVER_V18);
+    VRFY((SUCCEED == ret), "H5Pset_libver_bounds");
+
+    /* setup file creation plist */
+    fcpl_id = H5Pcreate(H5P_FILE_CREATE);
+    VRFY((fcpl_id != H5I_INVALID_HID), "H5Pcreate");
+
+    ret = H5Pset_file_space_strategy(fcpl_id, H5F_FSPACE_STRATEGY_PAGE, TRUE, 1);
+    VRFY((SUCCEED == ret), "H5Pset_file_space_strategy");
+
+    /* create the file */
+    H5E_BEGIN_TRY
+    {
+        fid = H5Fcreate(filename, H5F_ACC_TRUNC, fcpl_id, fapl_id);
+    }
+    H5E_END_TRY
+    VRFY((fid == H5I_INVALID_HID), "H5Fcreate");
+
+    ret = H5Pclose(fapl_id);
+    VRFY((SUCCEED == ret), "H5Pclose");
+    ret = H5Pclose(fcpl_id);
+    VRFY((SUCCEED == ret), "H5Pclose");
+}

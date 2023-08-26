@@ -32,7 +32,7 @@ jobs:
           export LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/cuda/12.2/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/lib
           export PATH=$PATH:/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin:$NVHPC_CUDA_HOME/bin
           ./autogen.sh
-          ./configure CC=nvcc FC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin/nvfortran FCFLAGS='-fPIC' --enable-fortran --enable-shared
+          ./configure CC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin/nvcc FC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin/nvfortran FCFLAGS='-fPIC' --enable-fortran --enable-shared
           cat config.log
           make -j
           make check -j

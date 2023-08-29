@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run:  |
           sudo apt-get update
-          sudo apt-get install autoconf automake libtool libtool-bin
+          sudo apt-get install autoconf automake libtool libtool-bin -libaec-dev
       - name: Add oneAPI to apt
         shell: bash
         run: |

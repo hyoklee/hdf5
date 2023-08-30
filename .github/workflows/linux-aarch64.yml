@@ -27,6 +27,6 @@ jobs:
         ls
         mkdir build
         cd build
-        cmake -DCMAKE_C_COMPILER=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc -DCMAKE_AR=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm ..        
+        cmake -DCMAKE_C_COMPILER=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc -DCMAKE_AR=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..        
         make
         make test

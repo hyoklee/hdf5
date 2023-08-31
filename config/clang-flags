@@ -123,7 +123,7 @@ if test "X-clang" = "X-$cc_vendor" -o "X-Apple LLVM" = "X-$cc_vendor"; then
             ;;
 
         *)
-            H5_CFLAGS="$H5_CFLAGS -std=c99"
+            H5_CFLAGS="$H5_CFLAGS"
             ;;
     esac
 

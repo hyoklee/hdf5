@@ -22,6 +22,8 @@ jobs:
       - name: Get Sources
         uses: actions/checkout@v3
       - name: Test HDF5
+        env:
+          NPROCS: 2      
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin/nvc++
@@ -29,10 +31,11 @@ jobs:
           export OMPI_FC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin/nvfortran
           export LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/lib
           export PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/openmpi4/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/compilers/bin:$PATH
+          export DESTDIR=/tmp          
           ./autogen.sh
           ./configure CC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/openmpi4/bin/mpicc FC=/opt/nvidia/hpc_sdk/Linux_x86_64/23.7/comm_libs/openmpi4/bin/mpifort FCFLAGS="-fPIC -fortranlibs" --enable-fortran --enable-shared --enable-parallel          
           cat config.log
           make -j
           make check -j
-          sudo make install
-          sudo make uninstall
+          make install
+          make uninstall

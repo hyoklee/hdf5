@@ -32,7 +32,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install ninja mpich
+      run: brew install ninja mpich libaec-dev
       if: matrix.os == 'macos-latest'
       
     - name: Install gfortran

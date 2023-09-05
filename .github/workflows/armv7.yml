@@ -29,7 +29,7 @@ jobs:
             cd hdf5
             mkdir build
             cd build
-            cmake ..
+            cmake -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
             make
             make test
 

@@ -18,7 +18,7 @@ jobs:
           export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1
           mkdir build
           cd build
-          cmake -DHDF5_ENABLE_ROS3_VFD:BOOL=ON -G Xcode ..
+          cmake -DHDF5_ENABLE_ROS3_VFD:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -G Xcode ..
           cmake --build . --config Debug
           ctest --build . -C Debug
           sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_CONFIG_NAME=Debug -P cmake_install.cmake

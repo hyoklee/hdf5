@@ -1117,7 +1117,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>C99-style Boolean type. Successful return values are zero (false) or positive (true). The typical true value is 1 but don't bet on it. </p><dl class="section attention"><dt>Attention</dt><dd>Boolean functions cannot fail. </dd></dl>
+<p>C99-style Boolean type. Successful return values are zero (false) or positive (true). The typical true value is 1 but don't bet on it.</p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000078">Deprecated:</a></b></dt><dd>Now that we require C99, hbool_t is typedef'd to C99's bool and hbool_t is considered deprecated. Due to its long-standing, widespread use, we have no plans to remove the hbool_t typedef from the public API, though we will probably switch to using bool in the public API starting in the next major release of HDF5. </dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>Boolean functions cannot fail. </dd></dl>
 
 </div>
 </div>
@@ -1269,7 +1271,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="_h5public_8h.html">H5public.h</a></li>
-    <li class="footer">Generated on Tue Sep 5 2023 19:52:03 for HDF5 by
+    <li class="footer">Generated on Tue Sep 5 2023 21:57:54 for HDF5 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.9.1 </li>
   </ul>

@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build on ubuntu-latest armv7
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd

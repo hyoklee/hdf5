@@ -68,7 +68,7 @@ static const char *FILENAME[] = {"ohdr", "ohdr_min_a", "ohdr_min_b", NULL};
 static herr_t
 test_cont(char *filename, hid_t fapl)
 {
-    hid_t          file = -1;
+    hid_t          file = H5I_INVALID_HID;
     H5F_t         *f    = NULL;
     H5O_hdr_info_t hdr_info;
     H5O_loc_t      oh_locA, oh_locB;
@@ -181,7 +181,7 @@ error:
 static herr_t
 test_ohdr_cache(char *filename, hid_t fapl)
 {
-    hid_t               file = -1;                            /* File ID */
+    hid_t               file = H5I_INVALID_HID;               /* File ID */
     hid_t               my_fapl;                              /* FAPL ID */
     H5AC_cache_config_t mdc_config;                           /* Metadata cache configuration info */
     H5F_t              *f = NULL;                             /* File handle */
@@ -318,17 +318,17 @@ error:
 static herr_t
 test_ohdr_swmr(bool new_format)
 {
-    hid_t             fid          = -1;   /* File ID */
-    hid_t             fapl         = -1;   /* File access property list */
-    hid_t             did          = -1;   /* Dataset ID */
-    hid_t             sid          = -1;   /* Dataspace ID */
-    hid_t             plist        = -1;   /* Dataset creation property list */
-    size_t            compact_size = 1024; /* The size of compact dataset */
-    int              *wbuf         = NULL; /* Buffer for writing */
-    hsize_t           dims[1];             /* Dimension sizes */
-    size_t            u;                   /* Iterator */
-    int               n;                   /* Data variable */
-    H5O_native_info_t ninfo;               /* Information for the object */
+    hid_t             fid          = H5I_INVALID_HID; /* File ID */
+    hid_t             fapl         = H5I_INVALID_HID; /* File access property list */
+    hid_t             did          = H5I_INVALID_HID; /* Dataset ID */
+    hid_t             sid          = H5I_INVALID_HID; /* Dataspace ID */
+    hid_t             plist        = H5I_INVALID_HID; /* Dataset creation property list */
+    size_t            compact_size = 1024;            /* The size of compact dataset */
+    int              *wbuf         = NULL;            /* Buffer for writing */
+    hsize_t           dims[1];                        /* Dimension sizes */
+    size_t            u;                              /* Iterator */
+    int               n;                              /* Data variable */
+    H5O_native_info_t ninfo;                          /* Information for the object */
 
     if (new_format) {
         TESTING("exercise the coding for the re-read of the object header for SWMR access: latest-format");
@@ -528,23 +528,23 @@ error:
 static herr_t
 test_unknown(unsigned bogus_id, char *filename, hid_t fapl)
 {
-    hid_t fid       = -1; /* file ID */
-    hid_t gid       = -1; /* group ID */
-    hid_t did       = -1; /* Dataset ID */
-    hid_t sid       = -1; /* Dataspace ID */
-    hid_t aid       = -1; /* Attribute ID */
-    hid_t loc       = -1; /* location: file or group ID */
-    hid_t fid_bogus = -1; /* bogus file ID */
-    hid_t gid_bogus = -1; /* bogus group ID */
-    hid_t loc_bogus = -1; /* location: bogus file or group ID */
+    hid_t fid       = H5I_INVALID_HID; /* file ID */
+    hid_t gid       = H5I_INVALID_HID; /* group ID */
+    hid_t did       = H5I_INVALID_HID; /* Dataset ID */
+    hid_t sid       = H5I_INVALID_HID; /* Dataspace ID */
+    hid_t aid       = H5I_INVALID_HID; /* Attribute ID */
+    hid_t loc       = H5I_INVALID_HID; /* location: file or group ID */
+    hid_t fid_bogus = H5I_INVALID_HID; /* bogus file ID */
+    hid_t gid_bogus = H5I_INVALID_HID; /* bogus group ID */
+    hid_t loc_bogus = H5I_INVALID_HID; /* location: bogus file or group ID */
     char  testfile[TESTFILE_LEN];
 
     /* create a different name for a local copy of the data file to be
        opened with rd/wr file permissions in case build and test are
        done in the source directory. */
-    HDstrncpy(testfile, FILE_BOGUS, TESTFILE_LEN);
+    strncpy(testfile, FILE_BOGUS, TESTFILE_LEN);
     testfile[TESTFILE_LEN - 1] = '\0';
-    HDstrncat(testfile, ".copy", sizeof(testfile) - HDstrlen(testfile) - 1);
+    strncat(testfile, ".copy", sizeof(testfile) - strlen(testfile) - 1);
 
     /* Make a copy of the data file from svn. */
     if (h5_make_local_copy(FILE_BOGUS, testfile) < 0)
@@ -945,7 +945,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
      * ADD A (STRING) ATTRIBUTE AND MANIPULATE IT *
      **********************************************/
 
-    buf_size = HDstrlen(ATTR_LONG) + 1;
+    buf_size = strlen(ATTR_LONG) + 1;
     if (NULL == (in_buf = (char *)calloc(buf_size, sizeof(char))))
         TEST_ERROR;
     if (NULL == (out_buf = (char *)calloc(buf_size, sizeof(char))))
@@ -964,7 +964,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
         TEST_ERROR;
 
     /* Write attribute data */
-    HDstrcpy(in_buf, ATTR_SHORT);
+    strcpy(in_buf, ATTR_SHORT);
     if (H5Awrite(aid, H5T_NATIVE_CHAR, in_buf) < 0)
         TEST_ERROR;
 
@@ -975,12 +975,12 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
     /* Read the data back and verify */
     if (H5Aread(aid, H5T_NATIVE_CHAR, out_buf) < 0)
         TEST_ERROR;
-    if (HDstrcmp(in_buf, out_buf) != 0)
+    if (strcmp(in_buf, out_buf) != 0)
         TEST_ERROR;
 
     /* modify the string attribute */
     memset(in_buf, 0, buf_size);
-    HDstrcpy(in_buf, ATTR_LONG);
+    strcpy(in_buf, ATTR_LONG);
     if (H5Awrite(aid, H5T_NATIVE_CHAR, in_buf) < 0)
         TEST_ERROR;
 
@@ -990,7 +990,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
     /* Read the data back and verify */
     if (H5Aread(aid, H5T_NATIVE_CHAR, out_buf) < 0)
         TEST_ERROR;
-    if (HDstrcmp(in_buf, out_buf) != 0)
+    if (strcmp(in_buf, out_buf) != 0)
         TEST_ERROR;
 
     /* Close */
@@ -1010,7 +1010,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
     for (i = 0; i < N_ATTRS; i++) {
 
         /* Set the attribute's name */
-        if (HDsnprintf(attr_name, ATTR_NAME_MAX, "int_attr_%d", i) < 0)
+        if (snprintf(attr_name, ATTR_NAME_MAX, "int_attr_%d", i) < 0)
             TEST_ERROR;
 
         /* Create an integer attribute on the dataset */
@@ -1083,23 +1083,23 @@ test_minimized_dset_ohdr_size_comparisons(hid_t fapl_id)
     unsigned compact     = 0;
 
     /* IDs that are file-agnostic */
-    hid_t dspace_id     = -1;
-    hid_t int_type_id   = -1;
-    hid_t dcpl_minimize = -1;
-    hid_t dcpl_dontmin  = -1;
-    hid_t dcpl_default  = -1;
+    hid_t dspace_id     = H5I_INVALID_HID;
+    hid_t int_type_id   = H5I_INVALID_HID;
+    hid_t dcpl_minimize = H5I_INVALID_HID;
+    hid_t dcpl_dontmin  = H5I_INVALID_HID;
+    hid_t dcpl_default  = H5I_INVALID_HID;
 
     /* IDs for non-minimized file open */
-    hid_t file_f_id   = -1; /* lower 'f' for standard file setting */
-    hid_t dset_f_x_id = -1; /* 'x' for default */
-    hid_t dset_f_N_id = -1; /* 'N' for explicit non-minimized dset */
-    hid_t dset_f_Y_id = -1; /* 'Y' for minimized dset */
+    hid_t file_f_id   = H5I_INVALID_HID; /* lower 'f' for standard file setting */
+    hid_t dset_f_x_id = H5I_INVALID_HID; /* 'x' for default */
+    hid_t dset_f_N_id = H5I_INVALID_HID; /* 'N' for explicit non-minimized dset */
+    hid_t dset_f_Y_id = H5I_INVALID_HID; /* 'Y' for minimized dset */
 
     /* IDs for minimized file open */
-    hid_t file_F_id   = -1; /* upper 'F' for minimized file setting */
-    hid_t dset_F_x_id = -1; /* 'x' for default */
-    hid_t dset_F_N_id = -1; /* 'N' for explicit non-minimized dset */
-    hid_t dset_F_Y_id = -1; /* 'Y' for minimized dset */
+    hid_t file_F_id   = H5I_INVALID_HID; /* upper 'F' for minimized file setting */
+    hid_t dset_F_x_id = H5I_INVALID_HID; /* 'x' for default */
+    hid_t dset_F_N_id = H5I_INVALID_HID; /* 'N' for explicit non-minimized dset */
+    hid_t dset_F_Y_id = H5I_INVALID_HID; /* 'Y' for minimized dset */
 
     char filename_a[512] = "";
     char filename_b[512] = "";
@@ -1310,16 +1310,16 @@ test_minimized_dset_ohdr_with_filter(hid_t fapl_id)
     const unsigned filter_values[] = {0};    /* TBD */
     const hsize_t  chunk_dim[]     = {32};   /* needed for filter */
     const int      ndims           = 1;
-    hid_t          dspace_id       = -1;
-    hid_t          dtype_id        = -1;
-    hid_t          dcpl_xZ_id      = -1;
-    hid_t          dcpl_mx_id      = -1;
-    hid_t          dcpl_mZ_id      = -1;
-    hid_t          dset_xx_id      = -1;
-    hid_t          dset_xZ_id      = -1;
-    hid_t          dset_mx_id      = -1;
-    hid_t          dset_mZ_id      = -1;
-    hid_t          file_id         = -1;
+    hid_t          dspace_id       = H5I_INVALID_HID;
+    hid_t          dtype_id        = H5I_INVALID_HID;
+    hid_t          dcpl_xZ_id      = H5I_INVALID_HID;
+    hid_t          dcpl_mx_id      = H5I_INVALID_HID;
+    hid_t          dcpl_mZ_id      = H5I_INVALID_HID;
+    hid_t          dset_xx_id      = H5I_INVALID_HID;
+    hid_t          dset_xZ_id      = H5I_INVALID_HID;
+    hid_t          dset_mx_id      = H5I_INVALID_HID;
+    hid_t          dset_mZ_id      = H5I_INVALID_HID;
+    hid_t          file_id         = H5I_INVALID_HID;
     herr_t         ret;
 
     /* dcpl suffixes:
@@ -1469,19 +1469,19 @@ test_minimized_dset_ohdr_modification_times(hid_t _fapl_id)
 
     char          filename[512] = "";
     const hsize_t extents[1]    = {128}; /* extents of dataspace */
-    hid_t         dspace_id     = -1;
-    hid_t         dtype_id      = -1;
-    hid_t         dcpl_xT_id    = -1; /* Track modtime */
-    hid_t         dcpl_mx_id    = -1; /* minimized */
-    hid_t         dcpl_mT_id    = -1; /* minimized, Track */
-    hid_t         dcpl_mN_id    = -1; /* minimized, do Not track */
-    hid_t         dset_xx_id    = -1;
-    hid_t         dset_xT_id    = -1;
-    hid_t         dset_mx_id    = -1;
-    hid_t         dset_mT_id    = -1;
-    hid_t         dset_mN_id    = -1;
-    hid_t         file_id       = -1;
-    hid_t         fapl_id       = -1;
+    hid_t         dspace_id     = H5I_INVALID_HID;
+    hid_t         dtype_id      = H5I_INVALID_HID;
+    hid_t         dcpl_xT_id    = H5I_INVALID_HID; /* Track modtime */
+    hid_t         dcpl_mx_id    = H5I_INVALID_HID; /* minimized */
+    hid_t         dcpl_mT_id    = H5I_INVALID_HID; /* minimized, Track */
+    hid_t         dcpl_mN_id    = H5I_INVALID_HID; /* minimized, do Not track */
+    hid_t         dset_xx_id    = H5I_INVALID_HID;
+    hid_t         dset_xT_id    = H5I_INVALID_HID;
+    hid_t         dset_mx_id    = H5I_INVALID_HID;
+    hid_t         dset_mT_id    = H5I_INVALID_HID;
+    hid_t         dset_mN_id    = H5I_INVALID_HID;
+    hid_t         file_id       = H5I_INVALID_HID;
+    hid_t         fapl_id       = H5I_INVALID_HID;
     herr_t        ret;
 
     unsigned        i        = 0; /* for testcase loop */
@@ -1686,13 +1686,13 @@ test_minimized_dset_ohdr_fillvalue_backwards_compatability(hid_t _fapl_id)
     char          filename[512] = "";
     const hsize_t extents[1]    = {64};  /* extents of dataspace */
     const int     fill[1]       = {343}; /* fill value of dataset */
-    hid_t         file_id       = -1;
-    hid_t         dtype_id      = -1;
-    hid_t         dspace_id     = -1;
-    hid_t         dcpl_id       = -1;
-    hid_t         fapl_id       = -1;
-    hid_t         dset_0_id     = -1;
-    hid_t         dset_1_id     = -1;
+    hid_t         file_id       = H5I_INVALID_HID;
+    hid_t         dtype_id      = H5I_INVALID_HID;
+    hid_t         dspace_id     = H5I_INVALID_HID;
+    hid_t         dcpl_id       = H5I_INVALID_HID;
+    hid_t         fapl_id       = H5I_INVALID_HID;
+    hid_t         dset_0_id     = H5I_INVALID_HID;
+    hid_t         dset_1_id     = H5I_INVALID_HID;
     herr_t        ret;
 
     /*********
@@ -1824,8 +1824,8 @@ error:
 int
 main(void)
 {
-    hid_t          fapl = -1;
-    hid_t          file = -1;
+    hid_t          fapl = H5I_INVALID_HID;
+    hid_t          file = H5I_INVALID_HID;
     H5F_t         *f    = NULL;
     const char    *env_h5_drvr;     /* File driver value from environment */
     bool           single_file_vfd; /* Whether VFD used stores data in a single file */
@@ -1876,8 +1876,8 @@ main(void)
             /* Display info about testing */
             low_string  = h5_get_version_string(low);
             high_string = h5_get_version_string(high);
-            HDsnprintf(msg, sizeof(msg), "Using file format version: (%s, %s)", low_string, high_string);
-            HDputs(msg);
+            snprintf(msg, sizeof(msg), "Using file format version: (%s, %s)", low_string, high_string);
+            puts(msg);
 
             /* test on object continuation block */
             if (test_cont(filename, fapl) < 0)
@@ -2084,23 +2084,23 @@ main(void)
             /* Test reading datasets with undefined object header messages
              * and the various "fail/mark if unknown" object header message flags
              */
-            HDputs("Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID");
+            puts("Accessing objects with unknown header messages: H5O_BOGUS_VALID_ID");
             if (single_file_vfd) {
                 if (test_unknown(H5O_BOGUS_VALID_ID, filename, fapl) < 0)
                     TEST_ERROR;
             } /* end if */
             else {
                 SKIPPED();
-                HDputs("    Unknown header message test not supported with the current VFD.");
+                puts("    Unknown header message test not supported with the current VFD.");
             } /* end else */
-            HDputs("Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID");
+            puts("Accessing objects with unknown header messages: H5O_BOGUS_INVALID_ID");
             if (single_file_vfd) {
                 if (test_unknown(H5O_BOGUS_INVALID_ID, filename, fapl) < 0)
                     TEST_ERROR;
             } /* end if */
             else {
                 SKIPPED();
-                HDputs("    Unknown header message test not supported with the current VFD.");
+                puts("    Unknown header message test not supported with the current VFD.");
             } /* end else */
 
             /* Test object header creation metadata cache issues */
@@ -2140,19 +2140,19 @@ main(void)
             TEST_ERROR;
     }
     else
-        HDputs("Skipped SWMR tests for SWMR-incompatible VFD");
+        puts("Skipped SWMR tests for SWMR-incompatible VFD");
 
     /* Pop API context */
     if (api_ctx_pushed && H5CX_pop(false) < 0)
         FAIL_STACK_ERROR;
     api_ctx_pushed = false;
 
-    HDputs("All object header tests passed.");
+    puts("All object header tests passed.");
     h5_cleanup(FILENAME, fapl);
     return 0;
 
 error:
-    HDputs("*** TESTS FAILED ***");
+    puts("*** TESTS FAILED ***");
     H5E_BEGIN_TRY
     {
         H5Fclose(file);

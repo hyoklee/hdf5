@@ -111,8 +111,8 @@ main(int argc, char *argv[])
     int   ret_value         = 0;
     int   child_ret_value;
     bool  send_wait = 0;
-    hid_t fapl      = -1; /* File access property list */
-    hid_t fid       = -1; /* File ID */
+    hid_t fapl      = H5I_INVALID_HID; /* File access property list */
+    hid_t fid       = H5I_INVALID_HID; /* File ID */
 
     if (setup_parameters(argc, argv, &UC_opts) < 0) {
         Hgoto_error(1);
@@ -162,7 +162,7 @@ main(int argc, char *argv[])
     /* ============ */
     if (UC_opts.launch == UC_READWRITE) {
         if ((childpid = fork()) < 0) {
-            HDperror("fork");
+            perror("fork");
             Hgoto_error(1);
         }
     }
@@ -236,7 +236,7 @@ main(int argc, char *argv[])
     /* ================================================ */
     if (UC_opts.launch == UC_READWRITE) {
         if ((tmppid = waitpid(childpid, &child_status, child_wait_option)) < 0) {
-            HDperror("waitpid");
+            perror("waitpid");
             Hgoto_error(1);
         }
 

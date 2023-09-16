@@ -440,7 +440,7 @@ error:
 static unsigned
 test_fs_create(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f    = NULL;            /* Internal file object pointer */
     H5FS_t         *frsp = NULL;            /* pointer to free space structure */
@@ -581,7 +581,7 @@ error:
 static unsigned
 test_fs_sect_add(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f       = NULL;         /* Internal file object pointer */
     H5FS_t         *frsp    = NULL;         /* pointer to free space structure */
@@ -925,7 +925,7 @@ error:
 static unsigned
 test_fs_sect_find(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f       = NULL;         /* Internal file object pointer */
     H5FS_t         *frsp    = NULL;         /* pointer to free space structure */
@@ -1309,7 +1309,7 @@ error:
 static unsigned
 test_fs_sect_merge(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f       = NULL;         /* Internal file object pointer */
     H5FS_t         *frsp    = NULL;         /* pointer to free space structure */
@@ -1787,7 +1787,7 @@ error:
 static unsigned
 test_fs_sect_shrink(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f       = NULL;         /* Internal file object pointer */
     H5FS_t         *frsp    = NULL;         /* pointer to free space structure */
@@ -2134,7 +2134,7 @@ error:
 static unsigned
 test_fs_sect_change_class(hid_t fapl)
 {
-    hid_t           file = -1;              /* File ID */
+    hid_t           file = H5I_INVALID_HID; /* File ID */
     char            filename[FILENAME_LEN]; /* Filename to use */
     H5F_t          *f       = NULL;         /* Internal file object pointer */
     H5FS_t         *frsp    = NULL;         /* pointer to free space structure */
@@ -2422,7 +2422,7 @@ error:
 static unsigned
 test_fs_sect_extend(hid_t fapl)
 {
-    hid_t                file = -1;              /* File ID */
+    hid_t                file = H5I_INVALID_HID; /* File ID */
     char                 filename[FILENAME_LEN]; /* Filename to use */
     H5F_t               *f       = NULL;         /* Internal file object pointer */
     H5FS_t              *frsp    = NULL;         /* pointer to free space structure */
@@ -2778,7 +2778,7 @@ error:
 static unsigned
 test_fs_sect_iterate(hid_t fapl)
 {
-    hid_t         file = -1;              /* File ID */
+    hid_t         file = H5I_INVALID_HID; /* File ID */
     char          filename[FILENAME_LEN]; /* Filename to use */
     H5F_t        *f       = NULL;         /* Internal file object pointer */
     H5FS_t       *frsp    = NULL;         /* pointer to free space structure */
@@ -2874,9 +2874,9 @@ error:
 int
 main(void)
 {
-    hid_t    fapl           = -1;    /* File access property list for data files */
-    unsigned nerrors        = 0;     /* Cumulative error count */
-    bool     api_ctx_pushed = false; /* Whether API context pushed */
+    hid_t    fapl           = H5I_INVALID_HID; /* File access property list for data files */
+    unsigned nerrors        = 0;               /* Cumulative error count */
+    bool     api_ctx_pushed = false;           /* Whether API context pushed */
 
     h5_reset();
 
@@ -2910,7 +2910,7 @@ main(void)
 
     if (nerrors)
         goto error;
-    HDputs("All free-space tests passed.");
+    puts("All free-space tests passed.");
 
     /* Pop API context */
     if (api_ctx_pushed && H5CX_pop(false) < 0)
@@ -2921,7 +2921,7 @@ main(void)
     exit(EXIT_SUCCESS);
 
 error:
-    HDputs("*** TESTS FAILED ***");
+    puts("*** TESTS FAILED ***");
     H5E_BEGIN_TRY
     {
         H5Pclose(fapl);

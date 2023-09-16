@@ -418,10 +418,10 @@ error:
 static unsigned
 test_create(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t H5_ATTR_UNUSED *tparam)
 {
-    hid_t   file    = -1;          /* File ID */
-    H5F_t  *f       = NULL;        /* Internal file object pointer */
-    H5FA_t *fa      = NULL;        /* Fixed array wrapper */
-    haddr_t fa_addr = HADDR_UNDEF; /* Array address in file */
+    hid_t   file    = H5I_INVALID_HID; /* File ID */
+    H5F_t  *f       = NULL;            /* Internal file object pointer */
+    H5FA_t *fa      = NULL;            /* Fixed array wrapper */
+    haddr_t fa_addr = HADDR_UNDEF;     /* Array address in file */
 
     /* Create file & retrieve pointer to internal file object */
     if (create_file(fapl, &file, &f) < 0)
@@ -491,7 +491,7 @@ test_create(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t H5_ATTR_UNUSE
     }
 #else  /* NDEBUG */
     SKIPPED();
-    HDputs("    Not tested when assertions are disabled");
+    puts("    Not tested when assertions are disabled");
 #endif /* NDEBUG */
 
     /*
@@ -546,10 +546,10 @@ error:
 static unsigned
 test_reopen(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam)
 {
-    hid_t   file    = -1;          /* File ID */
-    H5F_t  *f       = NULL;        /* Internal file object pointer */
-    H5FA_t *fa      = NULL;        /* Fixed array wrapper */
-    haddr_t fa_addr = HADDR_UNDEF; /* Array address in file */
+    hid_t   file    = H5I_INVALID_HID; /* File ID */
+    H5F_t  *f       = NULL;            /* Internal file object pointer */
+    H5FA_t *fa      = NULL;            /* Fixed array wrapper */
+    haddr_t fa_addr = HADDR_UNDEF;     /* Array address in file */
 
     /* Create file & retrieve pointer to internal file object */
     if (create_file(fapl, &file, &f) < 0)
@@ -850,12 +850,12 @@ error:
 static unsigned
 test_delete_open(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam)
 {
-    hid_t          file    = -1;          /* File ID */
-    H5F_t         *f       = NULL;        /* Internal file object pointer */
-    H5FA_t        *fa      = NULL;        /* Fixed array wrapper */
-    H5FA_t        *fa2     = NULL;        /* Fixed array wrapper */
-    haddr_t        fa_addr = HADDR_UNDEF; /* Array address in file */
-    h5_stat_size_t file_size;             /* File size, after deleting array */
+    hid_t          file    = H5I_INVALID_HID; /* File ID */
+    H5F_t         *f       = NULL;            /* Internal file object pointer */
+    H5FA_t        *fa      = NULL;            /* Fixed array wrapper */
+    H5FA_t        *fa2     = NULL;            /* Fixed array wrapper */
+    haddr_t        fa_addr = HADDR_UNDEF;     /* Array address in file */
+    h5_stat_size_t file_size;                 /* File size, after deleting array */
 
     /* Create file & retrieve pointer to internal file object */
     if (create_file(fapl, &file, &f) < 0)
@@ -1338,18 +1338,18 @@ static unsigned
 test_set_elmts(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam, hsize_t nelmts,
                const char *test_str)
 {
-    hid_t          file = -1;             /* File ID */
-    H5F_t         *f    = NULL;           /* Internal file object pointer */
-    H5FA_t        *fa   = NULL;           /* Fixed array wrapper */
-    void          *fiter_info;            /* Fixed array iterator info */
-    farray_state_t state;                 /* State of fixed array */
-    uint64_t       welmt;                 /* Element to write */
-    uint64_t       relmt;                 /* Element to read */
-    hsize_t        cnt;                   /* Count of array indices */
-    hssize_t       sidx;                  /* Index value of next element in the fixed array */
-    hsize_t        idx;                   /* Index value of next element in the fixed array */
-    hsize_t        fa_nelmts;             /* # of elements in fixed array */
-    haddr_t        fa_addr = HADDR_UNDEF; /* Array address in file */
+    hid_t          file = H5I_INVALID_HID; /* File ID */
+    H5F_t         *f    = NULL;            /* Internal file object pointer */
+    H5FA_t        *fa   = NULL;            /* Fixed array wrapper */
+    void          *fiter_info;             /* Fixed array iterator info */
+    farray_state_t state;                  /* State of fixed array */
+    uint64_t       welmt;                  /* Element to write */
+    uint64_t       relmt;                  /* Element to read */
+    hsize_t        cnt;                    /* Count of array indices */
+    hssize_t       sidx;                   /* Index value of next element in the fixed array */
+    hsize_t        idx;                    /* Index value of next element in the fixed array */
+    hsize_t        fa_nelmts;              /* # of elements in fixed array */
+    haddr_t        fa_addr = HADDR_UNDEF;  /* Array address in file */
 
     assert(nelmts);
     /*
@@ -1496,16 +1496,16 @@ static unsigned
 test_skip_elmts(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam, hsize_t skip_elmts,
                 bool check_rest, const char *test_str)
 {
-    hid_t          file = -1;             /* File ID */
-    H5F_t         *f    = NULL;           /* Internal file object pointer */
-    H5FA_t        *fa   = NULL;           /* Extensible array wrapper */
-    farray_state_t state;                 /* State of extensible array */
-    uint64_t       welmt;                 /* Element to write */
-    uint64_t       relmt;                 /* Element to read */
-    hsize_t        idx;                   /* Index value of element to get */
-    hsize_t        cnt;                   /* Count of array indices */
-    hsize_t        fa_nelmts;             /* # of elements in fixed array */
-    haddr_t        fa_addr = HADDR_UNDEF; /* Array address in file */
+    hid_t          file = H5I_INVALID_HID; /* File ID */
+    H5F_t         *f    = NULL;            /* Internal file object pointer */
+    H5FA_t        *fa   = NULL;            /* Extensible array wrapper */
+    farray_state_t state;                  /* State of extensible array */
+    uint64_t       welmt;                  /* Element to write */
+    uint64_t       relmt;                  /* Element to read */
+    hsize_t        idx;                    /* Index value of element to get */
+    hsize_t        cnt;                    /* Count of array indices */
+    hsize_t        fa_nelmts;              /* # of elements in fixed array */
+    haddr_t        fa_addr = HADDR_UNDEF;  /* Array address in file */
 
     /*
      * Display testing message
@@ -1622,15 +1622,15 @@ error:
 int
 main(void)
 {
-    H5FA_create_t       cparam;                 /* Creation parameters for fixed array */
-    farray_test_param_t tparam;                 /* Testing parameters */
-    farray_test_type_t  curr_test;              /* Current test being worked on */
-    farray_iter_type_t  curr_iter;              /* Current iteration type being worked on */
-    hid_t               fapl    = -1;           /* File access property list for data files */
-    unsigned            nerrors = 0;            /* Cumulative error count */
-    time_t              curr_time;              /* Current time, for seeding random number generator */
-    int                 ExpressMode;            /* Test express value */
-    bool                api_ctx_pushed = false; /* Whether API context pushed */
+    H5FA_create_t       cparam;                    /* Creation parameters for fixed array */
+    farray_test_param_t tparam;                    /* Testing parameters */
+    farray_test_type_t  curr_test;                 /* Current test being worked on */
+    farray_iter_type_t  curr_iter;                 /* Current iteration type being worked on */
+    hid_t               fapl    = H5I_INVALID_HID; /* File access property list for data files */
+    unsigned            nerrors = 0;               /* Cumulative error count */
+    time_t              curr_time;                 /* Current time, for seeding random number generator */
+    int                 ExpressMode;               /* Test express value */
+    bool                api_ctx_pushed = false;    /* Whether API context pushed */
 
     /* Reset library */
     h5_reset();
@@ -1678,12 +1678,12 @@ main(void)
         switch (curr_test) {
             /* "Normal" testing parameters */
             case FARRAY_TEST_NORMAL:
-                HDputs("Testing with NORMAL PARAMETERS");
+                puts("Testing with NORMAL PARAMETERS");
                 break;
 
             /* "Re-open array" testing parameters */
             case FARRAY_TEST_REOPEN:
-                HDputs("Testing with reopen array flag set");
+                puts("Testing with reopen array flag set");
                 tparam.reopen_array = FARRAY_TEST_REOPEN;
                 break;
 
@@ -1710,25 +1710,25 @@ main(void)
             switch (curr_iter) {
                 /* "Forward" testing parameters */
                 case FARRAY_ITER_FW:
-                    HDputs("Testing with forward iteration");
+                    puts("Testing with forward iteration");
                     tparam.fiter = &fa_iter_fw;
                     break;
 
                 /* "Reverse" testing parameters */
                 case FARRAY_ITER_RV:
-                    HDputs("Testing with reverse iteration");
+                    puts("Testing with reverse iteration");
                     tparam.fiter = &fa_iter_rv;
                     break;
 
                 /* "Random" testing parameters */
                 case FARRAY_ITER_RND:
-                    HDputs("Testing with random iteration");
+                    puts("Testing with random iteration");
                     tparam.fiter = &fa_iter_rnd;
                     break;
 
                 /* "Cyclic" testing parameters */
                 case FARRAY_ITER_CYC:
-                    HDputs("Testing with cyclic iteration");
+                    puts("Testing with cyclic iteration");
                     tparam.fiter = &fa_iter_cyc;
                     break;
 
@@ -1782,7 +1782,7 @@ main(void)
 
     if (nerrors)
         goto error;
-    HDputs("All fixed array tests passed.");
+    puts("All fixed array tests passed.");
 
     /* Clean up file used */
     h5_cleanup(FILENAME, fapl);
@@ -1790,7 +1790,7 @@ main(void)
     exit(EXIT_SUCCESS);
 
 error:
-    HDputs("*** TESTS FAILED ***");
+    puts("*** TESTS FAILED ***");
 
     H5E_BEGIN_TRY
     {

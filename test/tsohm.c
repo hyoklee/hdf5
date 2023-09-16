@@ -193,9 +193,9 @@ verify_fcpl_values(hid_t fcpl_id, const unsigned nindexes_expected, const unsign
 static void
 test_sohm_fcpl(void)
 {
-    hid_t    fid      = -1;
-    hid_t    fcpl_id  = -1;
-    hid_t    fcpl2_id = -1;
+    hid_t    fid      = H5I_INVALID_HID;
+    hid_t    fcpl_id  = H5I_INVALID_HID;
+    hid_t    fcpl2_id = H5I_INVALID_HID;
     unsigned x;
     herr_t   ret;
 
@@ -328,8 +328,8 @@ test_sohm_fcpl(void)
 static void
 test_sohm_fcpl_errors(void)
 {
-    hid_t    fcpl_id = -1;
-    hid_t    fid     = -1;
+    hid_t    fcpl_id = H5I_INVALID_HID;
+    hid_t    fid     = H5I_INVALID_HID;
     unsigned x;
     herr_t   ret;
 
@@ -417,8 +417,8 @@ test_sohm_fcpl_errors(void)
 static hid_t
 make_dtype_1(void)
 {
-    hid_t dtype1_id = -1;
-    hid_t str_id    = -1;
+    hid_t dtype1_id = H5I_INVALID_HID;
+    hid_t str_id    = H5I_INVALID_HID;
 
     /* Create compound datatype. */
     if ((dtype1_id = H5Tcreate(H5T_COMPOUND, sizeof(struct dtype1_struct))) < 0)
@@ -480,9 +480,9 @@ error:
 static hid_t
 make_dtype_2(void)
 {
-    hid_t   dtype2_id = -1;
-    hid_t   enum_id   = -1;
-    hid_t   int_id    = -1;
+    hid_t   dtype2_id = H5I_INVALID_HID;
+    hid_t   enum_id   = H5I_INVALID_HID;
+    hid_t   int_id    = H5I_INVALID_HID;
     int     x;
     hsize_t dims[] = {2, 1, 2, 4};
     size_t  size;
@@ -604,7 +604,7 @@ size1_helper(hid_t file, const char *filename, hid_t fapl_id, bool test_file_clo
             printf("Can't read data\n");                                                                     \
             goto error;                                                                                      \
         }                                                                                                    \
-        if ((rdata.i1 != wdata.i1) || (rdata.i2 != wdata.i2) || HDstrcmp(rdata.str, wdata.str) != 0) {       \
+        if ((rdata.i1 != wdata.i1) || (rdata.i2 != wdata.i2) || strcmp(rdata.str, wdata.str) != 0) {         \
             H5_FAILED();                                                                                     \
             AT();                                                                                            \
             printf("incorrect read data\n");                                                                 \
@@ -621,7 +621,7 @@ size1_helper(hid_t file, const char *filename, hid_t fapl_id, bool test_file_clo
     /* Initialize wdata */
     memset(&wdata, 0, sizeof(wdata));
     wdata.i1 = 11;
-    HDstrcpy(wdata.str, "string");
+    strcpy(wdata.str, "string");
     wdata.i2 = 22;
     wdata.i3 = 33;
     wdata.i4 = 44;
@@ -785,9 +785,9 @@ getsize_testsize1(const char *filename, hid_t fcpl_id, hid_t fapl_id, bool test_
 static void
 test_sohm_size1(void)
 {
-    hid_t file    = -1;
-    hid_t fcpl_id = -1;
-    hid_t fapl_id = -1;
+    hid_t file    = H5I_INVALID_HID;
+    hid_t fcpl_id = H5I_INVALID_HID;
+    hid_t fapl_id = H5I_INVALID_HID;
 
     unsigned       use_shared = 0;
     unsigned       use_btree  = 0;
@@ -970,9 +970,9 @@ test_sohm_size1(void)
 static void
 test_sohm_size_consistency_open_create(void)
 {
-    hid_t       file = -1;
-    hid_t       fcpl_id = -1;
-    hid_t       fapl_id = -1;
+    hid_t       file = H5I_INVALID_HID;
+    hid_t       fcpl_id = H5I_INVALID_HID;
+    hid_t       fapl_id = H5I_INVALID_HID;
     unsigned    use_btree;
     hsize_t     oh_size_open;
     hsize_t     oh_size_create;
@@ -1101,10 +1101,10 @@ sohm_attr_helper(hid_t fcpl_id)
      * 2 - committed datatype, read through second ID
      */
     for (op_index = 0; op_index < TSOHM_SAH_OP_COUNT; op_index++) {
-        hid_t type_id  = -1;
-        hid_t group_id = -1;
-        hid_t attr_id  = -1;
-        hid_t attr_id2 = -1;
+        hid_t type_id  = H5I_INVALID_HID;
+        hid_t group_id = H5I_INVALID_HID;
+        hid_t attr_id  = H5I_INVALID_HID;
+        hid_t attr_id2 = H5I_INVALID_HID;
         hid_t attr_read_id;
 
         /* create group in file with name unique to op_index */
@@ -1486,7 +1486,7 @@ size2_verify_plist2(hid_t plist)
 static void
 size2_dump_struct(const char *name, size2_helper_struct *sizes)
 {
-    HDputs(name);
+    puts(name);
     printf("    empty size: %llu\n", (unsigned long long)sizes->empty_size);
     printf(" first dataset: %llu \tdelta: %llu\n", (unsigned long long)sizes->first_dset,
            (unsigned long long)(sizes->first_dset - sizes->empty_size));
@@ -1525,18 +1525,18 @@ size2_dump_struct(const char *name, size2_helper_struct *sizes)
 static int
 size2_helper(hid_t fcpl_id, int test_file_closing, size2_helper_struct *ret_sizes)
 {
-    hid_t  file_id       = -1;
-    hid_t  dtype1_id     = -1;
-    hid_t  dtype2_id     = -1;
-    hid_t  dspace1_id    = -1;
-    hid_t  dspace2_id    = -1;
-    hid_t  dcpl1_id      = -1;
-    hid_t  dcpl2_id      = -1;
-    hid_t  dset_id       = -1;
-    hid_t  attr_type_id  = -1;
-    hid_t  attr_space_id = -1;
-    hid_t  attr_id       = -1;
-    hid_t  group_id      = -1;
+    hid_t  file_id       = H5I_INVALID_HID;
+    hid_t  dtype1_id     = H5I_INVALID_HID;
+    hid_t  dtype2_id     = H5I_INVALID_HID;
+    hid_t  dspace1_id    = H5I_INVALID_HID;
+    hid_t  dspace2_id    = H5I_INVALID_HID;
+    hid_t  dcpl1_id      = H5I_INVALID_HID;
+    hid_t  dcpl2_id      = H5I_INVALID_HID;
+    hid_t  dset_id       = H5I_INVALID_HID;
+    hid_t  attr_type_id  = H5I_INVALID_HID;
+    hid_t  attr_space_id = H5I_INVALID_HID;
+    hid_t  attr_id       = H5I_INVALID_HID;
+    hid_t  group_id      = H5I_INVALID_HID;
     char   attr_string1[NAME_BUF_SIZE];
     char   attr_string2[NAME_BUF_SIZE];
     char   attr_name[NAME_BUF_SIZE];
@@ -1631,8 +1631,8 @@ size2_helper(hid_t fcpl_id, int test_file_closing, size2_helper_struct *ret_size
     /* Set up attribute data */
     memset(attr_string1, 0, (size_t)NAME_BUF_SIZE);
     memset(attr_string2, 0, (size_t)NAME_BUF_SIZE);
-    HDstrcpy(attr_string1, LONG_STRING);
-    HDstrcpy(attr_string2, LONG_STRING);
+    strcpy(attr_string1, LONG_STRING);
+    strcpy(attr_string2, LONG_STRING);
     attr_string2[1] = '1'; /* The second string starts "01 index..." */
 
     /* Set up attribute metadata */
@@ -1788,7 +1788,7 @@ size2_helper(hid_t fcpl_id, int test_file_closing, size2_helper_struct *ret_size
     group_id = H5Gopen2(file_id, "group", H5P_DEFAULT);
     CHECK_I(group_id, "H5Gopen2");
 
-    HDstrcpy(attr_name, "00 index");
+    strcpy(attr_name, "00 index");
 
     for (x = 0; x < NUM_ATTRIBUTES; ++x) {
         /* Create a unique name and value for each attribute */
@@ -1894,10 +1894,10 @@ size2_helper(hid_t fcpl_id, int test_file_closing, size2_helper_struct *ret_size
 static void
 size2_verify(void)
 {
-    hid_t   file_id  = -1;
-    hid_t   dset_id  = -1;
-    hid_t   plist_id = -1;
-    hid_t   space_id = -1;
+    hid_t   file_id  = H5I_INVALID_HID;
+    hid_t   dset_id  = H5I_INVALID_HID;
+    hid_t   plist_id = H5I_INVALID_HID;
+    hid_t   space_id = H5I_INVALID_HID;
     hid_t   group1_id, group2_id;
     hid_t   attr1_id, attr2_id;
     hid_t   attr_type_id;
@@ -2038,8 +2038,8 @@ size2_verify(void)
 
     memset(attr_string, 0, (size_t)NAME_BUF_SIZE);
     memset(attr_correct_string, 0, (size_t)NAME_BUF_SIZE);
-    HDstrcpy(attr_correct_string, LONG_STRING);
-    HDstrcpy(attr_name, "00 index");
+    strcpy(attr_correct_string, LONG_STRING);
+    strcpy(attr_name, "00 index");
 
     for (x = 0; x < NUM_ATTRIBUTES; ++x) {
         /* Create the name and correct value for each attribute */
@@ -2096,7 +2096,7 @@ size2_verify(void)
 static void
 test_sohm_size2(int close_reopen)
 {
-    hid_t fcpl_id = -1;
+    hid_t fcpl_id = H5I_INVALID_HID;
     /* Sizes for file with no shared messages at all */
     size2_helper_struct norm_sizes;
     /* Sizes for files with all messages in one index */
@@ -2672,8 +2672,8 @@ test_sohm_size2(int close_reopen)
 static void
 delete_helper_write(hid_t file_id, hid_t *dspace_id, hid_t *dcpl_id, int x)
 {
-    hid_t  dset_id = -1;
-    hid_t  attr_id = -1;
+    hid_t  dset_id = H5I_INVALID_HID;
+    hid_t  attr_id = H5I_INVALID_HID;
     char   wdata;
     herr_t ret;
 
@@ -2706,8 +2706,8 @@ delete_helper_write(hid_t file_id, hid_t *dspace_id, hid_t *dcpl_id, int x)
 static void
 delete_helper_read(hid_t file_id, hid_t *dspace_id, int x)
 {
-    hid_t  dset_id = -1;
-    hid_t  attr_id = -1;
+    hid_t  dset_id = H5I_INVALID_HID;
+    hid_t  attr_id = H5I_INVALID_HID;
     char   rdata;
     herr_t ret;
 
@@ -2750,7 +2750,7 @@ delete_helper_read(hid_t file_id, hid_t *dspace_id, int x)
 static void
 delete_helper(hid_t fcpl_id, hid_t *dspace_id, hid_t *dcpl_id)
 {
-    hid_t          file_id = -1;
+    hid_t          file_id = H5I_INVALID_HID;
     int            x;
     h5_stat_size_t norm_filesize;
     h5_stat_size_t deleted_filesize;
@@ -3135,10 +3135,10 @@ test_sohm_delete_revert(void)
 static void
 verify_dset_create_and_open_through_extlink_with_sohm(hid_t src_fcpl_id, hid_t dst_fcpl_id)
 {
-    hid_t   src_file_id = -1;
-    hid_t   dst_file_id = -1;
-    hid_t   space_id    = -1;
-    hid_t   dset_id     = -1;
+    hid_t   src_file_id = H5I_INVALID_HID;
+    hid_t   dst_file_id = H5I_INVALID_HID;
+    hid_t   space_id    = H5I_INVALID_HID;
+    hid_t   dset_id     = H5I_INVALID_HID;
     hsize_t dims[]      = {1, 1};
     herr_t  ret;
 
@@ -3198,7 +3198,7 @@ verify_dset_create_and_open_through_extlink_with_sohm(hid_t src_fcpl_id, hid_t d
 static void
 test_sohm_extlink(void)
 {
-    hid_t  fcpl_id = -1;
+    hid_t  fcpl_id = H5I_INVALID_HID;
     bool   driver_is_default_compatible;
     herr_t ret;
 
@@ -3499,7 +3499,7 @@ verify_dataset_extension(hid_t fcpl_id, bool close_reopen)
 static void
 test_sohm_extend_dset(void)
 {
-    hid_t  fcpl_id = -1;
+    hid_t  fcpl_id = H5I_INVALID_HID;
     herr_t ret;
 
     MESSAGE(5, ("Testing extending shared dataspaces\n"));

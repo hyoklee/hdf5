@@ -67,11 +67,11 @@ file_image_daisy_chain_test(void)
     int        space_ndims;
     MPI_Status rcvstat;
     int       *vector_ptr = NULL;
-    hid_t      fapl_id    = -1;
+    hid_t      fapl_id    = H5I_INVALID_HID;
     hid_t      file_id; /* file IDs */
-    hid_t      dset_id      = -1;
-    hid_t      dset_type_id = -1;
-    hid_t      space_id     = -1;
+    hid_t      dset_id      = H5I_INVALID_HID;
+    hid_t      dset_type_id = H5I_INVALID_HID;
+    hid_t      space_id     = H5I_INVALID_HID;
     herr_t     err;
     hsize_t    dims[1];
     void      *image_ptr = NULL;
@@ -85,7 +85,7 @@ file_image_daisy_chain_test(void)
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
     /* setup file name */
-    HDsnprintf(file_name, 1024, "file_image_daisy_chain_test_%05d.h5", (int)mpi_rank);
+    snprintf(file_name, 1024, "file_image_daisy_chain_test_%05d.h5", (int)mpi_rank);
 
     if (mpi_rank == 0) {
 

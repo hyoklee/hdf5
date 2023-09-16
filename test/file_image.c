@@ -79,8 +79,8 @@ typedef struct {
 static int
 test_properties(void)
 {
-    hid_t  fapl_1 = -1;
-    hid_t  fapl_2 = -1;
+    hid_t  fapl_1 = H5I_INVALID_HID;
+    hid_t  fapl_2 = H5I_INVALID_HID;
     char  *buffer = 0;
     int    count  = 10;
     void  *temp   = 0;
@@ -552,10 +552,10 @@ test_core(void)
     VERIFY(tmp != NULL, "h5_fixname failed");
 
     /* Append ".copy" to the filename from the source directory */
-    VERIFY(HDstrlen(filename) < (1023 - 5), "file name too long.");
-    HDstrncpy(copied_filename, filename, (size_t)1023);
+    VERIFY(strlen(filename) < (1023 - 5), "file name too long.");
+    strncpy(copied_filename, filename, (size_t)1023);
     copied_filename[1023] = '\0';
-    HDstrcat(copied_filename, ".copy");
+    strcat(copied_filename, ".copy");
 
     /* Make a copy of the data file from svn. */
     ret = h5_make_local_copy(filename, copied_filename);
@@ -688,19 +688,19 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
     int       i;
     int       fd = -1;
     int       result;
-    hid_t     driver       = -1;
-    hid_t     file_id      = -1;
-    hid_t     dset_id      = -1;
-    hid_t     space_id     = -1;
-    hid_t     core_fapl_id = -1;
-    hid_t     core_file_id = -1;
+    hid_t     driver       = H5I_INVALID_HID;
+    hid_t     file_id      = H5I_INVALID_HID;
+    hid_t     dset_id      = H5I_INVALID_HID;
+    hid_t     space_id     = H5I_INVALID_HID;
+    hid_t     core_fapl_id = H5I_INVALID_HID;
+    hid_t     core_file_id = H5I_INVALID_HID;
     herr_t    err;
     hsize_t   dims[2];
     ssize_t   bytes_read;
     ssize_t   image_size;
     ssize_t   file_size;
     h5_stat_t stat_buf;
-    hid_t     fcpl = -1;
+    hid_t     fcpl = H5I_INVALID_HID;
     herr_t    ret;
 
     TESTING(test_banner);
@@ -714,7 +714,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
 
     /* setup the file name */
     h5_fixname(FILENAME2[file_name_num], fapl, file_name, sizeof(file_name));
-    VERIFY(HDstrlen(file_name) > 0, "h5_fixname failed");
+    VERIFY(strlen(file_name) > 0, "h5_fixname failed");
 
     fcpl = H5Pcreate(H5P_FILE_CREATE);
     VERIFY(fcpl >= 0, "H5Pcreate");
@@ -783,7 +783,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
         file_size = 0;
 
         do {
-            HDsnprintf(member_file_name, (size_t)1024, file_name, i);
+            snprintf(member_file_name, (size_t)1024, file_name, i);
 
             /* get the size of the member file */
             result = HDstat(member_file_name, &stat_buf);
@@ -811,7 +811,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
 
         while (size_remaining > 0) {
             /* construct the member file name */
-            HDsnprintf(member_file_name, 1024, file_name, i);
+            snprintf(member_file_name, 1024, file_name, i);
 
             /* open the test file using standard I/O calls */
             fd = HDopen(member_file_name, O_RDONLY);
@@ -958,10 +958,10 @@ test_get_file_image_error_rejection(void)
     void       *image_ptr       = NULL;
     int         data[100];
     int         i;
-    hid_t       fapl_id  = -1;
-    hid_t       file_id  = -1;
-    hid_t       dset_id  = -1;
-    hid_t       space_id = -1;
+    hid_t       fapl_id  = H5I_INVALID_HID;
+    hid_t       file_id  = H5I_INVALID_HID;
+    hid_t       dset_id  = H5I_INVALID_HID;
+    hid_t       space_id = H5I_INVALID_HID;
     herr_t      err;
     hsize_t     dims[2];
     ssize_t     bytes_read;
@@ -994,7 +994,7 @@ test_get_file_image_error_rejection(void)
 
     /* setup the file name */
     h5_fixname(FILENAME2[6], fapl_id, file_name, sizeof(file_name));
-    VERIFY(HDstrlen(file_name) > 0, "h5_fixname failed");
+    VERIFY(strlen(file_name) > 0, "h5_fixname failed");
 
     /* create the file */
     file_id = H5Fcreate(file_name, 0, H5P_DEFAULT, fapl_id);
@@ -1126,7 +1126,7 @@ test_get_file_image_error_rejection(void)
 
     /* setup the file name */
     h5_fixname(FILENAME2[4], fapl_id, file_name, sizeof(file_name));
-    VERIFY(HDstrlen(file_name) > 0, "h5_fixname failed");
+    VERIFY(strlen(file_name) > 0, "h5_fixname failed");
 
     /* create the file */
     file_id = H5Fcreate(file_name, 0, H5P_DEFAULT, fapl_id);
@@ -1188,7 +1188,7 @@ test_get_file_image_error_rejection(void)
 
     /* setup the file name */
     h5_fixname(FILENAME2[5], fapl_id, file_name, sizeof(file_name));
-    VERIFY(HDstrlen(file_name) > 0, "h5_fixname failed");
+    VERIFY(strlen(file_name) > 0, "h5_fixname failed");
 
     /* create the file */
     file_id = H5Fcreate(file_name, 0, H5P_DEFAULT, fapl_id);
@@ -1248,7 +1248,7 @@ test_get_file_image_error_rejection(void)
     VERIFY(err >= 0, "H5Pset_fapl_family failed");
 
     h5_fixname(FILENAME2[3], fapl_id, file_name, sizeof(file_name));
-    VERIFY(HDstrlen(file_name) > 0, "h5_fixname failed");
+    VERIFY(strlen(file_name) > 0, "h5_fixname failed");
 
     /* create the file */
     file_id = H5Fcreate(file_name, 0, H5P_DEFAULT, fapl_id);

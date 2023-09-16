@@ -32,7 +32,7 @@ static const char *FILENAME[] = {"cache_logging", NULL};
 static herr_t
 test_logging_api(void)
 {
-    hid_t  fapl = -1;
+    hid_t  fapl = H5I_INVALID_HID;
     bool   is_enabled;
     bool   is_enabled_out;
     bool   start_on_access;
@@ -40,8 +40,8 @@ test_logging_api(void)
     char  *location = NULL;
     size_t size;
 
-    hid_t fid = -1;
-    hid_t gid = -1;
+    hid_t fid = H5I_INVALID_HID;
+    hid_t gid = H5I_INVALID_HID;
     bool  is_currently_logging;
     char  group_name[12];
     char  filename[1024];
@@ -73,7 +73,7 @@ test_logging_api(void)
     size                = 999;
     if (H5Pget_mdc_log_options(fapl, &is_enabled_out, location, &size, &start_on_access_out) < 0)
         TEST_ERROR;
-    if (size != HDstrlen(LOG_LOCATION) + 1)
+    if (size != strlen(LOG_LOCATION) + 1)
         TEST_ERROR;
 
     /* Check to make sure that the property list getter works */
@@ -82,7 +82,7 @@ test_logging_api(void)
     if (H5Pget_mdc_log_options(fapl, &is_enabled_out, location, &size, &start_on_access_out) < 0)
         TEST_ERROR;
     if ((is_enabled != is_enabled_out) || (start_on_access != start_on_access_out) ||
-        HDstrcmp(LOG_LOCATION, location) != 0)
+        strcmp(LOG_LOCATION, location) != 0)
         TEST_ERROR;
 
     /* Create a file */
@@ -110,7 +110,7 @@ test_logging_api(void)
     /* Perform some manipulations */
     for (i = 0; i < N_GROUPS; i++) {
         memset(group_name, 0, sizeof(group_name));
-        HDsnprintf(group_name, sizeof(group_name), "%d", i);
+        snprintf(group_name, sizeof(group_name), "%d", i);
         if ((gid = H5Gcreate2(fid, group_name, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) < 0)
             TEST_ERROR;
         if (H5Gclose(gid) < 0)

@@ -43,7 +43,7 @@ static int read_records(const char *filename, bool verbose, FILE *verbose_file, 
 /* Local Variables */
 /*******************/
 
-static hid_t symbol_tid = -1; /* The type ID for the SWMR datasets */
+static hid_t symbol_tid = H5I_INVALID_HID; /* The type ID for the SWMR datasets */
 
 /*-------------------------------------------------------------------------
  * Function:    check_dataset
@@ -278,7 +278,7 @@ read_records(const char *filename, bool verbose, FILE *verbose_file, unsigned ra
     if (use_log_vfd) {
         char verbose_name[1024];
 
-        HDsnprintf(verbose_name, sizeof(verbose_name), "swmr_reader.log.%u", random_seed);
+        snprintf(verbose_name, sizeof(verbose_name), "swmr_reader.log.%u", random_seed);
 
         H5Pset_fapl_log(fapl, verbose_name, H5FD_LOG_ALL, (size_t)(512 * 1024 * 1024));
     } /* end if */
@@ -481,7 +481,7 @@ main(int argc, char *argv[])
     if (verbose) {
         char verbose_name[1024];
 
-        HDsnprintf(verbose_name, sizeof(verbose_name), "swmr_reader.out.%u", random_seed);
+        snprintf(verbose_name, sizeof(verbose_name), "swmr_reader.out.%u", random_seed);
         if (NULL == (verbose_file = fopen(verbose_name, "w"))) {
             fprintf(stderr, "Can't open verbose output file!\n");
             exit(EXIT_FAILURE);

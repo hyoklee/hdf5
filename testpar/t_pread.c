@@ -92,14 +92,14 @@ generate_test_file(MPI_Comm comm, int mpi_rank, int group_id)
     hsize_t     i;
     hsize_t     offset;
     hsize_t     dims[1]    = {0};
-    hid_t       file_id    = -1;
-    hid_t       memspace   = -1;
-    hid_t       filespace  = -1;
-    hid_t       fctmpl     = -1;
-    hid_t       fapl_id    = -1;
-    hid_t       dxpl_id    = -1;
-    hid_t       dset_id    = -1;
-    hid_t       dset_id_ch = -1;
+    hid_t       file_id    = H5I_INVALID_HID;
+    hid_t       memspace   = H5I_INVALID_HID;
+    hid_t       filespace  = H5I_INVALID_HID;
+    hid_t       fctmpl     = H5I_INVALID_HID;
+    hid_t       fapl_id    = H5I_INVALID_HID;
+    hid_t       dxpl_id    = H5I_INVALID_HID;
+    hid_t       dset_id    = H5I_INVALID_HID;
+    hid_t       dset_id_ch = H5I_INVALID_HID;
     hid_t       dcpl_id    = H5P_DEFAULT;
     hsize_t     chunk[1];
     float       nextValue;
@@ -379,7 +379,7 @@ generate_test_file(MPI_Comm comm, int mpi_rank, int group_id)
         else
             text_to_write = hitchhiker_quote;
 
-        bytes_to_write = HDstrlen(text_to_write);
+        bytes_to_write = strlen(text_to_write);
 
         if (pass) {
             if ((header = HDopen(data_filename, O_WRONLY)) < 0) {
@@ -486,14 +486,14 @@ test_parallel_read(MPI_Comm comm, int mpi_rank, int mpi_size, int group_id)
     int         global_failures = 0;
     int         group_size;
     int         group_rank;
-    hid_t       fapl_id    = -1;
-    hid_t       file_id    = -1;
-    hid_t       dset_id    = -1;
-    hid_t       dset_id_ch = -1;
+    hid_t       fapl_id    = H5I_INVALID_HID;
+    hid_t       file_id    = H5I_INVALID_HID;
+    hid_t       dset_id    = H5I_INVALID_HID;
+    hid_t       dset_id_ch = H5I_INVALID_HID;
     hid_t       dxpl_id    = H5P_DEFAULT;
-    hid_t       memspace   = -1;
-    hid_t       filespace  = -1;
-    hid_t       filetype   = -1;
+    hid_t       memspace   = H5I_INVALID_HID;
+    hid_t       filespace  = H5I_INVALID_HID;
+    hid_t       filetype   = H5I_INVALID_HID;
     size_t      filetype_size;
     hssize_t    dset_size;
     hsize_t     i;
@@ -1063,7 +1063,7 @@ main(int argc, char **argv)
      * isn't true, then we can use a relative path that
      * should be valid for the autotools environment.
      */
-    test_argv0 = HDstrdup(argv[0]);
+    test_argv0 = strdup(argv[0]);
 
     if ((MPI_Init(&argc, &argv)) != MPI_SUCCESS) {
         fprintf(stderr, "FATAL: Unable to initialize MPI\n");

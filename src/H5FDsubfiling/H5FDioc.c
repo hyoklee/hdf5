@@ -531,7 +531,6 @@ H5FD__ioc_sb_encode(H5FD_t *_file, char *name, unsigned char *buf)
     strncpy(name, "IOC", 3);
     name[4] = '\0';
 
-
     /* Encode configuration structure magic number */
     UINT32ENCODE(p, file->fa.magic);
 

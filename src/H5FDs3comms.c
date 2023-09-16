@@ -1960,7 +1960,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
             buffer[buffer_i] = 0;
 
         line_buffer = HDfgets(line_buffer, 4096, file);
-        
+
         if (line_buffer == NULL) /* reached end of file */
             goto done;
     } while (strncmp(line_buffer, profile_line, strlen(profile_line)));

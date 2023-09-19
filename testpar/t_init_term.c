@@ -37,11 +37,10 @@ main(int argc, char **argv)
 
     MPI_Finalize();
 
-
     /* test if we can initialize the library with MPI being finalized
        and create a file serially */
     if (H5open() < 0) {
-      nerrors = nerrors + 1;
+        nerrors = nerrors + 1;
     }
 
     if (mpi_rank == 0) {
@@ -56,7 +55,7 @@ main(int argc, char **argv)
     }
 
     if (H5close() < 0) {
-      nerrors = nerrors + 1;
+        nerrors = nerrors + 1;
     }
 
     if (MAINPROCESS) {

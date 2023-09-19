@@ -659,7 +659,7 @@ H5FD__ros3_str_token_copy(const char H5_ATTR_UNUSED *name, size_t size, void *_v
 #endif
 
     if (*value)
-        if (NULL == (*value = HDstrndup(*value, size)))
+        if (NULL == (*value = strndup(*value, size)))
             HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't copy string property token for %s", name);
 
 done:
@@ -691,7 +691,7 @@ H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t size)
 
     if (*value1) {
         if (*value2)
-            ret_value = HDstrncmp(*value1, *value2, size);
+            ret_value = strncmp(*value1, *value2, size);
         else
             ret_value = 1;
     }

@@ -1959,7 +1959,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
         for (buffer_i = 0; buffer_i < 4096; buffer_i++)
             buffer[buffer_i] = 0;
 
-        line_buffer = HDfgets(line_buffer, 4096, file);
+        line_buffer = fgets(line_buffer, 4096, file);
 
         if (line_buffer == NULL) /* reached end of file */
             goto done;
@@ -1972,7 +1972,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
             buffer[buffer_i] = 0;
 
         /* collect a line from file */
-        line_buffer = HDfgets(line_buffer, 4096, file);
+        line_buffer = fgets(line_buffer, 4096, file);
         printf("line_buffer=%s\n", line_buffer);
 
         if (line_buffer == NULL)
@@ -1985,8 +1985,8 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
             char        line_prefix[4096];
 
             setting_name     = setting_names[setting_i];
-            setting_name_len = HDstrlen(setting_name);
-            if (HDsnprintf(line_prefix, 4096, "%s=", setting_name) < 0)
+            setting_name_len = strlen(setting_name);
+            if (snprintf(line_prefix, 4096, "%s=", setting_name) < 0)
                 HGOTO_ERROR(H5E_ARGS, H5E_CANTCOPY, FAIL, "unable to format line prefix");
 
             /* found a matching name? */
@@ -2007,7 +2007,7 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
                 line_buffer++; /* was pointing at '='; advance */
 
                 /* copy line buffer into out pointer */
-                HDstrncpy(setting_pointers[setting_i], (const char *)line_buffer, HDstrlen(line_buffer));
+                strncpy(setting_pointers[setting_i], (const char *)line_buffer, strlen(line_buffer));
                 printf("setting_pointers[%d]=%s\n", setting_i, line_buffer);
 
                 /* "trim" tailing whitespace by replacing with null terminator*/

@@ -1,0 +1,35 @@
+name: linux CMake icc sf
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Intel Compilers
+      run: |
+        wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
+        sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
+        rm GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
+        echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+        sudo apt-get update
+        sudo apt-get install intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic intel-oneapi-mkl intel-oneapi-mkl-devel intel-oneapi-compiler-fortran libaec-dev
+        source /opt/intel/oneapi/setvars.sh
+        printenv >> $GITHUB_ENV
+        echo "CXX=icpc" >> $GITHUB_ENV
+        echo "CC=icc" >> $GITHUB_ENV
+        echo "FC=ifort" >> $GITHUB_ENV
+    - name: Get Sources
+      uses: actions/checkout@v4
+    - name: Build and Test
+      run: |
+        mkdir build
+        cd build
+        cmake -DHDF5_BUILD_FORTRAN:BOOL=ON \
+        -DHDF5_ENABLE_PARALLEL=ON \
+        -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
+        -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
+        make
+        make test

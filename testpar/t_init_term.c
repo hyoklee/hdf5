@@ -52,7 +52,7 @@ main(int argc, char **argv)
         file_id = -1;
     }
 
-    VRFY((H5close() >= 0), "H5close succeeded");    
+    VRFY((H5close() >= 0), "H5close succeeded");
 
     if (MAINPROCESS) {
         if (0 == nerrors)

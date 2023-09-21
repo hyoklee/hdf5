@@ -1,4 +1,4 @@
-name: linux CMake nvhpc
+name: linux CMake nvhpc sf
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: linux autotools nvhpc
+name: linux autotools nvhpc sf
 
 on:
   workflow_dispatch:

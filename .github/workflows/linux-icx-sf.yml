@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           source /opt/intel/oneapi/setvars.sh
-          export PATH=$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin:/opt/intel/oneapi/compiler/2023.2.1/linux/bin          
+          export PATH=$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin:/opt/intel/oneapi/compiler/2023.2.1/linux/bin
           cmake -S . -B build \
           -DCMAKE_BUILD_TYPE="RelWithDebInfo" \
           -DCMAKE_INSTALL_PREFIX=install \
@@ -66,4 +66,5 @@ jobs:
         run: |
           source /opt/intel/oneapi/setvars.sh
           export SYCL_DEVICE_FILTER=opencl.cpu
+          export LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/:$LD_LIBRARY_PATH	  
           ctest --test-dir build --output-on-failure

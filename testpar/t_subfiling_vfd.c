@@ -1939,12 +1939,11 @@ test_subfiling_h5fuse(void)
                      SUBF_FILENAME, file_inode);
 
             args[0] = strdup("env");
-            args[1] = strdup("sh");
-            args[2] = strdup("h5fuse.sh");
-            args[3] = strdup("-q");
-            args[4] = strdup("-f");
-            args[5] = tmp_filename;
-            args[6] = NULL;
+            args[1] = strdup("./h5fuse.sh");
+            args[2] = strdup("-q");
+            args[3] = strdup("-f");
+            args[4] = tmp_filename;
+            args[5] = NULL;
 
             /* Call h5fuse script from MPI rank 0 */
             execvp("env", args);

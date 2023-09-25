@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ develop ]
-    
+
 jobs:
   build:
     strategy:
@@ -28,11 +28,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
-          
-    # Steps represent a sequence of tasks that will be executed as part of the job
+
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install llvm mpich carlocab/personal/flang 
+      run: brew install llvm mpich carlocab/personal/flang
 
     - name: Get Sources
       uses: actions/checkout@v4
@@ -43,27 +42,27 @@ jobs:
         export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
-	echo $FC
+        echo $FC
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake ${{ matrix.generator }} \
-	-DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-	-DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
-	-DBUILD_SHARED_LIBS=ON \
-	-DHDF5_ENABLE_ALL_WARNINGS=ON \
-	-DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
-	-DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
-	-DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
-	-DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
-	-DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
-	-DHDF5_BUILD_JAVA=${{ matrix.java }} \
-	-DMPIEXEC_MAX_NUMPROCS:STRING=2 \
-	$GITHUB_WORKSPACE
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
+        -DBUILD_SHARED_LIBS=ON \
+        -DHDF5_ENABLE_ALL_WARNINGS=ON \
+        -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
+        -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
+        -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
+        -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
+        -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
+        -DHDF5_BUILD_JAVA=${{ matrix.java }} \
+        -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
+        $GITHUB_WORKSPACE
       shell: bash
 
     - name: Build
       run: cmake --build . --config ${{ matrix.build_type }}
-      working-directory: ${{ runner.workspace }}/build      
+      working-directory: ${{ runner.workspace }}/build
 
     - name: Test
       run: ctest --build . -C ${{ matrix.build_type }} -V

@@ -32,18 +32,15 @@ jobs:
           version: '${{ matrix.os.version }}'
           shell: bash          
           run: |
-            uname -a
-            echo $SHELL
-            pwd
-            ls -lah
-            whoami
-            env | sort
             sudo pkg_add git
             git clone https://github.com/hyoklee/hdf5
             cd hdf5
             sudo pkg_add cmake
             mkdir build
             cd build
-            cmake -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
-            make
-            make test
+            cmake -DCMAKE_BUILD_TYPE=Debug \
+            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
+            ctest -T Build --output-on-error -j
+            cat Testing/Temporary/LastBuild* | grep warning
+            ctest -T Test --output-on-error -j
+            cat Testing/Temporary/LastTest*

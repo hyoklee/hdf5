@@ -31,18 +31,22 @@ jobs:
 
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install llvm mpich carlocab/personal/flang
+      run: brew install llvm mpich # carlocab/personal/flang
 
     - name: Get Sources
       uses: actions/checkout@v4
 
     - name: Configure
       run: |
-        which flang-new
-        export FC="$(which flang-new)"
+        export PATH="/usr/local/opt/llvm/bin:$PATH"
+        export LDFLAGS="-L/usr/local/opt/llvm/lib"
+        export CPPFLAGS="-I/usr/local/opt/llvm/include"
+        export CFLAGS="-I/usr/local/opt/llvm/include"
+        # which flang-new
+        # export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
-        echo $FC
+        # echo $FC
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake ${{ matrix.generator }} \
@@ -56,6 +60,7 @@ jobs:
         -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
         -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
         -DHDF5_BUILD_JAVA=${{ matrix.java }} \
+        -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
         $GITHUB_WORKSPACE
       shell: bash

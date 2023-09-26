@@ -44,6 +44,6 @@ jobs:
             sudo pkg_add cmake
             mkdir build
             cd build
-            cmake ..
+            cmake -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
             make
             make test

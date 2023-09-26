@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install llvm mpich # carlocab/personal/flang
+      run: brew install llvm mpich ninja # carlocab/personal/flang
 
     - name: Get Sources
       uses: actions/checkout@v4

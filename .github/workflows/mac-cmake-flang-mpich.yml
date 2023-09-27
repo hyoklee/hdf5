@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install llvm mpich ninja # carlocab/personal/flang
+      run: brew install mpich ninja
     - name: Install flang
       run : |
         git clone https://github.com/llvm/llvm-project.git
@@ -62,15 +62,16 @@ jobs:
 
     - name: Configure
       run: |
-        export PATH="/Users/runner/work/actions/actions/install/bin:/usr/local/opt/llvm/bin:$PATH"
-        export LDFLAGS="-L/Users/runner/work/actions/actions/install/lib -L/usr/local/opt/llvm/lib"
-        export CPPFLAGS="-I/Users/runner/work/actions/actions/install/include -I/usr/local/opt/llvm/include"
-        export CFLAGS="-I/Users/runner/work/actions/actions/install/include -I/usr/local/opt/llvm/include"
+        export PATH="/Users/runner/work/hdf5/hdf5/install/bin:$PATH"
+        export LDFLAGS="-L/Users/runner/work/hdf5/hdf5/install/lib"
+        export CPPFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
+        export CFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
         which flang-new
         export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
         echo $FC
+        rm -rf "${{ runner.workspace }}/build"
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake ${{ matrix.generator }} \

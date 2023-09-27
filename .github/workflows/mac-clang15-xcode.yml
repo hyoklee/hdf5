@@ -1,4 +1,4 @@
-name: mac-13 CMake Xcode clang15 debug parallel sf
+name: mac-13 CMake Xcode clang15 debug mpich sf
 
 on:
   workflow_dispatch:

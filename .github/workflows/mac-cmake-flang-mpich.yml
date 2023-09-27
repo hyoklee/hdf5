@@ -1,4 +1,4 @@
-name: mac-13 CMake llvm17 flang java parallel mpich
+name: mac-13 CMake llvm-17.0.1 debug flang java mpich sf
 
 on:
   workflow_dispatch:
@@ -34,7 +34,8 @@ jobs:
       run: brew install mpich ninja
     - name: Install flang
       run : |
-        git clone https://github.com/llvm/llvm-project.git
+        git clone --single-branch --branch llvmorg-17.0.1 \
+          https://github.com/llvm/llvm-project.git
         mkdir build
         mkdir install
         ROOTDIR=`pwd`
@@ -43,7 +44,7 @@ jobs:
         cd build
         cmake \
           -G Ninja \
-          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_BUILD_TYPE=Debug \
           -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
           -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
@@ -78,13 +79,14 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
         -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
         -DBUILD_SHARED_LIBS=ON \
-        -DHDF5_ENABLE_ALL_WARNINGS=ON \
-        -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
-        -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
-        -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
         -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
+        -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
         -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
         -DHDF5_BUILD_JAVA=${{ matrix.java }} \
+        -DHDF5_ENABLE_ALL_WARNINGS=ON \
+        -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
+        -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
+        -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
         $GITHUB_WORKSPACE

@@ -31,7 +31,8 @@ jobs:
             cd build
             cmake -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
             make
-            make test
+            ctest --timeout 3000
+
 
       - name: Get the output
         # Echo the `uname` output parameter from the `runcmd` step

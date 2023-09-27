@@ -32,21 +32,45 @@ jobs:
     steps:
     - name: Install Dependencies (macOS)
       run: brew install llvm mpich ninja # carlocab/personal/flang
+    - name: Install flang
+      run : |
+      git clone https://github.com/llvm/llvm-project.git
+      mkdir build
+      mkdir install
+      ROOTDIR=`pwd`
+      INSTALLDIR=$ROOTDIR/install
+      echo $INSTALLDIR
+      cd build
+      cmake \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
+        -DCMAKE_CXX_STANDARD=17 \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,$LD_LIBRARY_PATH" \
+        -DFLANG_ENABLE_WERROR=ON \
+        -DLLVM_ENABLE_ASSERTIONS=ON \
+        -DLLVM_TARGETS_TO_BUILD=host \
+        -DLLVM_LIT_ARGS=-v \
+        -DLLVM_ENABLE_PROJECTS="clang;mlir;flang;openmp" \
+        -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
+        ../llvm-project/llvm
+      ninja
 
     - name: Get Sources
       uses: actions/checkout@v4
 
     - name: Configure
       run: |
-        export PATH="/usr/local/opt/llvm/bin:$PATH"
-        export LDFLAGS="-L/usr/local/opt/llvm/lib"
-        export CPPFLAGS="-I/usr/local/opt/llvm/include"
-        export CFLAGS="-I/usr/local/opt/llvm/include"
-        # which flang-new
-        # export FC="$(which flang-new)"
+        export PATH="/Users/runner/work/actions/actions/install/bin:/usr/local/opt/llvm/bin:$PATH"
+        export LDFLAGS="-L/Users/runner/work/actions/actions/install/lib -L/usr/local/opt/llvm/lib"
+        export CPPFLAGS="-I/Users/runner/work/actions/actions/install/include -I/usr/local/opt/llvm/include"
+        export CFLAGS="-I/Users/runner/work/actions/actions/install/include -I/usr/local/opt/llvm/include"
+        which flang-new
+        export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
-        # echo $FC
+        echo $FC
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
         cmake ${{ matrix.generator }} \

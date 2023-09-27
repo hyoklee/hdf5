@@ -2071,13 +2071,13 @@ parse_subfiling_env_vars(void)
 {
     char *env_value;
 
-    if (NULL != (env_value = HDgetenv(H5FD_SUBFILING_STRIPE_SIZE))) {
+    if (NULL != (env_value = getenv(H5FD_SUBFILING_STRIPE_SIZE))) {
         stripe_size_g = strtoll(env_value, NULL, 0);
         if ((ERANGE == errno) || (stripe_size_g <= 0))
             stripe_size_g = -1;
     }
 
-    if (NULL != (env_value = HDgetenv(H5FD_SUBFILING_IOC_PER_NODE))) {
+    if (NULL != (env_value = getenv(H5FD_SUBFILING_IOC_PER_NODE))) {
         ioc_per_node_g = strtol(env_value, NULL, 0);
         if ((ERANGE == errno) || (ioc_per_node_g <= 0))
             ioc_per_node_g = -1;
@@ -2091,13 +2091,13 @@ parse_subfiling_env_vars(void)
             ioc_per_node_g = node_local_size;
     }
 
-    if (NULL != (env_value = HDgetenv(H5FD_IOC_THREAD_POOL_SIZE))) {
+    if (NULL != (env_value = getenv(H5FD_IOC_THREAD_POOL_SIZE))) {
         ioc_thread_pool_size_g = atoi(env_value);
         if (ioc_thread_pool_size_g <= 0)
             ioc_thread_pool_size_g = -1;
     }
 
-    if (NULL != (env_value = HDgetenv(H5FD_SUBFILING_CONFIG_FILE_PREFIX))) {
+    if (NULL != (env_value = getenv(H5FD_SUBFILING_CONFIG_FILE_PREFIX))) {
         assert(config_dir);
 
         strncpy(config_dir, env_value, PATH_MAX);
@@ -2120,7 +2120,6 @@ main(int argc, char **argv)
     bool     must_unset_ioc_per_node_env     = false;
     bool     must_unset_ioc_thread_count_env = false;
     bool     must_unset_config_dir_env       = false;
-    char    *env_value                       = NULL;
     int      required                        = MPI_THREAD_MULTIPLE;
     int      provided                        = 0;
 
@@ -2346,8 +2345,8 @@ main(int argc, char **argv)
         must_unset_ioc_thread_count_env = true;
     }
 
-    env_value = HDgetenv(H5FD_SUBFILING_CONFIG_FILE_PREFIX);
-    if (NULL != env_value) {
+
+    if (NULL == getenv(H5FD_SUBFILING_CONFIG_FILE_PREFIX)) {
         int rand_value = 0;
 
         if (MAINPROCESS)

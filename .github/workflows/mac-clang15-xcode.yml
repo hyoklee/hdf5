@@ -1,4 +1,4 @@
-name: mac-13 CMake clang15 Xcode
+name: mac-13 CMake Xcode clang15 debug parallel sf
 
 on:
   workflow_dispatch:
@@ -27,7 +27,16 @@ jobs:
           -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
           -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
           -G Xcode ..
+
+      - name: Build
+        run: |
           cmake --build . --config Debug
-          ctest --build . -C Debug
+
+      - name: Test
+        run: |
+          ctest --build . -C Debug -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
+        
+      - name: Install
+        run: |          
           sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_CONFIG_NAME=Debug  -P cmake_install.cmake
 

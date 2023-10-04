@@ -25,9 +25,7 @@ jobs:
         with:
           mpi: intelmpi
       - name: Checkout HDF5
-        shell: cmd
-        run: |
-          git clone https://github.com/HDFGroup/hdf5.git
+        uses: actions/checkout@v4
       - name: Set oneAPI
         shell: cmd
         run: |

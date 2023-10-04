@@ -3,7 +3,7 @@ name: windows ninja icx ifx parallel sf
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:

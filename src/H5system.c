@@ -78,7 +78,7 @@ HDvasprintf(char **bufp, const char *fmt, va_list _ap)
         va_list ap;
 
         va_copy(ap, _ap);
-        ret = vsnprintf(buf, bufsz, fmt, ap);
+        ret = vsnprintf(buf, bufsz, "%s", ap);
         va_end(ap);
         if (ret >= 0 && (size_t)ret < bufsz) {
             *bufp = buf;

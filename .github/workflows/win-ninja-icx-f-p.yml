@@ -12,7 +12,7 @@ jobs:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: "3.27.1"
+          cmakeVersion: "3.27.6"
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1
         with:
@@ -36,16 +36,12 @@ jobs:
         shell: cmd
         run: |
           "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.10.0\env\vars.bat"
-      - name: Configure & Build
+      - name: Configure & Build & Test
         shell: cmd
         run: |
           cd hdf5
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/2021.10.0/bin/mpicc.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/2021.10.0/bin/mpiifort.bat" -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
-          ninja
-      - name: Test
-        shell: cmd
-        run: |
-          cd hdf5/build
-          ctest -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
+          ninja test
+

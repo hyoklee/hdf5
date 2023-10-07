@@ -12,7 +12,7 @@ jobs:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: "3.27.3"
+          cmakeVersion: "3.27.6"
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1
         with:
@@ -35,5 +35,5 @@ jobs:
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/compiler/2023.2.0/windows/bin/icx.exe" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/compiler/2023.2.0/windows/bin/ifx.exe" -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
-          ninja
-          ctest -VV --output-on-error
+          ninja test
+

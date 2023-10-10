@@ -34,15 +34,14 @@ jobs:
           make
           sudo make install
       - name: Install HDF5
+        env:
+          NPROCS: 2      
         run: |
-          pwd
-          ls
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
           export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
           export PATH=/usr/local/bin:$PATH
           ./autogen.sh
           ./configure  --enable-parallel --enable-shared CC=/usr/local/bin/mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib -L/usr/local/lib/openmpi"
-          cat config.log
           make -j
           make check -j
           sudo make install

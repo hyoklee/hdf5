@@ -3,11 +3,13 @@ name: linux autotools aocc ompi
 on:
   push:
     branches:
-      - main
+      - develop
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Install System dependencies
         run: |
           sudo apt update
@@ -34,15 +36,13 @@ jobs:
       - name: Install HDF5
         run: |
           pwd
+          ls
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
-          export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib          
+          export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
           export PATH=/usr/local/bin:$PATH
-          ls /usr/local/bin
-          cd ..
-          git clone https://github.com/HDFGroup/hdf5.git
-          cd hdf5
           ./autogen.sh
-          ./configure  --dsiable-fortran --enable-parallel --enable-shared CC=/usr/local/bin/mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib -L/usr/local/lib/openmpi"
+          ./configure  --enable-parallel --enable-shared CC=/usr/local/bin/mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib -L/usr/local/lib/openmpi"
           cat config.log
           make -j
           make check -j
+          sudo make install

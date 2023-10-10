@@ -1,4 +1,4 @@
-name: mac-13 CMake llvm-17.0.1 debug flang java mpich sf
+name: mac-13 CMake clang17 debug flang java mpich sf
 
 on:
   workflow_dispatch:

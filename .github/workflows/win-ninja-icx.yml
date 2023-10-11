@@ -12,7 +12,7 @@ jobs:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: "3.27.6"
+          cmakeVersion: "3.27.7"
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1
         with:

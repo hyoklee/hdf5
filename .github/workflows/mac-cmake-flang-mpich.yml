@@ -62,19 +62,21 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Configure
+      shell: bash    
       run: |
         export PATH="/Users/runner/work/hdf5/hdf5/install/bin:$PATH"
         export LDFLAGS="-L/Users/runner/work/hdf5/hdf5/install/lib"
         export CPPFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
         export CFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
-        which flang-new
+        find .
+        find ..
         export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
         echo $FC
-        rm -rf "${{ runner.workspace }}/build"
-        mkdir "${{ runner.workspace }}/build"
-        cd "${{ runner.workspace }}/build"
+        rm -rf "${{ runner.workspace }}/hdf5/build"
+        mkdir "${{ runner.workspace }}/hdf5/build"
+        cd "${{ runner.workspace }}/hdf5/build"
         cmake ${{ matrix.generator }} \
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
         -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
@@ -89,8 +91,7 @@ jobs:
         -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
-        $GITHUB_WORKSPACE
-      shell: bash
+        ..
 
     - name: Build
       run: cmake --build . --config ${{ matrix.build_type }}

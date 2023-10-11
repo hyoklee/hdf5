@@ -1,4 +1,4 @@
-name: CMake
+name: OpenBSD CMake debug
 
 on:
   push:

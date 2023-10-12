@@ -144,6 +144,9 @@ Darwin*)
         HDF5_LIBTOOLIZE="${LIBTOOL_DIR}/libtoolize"
     fi
     ;;
+OpenBSD*)
+    HDF5_LIBTOOLIZE="${LIBTOOL_DIR}/libtool"
+    ;;
 *)
     HDF5_LIBTOOLIZE="${LIBTOOL_DIR}/libtoolize"
     ;;

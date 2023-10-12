@@ -19,7 +19,6 @@
 
      IMPLICIT NONE
 
-     INCLUDE 'mpif.h'
      CHARACTER(LEN=10), PARAMETER :: default_fname = "sds.h5"  ! Default name
      CHARACTER(LEN=8), PARAMETER :: dsetname = "IntArray" ! Dataset name
 

@@ -56,7 +56,8 @@ jobs:
           -DLLVM_ENABLE_PROJECTS="clang;mlir;flang;openmp" \
           -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
           ../llvm-project/llvm
-        ninja      
+        ninja
+        ninja install
 
     - name: Get Sources
       uses: actions/checkout@v4

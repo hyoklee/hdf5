@@ -35,6 +35,7 @@ jobs:
             sudo pkg_add git
             git clone https://github.com/hyoklee/hdf5
             cd hdf5
+            export HDF5_LIBTOOL=/usr/bin/libtool
             ./autogen.sh
             ./configure
             make

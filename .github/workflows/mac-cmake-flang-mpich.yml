@@ -30,10 +30,20 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
 
     steps:
+    - name: Get Sources
+      uses: actions/checkout@v4
+
     - name: Install Dependencies (macOS)
-      run: brew install mpich ninja
+      run: brew install llvm mpich
+
     - name: Install flang
+      shell: bash
       run : |
+        export PATH=/usr/local/opt/llvm/bin:$PATH
+        export LDFLAGS="-L/usr/local/opt/llvm/lib"
+        export CPPFLAGS="-I/usr/local/opt/llvm/include"
+        export CC=$(brew --prefix llvm)/bin/clang
+        clang --version
         git clone --single-branch --branch llvmorg-17.0.1 \
           https://github.com/llvm/llvm-project.git
         mkdir build
@@ -53,17 +63,14 @@ jobs:
           -DLLVM_ENABLE_ASSERTIONS=ON \
           -DLLVM_TARGETS_TO_BUILD=host \
           -DLLVM_LIT_ARGS=-v \
-          -DLLVM_ENABLE_PROJECTS="clang;mlir;flang;openmp" \
+          -DLLVM_ENABLE_PROJECTS="flang" \
           -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
           ../llvm-project/llvm
         ninja
         ninja install
 
-    - name: Get Sources
-      uses: actions/checkout@v4
-
     - name: Configure
-      shell: bash    
+      shell: bash
       run: |
         export PATH="/Users/runner/work/hdf5/hdf5/install/bin:$PATH"
         export LDFLAGS="-L/Users/runner/work/hdf5/hdf5/install/lib"

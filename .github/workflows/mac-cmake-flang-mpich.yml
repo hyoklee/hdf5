@@ -63,7 +63,7 @@ jobs:
           -DLLVM_ENABLE_ASSERTIONS=ON \
           -DLLVM_TARGETS_TO_BUILD=host \
           -DLLVM_LIT_ARGS=-v \
-          -DLLVM_ENABLE_PROJECTS="flang" \
+          -DLLVM_ENABLE_PROJECTS="clang;flang" \
           -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
           ../llvm-project/llvm
         ninja

@@ -1511,11 +1511,11 @@ test_subfiling_write_many_read_one(void)
 
     dset_dims[0] = (hsize_t)(target_size / sizeof(SUBF_C_TYPE));
 
-    fspace_id = H5Screate_simple(1, dset_dims, NULL);  
+    fspace_id = H5Screate_simple(1, dset_dims, NULL);
     VRFY((fspace_id >= 0), "H5Screate_simple succeeded");
 
     plist_id = H5Pcreate(H5P_DATASET_CREATE);
-    VRFY((plist_id >= 0), "H5Pcreate() succeeded");    
+    VRFY((plist_id >= 0), "H5Pcreate() succeeded");
 
     dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     VRFY((dset_id >= 0), "Dataset creation succeeded");
@@ -1537,7 +1537,7 @@ test_subfiling_write_many_read_one(void)
 
     free(buf);
     buf = NULL;
-    VRFY((H5Pclose(plist_id) >=0), "H5Pclose() succeeded" );
+    VRFY((H5Pclose(plist_id) >= 0), "H5Pclose() succeeded");
     VRFY((H5Dclose(dset_id) >= 0), "Dataset close succeeded");
     VRFY((H5Fclose(file_id) >= 0), "File close succeeded");
 

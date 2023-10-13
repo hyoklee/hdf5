@@ -86,9 +86,11 @@ jobs:
         mkdir "${{ runner.workspace }}/hdf5/build"
         cd "${{ runner.workspace }}/hdf5/build"
         cmake ${{ matrix.generator }} \
+        -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_STATIC_EXECS:BOOL=OFF \
+        -DBUILD_STATIC_LIBS:BOOL=OFF \
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
         -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
-        -DBUILD_SHARED_LIBS=ON \
         -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
         -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
         -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \

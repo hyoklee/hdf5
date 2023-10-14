@@ -1,4 +1,4 @@
-name: linux autotools aocc ompi
+name: linux autotools aocc f ompi
 
 on:
   push:
@@ -61,7 +61,7 @@ jobs:
           export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
           export PATH=/usr/local/bin:$PATH
           ./autogen.sh
-          ./configure --prefix=/tmp  --enable-parallel --enable-shared CC=/usr/local/bin/mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib -L/usr/local/lib/openmpi"
+          ./configure --prefix=/tmp --enable-fortran --enable-parallel --enable-shared CC=/usr/local/bin/mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib -L/usr/local/lib/openmpi"
           make -j
           make check -j
           make install

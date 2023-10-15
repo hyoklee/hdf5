@@ -2,7 +2,7 @@ name: OpenBSD autotools
 
 on:
   push:
-    branches: [develop]
+    branches: main
 
 jobs:
   test: # make sure the action works on a clean machine without building
@@ -24,20 +24,25 @@ jobs:
         uses: cross-platform-actions/action@v0.19.0
         env:
           FOO: A
-          BAR: B        
+          BAR: B
         with:
-          environment_variables: FOO BAR        
+          environment_variables: FOO BAR
           operating_system: ${{ matrix.os.name }}
           architecture: ${{ matrix.os.architecture }}
           version: '${{ matrix.os.version }}'
-          shell: bash          
+          shell: bash
           run: |
             sudo pkg_add git
-            git clone https://github.com/hyoklee/hdf5
+            sudo pkg_add autoconf-2.71
+            sudo pkg_add automake-1.16.5
+            sudo pkg_add libtool-2.4.2p2
+            git clone https://github.com/HDFGroup/hyoklee
             cd hdf5
-            export HDF5_LIBTOOL=/usr/bin/libtool
+            export AUTOCONF_VERSION=2.71
+            export AUTOMAKE_VERSION=1.16
+            ls /usr/local/bin/
+            export HDF5_LIBTOOL=/usr/local/bin/libtoolize
             ./autogen.sh
             ./configure
             make
             make check
-

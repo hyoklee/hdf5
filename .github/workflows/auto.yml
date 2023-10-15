@@ -36,7 +36,7 @@ jobs:
             sudo pkg_add autoconf-2.71
             sudo pkg_add automake-1.16.5
             sudo pkg_add libtool-2.4.2p2
-            git clone https://github.com/HDFGroup/hyoklee
+            git clone https://github.com/HDFGroup/hyoklee/hdf5
             cd hdf5
             export AUTOCONF_VERSION=2.71
             export AUTOMAKE_VERSION=1.16

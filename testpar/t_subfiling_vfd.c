@@ -1461,14 +1461,18 @@ test_subfiling_write_many_read_one(void)
     hsize_t start[1];
     hsize_t count[1];
     hsize_t dset_dims[1];
+#ifdef H5_HAVE_FILTER_DEFLATE    
     hsize_t chunk_dims[1];
+#endif    
     size_t  target_size;
     hid_t   file_id   = H5I_INVALID_HID;
     hid_t   fapl_id   = H5I_INVALID_HID;
     hid_t   dset_id   = H5I_INVALID_HID;
     hid_t   dxpl_id   = H5I_INVALID_HID;
     hid_t   fspace_id = H5I_INVALID_HID;
+#ifdef H5_HAVE_FILTER_DEFLATE    
     hid_t   plist_id  = H5I_INVALID_HID;
+#endif    
     void   *buf       = NULL;
 
     curr_nerrors = nerrors;
@@ -1511,17 +1515,17 @@ test_subfiling_write_many_read_one(void)
     }
 
     dset_dims[0] = (hsize_t)(target_size / sizeof(SUBF_C_TYPE));
-    printf("%zu\n", dset_dims[0]);
 
     fspace_id = H5Screate_simple(1, dset_dims, NULL);
     VRFY((fspace_id >= 0), "H5Screate_simple succeeded");
-
+    
+#ifdef H5_HAVE_FILTER_DEFLATE
     plist_id = H5Pcreate(H5P_DATASET_CREATE);
     VRFY((plist_id >= 0), "H5Pcreate() succeeded");
-
     chunk_dims[0] = dset_dims[0] / 2;
-    printf("%zu\n", chunk_dims[0]);
-
+    VRFY((H5Pset_chunk(plist_id, 1, chunk_dims) >=0), "H5Pset_chunk succeeded");
+    VRFY((H5Pset_deflate(plist_id, 9) >=0), "H5Pset_deflate succeeded");
+#endif
     dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     VRFY((dset_id >= 0), "Dataset creation succeeded");
 
@@ -1542,7 +1546,9 @@ test_subfiling_write_many_read_one(void)
 
     free(buf);
     buf = NULL;
+#ifdef H5_HAVE_FILTER_DEFLATE    
     VRFY((H5Pclose(plist_id) >= 0), "H5Pclose() succeeded");
+#endif    
     VRFY((H5Dclose(dset_id) >= 0), "Dataset close succeeded");
     VRFY((H5Fclose(file_id) >= 0), "File close succeeded");
 

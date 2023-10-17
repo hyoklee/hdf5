@@ -1526,7 +1526,13 @@ test_subfiling_write_many_read_one(void)
     VRFY((H5Pset_chunk(plist_id, 1, chunk_dims) >= 0), "H5Pset_chunk succeeded");
     VRFY((H5Pset_deflate(plist_id, 9) >= 0), "H5Pset_deflate succeeded");
 #endif
-    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT,
+#ifdef H5_HAVE_FILTER_DEFLATE                         
+                         plist_id,
+#else
+                         H5P_DEFAULT,
+#endif                         
+                         H5P_DEFAULT);
     VRFY((dset_id >= 0), "Dataset creation succeeded");
 
     /* Select hyperslab */

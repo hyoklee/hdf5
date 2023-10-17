@@ -1527,11 +1527,11 @@ test_subfiling_write_many_read_one(void)
     VRFY((H5Pset_deflate(plist_id, 9) >= 0), "H5Pset_deflate succeeded");
 #endif
     dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT,
-#ifdef H5_HAVE_FILTER_DEFLATE                         
+#ifdef H5_HAVE_FILTER_DEFLATE
                          plist_id,
 #else
                          H5P_DEFAULT,
-#endif                         
+#endif
                          H5P_DEFAULT);
     VRFY((dset_id >= 0), "Dataset creation succeeded");
 

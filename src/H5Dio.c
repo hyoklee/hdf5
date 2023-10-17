@@ -1292,7 +1292,7 @@ H5D__ioinfo_adjust(H5D_io_info_t *io_info)
              */
             if (io_info->op_type == H5D_IO_OP_WRITE) {
                 size_t i;
-                printf("io_info->count=%zu\n", io_info->count);
+
                 /* Check all datasets for filters */
                 for (i = 0; i < io_info->count; i++)
                     if (io_info->dsets_info[i].dset->shared->dcpl_cache.pline.nused > 0)
@@ -1305,7 +1305,7 @@ H5D__ioinfo_adjust(H5D_io_info_t *io_info)
                     /* Retrieve size of MPI communicator used for file */
                     if ((comm_size = H5F_shared_mpi_get_size(io_info->f_sh)) < 0)
                         HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "can't get MPI communicator size");
-                    printf("comm_size=%d\n", comm_size);
+
                     if (comm_size > 1) {
                         char local_no_coll_cause_string[512];
                         char global_no_coll_cause_string[512];

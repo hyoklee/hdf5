@@ -72,3 +72,4 @@ jobs:
         ctest --build . -C ${{ matrix.build_type }} \
         -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
       working-directory: ${{ runner.workspace }}/build
+      shell: bash

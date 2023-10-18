@@ -2147,9 +2147,8 @@ t_zlib(void)
 
     dxpl_id = H5Pcreate(H5P_DATASET_XFER);
     VRFY((dxpl_id >= 0), "DXPL creation succeeded");
-    VRFY((H5Pset_dxpl_mpio(dxpl_id, H5FD_MPIO_COLLECTIVE) >= 0),
-         "H5Pset_dxpl_mpio() succeeded");
-  
+    VRFY((H5Pset_dxpl_mpio(dxpl_id, H5FD_MPIO_COLLECTIVE) >= 0), "H5Pset_dxpl_mpio() succeeded");
+
     /* Set selection I/O mode on DXPL */
     VRFY((H5Pset_selection_io(dxpl_id, H5D_SELECTION_IO_MODE_ON) >= 0), "H5Pset_selection_io succeeded");
 
@@ -2209,7 +2208,6 @@ t_zlib(void)
     for (size_t i = 0; i < count[0]; i++)
         ((SUBF_C_TYPE *)buf)[i] = (SUBF_C_TYPE)((size_t)mpi_rank + i);
 
-
     VRFY((H5Dwrite(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, fspace_id, dxpl_id, buf) >= 0),
          "H5Dwrite() succeeded");
 
@@ -2249,7 +2247,7 @@ t_zlib(void)
 
         free(buf);
         buf = NULL;
-        
+
         VRFY((H5Dclose(dset_id) >= 0), "H5Dclose() succeeded");
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose() succeeded");
 

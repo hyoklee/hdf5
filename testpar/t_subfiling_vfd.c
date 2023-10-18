@@ -104,19 +104,18 @@ static void test_subfiling_h5fuse(void);
 static void t_zlib(void);
 #endif
 
-static test_func tests[] = {
-    test_create_and_close,
-    test_ioc_only_fail,
-    test_config_file,
-    test_stripe_sizes,
-    test_selection_strategies,
-    test_read_different_stripe_size,
-    test_subfiling_precreate_rank_0,
-    test_subfiling_write_many_read_one,
-    test_subfiling_write_many_read_few,
-    test_subfiling_h5fuse,
-#ifdef H5_HAVE_FILTER_DEFLATE    
-    t_zlib
+static test_func tests[] = {test_create_and_close,
+                            test_ioc_only_fail,
+                            test_config_file,
+                            test_stripe_sizes,
+                            test_selection_strategies,
+                            test_read_different_stripe_size,
+                            test_subfiling_precreate_rank_0,
+                            test_subfiling_write_many_read_one,
+                            test_subfiling_write_many_read_few,
+                            test_subfiling_h5fuse,
+#ifdef H5_HAVE_FILTER_DEFLATE
+                            t_zlib
 #endif
 };
 
@@ -1471,13 +1470,13 @@ test_subfiling_write_many_read_one(void)
     hsize_t start[1];
     hsize_t count[1];
     hsize_t dset_dims[1];
-    size_t target_size;
-    hid_t  file_id   = H5I_INVALID_HID;
-    hid_t  fapl_id   = H5I_INVALID_HID;
-    hid_t  dset_id   = H5I_INVALID_HID;
-    hid_t  dxpl_id   = H5I_INVALID_HID;
-    hid_t  fspace_id = H5I_INVALID_HID;
-    void *buf = NULL;
+    size_t  target_size;
+    hid_t   file_id   = H5I_INVALID_HID;
+    hid_t   fapl_id   = H5I_INVALID_HID;
+    hid_t   dset_id   = H5I_INVALID_HID;
+    hid_t   dxpl_id   = H5I_INVALID_HID;
+    hid_t   fspace_id = H5I_INVALID_HID;
+    void   *buf       = NULL;
 
     curr_nerrors = nerrors;
 
@@ -1523,8 +1522,7 @@ test_subfiling_write_many_read_one(void)
     fspace_id = H5Screate_simple(1, dset_dims, NULL);
     VRFY((fspace_id >= 0), "H5Screate_simple succeeded");
 
-    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id,
-                         H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     VRFY((dset_id >= 0), "Dataset creation succeeded");
 
     /* Select hyperslab */
@@ -2136,14 +2134,14 @@ t_zlib(void)
     hsize_t count[1];
     hsize_t dset_dims[1];
     hsize_t chunk_dims[1];
-    size_t target_size;
-    hid_t  file_id   = H5I_INVALID_HID;
-    hid_t  fapl_id   = H5I_INVALID_HID;
-    hid_t  dset_id   = H5I_INVALID_HID;
-    hid_t  dxpl_id   = H5I_INVALID_HID;
-    hid_t  fspace_id = H5I_INVALID_HID;
-    hid_t plist_id = H5I_INVALID_HID;
-    void *buf = NULL;
+    size_t  target_size;
+    hid_t   file_id   = H5I_INVALID_HID;
+    hid_t   fapl_id   = H5I_INVALID_HID;
+    hid_t   dset_id   = H5I_INVALID_HID;
+    hid_t   dxpl_id   = H5I_INVALID_HID;
+    hid_t   fspace_id = H5I_INVALID_HID;
+    hid_t   plist_id  = H5I_INVALID_HID;
+    void   *buf       = NULL;
 
     curr_nerrors = nerrors;
 
@@ -2151,8 +2149,7 @@ t_zlib(void)
     VRFY((dxpl_id >= 0), "DXPL creation succeeded");
 
     /* Set selection I/O mode on DXPL */
-    VRFY((H5Pset_selection_io(dxpl_id, H5D_SELECTION_IO_MODE_ON) >= 0),
-         "H5Pset_selection_io succeeded");
+    VRFY((H5Pset_selection_io(dxpl_id, H5D_SELECTION_IO_MODE_ON) >= 0), "H5Pset_selection_io succeeded");
 
     if (MAINPROCESS)
         TESTING_2("write zlib & read w/ single MPI rank");
@@ -2168,8 +2165,7 @@ t_zlib(void)
     VRFY((H5Pclose(fapl_id) >= 0), "FAPL close succeeded");
 
     /* Calculate target size for dataset to stripe it across available IOCs */
-    target_size = (stripe_size_g > 0) ?
-      (size_t)stripe_size_g : H5FD_SUBFILING_DEFAULT_STRIPE_SIZE;
+    target_size = (stripe_size_g > 0) ? (size_t)stripe_size_g : H5FD_SUBFILING_DEFAULT_STRIPE_SIZE;
 
     /* Nudge stripe size to be multiple of C type size */
     if ((target_size % sizeof(SUBF_C_TYPE)) != 0)
@@ -2177,16 +2173,13 @@ t_zlib(void)
 
     target_size *= (size_t)mpi_size;
 
-    VRFY(((target_size % sizeof(SUBF_C_TYPE)) == 0),
-         "target size check succeeded");
+    VRFY(((target_size % sizeof(SUBF_C_TYPE)) == 0), "target size check succeeded");
 
     if (stripe_size_g > 0) {
-        VRFY((target_size >= (size_t)stripe_size_g),
-             "target size check succeeded");
+        VRFY((target_size >= (size_t)stripe_size_g), "target size check succeeded");
     }
     else {
-        VRFY((target_size >= H5FD_SUBFILING_DEFAULT_STRIPE_SIZE),
-             "target size check succeeded");
+        VRFY((target_size >= H5FD_SUBFILING_DEFAULT_STRIPE_SIZE), "target size check succeeded");
     }
 
     dset_dims[0] = (hsize_t)(target_size / sizeof(SUBF_C_TYPE));
@@ -2197,20 +2190,15 @@ t_zlib(void)
     plist_id = H5Pcreate(H5P_DATASET_CREATE);
     VRFY((plist_id >= 0), "H5Pcreate() succeeded");
     chunk_dims[0] = dset_dims[0] / 2;
-    VRFY((H5Pset_chunk(plist_id, 1, chunk_dims) >= 0),
-         "H5Pset_chunk() succeeded");
+    VRFY((H5Pset_chunk(plist_id, 1, chunk_dims) >= 0), "H5Pset_chunk() succeeded");
     VRFY((H5Pset_deflate(plist_id, 9) >= 0), "H5Pset_deflate() succeeded");
-    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id,
-                         H5P_DEFAULT,
-                         plist_id,
-                         H5P_DEFAULT);
+    dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, plist_id, H5P_DEFAULT);
     VRFY((dset_id >= 0), "H5Dcreate2() succeeded");
 
     /* Select hyperslab */
     count[0] = dset_dims[0] / (hsize_t)mpi_size;
     start[0] = (hsize_t)mpi_rank * count[0];
-    VRFY((H5Sselect_hyperslab(fspace_id, H5S_SELECT_SET,
-                              start, NULL, count, NULL) >= 0),
+    VRFY((H5Sselect_hyperslab(fspace_id, H5S_SELECT_SET, start, NULL, count, NULL) >= 0),
          "H5Sselect_hyperslab() succeeded");
 
     buf = malloc(count[0] * sizeof(SUBF_C_TYPE));
@@ -2219,8 +2207,7 @@ t_zlib(void)
     for (size_t i = 0; i < count[0]; i++)
         ((SUBF_C_TYPE *)buf)[i] = (SUBF_C_TYPE)((size_t)mpi_rank + i);
 
-    VRFY((H5Dwrite(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, fspace_id, dxpl_id, buf) < 0),
-         "Dataset write failed");
+    VRFY((H5Dwrite(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, fspace_id, dxpl_id, buf) < 0), "Dataset write failed");
 
     free(buf);
     buf = NULL;

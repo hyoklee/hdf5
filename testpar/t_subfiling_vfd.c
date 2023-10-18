@@ -2147,7 +2147,9 @@ t_zlib(void)
 
     dxpl_id = H5Pcreate(H5P_DATASET_XFER);
     VRFY((dxpl_id >= 0), "DXPL creation succeeded");
-
+    VRFY((H5Pset_dxpl_mpio(dxpl_id, H5FD_MPIO_COLLECTIVE) >= 0),
+         "H5Pset_dxpl_mpio() succeeded");
+  
     /* Set selection I/O mode on DXPL */
     VRFY((H5Pset_selection_io(dxpl_id, H5D_SELECTION_IO_MODE_ON) >= 0), "H5Pset_selection_io succeeded");
 
@@ -2207,7 +2209,9 @@ t_zlib(void)
     for (size_t i = 0; i < count[0]; i++)
         ((SUBF_C_TYPE *)buf)[i] = (SUBF_C_TYPE)((size_t)mpi_rank + i);
 
-    VRFY((H5Dwrite(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, fspace_id, dxpl_id, buf) < 0), "Dataset write failed");
+
+    VRFY((H5Dwrite(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, fspace_id, dxpl_id, buf) >= 0),
+         "H5Dwrite() succeeded");
 
     free(buf);
     buf = NULL;
@@ -2228,6 +2232,24 @@ t_zlib(void)
 
         dset_id = H5Dopen2(file_id, "DSET", H5P_DEFAULT);
         VRFY((dset_id >= 0), "H5Dopen2() succeeded");
+
+        buf = calloc(1, target_size);
+        VRFY(buf, "calloc succeeded");
+
+        VRFY((H5Dread(dset_id, SUBF_HDF5_TYPE, H5S_BLOCK, H5S_ALL, dxpl_id, buf) >= 0),
+             "Dataset read succeeded");
+
+        for (size_t i = 0; i < (size_t)mpi_size; i++) {
+            for (size_t j = 0; j < count[0]; j++) {
+                SUBF_C_TYPE buf_value = ((SUBF_C_TYPE *)buf)[(i * count[0]) + j];
+
+                VRFY((buf_value == (SUBF_C_TYPE)(j + i)), "data verification succeeded");
+            }
+        }
+
+        free(buf);
+        buf = NULL;
+        
         VRFY((H5Dclose(dset_id) >= 0), "H5Dclose() succeeded");
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose() succeeded");
 

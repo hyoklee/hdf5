@@ -1,0 +1,32 @@
+name: linux CMake aarch64-gcc cpp
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Install gcc-arch64
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu
+        sudo apt-get install binfmt-support qemu qemu-user-static
+    - name: Get Sources
+      uses: actions/checkout@v4
+    - name: Build and Test
+      run: |
+        echo $PWD
+        wget https://musl.cc/aarch64-linux-musl-cross.tgz
+        tar -xvzf aarch64-linux-musl-cross.tgz
+        ./aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc --version
+        ls ./aarch64-linux-musl-cross/bin/
+        sudo cp -r ./aarch64-linux-musl-cross/aarch64-linux-musl/lib/* /lib/
+        ls /lib/
+        ls
+        mkdir build
+        cd build
+        cmake -DCMAKE_C_COMPILER=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc -DCMAKE_AR=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_BUILD_CPP_LIB:BOOL=True ..
+        make
+        make test

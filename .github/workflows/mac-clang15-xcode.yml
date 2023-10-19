@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: brew install curl openssl libaec mpich
+        run: brew install curl openssl libaec mpich bash
       - name: Generate Xcode project
+        shell: /usr/local/bin/bash
         run: |
           export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1
           export CC=$(brew --prefix llvm@15)/bin/clang

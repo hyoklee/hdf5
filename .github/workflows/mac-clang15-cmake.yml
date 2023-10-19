@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install ninja mpich
+      run: brew install ninja mpich bash
 
     - name: Install gfortran
       uses: awvwgk/setup-fortran@v1
@@ -72,4 +72,4 @@ jobs:
         ctest --build . -C ${{ matrix.build_type }} \
         -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
       working-directory: ${{ runner.workspace }}/build
-      shell: bash
+      shell: /usr/local/bin/bash

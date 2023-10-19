@@ -33,6 +33,9 @@ jobs:
     - name: Install Dependencies (macOS)
       run: brew install ninja mpich bash
 
+    - name: Set Bash as the default shell
+      run: echo "/usr/local/bin/bash" >> ~/.bashrc
+
     - name: Install gfortran
       uses: awvwgk/setup-fortran@v1
 
@@ -72,4 +75,4 @@ jobs:
         ctest --build . -C ${{ matrix.build_type }} \
         -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
       working-directory: ${{ runner.workspace }}/build
-      shell: /usr/local/bin/bash
+      shell: bash

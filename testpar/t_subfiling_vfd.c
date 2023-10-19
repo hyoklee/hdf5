@@ -113,9 +113,9 @@ static test_func tests[] = {test_create_and_close,
                             test_subfiling_precreate_rank_0,
                             test_subfiling_write_many_read_one,
                             test_subfiling_write_many_read_few,
-                            test_subfiling_h5fuse,
+                            test_subfiling_h5fuse
 #ifdef H5_HAVE_FILTER_DEFLATE
-                            t_zlib
+                            ,t_zlib
 #endif
 };
 

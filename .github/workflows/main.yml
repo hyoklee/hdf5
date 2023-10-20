@@ -30,7 +30,7 @@ jobs:
   workflow-autotools:
     name: "Autotools Workflows"
     uses: ./.github/workflows/autotools.yml
+
   workflow-cmake:
     name: "CMake Workflows"
     uses: ./.github/workflows/cmake.yml
-

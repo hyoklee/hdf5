@@ -2608,7 +2608,8 @@ exit:
 
     if (MAINPROCESS) {
         if (HDrmdir(SUBFILING_CONFIG_FILE_DIR) < 0 && (errno != ENOENT)) {
-            printf("couldn't remove temporary testing directory\n");
+            printf("couldn't remove temporary testing directory '%s'\n",
+                   SUBFILING_CONFIG_FILE_DIR);
             nerrors++;
         }
     }

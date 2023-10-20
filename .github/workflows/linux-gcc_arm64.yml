@@ -1,4 +1,4 @@
-name: linux CMake aarch64-gcc
+name: linux gcc_arm64
 
 on:
   workflow_dispatch:
@@ -6,9 +6,9 @@ on:
     branches: [ develop ]
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-    - name: Install gcc-arch64
+    - name: Install gcc-aarch64
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc-aarch64-linux-gnu

@@ -112,8 +112,7 @@ static test_func tests[] = {test_create_and_close,
                             test_subfiling_write_many_read_one,
                             test_subfiling_write_many_read_few,
                             test_subfiling_h5fuse,
-                            t_zlib
-};
+                            t_zlib};
 
 /* ---------------------------------------------------------------------------
  * Function:    create_subfiling_ioc_fapl
@@ -2127,7 +2126,7 @@ t_zlib(void)
 {
     if (MAINPROCESS)
         TESTING_2("write zlib & read w/ single MPI rank");
-  
+
 #ifdef H5_HAVE_FILTER_DEFLATE
     hsize_t start[1];
     hsize_t count[1];
@@ -2265,13 +2264,12 @@ t_zlib(void)
     CHECK_PASSED();
 #else
     if (MAINPROCESS)
-      SKIPPED();
-#endif    
+        SKIPPED();
+#endif
 }
 #undef SUBF_FILENAME
 #undef SUBF_HDF5_TYPE
 #undef SUBF_C_TYPE
-
 
 int
 main(int argc, char **argv)

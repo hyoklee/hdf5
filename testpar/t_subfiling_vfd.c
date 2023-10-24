@@ -2257,7 +2257,7 @@ test_zlib(void)
     }
 
     /* Read from all ranks. */
-    
+
     mpi_code_g = MPI_Barrier(comm_g);
     VRFY((mpi_code_g == MPI_SUCCESS), "MPI_Barrier succeeded");
 
@@ -2291,7 +2291,7 @@ test_zlib_r(void)
     hsize_t  start[1];
     hsize_t  count[1];
     hsize_t  dset_dims[1];
-    hsize_t  chunk_dims[1];    
+    hsize_t  chunk_dims[1];
     bool     reading_file = false;
     size_t   target_size;
     hid_t    file_id   = H5I_INVALID_HID;
@@ -2299,7 +2299,7 @@ test_zlib_r(void)
     hid_t    dset_id   = H5I_INVALID_HID;
     hid_t    dxpl_id   = H5I_INVALID_HID;
     hid_t    fspace_id = H5I_INVALID_HID;
-    hid_t    plist_id  = H5I_INVALID_HID;    
+    hid_t    plist_id  = H5I_INVALID_HID;
     void    *buf       = NULL;
 
     curr_nerrors = nerrors;
@@ -2307,7 +2307,7 @@ test_zlib_r(void)
     dxpl_id = H5Pcreate(H5P_DATASET_XFER);
     VRFY((dxpl_id >= 0), "DXPL creation succeeded");
     VRFY((H5Pset_dxpl_mpio(dxpl_id, H5FD_MPIO_COLLECTIVE) >= 0), "H5Pset_dxpl_mpio() succeeded");
-    
+
     /* Set selection I/O mode on DXPL */
     VRFY((H5Pset_selection_io(dxpl_id, H5D_SELECTION_IO_MODE_ON) >= 0), "H5Pset_selection_io succeeded");
 
@@ -2359,7 +2359,7 @@ test_zlib_r(void)
     chunk_dims[0] = dset_dims[0] / 4;
     VRFY((H5Pset_chunk(plist_id, 1, chunk_dims) >= 0), "H5Pset_chunk() succeeded");
     VRFY((H5Pset_deflate(plist_id, 1) >= 0), "H5Pset_deflate() succeeded");
-    
+
     dset_id = H5Dcreate2(file_id, "DSET", SUBF_HDF5_TYPE, fspace_id, H5P_DEFAULT, plist_id, H5P_DEFAULT);
     VRFY((dset_id >= 0), "H5Dcreate2() succeeded");
 

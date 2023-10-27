@@ -636,8 +636,7 @@ H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, vo
 {
     hid_t           loc_id;             /* Reference location ID */
     H5VL_object_t  *tmp_vol_obj = NULL; /* Object for loc_id */
-    H5VL_object_t **vol_obj_ptr =
-        (_vol_obj_ptr ? _vol_obj_ptr : &tmp_vol_obj);        /* Ptr to object ptr for loc_id */
+    H5VL_object_t **vol_obj_ptr = NULL;
     H5VL_loc_params_t       loc_params;                      /* Location parameters */
     H5VL_dataset_get_args_t vol_cb_args;                     /* Arguments to VOL callback */
     H5O_token_t             obj_token = {0};                 /* Object token */
@@ -660,6 +659,10 @@ H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, vo
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a property list");
     if (oapl_id < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, H5I_INVALID_HID, "not a property list");
+    if (_vol_obj_ptr != NULL)
+        vol_obj_ptr = _vol_obj_ptr;
+    else
+        vol_obj_ptr = &tmp_vol_obj;
 
     /* Retrieve loc_id from reference */
     if (H5I_INVALID_HID == (loc_id = H5R__get_loc_id((const H5R_ref_priv_t *)ref_ptr))) {
@@ -682,8 +685,10 @@ H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, vo
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTOPENOBJ, H5I_INVALID_HID, "unable to open object by token");
 
     /* Register object */
-    if ((opened_obj_id = H5VL_register(opened_type, opened_obj, (*vol_obj_ptr)->connector, false)) < 0)
-        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register object handle");
+    if (*vol_obj_ptr != NULL) {
+        if ((opened_obj_id = H5VL_register(opened_type, opened_obj, (*vol_obj_ptr)->connector, false)) < 0)
+            HGOTO_ERROR(H5E_REFERENCE, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register object handle");
+    }
 
     /* Get VOL object object */
     if (NULL == (opened_obj = H5VL_vol_object(opened_obj_id)))

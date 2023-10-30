@@ -634,9 +634,9 @@ static hid_t
 H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, void **token_ptr,
                             H5VL_object_t **_vol_obj_ptr)
 {
-    hid_t           loc_id;             /* Reference location ID */
-    H5VL_object_t  *tmp_vol_obj = NULL; /* Object for loc_id */
-    H5VL_object_t **vol_obj_ptr = NULL;
+    hid_t                   loc_id;             /* Reference location ID */
+    H5VL_object_t          *tmp_vol_obj = NULL; /* Object for loc_id */
+    H5VL_object_t         **vol_obj_ptr = NULL;
     H5VL_loc_params_t       loc_params;                      /* Location parameters */
     H5VL_dataset_get_args_t vol_cb_args;                     /* Arguments to VOL callback */
     H5O_token_t             obj_token = {0};                 /* Object token */

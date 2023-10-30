@@ -1,4 +1,4 @@
-name: Spack Ubuntu hdf5@develop+mpi+fortran
+name: linux Spack ompi f
 
 on:
   workflow_dispatch:
@@ -17,16 +17,21 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.sha || github.event.pull_request.number }}
   cancel-in-progress: true
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Install Fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: gcc
+        version: 13
     - name: Checkout spack
       uses: actions/checkout@v4
       with:
         repository: spack/spack
-        path: ./spack      
+        path: ./spack
     - name: Run a multi-line script
       run: |
         . ./spack/share/spack/setup-env.sh

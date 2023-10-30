@@ -85,6 +85,7 @@ macro (ADD_H5P_EXE file)
 endmacro (ADD_H5P_EXE file)
 
 set (H5P_TESTS
+    cmp
     t_mpi
     t_bigio
     t_cache

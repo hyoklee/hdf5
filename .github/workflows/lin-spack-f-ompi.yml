@@ -1,4 +1,4 @@
-name: linux Spack ompi f
+name: linux spack ompi f
 
 on:
   workflow_dispatch:

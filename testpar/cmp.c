@@ -50,18 +50,18 @@ int
 main()
 {
     herr_t e;
-    hid_t compound_type = H5Tcreate(H5T_COMPOUND, sizeof(struct {
-      hsize_t start[2]; // Start coordinates of the region
-      hsize_t count[2]; // Size of the region
-    }));
+    hid_t compound_type = H5Tcreate(H5T_COMPOUND, sizeof(H5R_ref_t));
+    e = H5Tinsert(compound_type, "region", 0, H5T_STD_REF_DSETREG);
 
-    e = H5Tinsert(compound_type, "region", 0, H5T_STD_REF_OBJ);
     if (e < 0) {
         fprintf(stderr, "H5Tinsert() failed\n");
     }
-    H5Tget_member_offset(compound_type, 0);
+
+    if (write_dset(compound_type) > 0) {
+        fprintf(stderr, "write_dset() failed\n");
+    }
     H5Tclose(compound_type);
 
-    return write_dset(compound_type);
+    return 0;
 
 }

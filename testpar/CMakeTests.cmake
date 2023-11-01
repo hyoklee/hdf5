@@ -82,6 +82,7 @@ endforeach ()
 list (REMOVE_ITEM H5P_TESTS t_cache_image)
 
 set (test_par_CLEANFILES
+    cmp.h5
     t_cache_image_00.h5
     t_cache_image_01.h5
     t_cache_image_02.h5

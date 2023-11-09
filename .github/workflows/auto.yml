@@ -1,4 +1,4 @@
-name: OpenBSD autotools
+name: auto
 
 on:
   push:

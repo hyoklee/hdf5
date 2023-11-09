@@ -1,4 +1,4 @@
-name: OpenBSD CMake release
+name: r
 
 on:
   push:

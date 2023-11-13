@@ -14,8 +14,10 @@ if (WIN32)
       if (NOT H5_FORTRAN_C_LONG_DOUBLE_IS_UNIQUE)
         set (H5_DBL_NOT_UNIQUE_EXP ";")
       endif ()
+      set (CMAKE_NO_DEPRECATED_SYMBOLS 0)
       if (NOT H5_NO_DEPRECATED_SYMBOLS)
-        set (H5_NO_DEPRECATED_SYMBOLS ";")
+        set (CMAKE_NO_DEPRECATED_SYMBOLS 1)
+        set (DLL_NO_DEPRECATED_SYMBOLS ";")
       endif ()
       configure_file (${HDF5_F90_SRC_SOURCE_DIR}/hdf5_fortrandll.def.in ${HDF5_F90_SRC_BINARY_DIR}/hdf5_fortrandll.def @ONLY)
     endif ()
@@ -26,8 +28,12 @@ endif ()
 
 # Define Parallel variable for passing to H5config_f.inc.cmake
 set (CMAKE_H5_HAVE_PARALLEL 0)
+set (CMAKE_H5_HAVE_SUBFILING_VFD 0)
 if (H5_HAVE_PARALLEL)
   set (CMAKE_H5_HAVE_PARALLEL 1)
+  if (H5_HAVE_SUBFILING_VFD)
+    set (CMAKE_H5_HAVE_SUBFILING_VFD 1)
+  endif ()
 endif ()
 
 set (CMAKE_H5_HAVE_FLOAT128 0)
@@ -342,8 +348,6 @@ if (BUILD_STATIC_LIBS)
           ${LINK_Fortran_LIBS}
           "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_Fortran_LIBRARIES}>"
   )
-#  set_property(TARGET ${HDF5_F90_LIB_TARGET} APPEND PROPERTY LINK_FLAGS "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:-SUBSYSTEM:CONSOLE>")
-#  set_property(TARGET ${HDF5_F90_LIB_TARGET} APPEND PROPERTY LINK_FLAGS "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:${WIN_LINK_FLAGS}>")
   if(MSVC)
     set_property(TARGET ${HDF5_F90_LIB_TARGET} PROPERTY LINK_FLAGS "/SUBSYSTEM:CONSOLE ${WIN_LINK_FLAGS}")
   endif()
@@ -359,8 +363,10 @@ if (BUILD_STATIC_LIBS)
 endif ()
 
 if (BUILD_SHARED_LIBS)
-  if(MSVC)
+  if(WIN32)
       set(DLLDEF ${HDF5_F90_SRC_BINARY_DIR}/hdf5_fortrandll.def)
+  else()
+      set(DLLDEF "")
   endif()
   add_library (${HDF5_F90_LIBSH_TARGET} SHARED ${DLLDEF} ${f90_F_SOURCES_SHARED})
   target_include_directories (${HDF5_F90_LIBSH_TARGET}
@@ -378,6 +384,9 @@ if (BUILD_SHARED_LIBS)
       PUBLIC ${HDF5_F90_C_LIBSH_TARGET}
       PRIVATE ${LINK_Fortran_LIBS} "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_Fortran_LIBRARIES}>"
   )
+  if(MSVC)
+    set_property(TARGET ${HDF5_F90_LIBSH_TARGET} PROPERTY LINK_FLAGS "/SUBSYSTEM:CONSOLE ${WIN_LINK_FLAGS}")
+  endif()
   set_target_properties (${HDF5_F90_LIBSH_TARGET} PROPERTIES
       FOLDER libraries/fortran
       LINKER_LANGUAGE Fortran

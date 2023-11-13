@@ -1,4 +1,4 @@
-name: windows ninja icx parallel
+name: windows ninja icx p
 
 on:
   push:

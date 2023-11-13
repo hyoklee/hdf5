@@ -1,4 +1,4 @@
-name: windows ninja icx ifx parallel sf
+name: windows ninja icx ifx p sf
 
 on:
   push:

@@ -22,9 +22,6 @@ if (WIN32 AND MSVC)
     set_target_properties (H5HL_buildiface PROPERTIES COMPILE_FLAGS "/MT")
   endif ()
 endif ()
-#set_property(TARGET H5HL_buildiface APPEND PROPERTY
-#    LINK_FLAGS "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:-SUBSYSTEM:CONSOLE>"
-#)
 if(MSVC)
   set_property(TARGET H5HL_buildiface PROPERTY LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 endif()
@@ -182,8 +179,6 @@ if (BUILD_STATIC_LIBS)
       PRIVATE "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:${WIN_COMPILE_FLAGS}>"
   )
   target_link_libraries (${HDF5_HL_F90_LIB_TARGET} PUBLIC ${HDF5_HL_F90_C_LIB_TARGET} ${HDF5_F90_LIB_TARGET})
-#  set_property(TARGET ${HDF5_HL_F90_LIB_TARGET} APPEND PROPERTY LINK_FLAGS "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:-SUBSYSTEM:CONSOLE>")
-#  set_property(TARGET ${HDF5_HL_F90_LIB_TARGET} APPEND PROPERTY LINK_FLAGS "$<$<STREQUAL:x${CMAKE_Fortran_SIMULATE_ID},xMSVC>:${WIN_LINK_FLAGS}>")
   if(MSVC)
     set_property(TARGET ${HDF5_HL_F90_LIB_TARGET} PROPERTY LINK_FLAGS "/SUBSYSTEM:CONSOLE ${WIN_LINK_FLAGS}")
   endif()
@@ -198,8 +193,10 @@ if (BUILD_STATIC_LIBS)
   add_dependencies(${HDF5_HL_F90_LIB_TARGET} H5HLgen)
 endif ()
 if (BUILD_SHARED_LIBS)
-  if(MSVC)
+  if(WIN32)
       set(DLLDEF ${HDF5_HL_F90_SRC_BINARY_DIR}/hdf5_hl_fortrandll.def)
+  else()
+      set(DLLDEF "")
   endif()
   add_library (${HDF5_HL_F90_LIBSH_TARGET} SHARED ${DLLDEF} ${HDF5_HL_F90_F_SOURCES_SHARED})
   target_include_directories (${HDF5_HL_F90_LIBSH_TARGET}
@@ -217,6 +214,9 @@ if (BUILD_SHARED_LIBS)
       PUBLIC ${HDF5_HL_F90_C_LIBSH_TARGET} ${HDF5_F90_LIBSH_TARGET}
       PRIVATE ${LINK_Fortran_LIBS}
   )
+  if(MSVC)
+    set_property(TARGET ${HDF5_HL_F90_LIBSH_TARGET} PROPERTY LINK_FLAGS "/SUBSYSTEM:CONSOLE ${WIN_LINK_FLAGS}")
+  endif()
   set_target_properties (${HDF5_HL_F90_LIBSH_TARGET} PROPERTIES
       FOLDER libraries/hl/fortran
       LINKER_LANGUAGE Fortran

@@ -1,4 +1,4 @@
-name: linux CMake icc sf
+name: lin icc sf
 
 on:
   workflow_dispatch:
@@ -20,14 +20,13 @@ jobs:
         printenv >> $GITHUB_ENV
         echo "CXX=icpc" >> $GITHUB_ENV
         echo "CC=icc" >> $GITHUB_ENV
-        echo "FC=ifort" >> $GITHUB_ENV
     - name: Get Sources
       uses: actions/checkout@v4
     - name: Build and Test
       run: |
         mkdir build
         cd build
-        cmake -DHDF5_BUILD_FORTRAN:BOOL=ON \
+        cmake -DHDF5_BUILD_FORTRAN:BOOL=OFF \
         -DHDF5_ENABLE_PARALLEL=ON \
         -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..

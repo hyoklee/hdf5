@@ -59,5 +59,6 @@ if (HDF5_EXPORTED_TARGETS)
       EXPORT
           ${HDF5_EXPORTED_TARGETS}
       RUNTIME DESTINATION ${HDF5_INSTALL_BIN_DIR} COMPONENT toolsapplications
+      BUNDLE DESTINATION Applications COMPONENT myApp      
   )
 endif ()

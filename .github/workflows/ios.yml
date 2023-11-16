@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: macos13 ios
+    name: mac13 ios
     runs-on: macos-13
     steps:
     - name: Install Dependencies (macOS)
@@ -44,7 +44,7 @@ jobs:
         -DHDF5_BUILD_HL_LIB:BOOL=OFF \
         -DHDF5_BUILD_JAVA:BOOL=OFF \
         -DHDF5_BUILD_PARALLEL_TOOLS:BOOL=OFF \
-        -DHDF5_BUILD_TOOLS:BOOL=OFF \
+        -DHDF5_BUILD_TOOLS:BOOL=ON \
         -DHDF5_BUILD_UTILS:BOOL=OFF \
         -DHDF5_BUILD_WITH_INSTALL_NAME:BOOL=OFF \
         -DHDF5_DIMENSION_SCALES_NEW_REF:BOOL=OFF \

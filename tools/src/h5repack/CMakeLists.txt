@@ -21,7 +21,10 @@ if (BUILD_STATIC_LIBS)
   target_compile_options(h5repack PRIVATE "${HDF5_CMAKE_C_FLAGS}")
   TARGET_C_PROPERTIES (h5repack STATIC)
   target_link_libraries (h5repack PRIVATE ${HDF5_TOOLS_LIB_TARGET} ${HDF5_LIB_TARGET})
-  set_target_properties (h5repack PROPERTIES FOLDER tools)
+  set_target_properties (h5repack PROPERTIES FOLDER tools
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.hdfgroup.myApp"
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+    XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "2347GVV3KC")
   set_global_variable (HDF5_UTILS_TO_EXPORT "${HDF5_UTILS_TO_EXPORT};h5repack")
 
   set (H5_DEP_EXECUTABLES h5repack)
@@ -33,7 +36,8 @@ if (BUILD_SHARED_LIBS)
   target_compile_options(h5repack-shared PRIVATE "${HDF5_CMAKE_C_FLAGS}")
   TARGET_C_PROPERTIES (h5repack-shared SHARED)
   target_link_libraries (h5repack-shared PRIVATE ${HDF5_TOOLS_LIBSH_TARGET} ${HDF5_LIBSH_TARGET})
-  set_target_properties (h5repack-shared PROPERTIES FOLDER tools)
+  set_target_properties (h5repack-shared PROPERTIES FOLDER tools
+  XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.hdfgroup.myApp")
   set_global_variable (HDF5_UTILS_TO_EXPORT "${HDF5_UTILS_TO_EXPORT};h5repack-shared")
 
   set (H5_DEP_EXECUTABLES ${H5_DEP_EXECUTABLES} h5repack-shared)
@@ -70,6 +74,6 @@ if (HDF5_EXPORTED_TARGETS)
       EXPORT
           ${HDF5_EXPORTED_TARGETS}
       RUNTIME DESTINATION ${HDF5_INSTALL_BIN_DIR} COMPONENT toolsapplications
-      BUNDLE DESTINATION Applications COMPONENT myApp      
+      BUNDLE DESTINATION Applications COMPONENT myApp
   )
 endif ()

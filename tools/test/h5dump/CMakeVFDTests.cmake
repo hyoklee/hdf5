@@ -24,7 +24,18 @@ set (HDF5_VFD_H5DUMP_FILES
   packedbits
 )
 
+set (HDF5_SF_VFD_H5DUMP_FILES
+  test_subfiling_h5fuse.h5.subfile_13041899462_1_of_1
+  test_subfiling_h5fuse.h5.subfile_13041899462.config
+)
+
 foreach (vfdtest ${VFD_LIST})
+  if (vfdtest STREQUAL "subfiling")
+    message(STATUS "vfd = subfiling")
+    foreach (h5_tfile ${HDF5_SF_VFD_H5DUMP_FILES})       
+      HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_tfile}" "${PROJECT_BINARY_DIR}/${vfdtest}/${h5_tfile}" "HDF5_SF_VFD_H5DUMP_files")
+    endforeach ()
+  endif ()
   foreach (h5_tfile ${HDF5_VFD_H5DUMP_FILES})
     HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_tfile}.h5" "${PROJECT_BINARY_DIR}/${vfdtest}/${h5_tfile}.h5" "HDF5_VFD_H5DUMP_files")
     HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tfile}.ddl" "${PROJECT_BINARY_DIR}/${vfdtest}/${h5_tfile}.ddl" "HDF5_VFD_H5DUMP_files")
@@ -66,6 +77,10 @@ endmacro ()
 
 # Run test with different Virtual File Driver
 foreach (vfd ${VFD_LIST})
-  # test for signed/unsigned datasets
+  if (vfd STREQUAL "subfiling")
+    message(STATUS "add vfd = subfiling test")
+    ADD_VFD_H5DUMP_TEST (${vfd} test_subfiling_h5fuse 0 --enable-error-stack test_subfiling_h5fuse.h5)
+  endif ()
+  # test for signed/unsigned datasets  
   ADD_VFD_H5DUMP_TEST (${vfd} packedbits 0 --enable-error-stack packedbits.h5)
 endforeach ()

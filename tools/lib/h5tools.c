@@ -598,7 +598,7 @@ h5tools_set_fapl_vfd(hid_t fapl_id, h5tools_vfd_info_t *vfd_info)
                         H5TOOLS_GOTO_ERROR(FAIL, "H5Pset_fapl_subfiling() failed");
                 }
                 else {
-                  H5TOOLS_GOTO_ERROR(FAIL, "MPI is not available for Subfiling VFD");
+                    H5TOOLS_GOTO_ERROR(FAIL, "MPI is not available for Subfiling VFD");
                 }
 #else
                 H5TOOLS_GOTO_ERROR(FAIL, "The Subfiling VFD is not enabled");

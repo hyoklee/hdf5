@@ -149,7 +149,7 @@ static struct h5_long_options l_opts[] = {{"attribute", require_arg, 'a'},
                                           {"vfd-name", require_arg, '5'},
                                           {"vfd-info", require_arg, '6'},
                                           {NULL, 0, '\0'}};
-static int                    mpi_code_g;
+
 /*-------------------------------------------------------------------------
  * Function:    leave
  *
@@ -736,6 +736,7 @@ free_handler(struct handler_t *hand, int len)
 }
 
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
+static int      mpi_code_g;
 int
 set_mpi(int argc, const char *const *argv)
 {
@@ -1638,8 +1639,11 @@ done:
 
     leave(h5tools_getstatus());
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-    MPI_Finalize();
-#endif
+    if (MPI_SUCCESS == mpi_code_g) {
+      MPI_Finalize();
+    }
+#endif    
+
 } /* main */
 
 /*-------------------------------------------------------------------------

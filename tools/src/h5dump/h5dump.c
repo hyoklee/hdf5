@@ -735,6 +735,24 @@ free_handler(struct handler_t *hand, int len)
     }
 }
 
+#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
+int
+set_mpi(int argc, const char *const *argv)
+{
+    int      required                        = MPI_THREAD_MULTIPLE;
+    int      provided                        = 0;
+
+    /* Initialize MPI */
+    mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
+    if (MPI_SUCCESS != mpi_code_g) {
+        printf("MPI_Init_thread failed with error code %d\n", mpi_code_g);
+        return 1;
+    }
+
+    return 0;
+}
+#endif
+
 /*-------------------------------------------------------------------------
  * Function:    parse_command_line
  *
@@ -887,7 +905,6 @@ parse_start:
                         vfd_info_g.info = &hdfs_fa_g;
 #endif
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-                fprintf(stderr, "vfd_info_g.u.name=%s\n", vfd_info_g.u.name);
                 if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
                    set_mpi(argc, argv);
                 }
@@ -1297,23 +1314,6 @@ error:
     return hand;
 }
 
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-int
-set_mpi(argc, argv)
-{
-    int      required                        = MPI_THREAD_MULTIPLE;
-    int      provided                        = 0;
-
-    /* Initialize MPI */
-    mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
-    if (MPI_SUCCESS != mpi_code_g) {
-        printf("MPI_Init_thread failed with error code %d\n", mpi_code_g);
-        return 1;
-    }
-
-    return 0;
-}
-#endif
 
 /*-------------------------------------------------------------------------
  * Function:    main

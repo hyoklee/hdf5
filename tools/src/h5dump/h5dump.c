@@ -149,7 +149,7 @@ static struct h5_long_options l_opts[] = {{"attribute", require_arg, 'a'},
                                           {"vfd-name", require_arg, '5'},
                                           {"vfd-info", require_arg, '6'},
                                           {NULL, 0, '\0'}};
-static int      mpi_code_g;
+static int                    mpi_code_g;
 /*-------------------------------------------------------------------------
  * Function:    leave
  *
@@ -739,8 +739,8 @@ free_handler(struct handler_t *hand, int len)
 int
 set_mpi(int argc, const char *const *argv)
 {
-    int      required                        = MPI_THREAD_MULTIPLE;
-    int      provided                        = 0;
+    int required = MPI_THREAD_MULTIPLE;
+    int provided = 0;
 
     /* Initialize MPI */
     mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
@@ -906,7 +906,7 @@ parse_start:
 #endif
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
                 if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
-                   set_mpi(argc, argv);
+                    set_mpi(argc, argv);
                 }
 #endif
                 break;
@@ -1242,7 +1242,7 @@ end_collect:
                     set_mpi(argc, argv);
                 }
 #endif
-                use_custom_vfd_g   = true;
+                use_custom_vfd_g = true;
                 break;
 
             case '5':
@@ -1251,10 +1251,10 @@ end_collect:
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
                 fprintf(stderr, "vfd_info_g.u.name=%s\n", vfd_info_g.u.name);
                 if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
-                   set_mpi(argc, argv);
+                    set_mpi(argc, argv);
                 }
 #endif
-                use_custom_vfd_g  = true;
+                use_custom_vfd_g = true;
                 break;
 
             case '6':
@@ -1268,10 +1268,8 @@ end_collect:
         }
     }
 
-
     /* If the file uses the onion VFD, get the revision number */
-    if (vfd_info_g.type == VFD_BY_NAME &&
-        vfd_info_g.u.name && !strcmp(vfd_info_g.u.name, "onion")) {
+    if (vfd_info_g.type == VFD_BY_NAME && vfd_info_g.u.name && !strcmp(vfd_info_g.u.name, "onion")) {
 
         if (vfd_info_g.info) {
             if (!strcmp(vfd_info_g.info, "revision_count"))
@@ -1293,7 +1291,6 @@ end_collect:
         vfd_info_g.info = &onion_fa_g;
     }
 
-
 parse_end:
     /* check for file name to be processed */
     if (argc <= H5_optind) {
@@ -1313,7 +1310,6 @@ error:
 
     return hand;
 }
-
 
 /*-------------------------------------------------------------------------
  * Function:    main
@@ -1641,9 +1637,9 @@ done:
     /* To Do:  clean up XML table */
 
     leave(h5tools_getstatus());
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)    
+#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
     MPI_Finalize();
-#endif    
+#endif
 } /* main */
 
 /*-------------------------------------------------------------------------

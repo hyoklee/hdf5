@@ -153,8 +153,7 @@ static struct h5_long_options l_opts[] = {{"attribute", require_arg, 'a'},
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
 static int mpi_code_g          = MPI_ERR_OTHER;
 static int use_subfiling_vfd_g = false;
-int
-set_mpi(int argc, char *argv[])
+static int set_mpi(int argc, char *argv[])
 {
     int required = MPI_THREAD_MULTIPLE;
     int provided = 0;

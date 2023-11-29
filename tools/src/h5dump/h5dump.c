@@ -151,7 +151,7 @@ static struct h5_long_options l_opts[] = {{"attribute", require_arg, 'a'},
                                           {NULL, 0, '\0'}};
 
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-static int mpi_code_g = MPI_ERR_OTHER;
+static int mpi_code_g          = MPI_ERR_OTHER;
 static int use_subfiling_vfd_g = false;
 int
 set_mpi(int argc, char *argv[])
@@ -759,7 +759,6 @@ free_handler(struct handler_t *hand, int len)
     }
 }
 
-
 /*-------------------------------------------------------------------------
  * Function:    parse_command_line
  *
@@ -912,10 +911,9 @@ parse_start:
                         vfd_info_g.info = &hdfs_fa_g;
 #endif
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-                if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX]))
-                  {
+                if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
                     use_subfiling_vfd_g = true;
-                  }
+                }
 #endif
                 break;
             case 'g':
@@ -1247,7 +1245,7 @@ end_collect:
 
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
                 if (vfd_info_g.u.value == H5_VFD_SUBFILING) {
-                  use_subfiling_vfd_g = true;
+                    use_subfiling_vfd_g = true;
                 }
 #endif
                 use_custom_vfd_g = true;
@@ -1407,7 +1405,7 @@ main(int argc, char *argv[])
 
 #if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
     if (use_subfiling_vfd_g) {
-      set_mpi(argc, argv);
+        set_mpi(argc, argv);
     }
 #endif
 

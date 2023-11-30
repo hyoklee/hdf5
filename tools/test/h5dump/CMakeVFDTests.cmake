@@ -30,7 +30,6 @@ set (HDF5_SF_VFD_H5DUMP_FILES
 
 foreach (vfdtest ${VFD_LIST})
   if (vfdtest STREQUAL "subfiling")
-    message(STATUS "vfd = subfiling")
     foreach (h5_tfile ${HDF5_SF_VFD_H5DUMP_FILES})       
       file(COPY "${PROJECT_SOURCE_DIR}/testfiles/${h5_tfile}" DESTINATION "${PROJECT_BINARY_DIR}/${vfdtest}")
       execute_process(
@@ -90,7 +89,6 @@ endmacro ()
 # Run test with different Virtual File Driver
 foreach (vfd ${VFD_LIST})
   if (vfd STREQUAL "subfiling")
-    message(STATUS "add vfd = subfiling test")
     ADD_VFD_H5DUMP_TEST (${vfd} filedriver_subfiling 0 --enable-error-stack=2 --filedriver=subfiling test_subfiling_stripe_sizes.h5)
     ADD_VFD_H5DUMP_TEST (${vfd} vfd_name_subfiling 0 --enable-error-stack=2 --vfd-name=subfiling test_subfiling_stripe_sizes.h5)
     ADD_VFD_H5DUMP_TEST (${vfd} vfd_value_subfiling 0 --enable-error-stack=2 --vfd-value=12 test_subfiling_stripe_sizes.h5)

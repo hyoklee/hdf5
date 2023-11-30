@@ -159,15 +159,15 @@ set_mpi(int argc, char *argv[])
     int required = MPI_THREAD_MULTIPLE;
     int provided = 0;
     int mpi_initialized;
-    
+
     MPI_Initialized(&mpi_initialized);
     /* Initialize MPI */
     if (!mpi_initialized) {
-      mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
-      if (MPI_SUCCESS != mpi_code_g) {
-        printf("MPI_Init_thread failed with error code %d\n", mpi_code_g);
-        return 1;
-      }
+        mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
+        if (MPI_SUCCESS != mpi_code_g) {
+            printf("MPI_Init_thread failed with error code %d\n", mpi_code_g);
+            return 1;
+        }
     }
     return 0;
 }

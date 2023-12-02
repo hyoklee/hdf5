@@ -1,9 +1,9 @@
-name: linux autotools icx
+name: lin auto icx
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "6 0 * * *"
+  push:
+    branches:
+      - develop
 
 permissions:
   contents: read
@@ -45,7 +45,7 @@ jobs:
           source /opt/intel/oneapi/setvars.sh
           export PATH=$PATH:/opt/intel/oneapi/mpi/latest/bin:/opt/intel/oneapi/compiler/latest/bin
           ./autogen.sh
-          ./configure  --disable-fortran --disable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/latest/lib"
+          ./configure  --disable-fortran --disable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicx) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/latest/lib"
           make -j
           export SYCL_DEVICE_FILTER=opencl.cpu
           make check -j 

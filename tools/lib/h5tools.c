@@ -586,9 +586,8 @@ h5tools_set_fapl_vfd(hid_t fapl_id, h5tools_vfd_info_t *vfd_info)
 #endif
             }
             else if (!strcmp(vfd_info->u.name, drivernames[SUBFILING_VFD_IDX])) {
-              if (H5Pset_fapl_subfiling(fapl_id, (const H5FD_subfiling_config_t *)vfd_info->info) < 0)
-                H5TOOLS_GOTO_ERROR(FAIL, "H5Pset_fapl_subfiling() failed");
-
+                if (H5Pset_fapl_subfiling(fapl_id, (const H5FD_subfiling_config_t *)vfd_info->info) < 0)
+                    H5TOOLS_GOTO_ERROR(FAIL, "H5Pset_fapl_subfiling() failed");
             }
             else if (!strcmp(vfd_info->u.name, drivernames[ONION_VFD_IDX])) {
                 /* Onion driver */

@@ -1214,13 +1214,13 @@ end_collect:
             case '4':
                 vfd_info_g.type    = VFD_BY_VALUE;
                 vfd_info_g.u.value = (H5FD_class_value_t)atoi(H5_optarg);
-                use_custom_vfd_g = true;
+                use_custom_vfd_g   = true;
                 break;
 
             case '5':
                 vfd_info_g.type   = VFD_BY_NAME;
                 vfd_info_g.u.name = H5_optarg;
-                use_custom_vfd_g = true;
+                use_custom_vfd_g  = true;
                 break;
 
             case '6':

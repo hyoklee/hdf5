@@ -38,7 +38,7 @@ endif ()
 
 message (STATUS "USING ${TEST_VFD} ON COMMAND: ${TEST_EMULATOR} ${TEST_PROGRAM} ${TEST_ARGS}")
 
-set (ENV{HDF5_DRIVER} "${TEST_VFD}")
+# set (ENV{HDF5_DRIVER} "${TEST_VFD}")
 
 # run the test program, capture the stdout/stderr and the result var
 execute_process (

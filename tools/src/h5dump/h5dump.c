@@ -150,29 +150,6 @@ static struct h5_long_options l_opts[] = {{"attribute", require_arg, 'a'},
                                           {"vfd-info", require_arg, '6'},
                                           {NULL, 0, '\0'}};
 
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-static int mpi_code_g          = MPI_ERR_OTHER;
-static int use_subfiling_vfd_g = false;
-static int
-set_mpi(int argc, char *argv[])
-{
-    int required = MPI_THREAD_MULTIPLE;
-    int provided = 0;
-    int mpi_initialized;
-
-    MPI_Initialized(&mpi_initialized);
-    /* Initialize MPI */
-    if (!mpi_initialized) {
-        mpi_code_g = MPI_Init_thread(&argc, &argv, required, &provided);
-        if (MPI_SUCCESS != mpi_code_g) {
-            printf("MPI_Init_thread failed with error code %d\n", mpi_code_g);
-            return 1;
-        }
-    }
-    return 0;
-}
-#endif
-
 /*-------------------------------------------------------------------------
  * Function:    leave
  *
@@ -185,11 +162,6 @@ static void
 leave(int ret)
 {
     h5tools_close();
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-    if (MPI_SUCCESS == mpi_code_g) {
-        MPI_Finalize();
-    }
-#endif
     exit(ret);
 }
 
@@ -915,11 +887,6 @@ parse_start:
                     if (!vfd_info_g.info)
                         vfd_info_g.info = &hdfs_fa_g;
 #endif
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-                if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
-                    use_subfiling_vfd_g = true;
-                }
-#endif
                 break;
             case 'g':
                 dump_opts.display_all = 0;
@@ -1247,23 +1214,12 @@ end_collect:
             case '4':
                 vfd_info_g.type    = VFD_BY_VALUE;
                 vfd_info_g.u.value = (H5FD_class_value_t)atoi(H5_optarg);
-
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-                if (vfd_info_g.u.value == H5_VFD_SUBFILING) {
-                    use_subfiling_vfd_g = true;
-                }
-#endif
                 use_custom_vfd_g = true;
                 break;
 
             case '5':
                 vfd_info_g.type   = VFD_BY_NAME;
                 vfd_info_g.u.name = H5_optarg;
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-                if (0 == strcmp(vfd_info_g.u.name, drivernames[SUBFILING_VFD_IDX])) {
-                    use_subfiling_vfd_g = true;
-                }
-#endif
                 use_custom_vfd_g = true;
                 break;
 
@@ -1407,12 +1363,6 @@ main(int argc, char *argv[])
 
     /* Initialize indexing options */
     h5trav_set_index(sort_by, sort_order);
-
-#if defined(H5_HAVE_PARALLEL) && defined(H5_HAVE_SUBFILING_VFD)
-    if (use_subfiling_vfd_g) {
-        set_mpi(argc, argv);
-    }
-#endif
 
     if (use_custom_vol_g || use_custom_vfd_g) {
 

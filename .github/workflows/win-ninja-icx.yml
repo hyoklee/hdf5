@@ -23,7 +23,7 @@ jobs:
           compiler: intel
           version: '2023.2'
       - name: Checkout HDF5
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
       - name: Set oneAPI
         shell: cmd
         run: |

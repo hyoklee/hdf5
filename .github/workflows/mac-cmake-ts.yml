@@ -46,7 +46,7 @@ jobs:
     
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Get Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
 
     - name: Configure
       if: matrix.generator != 'autogen'
@@ -68,7 +68,7 @@ jobs:
 
     - name: Upload
       if: matrix.generator != 'autogen'
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: my-artifact
         path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

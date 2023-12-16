@@ -13,7 +13,7 @@ jobs:
     - name: Install Dependencies (macOS)
       run: brew install ninja openmpi
     - name: Get Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
     - name: Configure
       run: |
         mkdir "${{ runner.workspace }}/build"

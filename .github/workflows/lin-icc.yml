@@ -21,7 +21,7 @@ jobs:
         echo "CXX=icpc" >> $GITHUB_ENV
         echo "CC=icc" >> $GITHUB_ENV
     - name: Get Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
     - name: Build and Test
       run: |
         mkdir build

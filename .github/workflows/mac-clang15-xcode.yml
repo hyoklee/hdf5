@@ -10,7 +10,7 @@ jobs:
     name: Generate Xcode project
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
       - name: Install Dependencies
         run: brew install curl openssl libaec mpich bash
 

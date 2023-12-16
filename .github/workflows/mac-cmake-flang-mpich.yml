@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Get Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
 
     - name: Install Dependencies (macOS)
       run: brew install llvm mpich ninja
@@ -112,7 +112,7 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
 
     - name: Upload
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: my-artifact
         path: ${{ runner.workspace }}/build/CMakeCache.txt

@@ -11,7 +11,7 @@ jobs:
     - name: Install Dependencies
       run: brew install ninja autoconf automake libtool mpich
     - name: Get Source
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4.1.1
     - name: Build and test
       env:
         NPROCS: 2

@@ -1,5 +1,14 @@
 cmake_minimum_required (VERSION 3.12)
-project (HDF5Examples_FORTRAN_H5T C CXX Fortran)
+project (HDF5Examples_FORTRAN_H5T Fortran)
+
+#-----------------------------------------------------------------------------
+# Setup include Directories
+#-----------------------------------------------------------------------------
+INCLUDE_DIRECTORIES (
+    ${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT}
+    ${PROJECT_BINARY_DIR}
+    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+)
 
 #-----------------------------------------------------------------------------
 # Setup include Directories

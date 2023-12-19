@@ -1,4 +1,4 @@
-# CMake cache file for external HDF5 filter plugins
+# CMake cache file for examples
 
 #########################
 # EXTERNAL cache entries
@@ -8,8 +8,7 @@
 set (H5EX_BUILD_TESTING ${BUILD_TESTING} CACHE BOOL "Enable examples testing" FORCE)
 set (H5EX_BUILD_EXAMPLES ${HDF5_BUILD_EXAMPLES} CACHE BOOL "Build Examples" FORCE)
 set (HDF_BUILD_FORTRAN ${HDF5_BUILD_FORTRAN} CACHE BOOL "Build examples FORTRAN support" FORCE)
-#set (HDF_BUILD_JAVA ${HDF5_BUILD_JAVA} CACHE BOOL "Build examples JAVA support" FORCE)
-set (HDF_BUILD_JAVA OFF CACHE BOOL "Build examples JAVA support" FORCE)
+set (HDF_BUILD_JAVA ${HDF5_BUILD_JAVA} CACHE BOOL "Build examples JAVA support" FORCE)
 set (HDF_BUILD_FILTERS ${HDF5_ENABLE_PLUGIN_SUPPORT} CACHE BOOL "Build examples PLUGIN filter support" FORCE)
 set (HDF_BUILD_CPP_LIB ${HDF5_BUILD_CPP_LIB} CACHE BOOL "Build HDF5 C++ Library" FORCE)
 set (HDF_BUILD_HL_LIB ${HDF5_BUILD_HL_LIB} CACHE BOOL "Build HIGH Level examples" FORCE)
@@ -40,9 +39,10 @@ else ()
   endif ()
   if (HDF5_BUILD_JAVA)
     set (HDF5_JAVA_INCLUDE_DIRS ${HDF5_JAVA_JARS} ${HDF5_JAVA_LOGGING_JAR})
-    set (HDF5_JAVA_LIBRARY ${HDF5_JAVA_JNI_LIB_TARGET})
+    set (H5EX_JAVA_LIBRARY ${HDF5_JAVA_JNI_LIB_TARGET})
+    set (H5EX_JAVA_LIBRARIES ${HDF5_JAVA_HDF5_LIB_TARGET} ${HDF5_JAVA_JNI_LIB_TARGET})
     set (HDF5_LIBRARY_PATH ${CMAKE_TEST_OUTPUT_DIRECTORY})
-    message (STATUS "HDF5 Example java jars: ${HDF5_JAVA_INCLUDE_DIRS} = ${HDF5_JAVA_JARS}")
+    message (STATUS "HDF5 Example java lib: ${H5EX_JAVA_LIBRARY} jars: ${HDF5_JAVA_INCLUDE_DIRS}")
   endif ()
   if (HDF5_ENABLE_PLUGIN_SUPPORT)
     set (H5EX_HDF5_PLUGIN_PATH "${CMAKE_BINARY_DIR}/plugins")
@@ -50,5 +50,6 @@ else ()
 endif ()
 message (STATUS "HDF5 Example link libs: ${H5EX_HDF5_LINK_LIBS} Includes: ${H5EX_HDF5_INCLUDE_DIRS}")
 
+set (HDF5_TOOLS_DIR ${CMAKE_TEST_OUTPUT_DIRECTORY} CACHE STRING "HDF5 Directory for all Executables" FORCE)
 set (H5EX_HDF5_DUMP_EXECUTABLE $<TARGET_FILE:h5dump${tgt_file_ext}> CACHE STRING "HDF5 h5dump target" FORCE)
 set (H5EX_HDF5_REPACK_EXECUTABLE $<TARGET_FILE:h5repack${tgt_file_ext}> CACHE STRING "HDF5 h5repack target" FORCE)

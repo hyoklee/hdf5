@@ -718,4 +718,10 @@ H5TOOLS_DLL bool h5tools_render_region_element(FILE *stream, const h5tool_format
 }
 #endif
 
+/**
+ * \defgroup H5TOOLS Tools (h5tools)
+ *
+ * Use the functions in this module to manage HDF5 tools.
+ */
+
 #endif /* H5TOOLS_H */

@@ -42,11 +42,13 @@ jobs:
           cd build
           cmake -DHDF5_BUILD_DOC:BOOL=ON ..
           make doxygen
+          pwd
+          ls -l hdf5lib_docs
 
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./build/hdf5lib_docs/html
+          publish_dir: /home/runner/work/hdf5/hdf5/build/hdf5lib_docs/html
           destination_dir: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

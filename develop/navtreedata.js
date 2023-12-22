@@ -30,6 +30,7 @@ var NAVTREE =
     [ "User Guide", "_u_g.html", null ],
     [ "Reference Manual", "_r_m.html", null ],
     [ "Application Developer's Guide", "^https://portal.hdfgroup.org/display/HDF5/HDF5+Application+Developer%27s+Guide", null ],
+    [ "HDF5 Library Architecture Overview", "^https://github.com/HDFGroup/arch-doc/blob/main/An_Overview_of_the_HDF5_Library_Architecture.v2.pdf", null ],
     [ "Specifications", "_s_p_e_c.html", null ],
     [ "Cookbook", "_cookbook.html", null ],
     [ "Technical Notes", "_t_n.html", null ],

@@ -44,6 +44,8 @@ jobs:
           make doxygen
           pwd
           ls -l hdf5lib_docs
+          cd hdf5lib_docs/html
+          touch .nojekyll
 
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v3

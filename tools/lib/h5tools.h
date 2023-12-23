@@ -16,7 +16,6 @@
  * Use the values in this module for command line options.
  */
 
-
 /*
  * Purpose:     Support functions for the various tools.
  */
@@ -596,10 +595,10 @@ typedef enum {
     PASS_THROUGH_VOL_IDX,
 } vol_idx;
 
-/** 
+/**
  \ingroup h5tools
  This enum should match the entries in the 'drivernames'
- array since they are indices into that array. 
+ array since they are indices into that array.
 */
 typedef enum {
     SEC2_VFD_IDX = 0,

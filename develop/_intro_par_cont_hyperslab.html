@@ -180,8 +180,8 @@ Writing a Contiguous Hyperslab in C</h1>
 <div class="line">GROUP <span class="stringliteral">&quot;/&quot;</span> {</div>
 <div class="line">   DATASET <span class="stringliteral">&quot;IntArray&quot;</span> {</div>
 <div class="line">      DATATYPE  <a class="code" href="group___p_d_t_s_t_d.html#ga37e8a6be7ee64587c2a282b965019bb8">H5T_STD_I32BE</a>  </div>
-<div class="line">      DATASPACE  SIMPLE { ( 8, 5 ) / ( 8, 5 ) } </div>
-<div class="line">      DATA {</div>
+<div class="line">      <a class="code" href="h5tools_8h.html#ad451e0910f94ed0979e2611482522513">DATASPACE</a>  SIMPLE { ( 8, 5 ) / ( 8, 5 ) } </div>
+<div class="line">      <a class="code" href="h5tools_8h.html#aad9ae913bdfab20dd94ad04ee2d5b045">DATA</a> {</div>
 <div class="line">         10, 10, 10, 10, 10,</div>
 <div class="line">         10, 10, 10, 10, 10,</div>
 <div class="line">         11, 11, 11, 11, 11,</div>
@@ -195,6 +195,8 @@ Writing a Contiguous Hyperslab in C</h1>
 <div class="line">} </div>
 <div class="line">} </div>
 <div class="ttc" id="agroup___p_d_t_s_t_d_html_ga37e8a6be7ee64587c2a282b965019bb8"><div class="ttname"><a href="group___p_d_t_s_t_d.html#ga37e8a6be7ee64587c2a282b965019bb8">H5T_STD_I32BE</a></div><div class="ttdeci">#define H5T_STD_I32BE</div><div class="ttdef"><b>Definition:</b> H5Tpublic.h:305</div></div>
+<div class="ttc" id="ah5tools_8h_html_aad9ae913bdfab20dd94ad04ee2d5b045"><div class="ttname"><a href="h5tools_8h.html#aad9ae913bdfab20dd94ad04ee2d5b045">DATA</a></div><div class="ttdeci">#define DATA</div><div class="ttdef"><b>Definition:</b> h5tools.h:66</div></div>
+<div class="ttc" id="ah5tools_8h_html_ad451e0910f94ed0979e2611482522513"><div class="ttname"><a href="h5tools_8h.html#ad451e0910f94ed0979e2611482522513">DATASPACE</a></div><div class="ttdeci">#define DATASPACE</div><div class="ttdef"><b>Definition:</b> h5tools.h:67</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="secIntroParContHyperslabFort"></a>
 Writing a Contiguous Hyperslab in Fortran</h1>
 <p>In this example you have a dataset of 5 (rows) x 8 (columns). Since a contiguous hyperslab in Fortran 90 consists of consecutive columns, each process will be writing an equal number of columns to the dataset.</p>

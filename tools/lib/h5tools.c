@@ -72,7 +72,10 @@ const char *volnames[] = {
     H5VL_PASSTHRU_NAME,
 };
 
-/* Names of VFDs. These names are always available so that
+/**
+ \ingroup h5tools
+
+ * Names of VFDs. These names are always available so that
  * the tools can emit special messages when a VFD is asked
  * for by name but is not compiled into the library or is
  * somehow otherwise not enabled.

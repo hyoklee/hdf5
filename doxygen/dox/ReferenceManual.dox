@@ -141,6 +141,16 @@ The functions provided by the HDF5 API are grouped into the following
 </tr>
 <tr>
 <td>
+<table>
+<caption>HDF5 Tools</caption>
+<tr>
+<td>@ref h5tools</td><td>HDF5 Tools Library</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
 \ref predefined_datatypes_tables<br />
 <a href="./deprecated.html">Deprecated functions</a><br />
 Functions with \ref ASYNC<br />

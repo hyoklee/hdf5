@@ -10,6 +10,13 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/**
+ * \defgroup h5tools h5tools (h5tools)
+ *
+ * Use the values in this module for command line options.
+ */
+
+
 /*
  * Purpose:     Support functions for the various tools.
  */
@@ -589,8 +596,11 @@ typedef enum {
     PASS_THROUGH_VOL_IDX,
 } vol_idx;
 
-/* This enum should match the entries in the 'drivernames'
- * array since they are indices into that array. */
+/** 
+ \ingroup h5tools
+ This enum should match the entries in the 'drivernames'
+ array since they are indices into that array. 
+*/
 typedef enum {
     SEC2_VFD_IDX = 0,
     DIRECT_VFD_IDX,
@@ -717,11 +727,4 @@ H5TOOLS_DLL bool h5tools_render_region_element(FILE *stream, const h5tool_format
 #ifdef __cplusplus
 }
 #endif
-
-/**
- * \defgroup H5TOOLS Tools (h5tools)
- *
- * Use the functions in this module to manage HDF5 tools.
- */
-
 #endif /* H5TOOLS_H */

@@ -1535,6 +1535,7 @@ See <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5
 <p>If a dataset is split across multiple files, then the files should be defined in order. The total size of the dataset is the sum of the <code>size</code> arguments for all the external files. If the total size is larger than the size of a dataset then the dataset can be extended (provided the data space also allows the extending).</p>
 <p>The <code>size</code> argument specifies the number of bytes reserved for data in the external file. If <code>size</code> is set to <a class="el" href="_h5_fpublic_8h.html#a2a667df33694861e41d1b9eb3a55b373">H5F_UNLIMITED</a>, the external file can be of unlimited size and no more files can be added to the external files list. If <code>size</code> is set to 0 (zero), no external file will actually be created.</p>
 <p>All of the external files for a given dataset must be specified with <a class="el" href="group___d_c_p_l.html#ga85ff7c9c827fa524041cd58c199b77b8" title="Adds an external file to the list of external files.">H5Pset_external()</a> before <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5Dcreate()</a> is called to create the dataset. If one these files does not exist on the system when <a class="el" href="group___h5_d.html#ga98f44998b67587662af8b0d8a0a75906" title="Writes raw data from a buffer to a dataset.">H5Dwrite()</a> is called to write data to it, the library will create the file.</p>
+<dl class="section note"><dt>Note</dt><dd>On Windows, off_t is typically a 32-bit signed long value, which limits the valid offset that can be set to 2 GiB.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>1.0.0 </dd></dl>
 
 </div>
@@ -1891,7 +1892,7 @@ See <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">plist_id</td><td>Dataset creation property list identifier </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">options_mask</td><td>A bit-mask conveying the desired SZIP options; Valid values are <a class="el" href="group___s_z_i_p.html#gaf55e168a1f7aaf8a94d820a2210fccb9">H5_SZIP_EC_OPTION_MASK</a> and <a class="el" href="group___s_z_i_p.html#ga688fde8106225adf9e6ccd2a168dec74">H5_SZIP_NN_OPTION_MASK</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pixels_per_block</td><td>The number of pixels or data elements in each data block</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pixels_per_block</td><td>The number of pixels or data elements in each data block (max <a class="el" href="group___s_z_i_p.html#ga80441e433f29ebfbdae7c39ed6acad14">H5_SZIP_MAX_PIXELS_PER_BLOCK</a>)</td></tr>
   </table>
   </dd>
 </dl>
@@ -1906,11 +1907,11 @@ See <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5
 <p>SZIP options are passed in an options mask, <code>options_mask</code>, as follows.</p>
 <table class="doxtable">
 <tr>
-<th>Option </th><th>Description (Mutually exclusive; select one.)  </th></tr>
+<th>Option </th><th>Description (Mutually exclusive; select one)  </th></tr>
 <tr>
 <td><a class="el" href="group___s_z_i_p.html#gaf55e168a1f7aaf8a94d820a2210fccb9">H5_SZIP_EC_OPTION_MASK</a> </td><td>Selects entropy coding method  </td></tr>
 <tr>
-<td><a class="el" href="group___s_z_i_p.html#ga688fde8106225adf9e6ccd2a168dec74">H5_SZIP_NN_OPTION_MASK</a> </td><td>Selects nearest neighbor coding method  </td></tr>
+<td><a class="el" href="group___s_z_i_p.html#ga688fde8106225adf9e6ccd2a168dec74">H5_SZIP_NN_OPTION_MASK</a> </td><td>Selects nearest neighbor preprocessing followed by entropy coding  </td></tr>
 </table>
 <p>The following guidelines can be used in determining which option to select:</p>
 <ul>
@@ -1925,9 +1926,9 @@ See <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5
 <p><b>Limitations:</b> </p>
 <ul>
 <li>SZIP compression cannot be applied to compound, array, variable-length, enumeration, or any other user-defined datatypes. If an SZIP filter is set in a dataset creation property list used to create a dataset containing a non-allowed datatype, the call to <a class="el" href="group___h5_d.html#ga0647ba4bbd26d5230cc07f3a5685b2cf">H5Dcreate()</a> will fail; the conflict can be detected only when the property list is used.</li>
-<li>Users should be aware that there are factors that affect one's rights and ability to use SZIP compression by reviewing the SZIP copyright notice.</li>
+<li>Users should be aware that there are factors that affect one's rights and ability to use SZIP compression by reviewing the SZIP copyright notice. (This limitation does not apply to the libaec library).</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd><b>For</b> <b>Users</b> <b>Familiar</b> <b>with</b> <b>SZIP</b> <b>in</b> <b>Other</b> <b>Contexts:</b> </dd>
+<dl class="section note"><dt>Note</dt><dd><b> For Users Familiar with SZIP in Other Contexts: </b></dd>
 <dd>
 The following notes are of interest primarily to those who have used SZIP compression outside of the HDF5 context. In non-HDF5 applications, SZIP typically requires that the user application supply additional parameters:<ul>
 <li><code>pixels_in_object</code>, the number of pixels in the object to be compressed</li>

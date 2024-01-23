@@ -1428,7 +1428,7 @@ Functions</h2></td></tr>
 <p>Closes a dataspace selection iterator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">sel_iter_id</td><td>Dataspace identifier</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sel_iter_id</td><td>Identifier of the dataspace selection iterator</td></tr>
   </table>
   </dd>
 </dl>
@@ -1475,7 +1475,11 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">spaceid</td><td>Dataspace identifier </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">elmt_size</td><td>Size of element in the selection </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>Selection iterator flag</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>Selection iterator flag, valid values are: <ul>
+<li><a class="el" href="_h5_spublic_8h.html#a6d17cb15354aaa5d6a16f66158e6eb1f">H5S_SEL_ITER_GET_SEQ_LIST_SORTED</a> </li>
+<li><a class="el" href="_h5_spublic_8h.html#ac8e372b854ca8250c47f316428af3d1f">H5S_SEL_ITER_SHARE_WITH_DATASPACE</a> </li>
+</ul>
+</td></tr>
   </table>
   </dd>
 </dl>
@@ -1544,7 +1548,7 @@ Functions</h2></td></tr>
 <p>Retrieves a list of offset / length sequences for the elements in an iterator. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">sel_iter_id</td><td>Dataspace identifier </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sel_iter_id</td><td>Identifier of the dataspace selection iterator </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxseq</td><td>Maximum number of sequences to retrieve </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxelmts</td><td>Maximum number of elements to retrieve in sequences </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">nseq</td><td>Number of sequences retrieved </td></tr>

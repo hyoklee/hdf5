@@ -122,6 +122,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ga3a3dde13ed4de32e8ebdae811602c995"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_f.html#ga3a3dde13ed4de32e8ebdae811602c995">h5fflush_f</a> (object_id, scope, hdferr)</td></tr>
 <tr class="memdesc:ga3a3dde13ed4de32e8ebdae811602c995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes all buffers associated with a file to disk.  <a href="group___f_h5_f.html#ga3a3dde13ed4de32e8ebdae811602c995">More...</a><br /></td></tr>
 <tr class="separator:ga3a3dde13ed4de32e8ebdae811602c995"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0591a33594c1898e80dce9ab2651f7b8"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_f.html#ga0591a33594c1898e80dce9ab2651f7b8">h5fdelete_f</a> (name, hdferr, access_prp)</td></tr>
+<tr class="memdesc:ga0591a33594c1898e80dce9ab2651f7b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an HDF5 file.  <a href="group___f_h5_f.html#ga0591a33594c1898e80dce9ab2651f7b8">More...</a><br /></td></tr>
+<tr class="separator:ga0591a33594c1898e80dce9ab2651f7b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabed92f795d31622727384f45a847d7e0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_f.html#gabed92f795d31622727384f45a847d7e0">h5fflush_async_f</a> (object_id, scope, es_id, hdferr, file, func, line)</td></tr>
 <tr class="memdesc:gabed92f795d31622727384f45a847d7e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronously flushes all buffers associated with a file to disk.  <a href="group___f_h5_f.html#gabed92f795d31622727384f45a847d7e0">More...</a><br /></td></tr>
 <tr class="separator:gabed92f795d31622727384f45a847d7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,6 +194,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ga773073ecb6f57771c4ae6d7cf1c4fa9b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_f.html#ga773073ecb6f57771c4ae6d7cf1c4fa9b">h5fget_info_f</a> (obj_id, file_info, hdferr)</td></tr>
 <tr class="memdesc:ga773073ecb6f57771c4ae6d7cf1c4fa9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves global file information.  <a href="group___f_h5_f.html#ga773073ecb6f57771c4ae6d7cf1c4fa9b">More...</a><br /></td></tr>
 <tr class="separator:ga773073ecb6f57771c4ae6d7cf1c4fa9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga51ce7d0e6526239852253bec8a3b1f47"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_f.html#ga51ce7d0e6526239852253bec8a3b1f47">h5fget_intent_f</a> (file_id, intent, hdferr)</td></tr>
+<tr class="memdesc:ga51ce7d0e6526239852253bec8a3b1f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the read/write or read-only status of a file.  <a href="group___f_h5_f.html#ga51ce7d0e6526239852253bec8a3b1f47">More...</a><br /></td></tr>
+<tr class="separator:ga51ce7d0e6526239852253bec8a3b1f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -558,6 +564,51 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ga0591a33594c1898e80dce9ab2651f7b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0591a33594c1898e80dce9ab2651f7b8">&#9670;&nbsp;</a></span>h5fdelete_f()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine h5f::h5fdelete_f </td>
+          <td>(</td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(out)&#160;</td>
+          <td class="paramname"><em>hdferr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>), intent(in), optional&#160;</td>
+          <td class="paramname"><em>access_prp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deletes an HDF5 file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the file to delete </td></tr>
+    <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails. </td></tr>
+    <tr><td class="paramname">access_prp</td><td>File access property list identifier</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>See C API: <a class="el" href="group___h5_f.html#ga2e8b5e19b343123e8ab21442f9169a62">H5Fdelete()</a> </p>
+
+</div>
+</div>
 <a id="gabed92f795d31622727384f45a847d7e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gabed92f795d31622727384f45a847d7e0">&#9670;&nbsp;</a></span>h5fflush_async_f()</h2>
 
@@ -809,8 +860,8 @@ Variables</h2></td></tr>
 <p>Gets the value of the "minimize dataset headers" value which creates smaller dataset object headers when its set and no attributes are present. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>Target file identifier. </td></tr>
-    <tr><td class="paramname">minimize</td><td>Value of the setting. </td></tr>
+    <tr><td class="paramname">file_id</td><td>Target file identifier </td></tr>
+    <tr><td class="paramname">minimize</td><td>Value of the setting </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -866,11 +917,11 @@ Variables</h2></td></tr>
 <p>Retrieves a copy of the image of an existing, open file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>Target file identifier. </td></tr>
-    <tr><td class="paramname">buf_ptr</td><td>Pointer to the buffer into which the image of the HDF5 file is to be copied. </td></tr>
-    <tr><td class="paramname">buf_len</td><td>Size of the supplied buffer. </td></tr>
+    <tr><td class="paramname">file_id</td><td>Target file identifier </td></tr>
+    <tr><td class="paramname">buf_ptr</td><td>Pointer to the buffer into which the image of the HDF5 file is to be copied </td></tr>
+    <tr><td class="paramname">buf_len</td><td>Size of the supplied buffer </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails. </td></tr>
-    <tr><td class="paramname">buf_size</td><td>Returns the size in bytes of the buffer required to store the file image, no data will be copied.</td></tr>
+    <tr><td class="paramname">buf_size</td><td>Returns the size in bytes of the buffer required to store the file image, no data will be copied</td></tr>
   </table>
   </dd>
 </dl>
@@ -913,8 +964,8 @@ Variables</h2></td></tr>
 <p>Retrieves the file number of the HDF5 file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>File identifier. </td></tr>
-    <tr><td class="paramname">fileno</td><td>File number. </td></tr>
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
+    <tr><td class="paramname">fileno</td><td>File number </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -958,8 +1009,8 @@ Variables</h2></td></tr>
 <p>Retrieves the file size of the HDF5 file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>File identifier. </td></tr>
-    <tr><td class="paramname">size</td><td>File size. </td></tr>
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
+    <tr><td class="paramname">size</td><td>File size </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -1003,8 +1054,8 @@ Variables</h2></td></tr>
 <p>Get amount of free space within a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>File identifier. </td></tr>
-    <tr><td class="paramname">free_space</td><td>Amount of free space in file. </td></tr>
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
+    <tr><td class="paramname">free_space</td><td>Amount of free space in file </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -1058,6 +1109,51 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ga51ce7d0e6526239852253bec8a3b1f47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga51ce7d0e6526239852253bec8a3b1f47">&#9670;&nbsp;</a></span>h5fget_intent_f()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine h5f::h5fget_intent_f </td>
+          <td>(</td>
+          <td class="paramtype">integer(<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>), intent(in)&#160;</td>
+          <td class="paramname"><em>file_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(out)&#160;</td>
+          <td class="paramname"><em>intent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(out)&#160;</td>
+          <td class="paramname"><em>hdferr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines the read/write or read-only status of a file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
+    <tr><td class="paramname">intent</td><td>Access mode flag as originally passed with H5Fopen_f() </td></tr>
+    <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>See C API: <a class="el" href="group___h5_f.html#ga466179d7783d256329c2e3110055a16c">H5Fget_intent()</a> </p>
+
+</div>
+</div>
 <a id="ga711e2c28121414dcfbbc33bded75bc93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga711e2c28121414dcfbbc33bded75bc93">&#9670;&nbsp;</a></span>h5fget_name_f()</h2>
 
@@ -1099,9 +1195,9 @@ Variables</h2></td></tr>
 <p>Gets the name of the file from the object identifier. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">obj_id</td><td>Object identifier. </td></tr>
-    <tr><td class="paramname">buf</td><td>Buffer to store the read name. </td></tr>
-    <tr><td class="paramname">size</td><td>Actual size of the name. </td></tr>
+    <tr><td class="paramname">obj_id</td><td>Object identifier </td></tr>
+    <tr><td class="paramname">buf</td><td>Buffer to store the read name </td></tr>
+    <tr><td class="paramname">size</td><td>Actual size of the name </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -1151,7 +1247,7 @@ Variables</h2></td></tr>
 <p>Gets number of the objects open within a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>File identifier. </td></tr>
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
     <tr><td class="paramname">obj_type</td><td>Type of the object; possible values are: <ul>
 <li>H5F_OBJ_FILE_F </li>
 <li>H5F_OBJ_DATASET_F </li>
@@ -1160,7 +1256,7 @@ Variables</h2></td></tr>
 <li>H5F_OBJ_ALL_F </li>
 </ul>
 </td></tr>
-    <tr><td class="paramname">obj_count</td><td>Number of open objects. </td></tr>
+    <tr><td class="paramname">obj_count</td><td>Number of open objects </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>
@@ -1222,7 +1318,7 @@ Variables</h2></td></tr>
 <p>Get list of open objects identifiers within a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>File identifier. </td></tr>
+    <tr><td class="paramname">file_id</td><td>File identifier </td></tr>
     <tr><td class="paramname">obj_type</td><td>Type of the object; possible values are: <ul>
 <li>H5F_OBJ_FILE_F </li>
 <li>H5F_OBJ_DATASET_F </li>
@@ -1231,10 +1327,10 @@ Variables</h2></td></tr>
 <li>H5F_OBJ_ALL_F </li>
 </ul>
 </td></tr>
-    <tr><td class="paramname">max_objs</td><td>Maximum # of objects to retrieve. </td></tr>
-    <tr><td class="paramname">obj_ids</td><td>Array of open object identifiers. </td></tr>
+    <tr><td class="paramname">max_objs</td><td>Maximum # of objects to retrieve </td></tr>
+    <tr><td class="paramname">obj_ids</td><td>Array of open object identifiers </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails. </td></tr>
-    <tr><td class="paramname">num_objs</td><td>Number of open objects.</td></tr>
+    <tr><td class="paramname">num_objs</td><td>Number of open objects</td></tr>
   </table>
   </dd>
 </dl>
@@ -1705,8 +1801,8 @@ Variables</h2></td></tr>
 <p>Sets the value of the "minimize dataset headers" value which creates smaller dataset object headers when its set and no attributes are present. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file_id</td><td>Target file identifier. </td></tr>
-    <tr><td class="paramname">minimize</td><td>Value of the setting. </td></tr>
+    <tr><td class="paramname">file_id</td><td>Target file identifier </td></tr>
+    <tr><td class="paramname">minimize</td><td>Value of the setting </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails.</td></tr>
   </table>
   </dd>

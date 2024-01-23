@@ -1104,11 +1104,11 @@ An additional flag, <a class="el" href="_h5_fpublic_8h.html#af3ff563967a75b699c4
 <div class="line">    } <a class="code" href="struct_h5_f__info1__t.html#a5cf928eff03dc598100ca7b4642ac263">sohm</a>;</div>
 <div class="line">} <a class="code" href="struct_h5_f__info1__t.html">H5F_info1_t</a>;</div>
 <div class="ttc" id="astruct_h5__ih__info__t_html"><div class="ttname"><a href="struct_h5__ih__info__t.html">H5_ih_info_t</a></div><div class="ttdef"><b>Definition:</b> H5public.h:379</div></div>
-<div class="ttc" id="astruct_h5_f__info1__t_html"><div class="ttname"><a href="struct_h5_f__info1__t.html">H5F_info1_t</a></div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1875</div></div>
-<div class="ttc" id="astruct_h5_f__info1__t_html_a4bd7cc5a9377277d7ba270cb7173565b"><div class="ttname"><a href="struct_h5_f__info1__t.html#a4bd7cc5a9377277d7ba270cb7173565b">H5F_info1_t::msgs_info</a></div><div class="ttdeci">H5_ih_info_t msgs_info</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1879</div></div>
-<div class="ttc" id="astruct_h5_f__info1__t_html_a4d6224a7603c148dfbbd66169698dcbf"><div class="ttname"><a href="struct_h5_f__info1__t.html#a4d6224a7603c148dfbbd66169698dcbf">H5F_info1_t::super_ext_size</a></div><div class="ttdeci">hsize_t super_ext_size</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1876</div></div>
+<div class="ttc" id="astruct_h5_f__info1__t_html"><div class="ttname"><a href="struct_h5_f__info1__t.html">H5F_info1_t</a></div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1876</div></div>
+<div class="ttc" id="astruct_h5_f__info1__t_html_a4bd7cc5a9377277d7ba270cb7173565b"><div class="ttname"><a href="struct_h5_f__info1__t.html#a4bd7cc5a9377277d7ba270cb7173565b">H5F_info1_t::msgs_info</a></div><div class="ttdeci">H5_ih_info_t msgs_info</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1880</div></div>
+<div class="ttc" id="astruct_h5_f__info1__t_html_a4d6224a7603c148dfbbd66169698dcbf"><div class="ttname"><a href="struct_h5_f__info1__t.html#a4d6224a7603c148dfbbd66169698dcbf">H5F_info1_t::super_ext_size</a></div><div class="ttdeci">hsize_t super_ext_size</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1877</div></div>
 <div class="ttc" id="astruct_h5_f__info1__t_html_a5cf928eff03dc598100ca7b4642ac263"><div class="ttname"><a href="struct_h5_f__info1__t.html#a5cf928eff03dc598100ca7b4642ac263">H5F_info1_t::sohm</a></div><div class="ttdeci">struct H5F_info1_t::@3 sohm</div></div>
-<div class="ttc" id="astruct_h5_f__info1__t_html_a89b75e42126975a5e12777cf5915a8cb"><div class="ttname"><a href="struct_h5_f__info1__t.html#a89b75e42126975a5e12777cf5915a8cb">H5F_info1_t::hdr_size</a></div><div class="ttdeci">hsize_t hdr_size</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1878</div></div>
+<div class="ttc" id="astruct_h5_f__info1__t_html_a89b75e42126975a5e12777cf5915a8cb"><div class="ttname"><a href="struct_h5_f__info1__t.html#a89b75e42126975a5e12777cf5915a8cb">H5F_info1_t::hdr_size</a></div><div class="ttdeci">hsize_t hdr_size</div><div class="ttdef"><b>Definition:</b> H5Fpublic.h:1879</div></div>
 </div><!-- fragment --><p> <code>super_ext_size</code> is the size of the superblock extension.</p>
 <p>The <code>sohm</code> sub-struct contains shared object header message information as follows: </p><ul>
 <li><code>hdr_size</code> is the size of the shared object header message. </li>
@@ -1354,7 +1354,7 @@ An additional flag, <a class="el" href="_h5_fpublic_8h.html#af3ff563967a75b699c4
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns the number of open objects if successful; otherwise returns a negative value.</dd></dl>
 <p>Given the identifier of an open file, file_id, and the desired object types, types, <a class="el" href="group___h5_f.html#gadcdae0aca7c88064db0d32de7f1e31f2" title="Returns the number of open object identifiers for an open file.">H5Fget_obj_count()</a> returns the number of open object identifiers for the file.</p>
-<p>To retrieve a count of open identifiers for open objects in all HDF5 application files that are currently open, pass the value <a class="el" href="_h5_fpublic_8h.html#ad33eeeed36028dec422356d0e41a7113">H5F_OBJ_ALL</a> in <code>file_id</code>.</p>
+<p>To retrieve a count of open identifiers for open objects in all HDF5 application files that are currently open, as well as transient datatype objects that are not associated with any file, pass the value <a class="el" href="_h5_fpublic_8h.html#ad33eeeed36028dec422356d0e41a7113">H5F_OBJ_ALL</a> in <code>file_id</code>.</p>
 <p>The types of objects to be counted are specified in types as follows: </p><table class="doxtable">
 <tr>
 <td><a class="el" href="_h5_fpublic_8h.html#a6e8e55fb44bd2be4c06f4094d42310d8">H5F_OBJ_FILE</a></td><td>Files only</td></tr>
@@ -1363,7 +1363,7 @@ An additional flag, <a class="el" href="_h5_fpublic_8h.html#af3ff563967a75b699c4
 <tr>
 <td><a class="el" href="_h5_fpublic_8h.html#ac8e6b9f94f3cf5e0d5376c90d6b6101b">H5F_OBJ_GROUP</a></td><td>Groups only</td></tr>
 <tr>
-<td><a class="el" href="_h5_fpublic_8h.html#affd4ef14d9905d0d48f94719025dd72b">H5F_OBJ_DATATYPE</a></td><td>Named datatypes only</td></tr>
+<td><a class="el" href="_h5_fpublic_8h.html#affd4ef14d9905d0d48f94719025dd72b">H5F_OBJ_DATATYPE</a></td><td>Datatypes only. If <code>file_id</code> is <a class="el" href="_h5_fpublic_8h.html#ad33eeeed36028dec422356d0e41a7113">H5F_OBJ_ALL</a>, this will count committed and transient datatypes. Otherwise, it will only count committed datatypes. </td></tr>
 <tr>
 <td><a class="el" href="_h5_fpublic_8h.html#a7750c490f87481a65c709ba6b5b6b4a6">H5F_OBJ_ATTR</a></td><td>Attributes only</td></tr>
 <tr>

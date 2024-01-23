@@ -9,10 +9,8 @@ project (HDF5Examples_FORTRAN_H5G Fortran)
 #-----------------------------------------------------------------------------
 # Setup include Directories
 #-----------------------------------------------------------------------------
-INCLUDE_DIRECTORIES (
-    ${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT}
-    ${PROJECT_BINARY_DIR}
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES
+  "${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT};${HDF5_F90_BINARY_DIR};${PROJECT_BINARY_DIR};${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
 )
 
 #-----------------------------------------------------------------------------
@@ -172,21 +170,19 @@ endif ()
 #endif ()
 
 if (H5EX_BUILD_TESTING)
-#  if (HDF_ENABLE_F2003)
-#    set (exfiles
-#        h5ex_g_iterate
-#        h5ex_g_traverse
-#        h5ex_g_visit
-#    )
-#    foreach (example ${exfiles})
-#      add_custom_command (
-#          TARGET     ${EXAMPLE_VARNAME}_f90_${example}
-#          POST_BUILD
-#          COMMAND    ${CMAKE_COMMAND}
-#          ARGS       -E copy_if_different ${PROJECT_SOURCE_DIR}/${example}.h5 ${PROJECT_BINARY_DIR}/${example}.h5
-#      )
-#    endforeach ()
-#  endif ()
+    set (exfiles
+        h5ex_g_iterate
+        h5ex_g_traverse
+        h5ex_g_visit
+    )
+    foreach (example ${exfiles})
+      add_custom_command (
+          TARGET     ${EXAMPLE_VARNAME}_f90_${example}
+          POST_BUILD
+          COMMAND    ${CMAKE_COMMAND}
+          ARGS       -E copy_if_different ${PROJECT_SOURCE_DIR}/${example}.h5 ${PROJECT_BINARY_DIR}/${example}.h5
+      )
+    endforeach ()
 
   macro (ADD_DUMP_TEST testname)
     add_test (
@@ -347,10 +343,21 @@ if (H5EX_BUILD_TESTING)
   ADD_DUMP_TEST (h5ex_g_create)
   ADD_H5_CMP_TEST (h5ex_g_corder)
   ADD_H5_CMP_TEST (h5ex_g_phase)
-#  if (HDF_ENABLE_F2003)
-#    ADD_H5_CMP_TEST (h5ex_g_iterate_F03)
-#    ADD_H5_CMP_TEST (h5ex_g_traverse_F03)
-#    ADD_H5_CMP_TEST (h5ex_g_visit_F03)
-#  endif ()
+
+  if (HDF5_VERSION_STRING VERSION_GREATER_EQUAL "1.10.0")
+    ADD_H5_CMP_TEST (h5ex_g_intermediate)
+    ADD_H5_CMP_TEST (h5ex_g_iterate)
+    ADD_H5_CMP_TEST (h5ex_g_visit)
+    #if (HDF5_VERSION_STRING VERSION_GREATER_EQUAL "1.14.3")
+	    #ADD_H5_CMP_TEST (h5ex_g_traverse)
+    #endif()
+  else ()
+    if (HDF_ENABLE_F2003)
+      ADD_H5_CMP_TEST (h5ex_g_intermediate)
+      ADD_H5_CMP_TEST (h5ex_g_iterate)
+      #  ADD_H5_CMP_TEST (h5ex_g_traverse)
+      ADD_H5_CMP_TEST (h5ex_g_visit)
+    endif ()
+  endif ()
 
 endif ()

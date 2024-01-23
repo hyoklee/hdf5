@@ -771,6 +771,8 @@ h5init_flags_c(int_f *h5d_flags, size_t_f *h5d_size_flags, int_f *h5e_flags, hid
      *  H5S flags
      */
     h5s_hid_flags[0] = (hid_t_f)H5S_ALL;
+    h5s_hid_flags[1] = (hid_t_f)H5S_BLOCK;
+    h5s_hid_flags[2] = (hid_t_f)H5S_PLIST;
 
     h5s_hsize_flags[0] = (hsize_t_f)H5S_UNLIMITED;
 
@@ -795,6 +797,9 @@ h5init_flags_c(int_f *h5d_flags, size_t_f *h5d_size_flags, int_f *h5e_flags, hid
     h5s_flags[15] = (int_f)H5S_SEL_POINTS;
     h5s_flags[16] = (int_f)H5S_SEL_HYPERSLABS;
     h5s_flags[17] = (int_f)H5S_SEL_ALL;
+
+    h5s_flags[18] = (int_f)H5S_SEL_ITER_GET_SEQ_LIST_SORTED;
+    h5s_flags[19] = (int_f)H5S_SEL_ITER_SHARE_WITH_DATASPACE;
 
     /*
      *  H5T flags

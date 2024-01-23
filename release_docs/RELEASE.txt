@@ -278,6 +278,16 @@ New Features
 
     Library:
     --------
+    - Implemented optimized support for vector I/O in the Subfiling VFD
+
+      Previously, the Subfiling VFD would handle vector I/O requests by
+      breaking them down into individual I/O requests, one for each entry
+      in the I/O vectors provided. This could result in poor I/O performance
+      for features in HDF5 that utilize vector I/O, such as parallel I/O
+      to filtered datasets. The Subfiling VFD now properly handles vector
+      I/O requests in their entirety, resulting in fewer I/O calls, improved
+      vector I/O performance and improved vector I/O memory efficiency.
+    
     - Added a simple cache to the read-only S3 (ros3) VFD
 
       The read-only S3 VFD now caches the first N bytes of a file stored
@@ -377,6 +387,22 @@ New Features
 
     Fortran Library:
     ----------------
+
+    - Added Fortran APIs:
+      H5FGET_INTENT_F, H5SSEL_ITER_CREATE_F, H5SSEL_ITER_GET_SEQ_LIST_F,
+      H5SSEL_ITER_CLOSE_F, H5S_mp_H5SSEL_ITER_RESET_F
+
+    - Added Fortran Parameters:
+      H5S_SEL_ITER_GET_SEQ_LIST_SORTED_F, H5S_SEL_ITER_SHARE_WITH_DATASPACE_F
+
+    - Added Fortran Parameters:
+      H5S_BLOCK_F and H5S_PLIST_F
+
+    - The configuration definitions file, H5config_f.inc, is now installed
+      and the HDF5 version number has been added to it.
+
+    - Added Fortran APIs:
+      h5fdelete_f
 
     - Added Fortran APIs:
       h5vlnative_addr_to_token_f and h5vlnative_token_to_address_f

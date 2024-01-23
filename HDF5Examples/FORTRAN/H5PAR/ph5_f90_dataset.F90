@@ -1,10 +1,9 @@
      PROGRAM DATASET
 
      USE HDF5 ! This module contains all necessary modules
+     USE MPI
 
      IMPLICIT NONE
-
-     INCLUDE 'mpif.h'
      CHARACTER(LEN=10), PARAMETER :: filename = "sds.h5"  ! File name
      CHARACTER(LEN=8), PARAMETER :: dsetname = "IntArray" ! Dataset name
 
@@ -101,6 +100,7 @@
      ! Close FORTRAN interface
      !
      CALL h5close_f(error)
+     IF(mpi_rank.EQ.0) WRITE(*,'(A)') "PHDF5 example finished with no errors"
 
      CALL MPI_FINALIZE(mpierror)
 

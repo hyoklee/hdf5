@@ -220,7 +220,7 @@ set (HDF5_CPP_TST_DIR          ${HDF5_SOURCE_DIR}/c++/test)
 set (HDF5_HL_SRC_DIR           ${HDF5_SOURCE_DIR}/hl)
 set (HDF5_HL_CPP_SRC_DIR       ${HDF5_SOURCE_DIR}/hl/c++)
 set (HDF5_HL_TOOLS_DIR         ${HDF5_SOURCE_DIR}/hl/tools)
-set (HDF5_TOOLS_ROOT_DIR            ${HDF5_SOURCE_DIR}/tools)
+set (HDF5_TOOLS_ROOT_DIR       ${HDF5_SOURCE_DIR}/tools)
 set (HDF5_TOOLS_SRC_DIR        ${HDF5_SOURCE_DIR}/tools/src)
 set (HDF5_TOOLS_TST_DIR        ${HDF5_SOURCE_DIR}/tools/test)
 set (HDF5_PERFORM_SRC_DIR      ${HDF5_SOURCE_DIR}/tools/src/perform)
@@ -418,6 +418,7 @@ set (HDF5_PACKAGE_BUGREPORT "help@hdfgroup.org")
 set (HDF5_VERSION_STRING ${HDF5_PACKAGE_VERSION})
 set (HDF5_VERSION_MAJOR  ${HDF5_PACKAGE_VERSION_MAJOR})
 set (HDF5_VERSION_MINOR  ${HDF5_PACKAGE_VERSION_MINOR})
+set (H5_LIBVER_DIR       ${H5_VERS_MAJOR}${H5_VERS_MINOR})
 
 #-----------------------------------------------------------------------------
 # Include some macros for reusable code
@@ -461,7 +462,8 @@ set (CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 # Include directories in the source or build tree should come before other
 # directories to prioritize headers in the sources over installed ones.
 #-----------------------------------------------------------------------------
-set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
+set (CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
+set (HDF5_COMP_INCLUDE_DIRECTORIES)
 
 #-----------------------------------------------------------------------------
 # Mac OS X Options
@@ -1026,15 +1028,20 @@ endif ()
 #-----------------------------------------------------------------------------
 # Include filter plugins
 #-----------------------------------------------------------------------------
-include (CMakePlugins.cmake)
+if (${H5_LIBVER_DIR} EQUAL 16 OR DEFAULT_API_VERSION MATCHES "v16")
+  set (HDF5_ENABLE_PLUGIN_SUPPORT OFF CACHE BOOL "" FORCE)
+  message (VERBOSE "Filter PLUGINs cannot be used with 1.6 API")
+else ()
+  include (CMakePlugins.cmake)
 
-if (HDF5_PACKAGE_EXTLIBS AND NOT HDF5_NO_PACKAGES)
-  if (HDF5_ENABLE_PLUGIN_SUPPORT AND PLUGIN_FOUND)
-    PACKAGE_PLUGIN_LIBRARY (${HDF5_ALLOW_EXTERNAL_SUPPORT})
-#    option (HDF5_TEST_PLUGIN "Execute plugin tests" ON)
-#    mark_as_advanced (HDF5_TEST_PLUGIN)
+  if (HDF5_PACKAGE_EXTLIBS AND NOT HDF5_NO_PACKAGES)
+    if (HDF5_ENABLE_PLUGIN_SUPPORT AND PLUGIN_FOUND)
+      PACKAGE_PLUGIN_LIBRARY (${HDF5_ALLOW_EXTERNAL_SUPPORT})
+#      option (HDF5_TEST_PLUGIN "Execute plugin tests" ON)
+#      mark_as_advanced (HDF5_TEST_PLUGIN)
 
-#    TEST_PLUGIN_LIBRARY ()
+#      TEST_PLUGIN_LIBRARY ()
+    endif ()
   endif ()
 endif ()
 

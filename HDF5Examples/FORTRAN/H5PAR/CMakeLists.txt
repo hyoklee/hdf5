@@ -9,10 +9,8 @@ project (HDF5Examples_FORTRAN_H5PAR Fortran)
 #-----------------------------------------------------------------------------
 # Setup include Directories
 #-----------------------------------------------------------------------------
-INCLUDE_DIRECTORIES (
-    ${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT}
-    ${PROJECT_BINARY_DIR}
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES
+  "${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT};${HDF5_F90_BINARY_DIR};${PROJECT_BINARY_DIR};${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
 )
 
 #-----------------------------------------------------------------------------
@@ -66,11 +64,10 @@ if (H5EX_BUILD_TESTING)
   # Ensure that 24 is a multiple of the number of processes.
   # The number 24 corresponds to SPACE1_DIM1 and SPACE1_DIM2 defined in ph5example.c
   math(EXPR NUMPROCS "24 / ((24 + ${MPIEXEC_MAX_NUMPROCS} - 1) / ${MPIEXEC_MAX_NUMPROCS})")
-
   foreach (example_name ${examples})
-    if (${example_name} STREQUAL "ph5_hyperslab_by_col")
+    if (${example_name} STREQUAL "ph5_f90_hyperslab_by_row")
       ADD_GREP_TEST (${example_name} 2)
-    elseif (${example_name} STREQUAL "ph5_hyperslab_by_chunk" OR ${example_name} STREQUAL "ph5_hyperslab_by_pattern")
+    elseif (${example_name} STREQUAL "ph5_f90_hyperslab_by_chunk" OR ${example_name} STREQUAL "ph5_f90_hyperslab_by_pattern")
       ADD_GREP_TEST (${example_name} 4)
     else ()
       ADD_GREP_TEST (${example_name} ${NUMPROCS})

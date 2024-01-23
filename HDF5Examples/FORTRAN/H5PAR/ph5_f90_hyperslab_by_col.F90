@@ -1,7 +1,6 @@
 !
-! Number of processes is assumed to be 1 or multiples of 2 (1,2,4,6,8)
+! Number of processes is assumed to be 1 or powers of 2 (2,4,8)
 !
-
      PROGRAM DATASET_BY_COL
 
      USE HDF5 ! This module contains all necessary modules
@@ -127,7 +126,7 @@
      ! Close FORTRAN predefined datatypes.
      !
      CALL h5close_f(error)
-
+     IF(mpi_rank.EQ.0) WRITE(*,'(A)') "PHDF5 example finished with no errors"
      CALL MPI_FINALIZE(mpierror)
 
      END PROGRAM DATASET_BY_COL

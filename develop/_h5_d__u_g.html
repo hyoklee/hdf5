@@ -180,7 +180,7 @@ Dataset Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___h5_d.html#gad31e1e0129f4520c531ce524de2a056f" title="Changes the sizes of a dataset&#39;s dimensions.">H5Dset_extent</a> </td><td>Changes the sizes of a dataset's dimensions.  </td></tr>
 </table>
-<p><a class="anchor" id="dcpl_table_tag"></a>Dataset creation property list functions (H5P) <a class="anchor" id="table_dcpl_id"></a>
+<p><a class="anchor" id="dcpl_table_tag"></a>Dataset creation property list functions (H5P) </p><div> <a class="anchor" id="table_dcpl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">Dataset creation property list functions (H5P)</caption>
 <tr>
@@ -262,7 +262,8 @@ Dataset Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___d_c_p_l.html#gaf5ae8c0257c02e3fbe50bde70b1eb8be" title="Sets the flag to create minimized dataset object headers.">H5Pset_dset_no_attrs_hint</a>/<a class="el" href="group___d_c_p_l.html#ga2fd4f0446a38186db8256cef4c97a970" title="Retrieves the setting for whether or not to create minimized dataset object headers.">H5Pget_dset_no_attrs_hint</a> </td><td>Sets/gets the flag to create minimized dataset object headers.  </td></tr>
 </table>
- <a class="anchor" id="dapl_table_tag"></a>Dataset access property list functions (H5P) <a class="anchor" id="table_dapl_id"></a>
+ </div><p><a class="anchor" id="dapl_table_tag"></a>Dataset access property list functions (H5P)</p>
+<div> <a class="anchor" id="table_dapl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">Dataset access property list functions (H5P)</caption>
 <tr>
@@ -284,8 +285,7 @@ Dataset Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___d_a_p_l.html#gac65520e7cd7748f93d94c4a42abd01b4" title="Sets the view of the virtual dataset (VDS) to include or exclude missing mapped elements.">H5Pset_virtual_view</a>/<a class="el" href="group___d_a_p_l.html#ga7173663654b085e8583ab609c988b47c" title="Retrieves the view of a virtual dataset accessed with dapl_id.">H5Pget_virtual_view</a> </td><td>Sets/gets the view of the virtual dataset (VDS) to include or exclude missing mapped elements.  </td></tr>
 </table>
- </p>
-<h2><a class="anchor" id="subsec_dataset_program"></a>
+ </div><h2><a class="anchor" id="subsec_dataset_program"></a>
 Programming Model for Datasets</h2>
 <p>This section explains the programming model for datasets.</p>
 <h3><a class="anchor" id="subsubsec_dataset_program_general"></a>
@@ -698,7 +698,7 @@ Data Pipeline Filters</h3>
 <h3><a class="anchor" id="subsubsec_dataset_transfer_drive"></a>
 File Drivers</h3>
 <p>I/O is performed by the HDF5 virtual file layer. The file driver interface writes and reads blocks of data; each driver module implements the interface using different I/O mechanisms. The table below lists the file drivers currently supported. Note that the I/O mechanisms are separated from the pipeline processing: the pipeline and filter operations are identical no matter what data access mechanism is used.</p>
-<p><a class="anchor" id="table_lcpl_id"></a>
+<div> <a class="anchor" id="table_lcpl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">Link creation property list functions (H5P)</caption>
 <tr>
@@ -706,13 +706,13 @@ File Drivers</h3>
 <tr>
 <td><a class="el" href="group___l_c_p_l.html#ga66c4c5d3f34e5cf65d00e47a5387383c" title="Specifies in property list whether to create missing intermediate groups.">H5Pset_create_intermediate_group</a>/<a class="el" href="group___l_c_p_l.html#gaf7db1b7ce19703f30f1827b7c899c3b0" title="Determines whether property is set to enable creating missing intermediate groups.">H5Pget_create_intermediate_group</a> </td><td>Specifies/retrieves whether to create missing intermediate groups.  </td></tr>
 </table>
- Each file driver writes/reads contiguous blocks of bytes from a logically contiguous address space. The file driver is responsible for managing the details of the different physical storage methods.</p>
+ </div><p>Each file driver writes/reads contiguous blocks of bytes from a logically contiguous address space. The file driver is responsible for managing the details of the different physical storage methods.</p>
 <p>In serial environments, everything above the virtual file layer tends to work identically no matter what storage method is used.</p>
 <p>Some options may have substantially different performance depending on the file driver that is used. In particular, multi-file and parallel I/O may perform considerably differently from serial drivers depending on chunking and other settings.</p>
 <h3><a class="anchor" id="subsubsec_dataset_transfer_props"></a>
 Data Transfer Properties to Manage the Pipeline</h3>
 <p>Data transfer properties set optional parameters that control parts of the data pipeline. The function listing below shows transfer properties that control the behavior of the library.</p>
-<p><table class="doxtable">
+<div> <table class="doxtable">
 <caption>I/O file drivers</caption>
 <tr>
 <th>File Driver </th><th>Description  </th></tr>
@@ -747,7 +747,7 @@ Data Transfer Properties to Manage the Pipeline</h3>
 <tr>
 <td><a class="el" href="_h5_f_donion_8h.html#a1d6673897b4ebd1bad9846b5695ba346">H5FD_ONION</a> </td><td>Provide in-file provenance and revision/version control.  </td></tr>
 </table>
- Some filters and file drivers require or use additional parameters from the application program. These can be passed in the data transfer property list. The table below shows file driver property list functions.</p>
+ </div><p>Some filters and file drivers require or use additional parameters from the application program. These can be passed in the data transfer property list. The table below shows file driver property list functions.</p>
 <table class="doxtable">
 <caption>File driver property list functions</caption>
 <tr>

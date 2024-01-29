@@ -323,7 +323,7 @@ File Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___h5_f.html#gae8f807d3f04a33f132ffb6c5295e897f" title="Unounts an HDF5 file.">H5Funmount</a> </td><td>Unmounts a file.  </td></tr>
 </table>
-<p><a class="anchor" id="fcpl_table_tag"></a>File creation property list functions (H5P) <a class="anchor" id="table_fcpl_id"></a>
+<p><a class="anchor" id="fcpl_table_tag"></a>File creation property list functions (H5P) </p><div> <a class="anchor" id="table_fcpl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">File creation property list functions (H5P)</caption>
 <tr>
@@ -351,7 +351,7 @@ File Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___f_c_p_l.html#ga99c0afbb68e8e775ae70cac44404a534" title="Retrieves the version information of various objects for a file creation property list(deprecated)">H5Pget_version</a> </td><td></td></tr>
 </table>
- <a class="anchor" id="fapl_table_tag"></a>File access property list functions (H5P) <a class="anchor" id="table_fapl_id"></a>
+</div><p><a class="anchor" id="fapl_table_tag"></a>File access property list functions (H5P) </p><div> <a class="anchor" id="table_fapl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">File access property list functions (H5P)</caption>
 <tr>
@@ -421,7 +421,7 @@ File Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___f_a_p_l.html#ga6380f9929cf42c8203813f7e72dde35c" title="Sets metadata write mode to be collective or independent (default)">H5Pset_coll_metadata_write</a>/<a class="el" href="group___f_a_p_l.html#gac83ab4e788a5b6e0d578f40ca67d8d00" title="Retrieves metadata write mode setting.">H5Pget_coll_metadata_write</a> </td><td>Sets/retrieves metadata write mode setting.  </td></tr>
 </table>
- <a class="anchor" id="fd_pl_table_tag"></a>File driver property list functions (H5P) <a class="anchor" id="table_fd_pl_id"></a>
+</div><p><a class="anchor" id="fd_pl_table_tag"></a>File driver property list functions (H5P) </p><div> <a class="anchor" id="table_fd_pl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">File driver property list functions (H5P)</caption>
 <tr>
@@ -479,8 +479,7 @@ File Function Summaries</h2>
 <tr>
 <td><a class="el" href="group___f_a_p_l.html#ga251515e9fee4641037b4866a4f7c49fe" title="Retrieves type of data property for MULTI driver.">H5Pget_multi_type</a> </td><td>Retrieves type of data property for MULTI driver.  </td></tr>
 </table>
-</p>
-<h2><a class="anchor" id="subsec_file_create"></a>
+</div><h2><a class="anchor" id="subsec_file_create"></a>
 Creating or Opening an HDF5 File</h2>
 <p>This section describes in more detail how to create and how to open files.</p>
 <p>New HDF5 files are created and opened with <a class="el" href="group___h5_f.html#gae64b51ee9ac0781bc4ccc599d98387f4" title="Creates an HDF5 file.">H5Fcreate</a>; existing files are opened with <a class="el" href="group___h5_f.html#gaa3f4f877b9bb591f3880423ed2bf44bc" title="Opens an existing HDF5 file.">H5Fopen</a>. Both functions return an object identifier which must eventually be released by calling <a class="el" href="group___h5_f.html#gac55cd91d80822e4f8c2a7f04ea71b124" title="Terminates access to an HDF5 file.">H5Fclose</a>.</p>
@@ -589,7 +588,7 @@ I/O path from application to VFL and low-level drivers to storage</div></div>
    </td></tr>
 </table>
 <p>As mentioned above, HDF5 applications access HDF5 files through various low-level file drivers. The default driver for that layout is the POSIX driver (also known as the SEC2 driver), <a class="el" href="_h5_f_dsec2_8h.html#a15ae1f958e1cf11cb239916d76b10606">H5FD_SEC2</a>. Alternative layouts and drivers are designed to suit the needs of a variety of systems, environments, and applications. The drivers are listed in the table below.</p>
-<p><a class="anchor" id="table_file_drivers"></a>
+<div> <a class="anchor" id="table_file_drivers"></a>
 <table class="doxtable">
 <caption>Supported file drivers</caption>
 <tr>
@@ -631,7 +630,7 @@ I/O path from application to VFL and low-level drivers to storage</div></div>
 <tr>
 <td>Stream </td><td>H5FD_STREAM </td><td>This driver is no longer available. </td><td></td></tr>
 </table>
- For more information, see the HDF5 Reference Manual entries for the function calls shown in the column on the right in the table above.</p>
+</div><p>For more information, see the HDF5 Reference Manual entries for the function calls shown in the column on the right in the table above.</p>
 <p>Note that the low-level file drivers manage alternative file storage layouts. Dataset storage layouts (chunking, compression, and external dataset storage) are managed independently of file storage layouts.</p>
 <p>If an application requires a special-purpose low-level driver, the VFL provides a public API for creating one. For more information on how to create a driver, </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="_v_f_l.html">HDF5 Virtual File Layer</a> in the HDF5 Technical Notes.</dd></dl>
 <h3><a class="anchor" id="subsubsec_file_alternate_drivers_id"></a>

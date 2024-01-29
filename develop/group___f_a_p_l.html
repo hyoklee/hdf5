@@ -106,8 +106,7 @@ $(document).ready(function(){initNavTree('group___f_a_p_l.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Use file access properties to modify the default behavior of the HDF5 library when accessing files. The properties include selecting a virtual file driver (VFD), configuring the metadata cache (MDC), control file locking, etc. These properties are <em>not</em> persisted with files, and can be adjusted at runtime before a file is created or opened.</p>
-<p><a class="anchor" id="table_fapl_id"></a>
+<p>Use file access properties to modify the default behavior of the HDF5 library when accessing files. The properties include selecting a virtual file driver (VFD), configuring the metadata cache (MDC), control file locking, etc. These properties are <em>not</em> persisted with files, and can be adjusted at runtime before a file is created or opened. </p><div> <a class="anchor" id="table_fapl_id"></a>
 <table class="doxtable">
 <caption border="1" style="background-color:whitesmoke;">File access property list functions (H5P)</caption>
 <tr>
@@ -235,8 +234,7 @@ $(document).ready(function(){initNavTree('group___f_a_p_l.html',''); initResizab
 <tr>
 <td><a class="el" href="group___f_a_p_l.html#ga251515e9fee4641037b4866a4f7c49fe" title="Retrieves type of data property for MULTI driver.">H5Pget_multi_type</a> </td><td>Retrieves type of data property for MULTI driver.  </td></tr>
 </table>
-</p>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+</div> <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for File Access Properties:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
@@ -754,8 +752,7 @@ For optimum performance, the <code>page_size</code> parameter should be a power 
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a low level driver identifier if successful; otherwise returns <a class="el" href="_h5_ipublic_8h.html#a01eab13dccc91afd6909d74dccb780ba">H5I_INVALID_HID</a>.</dd></dl>
 <p><a class="el" href="group___f_a_p_l.html#ga43a733fe9723dd15f5ad7abda909a1b8" title="Returns low-lever driver identifier.">H5Pget_driver()</a> returns the identifier of the low-level file driver associated with the file access property list or data transfer property list <code>plist_id</code>.</p>
-<p>Valid driver identifiers distributed with HDF5 are listed and described in the following table.</p>
-<p><a class="anchor" id="table_file_drivers"></a>
+<p>Valid driver identifiers distributed with HDF5 are listed and described in the following table. </p><div> <a class="anchor" id="table_file_drivers"></a>
 <table class="doxtable">
 <caption>Supported file drivers</caption>
 <tr>
@@ -797,9 +794,12 @@ For optimum performance, the <code>page_size</code> parameter should be a power 
 <tr>
 <td>Stream </td><td>H5FD_STREAM </td><td>This driver is no longer available. </td><td></td></tr>
 </table>
- This list does not include custom drivers that might be defined and registered by a user.</p>
-<p>The returned driver identifier is only valid as long as the file driver remains registered.</p>
-<dl class="section since"><dt>Since</dt><dd>1.2.0 </dd></dl>
+</div> <pre class="fragment">     This list does not include custom drivers that might be
+     defined and registered by a user.
+
+     The returned driver identifier is only valid as long as the
+     file driver remains registered.
+</pre><dl class="section since"><dt>Since</dt><dd>1.2.0 </dd></dl>
 
 </div>
 </div>

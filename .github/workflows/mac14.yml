@@ -12,7 +12,6 @@ jobs:
         include:
           - name: "macOS 14 Clang"
             artifact: "macOS.tar.xz"
-            os: macos-14
             build_type: "Release"
             cpp: OFF
             fortran: OFF
@@ -24,9 +23,7 @@ jobs:
             generator: "-G Ninja"
 
     name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-    if: "!contains(github.event.head_commit.message, 'skip-ci')"
-
+    runs-on: macos-14
     steps:
     - name: Install Dependencies (macOS)
       run: brew install ninja openmpi libaec

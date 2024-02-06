@@ -1,0 +1,70 @@
+name: mac14 h j p
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+jobs:
+  build:
+    strategy:
+      matrix:
+        name: ["macOS 14  Clang"]
+        include:
+          - name: "macOS 14 Clang"
+            artifact: "macOS.tar.xz"
+            os: macos-14
+            build_type: "Release"
+            cpp: OFF
+            fortran: OFF
+            java: ON
+            ts: OFF
+            hl: ON
+            parallel: ON
+            toolchain: "config/toolchain/clang.cmake"
+            generator: "-G Ninja"
+
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+
+    steps:
+    - name: Install Dependencies (macOS)
+      run: brew install ninja openmpi libaec
+
+    - name: Get Sources
+      uses: actions/checkout@v4.1.1
+
+    - name: Configure
+      if: matrix.generator != 'autogen'
+      run: |
+        mkdir "${{ runner.workspace }}/build"
+        cd "${{ runner.workspace }}/build"
+        cmake ${{ matrix.generator }} \
+        -D BUILD_SHARED_LIBS=ON \
+        -D CMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        -D CMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
+        -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+        -D HDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
+        -D HDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
+        -D HDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
+        -D HDF5_BUILD_JAVA=${{ matrix.java }} \
+        -D HDF5_ENABLE_ALL_WARNINGS=ON \
+        -D HDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
+        -D HDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
+        -D HDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+        -D MPIEXEC_MAX_NUMPROCS:STRING=2 \
+        -D SITE:STRING=mac14 \
+        $GITHUB_WORKSPACE
+      shell: bash
+
+    - name: Build
+      run: cmake --build . --config ${{ matrix.build_type }}
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Test
+      run: ctest --build . -C ${{ matrix.build_type }} -V
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Submit
+      run: ctest -T Submit
+      working-directory: ${{ runner.workspace }}/build

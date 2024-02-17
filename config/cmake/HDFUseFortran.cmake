@@ -37,13 +37,13 @@ FortranCInterface_HEADER (
     SYMBOL_NAMESPACE "H5_FC_"
 )
 
-file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL\\(.*,.*\\) +(.*)")
-string (REGEX MATCH "H5_FC_GLOBAL\\(.*,.*\\) +(.*)" RESULT ${CONTENTS})
-set (H5_FC_FUNC "H5_FC_FUNC(name,NAME) ${CMAKE_MATCH_1}")
+# file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL\(.*,.*\) +(.*)")
+# string (REGEX MATCH "H5_FC_GLOBAL\(.*,.*\) +(.*)" RESULT  ${CONTENTS})
+# set (H5_FC_FUNC "H5_FC_FUNC(name,NAME) ${CMAKE_MATCH_1}")
 
-file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL_\\(.*,.*\\) +(.*)")
-string (REGEX MATCH "H5_FC_GLOBAL_\\(.*,.*\\) +(.*)" RESULT ${CONTENTS})
-set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) ${CMAKE_MATCH_1}")
+# file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL_\(.*,.*\) +(.*)")
+# string (REGEX MATCH "H5_FC_GLOBAL_\(.*,.*\) +(.*)" RESULT  ${CONTENTS})
+# set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) ${CMAKE_MATCH_1}")
 
 #test code source
 set (SIZEOF_CODE

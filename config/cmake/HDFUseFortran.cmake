@@ -37,15 +37,15 @@ FortranCInterface_HEADER (
     SYMBOL_NAMESPACE "H5_FC_"
 )
 
-file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL\(.*,.*\) +(.*)")
+file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL\\(.*,.*\\) +(.*)")
 if (CONTENTS)
-  string (REGEX MATCH "H5_FC_GLOBAL\(.*,.*\) +(.*)" RESULT  ${CONTENTS})
+  string (REGEX MATCH "H5_FC_GLOBAL\\(.*,.*\\) +(.*)" RESULT  ${CONTENTS})
   set (H5_FC_FUNC "H5_FC_FUNC(name,NAME) ${CMAKE_MATCH_1}")
 endif()
 
-file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL_\(.*,.*\) +(.*)")
+file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL_\\(.*,.*\\) +(.*)")
 if (CONTENTS)
-  string (REGEX MATCH "H5_FC_GLOBAL_\(.*,.*\) +(.*)" RESULT  ${CONTENTS})
+  string (REGEX MATCH "H5_FC_GLOBAL_\\(.*,.*\\) +(.*)" RESULT  ${CONTENTS})
   set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) ${CMAKE_MATCH_1}")
 endif()
 

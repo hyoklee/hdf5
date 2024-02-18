@@ -31,6 +31,9 @@ endif ()
 # Detect name mangling convention used between Fortran and C
 #-----------------------------------------------------------------------------
 include (FortranCInterface)
+
+FortranCInterface_VERIFY()
+
 FortranCInterface_HEADER (
     ${CMAKE_BINARY_DIR}/FCMangle.h
     MACRO_NAMESPACE "H5_FC_"
@@ -39,6 +42,7 @@ FortranCInterface_HEADER (
 
 file (STRINGS ${CMAKE_BINARY_DIR}/FCMangle.h CONTENTS REGEX "H5_FC_GLOBAL\\(.*,.*\\) +(.*)")
 if (CONTENTS)
+  message(${CONTENTS})
   string (REGEX MATCH "H5_FC_GLOBAL\\(.*,.*\\) +(.*)" RESULT  ${CONTENTS})
   set (H5_FC_FUNC "H5_FC_FUNC(name,NAME) ${CMAKE_MATCH_1}")
 endif()

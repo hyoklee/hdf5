@@ -652,6 +652,8 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
   if test "X$HAVE_F2003_REQUIREMENTS" = "Xno"; then
     AC_MSG_ERROR([Fortran compiler lacks required Fortran 2003 features; unsupported Fortran 2003 compiler, remove --enable-fortran])
   fi
+  ## Checking if the compiler supports fortran character being allocatable
+  PAC_HAVE_CHAR_ALLOC
 
   ## --------------------------------------------------------------------
   ## Define wrappers for the C compiler to use Fortran function names
@@ -739,6 +741,10 @@ if test "X$HDF_FORTRAN" = "Xyes"; then
 
   if test "X$HAVE_SIZEOF_FORTRAN" = "Xyes"; then
     AC_DEFINE([FORTRAN_HAVE_SIZEOF], [1], [Define if we have Fortran intrinsic SIZEOF])
+  fi
+
+  if test "X$HAVE_CHAR_ALLOC_FORTRAN" = "Xyes"; then
+    AC_DEFINE([FORTRAN_HAVE_CHAR_ALLOC], [1], [Define if Fortran supports allocatable character])
   fi
 
   ## See if C_LONG_DOUBLE is available
@@ -2566,8 +2572,8 @@ AC_SUBST([INTERNAL_DEBUG_OUTPUT])
 ## too specialized or have huge performance hits. These
 ## are not listed in the "all" packages list.
 ##
-## all_packages="AC,B,B2,D,F,FA,FL,FS,HL,I,MM,O,S,T,Z"
-all_packages="AC,B2,CX,D,F,HL,I,MM,O,S,T,Z"
+## all_packages="AC,B,B2,D,F,FA,FL,FS,I,MM,O,S,T,Z"
+all_packages="AC,B2,CX,D,F,I,MM,O,S,T,Z"
 
 case "X-$INTERNAL_DEBUG_OUTPUT" in
   X-yes|X-all)

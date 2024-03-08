@@ -1172,7 +1172,8 @@ end_collect:
 
                 vfd_info_g.info = &ros3_fa_g;
 #else
-                error_msg("Read-Only S3 VFD not enabled.\n");
+                error_msg(
+                    "Read-Only S3 VFD is not available unless enabled when HDF5 is configured and built.\n");
                 h5tools_setstatus(EXIT_FAILURE);
                 goto done;
 #endif
@@ -1191,7 +1192,7 @@ end_collect:
 
                 vfd_info_g.info = &hdfs_fa_g;
 #else
-                error_msg("HDFS VFD not enabled.\n");
+                error_msg("HDFS VFD is not available unless enabled when HDF5 is configured and built.\n");
                 h5tools_setstatus(EXIT_FAILURE);
                 goto done;
 #endif

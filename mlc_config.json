@@ -1,0 +1,8 @@
+{
+    "baseUrl": "https://github.com/hyoklee/hdf5/tree/develop",
+    "ignorePatterns": [
+        {
+            "pattern": "^https://portal.hdfgroup.org"
+        }
+    ]
+}

@@ -28,5 +28,9 @@ jobs:
            -D BUILD_SHARED_LIBS:BOOL=OFF \
            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
            -D SITE:STRING=cwin ..
-          ctest -D Experimental
+          ctest -T Build
+          ctest -T Test
+          if [[ $? -ne 0 ]]; then
+            ctest -T Submit
+          fi
         shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'

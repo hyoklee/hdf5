@@ -1019,14 +1019,12 @@ H5FD_s3comms_s3r_open(const char *url, const char *region, const char *id, const
 
     FUNC_ENTER_NOAPI_NOINIT
 
-<<<<<<< HEAD
-#if S3COMMS_DEBUG fprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
-=======
-#if S3COMMS_DEBUG >= S3COMMS_DEBUG_TRACE_API fprintf(stdout, "called H5FD_s3comms_s3r_open.\n");
->>>>>>> upstream/develop
+#if S3COMMS_DEBUG >= S3COMMS_DEBUG_TRACE_API
+    fprintf(stdout, "called H5FD_s3comms_s3r_open.\n");
 #endif
 
-        if (url == NULL || url[0] == '\0') HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "url cannot be null.");
+    if (url == NULL || url[0] == '\0')
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "url cannot be null.");
 
     if (FAIL == H5FD_s3comms_parse_url(url, &purl))
         /* probably a malformed url, but could be internal error */
@@ -1491,8 +1489,8 @@ H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest)
         if (p_status != CURLE_OK) {
             if (CURLE_OK != curl_easy_getinfo(curlh, CURLINFO_RESPONSE_CODE, &httpcode))
                 HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "problem getting response code");
-            fprintf(stderr, "CURL ERROR CODE: %d\nHTTP CODE: %d\n", p_status, httpcode);
-            fprintf(stderr, "%s\n", curl_easy_strerror(p_status));
+            fprintf(stdout, "CURL ERROR CODE: %d\nHTTP CODE: %ld\n", p_status, httpcode);
+            fprintf(stdout, "%s\n", curl_easy_strerror(p_status));
 
             HGOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, FAIL, "problem while performing request.");
         }
@@ -1941,19 +1939,26 @@ done:
  */
 static herr_t
 H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, char *key_id, char *access_key,
-                                       char *aws_region, char *session_token)
+                                       char *aws_region)
 {
     char        profile_line[32];
-    char        buffer[4096];
-    const char *setting_names[]    = {"region", "aws_access_key_id", "aws_secret_access_key",
-                                   "aws_session_token"};
-    char *const setting_pointers[] = {aws_region, key_id, access_key, session_token};
-    unsigned    setting_count      = 3;
-    herr_t      ret_value          = SUCCEED;
-    unsigned    buffer_i           = 0;
-    unsigned    setting_i          = 0;
-    int         found_setting      = 0;
-    char       *line_buffer        = &(buffer[0]);
+    char        buffer[128];
+    const char *setting_names[] = {
+        "region",
+        "aws_access_key_id",
+        "aws_secret_access_key",
+    };
+    char *const setting_pointers[] = {
+        aws_region,
+        key_id,
+        access_key,
+    };
+    unsigned setting_count = 3;
+    herr_t   ret_value     = SUCCEED;
+    unsigned buffer_i      = 0;
+    unsigned setting_i     = 0;
+    int      found_setting = 0;
+    char    *line_buffer   = &(buffer[0]);
 
     FUNC_ENTER_PACKAGE
 
@@ -1968,11 +1973,10 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
     /* look for start of profile */
     do {
         /* clear buffer */
-        for (buffer_i = 0; buffer_i < 4096; buffer_i++)
+        for (buffer_i = 0; buffer_i < 128; buffer_i++)
             buffer[buffer_i] = 0;
 
-        line_buffer = fgets(line_buffer, 4096, file);
-
+        line_buffer = fgets(line_buffer, 128, file);
         if (line_buffer == NULL) /* reached end of file */
             goto done;
     } while (strncmp(line_buffer, profile_line, strlen(profile_line)));
@@ -1980,13 +1984,11 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
     /* extract credentials from lines */
     do {
         /* clear buffer */
-        for (buffer_i = 0; buffer_i < 4096; buffer_i++)
+        for (buffer_i = 0; buffer_i < 128; buffer_i++)
             buffer[buffer_i] = 0;
 
         /* collect a line from file */
-        line_buffer = fgets(line_buffer, 4096, file);
-        printf("line_buffer=%s\n", line_buffer);
-
+        line_buffer = fgets(line_buffer, 128, file);
         if (line_buffer == NULL)
             goto done; /* end of file */
 
@@ -1994,17 +1996,17 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
         for (setting_i = 0; setting_i < setting_count; setting_i++) {
             size_t      setting_name_len = 0;
             const char *setting_name     = NULL;
-            char        line_prefix[4096];
+            char        line_prefix[128];
 
             setting_name     = setting_names[setting_i];
             setting_name_len = strlen(setting_name);
-            if (snprintf(line_prefix, 4096, "%s=", setting_name) < 0)
+            if (snprintf(line_prefix, 128, "%s=", setting_name) < 0)
                 HGOTO_ERROR(H5E_ARGS, H5E_CANTCOPY, FAIL, "unable to format line prefix");
 
             /* found a matching name? */
             if (!strncmp(line_buffer, line_prefix, setting_name_len + 1)) {
                 found_setting = 1;
-                printf("line_prefix=%s\n", line_prefix);
+
                 /* skip NULL destination buffer */
                 if (setting_pointers[setting_i] == NULL)
                     break;
@@ -2020,7 +2022,6 @@ H5FD__s3comms_load_aws_creds_from_file(FILE *file, const char *profile_name, cha
 
                 /* copy line buffer into out pointer */
                 strncpy(setting_pointers[setting_i], (const char *)line_buffer, strlen(line_buffer));
-                printf("setting_pointers[%d]=%s\n", setting_i, line_buffer);
 
                 /* "trim" tailing whitespace by replacing with null terminator*/
                 buffer_i = 0;
@@ -2068,7 +2069,7 @@ done:
  */
 herr_t
 H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *secret_access_key_out,
-                              char *aws_region_out, char *session_token_out)
+                              char *aws_region_out)
 {
     herr_t ret_value = SUCCEED;
     FILE  *credfile  = NULL;
@@ -2096,9 +2097,8 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
     credfile = fopen(filepath, "r");
     if (credfile != NULL) {
         if (H5FD__s3comms_load_aws_creds_from_file(credfile, profile_name, key_id_out, secret_access_key_out,
-                                                   aws_region_out, session_token_out) == FAIL)
+                                                   aws_region_out) == FAIL)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to load from aws credentials");
-
         if (fclose(credfile) == EOF)
             HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, FAIL, "unable to close credentials file");
         credfile = NULL;
@@ -2112,8 +2112,7 @@ H5FD_s3comms_load_aws_profile(const char *profile_name, char *key_id_out, char *
         if (H5FD__s3comms_load_aws_creds_from_file(
                 credfile, profile_name, (*key_id_out == 0) ? key_id_out : NULL,
                 (*secret_access_key_out == 0) ? secret_access_key_out : NULL,
-                (*aws_region_out == 0) ? aws_region_out : NULL,
-                (*session_token_out == 0) ? session_token_out : NULL) == FAIL)
+                (*aws_region_out == 0) ? aws_region_out : NULL) == FAIL)
             HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unable to load from aws config");
         if (fclose(credfile) == EOF)
             HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, FAIL, "unable to close config file");

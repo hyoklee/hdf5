@@ -10,6 +10,10 @@ jobs:
     runs-on: macos-latest
 
     steps:
+
+    - name: Install gfortran
+      uses: awvwgk/setup-fortran@v1
+     
     - name: Checkout Spack
       uses: actions/checkout@v4.1.1
       with:

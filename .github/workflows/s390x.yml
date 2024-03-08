@@ -1,0 +1,37 @@
+name: s390x
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  aarch64_job:
+    name: s390x
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Sources
+        uses: actions/checkout@v4.1.1
+
+      - name: Run
+        uses: uraimo/run-on-arch-action@v2
+        id: runcmd
+        with:
+          arch: s390x
+          distro: ubuntu_latest
+          githubToken: ${{ github.token }}
+          install: |
+            apt-get update -q -y
+            apt-get install -q -y git cmake libjpeg-dev zlib1g zlib1g-dev
+            apt-get install -q -y gfortran g++  yacc flex libtool autotools-dev
+          run: |
+            echo ::set-output name=uname::$(uname -a)
+            mkdir build
+            cd build
+            cmake ..
+            ctest -D Experimental
+
+      - name: Get the output
+        # Echo the `uname` output parameter from the `runcmd` step
+        run: |
+          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"

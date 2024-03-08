@@ -1020,16 +1020,13 @@ H5FD_s3comms_s3r_open(const char *url, const char *region, const char *id, const
     FUNC_ENTER_NOAPI_NOINIT
 
 <<<<<<< HEAD
-#if S3COMMS_DEBUG
-    fprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
+#if S3COMMS_DEBUG fprintf(stdout, "called H5FD_s3comms_s3r_open %s.\n", url);
 =======
-#if S3COMMS_DEBUG >= S3COMMS_DEBUG_TRACE_API
-    fprintf(stdout, "called H5FD_s3comms_s3r_open.\n");
+#if S3COMMS_DEBUG >= S3COMMS_DEBUG_TRACE_API fprintf(stdout, "called H5FD_s3comms_s3r_open.\n");
 >>>>>>> upstream/develop
 #endif
 
-    if (url == NULL || url[0] == '\0')
-        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "url cannot be null.");
+        if (url == NULL || url[0] == '\0') HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "url cannot be null.");
 
     if (FAIL == H5FD_s3comms_parse_url(url, &purl))
         /* probably a malformed url, but could be internal error */

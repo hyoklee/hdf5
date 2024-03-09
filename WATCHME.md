@@ -2,7 +2,9 @@
 
 ## Arch
 
-| ARM | [![mac13 ios](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml) [![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml) [![arm64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml) [![linux CMake gcc_arm64](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64.yml) [![linux CMake gcc_arm64 cpp](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64-cpp.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64-cpp.yml)|
+| Test | Status |
+| -----| ------ |
+| ARM | [![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml) [![arm64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml) [![linux CMake gcc_arm64](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64.yml) [![linux CMake gcc_arm64 cpp](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64-cpp.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linux-gcc_arm64-cpp.yml)|
 | RISC-V | [![riscv64 lin](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml) |
 
 ## OS
@@ -12,6 +14,7 @@
 | OpenBSD | [![auto](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml) [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) [![r](https://github.com/hyoklee/hdf5/actions/workflows/r.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/r.yml) |
 | MSYS2 | [![msys2](https://github.com/hyoklee/hdf5/actions/workflows/msys2.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/msys2.yml) |
 | Cygwin |  [![auto](https://github.com/hyoklee/hdf5/actions/workflows/cwin_auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/cwin_auto.yml) [![cmake](https://github.com/hyoklee/hdf5/actions/workflows/cwin_cmake.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/cwin_cmake.yml) |
+| iOS |  [![mac13 ios](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml) |
 
 ## Compilers
 

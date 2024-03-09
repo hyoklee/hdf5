@@ -1,4 +1,4 @@
-name: cwin
+name: cyg
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   test:
+    name: "cyg"  
     runs-on: windows-latest
     steps:
       - name: Set git to use LF

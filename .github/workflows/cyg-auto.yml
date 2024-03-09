@@ -23,7 +23,7 @@ jobs:
         run: |
           export PATH=/usr/bin:$PATH
           ./autogen.sh
-          ./configur
+          ./configure
           make
           make check
           make install

@@ -1,4 +1,4 @@
-name: hdf5 dev CMake Cygwin
+name: hdf5 dev autotools Cygwin
 
 on:
   workflow_call:
@@ -7,6 +7,9 @@ on:
         description: "release vs. debug build"
         required: true
         type: string
+
+permissions:
+  contents: read
 
 jobs:
   cygwin_build_and_test:
@@ -24,27 +27,33 @@ jobs:
         with:
           packages: cmake gcc-fortran make ninja perl zlib-devel
 
-      - name: Configure
+      - name: Autotools Configure
         run: |
           export PATH=/usr/bin:$PATH
-          mkdir build
-          cd build
-          cmake -G Ninja \
-          -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
-          -D BUILD_SHARED_LIBS:BOOL=OFF \
-           ..
+          ./autogen.sh
+          ./configure --enable-build-mode=${{ inputs.build_mode }}
         shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'
 
-      - name: Build
+      - name: Autotools Build
         run: |
           export PATH=/usr/bin:$PATH
-          cd build
-          ctest -T Build
+          make
         shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'
 
-      - name: Test
+      - name: Autotools Run Tests
         run: |
           export PATH=/usr/bin:$PATH
-          cd build
-          ctest -T Test
+          make check
+        shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'
+
+      - name: Autotools Install
+        run: |
+          export PATH=/usr/bin:$PATH
+          make install
+        shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'
+
+      - name: Autotools Uninstall
+        run: |
+          export PATH=/usr/bin:$PATH
+          make uninstall
         shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'

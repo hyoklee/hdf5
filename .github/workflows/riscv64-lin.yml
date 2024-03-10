@@ -25,8 +25,6 @@ jobs:
             apt-get install -q -y cmake
           run: |
             echo ::set-output name=uname::$(uname -a)
-            git clone https://github.com/hyoklee/hdf5
-            cd hdf5
             mkdir build
             cd build
             cmake -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..

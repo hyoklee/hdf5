@@ -1,8 +1,6 @@
 name: s390x
 
-on:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
 
 jobs:
   aarch64_job:

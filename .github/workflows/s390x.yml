@@ -26,7 +26,10 @@ jobs:
             echo ::set-output name=uname::$(uname -a)
             mkdir build
             cd build
-            cmake ..
+            cmake \
+            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -D SITE:STRING=s390x \
+            ..
             ctest -D Experimental
 
       - name: Get the output

@@ -1,21 +1,19 @@
 name: mac14 h j p
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
+
 jobs:
   build:
     name: "mac14 h j p"
     runs-on: macos-14
     steps:
-    - name: Install Dependencies (macOS)
+    - name: Install Dependencies
       run: brew install ninja openmpi libaec
 
     - name: Get Sources
       uses: actions/checkout@v4.1.1
 
-    - name: Configure
+    - name: Test
       run: |
         mkdir build
         cd build
@@ -32,5 +30,7 @@ jobs:
         ..
         ctest -T Build --output-on-error -j
         ctest -T Test --output-on-error -j
-        ctest -T Submit
+        if [[ $? -ne 0 ]]; then
+          ctest -T Submit
+        fi
       shell: bash

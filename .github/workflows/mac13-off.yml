@@ -1,4 +1,4 @@
-name: mac-13 CMake OFF
+name: mac13 off
 
 on:
   workflow_dispatch:
@@ -7,11 +7,11 @@ on:
 
 jobs:
   build:
-    name: macos-13 CMake OFF
+    name: mac13 off
     runs-on: macos-13
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install ninja openmpi
+      run: brew install ninja
     - name: Get Sources
       uses: actions/checkout@v4.1.1
     - name: Configure
@@ -69,7 +69,7 @@ jobs:
         -DHDF5_PACK_EXAMPLES:BOOL=OFF \
         -DHDF5_PACK_MACOSX_FRAMEWORK:BOOL=OFF \
         -DHDF5_USE_FILE_LOCKING:BOOL=OFF \
-        -DDF5_USE_GNU_DIRS:BOOL=OFF \
+        -DHDF5_USE_GNU_DIRS:BOOL=OFF \
         -DHDF5_USE_PREGEN:BOOL=OFF \
         -DSZIP_USE_EXTERNAL:BOOL=OFF \
         -DTEST_SHELL_SCRIPTS:BOOL=OFF \

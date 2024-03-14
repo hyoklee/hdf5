@@ -86,5 +86,3 @@ jobs:
       uses: ./.github/workflows/cygwin-auto.yml
       with:
             build_mode: "production"
-
-            

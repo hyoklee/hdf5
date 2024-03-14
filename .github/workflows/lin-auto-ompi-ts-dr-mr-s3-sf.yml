@@ -1,4 +1,4 @@
-name: linux atutools parallel threadsafe vfds
+name: lin auto ompi ts dr mr s3 sf 
 
 on:
   push:
@@ -21,7 +21,8 @@ jobs:
         set
         ./autogen.sh
         ./configure --enable-parallel --enable-direct-vfd --enable-mirror-vfd \
-         --enable-subfiling-vfd --enable-ros3-vfd --enable-threadsafe --disable-hl CC=mpicc
+         --enable-ros3-vfd --enable-subfiling-vfd --enable-threadsafe \
+	 --disable-hl CC=mpicc
         make
         make check
 

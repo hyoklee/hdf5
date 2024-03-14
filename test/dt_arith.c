@@ -3319,7 +3319,6 @@ error:
     else if (run_test == TEST_DENORM || run_test == TEST_SPECIAL)
         return 1;
     return 1;
-
 #endif
 }
 

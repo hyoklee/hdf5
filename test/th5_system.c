@@ -10,10 +10,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef __CYGWIN__
-#define _GNU_SOURCE
-#endif
-
 #define H5_SYSTEM_TEST_PATH_MAX 4096
 
 /***********************************************************

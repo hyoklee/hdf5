@@ -365,7 +365,6 @@ static int  s3_test_credentials_loaded = 0;
 static char s3_test_aws_region[16];
 static char s3_test_aws_access_key_id[64];
 static char s3_test_aws_secret_access_key[128];
-static char s3_test_session_token[4096];
 
 H5FD_ros3_fapl_t restricted_access_fa = {H5FD_CURR_ROS3_FAPL_T_VERSION, /* fapl version      */
                                          true,                          /* authenticate      */
@@ -1739,14 +1738,12 @@ main(void)
     s3_test_aws_access_key_id[0]     = '\0';
     s3_test_aws_secret_access_key[0] = '\0';
     s3_test_aws_region[0]            = '\0';
-    s3_test_session_token[0]         = '\0';
 
     /* attempt to load test credentials
      * if unable, certain tests will be skipped
      */
     if (SUCCEED == H5FD_s3comms_load_aws_profile(S3_TEST_PROFILE_NAME, s3_test_aws_access_key_id,
-                                                 s3_test_aws_secret_access_key, s3_test_aws_region,
-                                                 s3_test_session_token)) {
+                                                 s3_test_aws_secret_access_key, s3_test_aws_region)) {
         s3_test_credentials_loaded = 1;
         strncpy(restricted_access_fa.aws_region, (const char *)s3_test_aws_region, H5FD_ROS3_MAX_REGION_LEN);
         strncpy(restricted_access_fa.secret_id, (const char *)s3_test_aws_access_key_id,

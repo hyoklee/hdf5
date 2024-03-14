@@ -655,7 +655,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD__ros3_str_token_copy(const char H5_ATTR_UNUSED *name, size_t size, void *_value)
+H5FD__ros3_str_token_copy(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *_value)
 {
     char **value     = (char **)_value;
     herr_t ret_value = SUCCEED;
@@ -667,8 +667,8 @@ H5FD__ros3_str_token_copy(const char H5_ATTR_UNUSED *name, size_t size, void *_v
 #endif
 
     if (*value)
-        if (NULL == (*value = strndup(*value, size)))
-            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't copy string property token for %s", name);
+        if (NULL == (*value = strdup(*value)))
+            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "can't copy string property token");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -689,7 +689,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static int
-H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t size)
+H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t H5_ATTR_UNUSED size)
 {
     char *const *value1    = (char *const *)_value1;
     char *const *value2    = (char *const *)_value2;
@@ -699,7 +699,7 @@ H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t size)
 
     if (*value1) {
         if (*value2)
-            ret_value = strncmp(*value1, *value2, size);
+            ret_value = strcmp(*value1, *value2);
         else
             ret_value = 1;
     }
@@ -728,7 +728,7 @@ H5FD__ros3_str_token_cmp(const void *_value1, const void *_value2, size_t size)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
+H5FD__ros3_str_token_close(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *_value)
 {
     char **value     = (char **)_value;
     herr_t ret_value = SUCCEED;
@@ -737,8 +737,6 @@ H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
 
     if (*value)
         free(*value);
-    else
-        fprintf(stdout, "H5FD__ros3_str_token_close(%s, %zu) got NULL *value.\n", name, size);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_close */
@@ -759,8 +757,8 @@ H5FD__ros3_str_token_close(const char *name, size_t size, void *_value)
  *-------------------------------------------------------------------------
  */
 static herr_t
-
-H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *_value)
+H5FD__ros3_str_token_delete(hid_t H5_ATTR_UNUSED prop_id, const char H5_ATTR_UNUSED *name,
+                            size_t H5_ATTR_UNUSED size, void *_value)
 {
     char **value     = (char **)_value;
     herr_t ret_value = SUCCEED;
@@ -769,8 +767,6 @@ H5FD__ros3_str_token_delete(hid_t prop_id, const char *name, size_t size, void *
 
     if (*value)
         free(*value);
-    else
-        fprintf(stdout, "H5FD__ros3_str_token_close(%lld, %s, %zu) got NULL *value.\n", prop_id, name, size);
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5FD__ros3_str_token_delete */

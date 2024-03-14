@@ -1898,7 +1898,6 @@ test_s3r_open(void)
 
     /* authenticating
      */
-    printf("s3_test_aws_security_token=%s\n", s3_test_aws_security_token);
     handle = H5FD_s3comms_s3r_open(
         url_shakespeare, (const char *)s3_test_aws_region, (const char *)s3_test_aws_access_key_id,
         (const unsigned char *)signing_key, (const char *)s3_test_aws_security_token);
@@ -2508,7 +2507,6 @@ main(void)
     s3_test_aws_access_key_id[0]     = '\0';
     s3_test_aws_secret_access_key[0] = '\0';
     s3_test_aws_region[0]            = '\0';
-    s3_test_aws_security_token[0]    = '\0';
     s3_test_bucket_url[0]            = '\0';
 
     /* TODO: unit/regression test for H5FD_s3comms_load_aws_profile()
@@ -2518,8 +2516,7 @@ main(void)
      * if unable, certain tests will be skipped
      */
     if (SUCCEED == H5FD_s3comms_load_aws_profile(S3_TEST_PROFILE_NAME, s3_test_aws_access_key_id,
-                                                 s3_test_aws_secret_access_key, s3_test_aws_region,
-                                                 s3_test_aws_security_token)) {
+                                                 s3_test_aws_secret_access_key, s3_test_aws_region)) {
         s3_test_credentials_loaded = 1;
     }
 

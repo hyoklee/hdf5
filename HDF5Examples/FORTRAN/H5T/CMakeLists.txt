@@ -9,15 +9,6 @@ set_directory_properties(PROPERTIES INCLUDE_DIRECTORIES
 )
 
 #-----------------------------------------------------------------------------
-# Setup include Directories
-#-----------------------------------------------------------------------------
-INCLUDE_DIRECTORIES (
-    ${CMAKE_Fortran_MODULE_DIRECTORY}${HDF_MOD_EXT}
-    ${PROJECT_BINARY_DIR}
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-)
-
-#-----------------------------------------------------------------------------
 # Define Sources
 #-----------------------------------------------------------------------------
 include (Fortran_sourcefiles.cmake)

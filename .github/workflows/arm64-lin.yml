@@ -1,4 +1,4 @@
-name: arm64 linux CMake
+name: arm64 lin
 
 on: [push, pull_request]
 

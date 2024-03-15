@@ -1,4 +1,4 @@
-name: windows ninja icx ifx p sf
+name: win ninja icx ifx p sf
 
 on:
   push:
@@ -12,16 +12,16 @@ jobs:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
         with:
-          cmakeVersion: "3.27.6"
+          cmakeVersion: latestrc
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v1
         with:
-          version: "15"
+          version: "17"
       - name: Install Intel OneAPI
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
-          version: '2023.2'
+          version: "2024.0"
       - name: Install Intel MPI
         uses: mpi4py/setup-mpi@v1
         with:

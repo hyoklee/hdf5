@@ -1,4 +1,4 @@
-name: linux gcc_arm64 cpp
+name: lin gcc_arm64 cpp
 
 on:
   workflow_dispatch:

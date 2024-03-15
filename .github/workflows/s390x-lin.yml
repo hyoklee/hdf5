@@ -1,10 +1,10 @@
-name: s390x
+name: s390x lin
 
 on: [push, pull_request]
 
 jobs:
-  aarch64_job:
-    name: s390x
+  s390x_job:
+    name: s390x lin
     runs-on: ubuntu-latest
 
     steps:

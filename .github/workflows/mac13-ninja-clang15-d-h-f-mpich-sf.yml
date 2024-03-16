@@ -1,9 +1,6 @@
-name: mac-13 CMake clang15 debug gfortran mpich sf
+name: mac13 ninja clang15 f h d mpich sf
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
 
 jobs:
   build:

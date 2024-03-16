@@ -1,23 +1,20 @@
-name: mac-13 CMake Xcode clang15 debug mpich sf
+name: mac13 xcode clang15 d f mpich s3 sf
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
 
 jobs:
   build:
-    name: Generate Xcode project
+    name: mac13 xcode clang15 d mpich sf
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Install Dependencies
         run: brew install curl openssl libaec mpich bash
 
-      - name: Set Bash as the default shell
+      - name: Set Bash
         run: echo "/usr/local/bin/bash" >> ~/.bashrc
 
-      - name: Generate Xcode project
+      - name: Test HDF5
         shell: bash
         run: |
           export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1

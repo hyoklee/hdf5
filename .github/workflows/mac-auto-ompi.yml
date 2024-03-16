@@ -1,4 +1,4 @@
-name: mac autotools parallel
+name: mac auto ompi
 
 on:
   push:

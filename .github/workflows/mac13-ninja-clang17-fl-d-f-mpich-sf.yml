@@ -1,4 +1,4 @@
-name: mac-13 CMake clang17 debug flang java mpich sf
+name: mac13 ninja clang17 fl d f mpich sf
 
 on:
   workflow_dispatch:
@@ -17,9 +17,9 @@ jobs:
             build_type: "Release"
             cpp: OFF
             fortran: ON
-            java: ON
+            java: OFF
             ts: OFF
-            hl: ON
+            hl: OFF
             parallel: ON
             toolchain: "config/toolchain/clang.cmake"
             generator: "-G Ninja"

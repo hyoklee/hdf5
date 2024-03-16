@@ -1,4 +1,4 @@
-name: mac autotools mpich
+name: mac auto mpich
 
 on:
   push:

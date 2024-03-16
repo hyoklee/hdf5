@@ -1,17 +1,14 @@
-name: mac CMake java parallel threadsafe
+name: mac ninja clang j ompi ts
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
     
 jobs:
   build:
     strategy:
       matrix:
-        name: ["macOS Latest Clang"]
+        name: ["mac ninja clang j ompi ts"]
         include:
-          - name: "macOS Latest Clang"
+          - name: "mac ninja clang j ompi ts"
             artifact: "macOS.tar.xz"
             os: macos-latest
             build_type: "Release"
@@ -31,25 +28,14 @@ jobs:
           
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Install Dependencies (Windows)
-      run: choco install ninja
-      if: matrix.os == 'windows-latest'
     - name: Install Dependencies (macOS)
       run: brew install ninja openmpi libaec
       if: matrix.os == 'macos-latest'
-    - name: Set environment for MSVC (Windows)
-      if:  matrix.os == 'windows-latest'
-      run: |
-        # Set these env vars so cmake picks the correct compiler
-        echo "CXX=cl.exe" >> $GITHUB_ENV
-        echo "CC=cl.exe" >> $GITHUB_ENV
     
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Get Sources
       uses: actions/checkout@v4.1.1
 
     - name: Configure
-      if: matrix.generator != 'autogen'
       run: |
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
@@ -57,17 +43,14 @@ jobs:
       shell: bash
 
     - name: Build
-      if: matrix.generator != 'autogen'
       run: cmake --build . --config ${{ matrix.build_type }}
       working-directory: ${{ runner.workspace }}/build      
 
     - name: Test
-      if: matrix.generator != 'autogen'
       run: ctest --build . -C ${{ matrix.build_type }} -V
       working-directory: ${{ runner.workspace }}/build
 
     - name: Upload
-      if: matrix.generator != 'autogen'
       uses: actions/upload-artifact@v3
       with:
         name: my-artifact

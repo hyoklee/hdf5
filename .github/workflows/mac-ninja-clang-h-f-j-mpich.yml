@@ -1,4 +1,4 @@
-name: mac CMake fortran java parallel mpich
+name: mac ninja clang h f j mpich
 
 on:
   workflow_dispatch:
@@ -43,7 +43,6 @@ jobs:
       uses: actions/checkout@v4.1.1
 
     - name: Configure
-      if: matrix.generator != 'autogen'
       run: |
         which gfortran
         export FC="$(which gfortran)"

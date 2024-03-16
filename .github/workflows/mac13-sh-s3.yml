@@ -1,4 +1,4 @@
-name: mac-13 CMake ROS3
+name: mac13 sh s3
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: macos-13 CMake ROS3
+    name: mac13 sh s3
     runs-on: macos-13
     steps:
     - name: Install Dependencies

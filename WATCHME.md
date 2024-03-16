@@ -1,5 +1,7 @@
 # HDF5 for All
 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/7802/badge)](https://www.bestpractices.dev/projects/7802)
+
 ## Arch
 
 | Test | Status |

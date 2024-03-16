@@ -40,7 +40,7 @@ jobs:
           echo "OMPI_FC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvfortran" >> $GITHUB_ENV
           echo "CC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin/mpicc" >> $GITHUB_ENV
           echo "FC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin/mpifort" >> $GITHUB_ENV
-          echo "LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/cuda/12.2/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/lib" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/cuda/12.3/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/lib" >> $GITHUB_ENV
           echo "DESTDIR=/tmp" >> $GITHUB_ENV
 
       - name: CMake Configure

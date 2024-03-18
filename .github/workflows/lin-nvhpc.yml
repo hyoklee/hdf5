@@ -14,7 +14,6 @@ on:
       - 'COPYING**'
       - '**.md'
 
-# Using concurrency to cancel any in-progress job or run
 concurrency:
   group: ${{ github.workflow }}-${{ github.sha || github.event.pull_request.number }}
   cancel-in-progress: true
@@ -29,7 +28,7 @@ jobs:
       - name: Install System dependencies
         run: |
           sudo apt update
-          sudo apt install -y libaec-dev zlib1g-dev automake autoconf libcurl4-openssl-dev libjpeg-dev wget curl bzip2 m4 flex bison cmake libzip-dev doxygen openssl libtool libtool-bin build-essential
+          sudo apt install -y cmake libzip-dev
       - name: Install NVHPC
         run: |
           curl https://developer.download.nvidia.com/hpc-sdk/ubuntu/DEB-GPG-KEY-NVIDIA-HPC-SDK | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg
@@ -50,7 +49,6 @@ jobs:
           export OMPI_FC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvfortran
           export LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/cuda/12.3/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/lib
           export PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin:$PATH        
-          cmake -B build  -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_BUILD_FORTRAN:BOOL=ON
-          cat build/CMakeCache.txt
+          cmake -B build -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF
           cmake --build build
           ctest --test-dir build --output-on-failure

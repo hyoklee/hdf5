@@ -1,13 +1,11 @@
 # HDF5 for All
 
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/7802/badge)](https://www.bestpractices.dev/projects/7802)
-
 ## Arch
 
 | Test | Status |
 | -----| ------ |
-| arm64 | [![arm64 CMake](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml)|
-| armv7 | [![armv7 CMake](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7.yml) |
+| arm64 | [![arm64](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml) [![arm64 auto](https://github.com/hyoklee/hdf5/actions/workflows/arm64-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-auto.yml) [![arm64 lin](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml)|
+| armv7 | [![armv7 lin](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml) |
 | riscv64 | [![riscv64 lin](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml) |
 | powerpc64 | [![ppc64le lin](https://github.com/hyoklee/hdf5/actions/workflows/ppc64le-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ppc64le-lin.yml) |
 | s390x | [![s390x lin](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml) |
@@ -17,7 +15,7 @@
 
 | Test    | Status |
 | --------| ------ |
-| OpenBSD | [![auto](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml) [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) [![r](https://github.com/hyoklee/hdf5/actions/workflows/r.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/r.yml) |
+| OpenBSD |  [![r](https://github.com/hyoklee/hdf5/actions/workflows/r.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/r.yml) [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) [![auto](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/auto.yml) [![arm64](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml) [![arm64 auto](https://github.com/hyoklee/hdf5/actions/workflows/arm64-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-auto.yml) |
 | macOS | [![mac14 ninja h j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml) |
 | MSYS2 | [![msys2](https://github.com/hyoklee/hdf5/actions/workflows/msys2.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/msys2.yml) |
 | Cygwin |  [![auto](https://github.com/hyoklee/hdf5/actions/workflows/cyg-auto.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/cyg-auto.yml) [![cmake](https://github.com/hyoklee/hdf5/actions/workflows/cyg.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/cyg.yml) |
@@ -98,3 +96,5 @@
   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date" />
   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date" />
 </picture>
+
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/7802/badge)](https://www.bestpractices.dev/projects/7802)

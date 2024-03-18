@@ -1,4 +1,4 @@
-name: d
+name: arm64
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       matrix:
         os:
           - name: openbsd
-            architecture: x86_64
+            architecture: arm64
             version: '7.4'
             host: ubuntu-latest
     steps:
@@ -24,21 +24,18 @@ jobs:
         uses: cross-platform-actions/action@v0.23.0
         env:
           FOO: A
-          BAR: B        
+          BAR: B
         with:
-          environment_variables: FOO BAR        
+          environment_variables: FOO BAR
           operating_system: ${{ matrix.os.name }}
           architecture: ${{ matrix.os.architecture }}
           version: '${{ matrix.os.version }}'
-          shell: bash          
+          shell: bash
           run: |
-            sudo pkg_add git
             sudo pkg_add cmake
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Debug \
+            cmake -DCMAKE_BUILD_TYPE=Release \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF ..
             ctest -T Build --output-on-error -j
-            cat Testing/Temporary/LastBuild* | grep warning
             ctest -T Test --output-on-error -j
-            cat Testing/Temporary/LastTest*

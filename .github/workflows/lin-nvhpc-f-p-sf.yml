@@ -40,10 +40,10 @@ jobs:
         uses: actions/checkout@v4.1.1
       - name: Test HDF5
         env:
-          FC: nvfortran
-          CC: nvc
           FCFLAGS: -fPIC
         run: |
+          export CC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin/mpicc
+          export FC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin/mpifort
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvc++
           export OMPI_CC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvc

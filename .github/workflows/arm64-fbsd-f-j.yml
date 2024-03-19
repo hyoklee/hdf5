@@ -1,0 +1,51 @@
+name: arm64 fbsd f j
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}
+    runs-on: ${{ matrix.os.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: freebsd
+            architecture: arm64
+            version: '14.0'
+            host: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@v0.23.0
+        env:
+          FOO: A
+          BAR: B
+        with:
+          environment_variables: FOO BAR
+          operating_system: ${{ matrix.os.name }}
+          architecture: ${{ matrix.os.architecture }}
+          version: '${{ matrix.os.version }}'
+          shell: bash
+          run: |
+            sudo pkg install -y git
+            sudo pkg install -y cmake
+            sudo pkg install -y jpeg-turbo
+            sudo pkg install -y openjdk21
+            sudo pkg install -y gcc13
+            pkg info -l openjdk21
+            export JAVA_HOME=/usr/local/openjdk21
+            export FC=gfortran13
+            sudo mount -t fdescfs fdesc /dev/fd
+            sudo mount -t procfs proc /proc
+            mkdir build
+            cd build
+            cmake \
+            -DBUILDNAME:STRING=f.j \
+            -DHDF5_BUILD_FORTRAN:BOOL=ON \
+            -DHDF5_BUILD_JAVA:BOOL=ON \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DSITE:STRING=fbsd.arm64 ..
+            ctest -D Experimental

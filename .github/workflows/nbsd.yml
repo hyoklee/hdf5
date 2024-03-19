@@ -1,0 +1,44 @@
+name: nbsd
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: nbsd
+    runs-on: ${{ matrix.os.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: netbsd
+            architecture: x86-64
+            version: '9.3'
+            host: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@v0.23.0
+        env:
+          FOO: A
+          BAR: B
+        with:
+          environment_variables: FOO BAR
+          operating_system: ${{ matrix.os.name }}
+          architecture: ${{ matrix.os.architecture }}
+          version: '${{ matrix.os.version }}'
+          shell: bash
+          run: |
+            sudo pkgin -y install git
+            sudo pkgin -y install cmake
+            sudo pkgin -y install jpeg-9e
+            sudo pkgin -y install mozilla-rootcerts
+            sudo pkgin -y install mozilla-rootcerts-openssl
+            export LD_LIBRARY_PATH=/usr/pkg/lib
+            mkdir build
+            cd build
+            cmake \
+            -D BUILD_SHARED_LIBS:BOOL=OFF \
+            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -D SITE:STRING=nbsd ..
+            ctest -D Experimental

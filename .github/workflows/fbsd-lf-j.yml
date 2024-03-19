@@ -41,8 +41,6 @@ jobs:
             export JAVA_HOME=/usr/local/openjdk21
             sudo mount -t fdescfs fdesc /dev/fd
             sudo mount -t procfs proc /proc
-            git clone https://github.com/HDFGroup/hdf4
-            cd hdf4
             mkdir build
             cd build
             cmake \

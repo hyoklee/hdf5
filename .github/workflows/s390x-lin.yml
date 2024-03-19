@@ -1,4 +1,4 @@
-name: s390x lin f
+name: s390x lin
 
 on: [push, pull_request]
 

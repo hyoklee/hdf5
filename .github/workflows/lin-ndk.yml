@@ -1,0 +1,38 @@
+name: lin ndk
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake
+
+      - name: Install Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26c
+
+      - name: Checkout HDF5
+        uses: actions/checkout@v4
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure
+        working-directory: build
+        run: |
+          cmake \
+          -DCMAKE_TOOLCHAIN_FILE=/usr/local/lib/android/sdk/ndk/26.2.11394342/build/cmake/android.toolchain.cmake \
+          -DANDROID_ABI=arm64-v8a \
+          -DBUILDNAME:STRING=ndk26.2 \
+          -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+          -DSITE:STRING=arm64-v8a \
+          ..
+
+      - name: Build
+        working-directory: build
+        run: ctest -T Build

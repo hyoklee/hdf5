@@ -1,0 +1,34 @@
+name: lin auto ndk
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26c
+
+      - name: Checkout HDF5
+        uses: actions/checkout@v4
+
+      - name: Test HDF5
+        run: |
+          echo $NDK
+          export NDK=/usr/local/lib/android/sdk/ndk/26.2.11394342/
+          export TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
+          export TARGET=aarch64-linux-android
+          export AR=$TOOLCHAIN/bin/llvm-ar
+          export API=34
+          export CC=$TOOLCHAIN/bin/$TARGET$API-clang
+          export AS=$CC
+          export CXX=$TOOLCHAIN/bin/$TARGET$API-clang++
+          export LD=$TOOLCHAIN/bin/ld
+          export RANLIB=$TOOLCHAIN/bin/llvm-ranlib
+          export STRIP=$TOOLCHAIN/bin/llvm-strip
+          ./autogen.sh
+          ./configure --host $TARGET
+          make
+

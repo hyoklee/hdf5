@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   s390x_job:
-    name: s390x lin
+    name: s390x lin f
     runs-on: ubuntu-latest
 
     steps:
@@ -27,8 +27,10 @@ jobs:
             mkdir build
             cd build
             cmake \
-            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
-            -D SITE:STRING=s390x \
+            -DBUILDNAME:STRING=f \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DHDF5_BUILD_FORTRAN:BOOL=ON \
+            -DSITE:STRING=s390x \
             ..
             ctest -D Experimental
 

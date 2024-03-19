@@ -8,7 +8,7 @@
 | armv7 | [![armv7 lin](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml) |
 | riscv64 | [![riscv64 lin](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml) |
 | powerpc64 | [![ppc64le lin](https://github.com/hyoklee/hdf5/actions/workflows/ppc64le-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ppc64le-lin.yml) |
-| s390x | [![s390x lin](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml) |
+| s390x | [![s390x lin](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin.yml) [![s390x lin f](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml) |
 
 
 ## OS

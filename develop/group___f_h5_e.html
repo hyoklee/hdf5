@@ -128,9 +128,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ga1751b5afe8840cf087d71a06dfdb1894"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_e.html#ga1751b5afe8840cf087d71a06dfdb1894">h5eset_auto_f</a> (printflag, hdferr, estack_id, func, client_data)</td></tr>
 <tr class="memdesc:ga1751b5afe8840cf087d71a06dfdb1894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns settings for automatic error stack traversal function and its data.  <a href="group___f_h5_e.html#ga1751b5afe8840cf087d71a06dfdb1894">More...</a><br /></td></tr>
 <tr class="separator:ga1751b5afe8840cf087d71a06dfdb1894"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac1c738cf37fe8c3c79921f8aea96e973"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_e.html#gac1c738cf37fe8c3c79921f8aea96e973">h5epush_f</a> (err_stack, cls_id, maj_id, min_id, msg, hdferr, file, func, line, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17, arg18, arg19, arg20)</td></tr>
-<tr class="memdesc:gac1c738cf37fe8c3c79921f8aea96e973"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new error record onto an error stack.  <a href="group___f_h5_e.html#gac1c738cf37fe8c3c79921f8aea96e973">More...</a><br /></td></tr>
-<tr class="separator:gac1c738cf37fe8c3c79921f8aea96e973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b0ed104c89124817fa1f9ec18e88733"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_e.html#ga8b0ed104c89124817fa1f9ec18e88733">h5epush_f</a> (err_stack, file, func, line, cls_id, maj_id, min_id, msg, hdferr, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17, arg18, arg19, arg20)</td></tr>
+<tr class="memdesc:ga8b0ed104c89124817fa1f9ec18e88733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a new error record onto an error stack.  <a href="group___f_h5_e.html#ga8b0ed104c89124817fa1f9ec18e88733">More...</a><br /></td></tr>
+<tr class="separator:ga8b0ed104c89124817fa1f9ec18e88733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac997270aea9ba1cb264472774c42edfe"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_e.html#gac997270aea9ba1cb264472774c42edfe">h5eregister_class_f</a> (cls_name, lib_name, version, class_id, hdferr)</td></tr>
 <tr class="memdesc:gac997270aea9ba1cb264472774c42edfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a client library or application program to the HDF5 error API.  <a href="group___f_h5_e.html#gac997270aea9ba1cb264472774c42edfe">More...</a><br /></td></tr>
 <tr class="separator:gac997270aea9ba1cb264472774c42edfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -836,8 +836,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="gac1c738cf37fe8c3c79921f8aea96e973"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac1c738cf37fe8c3c79921f8aea96e973">&#9670;&nbsp;</a></span>h5epush_f()</h2>
+<a id="ga8b0ed104c89124817fa1f9ec18e88733"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b0ed104c89124817fa1f9ec18e88733">&#9670;&nbsp;</a></span>h5epush_f()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -847,6 +847,24 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>), intent(in)&#160;</td>
           <td class="paramname"><em>err_stack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">character(len=*), intent(in)&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -877,24 +895,6 @@ Variables</h2></td></tr>
           <td></td>
           <td class="paramtype">integer, intent(out)&#160;</td>
           <td class="paramname"><em>hdferr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(c_ptr), optional&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(c_ptr), optional&#160;</td>
-          <td class="paramname"><em>func</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(c_ptr), optional&#160;</td>
-          <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1028,14 +1028,14 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">err_stack</td><td>Error stack identifier. If the identifier is H5E_DEFAULT_F, the error record will be pushed to the current stack. </td></tr>
+    <tr><td class="paramname">file</td><td>Name of the file in which the error was detected </td></tr>
+    <tr><td class="paramname">func</td><td>Name of the function in which the error was detected </td></tr>
+    <tr><td class="paramname">line</td><td>Line number in the file where the error was detected </td></tr>
     <tr><td class="paramname">cls_id</td><td>Error class identifier </td></tr>
     <tr><td class="paramname">maj_id</td><td>Major error identifier </td></tr>
     <tr><td class="paramname">min_id</td><td>Minor error identifier </td></tr>
     <tr><td class="paramname">msg</td><td>Error description string </td></tr>
     <tr><td class="paramname">hdferr</td><td>Returns 0 if successful and -1 if it fails. </td></tr>
-    <tr><td class="paramname">file</td><td>Name of the file in which the error was detected </td></tr>
-    <tr><td class="paramname">func</td><td>Name of the function in which the error was detected </td></tr>
-    <tr><td class="paramname">line</td><td>Line number in the file where the error was detected </td></tr>
     <tr><td class="paramname">arg1</td><td>C style format control strings </td></tr>
     <tr><td class="paramname">arg2</td><td>C style format control strings </td></tr>
     <tr><td class="paramname">arg3</td><td>C style format control strings </td></tr>

@@ -41,6 +41,7 @@ jobs:
         env:
           FC: nvfortran
           CC: nvc
+          CFLAGS: -O0
           FCFLAGS: -fPIC
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk

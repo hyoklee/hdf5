@@ -1,10 +1,10 @@
-name: nbsd f
+name: nbsd f sh
 
 on: [push, pull_request]
 
 jobs:
   test:
-    name: nbsd f
+    name: nbsd f sh
     runs-on: ${{ matrix.os.host }}
     strategy:
       fail-fast: false
@@ -39,7 +39,8 @@ jobs:
             mkdir build
             cd build
             cmake \
-            -DBUILDNAME:STRING=f \
+            -DBUILDNAME:STRING="f.-sh" \
+            -DBUILD_SHARED_LIBS:BOOL=OFF \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_BUILD_FORTRAN:BOOL=ON \
             -DSITE:STRING=nbsd ..

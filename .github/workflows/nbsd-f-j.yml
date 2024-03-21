@@ -32,7 +32,6 @@ jobs:
             sudo pkgin -y install cmake
             sudo pkgin -y install gcc7
             sudo pkgin -y install git
-            sudo pkgin -y install jpeg-9e
             sudo pkgin -y install mozilla-rootcerts
             sudo pkgin -y install mozilla-rootcerts-openssl
             sudo pkgin -y install openjdk21
@@ -49,6 +48,4 @@ jobs:
             -DHDF5_BUILD_JAVA:BOOL=ON \
             -DJAVA_INCLUDE_PATH2="/usr/pkg/java/openjdk21/include/netbsd" \
             -DSITE:STRING=nbsd ..
-            ctest -T Build -VV --output-on-error -j
-            ctest -T Test -VV --output-on-error -j
-            ctest -T Submit
+            ctest -D Experimental

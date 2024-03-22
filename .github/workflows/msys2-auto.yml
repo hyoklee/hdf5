@@ -51,8 +51,9 @@ jobs:
             toolchain:p
 
       - name: Configure
+        shell: msys2 {0}
         run: |
-          sh ./autogen.sh
+          ./autogen.sh
           mkdir "$GITHUB_WORKSPACE/build"
           cd "$GITHUB_WORKSPACE/build"
           LDFLAGS="-lws2_32" $GITHUB_WORKSPACE/configure

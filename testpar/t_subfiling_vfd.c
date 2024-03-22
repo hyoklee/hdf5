@@ -369,6 +369,7 @@ test_config_file(void)
         char      scan_format[256];
         int       num_digits;
 
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         config_filename = malloc(PATH_MAX);
@@ -588,6 +589,7 @@ test_stripe_sizes(void)
              * Get the current file size to see where we can safely
              * write to in the file without overwriting the superblock
              */
+            memset(&file_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
             file_size = (h5_stat_size_t)file_info.st_size;
 
@@ -628,6 +630,7 @@ test_stripe_sizes(void)
                 VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
                 /* Check file size */
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -674,6 +677,7 @@ test_stripe_sizes(void)
                 VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
                 /* Check file size */
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -738,6 +742,7 @@ test_stripe_sizes(void)
          * write to in the file without overwriting the superblock
          */
         if (MAINPROCESS) {
+            memset(&file_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
             file_size = (h5_stat_size_t)file_info.st_size;
 
@@ -794,6 +799,7 @@ test_stripe_sizes(void)
                 VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
                 /* Check file size */
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -851,6 +857,7 @@ test_stripe_sizes(void)
                 VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
                 /* Check file size */
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -996,6 +1003,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1046,6 +1054,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1102,6 +1111,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1152,6 +1162,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1198,6 +1209,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1248,6 +1260,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1286,6 +1299,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1336,6 +1350,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1380,6 +1395,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1430,6 +1446,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1473,6 +1490,7 @@ test_iovec_translation(void)
         VRFY((H5Fclose(file_id) >= 0), "H5Fclose succeeded");
 
         /* Retrieve file info to get the file inode for later use */
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         /* Re-open file through H5FDopen for direct writes */
@@ -1523,6 +1541,7 @@ test_iovec_translation(void)
             VRFY((fclose(subfile_ptr) >= 0), "fclose on subfile succeeded");
 
             /* Check file size */
+            memset(&subfile_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
             subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1719,6 +1738,7 @@ test_selection_strategies(void)
                     /*
                      * Get the file inode value so we can construct the subfile names
                      */
+                    memset(&file_info, 0, sizeof(h5_stat_t));
                     VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
                     num_digits = (int)(log10(expected_num_subfiles) + 1);
@@ -1883,6 +1903,7 @@ test_read_different_stripe_size(void)
         int       num_subfiles = cfg.stripe_count;
         int       num_digits   = (int)(log10(num_subfiles) + 1);
 
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         for (int j = 0; j < num_subfiles; j++) {
@@ -1899,6 +1920,7 @@ test_read_different_stripe_size(void)
 
             /* Check file size */
             if (!enable_compression) {
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 subfile_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -1958,6 +1980,7 @@ test_read_different_stripe_size(void)
         int       num_subfiles = cfg.stripe_count;
         int       num_digits   = (int)(log10(num_subfiles / 2) + 1);
 
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         for (int j = 0; j < num_subfiles; j++) {
@@ -2106,6 +2129,7 @@ test_subfiling_precreate_rank_0(void)
         num_subfiles = cfg.stripe_count;
         num_digits   = (int)(log10(num_subfiles) + 1);
 
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         tmp_filename = malloc(PATH_MAX);
@@ -2124,6 +2148,7 @@ test_subfiling_precreate_rank_0(void)
 
             /* Check file size */
             if (!enable_compression) {
+                memset(&subfile_info, 0, sizeof(h5_stat_t));
                 VRFY((HDstat(tmp_filename, &subfile_info) >= 0), "HDstat succeeded");
                 file_size = (h5_stat_size_t)subfile_info.st_size;
 
@@ -2624,6 +2649,7 @@ test_subfiling_h5fuse(void)
      */
     HDcompile_assert(sizeof(uint64_t) >= sizeof(ino_t));
     if (MAINPROCESS) {
+        memset(&file_info, 0, sizeof(h5_stat_t));
         VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
 
         file_inode = (uint64_t)file_info.st_ino;
@@ -2739,6 +2765,7 @@ test_subfiling_h5fuse(void)
 
         /* Verify the size of the fused file */
         if (!enable_compression) {
+            memset(&file_info, 0, sizeof(h5_stat_t));
             VRFY((HDstat(SUBF_FILENAME, &file_info) >= 0), "HDstat succeeded");
             VRFY(((size_t)file_info.st_size >= target_size), "File size verification succeeded");
         }

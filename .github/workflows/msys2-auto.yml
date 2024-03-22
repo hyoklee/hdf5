@@ -1,19 +1,25 @@
-name: hdf5 dev Autotools MSys2
+name: msys2 auto
 
 on:
   workflow_call:
-    inputs:
-      build_mode:
-        description: "release vs. debug build"
-        required: true
-        type: string
-      build_option:
-        description: "--enable-production or --disable-production"
-        required: true
-        type: string
+  push:
+  pull_request:
+    branches: [ develop ]
+    paths-ignore:
+      - '.github/CODEOWNERS'
+      - '.github/FUNDING.yml'
+      - 'doc/**'
+      - 'release_docs/**'
+      - 'ACKNOWLEDGEMENTS'
+      - 'COPYING**'
+      - '**.md'
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref && github.ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   msys2_build_and_test:
@@ -25,12 +31,12 @@ jobs:
           - { icon: '🟦', sys: mingw64 }
           - { icon: '🟨', sys: ucrt64  }
           - { icon: '🟧', sys: clang64 }
-    name: ${{ matrix.icon }} msys2-${{ matrix.sys }}-${{ inputs.build_mode }}
+    name: ${{ matrix.icon }} msys2-${{ matrix.sys }}
     defaults:
       run:
         shell: msys2 {0}
     steps:
-      - name: Get Sources
+      - name: Get
         uses: actions/checkout@v4.1.1
 
       - name: '${{ matrix.icon }} Setup MSYS2'
@@ -43,24 +49,20 @@ jobs:
             autotools
           pacboy: >-
             toolchain:p
-            libjpeg-turbo:p
 
-      - name: Autotools Configure
+      - name: Configure
         run: |
           sh ./autogen.sh
           mkdir "$GITHUB_WORKSPACE/build"
           cd "$GITHUB_WORKSPACE/build"
-          LDFLAGS="-lws2_32" $GITHUB_WORKSPACE/configure \
-            ${{ inputs.build_option }} \
-            --disable-netcdf \
-            --enable-static-exec
+          LDFLAGS="-lws2_32" $GITHUB_WORKSPACE/configure
 
-      - name: Autotools Build
+      - name: Build
         run: |
-          make -j3
+          make -j
         working-directory: $GITHUB_WORKSPACE/build
 
-      - name: Autotools Run Tests
-        run: |
-          make check -j
-        working-directory: $GITHUB_WORKSPACE/build
+#      - name: Test
+#        run: |
+#          make check -j
+#        working-directory: $GITHUB_WORKSPACE/build

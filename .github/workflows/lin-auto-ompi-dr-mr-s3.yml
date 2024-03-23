@@ -1,4 +1,4 @@
-name: linux autotools parallel vfds
+name: lin auto ompi dr mr s3
 
 on:
   push:

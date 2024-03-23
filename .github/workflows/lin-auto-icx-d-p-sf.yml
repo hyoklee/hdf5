@@ -1,4 +1,4 @@
-name: linux autotools icx debug
+name: lin auto icx d p sf 
 
 on:
   push:
@@ -39,11 +39,10 @@ jobs:
         shell: bash
         run: |
           source /opt/intel/oneapi/setvars.sh
-          export PATH=$PATH:/opt/intel/oneapi/mpi/2021.10.0/bin:/opt/intel/oneapi/compiler/2023.2.1/linux/bin
+          export PATH=$PATH:/opt/intel/oneapi/mpi/latest/bin:/opt/intel/oneapi/compiler/latest/bin	  
           export I_MPI_FABRICS=shm
-          export LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/2023.2.1/linux/compiler/lib/intel64_lin/:$LD_LIBRARY_PATH
           ./autogen.sh
-          ./configure --prefix=/tmp --enable-internal-debug=all --enable-fortran --enable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/2021.10.0/lib -L/opt/intel/oneapi/mpi/2021.10.0/lib/release/"          
+          ./configure --prefix=/tmp --enable-subfiling-vfd --enable-internal-debug=all --enable-fortran --enable-parallel CXX="$(which mpiicpc) -cc=$(which icpx)" CC="$(which mpiicc) -cc=$(which icx)" FC="$(which mpiifort) -fc=$(which ifx)" LDFLAGS="-L/opt/intel/oneapi/mpi/latest/lib"          
           make -j
           make check -j 
           make install

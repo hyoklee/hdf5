@@ -1,10 +1,10 @@
-name: linux autotools aocc d f ompi
+name: lin auto aocc d f ompi
 
 on:
   push:
     branches:
       - develop
-  pull_request:  
+  pull_request:
     branches:
       - develop
     paths-ignore:
@@ -23,7 +23,7 @@ concurrency:
 
 permissions:
   contents: read
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
           sudo make install
       - name: Install HDF5
         env:
-          NPROCS: 2      
+          NPROCS: 2
         run: |
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib
           export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.1.0/lib:/usr/local/lib/openmpi:/usr/local/lib

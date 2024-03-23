@@ -32,9 +32,6 @@ jobs:
           - { icon: '🟨', sys: ucrt64  }
           - { icon: '🟧', sys: clang64 }
     name: ${{ matrix.icon }} msys2-${{ matrix.sys }}
-    defaults:
-      run:
-        shell: msys2 {0}
     steps:
       - name: Get
         uses: actions/checkout@v4.1.1
@@ -54,14 +51,12 @@ jobs:
         shell: msys2 {0}
         run: |
           ./autogen.sh
-          mkdir "$GITHUB_WORKSPACE/build"
-          cd "$GITHUB_WORKSPACE/build"
-          LDFLAGS="-lws2_32" $GITHUB_WORKSPACE/configure
+          ./configure LDFLAGS="-lws2_32"
 
       - name: Build
+        shell: msys2 {0}      
         run: |
-          make -j
-        working-directory: $GITHUB_WORKSPACE/build
+          make
 
 #      - name: Test
 #        run: |

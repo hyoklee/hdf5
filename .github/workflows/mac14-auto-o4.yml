@@ -1,0 +1,24 @@
+name: mac14 auto o4
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+jobs:
+  build:
+    name: mac14 auto o4
+    runs-on: macos-14
+    steps:
+    - name: brew
+      run: brew install autoconf automake libtool
+
+    - name: checkout
+      uses: actions/checkout@v4.1.1
+
+    - name: test
+      run: |
+        ./autogen.sh
+        ./configure CFLAGS="-O4"
+        make
+        make check
+      shell: bash

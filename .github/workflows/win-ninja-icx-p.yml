@@ -1,4 +1,4 @@
-name: windows ninja icx p
+name: win ninja icx p
 
 on: [push, pull_request]
 

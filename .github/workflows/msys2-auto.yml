@@ -33,6 +33,9 @@ jobs:
           - { icon: '🟧', sys: clang64 }
     name: ${{ matrix.icon }} msys2-${{ matrix.sys }}
     steps:
+      - name: Set
+        run: git config --global core.autocrlf input
+
       - name: Get
         uses: actions/checkout@v4.1.1
 
@@ -54,7 +57,7 @@ jobs:
           ./configure LDFLAGS="-lws2_32"
 
       - name: Build
-        shell: msys2 {0}      
+        shell: msys2 {0}
         run: |
           make
 

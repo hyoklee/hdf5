@@ -3,7 +3,7 @@ name: lin icx d f p sf
 on:
   push:
     branches:
-      - main
+      - develop
 
 permissions:
   contents: read

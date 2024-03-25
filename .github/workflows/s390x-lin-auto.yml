@@ -1,0 +1,30 @@
+name: s390x lin auto
+
+on: [push, pull_request]
+
+jobs:
+  s390x_job:
+    name: s390x lin auto
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: test
+        uses: uraimo/run-on-arch-action@v2
+        id: runcmd
+        with:
+          arch: s390x
+          distro: ubuntu_latest
+          install: |
+            apt-get update -q -y
+            apt-get install -q -y git cmake zlib1g zlib1g-dev
+            apt-get install -q -y autotools-dev libtool
+          run: |
+            ./autogen.sh
+            ./configure
+             make
+             make check
+             make install
+             make uninstall

@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        name: ["macOS Latest Clang"]
+        name: mac13 ninja clang17 fl d f mpich sf
         include:
           - name: "macOS Latest Clang"
             artifact: "macOS.tar.xz"
@@ -25,7 +25,6 @@ jobs:
             generator: "-G Ninja"
 
     name: ${{ matrix.name }}
-    # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
 
@@ -34,18 +33,12 @@ jobs:
       uses: actions/checkout@v4.1.1
 
     - name: Install Dependencies (macOS)
-      run: brew install llvm mpich ninja
+      run: brew install mpich ninja
 
     - name: Install flang
       shell: bash
       run : |
-        export PATH=/usr/local/opt/llvm/bin:$PATH
-        export LDFLAGS="-L/usr/local/opt/llvm/lib"
-        export CPPFLAGS="-I/usr/local/opt/llvm/include"
-        export CC=$(brew --prefix llvm)/bin/clang
-        clang --version
-        git clone --single-branch --branch llvmorg-17.0.1 \
-          https://github.com/llvm/llvm-project.git
+        git clone --quiet https://github.com/llvm/llvm-project.git
         mkdir build
         mkdir install
         ROOTDIR=`pwd`
@@ -54,13 +47,10 @@ jobs:
         cd build
         cmake \
           -G Ninja \
-          -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
-          -DCMAKE_CXX_STANDARD=17 \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           -DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,$LD_LIBRARY_PATH" \
-          -DFLANG_ENABLE_WERROR=ON \
-          -DLLVM_ENABLE_ASSERTIONS=ON \
           -DLLVM_TARGETS_TO_BUILD=host \
           -DLLVM_LIT_ARGS=-v \
           -DLLVM_ENABLE_PROJECTS="clang;flang" \
@@ -74,10 +64,9 @@ jobs:
       run: |
         export PATH="/Users/runner/work/hdf5/hdf5/install/bin:$PATH"
         export LDFLAGS="-L/Users/runner/work/hdf5/hdf5/install/lib"
+        export LIBRARY_PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib	
         export CPPFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
         export CFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
-        find .
-        find ..
         export FC="$(which flang-new)"
         export CC="$(which clang)"
         echo $CC
@@ -102,17 +91,5 @@ jobs:
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
         ..
-
-    - name: Build
-      run: cmake --build . --config ${{ matrix.build_type }}
-      working-directory: ${{ runner.workspace }}/build
-
-    - name: Test
-      run: ctest --build . -C ${{ matrix.build_type }} -V
-      working-directory: ${{ runner.workspace }}/build
-
-    - name: Upload
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact
-        path: ${{ runner.workspace }}/build/CMakeCache.txt
+        ninja
+        ninja test

@@ -22,5 +22,5 @@ jobs:
             ./configure
             make
             make check
-            sudo make install
-            sudo make uninstall
+            make install
+            make uninstall

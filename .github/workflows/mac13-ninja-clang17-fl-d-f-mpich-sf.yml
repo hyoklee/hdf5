@@ -9,9 +9,9 @@ jobs:
   build:
     strategy:
       matrix:
-        name: mac13 ninja clang17 fl d f mpich sf
+        name: mac13
         include:
-          - name: "macOS Latest Clang"
+          - name: "mac13 ninja clang17 fl d f mpich sf"
             artifact: "macOS.tar.xz"
             os: macos-13
             build_type: "Release"

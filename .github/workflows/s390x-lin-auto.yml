@@ -20,7 +20,7 @@ jobs:
           install: |
             apt-get update -q -y
             apt-get install -q -y git cmake zlib1g zlib1g-dev
-            apt-get install -q -y autotools-dev libtool
+            apt-get install -q -y autotools-dev g++ libtool
           run: |
             ./autogen.sh
             ./configure

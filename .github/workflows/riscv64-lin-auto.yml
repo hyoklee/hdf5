@@ -5,29 +5,22 @@ on: [push, pull_request]
 jobs:
   riscv64_job:
     runs-on: ubuntu-latest
-    name: Build on ubuntu-latest riscv64
+    name: riscv64 lin auto
     steps:
       - uses: actions/checkout@v4.1.1
       - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
+        name: Run
         id: runcmd
         with:
           arch: riscv64
           distro: ubuntu_latest
-          githubToken: ${{ github.token }}
           install: |
             apt-get update -q -y
-            apt-get install -q -y git
-            apt-get install -q -y autoconf automake libtool
+            apt-get install -q -y autotools-dev cmake git g++ libtool
           run: |
-            echo ::set-output name=uname::$(uname -a)
             ./autogen.sh
             ./configure
             make
             make check
             sudo make install
             sudo make uninstall
-
-      - name: Get the output
-        run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"

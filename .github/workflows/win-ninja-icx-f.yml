@@ -1,4 +1,4 @@
-name: windows ninja icx ifx
+name: win ninja icx ifx
 
 on:
   push:

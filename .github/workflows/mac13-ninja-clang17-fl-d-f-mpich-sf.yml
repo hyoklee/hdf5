@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        name: mac13
+        name: ["mac13 ninja clang17 fl d f mpich sf"]
         include:
           - name: "mac13 ninja clang17 fl d f mpich sf"
             artifact: "macOS.tar.xz"
@@ -75,6 +75,7 @@ jobs:
         mkdir "${{ runner.workspace }}/hdf5/build"
         cd "${{ runner.workspace }}/hdf5/build"
         cmake ${{ matrix.generator }} \
+        -DCMAKE_BUILD_TYPE=Debug \
         -DBUILD_SHARED_LIBS=ON \
         -DBUILD_STATIC_EXECS:BOOL=OFF \
         -DBUILD_STATIC_LIBS:BOOL=OFF \

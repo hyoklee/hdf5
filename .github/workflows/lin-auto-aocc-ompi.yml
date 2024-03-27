@@ -44,14 +44,14 @@ jobs:
           which flang
           clang -v
 
-      - name: Cache OpenMPI 4.1.5 installation
-        id: cache-openmpi-4.1.6
+      - name: Cache OpenMPI 4.1.6 installation
+        id: cache-openmpi-4_1_6
         uses: actions/cache@v4
         with:
           path: /home/runner/work/hdf5/hdf5/openmpi-4.1.6-install
-          key: ${{ runner.os }}-${{ runner.arch }}-openmpi-4.1.6-cache
+          key: ${{ runner.os }}-${{ runner.arch }}-openmpi-4_1_6-cache
       - if: ${{ steps.cache-openmpi-4.1.6.outputs.cache-hit != 'true' }}
-        name: Install OpenMPI 4.1.5
+        name: Install OpenMPI 4.1.6
         run: |
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/usr/local/lib
           wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz

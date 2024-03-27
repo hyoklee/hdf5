@@ -41,7 +41,7 @@ jobs:
           clang -v
 
       - name: Cache OpenMPI 4.1.6 installation
-        id: cache-openmpi-4_1_5
+        id: cache-openmpi-4_1_6
         uses: actions/cache@v4
         with:
           path: /home/runner/work/hdf5/hdf5/openmpi-4.1.6-install

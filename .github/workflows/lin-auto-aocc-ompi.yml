@@ -45,19 +45,19 @@ jobs:
           clang -v
 
       - name: Cache OpenMPI 4.1.5 installation
-        id: cache-openmpi-4_1_5
+        id: cache-openmpi-4.1.6
         uses: actions/cache@v4
         with:
-          path: /home/runner/work/hdf5/hdf5/openmpi-4.1.5-install
-          key: ${{ runner.os }}-${{ runner.arch }}-openmpi-4_1_5-cache
-      - if: ${{ steps.cache-openmpi-4_1_5.outputs.cache-hit != 'true' }}
+          path: /home/runner/work/hdf5/hdf5/openmpi-4.1.6-install
+          key: ${{ runner.os }}-${{ runner.arch }}-openmpi-4.1.6-cache
+      - if: ${{ steps.cache-openmpi-4.1.6.outputs.cache-hit != 'true' }}
         name: Install OpenMPI 4.1.5
         run: |
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/usr/local/lib
-          wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.gz
-          tar zxvf openmpi-4.1.5.tar.gz
-          cd openmpi-4.1.5
-          ./configure CC=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/bin/clang FC=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/bin/flang --prefix=/home/runner/work/hdf5/hdf5/openmpi-4.1.5-install
+          wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.6.tar.gz
+          tar zxvf openmpi-4.1.6.tar.gz
+          cd openmpi-4.1.6
+          ./configure CC=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/bin/clang FC=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/bin/flang --prefix=/home/runner/work/hdf5/hdf5/openmpi-4.1.6-install
           make
           make install
 
@@ -65,11 +65,11 @@ jobs:
         env:
           NPROCS: 2
         run: |
-          export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/home/runner/work/hdf5/hdf5/openmpi-4.1.5-install/lib:/usr/local/lib
-          export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/home/runner/work/hdf5/hdf5/openmpi-4.1.5-install/lib:/usr/local/lib
-          export PATH=/home/runner/work/hdf5/hdf5/openmpi-4.1.5-install/bin:/usr/local/bin:$PATH
+          export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/home/runner/work/hdf5/hdf5/openmpi-4.1.6-install/lib:/usr/local/lib
+          export LD_RUN_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/home/runner/work/hdf5/hdf5/openmpi-4.1.6-install/lib:/usr/local/lib
+          export PATH=/home/runner/work/hdf5/hdf5/openmpi-4.1.6-install/bin:/usr/local/bin:$PATH
           ./autogen.sh
-          ./configure --prefix=/tmp  --enable-parallel --enable-shared CC=mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib -L/home/runner/work/hdf5/hdf5/openmpi-4.1.5-install/lib"
+          ./configure --prefix=/tmp  --enable-parallel --enable-shared CC=mpicc LDFLAGS="-L/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib -L/home/runner/work/hdf5/hdf5/openmpi-4.1.6-install/lib"
           make -j
           make check -j
           make install

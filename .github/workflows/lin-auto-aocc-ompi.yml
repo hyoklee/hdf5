@@ -50,7 +50,7 @@ jobs:
         with:
           path: /home/runner/work/hdf5/hdf5/openmpi-4.1.6-install
           key: ${{ runner.os }}-${{ runner.arch }}-openmpi-4_1_6-cache
-      - if: ${{ steps.cache-openmpi-4.1.6.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-openmpi-4_1_6.outputs.cache-hit != 'true' }}
         name: Install OpenMPI 4.1.6
         run: |
           export LD_LIBRARY_PATH=/home/runner/work/hdf5/hdf5/aocc-compiler-4.2.0/lib:/usr/local/lib

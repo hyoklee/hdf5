@@ -35,7 +35,7 @@ jobs:
 
       - name: Install AOCC 4.2.0
         run: |
-          wget https://download.amd.com/developer/eula/aocc/aocc-4-1/aocc-compiler-4.2.0.tar
+          wget https://download.amd.com/developer/eula/aocc/aocc-4-2/aocc-compiler-4.2.0.tar
           tar -xvf aocc-compiler-4.2.0.tar
           cd aocc-compiler-4.2.0
           bash install.sh

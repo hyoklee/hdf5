@@ -267,6 +267,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for terminating access to a map </p>
 
 </div>
 </div>
@@ -281,6 +282,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for map create </p>
 
 </div>
 </div>
@@ -295,6 +297,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for checking if a value exists in a map </p>
 
 </div>
 </div>
@@ -309,6 +312,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for map get callback </p>
 
 </div>
 </div>
@@ -323,6 +327,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for getting an associated value from a map </p>
 
 </div>
 </div>
@@ -337,6 +342,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for map open </p>
 
 </div>
 </div>
@@ -351,6 +357,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Currently unused </p>
 
 </div>
 </div>
@@ -365,6 +372,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for putting a key-value pair to a map </p>
 
 </div>
 </div>
@@ -379,6 +387,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Callback operation ID for map specific operation </p>
 
 </div>
 </div>
@@ -410,12 +419,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Types for map GET callback </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a5c9b0f5cc6140de6755de44d660379de"></a>H5VL_MAP_GET_MAPL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4aba3df336088e8b63f33e69222ef416f5"></a>H5VL_MAP_GET_MCPL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a2cc3563c3e74b8a2ea77db08787d159d"></a>H5VL_MAP_GET_KEY_TYPE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a46ca7dda8a574c867d867b66710eee52"></a>H5VL_MAP_GET_VAL_TYPE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a4a10e4e10055617e5fcba41aa61ac776"></a>H5VL_MAP_GET_COUNT&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a5c9b0f5cc6140de6755de44d660379de"></a>H5VL_MAP_GET_MAPL&#160;</td><td class="fielddoc"><p>Callback operation ID for getting map access property list <br  />
+ </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4aba3df336088e8b63f33e69222ef416f5"></a>H5VL_MAP_GET_MCPL&#160;</td><td class="fielddoc"><p>Callback operation ID for getting map creation property list </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a2cc3563c3e74b8a2ea77db08787d159d"></a>H5VL_MAP_GET_KEY_TYPE&#160;</td><td class="fielddoc"><p>Callback operation ID for getting the key datatype for a map </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a46ca7dda8a574c867d867b66710eee52"></a>H5VL_MAP_GET_VAL_TYPE&#160;</td><td class="fielddoc"><p>Callback operation ID for getting the value datatype for a map </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0368f24e0303355b9a4f0108e3feb0a4a4a10e4e10055617e5fcba41aa61ac776"></a>H5VL_MAP_GET_COUNT&#160;</td><td class="fielddoc"><p>Callback operation ID for getting the number of key-value pairs stored in a map </p>
+</td></tr>
 </table>
 
 </div>
@@ -431,9 +447,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Types for map SPECIFIC callback </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a241e707f4dc2baeda91c0616436f2208a69ff6077c442c5207366f892b819b17e"></a>H5VL_MAP_ITER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a241e707f4dc2baeda91c0616436f2208aa9bddebe3e21590e50341dcd294ddf9f"></a>H5VL_MAP_DELETE&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a241e707f4dc2baeda91c0616436f2208a69ff6077c442c5207366f892b819b17e"></a>H5VL_MAP_ITER&#160;</td><td class="fielddoc"><p>Callback operation ID for iterating over all key-value pairs stored in the map </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a241e707f4dc2baeda91c0616436f2208aa9bddebe3e21590e50341dcd294ddf9f"></a>H5VL_MAP_DELETE&#160;</td><td class="fielddoc"><p>Callback operation ID for deleting a key-value pair stored in the map </p>
+</td></tr>
 </table>
 
 </div>

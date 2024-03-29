@@ -4,7 +4,7 @@
 
 | Test | Status |
 | -----| ------ |
-| amd64 | [![r](https://github.com/hyoklee/hdf5/actions/workflows/r.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/r.yml) |
+| amd64 | [![amd64](https://github.com/hyoklee/hdf5/actions/workflows/r.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/r.yml) |
 | arm64 | [![arm64](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64.yml) |
 | armv7 | [![armv7 lin](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/armv7-lin.yml) |
 | riscv64 | [![riscv64 lin](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/riscv64-lin.yml) |
@@ -75,14 +75,14 @@
 | ------| ------ |
 | Debug | [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) |
 | Off   | [![mac13 off](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml) |
-| Shared | [![![nbsd f -sh](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml) |
+| Shared | [![nbsd f -sh](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml) |
 
 
 ### Languages
 
 | Test  | Status |
 | ------| ------ |
-| Fortran | [nbsd f](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f.yml) [![s390x lin f](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml) |
+| Fortran | [![nbsd f](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f.yml) [![s390x lin f](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/s390x-lin-f.yml) |
 | Java  | [![fbsd f j](https://github.com/hyoklee/hdf5/actions/workflows/fbsd-f-j.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd-f-j.yml) [![arm64 fbsd f j](https://github.com/hyoklee/hdf5/actions/workflows/arm64-fbsd-f-j.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-fbsd-f-j.yml) [![nbsd f j](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-j.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-j.yml) [![arm64 fbsd f j](https://github.com/hyoklee/hdf5/actions/workflows/arm64-fbsd-f-j.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-fbsd-f-j.yml) [![fbsd lf j](https://github.com/hyoklee/hdf5/actions/workflows/fbsd-lf-j.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd-lf-j.yml) [![mac ninja clang j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac-ninja-clang-j-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-ninja-clang-j-ompi.yml) [![mac14 ninja h j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml) |
 | Julia | [![lin jl](https://github.com/hyoklee/hdf5/actions/workflows/lin-jl.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-jl.yml) [![lin auto jl](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-jl.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-jl.yml) |
 | Python | [![lin spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/lin-spack-h5py.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-spack-h5py.yml) [![mac spack h5py](https://github.com/hyoklee/hdf5/actions/workflows/mac-spack-h5py.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-spack-h5py.yml) |
@@ -114,7 +114,7 @@
 
 | Test     | Status |
 | ---------| ------ |
-| Interop. | [![HDF-EOS5](https://img.shields.io/github/actions/workflow/status/HDFGroup/hdf5/hyoklee5.yml?branch=develop&label=HDF-EOS5)](https://github.com/HDFGroup/hdf5/actions?query=branch%3Adevelop) [![netCDF](https://github.com/hyoklee/hdf5/actions/workflows/netcdf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/netcdf.yml) |
+| Interop. | [![HDF-EOS5](https://img.shields.io/github/actions/workflow/status/hyoklee/hdf5/hdfeos5.yml?branch=develop&label=HDF-EOS5)](https://github.com/hyoklee/hdf5/actions?query=branch%3Adevelop) [![netCDF](https://github.com/hyoklee/hdf5/actions/workflows/netcdf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/netcdf.yml) |
 
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/HDFGroup/hdf5.svg)](http://isitmaintained.com/project/HDFGroup/hdf5 "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/HDFGroup/hdf5.svg)](http://isitmaintained.com/project/HDFGroup/hdf5 "Percentage of issues still open")

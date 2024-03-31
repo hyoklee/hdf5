@@ -33,13 +33,13 @@ jobs:
           - { icon: '🟧', sys: clang64 }
     name: ${{ matrix.icon }} msys2-${{ matrix.sys }}
     steps:
-      - name: Set
+      - name: git
         run: git config --global core.autocrlf input
 
-      - name: Get
+      - name: get
         uses: actions/checkout@v4.1.1
 
-      - name: '${{ matrix.icon }} Setup MSYS2'
+      - name: '${{ matrix.icon }} set'
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.sys}}
@@ -50,18 +50,18 @@ jobs:
           pacboy: >-
             toolchain:p
 
-      - name: Configure
+      - name: configure
         shell: msys2 {0}
         run: |
           ./autogen.sh
           ./configure LDFLAGS="-lws2_32"
 
-      - name: Build
+      - name: build
         shell: msys2 {0}
         run: |
           make
 
-#      - name: Test
+#      - name: test
 #        run: |
 #          make check -j
 #        working-directory: $GITHUB_WORKSPACE/build

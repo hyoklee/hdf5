@@ -33,23 +33,22 @@ jobs:
           - clang64
     runs-on: windows-latest
     steps:
-      - name: Setup MSYS2
+      - name: git
+        run: git config --global core.autocrlf input
+      - name: get
+        uses: actions/checkout@v4
+      - name: '${{ matrix.icon }} set'
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.sys}}
           update: true
-          install: >-
-            git
           pacboy: >-
             toolchain:p
             cmake:p
             ninja:p
-      - name: Test HDF5
+      - name: build
         shell: msys2 {0}
         run: |
-          uname -a
-          git clone https://github.com/HDFgroup/hdf5.git
-          cd hdf5
           mkdir build
           cd build
           cmake -DH5_HAVE_ALARM:INTERNAL=0 -DH5_HAVE_ASPRINTF:INTERNAL=0 -DH5_HAVE_VASPRINTF:INTERNAL=0 ..

@@ -1,0 +1,33 @@
+name: cyg ninja sh ompi
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: git
+        run: git config --global core.autocrlf input
+      - name: get
+        uses: actions/checkout@v4
+      - name: set
+        uses: cygwin/cygwin-install-action@master
+        with:
+          packages: cmake gcc-fortran libhwloc-devel libevent-devel make ninja openmpi libopenmpi-devel perl zlib-devel
+      - name: test
+        run: |
+          export PATH=/usr/bin:$PATH
+          mkdir build
+          cd build
+          cmake -G Ninja \
+           -DSITE:STRING=cwin \
+           -DBUILDNAME:STRING="ninja.-sh.ompi" \
+           -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+           -DCMAKE_SYSTEM_NAME="Linux" \
+           -DCMAKE_C_COMPILER=/usr/bin/mpicc \
+           -DCMAKE_CXX_COMPILER=/usr/bin/mpicxx \
+           -DBUILD_SHARED_LIBS:BOOL=OFF \
+           -DHDF5_ENABLE_PARALLEL:BOOL=ON \
+           ..
+          ctest -D Experimental
+        shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'

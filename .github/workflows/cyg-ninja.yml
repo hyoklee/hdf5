@@ -1,37 +1,30 @@
-name: cyg
+name: cyg ninja
 
-on:
-  push:
-    branches: [ develop ]
+on: [push, pull_request]
 
 jobs:
   test:
-    name: "cyg"  
+    name: cyg ninja
     runs-on: windows-latest
     steps:
-      - name: Set git to use LF
+      - name: git
         run: |
           git config --global core.autocrlf input
-
       - uses: actions/checkout@v4
-
-      - name: Install Cygwin
+      - name: set
         uses: cygwin/cygwin-install-action@master
         with:
           packages: cmake gcc-fortran make ninja perl zlib-devel
-      - name: Test HDF5
+      - name: test
         run: |
           export PATH=/usr/bin:$PATH
           mkdir build
           cd build
-          which cmake
           cmake -G Ninja \
+           -D SITE:STRING=cwin \
+           -DBUILDNAME:STRING="ninja.-sh.ompi" \
            -D BUILD_SHARED_LIBS:BOOL=OFF \
            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
-           -D SITE:STRING=cwin ..
-          ctest -T Build
-          ctest -T Test
-          if [[ $? -ne 0 ]]; then
-            ctest -T Submit
-          fi
+           ..
+          ctest -D Experimental
         shell: C:\cygwin\bin\bash.exe -eo pipefail -o igncr '{0}'

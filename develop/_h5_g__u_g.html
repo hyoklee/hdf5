@@ -557,8 +557,8 @@ c) A link named dset2 to the same dataset is created in /group2.</div></div>
   </td><td><div class="image">
 <img src="Groups_fig9_bb.gif" alt=""/>
 <div class="caption">
-d) The link from /group1 to dset1 is removed. The dataset is</div></div>
- still in the file, but can be accessed only as /group2/dset2."   </td></tr>
+d) The link from /group1 to dset1 is removed.</div></div>
+ The dataset is still in the file, but can be accessed only as /group2/dset2.   </td></tr>
 </table>
 <p>Figure 10 illustrates loops in an HDF5 file structure. The file in part a contains three groups and a dataset; group2 is a member of the root group and of the root group's other member group, group1. group2 thus can be accessed by either of two paths: /group2 or /group1/GXX. Similarly, the dataset can be accessed either as /group2/dset1 or as /group1/GXX/dset1.</p>
 <p>Part b illustrates a different case: the dataset is a member of a single group but with two links, or names, in that group. In this case, the dataset again has two names, /group1/dset1 and /group1/dset2.</p>
@@ -580,8 +580,8 @@ b) dset1 again has two names: /group1/dset1 and /group1/dset2.</div></div>
 <td><div class="image">
 <img src="Groups_fig10_c.gif" alt=""/>
 <div class="caption">
-c) dset1 has three names: /group1/dset1, /group2/dset2, and</div></div>
- /group1/GXX/dset2."  </td><td><div class="image">
+c) dset1 has 3 names: /group1/dset1, /group2/dset2, and /group1/GXX/dset2.</div></div>
+  </td><td><div class="image">
 <img src="Groups_fig10_d.gif" alt=""/>
 <div class="caption">
 d) dset1 has an infinite number of available path names.</div></div>

@@ -57,7 +57,7 @@ jobs:
 
     - name: Upload
       if: matrix.generator != 'autogen'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: my-artifact
         path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

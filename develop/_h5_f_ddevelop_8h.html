@@ -283,6 +283,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Version of the file driver struct, <a class="el" href="struct_h5_f_d__class__t.html">H5FD_class_t</a> </p>
 
 </div>
 </div>
@@ -306,7 +307,8 @@ Functions</h2></td></tr>
 <div class="line">            H5FD_MEM_DEFAULT, <span class="comment">/*lheap*/</span>                                                                      \</div>
 <div class="line">            H5FD_MEM_DEFAULT  <span class="comment">/*ohdr*/</span>                                                                       \</div>
 <div class="line">    }</div>
-</div><!-- fragment -->
+</div><!-- fragment --><p>The default free list map which causes each request type to use it's own free-list. </p>
+
 </div>
 </div>
 <a id="ac828cc26131c2df37fdb84ca13272540"></a>
@@ -329,7 +331,8 @@ Functions</h2></td></tr>
 <div class="line">            H5FD_MEM_SUPER, <span class="comment">/*lheap*/</span>                                                                        \</div>
 <div class="line">            H5FD_MEM_SUPER  <span class="comment">/*ohdr*/</span>                                                                         \</div>
 <div class="line">    }</div>
-</div><!-- fragment -->
+</div><!-- fragment --><p>A free-list map which segregates requests into &lsquo;raw&rsquo; or &lsquo;meta&rsquo; data pools. </p>
+
 </div>
 </div>
 <a id="a4c63846487a43d7a3d589ac2852c9078"></a>
@@ -352,7 +355,8 @@ Functions</h2></td></tr>
 <div class="line">            H5FD_MEM_SUPER, <span class="comment">/*lheap*/</span>                                                                        \</div>
 <div class="line">            H5FD_MEM_SUPER  <span class="comment">/*ohdr*/</span>                                                                         \</div>
 <div class="line">    }</div>
-</div><!-- fragment -->
+</div><!-- fragment --><p>A free-list map which maps all types of allocation requests to a single free list. This is useful for drivers that don't really care about keeping different requests segregated in the underlying file and which want to make most efficient reuse of freed memory. The use of the H5FD_MEM_SUPER free list is arbitrary. </p>
+
 </div>
 </div>
 <a id="afd048d1a2116b3def54e117569d796d5"></a>
@@ -366,6 +370,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Extensible array data block &amp; page; it is mapped to 'lheap' type file memory because it is similar enough to local heap info. </p>
 
 </div>
 </div>
@@ -380,6 +385,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Extensible array data block; it is mapped to 'lheap' type file memory because it is similar enough to local heap info. </p>
 
 </div>
 </div>
@@ -394,6 +400,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Extensible array header block; it is mapped to 'ohdr' type file memory to benefit from their similarity. </p>
 
 </div>
 </div>
@@ -408,6 +415,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Extensible array index block; it is mapped to 'ohdr' type file memory because these index blocks are similar to extensible array header blocks. </p>
 
 </div>
 </div>
@@ -422,6 +430,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Extensible array super block; it is mappend to 'btree' type file memory because the indices are similar enough to B-tree nodes. </p>
 
 </div>
 </div>
@@ -436,6 +445,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fixed array data block &amp; page; it is mapped to 'lheap' type file memory because it is similar enough to local heap info. </p>
 
 </div>
 </div>
@@ -450,6 +460,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fixed array data block; it is mapped to 'lheap' type file memory because it is similar enough to local heap info. </p>
 
 </div>
 </div>
@@ -464,6 +475,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fixed array header block; it is mapped to 'ohdr' type file memory to benefit their similarity. </p>
 
 </div>
 </div>
@@ -478,6 +490,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fractal heap direct block; it is mapped to 'lheap' type file memory, because the fractal heap direct blocks will be replacing local heaps. </p>
 
 </div>
 </div>
@@ -492,6 +505,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fractal heap header block; it is mapped to 'ohdr' type file memory to benefit from their similarity. </p>
 
 </div>
 </div>
@@ -506,6 +520,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fractal heap 'huge' object; it is mapped to 'draw' type file memory because the fractal heap 'huge' objects represent large objects that are directly stored in the file. </p>
 
 </div>
 </div>
@@ -520,6 +535,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Fractal heap indirect block; it is mapped to 'ohdr' type file memory because the indirect blocks are similar to fractal heap header blocks. </p>
 
 </div>
 </div>
@@ -534,6 +550,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Free space header blocks; it is mapped to 'ohdr' type file memory to benefit from their similarity. </p>
 
 </div>
 </div>
@@ -548,6 +565,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Free space serialized section; it is mapped to 'lheap' type file memory because it is similar enough to local heap info. </p>
 
 </div>
 </div>
@@ -562,6 +580,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Shared object header message index; it is mapped to 'btree' type file memory because the indices are similar enough to B-tree nodes. </p>
 
 </div>
 </div>
@@ -576,6 +595,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Shared object header message master table; it is mapped to 'ohdr' type file memory to benefit from their similarity. </p>
 
 </div>
 </div>

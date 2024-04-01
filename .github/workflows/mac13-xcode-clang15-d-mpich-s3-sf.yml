@@ -28,8 +28,8 @@ jobs:
             -DHDF5_ENABLE_ROS3_VFD:BOOL=ON \
             -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+            -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
             -G Xcode ..
           cmake --build . --config Debug
           ctest --build . -C Debug -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
           sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_CONFIG_NAME=Debug  -P cmake_install.cmake
-

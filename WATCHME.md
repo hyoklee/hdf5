@@ -25,7 +25,9 @@
 
 | Test    | Status |
 | --------| ------ |
-| macOS | [![mac14 auto o4](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-o4.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-o4.yml) [![mac14 ninja h j ompi cd](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml) |
+| mac12 |  [![mac Xcode](https://github.com/hyoklee/hdf5/actions/workflows/mac-xcode.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-xcode.yml) |
+| mac13 | [![mac13 off](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml) |
+| mac14 | [![mac14 auto o4](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-o4.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-o4.yml) [![mac14 ninja h j ompi cd](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-h-j-ompi-cd.yml) |
 | iOS |  [![mac13 ios](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml) |
 
 ### Linux

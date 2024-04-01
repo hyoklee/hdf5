@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ develop ]
-  pull_request:  
+  pull_request:
     branches:
       - develop
     paths-ignore:
@@ -14,7 +14,7 @@ on:
       - 'release_docs/**'
       - 'ACKNOWLEDGEMENTS'
       - 'COPYING**'
-      - '**.md'      
+      - '**.md'
 jobs:
   build:
     strategy:
@@ -69,7 +69,7 @@ jobs:
         -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
         -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
-        -DMPIEXEC_MAX_NUMPROCS:STRING=2 \
+        -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
         $GITHUB_WORKSPACE
 
     - name: Build

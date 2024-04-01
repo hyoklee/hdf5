@@ -14,7 +14,7 @@ jobs:
         with:
           cmakeVersion: "3.27.6"
       - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v1
+        uses: KyleMayes/install-llvm-action@v2
         with:
           version: "15"
       - name: Install Intel OneAPI

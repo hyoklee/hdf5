@@ -48,7 +48,7 @@ jobs:
           #
           # No Fortran, parallel, or VFDs that rely on POSIX things
           - name: "Windows MSVC"
-            os: windows-latest
+            os: [windows-2019, windows-latest]
             cpp: ON
             fortran: OFF
             java: ON
@@ -69,7 +69,7 @@ jobs:
           # We might think about adding Clang, but MacOS already tests that
           # so it's not critical
           - name: "Ubuntu gcc"
-            os: ubuntu-latest
+            os: [ubuntu-20.04, ubuntu-latest]
             cpp: ON
             fortran: ON
             java: ON
@@ -91,7 +91,7 @@ jobs:
           # We could also build with the Autotools via brew installing them,
           # but that seems unnecessary
           - name: "MacOS Clang"
-            os: macos-13
+            os: [macos, macos-13, macos-14]
             cpp: ON
             fortran: OFF
             java: ON

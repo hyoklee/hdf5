@@ -613,6 +613,7 @@ if (HDF5_ENABLE_DIRECT_VFD)
   if (HAVE_O_DIRECT AND HAVE_POSIX_MEMALIGN)
     set (${HDF_PREFIX}_HAVE_DIRECT 1)
   else ()
+    set (HDF5_ENABLE_DIRECT_VFD OFF CACHE BOOL "Build the Direct I/O Virtual File Driver" FORCE)
     message (FATAL_ERROR "The direct VFD was requested but cannot be built.\nIt requires O_DIRECT flag support and posix_memalign()")
   endif ()
 endif ()
@@ -629,6 +630,7 @@ option (HDF5_ENABLE_ROS3_VFD "Build the ROS3 Virtual File Driver" OFF)
       list (APPEND LINK_LIBS ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
       INCLUDE_DIRECTORIES (${CURL_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
     else ()
+      set (HDF5_ENABLE_ROS3_VFD OFF CACHE BOOL "Build the ROS3 Virtual File Driver" FORCE)
       message (WARNING "The Read-Only S3 VFD was requested but cannot be built.\nPlease check that openssl and cURL are available on your\nsystem, and/or re-configure without option HDF5_ENABLE_ROS3_VFD.")
     endif ()
 endif ()
@@ -645,7 +647,8 @@ if (HDF5_ENABLE_MIRROR_VFD)
        ${HDF_PREFIX}_HAVE_FORK)
       set (${HDF_PREFIX}_HAVE_MIRROR_VFD 1)
   else()
-    message(WARNING "The socket-based Mirror VFD was requested but cannot be built. System prerequisites are not met.")
+      set (HDF5_ENABLE_MIRROR_VFD OFF CACHE BOOL "Build the Mirror Virtual File Driver" FORCE)
+      message(WARNING "The socket-based Mirror VFD was requested but cannot be built. System prerequisites are not met.")
   endif()
 endif()
 
@@ -799,7 +802,7 @@ macro (H5ConversionTests TEST def msg)
           message (VERBOSE "${msg}... no")
           file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
             "Test ${TEST} Compile succeeded with the following output:\n ${${TEST}_COMPILE_OUTPUT}\n"
-          )         
+          )
           file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
             "Test ${TEST} Run failed with exit code ${${TEST}_RUN} and with the following output:\n ${${TEST}_RUN_OUTPUT}\n"
           )
@@ -920,25 +923,30 @@ if (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16)
       # compile a program that will generate these functions to check for _Float16
       # support. If we fail to compile this program, we will simply disable
       # _Float16 support for the time being.
-
-      # Some compilers, notably AppleClang on MacOS 12, will succeed in the
-      # configure check below when optimization flags like -O3 are manually
-      # passed in CMAKE_C_FLAGS. However, the build will then fail when it
-      # reaches compilation of H5Tconv.c because of the issue mentioned above.
-      # MacOS 13 appears to have fixed this, but, just to be sure, backup and
-      # clear CMAKE_C_FLAGS before performing these configure checks.
-      set (cmake_c_flags_backup "${CMAKE_C_FLAGS}")
-      set (CMAKE_C_FLAGS "")
-
       H5ConversionTests (
           ${HDF_PREFIX}_FLOAT16_CONVERSION_FUNCS_LINK
           FALSE
           "Checking if compiler can convert _Float16 type with casts"
       )
 
+      # Some compilers, notably AppleClang on MacOS 12, will succeed in the
+      # configure check above when optimization flags like -O3 are manually
+      # passed in CMAKE_C_FLAGS. However, the build will then fail when it
+      # reaches compilation of H5Tconv.c because of the issue mentioned above.
+      # MacOS 13 appears to have fixed this, but, just to be sure, make sure
+      # the check also passes without the passed in CMAKE_C_FLAGS.
+      set (cmake_c_flags_backup "${CMAKE_C_FLAGS}")
+      set (CMAKE_C_FLAGS "")
+
+      H5ConversionTests (
+          ${HDF_PREFIX}_FLOAT16_CONVERSION_FUNCS_LINK_NO_FLAGS
+          FALSE
+          "Checking if compiler can convert _Float16 type with casts (without CMAKE_C_FLAGS)"
+      )
+
       set (CMAKE_C_FLAGS "${cmake_c_flags_backup}")
 
-      if (${${HDF_PREFIX}_FLOAT16_CONVERSION_FUNCS_LINK})
+      if (${HDF_PREFIX}_FLOAT16_CONVERSION_FUNCS_LINK AND ${HDF_PREFIX}_FLOAT16_CONVERSION_FUNCS_LINK_NO_FLAGS)
         # Finally, MacOS 13 appears to have a bug specifically when converting
         # long double values to _Float16. Release builds of the dt_arith test
         # would cause any assignments to a _Float16 variable to be elided,
@@ -946,20 +954,25 @@ if (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16)
         # simply chopping off all the bytes of the value except for the first 2.
         # These tests pass on MacOS 14, so let's perform a quick test to check
         # if the hardware conversion is done correctly.
-
-        # Backup and clear CMAKE_C_FLAGS before performing configure checks
-        set (cmake_c_flags_backup "${CMAKE_C_FLAGS}")
-        set (CMAKE_C_FLAGS "")
-
         H5ConversionTests (
             ${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT
             TRUE
             "Checking if correctly converting long double to _Float16 values"
         )
 
+        # Backup and clear CMAKE_C_FLAGS before performing configure check again
+        set (cmake_c_flags_backup "${CMAKE_C_FLAGS}")
+        set (CMAKE_C_FLAGS "")
+
+        H5ConversionTests (
+            ${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT_NO_FLAGS
+            TRUE
+            "Checking if correctly converting long double to _Float16 values (without CMAKE_C_FLAGS)"
+        )
+
         set (CMAKE_C_FLAGS "${cmake_c_flags_backup}")
 
-        if (NOT ${${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT})
+        if (NOT ${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT OR NOT ${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT_NO_FLAGS)
           message (VERBOSE "Conversions from long double to _Float16 appear to be incorrect. These will be emulated through a soft conversion function.")
         endif ()
 
@@ -981,4 +994,8 @@ else ()
   set (${HDF_PREFIX}_SIZEOF__FLOAT16 0 CACHE INTERNAL "SizeOf for ${HDF_PREFIX}_SIZEOF__FLOAT16")
   unset (${HDF_PREFIX}_HAVE__FLOAT16 CACHE)
   unset (${HDF_PREFIX}_LDOUBLE_TO_FLOAT16_CORRECT CACHE)
+endif ()
+
+if (NOT ${HDF_PREFIX}_HAVE__FLOAT16)
+  set (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 OFF CACHE BOOL "Enable support for _Float16 C datatype" FORCE)
 endif ()

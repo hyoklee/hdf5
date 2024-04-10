@@ -1,5 +1,13 @@
 # HDF5 for All
 
+## Installation
+
+| Test | Status |
+| -----| ------ |
+| RPM | [![alien](https://github.com/hyoklee/hdf5/actions/workflows/alien.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/alien.yml) |
+| DEB | [![dpkg](https://github.com/hyoklee/hdf5/actions/workflows/dpkg.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/dpkg.yml) |
+
+
 ## Arch
 
 | Test | Status |

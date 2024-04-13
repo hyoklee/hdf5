@@ -83,7 +83,7 @@
 
 | Test  | Status |
 | ------| ------ |
-| Debug | [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) |
+| Debug | [![d](https://github.com/hyoklee/hdf5/actions/workflows/d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/d.yml) [![mac14 auto d as in mp mc se st tr sy ](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-d-as-in-mp-mc-se-st-tr-sy.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-auto-d-as-in-mp-mc-se-st-tr-sy.yml)|
 | Off   | [![mac13 off](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-off.yml) |
 | Shared | [![nbsd f -sh](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd-f-sh.yml) |
 

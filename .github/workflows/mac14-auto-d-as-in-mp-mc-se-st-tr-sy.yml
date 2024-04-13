@@ -1,0 +1,22 @@
+name: mac14 auto d as in mp mc se st tr sy
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: mac14 auto o4
+    runs-on: macos-14
+    steps:
+    - name: brew
+      run: brew install autoconf automake libtool
+
+    - name: get
+      uses: actions/checkout@v4.1.1
+
+    - name: test
+      run: |
+        ./autogen.sh
+        ./configure CFLAGS="-g -Wall"  --enable-build-mode=debug --enable-symbols=yes --enable-asserts --enable-trace --enable-using-memchecker --enable-instrument --enable-map-api --enable-static-exec --enable_static=yes
+        make
+        make check
+      shell: bash

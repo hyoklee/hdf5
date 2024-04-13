@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['native_20arrays_20of_20numbers_13240',['Native Arrays of Numbers',['../_h_d_f_n_a_t_i_v_e.html',1,'']]],
-  ['notitle_13241',['notitle',['../index.html',1,'']]]
+  ['metadata_20cache_20configuration_13302',['Metadata Cache Configuration',['../_h5_a_c-cache-config-t.html',1,'']]],
+  ['metadata_20caching_20in_20hdf5_13303',['Metadata Caching in HDF5',['../_t_n_m_d_c.html',1,'']]]
 ];

@@ -16,7 +16,7 @@ jobs:
     - name: test
       run: |
         ./autogen.sh
-        ./configure CFLAGS="-g -Wall"  --enable-build-mode=debug --enable-symbols=yes --enable-asserts --enable-trace --enable-using-memchecker --enable-instrument --enable-map-api --enable-static-exec --enable_static=yes
+        ./configure CFLAGS="-g -Wall"  --enable-build-mode=debug --enable-symbols=yes --enable-asserts --enable-trace --enable-using-memchecker --enable-instrument --enable-map-api --enable-static-exec=yes
         make
         make check
       shell: bash

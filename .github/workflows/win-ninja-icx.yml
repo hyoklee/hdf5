@@ -18,7 +18,7 @@ jobs:
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
-          version: '2024.0'
+          version: '2024.1'
       - name: Checkout HDF5
         uses: actions/checkout@v4.1.1
       - name: Set oneAPI

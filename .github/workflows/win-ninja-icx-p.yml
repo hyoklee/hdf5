@@ -8,33 +8,25 @@ jobs:
     steps:
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: "18.1.3"
       - name: Install Intel OneAPI
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
           version: '2024.1'
       - name: Install Intel MPI
-        uses: mpi4py/setup-mpi@v1
+        uses: mpi4py/setup-mpi@master
         with:
           mpi: intelmpi
       - name: Checkout HDF5
         uses: actions/checkout@v4.1.1
-      - name: Set oneAPI
-        shell: cmd
-        run: |
-          "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
       - name: Set MPI
         shell: cmd
         run: |
-          "C:\Program Files (x86)\Intel\oneAPI\mpi\latest\env\vars.bat"
+          "C:/Program Files (x86)/Intel/oneAPI/mpi/latest/env/vars.bat"
       - name: Configure & Build & Test
         shell: cmd
         run: |
-          cd hdf5
+          set LIB=C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\lib;%LIB%
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpicc.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiifort.bat" -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+p" ..

@@ -21,7 +21,7 @@ jobs:
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
-          version: '2023.2'
+          version: '2024.1'
       - name: Install Intel MPI
         uses: mpi4py/setup-mpi@v1
         with:
@@ -45,4 +45,3 @@ jobs:
           cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpicc.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiifort.bat" -DBUILD_SHARED_LIBS:BOOL=OFF -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF ..
           ninja
           ninja test
-

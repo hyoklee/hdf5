@@ -23,11 +23,11 @@ jobs:
         shell: cmd
         run: |
           "C:/Program Files (x86)/Intel/oneAPI/mpi/latest/env/vars.bat"
-      - name: Configure & Build & Test
+      - name: Configure
         shell: cmd
         run: |
           set LIB=C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\lib;%LIB%
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpicc.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiifort.bat" -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+p" ..
-         ctest -D Nightly -C Release
+          ctest -D Nightly -C Release

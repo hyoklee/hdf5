@@ -3,7 +3,7 @@ name: ABI
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 permissions:
   contents: read

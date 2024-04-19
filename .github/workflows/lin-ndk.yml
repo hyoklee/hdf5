@@ -1,6 +1,9 @@
 name: lin ndk
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

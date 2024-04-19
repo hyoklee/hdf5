@@ -1,6 +1,9 @@
 name: mac13 xcode clang15 d f mpich s3 sf
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

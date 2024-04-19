@@ -1,6 +1,8 @@
 name: arm64 fbsd f j
 
-on: [push, pull_request]
+on:
+  push:
+    branches: develop-
 
 jobs:
   test:

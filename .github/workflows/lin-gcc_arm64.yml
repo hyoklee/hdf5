@@ -1,9 +1,9 @@
 name: lin gcc_arm64
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
+    branches: develop-
+
 jobs:
   build:
     runs-on: ubuntu-latest

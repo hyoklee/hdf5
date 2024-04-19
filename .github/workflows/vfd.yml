@@ -3,8 +3,8 @@ name: hdf5 VFD CI
 # Run VFD CI daily at 07:00 CDT (12:00 UTC)
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 12 * * *"
+#  schedule:
+#    - cron: "0 12 * * *"
 
 permissions:
   contents: read

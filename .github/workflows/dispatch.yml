@@ -1,7 +1,9 @@
 name: Remote Dispatch Action Initiator
 on:
   push:
- 
+    branches:
+      - develop-
+
 jobs:
   ping-pong:
     runs-on: ubuntu-latest

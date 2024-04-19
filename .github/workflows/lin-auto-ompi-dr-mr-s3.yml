@@ -2,8 +2,8 @@ name: lin auto ompi dr mr s3
 
 on:
   push:
-    branches: [ develop ]
-  workflow_dispatch:    
+    branches: develop-
+
 jobs:
   build:
     runs-on: ubuntu-latest

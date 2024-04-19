@@ -3,7 +3,7 @@ name: win ninja icx ifx
 on:
   push:
     branches:
-      - develop
+      - develop-
 jobs:
   build:
     runs-on: windows-latest

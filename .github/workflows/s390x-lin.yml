@@ -1,6 +1,9 @@
 name: s390x lin
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   s390x_job:

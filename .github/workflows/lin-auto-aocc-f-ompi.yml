@@ -3,10 +3,10 @@ name: lin auto aocc f ompi
 on:
   push:
     branches:
-      - develop
+      - develop-
   pull_request:
     branches:
-      - develop
+      - develop-
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'

@@ -1,6 +1,9 @@
 name: armv7 lin
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   armv7:

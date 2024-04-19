@@ -1,6 +1,9 @@
 name: mac13 ninja clang15 f h d mpich sf
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

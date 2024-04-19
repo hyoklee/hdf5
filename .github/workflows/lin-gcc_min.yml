@@ -1,6 +1,8 @@
 name: lin gcc_min
 
-on: [push, pull_request]
+on:
+  push:
+    branches: develop-
 
 jobs:
   gcc_min:

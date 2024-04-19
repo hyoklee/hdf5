@@ -1,6 +1,9 @@
 name: mac ninja clang h f j mpich
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

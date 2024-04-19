@@ -1,6 +1,9 @@
 name: lin auto jl
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   julia:

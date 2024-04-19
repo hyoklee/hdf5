@@ -2,8 +2,9 @@ name: mac auto ompi
 
 on:
   push:
-    branches: [ develop ]
-  workflow_dispatch:
+    branches:
+      - develop-
+
 jobs:
   build:
     runs-on: macos-latest

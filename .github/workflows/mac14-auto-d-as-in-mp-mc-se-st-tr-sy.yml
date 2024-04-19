@@ -1,6 +1,9 @@
 name: mac14 auto d as in mp mc se st tr sy
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

@@ -1,20 +1,9 @@
 name: mac13 clang15 r f mpich sf
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
-  pull_request:
     branches:
-      - develop
-    paths-ignore:
-      - '.github/CODEOWNERS'
-      - '.github/FUNDING.yml'
-      - 'doc/**'
-      - 'release_docs/**'
-      - 'ACKNOWLEDGEMENTS'
-      - 'COPYING**'
-      - '**.md'
+      - develop-
 jobs:
   build:
     strategy:

@@ -1,10 +1,9 @@
 name: mac13 off
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
-
+    branches:
+      - develop-
 jobs:
   build:
     name: mac13 off

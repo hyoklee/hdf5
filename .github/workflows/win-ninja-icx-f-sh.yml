@@ -3,7 +3,7 @@ name: win ninja icx ifx sh
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

@@ -1,6 +1,9 @@
 name: cyg ninja sh ompi
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   test:

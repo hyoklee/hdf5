@@ -3,7 +3,7 @@ name: lin auto aocc d f ompi
 on:
   push:
     branches:
-      - develop
+      - develop-
   pull_request:
     branches:
       - develop

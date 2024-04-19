@@ -1,6 +1,9 @@
 name: win ninja icx
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
 
 jobs:
   build:

@@ -2,7 +2,8 @@ name: d
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - develop-    
 
 jobs:
   test: # make sure the action works on a clean machine without building

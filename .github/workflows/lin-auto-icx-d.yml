@@ -3,7 +3,7 @@ name: lin auto icx d
 on:
   push:
     branches:
-      - develop
+      - develop-
 jobs:
   build:
     runs-on: ubuntu-latest

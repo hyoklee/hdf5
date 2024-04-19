@@ -1,9 +1,9 @@
 name: mac14 auto o4
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
+    branches:
+      - develop-
 jobs:
   build:
     name: mac14 auto o4

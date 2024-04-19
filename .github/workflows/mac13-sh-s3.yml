@@ -1,9 +1,9 @@
 name: mac13 sh s3
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
+    branches:
+      - develop-
 
 jobs:
   build:

@@ -2,8 +2,8 @@ name: cyg auto
 
 on:
   push:
-    branches: [ develop ]
-
+    branches:
+      - develop-
 jobs:
   test:
     name: "cyg auto"

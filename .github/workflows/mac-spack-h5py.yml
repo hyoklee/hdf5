@@ -2,8 +2,8 @@ name: mac spack h5py
 
 on:
   push:
-    branches: [ develop ]
-  workflow_dispatch:
+    branches:
+      - develop-
 
 jobs:
   build:

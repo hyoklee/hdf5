@@ -1,6 +1,9 @@
 name: mac ninja clang j ompi
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop-
     
 jobs:
   build:

@@ -3,6 +3,8 @@ name: msys2 auto
 on:
   workflow_call:
   push:
+    branches:
+      - develop-  
   pull_request:
     branches: [ develop ]
     paths-ignore:

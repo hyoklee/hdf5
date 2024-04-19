@@ -4,37 +4,24 @@ on:
   push:
     branches:
       - develop
-
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Install CMake and Ninja
+      - name: cmake
         uses: lukka/get-cmake@latest
-        with:
-          cmakeVersion: "3.27.6"
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: "15"
-      - name: Install Intel OneAPI
+      - name: ifx
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
           version: '2024.1'
-      - name: Checkout HDF5
+      - name: checkout
         uses: actions/checkout@v4.1.1
-      - name: Set oneAPI
+      - name: test
         shell: cmd
         run: |
-          "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
-      - name: Configure & Build & Test
-        shell: cmd
-        run: |
-          cd hdf5
+          set
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/compiler/2024.1.0/windows/bin/icx.exe" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/compiler/2024.1.0/windows/bin/ifx.exe" -DBUILD_SHARED_LIBS:BOOL=OFF  -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF ..
-          ninja
-          ninja test
-
+          cmake -G Ninja -DBUILD_SHARED_LIBS:BOOL=OFF -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF  -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+f/-sh" ..
+          ctest -D Experimental -C Release

@@ -6,28 +6,29 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Install CMake and Ninja
+      - name: cmake
         uses: lukka/get-cmake@latest
-      - name: Install Intel OneAPI
+      - name: oneapi
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
           version: '2024.1'
-      - name: Install Intel MPI
+      - name: mpi
         uses: mpi4py/setup-mpi@master
         with:
           mpi: intelmpi
-      - name: Checkout HDF5
+      - name: checkout
         uses: actions/checkout@v4.1.1
-      - name: Set MPI
+      - name: set
         shell: cmd
         run: |
           "C:/Program Files (x86)/Intel/oneAPI/mpi/latest/env/vars.bat"
-      - name: Configure
+      - name: test
         shell: cmd
         run: |
           set LIB=C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\lib;%LIB%
+          set
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpicc.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiifort.bat" -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+p" ..
-          ctest -D Nightly -C Release
+          cmake -G Ninja -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF  -DMPIEXEC_EXECUTABLE:FILEPATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\bin\mpiexec.exe" -DMPI_C_HEADER_DIR:PATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\include" -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+p" ..
+          ctest -D Experimental -C Release

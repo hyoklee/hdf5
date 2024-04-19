@@ -3,6 +3,8 @@ name: hdfeos5 dev
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop-  
   pull_request:
     branches: [ develop- ]
     paths-ignore:

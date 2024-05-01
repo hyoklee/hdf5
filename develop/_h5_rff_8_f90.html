@@ -113,6 +113,8 @@ Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structh5r_1_1hdset__reg__ref__t__f03.html">hdset_reg_ref_t_f03</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structh5r_1_1hdset__reg__ref__t__f03.html" title="hdset_reg_ref_t_f03 C compatible reference">hdset_reg_ref_t_f03</a> C compatible reference  <a href="structh5r_1_1hdset__reg__ref__t__f03.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structh5r_1_1h5r__ref__t.html">h5r_ref_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceh5r_1_1h5rget__object__type__f.html">h5rget_object_type_f</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -139,6 +141,45 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ga7ed627c88ed630fdd997345d86a0f304"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga7ed627c88ed630fdd997345d86a0f304">h5rget_obj_type_f</a> (loc_id, ref_type, ref, obj_type, hdferr)</td></tr>
 <tr class="memdesc:ga7ed627c88ed630fdd997345d86a0f304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the type of object that an object reference points to.  <a href="group___f_h5_r.html#ga7ed627c88ed630fdd997345d86a0f304">More...</a><br /></td></tr>
 <tr class="separator:ga7ed627c88ed630fdd997345d86a0f304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e025ccee8cf4b396723de92e80cef08"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga7e025ccee8cf4b396723de92e80cef08">h5ropen_object_f</a> (ref_ptr, obj_id, hdferr, rapl_id, oapl_id)</td></tr>
+<tr class="memdesc:ga7e025ccee8cf4b396723de92e80cef08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the HDF5 object referenced.  <a href="group___f_h5_r.html#ga7e025ccee8cf4b396723de92e80cef08">More...</a><br /></td></tr>
+<tr class="separator:ga7e025ccee8cf4b396723de92e80cef08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e814e6a613943db024064781e84b38f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga7e814e6a613943db024064781e84b38f">h5ropen_attr_f</a> (ref_ptr, obj_id, hdferr, rapl_id, aapl_id)</td></tr>
+<tr class="memdesc:ga7e814e6a613943db024064781e84b38f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the HDF5 attribute referenced.  <a href="group___f_h5_r.html#ga7e814e6a613943db024064781e84b38f">More...</a><br /></td></tr>
+<tr class="separator:ga7e814e6a613943db024064781e84b38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeccb7904f812fd89c673d8e311f39316"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gaeccb7904f812fd89c673d8e311f39316">h5ropen_region_f</a> (ref_ptr, space_id, hdferr, rapl_id, oapl_id)</td></tr>
+<tr class="memdesc:gaeccb7904f812fd89c673d8e311f39316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up a dataspace and selection as specified by a region reference.  <a href="group___f_h5_r.html#gaeccb7904f812fd89c673d8e311f39316">More...</a><br /></td></tr>
+<tr class="separator:gaeccb7904f812fd89c673d8e311f39316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ef8571427673cd08f1713fe54114129"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga7ef8571427673cd08f1713fe54114129">h5rcopy_f</a> (src_ref_ptr, dst_ref_ptr, hdferr)</td></tr>
+<tr class="memdesc:ga7ef8571427673cd08f1713fe54114129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies an existing reference.  <a href="group___f_h5_r.html#ga7ef8571427673cd08f1713fe54114129">More...</a><br /></td></tr>
+<tr class="separator:ga7ef8571427673cd08f1713fe54114129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga66758180d89c62ea9f1191b879ac0a34"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga66758180d89c62ea9f1191b879ac0a34">h5requal_f</a> (ref1_ptr, ref2_ptr, equal, hdferr)</td></tr>
+<tr class="memdesc:ga66758180d89c62ea9f1191b879ac0a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether two references are equal.  <a href="group___f_h5_r.html#ga66758180d89c62ea9f1191b879ac0a34">More...</a><br /></td></tr>
+<tr class="separator:ga66758180d89c62ea9f1191b879ac0a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab50912d86a5b0411bce6d5dd3a4e9b21"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gab50912d86a5b0411bce6d5dd3a4e9b21">h5rget_type_f</a> (ref_ptr, ref_type, hdferr)</td></tr>
+<tr class="memdesc:gab50912d86a5b0411bce6d5dd3a4e9b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the type of a reference.  <a href="group___f_h5_r.html#gab50912d86a5b0411bce6d5dd3a4e9b21">More...</a><br /></td></tr>
+<tr class="separator:gab50912d86a5b0411bce6d5dd3a4e9b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27c692e052b69bd84728acf3879e2fca"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga27c692e052b69bd84728acf3879e2fca">h5rdestroy_f</a> (ref_ptr, hdferr)</td></tr>
+<tr class="memdesc:ga27c692e052b69bd84728acf3879e2fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes a reference.  <a href="group___f_h5_r.html#ga27c692e052b69bd84728acf3879e2fca">More...</a><br /></td></tr>
+<tr class="separator:ga27c692e052b69bd84728acf3879e2fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4674e757299faf0263fc6f448bb7ab3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gaf4674e757299faf0263fc6f448bb7ab3">h5rcreate_object_f</a> (loc_id, name, ref, hdferr, oapl_id)</td></tr>
+<tr class="memdesc:gaf4674e757299faf0263fc6f448bb7ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a reference.  <a href="group___f_h5_r.html#gaf4674e757299faf0263fc6f448bb7ab3">More...</a><br /></td></tr>
+<tr class="separator:gaf4674e757299faf0263fc6f448bb7ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafac10beafad6039237c34c0b8a802371"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gafac10beafad6039237c34c0b8a802371">h5rcreate_region_f</a> (loc_id, name, space_id, ref_ptr, hdferr, oapl_id)</td></tr>
+<tr class="memdesc:gafac10beafad6039237c34c0b8a802371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a region reference.  <a href="group___f_h5_r.html#gafac10beafad6039237c34c0b8a802371">More...</a><br /></td></tr>
+<tr class="separator:gafac10beafad6039237c34c0b8a802371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga30e9be1559bf9bcce1a2ff93199d9dc0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga30e9be1559bf9bcce1a2ff93199d9dc0">h5rcreate_attr_f</a> (loc_id, name, attr_name, ref_ptr, hdferr, oapl_id)</td></tr>
+<tr class="memdesc:ga30e9be1559bf9bcce1a2ff93199d9dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an attribute reference.  <a href="group___f_h5_r.html#ga30e9be1559bf9bcce1a2ff93199d9dc0">More...</a><br /></td></tr>
+<tr class="separator:ga30e9be1559bf9bcce1a2ff93199d9dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab607d744152fa2c1417c128c75dc39c6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gab607d744152fa2c1417c128c75dc39c6">h5rget_obj_name_f</a> (ref_ptr, name, hdferr, rapl_id, name_len)</td></tr>
+<tr class="memdesc:gab607d744152fa2c1417c128c75dc39c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the object name for a referenced object.  <a href="group___f_h5_r.html#gab607d744152fa2c1417c128c75dc39c6">More...</a><br /></td></tr>
+<tr class="separator:gab607d744152fa2c1417c128c75dc39c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad05626572136cd77c25ab93f030a0c60"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#gad05626572136cd77c25ab93f030a0c60">h5rget_attr_name_f</a> (ref_ptr, name, hdferr, name_len)</td></tr>
+<tr class="memdesc:gad05626572136cd77c25ab93f030a0c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the attribute name for a referenced object.  <a href="group___f_h5_r.html#gad05626572136cd77c25ab93f030a0c60">More...</a><br /></td></tr>
+<tr class="separator:gad05626572136cd77c25ab93f030a0c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3a24dae0fa7242a1c469c2dafdfc3c84"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___f_h5_r.html#ga3a24dae0fa7242a1c469c2dafdfc3c84">h5rget_file_name_f</a> (ref_ptr, name, hdferr, name_len)</td></tr>
+<tr class="memdesc:ga3a24dae0fa7242a1c469c2dafdfc3c84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the file name for a referenced object.  <a href="group___f_h5_r.html#ga3a24dae0fa7242a1c469c2dafdfc3c84">More...</a><br /></td></tr>
+<tr class="separator:ga3a24dae0fa7242a1c469c2dafdfc3c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

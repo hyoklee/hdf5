@@ -1655,12 +1655,11 @@ H5T__unlock_cb(void *_dt, hid_t H5_ATTR_UNUSED id, void *_udata)
     FUNC_ENTER_PACKAGE_NOERR
 
     assert(dt);
-    assert(dt->shared);
 
-    if (H5T_STATE_IMMUTABLE == dt->shared->state) {
+    if (dt->shared && (H5T_STATE_IMMUTABLE == dt->shared->state)) {
         dt->shared->state = H5T_STATE_RDONLY;
         (*n)++;
-    } /* end if */
+    }
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5T__unlock_cb() */
@@ -1874,7 +1873,6 @@ H5T__close_cb(H5T_t *dt, void **request)
 
     /* Sanity check */
     assert(dt);
-    assert(dt->shared);
 
     /* If this datatype is VOL-managed (i.e.: has a VOL object),
      * close it through the VOL connector.
@@ -2727,14 +2725,14 @@ H5T__register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst, H5T_con
                                     "unable to decrement reference count on temporary ID");
                     tmp_sid = tmp_did = H5I_INVALID_HID;
                     tmp_stype = tmp_dtype = NULL;
-                    if (H5E_clear_stack(NULL) < 0)
+                    if (H5E_clear_stack() < 0)
                         HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
                     continue;
                 } /* end if */
             }     /* end if */
             else if ((conv->u.lib_func)(old_path->src, old_path->dst, &cdata, &conv_ctx, 0, 0, 0, NULL,
                                         NULL) < 0) {
-                if (H5E_clear_stack(NULL) < 0)
+                if (H5E_clear_stack() < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
                 continue;
             } /* end if */
@@ -2776,7 +2774,7 @@ H5T__register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst, H5T_con
             }
 
             /* We don't care about any failures during the freeing process */
-            if (H5E_clear_stack(NULL) < 0)
+            if (H5E_clear_stack() < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
         } /* end for */
     }     /* end else */
@@ -3891,7 +3889,7 @@ H5T_copy_reopen(H5T_t *old_dt)
         if (NULL ==
             (reopened_fo = (H5T_shared_t *)H5FO_opened(old_dt->sh_loc.file, old_dt->sh_loc.u.loc.oh_addr))) {
             /* Clear any errors from H5FO_opened() */
-            H5E_clear_stack(NULL);
+            H5E_clear_stack();
 
             /* Open named datatype again */
             if (H5O_open(&old_dt->oloc) < 0)
@@ -4154,10 +4152,10 @@ H5T_close_real(H5T_t *dt)
     FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
-    assert(dt && dt->shared);
+    assert(dt);
 
     /* Clean up resources, depending on shared state */
-    if (dt->shared->state != H5T_STATE_OPEN) {
+    if (dt->shared && (dt->shared->state != H5T_STATE_OPEN)) {
         if (H5T__free(dt) < 0)
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTFREE, FAIL, "unable to free datatype");
 
@@ -4194,10 +4192,9 @@ H5T_close(H5T_t *dt)
 
     /* Sanity check */
     assert(dt);
-    assert(dt->shared);
 
     /* Named datatype cleanups */
-    if (dt->shared->state == H5T_STATE_OPEN) {
+    if (dt->shared && (dt->shared->state == H5T_STATE_OPEN)) {
         /* Decrement refcount count on open named datatype */
         dt->shared->fo_count--;
 
@@ -5298,7 +5295,7 @@ H5T__init_path_table(void)
             fprintf(H5DEBUG(T), "H5T: unable to initialize no-op conversion function (ignored)\n");
 #endif
         /* Ignore any errors from the conversion function */
-        if (H5E_clear_stack(NULL) < 0)
+        if (H5E_clear_stack() < 0)
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
     } /* end if */
 
@@ -5431,7 +5428,7 @@ H5T__path_find_init_new_path(H5T_path_t *path, const H5T_t *src, const H5T_t *ds
         if (status < 0) {
             memset(&(path->cdata), 0, sizeof(H5T_cdata_t));
             /* ignore the error */
-            if (H5E_clear_stack(NULL) < 0)
+            if (H5E_clear_stack() < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
             path_init_error = true;
         }
@@ -5516,7 +5513,7 @@ H5T__path_free(H5T_path_t *path, H5T_conv_ctx_t *conv_ctx)
 
         if (status < 0) {
             /* Ignore any error from shutting down the path */
-            if (H5E_clear_stack(NULL) < 0)
+            if (H5E_clear_stack() < 0)
                 /* Push error, but keep going */
                 HDONE_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
 

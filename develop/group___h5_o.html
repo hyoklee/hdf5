@@ -2203,7 +2203,7 @@ Improper use can lead to inaccessible data, wasted space in the file, or <b><em>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns a negative value.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns <a class="el" href="_h5_ipublic_8h.html#a01eab13dccc91afd6909d74dccb780ba">H5I_INVALID_HID</a>.</dd></dl>
 <p><a class="el" href="group___h5_o.html#ga9f635f58c7ddf17f87c253bfbca08bc1" title="Opens an object in an HDF5 file by location identifier and path name.">H5Oopen()</a> opens a group, dataset, or committed (named) datatype specified by a location, <code>loc_id</code>, and a path name, <code>name</code>, in an HDF5 file.</p>
 <p>This function opens the object in the same manner as <a class="el" href="group___h5_g.html#ga3eca6807deff4f9e51fc5fe0befc2245">H5Gopen()</a>, <a class="el" href="group___h5_t.html#ga1d14b407603fdcedfbed1f723784c209">H5Topen()</a>, and <a class="el" href="_h5version_8h.html#a7dba2e5b2045f31c0932123ffb54f7a3">H5Dopen()</a>. However, <a class="el" href="group___h5_o.html#ga9f635f58c7ddf17f87c253bfbca08bc1" title="Opens an object in an HDF5 file by location identifier and path name.">H5Oopen()</a> does not require the type of object to be known beforehand. This can be useful with user-defined links, for instance, when only a path may be known.</p>
 <p><a class="el" href="group___h5_o.html#ga9f635f58c7ddf17f87c253bfbca08bc1" title="Opens an object in an HDF5 file by location identifier and path name.">H5Oopen()</a> cannot be used to open a dataspace, attribute, property list, or file.</p>
@@ -2252,7 +2252,7 @@ Improper use can lead to inaccessible data, wasted space in the file, or <b><em>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns a negative value.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns <a class="el" href="_h5_ipublic_8h.html#a01eab13dccc91afd6909d74dccb780ba">H5I_INVALID_HID</a>.</dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000057">Deprecated:</a></b></dt><dd>As of HDF5-1.12 this function has been deprecated in favor of the function <a class="el" href="group___h5_o.html#ga2ea3627cf171d0565307702a5e203262" title="Opens an object in an HDF5 file using its VOL independent token.">H5Oopen_by_token()</a>.</dd></dl>
 <p><a class="el" href="group___h5_o.html#ga137f3823adab4daaaf8fe87b40453fa2" title="Opens an object using its address within an HDF5 file.">H5Oopen_by_addr()</a> opens a group, dataset, or committed (named) datatype using its address within an HDF5 file, <code>addr</code>. The resulting opened object is identical to an object opened with <a class="el" href="group___h5_o.html#ga9f635f58c7ddf17f87c253bfbca08bc1" title="Opens an object in an HDF5 file by location identifier and path name.">H5Oopen()</a> and should be closed with <a class="el" href="group___h5_o.html#ga545ad7c54987013ebd50b40fe9e73c61" title="Closes an object in an HDF5 file.">H5Oclose()</a> or an object-type-specific closing function (such as <a class="el" href="group___h5_g.html#ga8dbe20b390d2504f0bd3589ed8f4e221" title="Closes the specified group.">H5Gclose()</a>) when no longer needed.</p>
 <p><code>loc_id</code> is a location identifier in the file.</p>
@@ -2332,7 +2332,7 @@ This function is dangerous if called on an invalid address. The risk can be safe
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns a negative value.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns an object identifier if successful; otherwise returns <a class="el" href="_h5_ipublic_8h.html#a01eab13dccc91afd6909d74dccb780ba">H5I_INVALID_HID</a>.</dd></dl>
 <p><a class="el" href="group___h5_o.html#gaeb66e5cbb3ca79890fc284a0b06762be" title="Opens the nth object in a group.">H5Oopen_by_idx()</a> opens the nth object in the group specified by <code>loc_id</code> and <code>group_name</code>.</p>
 <p><code>loc_id</code> specifies a location identifier. <code>group_name</code> specifies the group relative to <code>loc_id</code> in which the object can be found. If <code>loc_id</code> fully specifies the group in which the object resides, <code>group_name</code> can be a dot (.).</p>
 <p>The specific object to be opened within the group is specified by the three parameters: <code>idx_type</code>, <code>order</code> and <code>n</code>.</p>

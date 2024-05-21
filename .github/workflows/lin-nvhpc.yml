@@ -3,7 +3,7 @@ name: lin nvhpc
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
   build:
@@ -25,7 +25,7 @@ jobs:
         env:
           FC: nvfortran
           CC: nvc
-          FCFLAGS: -fPIC
+          FCFLAGS: -fPIC -O1
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvc++

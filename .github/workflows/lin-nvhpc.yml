@@ -26,6 +26,7 @@ jobs:
           FC: nvfortran
           CC: nvc
           FCFLAGS: -fPIC -O1
+          CFLAGS: -fPIC -O1
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvc++
@@ -33,6 +34,6 @@ jobs:
           export OMPI_FC=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin/nvfortran
           export LD_LIBRARY_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/cuda/12.3/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/lib
           export PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/comm_libs/openmpi4/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/24.3/compilers/bin:$PATH        
-          cmake -B build -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF
+          cmake -B build -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=OFF
           cmake --build build
           ctest --test-dir build --output-on-failure

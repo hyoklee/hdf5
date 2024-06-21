@@ -1477,23 +1477,22 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5P_peek_driver_info
  *
- * Purpose:    Returns a pointer directly to the file driver-specific
- *        information of a file access.
+ * Purpose:     Returns a pointer directly to the file driver-specific
+ *              information of a file access.
  *
- * Return:    Success:    Ptr to *uncopied* driver specific data
- *                structure if any.
+ * Return:      Success:    Pointer to *uncopied* driver-specific data
+ *                          structure, if any.
  *
- *        Failure:    NULL. Null is also returned if the driver has
- *                not registered any driver-specific properties
- *                although no error is pushed on the stack in
- *                this case.
- *
+ *              Failure:    NULL. NULL is also returned if the driver has
+ *                          not registered any driver-specific properties
+ *                          although no error is pushed on the stack in
+ *                          this case.
  *-------------------------------------------------------------------------
  */
 const void *
 H5P_peek_driver_info(H5P_genplist_t *plist)
 {
-    const void *ret_value = NULL; /* Return value */
+    const void *ret_value = NULL;
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1504,7 +1503,7 @@ H5P_peek_driver_info(H5P_genplist_t *plist)
         if (H5P_peek(plist, H5F_ACS_FILE_DRV_NAME, &driver_prop) < 0)
             HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, NULL, "can't get driver info");
         ret_value = driver_prop.driver_info;
-    } /* end if */
+    }
     else
         HGOTO_ERROR(H5E_PLIST, H5E_BADTYPE, NULL, "not a file access property list");
 
@@ -4976,7 +4975,9 @@ done:
 /*-------------------------------------------------------------------------
  * Function:       H5P__encode_coll_md_read_flag_t
  *
- * Purpose:        Generic encoding callback routine for 'coll_md_read_flag' properties.
+ * Purpose:        Callback routine which is called whenever the collective
+ *                 metadata read flag property in the file creation property list is
+ *                 encoded.
  *
  * Return:       Success:    Non-negative
  *           Failure:    Negative
@@ -5010,7 +5011,9 @@ H5P__encode_coll_md_read_flag_t(const void *value, void **_pp, size_t *size)
 /*-------------------------------------------------------------------------
  * Function:       H5P__decode_coll_md_read_flag_t
  *
- * Purpose:        Generic decoding callback routine for 'coll_md_read_flag' properties.
+ * Purpose:        Callback routine which is called whenever the collective
+ *                 metadata read flag property in the file creation property list is
+ *                 decoded.
  *
  * Return:       Success:    Non-negative
  *           Failure:    Negative
@@ -5030,7 +5033,7 @@ H5P__decode_coll_md_read_flag_t(const void **_pp, void *_value)
     assert(*pp);
     assert(coll_md_read_flag);
 
-    /* Decode file close degree */
+    /* Decode metadata read flag */
     *coll_md_read_flag = (H5P_coll_md_read_flag_t) * (*pp);
     *pp += sizeof(H5P_coll_md_read_flag_t);
 
@@ -5468,7 +5471,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5P__facc_mpi_info_get
  *
- * Purpose:     Copies an MPI comminicator property when it's retrieved from a property list
+ * Purpose:     Copies an MPI info object property when it's retrieved from a property list
  *
  * Return:      Success:        Non-negative
  *              Failure:        Negative

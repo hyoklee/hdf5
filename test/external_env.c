@@ -68,7 +68,7 @@ test_path_env(hid_t fapl)
         FAIL_STACK_ERROR;
     for (i = 0; i < N_EXT_FILES; i++) {
         snprintf(filename, sizeof(filename), "..%sextern_env_%dr.raw", H5_DIR_SEPS, (int)i + 1);
-        if (H5Pset_external(dcpl, filename, (off_t)(i * GARBAGE_PER_FILE), (hsize_t)sizeof(part)) < 0)
+        if (H5Pset_external(dcpl, filename, (HDoff_t)(i * GARBAGE_PER_FILE), (hsize_t)sizeof(part)) < 0)
             FAIL_STACK_ERROR;
     } /* end for */
 
@@ -144,7 +144,7 @@ main(void)
     unsigned latest_format;                 /* default or latest file format        */
     int      nerrors = 0;                   /* number of errors                     */
 
-    h5_reset();
+    h5_test_init();
 
     /* Get a fapl for the old (default) file format */
     fapl_id_old = h5_fileaccess();

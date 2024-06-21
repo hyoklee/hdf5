@@ -3710,7 +3710,7 @@ exit:
 int
 main(void)
 {
-    h5_reset();
+    h5_test_init();
     printf("Testing Subfiling VFD functionality\n");
     printf("SKIPPED - Subfiling VFD not built\n");
     exit(EXIT_SUCCESS);

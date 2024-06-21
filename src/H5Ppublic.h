@@ -287,7 +287,7 @@ typedef herr_t (*H5P_cls_copy_func_t)(hid_t new_prop_id, hid_t old_prop_id, void
 /**
  * \brief Callback function for H5Pcreate_class()
  *
- * \param[in] prop_id    The identifier of the property list class being created
+ * \param[in] prop_id    The identifier of the property list class being closed
  * \param[in] close_data User pointer to any close data required
  * \return \herr_t
  *
@@ -352,7 +352,7 @@ typedef H5P_prp_cb2_t H5P_prp_get_func_t;
  * \brief Callback function for encoding property values
  *
  * \param[in]  value The property value to be encoded
- * \param[out] buf   The encoded property value
+ * \param[out] buf   Pointer to encoding buffer pointer
  * \param[out] size  The size of \p buf
  * \return \herr_t
  *
@@ -5678,6 +5678,7 @@ H5_DLL herr_t H5Pget_mpi_params(hid_t fapl_id, MPI_Comm *comm, MPI_Info *info);
  */
 H5_DLL herr_t H5Pset_mpi_params(hid_t fapl_id, MPI_Comm comm, MPI_Info info);
 #endif /* H5_HAVE_PARALLEL */
+
 /**
  * \ingroup FAPL
  *
@@ -6032,15 +6033,17 @@ H5_DLL herr_t H5Pget_dset_no_attrs_hint(hid_t dcpl_id, hbool_t *minimize);
  *          are null pointers then the corresponding information is not
  *          returned.
  *
- * \note On Windows, off_t is typically a 32-bit signed long value, which
- *       limits the valid offset that can be returned to 2 GiB.
+ * \note    In 1.14.x and earlier, the offset parameter was of type off_t,
+ *          which is a 32-bit signed long value on Windows, which limited
+ *          the valid offset that can be returned to 2 GiB.
  *
+ * \version 1.16.0 \p offset parameter type changed to HDoff_t from off_t.
  * \version 1.6.4 \p idx parameter type changed to unsigned.
  * \since 1.0.0
  *
  */
 H5_DLL herr_t H5Pget_external(hid_t plist_id, unsigned idx, size_t name_size, char *name /*out*/,
-                              off_t *offset /*out*/, hsize_t *size /*out*/);
+                              HDoff_t *offset /*out*/, hsize_t *size /*out*/);
 /**
  * \ingroup DCPL
  *
@@ -6526,13 +6529,16 @@ H5_DLL herr_t H5Pset_dset_no_attrs_hint(hid_t dcpl_id, hbool_t minimize);
  *         when H5Dwrite() is called to write data to it, the library
  *         will create the file.
  *
- * \note On Windows, off_t is typically a 32-bit signed long value, which
- *       limits the valid offset that can be set to 2 GiB.
  *
+ * \note    In 1.14.x and earlier, the offset parameter was of type off_t,
+ *          which is a 32-bit signed long value on Windows, which limited
+ *          the valid offset that can be set to 2 GiB.
+ *
+ * \version 1.16.0 \p offset parameter type changed to HDoff_t from off_t.
  * \since 1.0.0
  *
  */
-H5_DLL herr_t H5Pset_external(hid_t plist_id, const char *name, off_t offset, hsize_t size);
+H5_DLL herr_t H5Pset_external(hid_t plist_id, const char *name, HDoff_t offset, hsize_t size);
 /**
  * \ingroup DCPL
  *

@@ -47,6 +47,20 @@ New Features
 
     Configuration:
     -------------
+    - Moved examples to the HDF5Examples folder in the source tree.
+
+      Moved the C++ and Fortran examples from the examples folder to the HDF5Examples
+      folder and renamed to TUTR, tutorial. This is referenced from the LearnBasics
+      doxygen page.
+
+    - Added support for using zlib-ng package as the zlib library:
+
+          CMake:      HDF5_USE_ZLIB_NG
+          Autotools:  --enable-zlibng
+
+      Added the option HDF5_USE_ZLIB_NG to allow the replacement of the
+      default ZLib package by the zlib-ng package as a built-in compression library.
+
     - Disable CMake UNITY_BUILD for hdf5
 
       CMake added a target property, UNITY_BUILD, that when set to true, the target
@@ -369,7 +383,7 @@ New Features
       CMake supports two main files, CMakePresets.json and CMakeUserPresets.json,
       that allow users to specify common configure options and share them with others.
       HDF added a CMakePresets.json file of a typical configuration and support
-      file, config/cmake-presets/hidden-presets.json. 
+      file, config/cmake-presets/hidden-presets.json.
       Also added a section to INSTALL_CMake.txt with very basic explanation of the
       process to use CMakePresets.
 
@@ -417,6 +431,31 @@ New Features
 
     Library:
     --------
+    - Added new routines for interacting with error stacks: H5Epause_stack,
+      H5Eresume_stack, and H5Eis_paused.  These routines can be used to
+      indicate that errors from a call to an HDF5 routine should not be
+      pushed on to an error stack.  Primarily targeted toward 3rd-party
+      developers of Virtual File Drivirs (VFDs) and Virtual Object Layer (VOL)
+      connectors, these routines allow developers to perform "speculative"
+      operations (such as trying to open a file or object) without requiring
+      that the error stack be cleared after a speculative operation fails.
+
+    - H5Pset_external() now uses HDoff_t, which is always a 64-bit type
+
+      The H5Pset_external() call took an off_t parameter in HDF5 1.14.x and
+      earlier. On POSIX systems, off_t is specified as a 64-bit type via
+      POSIX large-file support (LFS). On Windows, however, off_t is defined
+      as a 32-bit type, even on 64-bit Windows.
+
+      HDoff_t has been added to H5public.h and is defined to be __int64 on
+      Windows and the library has been updated to use HDoff_t in place of
+      off_t throughout. The H5Pset_external() offset parameter has also been
+      updated to be HDoff_t.
+
+      There is no API compatibility wrapper for this change.
+
+      Fixes GitHub issue #3506
+
     - Relaxed behavior of H5Pset_page_buffer_size() when opening files
 
       This API call sets the size of a file's page buffer cache. This call
@@ -551,7 +590,7 @@ New Features
       to filtered datasets. The Subfiling VFD now properly handles vector
       I/O requests in their entirety, resulting in fewer I/O calls, improved
       vector I/O performance and improved vector I/O memory efficiency.
-    
+
     - Added a simple cache to the read-only S3 (ros3) VFD
 
       The read-only S3 VFD now caches the first N bytes of a file stored
@@ -726,7 +765,18 @@ New Features
 
     Tools:
     ------
-    -
+    - Add option to adjust the page buffer size in tools
+
+      The page buffer cache size for a file can now be adjusted using the
+        --page-buffer-size=N
+      option in the h5repack, h5diff, h5dump, h5ls, and h5stat tools. This
+      will call the H5Pset_page_buffer_size() API function with the specified
+      size in bytes.
+
+    - Allow h5repack to reserve space for a user block without a file
+
+      This is useful for users who want to reserve space
+      in the file for future use without requiring a file to copy.
 
 
     High-Level APIs:
@@ -757,6 +807,16 @@ Bug Fixes since HDF5-1.14.0 release
 ===================================
     Library
     -------
+    - Fixed library to allow usage of page buffering feature for serial file
+      access with parallel builds of HDF5
+
+      When HDF5 is built with parallel support enabled, the library would previously
+      disallow any usage of page buffering, even if a file was not opened with
+      parallel access. The library now allows usage of page buffering for serial
+      file access with parallel builds of HDF5. Usage of page buffering is still
+      disabled for any form of parallel file access, even if only 1 MPI process
+      is used.
+
     - Fixed a leak of datatype IDs created internally during datatype conversion
 
       Fixed an issue where the library could leak IDs that it creates internally

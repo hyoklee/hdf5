@@ -365,10 +365,14 @@ Functions</h2></td></tr>
 <tr class="separator:aa574ec6552dd74b3953db80ee5686b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62f405613269a4ed5f6de10ebd726a39"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#a62f405613269a4ed5f6de10ebd726a39">h5tools_set_error_file</a> (const char *fname, int is_bin)</td></tr>
 <tr class="separator:a62f405613269a4ed5f6de10ebd726a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affcde8ba296eb9752b3f17041e295755"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#affcde8ba296eb9752b3f17041e295755">h5tools_get_fapl</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> prev_fapl_id, <a class="el" href="structh5tools__vol__info__t.html">h5tools_vol_info_t</a> *vol_info, <a class="el" href="structh5tools__vfd__info__t.html">h5tools_vfd_info_t</a> *vfd_info)</td></tr>
-<tr class="separator:affcde8ba296eb9752b3f17041e295755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7864aa05f6a5bbaa0c5afe66c53aa4f3"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#a7864aa05f6a5bbaa0c5afe66c53aa4f3">h5tools_get_new_fapl</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> prev_fapl_id)</td></tr>
+<tr class="separator:a7864aa05f6a5bbaa0c5afe66c53aa4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae178e340307884b0205aa495205d6837"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5public_8h.html#a3b079ecf932a5c599499cf7e298af160">herr_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#ae178e340307884b0205aa495205d6837">h5tools_get_vfd_name</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> fid, <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> fapl_id, char *drivername, size_t drivername_size)</td></tr>
 <tr class="separator:ae178e340307884b0205aa495205d6837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a294b292bbc488ea4f28b94903adf6e2b"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5public_8h.html#a3b079ecf932a5c599499cf7e298af160">herr_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#a294b292bbc488ea4f28b94903adf6e2b">h5tools_set_fapl_vfd</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> fapl_id, <a class="el" href="structh5tools__vfd__info__t.html">h5tools_vfd_info_t</a> *vfd_info)</td></tr>
+<tr class="separator:a294b292bbc488ea4f28b94903adf6e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1205053ddd55d2e075dac88c78414c73"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5public_8h.html#a3b079ecf932a5c599499cf7e298af160">herr_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#a1205053ddd55d2e075dac88c78414c73">h5tools_set_fapl_vol</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> fapl_id, <a class="el" href="structh5tools__vol__info__t.html">h5tools_vol_info_t</a> *vol_info)</td></tr>
+<tr class="separator:a1205053ddd55d2e075dac88c78414c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c62bf88f8ee5f543f9b6641afd972c0"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#a7c62bf88f8ee5f543f9b6641afd972c0">h5tools_fopen</a> (const char *fname, unsigned flags, <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> fapl, bool use_specific_driver, char *drivername, size_t drivername_size)</td></tr>
 <tr class="separator:a7c62bf88f8ee5f543f9b6641afd972c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadeea6fccd90c89d35f0e14d110c5ded"><td class="memItemLeft" align="right" valign="top">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="h5tools_8h.html#aadeea6fccd90c89d35f0e14d110c5ded">h5tools_get_little_endian_type</a> (<a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> type)</td></tr>
@@ -1892,40 +1896,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="affcde8ba296eb9752b3f17041e295755"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affcde8ba296eb9752b3f17041e295755">&#9670;&nbsp;</a></span>h5tools_get_fapl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> h5tools_get_fapl </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td>
-          <td class="paramname"><em>prev_fapl_id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structh5tools__vol__info__t.html">h5tools_vol_info_t</a> *&#160;</td>
-          <td class="paramname"><em>vol_info</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structh5tools__vfd__info__t.html">h5tools_vfd_info_t</a> *&#160;</td>
-          <td class="paramname"><em>vfd_info</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="aadeea6fccd90c89d35f0e14d110c5ded"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aadeea6fccd90c89d35f0e14d110c5ded">&#9670;&nbsp;</a></span>h5tools_get_little_endian_type()</h2>
 
@@ -1937,6 +1907,24 @@ Variables</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td>
           <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7864aa05f6a5bbaa0c5afe66c53aa4f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7864aa05f6a5bbaa0c5afe66c53aa4f3">&#9670;&nbsp;</a></span>h5tools_get_new_fapl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">H5TOOLS_DLL <a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a> h5tools_get_new_fapl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td>
+          <td class="paramname"><em>prev_fapl_id</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -2329,6 +2317,62 @@ Variables</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>is_bin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a294b292bbc488ea4f28b94903adf6e2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a294b292bbc488ea4f28b94903adf6e2b">&#9670;&nbsp;</a></span>h5tools_set_fapl_vfd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">H5TOOLS_DLL <a class="el" href="_h5public_8h.html#a3b079ecf932a5c599499cf7e298af160">herr_t</a> h5tools_set_fapl_vfd </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td>
+          <td class="paramname"><em>fapl_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structh5tools__vfd__info__t.html">h5tools_vfd_info_t</a> *&#160;</td>
+          <td class="paramname"><em>vfd_info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1205053ddd55d2e075dac88c78414c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1205053ddd55d2e075dac88c78414c73">&#9670;&nbsp;</a></span>h5tools_set_fapl_vol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">H5TOOLS_DLL <a class="el" href="_h5public_8h.html#a3b079ecf932a5c599499cf7e298af160">herr_t</a> h5tools_set_fapl_vol </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_h5_ipublic_8h.html#a0045db7ff9c22ad35db6ae91662e1943">hid_t</a>&#160;</td>
+          <td class="paramname"><em>fapl_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structh5tools__vol__info__t.html">h5tools_vol_info_t</a> *&#160;</td>
+          <td class="paramname"><em>vol_info</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

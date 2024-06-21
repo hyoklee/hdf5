@@ -106,6 +106,18 @@ $(document).ready(function(){initNavTree('_l_b_dset_layout.html',''); initResiza
 <div class="textblock"><p>Navigate back: <a class="el" href="index.html">Main</a> / <a class="el" href="_getting_started.html">Getting Started with HDF5</a> / <a class="el" href="_learn_basics.html">Learning the Basics</a> </p><hr  />
 <h1><a class="anchor" id="secLBDsetLayoutDesc"></a>
 Description of a Dataset</h1>
+<p>The Creating a Dataset tutorial topic defines a dataset as a multidimensional array of data elements together with supporting metadata, where:</p>
+<ul>
+<li>The array of elements consists of the raw data values that a user wishes to store in HDF5. </li>
+<li>The supporting metadata describes that data. The metadata is stored in the dataset (object) header of a dataset.</li>
+</ul>
+<p>Datatype, dataspace, attribute, and storage layout information were introduced as part of the metadata associated with a dataset: </p><table class="doxtable">
+<tr>
+<td><div class="image">
+<img src="tutr-lodset.png" alt=""/>
+</div>
+   </td></tr>
+</table>
 <h1><a class="anchor" id="secLBDsetLayout"></a>
 Dataset Storage Layout</h1>
 <p>The storage information, or storage layout, defines how the raw data values in the dataset are physically stored on disk. There are three ways that a dataset can be stored: </p><ul>

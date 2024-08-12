@@ -34,7 +34,8 @@ typedef enum H5LT_lang_t {
 extern "C" {
 #endif
 
-/** \page H5LT_UG The HDF5 High Level Lite
+/** \page H5LT_UG HDF5 High Level Lite
+ * @todo Under Construction
  */
 
 /**\defgroup H5LT HDF5 Lite APIs (H5LT,H5LD)

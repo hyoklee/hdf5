@@ -1,5 +1,6 @@
 name: msys2 auto
 
+# Triggers the workflow on a call from another workflow
 on:
   workflow_call:
   push:
@@ -39,7 +40,7 @@ jobs:
         run: git config --global core.autocrlf input
 
       - name: get
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.7
 
       - name: '${{ matrix.icon }} set'
         uses: msys2/setup-msys2@v2

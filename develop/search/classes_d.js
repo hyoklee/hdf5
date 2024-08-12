@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['s3r_5ft_6802',['s3r_t',['../structs3r__t.html',1,'']]],
-  ['space_5ft_6803',['space_t',['../structh5o_1_1space__t.html',1,'h5o']]],
-  ['strtype_6804',['StrType',['../class_h5_1_1_str_type.html',1,'H5']]],
-  ['subset_5fd_6805',['subset_d',['../structsubset__d.html',1,'']]],
-  ['subset_5ft_6806',['subset_t',['../structsubset__t.html',1,'']]]
+  ['referenceexception_7069',['ReferenceException',['../class_h5_1_1_reference_exception.html',1,'H5']]]
 ];

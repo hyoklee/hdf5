@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['union_5ft_6807',['union_t',['../structh5l_1_1union__t.html',1,'h5l']]],
-  ['userdata4aiterate_6808',['UserData4Aiterate',['../class_h5_1_1_user_data4_aiterate.html',1,'H5']]],
-  ['userdata4visit_6809',['UserData4Visit',['../class_h5_1_1_user_data4_visit.html',1,'H5']]]
+  ['s3r_5ft_7070',['s3r_t',['../structs3r__t.html',1,'']]],
+  ['space_5ft_7071',['space_t',['../structh5o_1_1space__t.html',1,'h5o']]],
+  ['strtype_7072',['StrType',['../class_h5_1_1_str_type.html',1,'H5']]],
+  ['subset_5fd_7073',['subset_d',['../structsubset__d.html',1,'']]],
+  ['subset_5ft_7074',['subset_t',['../structsubset__t.html',1,'']]]
 ];

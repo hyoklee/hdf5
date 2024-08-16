@@ -15,6 +15,9 @@
  * programming environment it declares.  Other than that, h5ls only calls
  * HDF5 API functions (except for H5G_basename())
  */
+#if defined(__CYGWIN__)
+#include <windows.h>
+#endif
 #include "H5private.h"
 #include "h5tools.h"
 #include "h5tools_utils.h"

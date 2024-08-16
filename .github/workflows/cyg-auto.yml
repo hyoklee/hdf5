@@ -3,7 +3,7 @@ name: cyg auto
 on:
   push:
     branches:
-      - develop-
+      - develop
 jobs:
   test:
     name: "cyg auto"

@@ -44,7 +44,7 @@ jobs:
           sudo make install
       - name: Install HDF-EOS5
         run: |
-          curl --user "${{ secrets.EARTHDATA_LOGIN }}" -L "https://git.earthdata.nasa.gov/projects/DAS/repos/hdfeos5/raw/hdf-eos5-2.0-src.tar.gz?at=refs%2Fheads%2FHDFEOS5_2.0" 
+          curl --user "${{ secrets.EARTHDATA_LOGIN }}" -o hdf-eos5-2.0-src.tar.gz -L "https://git.earthdata.nasa.gov/projects/DAS/repos/hdfeos5/raw/hdf-eos5-2.0-src.tar.gz?at=refs%2Fheads%2FHDFEOS5_2.0" 
           tar zxvf hdf-eos5-2.0-src.tar.gz	
           cd hdf-eos5-2.0
           ./configure CC=/usr/local/bin/h5cc --prefix=/usr/local/ --enable-install-include

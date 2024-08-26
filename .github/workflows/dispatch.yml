@@ -2,7 +2,7 @@ name: Remote Dispatch Action Initiator
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   ping-pong:

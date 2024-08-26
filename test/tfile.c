@@ -2420,10 +2420,11 @@ test_file_getname(void)
     file_id = H5Fcreate(FILE1, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(file_id, FAIL, "H5Fcreate");
 
-    /* Get and verify file name */
+    /* Get and verify file name and its length */
     name_len = H5Fget_name(file_id, name, (size_t)TESTA_NAME_BUF_SIZE);
     CHECK(name_len, FAIL, "H5Fget_name");
     VERIFY_STR(name, FILE1, "H5Fget_name");
+    VERIFY(name_len, strlen(FILE1), "H5Fget_name");
 
     /* Create a group in the root group */
     group_id = H5Gcreate2(file_id, TESTA_GROUPNAME, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -8196,6 +8197,14 @@ test_deprec(const char *driver_name)
     /* Get the file's dataset creation property list */
     fcpl = H5Fget_create_plist(file);
     CHECK(fcpl, FAIL, "H5Fget_create_plist");
+
+    /* Test passing in an ID that is not a file ID, should fail */
+    H5E_BEGIN_TRY
+    {
+        ret = H5Fset_latest_format(fcpl, true);
+    }
+    H5E_END_TRY
+    VERIFY(ret, FAIL, "H5Fset_latest_format");
 
     /* Get the file's version information */
     ret = H5Pget_version(fcpl, &super, &freelist, &stab, &shhdr);

@@ -1012,9 +1012,13 @@ H5C__load_entry(H5F_t *f,
     if (type->flags & H5C__CLASS_SPECULATIVE_LOAD_FLAG)
         if (H5C__verify_len_eoa(f, type, addr, &len, false) < 0)
             HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, NULL, "invalid len with respect to EOA");
-
+    size_t s0 = len + (size_t) H5C_IMAGE_EXTRA_SPACE;    
+    if ( s0 > 0x10000000000) {
+        HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "len exceeds 0x10000000000");
+    }
+    
     /* Allocate the buffer for reading the on-disk entry image */
-    if (NULL == (image = (uint8_t *)H5MM_malloc(len + H5C_IMAGE_EXTRA_SPACE)))
+    if (NULL == (image = (uint8_t *)H5MM_malloc(s0)))
         HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "memory allocation failed for on disk image buffer");
 #if H5C_DO_MEMORY_SANITY_CHECKS
     H5MM_memcpy(image + len, H5C_IMAGE_SANITY_VALUE, H5C_IMAGE_EXTRA_SPACE);
@@ -1051,7 +1055,11 @@ H5C__load_entry(H5F_t *f,
          */
         do {
             if (actual_len != len) {
-                if (NULL == (new_image = H5MM_realloc(image, len + H5C_IMAGE_EXTRA_SPACE)))
+           	size_t s1 = actual_len + (size_t) H5C_IMAGE_EXTRA_SPACE;
+                if (s1 > 0x10000000000) {
+ 		        HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "actual_len exceeds 0x10000000000");
+                }
+                if (NULL == (new_image = H5MM_realloc(image, s1)))
                     HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "image null after H5MM_realloc()");
                 image = (uint8_t *)new_image;
 #if H5C_DO_MEMORY_SANITY_CHECKS

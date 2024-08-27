@@ -1105,11 +1105,11 @@ H5C__load_entry(H5F_t *f,
                         HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, NULL, "actual_len exceeds EOA");
 
                     /* Expand buffer to new size */
-		    size_t s = actual_len + (size_t) H5C_IMAGE_EXTRA_SPACE;
-		    if (s > 0x10000000000) {
-		        HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "actual_len exceeds 0x10000000000");
-		    }
-		    new_image = H5MM_realloc(image, s);
+                    size_t s = actual_len + (size_t)H5C_IMAGE_EXTRA_SPACE;
+                    if (s > 0x10000000000) {
+                        HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "actual_len exceeds 0x10000000000");
+                    }
+                    new_image = H5MM_realloc(image, s);
                     if (NULL == new_image)
                         HGOTO_ERROR(H5E_CACHE, H5E_CANTALLOC, NULL, "image null after H5MM_realloc()");
                     image = (uint8_t *)new_image;

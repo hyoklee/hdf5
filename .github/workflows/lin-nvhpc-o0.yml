@@ -25,8 +25,8 @@ jobs:
         env:
           FC: nvfortran
           CC: nvc
-          FCFLAGS: -fPIC -O1
-          CFLAGS: -fPIC -O0 -g -fsanitize=address -fno-omit-frame-pointer
+          FCFLAGS: -fPIC -O0
+          CFLAGS: -fPIC -O0 -g -fno-omit-frame-pointer
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc++

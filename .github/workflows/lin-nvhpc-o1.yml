@@ -3,7 +3,7 @@ name: lin nvhpc o1
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

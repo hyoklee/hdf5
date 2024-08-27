@@ -1,9 +1,9 @@
-name: lin nvhpc
+name: lin nvhpc o0
 
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
   build:
@@ -25,8 +25,8 @@ jobs:
         env:
           FC: nvfortran
           CC: nvc
-          FCFLAGS: -fPIC -O3
-          CFLAGS: -fPIC -O3
+          FCFLAGS: -fPIC -O1
+          CFLAGS: -fPIC -O0 -g -fsanitize=address -fno-omit-frame-pointer
         run: |
           export NVHPCSDK=/opt/nvidia/hpc_sdk
           export OMPI_CXX=/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc++

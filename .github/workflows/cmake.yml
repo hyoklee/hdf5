@@ -106,3 +106,9 @@ jobs:
         name: "CMake TestExpress Workflows"
         uses: ./.github/workflows/testxpr-cmake.yml
 
+    call-release-cmake-julia:
+        name: "CMake Julia Workflows"
+        uses: ./.github/workflows/julia-cmake.yml
+        with:
+          build_mode: "Release"      
+

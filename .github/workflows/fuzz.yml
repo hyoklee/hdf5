@@ -1,0 +1,25 @@
+name: fuzz
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Fuzzers
+        id: build
+        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+        with:
+          oss-fuzz-project-name: 'hdf5'
+          sanitizer: 'memory'
+          dry-run: false
+          keep-unaffected-fuzz-targets: true
+      - name: Run Fuzzers
+        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+        with:
+          oss-fuzz-project-name: 'hdf5'
+          fuzz-seconds: 600
+          output-sarif: true
+          sanitizer: 'memory'
+          dry-run: false

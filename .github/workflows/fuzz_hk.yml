@@ -19,7 +19,7 @@ jobs:
           sanitizer: 'memory'
           dry-run: false
           keep-unaffected-fuzz-targets: true
-          project-src-path: "${{ runner.workspace }}/projects/hdf5"
+          project-src-path: "${{ runner.workspace }}/hdf5/projects/hdf5"
       - name: Run Fuzzers
         uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
         with:
@@ -28,4 +28,4 @@ jobs:
           output-sarif: true
           sanitizer: 'memory'
           dry-run: false
-          project-src-path: ./projects/hdf5	  
+          project-src-path: "${{ runner.workspace }}/hdf5/projects/hdf5"

@@ -36,5 +36,5 @@ jobs:
           oss-fuzz-project-name: 'hdf5'
           fuzz-seconds: 600
           output-sarif: true
-          sanitizer: sanitizer: ${{ matrix.sanitizer }}
+          sanitizer: ${{ matrix.sanitizer }}
           dry-run: false

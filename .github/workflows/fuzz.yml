@@ -2,7 +2,7 @@ name: fuzz
 on:
   push:
     branches:
-      - develop-
+      - develop
 jobs:
   fuzz:
     runs-on: ubuntu-latest
@@ -14,9 +14,6 @@ jobs:
       matrix:
         sanitizer: [address, undefined, memory]
         architecture: [x86_64]
-#        include:
-#          - sanitizer: address
-#            architecture: i386
     permissions:
       security-events: write
 

@@ -1,5 +1,8 @@
 # HDF5 for All
 
+[![OSS-Fuzz Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/hdf5.svg)](https://oss-fuzz-build-logs.storage.googleapis.com/index.html#hdf5)<br/>
+[![oss-fuzz](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml)
+
 ## Installation
 
 | Test | Status |

@@ -108,7 +108,7 @@ H5TS_semaphore_destroy(H5TS_semaphore_t *sem)
     return SUCCEED;
 } /* end H5TS_semaphore_destroy() */
 
-#elif defined(__unix__) && !defined(__MACH__) || defined(__NetBSD__))
+#elif defined(__unix__) && !(defined(__MACH__) || defined(__NetBSD__))
 /*
  * POSIX semaphores
  */

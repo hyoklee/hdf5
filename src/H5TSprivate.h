@@ -178,7 +178,7 @@ typedef struct H5TS_barrier_t {
 /* System semaphore */
 typedef HANDLE H5TS_semaphore_t;
 
-#elif defined(__unix__) && !defined(__MACH__) || defined(__NetBSD__))
+#elif defined(__unix__) && !(defined(__MACH__) || defined(__NetBSD__))
 /*
  * POSIX semaphores
  */

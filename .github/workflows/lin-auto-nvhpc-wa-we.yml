@@ -2,7 +2,7 @@ name: lin auto nvhpc -wa -we
 
 on:
   push:
-    branches: develop
+    branches: develop-
 
 jobs:
   build:

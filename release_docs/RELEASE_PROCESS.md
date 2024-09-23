@@ -54,10 +54,11 @@ For more information on the HDF5 versioning and backward and forward compatibili
 ### 4. Freeze Code (Release Manager | Test Automation Team)
 1. Transition from performing maintenance on software to preparing for its delivery.
 2. A few days before the code freeze, announce (via a product's developer mailing list and during team meetings) the pending freeze of the code for the release. On the day of the code freeze, send a "no more commits" message for the software being released and any third party software we develop that it depends on, as well as a "no more upgrades" message for other third party software the release depends on.
-        - Recently we haven’t announced a code freeze since it doesn’t take long to create the release branch and the support branch doesn’t need to remain frozen once the release branch is created. There are a few things that can be done on the support branch before the release branch is created, in particular updating the .so numbers. 
-3. Move all unresolved Milestone issues to the next release version in GitHub.
-4. Verify that frozen code branch satisfies all existing regression test cases, and give the 'OK' to the release coordinator once all daily test configurations are passing as expected after the date of the code freeze. If there are failing tests after the code freeze date, coordinate with maintainers responsible for the failures to ensure that either the changes causing the failures are corrected or reverted. 
-5. Verify release branches for third-party software used: SZIP, ZLIB, and Plugins; and announce release versions to hdf5lib@lists.hdfgroup.org.
+        - Recently we haven’t announced a code freeze since it doesn’t take long to create the release branch and the support branch doesn’t need to remain frozen once the release branch is created. There are a few things that can be done on the support branch before the release branch is created, in particular updating the .so numbers.  
+3. Be sure to complete all four steps to update so numbers for each deployed lib file in the process described in config/lt_vers.am and check that the .so numbers for lib files in binaries correctly indicate compatibility status with the previous release.  
+4. Move all unresolved Milestone issues to the next release version in GitHub.
+5. Verify that frozen code branch satisfies all existing regression test cases, and give the 'OK' to the release coordinator once all daily test configurations are passing as expected after the date of the code freeze. If there are failing tests after the code freeze date, coordinate with maintainers responsible for the failures to ensure that either the changes causing the failures are corrected or reverted. 
+6. Verify release branches for third-party software used: SZIP, ZLIB, and Plugins; and announce release versions to hdf5lib@hdfgroup.org.
 
 ### 5. Update Interface Version (Release Manager | Product Manager)
 1. Verify interface additions, changes, and removals, and update the shared library interface version number.
@@ -95,7 +96,7 @@ For more information on the HDF5 versioning and backward and forward compatibili
     - `$ git push` 
 7. Update default configuration mode
     - `$ git checkout hdf5_X_Y_Z;` and `$ bin/switch_maint_mode -disable ./configure.ac` to disable `AM_MAINTAINER_MODE`. 
-    - Need to set option `HDF5_GENERATE_HEADERS` to `OFF`, currently in line 996 of [src/CMakeLists.txt][11].
+    - Need to set option `HDF5_GENERATE_HEADERS` to `OFF`, currently in line 996 of [src/CMakeLists.txt][u11].
     - Change the **release preparation branch**'s (i.e. hdf5_X_Y_Z) default configuration mode from development to production in [configure.ac][u12]. 
     - Find “Determine build mode” in [configure.ac][u12]. 
     - Change `default=debug` to `default=production` at the bottom of the `AS_HELP_STRING` for `--enable-build-mode`.
@@ -114,19 +115,50 @@ For more information on the HDF5 versioning and backward and forward compatibili
 7. Choose the release branch
 8. Change ‘Release version tag’ name to 'hdf5_X.Y.Z.P'
     - P is some pre-release number.
-9. Send a message to the HDF forum indicating that a pre-release source package is available for testing at <e.g. https://github.com/HDFGroup/hdf5/releases/{hdf5-X.Y.Z-P}> and that feedback from the user community on their test results is being accepted.
+9. Send a message to the HDF forum indicating that a pre-release source package is available for testing at <e.g., <github.com releases URL>/{hdf5-X.Y.Z-P}> and that feedback from the user community on their test results is being accepted.
 10. Contact paying clients who are interested in testing the pre-release source package and inform them that it is available for testing and that feedback on their test results of the pre-release is appreciated.
 11. This should be automated and currently github binaries are not signed.
     - Follow the [How to sign binaries with digital certificates(this is missing)]() work instructions to sign each Windows and Mac binary package with a digital certificate.
 12. Once binaries are ready to be tested, send an e-mail notification or update the Confluence test dashboard page indicating source and binary test assignments and when results should be made available. 
 13. Use the pre-release source packages to build and test HDF5 on assigned platforms by hand. Build both shared and static libraries, Fortran, C++, and szip, and any additional configurations required on specific remote platforms based on customer support needs.
 14. Use the pre-release binary packages found in /mnt/scr1/pre-release/hdf5/vXYZ/pre-\<n\>/binaries/{UNIX, Windows} to test according to the binary testing procedures for your assigned platforms. 
-15. Scripted Testing: 
-    - UNIX: [Scripted Binary Testing of HDF5 on UNIX systems (this is missing)]() 
-    - Windows: [Testing HDF5 Binaries(this is missing)]() 
+15. Initial Testing: 
+    - Installation Using Installer Binary
+        - Execute the install package
+        - Follow prompts
+    - Uncompress Directory Image Binary
+        - Extract the package
+    - After Installation
+        - The examples folder, HDF5Examples, located in the HDF5 install folder, can be built and tested with CMake and the supplied
+            HDF5_Examples.cmake file. The HDF5_Examples.cmake expects HDF5 to have been installed in the default location with same compilers (see the
+            libhdf5.settings file in the lib install folder). Also, the CMake utility should be installed.
+
+    - To test the installation with the examples;
+        - Create a directory to run the examples.
+        - Copy HDF5Examples folder to this directory.
+        - Copy CTestScript.cmake to this directory.
+        - Copy HDF5_Examples.cmake to this directory.
+        - Copy HDF5_Examples_options.cmake to this directory.
+        - The default source folder is defined as "HDF5Examples". It can be changed with the CTEST_SOURCE_NAME script option.
+        - The default installation folder should be visible in the script. It can be changed with the INSTALLDIR script option.
+        - The default ctest configuration is defined as "Release". It can be changed
+            with the CTEST_CONFIGURATION_TYPE script option. Note that this must
+            be the same as the value used with the -C command line option.
+        - The default build configuration is defined to build and use static libraries.
+            Shared libraries can be used with the STATICONLYLIBRARIES script option set to "NO".
+        - Other options can be changed by editing the HDF5_Examples_options.cmake file.
+    - If the defaults are okay, execute from this directory:
+        - ctest -S HDF5_Examples.cmake -C Release -V -O test.log
+    - If the defaults need change, execute from this directory:
+        - ctest -S HDF5_Examples.cmake,CTEST_SOURCE_NAME=MyExamples,INSTALLDIR=MyLocation -C Release -V -O test.log
+        - When executed, the ctest script will save the results to the log file, test.log, as
+            indicated by the ctest command. If you wish to see more build and test information,
+            add "-VV" to the ctest command. The output should show;
+            100% tests passed, 0 tests failed out of 206 (all options).
+    - For more information see USING_CMake_Examples.txt in the install folder.
 16. Manual Testing (i.e. verifying correct test outcomes via visual inspection): 
-    - Use this if UNIX test script is not reporting correct results, yet binaries look OK. 
-    - UNIX: [Manual Binary Testing of HDF5 on Unix systems (this is missing)]() 
+    - Inspect text documents for correct versions and names. 
+    - Inspect the doxygen files in the share/html directory open index.html .
 17. Update the test results Confluence page with status/outcome of all test assignments.
 18. If any test source (hdf-forum, clients, internal testers, automated regression suite) identifies any issues: 
     - a) Enter the issue in JIRA summarizing the failure if it is not already there. 
@@ -167,13 +199,13 @@ For more information on the HDF5 versioning and backward and forward compatibili
 [u3]: https://github.com/HDFGroup/hdf5/blob/develop/COPYING
 [u4]: https://github.com/HDFGroup/hdf5/blob/develop/release_docs
 [u5]: https://github.com/HDFGroup/hdf5/blob/develop/release_docs/INSTALL
-[u6]: https://github.com/HDFGroup/hdf5/blob/develop/release_docs/INSTALL_Auto.txt
+[u6]: https://github.com/HDFGroup/hdf5/blob/develop/release_docs/INSTALL_Autotools.txt
 [u7]: https://github.com/HDFGroup/hdf5/blob/develop/release_docs/INSTALL_CMake.txt
 [u8]: https://github.com/HDFGroup/hdf5/blob/develop/.github/workflows/release.yml
 [u9]: https://github.com/HDFGroup/hdf5/blob/develop/config/lt_vers.am
 [u10]: https://github.com/HDFGroup/hdf5/blob/develop/bin/h5vers
 [u11]: https://github.com/HDFGroup/hdf5/blob/develop/src/CMakeLists.txt
 [u12]: https://github.com/HDFGroup/hdf5/blob/develop/configure.ac
-[u13]: https://support.hdfgroup.org/documentation/HDF5/v1_14/v1_14_4/api-compat-macros.html
+[u13]: https://hdfgroup.github.io/hdf5/develop/api-compat-macros.html
 [u14]: https://github.com/HDFGroup/hdf5/releases/tag/snapshot-1.14
 [u15]: https://github.com/HDFGroup/hdf5/releases/tag/snapshot

@@ -2,7 +2,7 @@ name: arm64 auto
 
 on:
   push:
-    branches: develop-
+    branches: develop
 
 jobs:
   test: # make sure the action works on a clean machine without building
@@ -14,7 +14,7 @@ jobs:
         os:
           - name: openbsd
             architecture: arm64
-            version: '7.4'
+            version: '7.5'
             host: ubuntu-latest
     steps:
       - name: Checkout

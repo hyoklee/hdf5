@@ -3,7 +3,7 @@ name: cyg ninja f
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   test:

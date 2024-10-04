@@ -3,7 +3,7 @@ name: s390x lin f
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
   s390x_job:
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Get Sources
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       - name: Run
         uses: uraimo/run-on-arch-action@v2

@@ -49,10 +49,10 @@ MODULE TH5_MISC
 
   PUBLIC :: H5_SIZEOF
   INTERFACE H5_SIZEOF
-     MODULE PROCEDURE H5_SIZEOF_CMPD
-     MODULE PROCEDURE H5_SIZEOF_CHR
-     MODULE PROCEDURE H5_SIZEOF_I
-     MODULE PROCEDURE H5_SIZEOF_SP,H5_SIZEOF_DP
+    MODULE PROCEDURE H5_SIZEOF_CMPD
+    MODULE PROCEDURE H5_SIZEOF_CHR
+    MODULE PROCEDURE H5_SIZEOF_I
+    MODULE PROCEDURE H5_SIZEOF_SP, H5_SIZEOF_DP
   END INTERFACE
 
 CONTAINS
@@ -68,88 +68,88 @@ CONTAINS
     IMPLICIT NONE
 
     CHARACTER(LEN=*), INTENT(IN) :: title_header ! test name
-    INTEGER, PARAMETER :: width = TAB_SPACE+10
+    INTEGER, PARAMETER :: width = TAB_SPACE + 10
     CHARACTER(LEN=2*width) ::title_centered
     INTEGER :: len, i
 
     title_centered(:) = " "
 
-    len=LEN_TRIM(title_header)
-    title_centered(1:3) ="| |"
-    title_centered((width-len)/2:(width-len)/2+len) = TRIM(title_header)
-    title_centered(width-1:width+2) ="| |"
+    len = LEN_TRIM(title_header)
+    title_centered(1:3) = "| |"
+    title_centered((width - len)/2:(width - len)/2 + len) = TRIM(title_header)
+    title_centered(width - 1:width + 2) = "| |"
 
-    WRITE(*,'(1X)', ADVANCE="NO")
-    DO i = 1, width-1
-       WRITE(*,'("_")', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'()')
-    WRITE(*,'("|  ")', ADVANCE="NO")
-    DO i = 1, width-5
-       WRITE(*,'("_")', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'("  |")')
+    WRITE (*, '(1X)', ADVANCE="NO")
+    DO i = 1, width - 1
+      WRITE (*, '("_")', ADVANCE="NO")
+    END DO
+    WRITE (*, '()')
+    WRITE (*, '("|  ")', ADVANCE="NO")
+    DO i = 1, width - 5
+      WRITE (*, '("_")', ADVANCE="NO")
+    END DO
+    WRITE (*, '("  |")')
 
-    WRITE(*,'("| |")', ADVANCE="NO")
-    DO i = 1, width-5
-       WRITE(*,'(1X)', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'("| |")')
+    WRITE (*, '("| |")', ADVANCE="NO")
+    DO i = 1, width - 5
+      WRITE (*, '(1X)', ADVANCE="NO")
+    END DO
+    WRITE (*, '("| |")')
 
-    WRITE(*,'(A)') TRIM(title_centered)
-  
-    WRITE(*,'("| |")', ADVANCE="NO")
-    DO i = 1, width-5
-       WRITE(*,'(1X)', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'("| |")')
+    WRITE (*, '(A)') TRIM(title_centered)
 
-    WRITE(*,'("| |")', ADVANCE="NO")
-    DO i = 1, width-5
-       WRITE(*,'("_")', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'("| |")')
+    WRITE (*, '("| |")', ADVANCE="NO")
+    DO i = 1, width - 5
+      WRITE (*, '(1X)', ADVANCE="NO")
+    END DO
+    WRITE (*, '("| |")')
 
-    WRITE(*,'("|")', ADVANCE="NO")
-    DO i = 1, width-1
-       WRITE(*,'("_")', ADVANCE="NO")
-    ENDDO
-    WRITE(*,'("|",/)')
+    WRITE (*, '("| |")', ADVANCE="NO")
+    DO i = 1, width - 5
+      WRITE (*, '("_")', ADVANCE="NO")
+    END DO
+    WRITE (*, '("| |")')
 
-   END SUBROUTINE write_test_header
+    WRITE (*, '("|")', ADVANCE="NO")
+    DO i = 1, width - 1
+      WRITE (*, '("_")', ADVANCE="NO")
+    END DO
+    WRITE (*, '("|",/)')
+
+  END SUBROUTINE write_test_header
 
 !This definition is needed for Windows DLLs
 !DEC$if defined(BUILD_HDF5_TEST_DLL)
 !DEC$attributes dllexport :: write_test_footer
 !DEC$endif
-   SUBROUTINE write_test_footer()
+  SUBROUTINE write_test_footer()
 
-     ! Writes the test footer
+    ! Writes the test footer
 
-     IMPLICIT NONE
-     INTEGER, PARAMETER :: width = TAB_SPACE+10
-     INTEGER :: i
+    IMPLICIT NONE
+    INTEGER, PARAMETER :: width = TAB_SPACE + 10
+    INTEGER :: i
 
-     DO i = 1, width
-        WRITE(*,'("_")', ADVANCE="NO")
-     ENDDO
-     WRITE(*,'(/)')
+    DO i = 1, width
+      WRITE (*, '("_")', ADVANCE="NO")
+    END DO
+    WRITE (*, '(/)')
 
-   END SUBROUTINE write_test_footer
+  END SUBROUTINE write_test_footer
 
 !This definition is needed for Windows DLLs
 !DEC$if defined(BUILD_HDF5_TEST_DLL)
 !DEC$attributes dllexport :: write_test_status
 !DEC$endif
-  SUBROUTINE write_test_status( test_result, test_title, total_error)
+  SUBROUTINE write_test_status(test_result, test_title, total_error)
 
     ! Writes the results of the tests
 
     IMPLICIT NONE
 
     INTEGER, INTENT(IN) :: test_result  ! negative,  --skip --
-                                        ! 0       ,   passed
-                                        ! positive,   failed
+    ! 0       ,   passed
+    ! positive,   failed
 
     CHARACTER(LEN=*), INTENT(IN) :: test_title ! Short description of test
     INTEGER, INTENT(INOUT) :: total_error ! Accumulated error
@@ -159,51 +159,50 @@ CONTAINS
     CHARACTER(LEN=8) :: error_string
     CHARACTER(LEN=8), PARAMETER :: success = ' PASSED '
     CHARACTER(LEN=8), PARAMETER :: failure = '*FAILED*'
-    CHARACTER(LEN=8), PARAMETER :: skip    = '--SKIP--'
+    CHARACTER(LEN=8), PARAMETER :: skip = '--SKIP--'
     CHARACTER(LEN=10) :: FMT
 
     error_string = failure
-    IF (test_result ==  0) THEN
-       error_string = success
+    IF (test_result == 0) THEN
+      error_string = success
     ELSE IF (test_result == -1) THEN
-       error_string = skip
-    ENDIF
-    WRITE(FMT,'("(A,T",I0,",A)")') TAB_SPACE
-    WRITE(*, fmt = FMT) test_title, error_string
+      error_string = skip
+    END IF
+    WRITE (FMT, '("(A,T",I0,",A)")') TAB_SPACE
+    WRITE (*, fmt=FMT) test_title, error_string
 
-    IF(test_result.GT.0) total_error = total_error + test_result
+    IF (test_result .GT. 0) total_error = total_error + test_result
 
   END SUBROUTINE write_test_status
-
 
 !This definition is needed for Windows DLLs
 !DEC$if defined(BUILD_HDF5_TEST_DLL)
 !DEC$attributes dllexport :: check
 !DEC$endif
-  SUBROUTINE check(string,error,total_error)
+  SUBROUTINE check(string, error, total_error)
     CHARACTER(LEN=*) :: string
     INTEGER :: error, total_error
     IF (error .LT. 0) THEN
-       total_error=total_error+1
-       WRITE(*,*) string, " FAILED"
-    ENDIF
+      total_error = total_error + 1
+      WRITE (*, *) string, " FAILED"
+    END IF
     RETURN
   END SUBROUTINE check
 
 !----------------------------------------------------------------------
-! Name:		h5_fixname_f
+! Name:                h5_fixname_f
 !
-! Purpose:	Create a file name from the a file base name.
+! Purpose:        Create a file name from the a file base name.
 !               It is a fortran counterpart for the h5_fixname in ../../test/h5test.c
 !
 ! Inputs:
-!		base_name	- base name of the file
-!               fapl		- file access property list
+!                base_name        - base name of the file
+!               fapl                - file access property list
 ! Outputs:
-!		full_name	- full file name
-!		hdferr:		- error code
-!				 	Success:  0
-!				 	Failure: -1
+!                full_name        - full file name
+!                hdferr:                - error code
+!                                         Success:  0
+!                                         Failure: -1
 !----------------------------------------------------------------------
   SUBROUTINE h5_fixname_f(base_name, full_name, fapl, hdferr)
 !
@@ -223,42 +222,42 @@ CONTAINS
 !            INTEGER(HID_T) :: fapl_default
 
     INTERFACE
-       INTEGER FUNCTION h5_fixname_c(base_name, base_namelen, fapl, &
-            full_name, full_namelen)
-         USE H5GLOBAL
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_FIXNAME_C':: h5_fixname_c
-         !DEC$ ENDIF
-         !DEC$ATTRIBUTES reference :: base_name
-         !DEC$ATTRIBUTES reference :: full_name
-         CHARACTER(LEN=*), INTENT(IN) :: base_name
-         INTEGER(SIZE_T) :: base_namelen
-         INTEGER(HID_T), INTENT(IN) :: fapl
-         CHARACTER(LEN=*), INTENT(IN) :: full_name
-         INTEGER(SIZE_T) :: full_namelen
-       END FUNCTION h5_fixname_c
+      INTEGER FUNCTION h5_fixname_c(base_name, base_namelen, fapl, &
+                                    full_name, full_namelen)
+        USE H5GLOBAL
+        !DEC$ IF DEFINED(HDF5F90_WINDOWS)
+        !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_FIXNAME_C':: h5_fixname_c
+        !DEC$ ENDIF
+        !DEC$ATTRIBUTES reference :: base_name
+        !DEC$ATTRIBUTES reference :: full_name
+        CHARACTER(LEN=*), INTENT(IN) :: base_name
+        INTEGER(SIZE_T) :: base_namelen
+        INTEGER(HID_T), INTENT(IN) :: fapl
+        CHARACTER(LEN=*), INTENT(IN) :: full_name
+        INTEGER(SIZE_T) :: full_namelen
+      END FUNCTION h5_fixname_c
     END INTERFACE
 
     base_namelen = LEN(base_name)
     full_namelen = LEN(full_name)
     hdferr = h5_fixname_c(base_name, base_namelen, fapl, &
-         full_name, full_namelen)
+                          full_name, full_namelen)
 
   END SUBROUTINE h5_fixname_f
 
 !----------------------------------------------------------------------
-! Name:		h5_cleanup_f
+! Name:                h5_cleanup_f
 !
-! Purpose:	Cleanups tests files
+! Purpose:        Cleanups tests files
 !               It is a fortran counterpart for the h5_cleanup in ../../test/h5test.c
 !
 ! Inputs:
-!		base_name	- base name of the file
-!               fapl		- file access property list
+!                base_name        - base name of the file
+!               fapl                - file access property list
 ! Outputs:
-!		hdferr:		- error code
-!				 	Success:  0
-!				 	Failure: -1
+!                hdferr:                - error code
+!                                         Success:  0
+!                                         Failure: -1
 !----------------------------------------------------------------------
   SUBROUTINE h5_cleanup_f(base_name, fapl, hdferr)
 !
@@ -275,16 +274,16 @@ CONTAINS
     INTEGER(SIZE_T) :: base_namelen ! Length of the base name character string
 
     INTERFACE
-       INTEGER FUNCTION h5_cleanup_c(base_name, base_namelen, fapl)
-         USE H5GLOBAL
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_CLEANUP_C':: h5_cleanup_c
-         !DEC$ ENDIF
-         !DEC$ATTRIBUTES reference :: base_name
-         CHARACTER(LEN=*), INTENT(IN) :: base_name
-         INTEGER(SIZE_T) :: base_namelen
-         INTEGER(HID_T), INTENT(IN) :: fapl
-       END FUNCTION h5_cleanup_c
+      INTEGER FUNCTION h5_cleanup_c(base_name, base_namelen, fapl)
+        USE H5GLOBAL
+        !DEC$ IF DEFINED(HDF5F90_WINDOWS)
+        !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_CLEANUP_C':: h5_cleanup_c
+        !DEC$ ENDIF
+        !DEC$ATTRIBUTES reference :: base_name
+        CHARACTER(LEN=*), INTENT(IN) :: base_name
+        INTEGER(SIZE_T) :: base_namelen
+        INTEGER(HID_T), INTENT(IN) :: fapl
+      END FUNCTION h5_cleanup_c
     END INTERFACE
 
     base_namelen = LEN(base_name)
@@ -293,19 +292,19 @@ CONTAINS
   END SUBROUTINE h5_cleanup_f
 
 !----------------------------------------------------------------------
-! Name:		h5_exit_f
+! Name:                h5_exit_f
 !
-! Purpose:	Exit application
+! Purpose:        Exit application
 !               It is a fortran counterpart for the standard C 'exit()' routine
-! 		Be careful not to overflow the exit value range since
-! 		UNIX supports a very small range such as 1 byte.
-!		Therefore, exit(256) may end up as exit(0).
+!                 Be careful not to overflow the exit value range since
+!                 UNIX supports a very small range such as 1 byte.
+!                Therefore, exit(256) may end up as exit(0).
 !
 ! Inputs:
-!		status	- Status to return from application
+!                status        - Status to return from application
 !
 ! Outputs:
-!		none
+!                none
 !----------------------------------------------------------------------
   SUBROUTINE h5_exit_f(status)
 !
@@ -317,12 +316,12 @@ CONTAINS
     INTEGER, INTENT(IN) :: status         ! Return code
 
     INTERFACE
-       SUBROUTINE h5_exit_c(status)
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_EXIT_C':: h5_exit_c
-         !DEC$ ENDIF
-         INTEGER, INTENT(IN) :: status
-       END SUBROUTINE h5_exit_c
+      SUBROUTINE h5_exit_c(status)
+        !DEC$ IF DEFINED(HDF5F90_WINDOWS)
+        !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_EXIT_C':: h5_exit_c
+        !DEC$ ENDIF
+        INTEGER, INTENT(IN) :: status
+      END SUBROUTINE h5_exit_c
     END INTERFACE
 
     CALL h5_exit_c(status)
@@ -330,15 +329,15 @@ CONTAINS
   END SUBROUTINE h5_exit_f
 
 !----------------------------------------------------------------------
-! Name:		h5_env_nocleanup_f
+! Name:                h5_env_nocleanup_f
 !
-! Purpose:	Uses the HDF5_NOCLEANUP environment variable in Fortran
+! Purpose:        Uses the HDF5_NOCLEANUP environment variable in Fortran
 !               tests to determine if the output files should be removed
 !
 ! Inputs:
 !
 ! Outputs:      HDF5_NOCLEANUP:  .true. - don't remove test files
-!		                .false. - remove test files
+!                                .false. - remove test files
 !----------------------------------------------------------------------
   SUBROUTINE h5_env_nocleanup_f(HDF5_NOCLEANUP)
 !
@@ -351,18 +350,18 @@ CONTAINS
     INTEGER :: status
 
     INTERFACE
-       SUBROUTINE h5_env_nocleanup_c(status)
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_ENV_NOCLEANUP_C':: h5_env_nocleanup_c
-         !DEC$ ENDIF
-         INTEGER :: status
-       END SUBROUTINE h5_env_nocleanup_c
+      SUBROUTINE h5_env_nocleanup_c(status)
+        !DEC$ IF DEFINED(HDF5F90_WINDOWS)
+        !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_ENV_NOCLEANUP_C':: h5_env_nocleanup_c
+        !DEC$ ENDIF
+        INTEGER :: status
+      END SUBROUTINE h5_env_nocleanup_c
     END INTERFACE
 
     CALL h5_env_nocleanup_c(status)
 
     HDF5_NOCLEANUP = .FALSE.
-    IF(status.EQ.1) HDF5_NOCLEANUP = .TRUE.
+    IF (status .EQ. 1) HDF5_NOCLEANUP = .TRUE.
 
   END SUBROUTINE h5_env_nocleanup_f
 
@@ -398,7 +397,7 @@ CONTAINS
     TYPE(comp_datatype), INTENT(in) :: a
 
 #ifdef H5_FORTRAN_HAVE_STORAGE_SIZE
-    H5_SIZEOF_CMPD = storage_size(a, c_size_t)/storage_size(c_char_'a',c_size_t)
+    H5_SIZEOF_CMPD = storage_size(a, c_size_t)/storage_size(c_char_'a', c_size_t)
 #else
     H5_SIZEOF_CMPD = SIZEOF(a)
 #endif
@@ -414,7 +413,7 @@ CONTAINS
     CHARACTER(LEN=1), INTENT(in) :: a
 
 #ifdef H5_FORTRAN_HAVE_STORAGE_SIZE
-    H5_SIZEOF_CHR = storage_size(a, c_size_t)/storage_size(c_char_'a',c_size_t)
+    H5_SIZEOF_CHR = storage_size(a, c_size_t)/storage_size(c_char_'a', c_size_t)
 #else
     H5_SIZEOF_CHR = SIZEOF(a)
 #endif
@@ -430,13 +429,12 @@ CONTAINS
     INTEGER, INTENT(in):: a
 
 #ifdef H5_FORTRAN_HAVE_STORAGE_SIZE
-    H5_SIZEOF_I = storage_size(a, c_size_t)/storage_size(c_char_'a',c_size_t)
+    H5_SIZEOF_I = storage_size(a, c_size_t)/storage_size(c_char_'a', c_size_t)
 #else
     H5_SIZEOF_I = SIZEOF(a)
 #endif
 
   END FUNCTION H5_SIZEOF_I
-
 
 !This definition is needed for Windows DLLs
 !DEC$if defined(BUILD_HDF5_TEST_DLL)
@@ -447,7 +445,7 @@ CONTAINS
     REAL(sp), INTENT(in):: a
 
 #ifdef H5_FORTRAN_HAVE_STORAGE_SIZE
-    H5_SIZEOF_SP = storage_size(a, c_size_t)/storage_size(c_char_'a',c_size_t)
+    H5_SIZEOF_SP = storage_size(a, c_size_t)/storage_size(c_char_'a', c_size_t)
 #else
     H5_SIZEOF_SP = SIZEOF(a)
 #endif
@@ -463,7 +461,7 @@ CONTAINS
     REAL(dp), INTENT(in):: a
 
 #ifdef H5_FORTRAN_HAVE_STORAGE_SIZE
-    H5_SIZEOF_DP = storage_size(a, c_size_t)/storage_size(c_char_'a',c_size_t)
+    H5_SIZEOF_DP = storage_size(a, c_size_t)/storage_size(c_char_'a', c_size_t)
 #else
     H5_SIZEOF_DP = SIZEOF(a)
 #endif

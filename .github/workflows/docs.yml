@@ -1,10 +1,10 @@
-name: doxygen gh-pages
+name: doxygen gh-pages pdf
 
 on:
   workflow_dispatch:
   push:
   pull_request:
-    branches: [ develop- ]
+    branches: [ develop ]
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
@@ -35,7 +35,10 @@ jobs:
           sudo apt-get install -y graphviz
           sudo apt-get install -y --no-install-recommends doxygen
           sudo apt-get install -y cmake
-          
+          sudo apt-get install texlive-latex-base
+          sudo apt-get install texlive-fonts-extra          
+          sudo apt-get install texlive-latex-extra
+
       - name: Build Develop Documentation
         run: |
           mkdir build
@@ -46,6 +49,8 @@ jobs:
           ls -l hdf5lib_docs
           cd hdf5lib_docs/html
           touch .nojekyll
+          cd ../latex
+          make
 
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v4

@@ -26,7 +26,6 @@ jobs:
           cmake -G Ninja \
            -D SITE:STRING=cwin \
            -DBUILDNAME:STRING="ninja/f" \
-           -D BUILD_SHARED_LIBS:BOOL=OFF \
            -DHDF5_BUILD_FORTRAN:BOOL=ON \
            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
            ..

@@ -33,7 +33,8 @@ jobs:
             -DBUILDNAME:STRING=f \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_BUILD_FORTRAN:BOOL=ON \
-            -DSITE:STRING=s390x \
+            -DBUILD_SHARED_LIBS:BOOL=OFF \
+             -DSITE:STRING=s390x \
             ..
             ctest -D Experimental
 

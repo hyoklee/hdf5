@@ -1,4 +1,4 @@
-name: doxygen gh-pages pdf
+name: doxygen gh-pages miktex
 
 on:
   workflow_dispatch:
@@ -30,14 +30,15 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
           sudo apt update -y
           sudo apt install -y libunwind-dev
           sudo apt install -y graphviz
           sudo apt install -y --no-install-recommends doxygen
           sudo apt install -y cmake
-          sudo apt install -y texlive-full
-          sudo apt install -y texlive-fonts-extra
-          sudo apt install -y texlive-latex-extra
+          sudo apt install -y miktex
+          sudo miktexsetup --shared=yes finish
 
       - name: Build Develop Documentation
         run: |

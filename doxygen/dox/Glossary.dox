@@ -4,7 +4,7 @@
 
 <DL>
   <DT>Array datatype</DT>
-  <DD>A family of HDF5 datatypes whose elements are arrays of a fixed rank (≤
+  <DD>A family of HDF5 datatypes whose elements are arrays of a fixed rank (=<
   32) and fixed finite extent. All array elements must be of the same HDF5
   datatype.</DD>
 </DL>

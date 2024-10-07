@@ -24,7 +24,8 @@ jobs:
       - name: run script
         run: |
           uname -a
-          ./configure --enable-fortran --enable-hl --enable-shared --enable-cxx 
+          ./autogen.sh
+          ./configure --enable-fortran --enable-hl --enable-shared --enable-cxx
           make
           make check
         shell: alpine.sh --root {0}

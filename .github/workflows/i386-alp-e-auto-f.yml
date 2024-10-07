@@ -21,6 +21,7 @@ jobs:
             libgit2-dev
             gcc
             gfortran
+            perl
       - name: run script
         run: |
           uname -a

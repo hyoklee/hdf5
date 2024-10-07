@@ -17,6 +17,7 @@ jobs:
           arch: x86
           branch: edge
           packages: >
+            autoconf
             build-base
             libgit2-dev
             gcc

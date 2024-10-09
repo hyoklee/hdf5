@@ -21,6 +21,7 @@ jobs:
             automake
             build-base
             libgit2-dev
+            libtool
             gcc
             gfortran
             perl

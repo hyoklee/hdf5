@@ -828,7 +828,7 @@ test_reference_region_1D()
  *-------------------------------------------------------------------------
  */
 extern "C" void
-test_reference()
+test_reference(const void *params)
 {
     // Output message about test being performed
     MESSAGE(5, ("Testing References\n"));
@@ -849,8 +849,10 @@ test_reference()
  *-------------------------------------------------------------------------
  */
 extern "C" void
-cleanup_reference()
+cleanup_reference(void *params)
 {
-    HDremove(FILE1.c_str());
-    HDremove(FILE2.c_str());
+    if (GetTestCleanup()) {
+        HDremove(FILE1.c_str());
+        HDremove(FILE2.c_str());
+    }
 }

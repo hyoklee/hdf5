@@ -760,7 +760,7 @@ test_libver_bounds()
 
     /* Run the tests */
     test_libver_bounds_real(H5F_LIBVER_EARLIEST, H5O_VERSION_1, H5F_LIBVER_LATEST, H5O_VERSION_2);
-    test_libver_bounds_real(H5F_LIBVER_LATEST, H5O_VERSION_2, H5F_LIBVER_EARLIEST, H5O_VERSION_2);
+    test_libver_bounds_real(H5F_LIBVER_LATEST, H5O_VERSION_2, H5F_LIBVER_EARLIEST, H5O_VERSION_1);
     PASSED();
 } /* end test_libver_bounds() */
 
@@ -969,7 +969,7 @@ test_file_info()
  *-------------------------------------------------------------------------
  */
 extern "C" void
-test_file()
+test_file(const void *params)
 {
     // Output message about test being performed
     MESSAGE(5, ("Testing File I/O Operations\n"));
@@ -997,13 +997,15 @@ test_file()
 extern "C"
 #endif
     void
-    cleanup_file()
+    cleanup_file(void *params)
 {
-    HDremove(FILE1.c_str());
-    HDremove(FILE2.c_str());
-    HDremove(FILE3.c_str());
-    HDremove(FILE4.c_str());
-    HDremove(FILE5.c_str());
-    HDremove(FILE6.c_str());
-    HDremove(FILE7.c_str());
+    if (GetTestCleanup()) {
+        HDremove(FILE1.c_str());
+        HDremove(FILE2.c_str());
+        HDremove(FILE3.c_str());
+        HDremove(FILE4.c_str());
+        HDremove(FILE5.c_str());
+        HDremove(FILE6.c_str());
+        HDremove(FILE7.c_str());
+    }
 } // cleanup_file

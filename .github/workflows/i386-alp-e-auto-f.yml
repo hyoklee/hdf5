@@ -3,7 +3,7 @@ name: i386 alp e auto f
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

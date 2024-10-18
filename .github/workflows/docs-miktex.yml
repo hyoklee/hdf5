@@ -3,8 +3,9 @@ name: doxygen gh-pages miktex
 on:
   workflow_dispatch:
   push:
+    branches: [ develop- ]  
   pull_request:
-    branches: [ develop ]
+    branches: [ develop- ]
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'

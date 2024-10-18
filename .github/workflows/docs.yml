@@ -3,6 +3,7 @@ name: doxygen gh-pages pdf
 on:
   workflow_dispatch:
   push:
+     branches: [ develop- ]
   pull_request:
     branches: [ develop- ]
     paths-ignore:

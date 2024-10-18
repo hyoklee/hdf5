@@ -624,8 +624,8 @@ static hid_t
 H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, void **token_ptr,
                             H5VL_object_t **_vol_obj_ptr)
 {
-    hid_t                   loc_id;             /* Reference location ID */
-    H5VL_object_t          *tmp_vol_obj = NULL; /* Object for loc_id */
+    hid_t           loc_id;             /* Reference location ID */
+    H5VL_object_t  *tmp_vol_obj = NULL; /* Object for loc_id */
     H5VL_object_t **vol_obj_ptr =
         (_vol_obj_ptr ? _vol_obj_ptr : &tmp_vol_obj);        /* Ptr to object ptr for loc_id */
     H5VL_loc_params_t       loc_params;                      /* Location parameters */
@@ -673,7 +673,7 @@ H5R__open_region_api_common(H5R_ref_t *ref_ptr, hid_t rapl_id, hid_t oapl_id, vo
 
     /* Register object */
     if ((opened_obj_id = H5VL_register(opened_type, opened_obj, H5VL_OBJ_CONNECTOR(*vol_obj_ptr), false)) < 0)
-            HGOTO_ERROR(H5E_REFERENCE, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register object handle");
+        HGOTO_ERROR(H5E_REFERENCE, H5E_CANTREGISTER, H5I_INVALID_HID, "unable to register object handle");
 
     /* Get VOL object object */
     if (NULL == (opened_obj = H5VL_vol_object(opened_obj_id)))

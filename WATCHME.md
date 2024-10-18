@@ -1,7 +1,11 @@
 # HDF5 for All
 
-[![OSS-Fuzz Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/hdf5.svg)](https://oss-fuzz-build-logs.storage.googleapis.com/index.html#hdf5)<br/>
-[![oss-fuzz](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml)
+## Quality
+
+| Test   | Status |
+|--------|--------|
+| Google | [![OSS-Fuzz Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/hdf5.svg)](https://oss-fuzz-build-logs.storage.googleapis.com/index.html#hdf5) |
+| Local | [![oss-fuzz](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml)|
 
 ## Installation
 
@@ -69,7 +73,7 @@
 
 | Test | Status |
 | -----| ------ |
-| aocc |  [![lin auto aocc d f ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-d-f-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-d-f-ompi.yml) [![lin auto aocc ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-ompi.yml) [![lin auto aocc f ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-f-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-f-ompi.yml)|
+| aocc | [![lin aocc ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-aocc-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-aocc-ompi.yml) [![lin auto aocc d f ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-d-f-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-d-f-ompi.yml) [![lin auto aocc ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-ompi.yml) [![lin auto aocc f ompi](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-f-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-auto-aocc-f-ompi.yml)|
 | clang |  [![mac13 ninja clang15 d h f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac13-ninja-clang15-d-h-f-mpich-sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-ninja-clang15-d-h-f-mpich-sf.yml) [![mac13 clang15 r f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac13-clang15-r-f-mpich-sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-clang15-r-f-mpich-sf.yml) [![mac13 xcode clang15 d mpich s3 sf](https://github.com/hyoklee/hdf5/actions/workflows/mac13-xcode-clang15-d-mpich-s3-sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac13-xcode-clang15-d-mpich-s3-sf.yml)  [![mac ninja clang j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac-ninja-clang-j-ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-ninja-clang-j-ompi.yml)  |
 | flang |  [![mac14 ninja clang19 fl d f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-clang19-fl-d-f-mpich-sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac14-ninja-clang19-fl-d-f-mpich-sf.yml) |
 | gcc_arm | [![lin gcc_arm64](https://github.com/hyoklee/hdf5/actions/workflows/lin-gcc_arm64.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-gcc_arm64.yml) [![lin gcc_arm64 cpp](https://github.com/hyoklee/hdf5/actions/workflows/lin-gcc_arm64-cpp.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin-gcc_arm64-cpp.yml) |

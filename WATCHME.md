@@ -55,7 +55,7 @@
 
 | Test    | Status |
 | --------| ------ |
-| Solaris | | [![sol](https://github.com/hyoklee/actions/actions/workflows/sol.yml/badge.svg)](https://github.com/hyoklee/actions/actions/workflows/sol.yml) |
+| Solaris | [![sol](https://github.com/hyoklee/hdf5/actions/workflows/sol.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/sol.yml) |
 
 ### Windows
 

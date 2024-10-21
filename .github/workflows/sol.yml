@@ -2,7 +2,7 @@ name: sol
 
 on:
   push:
-    branches: main
+    branches: develop
 
 defaults:
   run:

@@ -4,7 +4,7 @@
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
- * the COPYING file, which can be found at the root of the source code       *
+ * the LICENSE file, which can be found at the root of the source code       *
  * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
@@ -1031,7 +1031,7 @@ done:
  *
  * Purpose:     Determine if two connectors point to the same VOL class
  *
- * Return:      TRUE/FALSE/FAIL
+ * Return:      true/false/FAIL
  *
  *-------------------------------------------------------------------------
  */
@@ -1048,7 +1048,7 @@ H5VL_conn_same_class(const H5VL_connector_t *conn1, const H5VL_connector_t *conn
 
     /* Fast check */
     if (conn1 == conn2)
-        HGOTO_DONE(TRUE);
+        HGOTO_DONE(true);
     else {
         int cmp_value = 0; /* Comparison result */
 

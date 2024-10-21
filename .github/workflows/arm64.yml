@@ -35,6 +35,8 @@ jobs:
             sudo pkg_add cmake
             mkdir build
             cd build
+            cmake \
+            -DBUILDNAME:STRING="hk/r" \
             -DCMAKE_BUILD_TYPE=Release \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \

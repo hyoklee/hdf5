@@ -1,0 +1,30 @@
+name: sol
+
+on:
+  push:
+    branches: main
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    name: solaris-gcc
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4    
+      - name: test
+        uses: vmactions/solaris-vm@v1
+        with:
+          release: "11.4-gcc"
+          usesh: true
+          copyback: false
+          run: |
+            gcc --version
+            g++ --version
+            mkdir build
+            cd build
+            cmake -DSITE:STRING="sol" -DBUILDNAME:STRING="hk/r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT:STRING="/submit.php?project=HDF5" -DCMAKE_BUILD_TYPE=Release  ..
+            ctest -D Experimental -C Release
+

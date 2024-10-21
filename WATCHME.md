@@ -51,6 +51,12 @@
 | --------| ------ |
 | Ubuntu  | [![arm64 lin](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml) |
 
+### Solaris
+
+| Test    | Status |
+| --------| ------ |
+| Solaris | | [![sol](https://github.com/hyoklee/actions/actions/workflows/sol.yml/badge.svg)](https://github.com/hyoklee/actions/actions/workflows/sol.yml) |
+
 ### Windows
 
 | Test    | Status |

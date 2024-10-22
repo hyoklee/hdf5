@@ -17,6 +17,7 @@ jobs:
           arch: x86
           packages: >
             build-base
+            libaec-dev
             libgit2-dev
             cmake
       - name: run script
@@ -24,6 +25,12 @@ jobs:
           cat /etc/os-release
           mkdir build
           cd build
-          cmake -DSITE:STRING=alp.i386 -DBUILDNAME:STRING="r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" ..
+          cmake \
+          -DBUILDNAME:STRING="r" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
+          -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+          -DSITE:STRING=alp.i386 \
+          ..
           ctest -D Experimental -C Release
         shell: bash

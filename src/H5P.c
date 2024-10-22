@@ -52,9 +52,6 @@ typedef struct {
 /* Package Variables */
 /*********************/
 
-/* Package initialization variable */
-bool H5_PKG_INIT_VAR = false;
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/
@@ -1495,7 +1492,7 @@ done:
  EXAMPLES
  REVISION LOG
 --------------------------------------------------------------------------*/
-H5_ATTR_MALLOC char *
+char *
 H5Pget_class_name(hid_t pclass_id)
 {
     H5P_genclass_t *pclass;    /* Property class to query */

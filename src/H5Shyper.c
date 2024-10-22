@@ -3725,10 +3725,10 @@ done:
 static hssize_t
 H5S__hyper_serial_size(H5S_t *space)
 {
-    hsize_t  block_count = 0;        /* block counter for regular hyperslabs */
-    uint32_t version     = UINT_MAX; /* Version number */
-    uint8_t  enc_size;               /* Encoded size of hyperslab selection info */
-    hssize_t ret_value = -1;         /* return value */
+    hsize_t  block_count = 0; /* block counter for regular hyperslabs */
+    uint32_t version;         /* Version number */
+    uint8_t  enc_size;        /* Encoded size of hyperslab selection info */
+    hssize_t ret_value = -1;  /* return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -12100,7 +12100,7 @@ H5S_hyper_get_clip_extent(const H5S_t *clip_space, const H5S_t *match_space, boo
     hsize_t num_slices;    /* Number of slices in unlimited dimension */
     hsize_t ret_value = 0; /* Return value */
 
-    FUNC_ENTER_NOAPI(0)
+    FUNC_ENTER_NOAPI_NOERR
 
     /* Check parameters */
     assert(clip_space);
@@ -12122,7 +12122,6 @@ H5S_hyper_get_clip_extent(const H5S_t *clip_space, const H5S_t *match_space, boo
     /* Call "real" get_clip_extent function */
     ret_value = H5S__hyper_get_clip_extent_real(clip_space, num_slices, incl_trail);
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5S_hyper_get_clip_extent() */
 
@@ -12158,7 +12157,7 @@ H5S_hyper_get_clip_extent_match(const H5S_t *clip_space, const H5S_t *match_spac
     hsize_t num_slices; /* Number of slices in unlimited dimension */
     hsize_t ret_value = 0; /* Return value */
 
-    FUNC_ENTER_NOAPI(0)
+    FUNC_ENTER_NOAPI_NOERR
 
     /* Check parameters */
     assert(clip_space);
@@ -12204,7 +12203,6 @@ H5S_hyper_get_clip_extent_match(const H5S_t *clip_space, const H5S_t *match_spac
     /* Call "real" get_clip_extent function */
     ret_value = H5S__hyper_get_clip_extent_real(clip_space, num_slices, incl_trail);
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5S_hyper_get_clip_extent_match() */
 
@@ -12320,7 +12318,7 @@ H5S_hyper_get_first_inc_block(const H5S_t *space, hsize_t clip_size, bool *parti
     H5S_hyper_dim_t *diminfo; /* Convenience pointer to diminfo in unlimited dimension */
     hsize_t          ret_value = 0;
 
-    FUNC_ENTER_NOAPI(0)
+    FUNC_ENTER_NOAPI_NOERR
 
     /* Check parameters */
     assert(space);
@@ -12350,7 +12348,6 @@ H5S_hyper_get_first_inc_block(const H5S_t *space, hsize_t clip_size, bool *parti
         } /* end if */
     }     /* end else */
 
-done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5S_hyper_get_first_inc_block */
 

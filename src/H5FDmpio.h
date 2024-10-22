@@ -16,13 +16,10 @@
 #ifndef H5FDmpio_H
 #define H5FDmpio_H
 
-/* Public header files */
-#include "H5FDpublic.h" /* File drivers             */
-
 #ifdef H5_HAVE_PARALLEL
 
-/** ID for the mpio VFD */
-#define H5FD_MPIO (H5OPEN H5FD_MPIO_id_g)
+/** Initializer for the mpio VFD */
+#define H5FD_MPIO (H5FDperform_init(H5FD_mpio_init))
 
 #else
 
@@ -38,19 +35,19 @@
 #define H5FDmpio_DEBUG
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Global var whose value comes from environment variable */
 /* (Defined in H5FDmpio.c) */
 H5_DLLVAR hbool_t H5FD_mpi_opt_types_g;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** @private
  *
- * \brief ID for the mpio VFD
+ * \brief Private initializer for the mpio VFD
  */
-H5_DLLVAR hid_t H5FD_MPIO_id_g;
+H5_DLL hid_t H5FD_mpio_init(void);
 
 /**
  * \ingroup FAPL

@@ -17,11 +17,8 @@
 #ifndef H5FDsec2_H
 #define H5FDsec2_H
 
-/* Public header files */
-#include "H5FDpublic.h" /* File drivers             */
-
-/** ID for the sec2 VFD */
-#define H5FD_SEC2 (H5OPEN H5FD_SEC2_id_g)
+/** Initializer for the sec2 VFD */
+#define H5FD_SEC2 (H5FDperform_init(H5FD_sec2_init))
 
 /** Identifier for the sec2 VFD */
 #define H5FD_SEC2_VALUE H5_VFD_SEC2
@@ -32,9 +29,9 @@ extern "C" {
 
 /** @private
  *
- * \brief ID for the sec2 VFD
+ * \brief Private initializer for the sec2 VFD
  */
-H5_DLLVAR hid_t H5FD_SEC2_id_g;
+H5_DLL hid_t H5FD_sec2_init(void);
 
 /**
  * \ingroup FAPL

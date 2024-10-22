@@ -18,13 +18,10 @@
 #ifndef H5FDhdfs_H
 #define H5FDhdfs_H
 
-/* Public header files */
-#include "H5FDpublic.h" /* File drivers             */
-
 #ifdef H5_HAVE_LIBHDFS
 
-/** ID for the HDFS VFD */
-#define H5FD_HDFS (H5OPEN H5FD_HDFS_id_g)
+/** Initializer for the hdfs VFD */
+#define H5FD_HDFS (H5FDperform_init(H5FD_hdfs_init))
 
 /** Identifier for the hdfs VFD */
 #define H5FD_HDFS_VALUE H5_VFD_HDFS
@@ -40,6 +37,9 @@
 #endif /* H5_HAVE_LIBHDFS */
 
 #ifdef H5_HAVE_LIBHDFS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * The version number of the H5FD_hdfs_fapl_t configuration
@@ -93,15 +93,11 @@ typedef struct H5FD_hdfs_fapl_t {
     int32_t stream_buffer_size;
 } H5FD_hdfs_fapl_t;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /** @private
  *
- * \brief ID for the HDFS VFD
+ * \brief Private initializer for the hdfs VFD
  */
-H5_DLLVAR hid_t H5FD_HDFS_id_g;
+H5_DLL hid_t H5FD_hdfs_init(void);
 
 /**
  * \ingroup FAPL

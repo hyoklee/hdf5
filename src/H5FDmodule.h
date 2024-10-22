@@ -22,13 +22,7 @@
  *      reporting macros.
  */
 #define H5FD_MODULE
-#define H5_MY_PKG      H5FD
-#define H5_MY_PKG_ERR  H5E_VFL
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5FD
+#define H5_MY_PKG_ERR H5E_VFL
 
-/**
- * \defgroup H5FD File Drivers (H5FD)
- *
- * Use the functions in this module to manage HDF5 file drivers.
- */
 #endif /* H5FDmodule_H */

@@ -67,9 +67,6 @@ static herr_t H5AC__verify_tag(const H5AC_class_t *type);
 /* Package Variables */
 /*********************/
 
-/* Package initialization variable */
-bool H5_PKG_INIT_VAR = false;
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/
@@ -137,26 +134,7 @@ H5AC_init(void)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(FAIL)
-    /* FUNC_ENTER() does all the work */
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5AC_init() */
-
-/*-------------------------------------------------------------------------
- * Function:    H5AC__init_package
- *
- * Purpose:     Initialize interface-specific information
- *
- * Return:      Non-negative on success/Negative on failure
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5AC__init_package(void)
-{
-    FUNC_ENTER_PACKAGE_NOERR
+    FUNC_ENTER_NOAPI_NOERR
 
 #ifdef H5_HAVE_PARALLEL
     /* check whether to enable strict collective function calling
@@ -173,8 +151,8 @@ H5AC__init_package(void)
     }
 #endif /* H5_HAVE_PARALLEL */
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5AC__init_package() */
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5AC_init() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5AC_term_package
@@ -191,10 +169,6 @@ int
 H5AC_term_package(void)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
-
-    if (H5_PKG_INIT_VAR)
-        /* Reset interface initialization flag */
-        H5_PKG_INIT_VAR = FALSE;
 
     FUNC_LEAVE_NOAPI(0)
 } /* end H5AC_term_package() */

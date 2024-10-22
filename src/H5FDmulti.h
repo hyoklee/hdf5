@@ -16,11 +16,8 @@
 #ifndef H5FDmulti_H
 #define H5FDmulti_H
 
-/* Public header files */
-#include "H5FDpublic.h" /* File drivers             */
-
-/** ID for the multi VFD */
-#define H5FD_MULTI (H5OPEN H5FD_MULTI_id_g)
+/** Initializer for the multi VFD */
+#define H5FD_MULTI (H5FDperform_init(H5FD_multi_init))
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,9 +25,9 @@ extern "C" {
 
 /** @private
  *
- * \brief ID for the multi VFD
+ * \brief Private initializer for the multi VFD
  */
-H5_DLLVAR hid_t H5FD_MULTI_id_g;
+H5_DLL hid_t H5FD_multi_init(void);
 
 /**
  * \ingroup FAPL

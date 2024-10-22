@@ -72,7 +72,7 @@ done:
  *
  *-------------------------------------------------------------------------
  */
-H5_ATTR_MALLOC char *
+char *
 H5Tget_tag(hid_t type_id)
 {
     H5T_t *dt = NULL;

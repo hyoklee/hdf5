@@ -22,9 +22,8 @@
  *      reporting macros.
  */
 #define H5A_MODULE
-#define H5_MY_PKG      H5A
-#define H5_MY_PKG_ERR  H5E_ATTR
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5A
+#define H5_MY_PKG_ERR H5E_ATTR
 
 /** \page H5A_UG HDF5 Attributes
  *

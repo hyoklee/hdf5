@@ -135,9 +135,6 @@ static herr_t H5R__decode_string(const unsigned char *buf, size_t *nbytes, char 
 /* Package Variables */
 /*********************/
 
-/* Package initialization variable */
-bool H5_PKG_INIT_VAR = false;
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/
@@ -146,26 +143,27 @@ bool H5_PKG_INIT_VAR = false;
 /* Local Variables */
 /*******************/
 
-/*--------------------------------------------------------------------------
-NAME
-   H5R__init_package -- Initialize interface-specific information
-USAGE
-    herr_t H5R__init_package()
-RETURNS
-    Non-negative on success/Negative on failure
-DESCRIPTION
-    Initializes any interface-specific data or routines.
---------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------
+ * Function:    H5R_init
+ *
+ * Purpose:     Initialize the interface from some other layer.
+ *
+ * Return:      Success:        non-negative
+ *              Failure:        negative
+ *-------------------------------------------------------------------------
+ */
 herr_t
-H5R__init_package(void)
+H5R_init(void)
 {
+    herr_t ret_value = SUCCEED;
+
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check, if assert fails, H5R_REF_BUF_SIZE must be increased */
     HDcompile_assert(sizeof(H5R_ref_priv_t) <= H5R_REF_BUF_SIZE);
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5R__init_package() */
+    FUNC_LEAVE_NOAPI(ret_value)
+}
 
 /*-------------------------------------------------------------------------
  * Function:    H5R__create_object

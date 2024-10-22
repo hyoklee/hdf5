@@ -59,9 +59,6 @@
 /* Package Variables */
 /*********************/
 
-/* Package initialization variable */
-bool H5_PKG_INIT_VAR = false;
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/

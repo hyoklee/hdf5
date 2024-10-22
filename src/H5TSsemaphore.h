@@ -106,7 +106,7 @@ H5TS_semaphore_wait(H5TS_semaphore_t *sem)
     return SUCCEED;
 } /* end H5TS_semaphore_wait() */
 
-#elif defined(__unix__) && !(defined(__MACH__) || defined(__NetBSD__))
+#elif defined(__unix__) && !defined(__MACH__)
 /*
  * POSIX semaphores
  */

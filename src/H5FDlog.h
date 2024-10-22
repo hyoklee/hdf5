@@ -17,11 +17,7 @@
 #define H5FDlog_H
 
 /** Initializer for the log VFD */
-/* Public header files */
-#include "H5FDpublic.h" /* File drivers             */
-
-/** ID for the log VFD */
-#define H5FD_LOG (H5OPEN H5FD_LOG_id_g)
+#define H5FD_LOG (H5FDperform_init(H5FD_log_init))
 
 /** Identifier for the log VFD */
 #define H5FD_LOG_VALUE H5_VFD_LOG
@@ -71,9 +67,9 @@ extern "C" {
 
 /** @private
  *
- * \brief ID for the log VFD
+ * \brief Private initializer for the log VFD
  */
-H5_DLLVAR hid_t H5FD_LOG_id_g;
+H5_DLL hid_t H5FD_log_init(void);
 
 /**
  * \ingroup FAPL

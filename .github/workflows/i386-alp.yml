@@ -24,6 +24,6 @@ jobs:
           cat /etc/os-release
           mkdir build
           cd build
-          cmake -DSITE:STRING=alp.i386 -DBUILDNAME:STRING="5/r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" ..
+          cmake -DSITE:STRING=alp.i386 -DBUILDNAME:STRING="r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" ..
           ctest -D Experimental -C Release
         shell: bash

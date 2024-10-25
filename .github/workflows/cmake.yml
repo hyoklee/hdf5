@@ -15,7 +15,7 @@ on:
       - 'doc/**'
       - 'release_docs/**'
       - 'ACKNOWLEDGEMENTS'
-      - 'COPYING**'
+      - 'LICENSE**'
       - '**.md'
 
 # Using concurrency to cancel any in-progress job or run
@@ -78,6 +78,18 @@ jobs:
         with:
             build_mode: "Debug"
 
+    call-release-special-par:
+        name: "CMake Parallel Release Special Workflows"
+        uses: ./.github/workflows/main-cmake-par-spc.yml
+        with:
+            build_mode: "Release"
+
+    call-debug-special-par:
+        name: "CMake Parallel Debug Special Workflows"
+        uses: ./.github/workflows/main-cmake-par-spc.yml
+        with:
+            build_mode: "Debug"
+
     call-release-cmake-intel:
         name: "CMake Intel Workflows"
         uses: ./.github/workflows/intel-cmake.yml
@@ -111,4 +123,3 @@ jobs:
         uses: ./.github/workflows/julia-cmake.yml
         with:
           build_mode: "Release"      
-

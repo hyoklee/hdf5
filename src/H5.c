@@ -108,7 +108,7 @@ H5__init_package(void)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_PACKAGE
 
     /* Run the library initialization routine, if it hasn't already ran */
     if (!H5_INIT_GLOBAL && !H5_TERM_GLOBAL)
@@ -307,7 +307,7 @@ H5_term_library(void)
     H5CX_node_t api_ctx = {{0}, NULL}; /* API context node to push */
 
     /* Acquire the API lock */
-    FUNC_ENTER_API_VARS
+    H5_API_SETUP_PUBLIC_API_VARS
     H5_API_LOCK
 
     /* Don't do anything if the library is already closed */

@@ -1,0 +1,34 @@
+name: i386 alp f
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup alpine
+        uses: jirutka/setup-alpine@v1
+        with:
+          arch: x86
+          packages: >
+            build-base
+            libgit2-dev
+            cmake
+            gfortran
+      - name: run script
+        run: |
+          mkdir build
+          cd build
+          cmake -DSITE:STRING=alp.i386 \
+            -DBUILDNAME:STRING="r/f" \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
+            -DHDF5_BUILD_FORTRAN=ON \
+             ..
+          ctest -D Experimental -C Release
+        shell: alpine.sh --root {0}

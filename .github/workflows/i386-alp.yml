@@ -1,12 +1,9 @@
-name: i386 alpine
+name: i386 alp
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "6 0 * * *"
-
-permissions:
-  contents: read
+  push:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -20,19 +17,12 @@ jobs:
           arch: x86
           packages: >
             build-base
-            libaec-dev
             libgit2-dev
             cmake
       - name: run script
         run: |
           mkdir build
           cd build
-          cmake \
-          -DBUILDNAME:STRING="r" \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
-          -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
-          -DSITE:STRING=alp.i386 \
-          ..
+          cmake -DSITE:STRING=alp.i386 -DBUILDNAME:STRING="r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" ..
           ctest -D Experimental -C Release
         shell: alpine.sh --root {0}

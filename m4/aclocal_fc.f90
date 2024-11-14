@@ -179,6 +179,7 @@ PROGRAM FC_AVAIL_KINDS
      WRITE(stdout,'(I0)') max_decimal_prec
      WRITE(stdout,'(I0)') num_ikinds
      WRITE(stdout,'(I0)') num_rkinds
+     CLOSE(stdout)
 END PROGRAM FC_AVAIL_KINDS
 !---- END ----- Determine the available KINDs for REALs and INTEGERs
 
@@ -242,7 +243,7 @@ PROGRAM FC08_AVAIL_KINDS
            WRITE(stdout,'()')
         ENDIF
      ENDDO
-
+     CLOSE(stdout)
 END PROGRAM FC08_AVAIL_KINDS
 !---- END ----- Determine the available KINDs for REALs, INTEGERs and LOGICALs -- ISO_FORTRAN_ENV (F08)
 

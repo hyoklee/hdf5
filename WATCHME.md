@@ -7,6 +7,12 @@
 | Google | [![OSS-Fuzz Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/hdf5.svg)](https://oss-fuzz-build-logs.storage.googleapis.com/index.html#hdf5) |
 | Local | [![oss-fuzz](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fuzz.yml)|
 
+# Documentation
+
+| Test   | Status |
+|--------|--------|
+| Markdown | [![Check Markdown links](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml)|
+
 ## Installation
 
 | Test | Status |

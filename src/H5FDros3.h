@@ -21,17 +21,17 @@
 
 #ifdef H5_HAVE_ROS3_VFD
 
-/** ID for the ros3 VFD */
+/** Initializer for the ros3 VFD \since 1.8.22 */
 #define H5FD_ROS3 (H5OPEN H5FD_ROS3_id_g)
 
-/** Identifier for the ros3 VFD */
+/** Identifier for the ros3 VFD \since 1.14.0 */
 #define H5FD_ROS3_VALUE H5_VFD_ROS3
 
 #else
-/** Initializer for the ros3 VFD (disabled) */
+/** Initializer for the ros3 VFD (disabled) \since 1.8.22 */
 #define H5FD_ROS3       (H5I_INVALID_HID)
 
-/** Identifier for the ros3 VFD (disabled) */
+/** Identifier for the ros3 VFD (disabled) \since 1.14.0 */
 #define H5FD_ROS3_VALUE H5_VFD_INVALID
 #endif
 
@@ -47,16 +47,22 @@
 /**
  * \def H5FD_ROS3_MAX_REGION_LEN
  * Maximum string length for specifying the region of the S3 bucket.
+ *
+ * \since 1.10.6
  */
 #define H5FD_ROS3_MAX_REGION_LEN 32
 /**
  * \def H5FD_ROS3_MAX_SECRET_ID_LEN
  * Maximum string length for specifying the security ID.
+ *
+ * \since 1.10.6
  */
 #define H5FD_ROS3_MAX_SECRET_ID_LEN 128
 /**
  * \def H5FD_ROS3_MAX_SECRET_KEY_LEN
  * Maximum string length for specifying the security key.
+ *
+ * \since 1.10.6
  */
 #define H5FD_ROS3_MAX_SECRET_KEY_LEN 128
 /**

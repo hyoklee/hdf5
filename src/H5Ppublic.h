@@ -1012,7 +1012,7 @@ H5_DLL htri_t H5Pexist(hid_t plist_id, const char *name);
  *
  *          The property name must exist or this routine will fail.
  *
- *          If the \p get callback routine returns an error, \ value will
+ *          If the \p get callback routine returns an error, \p value will
  *          not be modified.
  *
  * \since 1.4.0
@@ -3629,7 +3629,7 @@ H5_DLL herr_t H5Pget_evict_on_close(hid_t fapl_id, hbool_t *evict_on_close);
  *          application can retrieve a file handle for low-level access to
  *          a particular member of a family of files. The file handle is
  *          retrieved with a separate call to H5Fget_vfd_handle() (or,
- *          in special circumstances, to H5FDget_vfd_handle(), see \ref VFL).
+ *          in special circumstances, to H5FDget_vfd_handle(), see \ref VFLTN).
  *
  * \since 1.6.0
  *
@@ -3700,8 +3700,7 @@ H5_DLL herr_t H5Pget_fclose_degree(hid_t fapl_id, H5F_close_degree_t *degree);
  * \see H5LTopen_file_image(), H5Fget_file_image(), H5Pset_file_image(),
  *      H5Pset_file_image_callbacks(), H5Pget_file_image_callbacks(),
  *      \ref H5FD_file_image_callbacks_t, \ref H5FD_file_image_op_t,
- *      <a href="https://\DOCURL/advanced_topics/file_image_ops.md">
- *      HDF5 File Image Operations</a>.
+ *      \ref H5FIM_UG.
  *
  *
  * \since 1.8.9
@@ -3740,8 +3739,7 @@ H5_DLL herr_t H5Pget_file_image(hid_t fapl_id, void **buf_ptr_ptr, size_t *buf_l
  * \see H5LTopen_file_image(), H5Fget_file_image(), H5Pset_file_image(),
  *      H5Pset_file_image_callbacks(), H5Pget_file_image_callbacks(),
  *      \ref H5FD_file_image_callbacks_t, \ref H5FD_file_image_op_t,
- *      <a href="https://\DOCURL/advanced_topics/file_image_ops.md">
- *      HDF5 File Image Operations</a>.
+ *      \ref H5FIM_UG.
  *
  * \since 1.8.9
  *
@@ -3915,8 +3913,7 @@ H5_DLL herr_t H5Pget_mdc_image_config(hid_t plist_id, H5AC_cache_image_config_t 
  *          access property list, and H5Fget_mdc_logging_status() will return
  *          the current state of the logging flags.
  *
- *          The log format is described in the
- *           <a href="https://bit.ly/2PG6fNv">Metadata Cache Logging</a> document.
+ *          The log format is described in the \ref_mdc_logging document.
  *
  * \since 1.10.0
  */
@@ -4579,7 +4576,7 @@ H5_DLL herr_t H5Pset_evict_on_close(hid_t fapl_id, hbool_t evict_on_close);
  *          retrieve a file handle for low-level access to a particular member
  *          of a family of files. The file handle is retrieved with a separate
  *          call to H5Fget_vfd_handle() (or, in special circumstances, to
- *          H5FDget_vfd_handle(); see \ref VFL).
+ *          H5FDget_vfd_handle(); see \ref VFLTN).
  *
  *          The value of \p offset is an offset in bytes from the beginning of
  *          the HDF5 file, identifying a user-determined location within the
@@ -4683,9 +4680,7 @@ H5_DLL herr_t H5Pset_fclose_degree(hid_t fapl_id, H5F_close_degree_t degree);
  *          \par Recommended Reading:
  *          This function is part of the file image
  *          operations feature set. It is highly recommended to study the guide
- *          [<em>HDF5 File Image Operations</em>]
- *          (https://\DOCURL/advanced_topics/file_image_ops.md
- *          ) before using this feature set. See the “See Also” section below
+ *          \ref H5FIM_UG before using this feature set. See the “See Also” section below
  *          for links to other elements of HDF5 file image operations.
  *
  * \see
@@ -4695,10 +4690,7 @@ H5_DLL herr_t H5Pset_fclose_degree(hid_t fapl_id, H5F_close_degree_t degree);
  *    \li H5Pset_file_image_callbacks()
  *    \li H5Pget_file_image_callbacks()
  *
- *    \li [HDF5 File Image Operations]
- *        (https://\DOCURL/advanced_topics/file_image_ops.md)
- *        in [Advanced Topics in HDF5]
- *        (https://\DOCURL/advanced_topics_list.md)
+ *    \li \ref H5FIM_UG
  *
  *    \li Within H5Pset_file_image_callbacks():
  *    \li Callback #H5FD_file_image_callbacks_t
@@ -4720,9 +4712,7 @@ H5_DLL herr_t H5Pset_file_image(hid_t fapl_id, void *buf_ptr, size_t buf_len);
  *            can then use the file without the overhead of disk I/O.\n
  *            **Recommended Reading:** This function is part of the file
  *            image operations feature set. It is highly recommended to study
- *            the guide [HDF5 File Image Operations]
- *            (https://\DOCURL/advanced_topics/file_image_ops.md
- *            ) before using this feature set. See the “See Also” section below
+ *            the guide \ref H5FIM_UG before using this feature set. See the “See Also” section below
  *            for links to other elements of HDF5 file image operations.
  *
  * \fapl_id
@@ -5326,7 +5316,7 @@ H5_DLL herr_t H5Pset_metadata_read_attempts(hid_t plist_id, unsigned attempts);
  *          low-level access to the particular member of a set of \TText{MULTI}
  *          files in which that type of data is stored. The file handle is
  *          retrieved with a separate call to H5Fget_vfd_handle() (or, in special
- *          circumstances, to H5FDget_vfd_handle(); see \ref VFL.
+ *          circumstances, to H5FDget_vfd_handle(); see \ref VFLTN.
  *
  * The type of data specified in \p type may be one of the following:
  *
@@ -8234,6 +8224,8 @@ H5_DLL herr_t H5Pset_preserve(hid_t plist_id, hbool_t status);
  *          take when there is an exception during datatype conversion. The
  *          function prototype is as follows:
  *          \snippet H5Tpublic.h H5T_conv_except_func_t_snip
+ *
+ * \callback_note
  *
  * \since 1.8.0
  *

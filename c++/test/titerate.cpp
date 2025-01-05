@@ -443,6 +443,8 @@ test_HDFFV_9920()
 extern "C" void
 test_iterate(const void *params)
 {
+    (void)params;
+
     // Output message about test being performed
     MESSAGE(5, ("Testing Iterate Feature\n"));
 
@@ -467,6 +469,8 @@ test_iterate(const void *params)
 extern "C" void
 cleanup_iterate(void *params)
 {
+    (void)params;
+
     if (GetTestCleanup()) {
         HDremove(FILE_ITERATE.c_str());
         HDremove(FILE_NAME.c_str());

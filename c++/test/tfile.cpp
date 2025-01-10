@@ -969,7 +969,7 @@ test_file_info()
  *-------------------------------------------------------------------------
  */
 extern "C" void
-test_file(const void *params)
+test_file(void *params)
 {
     (void)params;
 

@@ -713,7 +713,7 @@ test_intermediate_groups()
  *-------------------------------------------------------------------------
  */
 extern "C" void
-test_object(const void *params)
+test_object(void *params)
 {
     (void)params;
 

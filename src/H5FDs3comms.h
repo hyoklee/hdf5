@@ -24,7 +24,6 @@
  *     - Abstract away the REST API (HTTP,
  *       networked communications) behind a series of uniform function calls.
  *     - Handle AWS4 authentication, if appropriate.
- *     - Fail predictably in event of errors.
  *     - Eventually, support more S3 operations, such as creating, writing to,
  *       and removing Objects remotely.
  *
@@ -77,7 +76,6 @@
 #define RFC7231_SIZE 30
 
 /*---------------------------------------------------------------------------
- *
  * Macro: ISO8601NOW()
  *
  * Purpose:
@@ -89,13 +87,11 @@
  *
  *     It is left to the programmer to check return value of
  *     ISO8601NOW (should equal ISO8601_SIZE - 1).
- *
  *---------------------------------------------------------------------------
  */
 #define ISO8601NOW(dest, now_gm) strftime((dest), ISO8601_SIZE, "%Y%m%dT%H%M%SZ", (now_gm))
 
 /*---------------------------------------------------------------------------
- *
  * Macro: RFC7231NOW()
  *
  * Purpose:
@@ -107,7 +103,6 @@
  *
  *     It is left to the programmer to check return value of
  *     RFC7231NOW (should equal RFC7231_SIZE - 1).
- *
  *---------------------------------------------------------------------------
  */
 #define RFC7231NOW(dest, now_gm) strftime((dest), RFC7231_SIZE, "%a, %d %b %Y %H:%M:%S GMT", (now_gm))
@@ -123,7 +118,6 @@
 #define S3COMMS_MAX_CREDENTIAL_SIZE 155
 
 /*---------------------------------------------------------------------------
- *
  * Macro: H5FD_S3COMMS_FORMAT_CREDENTIAL()
  *
  * Purpose:
@@ -149,7 +143,6 @@
  *     `date` must be of format "YYYYmmdd".
  *     `region` should be relevant AWS region, i.e. "us-east-1".
  *     `service` should be "s3".
- *
  *---------------------------------------------------------------------------
  */
 #define S3COMMS_FORMAT_CREDENTIAL(dest, access, iso8601_date, region, service)                               \
@@ -161,12 +154,9 @@
  *********************/
 
 /*----------------------------------------------------------------------------
- *
  * Structure: hrb_node_t
  *
  * HTTP Header Field Node
- *
- *
  *
  * Maintain a ordered (linked) list of HTTP Header fields.
  *
@@ -233,7 +223,6 @@
  *
  *     Pointers to next node in the list, or NULL sentinel as end of list.
  *     Next node must have a greater `lowername` as determined by strcmp().
- *
  *----------------------------------------------------------------------------
  */
 typedef struct hrb_node_t {
@@ -245,12 +234,9 @@ typedef struct hrb_node_t {
 } hrb_node_t;
 
 /*----------------------------------------------------------------------------
- *
  * Structure: hrb_t
  *
  * HTTP Request Buffer structure
- *
- *
  *
  * Logically represent an HTTP request
  *
@@ -299,7 +285,6 @@ typedef struct hrb_node_t {
  * `version` (char *) :
  *
  *     Pointer to HTTP version string, e.g., "HTTP/1.1".
- *
  *----------------------------------------------------------------------------
  */
 typedef struct {
@@ -312,9 +297,7 @@ typedef struct {
 } hrb_t;
 
 /*----------------------------------------------------------------------------
- *
  * Structure: parsed_url_t
- *
  *
  * Represent a URL with easily-accessed pointers to logical elements within.
  * These elements (components) are stored as null-terminated strings (or just
@@ -354,7 +337,6 @@ typedef struct {
  *
  *     Single string of all query parameters in url (if any).
  *     "arg1=value1&arg2=value2"
- *
  *----------------------------------------------------------------------------
  */
 typedef struct {
@@ -366,10 +348,7 @@ typedef struct {
 } parsed_url_t;
 
 /*----------------------------------------------------------------------------
- *
  * Structure: s3r_t
- *
- *
  *
  * S3 request structure "handle".
  *
@@ -434,7 +413,6 @@ typedef struct {
  *     Computed once upon file open.
  *
  *     Required to authenticate.
- *
  *----------------------------------------------------------------------------
  */
 typedef struct {
@@ -452,59 +430,37 @@ typedef struct {
 extern "C" {
 #endif
 
-/****************************
- * HTTP FIELD LIST ROUTINES *
- ****************************/
-
+/* HTTP request buffer routines */
+H5_DLL hrb_t *H5FD_s3comms_hrb_init_request(const char *verb, const char *resource, const char *host);
+H5_DLL herr_t H5FD_s3comms_hrb_destroy(hrb_t *buf);
 H5_DLL herr_t H5FD_s3comms_hrb_node_set(hrb_node_t **L, const char *name, const char *value);
 
-/********************************
- * HTTP REQUEST BUFFER ROUTINES *
- ********************************/
-
-H5_DLL herr_t H5FD_s3comms_hrb_destroy(hrb_t **buf);
-
-H5_DLL hrb_t *H5FD_s3comms_hrb_init_request(const char *verb, const char *resource, const char *host);
-
-/**********************
- * S3REQUEST ROUTINES *
- **********************/
-
-H5_DLL herr_t H5FD_s3comms_s3r_close(s3r_t *handle);
-
-H5_DLL size_t H5FD_s3comms_s3r_get_filesize(s3r_t *handle);
-
+/* S3 request buffer routines */
 H5_DLL s3r_t *H5FD_s3comms_s3r_open(const char url[], const char region[], const char id[],
                                     const unsigned char signing_key[], const char token[]);
-
+H5_DLL herr_t H5FD_s3comms_s3r_close(s3r_t *handle);
+H5_DLL size_t H5FD_s3comms_s3r_get_filesize(s3r_t *handle);
 H5_DLL herr_t H5FD_s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest);
 
-/******************
- * OTHER ROUTINES *
- ******************/
+/* Functions that construct AWS things */
+H5_DLL herr_t H5FD_s3comms_make_aws_canonical_request(char *canonical_request_dest, int cr_size,
+                                                      char *signed_headers_dest, int sh_size,
+                                                      hrb_t *http_request);
+H5_DLL herr_t H5FD_s3comms_make_aws_signing_key(unsigned char *md, const char *secret, const char *region,
+                                                const char *iso8601now);
+H5_DLL herr_t H5FD_s3comms_make_aws_stringtosign(char *dest, const char *req_str, const char *now,
+                                                 const char *region);
 
+/* Misc routines */
 H5_DLL struct tm *gmnow(void);
+H5_DLL herr_t     H5FD_s3comms_free_purl(parsed_url_t *purl);
 
-H5_DLL herr_t H5FD_s3comms_aws_canonical_request(char *canonical_request_dest, int cr_size,
-                                                 char *signed_headers_dest, int sh_size, hrb_t *http_request);
-
-H5_DLL herr_t H5FD_s3comms_bytes_to_hex(char *dest, const unsigned char *msg, size_t msg_len, bool lowercase);
-
-H5_DLL herr_t H5FD_s3comms_free_purl(parsed_url_t *purl);
-
-H5_DLL herr_t H5FD_s3comms_HMAC_SHA256(const unsigned char *key, size_t key_len, const char *msg,
-                                       size_t msg_len, char *dest);
-
+/* Testing routines */
+#ifdef H5FD_S3COMMS_TESTING
 H5_DLL herr_t H5FD_s3comms_load_aws_profile(const char *name, char *key_id_out, char *secret_access_key_out,
                                             char *aws_region_out);
+#endif /* H5FD_S3COMMS_TESTING */
 
-H5_DLL herr_t H5FD_s3comms_parse_url(const char *str, parsed_url_t **purl);
-
-H5_DLL herr_t H5FD_s3comms_signing_key(unsigned char *md, const char *secret, const char *region,
-                                       const char *iso8601now);
-
-H5_DLL herr_t H5FD_s3comms_tostringtosign(char *dest, const char *req_str, const char *now,
-                                          const char *region);
 #ifdef __cplusplus
 }
 #endif

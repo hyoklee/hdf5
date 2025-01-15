@@ -25,6 +25,7 @@
 
 #include "H5FDprivate.h" /* Virtual File Driver utilities */
 #include "H5FDros3.h"    /* this file driver's utilities */
+#define H5FD_S3COMMS_TESTING
 #include "H5FDs3comms.h" /* for loading of credentials */
 
 #ifdef H5_HAVE_ROS3_VFD
@@ -484,7 +485,7 @@ test_eof_eoa(void)
     H5FD_t       *fd           = NULL;
     hid_t         fapl_id      = H5I_INVALID_HID;
 
-    TESTING("ROS3 eof/eoa gets and sets");
+    TESTING("ros3 eof/eoa gets and sets");
 
     if (s3_test_credentials_loaded == 0) {
         SKIPPED();

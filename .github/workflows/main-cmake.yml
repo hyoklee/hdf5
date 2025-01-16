@@ -170,7 +170,7 @@ jobs:
             ${{ matrix.generator }} \
             --log-level=VERBOSE \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
-            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -DBUILD_SHARED_LIBS:BOOL=ON \
             -DHDF5_ENABLE_ALL_WARNINGS:BOOL=ON \
             -DHDF5_ENABLE_DOXY_WARNINGS:BOOL=ON \

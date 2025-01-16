@@ -60,7 +60,7 @@ jobs:
             parallel: OFF
             mirror_vfd: OFF
             direct_vfd: OFF
-            ros3_vfd: OFF
+            ros3_vfd: ON
             generator: "-G \"Visual Studio 17 2022\" -A x64"
             run_tests: true
 
@@ -154,6 +154,7 @@ jobs:
           # Set these environment variables so CMake picks the correct compiler
           echo "CXX=cl.exe" >> $GITHUB_ENV
           echo "CC=cl.exe" >> $GITHUB_ENV
+          vcpkg install curl[openssl]
         if:  matrix.os == 'windows-latest'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -169,6 +170,7 @@ jobs:
             ${{ matrix.generator }} \
             --log-level=VERBOSE \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
+            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake \
             -DBUILD_SHARED_LIBS:BOOL=ON \
             -DHDF5_ENABLE_ALL_WARNINGS:BOOL=ON \
             -DHDF5_ENABLE_DOXY_WARNINGS:BOOL=ON \

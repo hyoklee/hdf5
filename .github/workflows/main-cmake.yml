@@ -155,7 +155,6 @@ jobs:
           echo "CXX=cl.exe" >> $GITHUB_ENV
           echo "CC=cl.exe" >> $GITHUB_ENV
           vcpkg install curl[openssl]
-          echo "CMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
         if:  matrix.os == 'windows-latest'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -165,6 +164,9 @@ jobs:
       # CMAKE CONFIGURE
       - name: CMake Configure
         run: |
+          if [[ "$OS" == "Windows_NT" ]]; then
+            export CMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          fi        
           mkdir "${{ runner.workspace }}/build"
           cd "${{ runner.workspace }}/build"
           cmake -C $GITHUB_WORKSPACE/config/cmake/cacheinit.cmake \

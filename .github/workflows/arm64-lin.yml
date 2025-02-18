@@ -2,41 +2,17 @@ name: arm64 lin
 
 on:
   push:
-    branches: develop-
+    branches: develop
 
 jobs:
-  aarch64_job:
-    # The host should always be Linux
-    runs-on: ubuntu-latest
-    name: Build on ubuntu-latest aarch64
+  build:
+    runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4.1.1
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
-        id: runcmd
-        with:
-          arch: aarch64
-          distro: ubuntu_latest
-
-          # Not required, but speeds up builds by storing container images in
-          # a GitHub package registry.
-          githubToken: ${{ github.token }}
-          install: |
-            apt-get update -q -y
-            apt-get install -q -y git
-            apt-get install -q -y cmake
-          run: |
-            echo ::set-output name=uname::$(uname -a)
-            mkdir build
-            cd build
-            cmake \
-            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
-            -DH5EX_BUILD_EXAMPLES:BOOL=OFF \
-            ..
-            make
-            make test
-
-      - name: Get the output
-        # Echo the `uname` output parameter from the `runcmd` step
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: test
         run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+          mkdir build
+          cd build
+          cmake -DSITE:STRING="ubu.arm64" -DBUILDNAME:STRING="r" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT:STRING="/submit.php?project=HDF5" ..
+          ctest -D Experimental -C Release

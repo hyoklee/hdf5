@@ -11,7 +11,7 @@ jobs:
     name: riscv64 lin auto
     steps:
       - uses: actions/checkout@v4.1.1
-      - uses: uraimo/run-on-arch-action@v2
+      - uses: uraimo/run-on-arch-action@v3
         name: Run
         id: runcmd
         with:

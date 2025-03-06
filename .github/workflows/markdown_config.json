@@ -1,6 +1,7 @@
 {
     "ignorePatterns": [
-        { "pattern": "https?://(www\\.)?gnu\\.org/.*" }
+        { "pattern": "https?://(www\\.)?gnu\\.org/.*" },
+        { "pattern": "https?://(www\\.)?repology\\.org/.*" }        
     ],   
     "aliveStatusCodes": [200, 500]
 }

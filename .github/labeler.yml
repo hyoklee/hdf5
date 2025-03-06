@@ -8,11 +8,11 @@ test:
 
 # Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
 fix:
-- any: ['src/**', '!src/docs/*']
+- any: ['src/**']
 
 # Add 'docs` label to any change to docs/ release_docs  files
 docs:
-- any: ['docs/**', 'release_docs/**']
+- any: ['doc/**', 'release_docs/**']
 
 # Add 'ci` label to any change to .github/** files.
 ci:

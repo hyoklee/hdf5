@@ -1,3 +1,6 @@
 {
+    "ignorePatterns": [
+        { "pattern": "https?://(www\\.)?gnu\\.org/.*" }
+    ],   
     "aliveStatusCodes": [200, 500]
 }

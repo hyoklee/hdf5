@@ -152,10 +152,6 @@
 
 ![repology](https://repology.org/badge/vertical-allrepos/hdf5.svg?header=hdf5)
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date" />
-  <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date" />
-</picture>
-
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/7802/badge)](https://www.bestpractices.dev/projects/7802)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HDFGroup/hdf5&type=Date)](https://www.star-history.com/#HDFGroup/hdf5&Date)

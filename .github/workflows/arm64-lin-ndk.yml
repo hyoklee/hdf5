@@ -3,7 +3,7 @@ name: arm64 lin ndk
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

@@ -55,6 +55,7 @@
 
 | Test    | Status |
 | --------| ------ |
+| OpenSuse  | [![suse f cpp hl](https://github.com/hyoklee/hdf5/actions/workflows/suse.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/suse.yml) |
 | Ubuntu  | [![arm64 lin](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/arm64-lin.yml) |
 
 ### Solaris

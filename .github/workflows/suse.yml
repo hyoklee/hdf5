@@ -1,0 +1,30 @@
+name: suse f cpp hl
+
+on:
+  push:
+    branches: main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: "opensuse/tumbleweed"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: install
+        run: |
+          zypper up -y
+          zypper in -y \
+              file gcc-c++ gcc-fortran git \
+              make patch unzip which tree \
+              cmake bison zlib-devel
+      - name: test
+        run: |
+          mkdir build && cd build && cmake -DSITE:STRING="sus-t" \
+	  -DBUILDNAME:STRING="hk/f+cpp/hl" \
+          -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+          -DCTEST_DROP_LOCATION_INIT:STRING="/submit.php?project=HDF5" \
+          -DHDF5_BUILD_FORTRAN=ON \
+          -DHDF5_BUILD_HL_LIB=ON \
+          -DHDF5_BUILD_CPP_LIB:BOOL=True \
+          .. && ctest -D Experimental -C Release

@@ -1,7 +1,8 @@
 {
     "ignorePatterns": [
         { "pattern": "https?://(www\\.)?gnu\\.org/.*" },
-        { "pattern": "https?://(www\\.)?repology\\.org/.*" }        
+        { "pattern": "https?://(www\\.)?repology\\.org/.*" }
+        { "pattern": "https?://(www\\.)?star-history\\.com/.*" }        
     ],   
     "aliveStatusCodes": [200, 500]
 }

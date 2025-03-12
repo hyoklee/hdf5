@@ -12,6 +12,7 @@
 | Test   | Status |
 |--------|--------|
 | Markdown | [![Check Markdown links](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml)|
+| Linkchecker |[![linkchecker](https://github.com/hyoklee/hdf5/actions/workflows/linkchecker.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linkchecker.yml)|
 
 ## Installation
 

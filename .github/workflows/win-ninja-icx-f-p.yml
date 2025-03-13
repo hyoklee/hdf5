@@ -1,13 +1,13 @@
-name: win ninja icx ifx p
+name: win-25 ninja icx ifx p
 
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - name: cmake
         uses: lukka/get-cmake@latest
@@ -15,7 +15,7 @@ jobs:
         uses: awvwgk/setup-fortran@main
         with:
           compiler: intel
-          version: '2024.1'
+          version: '2025.0'
       - name: mpi
         uses: mpi4py/setup-mpi@master
         with:
@@ -31,5 +31,5 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G Ninja -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DMPIEXEC_EXECUTABLE:FILEPATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\bin\mpiexec.exe" -DMPI_C_HEADER_DIR:PATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.12\include" -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+f/+p" ..
+          cmake -G Ninja -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DMPIEXEC_EXECUTABLE:FILEPATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\bin\mpiexec.exe" -DMPI_C_HEADER_DIR:PATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\include" -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE="win-25" -DBUILDNAME="hk/ninja/icx/+f/+p" ..
 #          ctest -D Experimental -C Release	  

@@ -21,7 +21,16 @@ jobs:
         with:
           mpi: intelmpi
       - name: checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
+      - name: libaec
+        run: |
+          vcpkg install libaec
+      - name: zlib
+        run: |
+          vcpkg install zlib
+      - name: integrate
+        run: |
+          vcpkg integrate install
       - name: vars
         shell: cmd
         run: |
@@ -31,5 +40,5 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G Ninja -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DMPIEXEC_EXECUTABLE:FILEPATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\bin\mpiexec.exe" -DMPI_C_HEADER_DIR:PATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\include" -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE="win-22" -DBUILDNAME="hk/ninja/icx/+f/+p" ..
-          ctest -D Experimental -C Release	  
+          cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DMPIEXEC_EXECUTABLE:FILEPATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\bin\mpiexec.exe" -DMPI_C_HEADER_DIR:PATH="C:\Program Files (x86)\Intel\oneAPI\mpi\2021.14\include" -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE="win-22" -DBUILDNAME="hk/ninja/r/icx/f/ae+zl/p" ..
+          ctest -D Experimental -C Release

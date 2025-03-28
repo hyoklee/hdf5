@@ -13,7 +13,7 @@ if (HDF5_BUILD_GENERATORS)
   else ()
     TARGET_C_PROPERTIES (h5diffgentest SHARED)
     # Link to HDF5_REQUIRED_LIBRARIES to include the math lib if necessary
-    target_link_libraries (h5diffgentest PRIVATE ${HDF5_LIBSH_TARGET} ${HDF5_REQUIRED_LIBRARIES})
+    target_link_libraries (h5diffgentest PRIVATE ${HDF5_LIBSH_TARGET} "m")
   endif ()
   set_target_properties (h5diffgentest PROPERTIES FOLDER generator/tools)
 

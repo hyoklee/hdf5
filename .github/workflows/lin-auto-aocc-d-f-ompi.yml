@@ -6,7 +6,7 @@ on:
       - develop-
   pull_request:
     branches:
-      - develop
+      - develop-
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'

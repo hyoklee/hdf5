@@ -11,7 +11,6 @@ jobs:
       - name: install
         run: |
           brew update
-          brew info flang
           brew install flang
       - name: checkout
         uses: actions/checkout@v4
@@ -19,14 +18,16 @@ jobs:
         run: |
           ls /opt/homebrew/bin/flang*
           export FC=/opt/homebrew/bin/flang-20
+          export CC=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++
           mkdir build
           cd build
           cmake -G Ninja \
             -DSITE:STRING=mac-15 \
-            -DBUILDNAME:STRING="hk/fl-sh" \
+            -DBUILDNAME:STRING="hk/fl" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DHDF5_BUILD_FORTRAN=ON \
-            -DBUILD_SHARED_LIBS:BOOL=OFF \
             ..
           ctest -D Experimental
+#             -DBUILD_SHARED_LIBS:BOOL=OFF \

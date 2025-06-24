@@ -99,7 +99,9 @@ test_compound_2()
         bkg  = static_cast<unsigned char *>(malloc(nelmts * sizeof(dst_typ_t)));
         orig = static_cast<unsigned char *>(malloc(nelmts * sizeof(src_typ_t)));
         for (i = 0; i < nelmts; i++) {
-            s_ptr       = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_OFF
+            s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             s_ptr->a    = i * 8 + 0;
             s_ptr->b    = i * 8 + 1;
             s_ptr->c[0] = i * 8 + 2;
@@ -140,8 +142,10 @@ test_compound_2()
 
         // Compare results
         for (i = 0; i < nelmts; i++) {
+            H5_WARN_CAST_ALIGNMENT_OFF
             s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
             d_ptr = (reinterpret_cast<dst_typ_t *>(buf)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             if (s_ptr->a != d_ptr->a || s_ptr->b != d_ptr->b || s_ptr->c[0] != d_ptr->c[0] ||
                 s_ptr->c[1] != d_ptr->c[1] || s_ptr->c[2] != d_ptr->c[2] || s_ptr->c[3] != d_ptr->c[3] ||
                 s_ptr->d != d_ptr->d || s_ptr->e != d_ptr->e) {
@@ -209,7 +213,9 @@ test_compound_3()
         bkg  = static_cast<unsigned char *>(malloc(nelmts * sizeof(dst_typ_t)));
         orig = static_cast<unsigned char *>(malloc(nelmts * sizeof(src_typ_t)));
         for (i = 0; i < nelmts; i++) {
-            s_ptr       = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_OFF
+            s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             s_ptr->a    = i * 8 + 0;
             s_ptr->b    = i * 8 + 1;
             s_ptr->c[0] = i * 8 + 2;
@@ -248,8 +254,10 @@ test_compound_3()
 
         /* Compare results */
         for (i = 0; i < nelmts; i++) {
+            H5_WARN_CAST_ALIGNMENT_OFF
             s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
             d_ptr = (reinterpret_cast<dst_typ_t *>(buf)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             if (s_ptr->a != d_ptr->a || s_ptr->c[0] != d_ptr->c[0] || s_ptr->c[1] != d_ptr->c[1] ||
                 s_ptr->c[2] != d_ptr->c[2] || s_ptr->c[3] != d_ptr->c[3] || s_ptr->e != d_ptr->e) {
                 H5_FAILED();
@@ -321,7 +329,9 @@ test_compound_4()
         bkg  = static_cast<unsigned char *>(malloc(nelmts * sizeof(dst_typ_t)));
         orig = static_cast<unsigned char *>(malloc(nelmts * sizeof(src_typ_t)));
         for (i = 0; i < nelmts; i++) {
-            s_ptr       = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_OFF
+            s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             s_ptr->a    = i * 8 + 0;
             s_ptr->b    = (i * 8 + 1) & 0x7fff;
             s_ptr->c[0] = i * 8 + 2;
@@ -362,8 +372,10 @@ test_compound_4()
 
         /* Compare results */
         for (i = 0; i < nelmts; i++) {
+            H5_WARN_CAST_ALIGNMENT_OFF
             s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
             d_ptr = (reinterpret_cast<dst_typ_t *>(buf)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             if (s_ptr->a != d_ptr->a || s_ptr->b != d_ptr->b || s_ptr->c[0] != d_ptr->c[0] ||
                 s_ptr->c[1] != d_ptr->c[1] || s_ptr->c[2] != d_ptr->c[2] || s_ptr->c[3] != d_ptr->c[3] ||
                 s_ptr->d != d_ptr->d || s_ptr->e != d_ptr->e) {
@@ -526,7 +538,9 @@ test_compound_6()
         bkg  = static_cast<unsigned char *>(malloc(nelmts * sizeof(dst_typ_t)));
         orig = static_cast<unsigned char *>(malloc(nelmts * sizeof(src_typ_t)));
         for (i = 0; i < nelmts; i++) {
-            s_ptr    = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_OFF
+            s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             s_ptr->b = (i * 8 + 1) & 0x7fff;
             s_ptr->d = (i * 8 + 6) & 0x7fff;
         }
@@ -546,8 +560,10 @@ test_compound_6()
 
         /* Compare results */
         for (i = 0; i < nelmts; i++) {
+            H5_WARN_CAST_ALIGNMENT_OFF
             s_ptr = (reinterpret_cast<src_typ_t *>(orig)) + i;
             d_ptr = (reinterpret_cast<dst_typ_t *>(buf)) + i;
+            H5_WARN_CAST_ALIGNMENT_ON
             if (s_ptr->b != d_ptr->b || s_ptr->d != d_ptr->d) {
                 H5_FAILED();
                 cerr << "    i=" << i << endl;

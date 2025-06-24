@@ -20,12 +20,12 @@
   # Copy all the HDF5 files from the source directory into the test directory
   # --------------------------------------------------------------------
   set (LIST_HDF5_TEST_FILES
-      h5copy_extlinks_src.h5
-      h5copy_extlinks_trg.h5
-      h5copy_ref.h5
-      h5copytst.h5
-      tudfilter.h5
-      tudfilter2.h5
+    h5copy_extlinks_src.h5
+    h5copy_extlinks_trg.h5
+    h5copy_ref.h5
+    h5copytst.h5
+    tudfilter.h5
+    tudfilter2.h5
   )
 
   set (LIST_OTHER_TEST_FILES
@@ -40,14 +40,15 @@
 
   file (MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles")
 
+   
   foreach (listfiles ${LIST_HDF5_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${listfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listfiles}" "h5copy_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${listfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listfiles}" "h5copy_files")
   endforeach ()
 
   foreach (listothers ${LIST_OTHER_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${listothers}" "${PROJECT_BINARY_DIR}/testfiles/${listothers}" "h5copy_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5copy/expected/${listothers}" "${PROJECT_BINARY_DIR}/testfiles/${listothers}" "h5copy_files")
   endforeach ()
-   add_custom_target(h5copy_files ALL COMMENT "Copying files needed by h5copy tests" DEPENDS ${h5copy_files_list})
+  add_custom_target(h5copy_files ALL COMMENT "Copying files needed by h5copy tests" DEPENDS ${h5copy_files_list})
 
 ##############################################################################
 ##############################################################################
@@ -276,8 +277,8 @@
               -D "TEST_EXPECT=${resultcode}"
               -D "TEST_REFERENCE=./testfiles/${testname}.out"
               -D "TEST_ERRREF=${result_errcheck}"
-              -D "TEST_MASK_STORE=true"
-              -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+              -D "TEST_GREP_COMPARE=TRUE"
+              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
     endif ()
     set_tests_properties (H5COPY-CMP-${testname} PROPERTIES DEPENDS H5COPY-CMP-${testname}-clear-objects)
@@ -309,7 +310,6 @@
                 -D "TEST_OUTPUT=./testfiles/${infile}.out"
                 -D "TEST_EXPECT=${resultcode}"
                 -D "TEST_REFERENCE=./testfiles/${infile}.txt"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -326,7 +326,6 @@
                 -D "TEST_OUTPUT=./testfiles/${infile}.out"
                 -D "TEST_EXPECT=${resultcode}"
                 -D "TEST_REFERENCE=./testfiles/${infile}.txt"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -347,7 +346,6 @@
               -D "TEST_OUTPUT=./testfiles/${testname}.out.h5.out"
               -D "TEST_EXPECT=${resultcode}"
               -D "TEST_REFERENCE=./testfiles/${testname}.out.h5.txt"
-              -D "TEST_APPEND=EXIT CODE:"
               -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
               -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
               -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -384,7 +382,6 @@
                 -D "TEST_EXPECT=0"
                 -D "TEST_REFERENCE=./testfiles/${infile}_ERR.txt"
                 -D "TEST_MASK_ERROR=true"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -402,7 +399,6 @@
                 -D "TEST_EXPECT=${resultcode}"
                 -D "TEST_REFERENCE=./testfiles/${infile}_ERR.txt"
                 -D "TEST_MASK_ERROR=true"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -423,7 +419,6 @@
               -D "TEST_OUTPUT=./testfiles/${testname}_ERR.out.h5.out"
               -D "TEST_EXPECT=0"
               -D "TEST_REFERENCE=./testfiles/${testname}_ERR.out.h5.txt"
-              -D "TEST_APPEND=EXIT CODE:"
               -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
               -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
               -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"

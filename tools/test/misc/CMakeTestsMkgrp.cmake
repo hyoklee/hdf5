@@ -40,10 +40,10 @@
   file (MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles")
 
   foreach (h5_mkgrp_file ${HDF5_MKGRP_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_mkgrp_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_mkgrp_file}" "h5mkgrp_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/misc/expected/${h5_mkgrp_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_mkgrp_file}" "h5mkgrp_files")
   endforeach ()
 
-  HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/h5mkgrp_help.txt" "${PROJECT_BINARY_DIR}/testfiles/h5mkgrp_help.txt" "h5mkgrp_files")
+  HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/misc/expected/h5mkgrp_help.txt" "${PROJECT_BINARY_DIR}/testfiles/h5mkgrp_help.txt" "h5mkgrp_files")
   add_custom_target(h5mkgrp_files ALL COMMENT "Copying files needed by h5mkgrp tests" DEPENDS ${h5mkgrp_files_list})
 
   configure_file (${HDF5_TOOLS_TEST_MISC_SOURCE_DIR}/testfiles/h5mkgrp_version.txt.in ${PROJECT_BINARY_DIR}/testfiles/h5mkgrp_version.txt @ONLY)
@@ -91,7 +91,6 @@
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${resultfile}.out"
               -D "TEST_EXPECT=${resultcode}"
-              -D "TEST_MASK_MOD=true"
               -D "TEST_REFERENCE=${resultfile}.ls"
               -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )

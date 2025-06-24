@@ -28,9 +28,10 @@ release_docs/INSTALL_CMake.txt file for more information on the CMake build syst
 | mirror-vfd[Build the socket-based Mirror virtual file driver (VFD). [default=no]] | HDF5_ENABLE_MIRROR_VFD "Build the Mirror Virtual File Driver" [OFF] | if (HDF5_BUILD_UTILS) |
 | ros3-vfd[Build the Read-Only S3 virtual file driver (VFD). [default=no]] | HDF5_ENABLE_ROS3_VFD "Build the ROS3 Virtual File Driver" [OFF] |  |
 | libhdfs[Provide libhdfs library to enable HDFS virtual file driver (VFD) [default=no]] | HDF5_ENABLE_HDFS "Enable HDFS" [OFF] |  |
-| threads[Enable threads capability. A prerequisite for enabling threadsafe API calls.  [default=yes] | HDF5_ENABLE_THREADS "Enable thread support" [ON] |  |
+| threads[Enable threads capability. A prerequisite for enabling threadsafe API calls.  [default=yes] | HDF5_THREADS_ENABLED "Enable thread support" [ON] |  |
 | threadsafe[Enable thread-safe capability. Not compatible with the high-level library, Fortran, or C++ wrappers.  [default=no]] | HDF5_ENABLE_THREADSAFE "Enable Threadsafety" [OFF] |  |
 | file-locking[Sets the default for whether or not to use file locking when opening files. [default=best-effort]] | HDF5_USE_FILE_LOCKING "Use file locking by default (mainly for SWMR)" [ON] | HDF5_IGNORE_DISABLED_FILE_LOCKS "Ignore file locks when disabled on file system" [ON] |
+| enable-concurrency[Support for concurrent multithreaded operation of supported API routines [default=no]] | HDF5_ENABLE_CONCURRENCY "Enable multi-threaded concurrency" [OFF] | This option also provides threadsafe execution of all other, non-concurrent operations. |
 
 | Autotools Language Options | CMake Language Options | Notes |
 | ------- |  ------- | ------------ |
@@ -68,7 +69,6 @@ release_docs/INSTALL_CMake.txt file for more information on the CMake build syst
 | instrument[Enable library instrumentation of optimization tracing (only used with parallel builds). [default=yes if a parallel debug build, otherwise no]] | HDF5_ENABLE_INSTRUMENT "Instrument The library" [OFF] |  |
 | dconv-exception[Check exception handling functions during data conversions [default=yes]] | HDF5_WANT_DCONV_EXCEPTION "exception handling functions is checked during data conversions" [ON] |  |
 | dconv-accuracy[Guarantee data accuracy during data conversions [default=yes]] | HDF5_WANT_DATA_ACCURACY "IF data accuracy is guaranteed during data conversions" [ON] |  |
-| build-all[Build helper programs that only developers should need [default=no]] | HDF5_BUILD_GENERATORS "Build Test Generators" [OFF] |  |
 | deprecated-symbols[Enable deprecated public API symbols. [default=yes (unless build mode = clean)]] | HDF5_ENABLE_DEPRECATED_SYMBOLS "Enable deprecated public API symbols" [ON] |  |
 | strict-format-checks[Enable strict file format checks. [default=yes if debug build, otherwise no]] | HDF5_STRICT_FORMAT_CHECKS "Whether to perform strict file format checks" [OFF] |  |
 | preadwrite[Enable using pread/pwrite instead of read/write in sec2/log/core VFDs. [default=yes if pread/pwrite are present]] | HDF5_ENABLE_PREADWRITE "Use pread/pwrite in sec2/log/core VFDs in place of read/write (when available)" [ON] |  |
@@ -78,5 +78,5 @@ release_docs/INSTALL_CMake.txt file for more information on the CMake build syst
 | ------- |  ------- | ------------ |
 | examplesdir[--with-examplesdir=location], [Specify path for examples [default="DATAROOTDIR/hdf5_examples"]] |  |  |
 | libmfu[--with-libmfu=DIR], [Use the libmfu library [default=no]] |  |  |
-| pthread[--with-pthread=DIR][Specify alternative path to Pthreads library] | Handled by HDF5_ENABLE_THREADS |  |
+| pthread[--with-pthread=DIR][Specify alternative path to Pthreads library] | Handled by HDF5_THREADS_ENABLED |  |
 

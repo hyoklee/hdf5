@@ -19,7 +19,19 @@
   # --------------------------------------------------------------------
   # Copy all the HDF5 files from the source directory into the test directory
   # --------------------------------------------------------------------
-  set (LIST_REPACK_TEST_FILES
+  set(LIST_REPACK_TEST_FILES
+    h5repack_f32le_ex-0.dat
+    h5repack_int32le_1d_ex-0.dat
+    h5repack_int32le_1d_ex-1.dat
+    h5repack_int32le_2d_ex-0.dat
+    h5repack_int32le_3d_ex-0.dat
+    h5repack_uint8be_ex-0.dat
+    h5repack_uint8be_ex-1.dat
+    h5repack_uint8be_ex-2.dat
+    h5repack_uint8be_ex-3.dat
+  )
+  
+  set (LIST_REPACK_HDF5_TEST_FILES
       bounds_latest_latest.h5
       h5repack_attr.h5
       h5repack_attr_refs.h5
@@ -27,21 +39,16 @@
       h5repack_early.h5
       h5repack_ext.h5
       h5repack_f32le.h5
-      h5repack_f32le_ex-0.dat
       h5repack_f32le_ex.h5
       h5repack_fill.h5
       h5repack_filters.h5
       h5repack_fletcher.h5
       h5repack_hlink.h5
       h5repack_int32le_1d.h5
-      h5repack_int32le_1d_ex-0.dat
-      h5repack_int32le_1d_ex-1.dat
       h5repack_int32le_1d_ex.h5
       h5repack_int32le_2d.h5
-      h5repack_int32le_2d_ex-0.dat
       h5repack_int32le_2d_ex.h5
       h5repack_int32le_3d.h5
-      h5repack_int32le_3d_ex-0.dat
       h5repack_int32le_3d_ex.h5
       h5repack_layout.h5
       h5repack_layouto.h5
@@ -60,10 +67,6 @@
       h5repack_soffset.h5
       h5repack_szip.h5
       h5repack_uint8be.h5
-      h5repack_uint8be_ex-0.dat
-      h5repack_uint8be_ex-1.dat
-      h5repack_uint8be_ex-2.dat
-      h5repack_uint8be_ex-3.dat
       h5repack_uint8be_ex.h5
       # fsm
       h5repack_aggr.h5
@@ -207,36 +210,40 @@
       h5copy_extlinks_src-mergeprune.h5copy_extlinks_src.h5.ddl
   )
 
-  foreach (h5_file ${LIST_REPACK_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+  foreach (h5_file ${LIST_REPACK_HDF5_TEST_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+  endforeach ()
+
+  foreach(h5_file ${LIST_REPACK_TEST_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5repack/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_COPY_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5copy/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_DIFF_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_VDS_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/vds/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/vds/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_HDF5_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_OTHER_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5repack/testfiles/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_TST_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5repack/expected/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
 
   foreach (h5_file ${LIST_DDL_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5repack/expected/${h5_file}" "${PROJECT_BINARY_DIR}/testfiles/${h5_file}" "h5repack_files")
   endforeach ()
   add_custom_target(h5repack_files ALL COMMENT "Copying files needed by h5repack tests" DEPENDS ${h5repack_files_list})
 
@@ -393,9 +400,8 @@
                 -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
                 -D "TEST_OUTPUT=${resultfile}-${testname}.out"
                 -D "TEST_EXPECT=${resultcode}"
-                -D "TEST_MASK:STRING=O?...ing file[^\n]+\n"
-                -D "TEST_FILTER:STRING=GZIP   \\(0\\.[0-9][0-9][0-9]:1\\)"
-                -D "TEST_FILTER_REPLACE:STRING=GZIP   (0.XXX:1)"
+                -D "TEST_FILTER:STRING=GZIP   \\(0\\.[0-9][0-9][0-9]:1\\);O?...ing file[^\n]+\n"
+                -D "TEST_FILTER_REPLACE:STRING=GZIP   (0.XXX:1);"
                 -D "TEST_REFERENCE=${resultfile}-${testname}.tst"
                 -P "${HDF_RESOURCES_DIR}/runTest.cmake"
         )
@@ -449,7 +455,7 @@
                 -D "TEST_SKIP_COMPARE=true"
                 -D "TEST_REFERENCE=${resultfile}.mty"
                 -D "TEST_ERRREF=${result_errcheck}"
-                -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+                -P "${HDF_RESOURCES_DIR}/runTest.cmake"
         )
       endif ()
       set_tests_properties (H5REPACK_MASK-${testname} PROPERTIES
@@ -803,9 +809,11 @@
                   -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
                   -D "TEST_OUTPUT=${testfile}-${testname}-v.out"
                   -D "TEST_EXPECT=${resultcode}"
-                  -D "TEST_FILTER:STRING=${testfilter}"
+                  -D "TEST_SKIP_COMPARE=TRUE"
+                  -D "TEST_GREP_FILTER:STRING=${testfilter}"
                   -D "TEST_REFERENCE=${testfilter}"
-                  -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+                  -D "TEST_GREP_COMPARE=TRUE"
+                  -P "${HDF_RESOURCES_DIR}/runTest.cmake"
           )
           set_tests_properties (H5REPACK_VERIFY_LAYOUT-${testname}_DMP PROPERTIES
               DEPENDS H5REPACK_VERIFY_LAYOUT-${testname}_DFF
@@ -828,10 +836,13 @@
                   -D "TEST_ARGS:STRING=-pH;out-${testname}.${testfile}"
                   -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
                   -D "TEST_OUTPUT=${testfile}-${testname}-v.out"
-                  -D "TEST_EXPECT=${resultcode}"
-                  -D "TEST_FILTER:STRING=${nottestfilter}"
+                  -D "TEST_EXPECT=0"
+                  -D "TEST_SKIP_COMPARE=TRUE"
+                  -D "TEST_GREP_EXPECT=${resultcode}"
+                  -D "TEST_GREP_FILTER:STRING=${nottestfilter}"
                   -D "TEST_REFERENCE=${testfilter}"
-                  -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+                  -D "TEST_GREP_COMPARE=TRUE"
+                  -P "${HDF_RESOURCES_DIR}/runTest.cmake"
           )
           set_tests_properties (H5REPACK_VERIFY_LAYOUT-${testname}_DMP PROPERTIES
               DEPENDS H5REPACK_VERIFY_LAYOUT-${testname}_DFF
@@ -933,10 +944,12 @@
               -D "TEST_ARGS:STRING=-H;-B;out-${testname}.${testfile}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${testfile}-${testname}-v.out"
-              -D "TEST_EXPECT=${resultcode}"
-              -D "TEST_FILTER:STRING=SUPERBLOCK_VERSION ${superblock}"
+              -D "TEST_EXPECT=0"
+              -D "TEST_SKIP_COMPARE=TRUE"
+              -D "TEST_GREP_FILTER:STRING=SUPERBLOCK_VERSION ${superblock}"
               -D "TEST_REFERENCE=SUPERBLOCK_VERSION ${superblock}"
-              -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+              -D "TEST_GREP_COMPARE=TRUE"
+              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
       set_tests_properties (H5REPACK_VERIFY_SUPERBLOCK-${testname}_DMP PROPERTIES
           DEPENDS H5REPACK_VERIFY_SUPERBLOCK-${testname}
@@ -1003,10 +1016,12 @@
               -D "TEST_ARGS:STRING=-H;-B;out-${testname}.${testfile}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${testfile}-${testname}-v.out"
-              -D "TEST_EXPECT=${resultcode}"
-              -D "TEST_FILTER:STRING=USERBLOCK_SIZE ${userblocksize}"
+              -D "TEST_EXPECT=0"
+              -D "TEST_SKIP_COMPARE=TRUE"
+              -D "TEST_GREP_FILTER:STRING=USERBLOCK_SIZE ${userblocksize}"
               -D "TEST_REFERENCE=USERBLOCK_SIZE ${userblocksize}"
-              -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+              -D "TEST_GREP_COMPARE=TRUE"
+              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
       set_tests_properties (H5REPACK_VERIFY_USERBLOCK-${testname}_DMP PROPERTIES
           DEPENDS H5REPACK_VERIFY_USERBLOCK-${testname}
@@ -1128,7 +1143,7 @@
               -D "TEST_ARGS:STRING=${ARGN};${resultfile};out-${testname}.${resultfile}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_EXPECT=${resultcode}"
-              -D "TEST_MASK:STRING=O?...ing file[^\n]+\n"
+              -D "TEST_FILTER:STRING=O?...ing file[^\n]+\n"
               -D "TEST_OUTPUT=${testname}.${resultfile}.out"
               -D "TEST_REFERENCE=${testname}.${resultfile}.tst"
               -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
@@ -1142,34 +1157,44 @@
       if ("H5REPACK_UD-${testname}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
         set_tests_properties (H5REPACK_UD-${testname} PROPERTIES DISABLED true)
       endif ()
-      add_test (
-          NAME H5REPACK_UD-${testname}-h5dump
-          COMMAND "${CMAKE_COMMAND}"
-              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
-              -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
-              -D "TEST_ARGS:STRING=-pH;out-${testname}.${resultfile}"
-              -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
-              -D "TEST_OUTPUT=${resultfile}-${testname}.out"
-              -D "TEST_EXPECT=0"
-              -D "TEST_REFERENCE=${resultfile}-${testname}.ddl"
-              -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
-              -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
-              -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
-              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
-      )
-      set_tests_properties (H5REPACK_UD-${testname}-h5dump PROPERTIES
-          DEPENDS H5REPACK_UD-${testname}
-      )
-      if ("H5REPACK_UD-${testname}-h5dump" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
-        set_tests_properties (H5REPACK_UD-${testname}-h5dump PROPERTIES DISABLED true)
+      if (NOT ${resultcode})
+        add_test (
+            NAME H5REPACK_UD-${testname}-h5dump
+            COMMAND "${CMAKE_COMMAND}"
+                -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
+                -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+                -D "TEST_ARGS:STRING=-pH;out-${testname}.${resultfile}"
+                -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
+                -D "TEST_OUTPUT=${resultfile}-${testname}.out"
+                -D "TEST_EXPECT=0"
+                -D "TEST_REFERENCE=${resultfile}-${testname}.ddl"
+                -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
+                -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
+                -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
+                -P "${HDF_RESOURCES_DIR}/runTest.cmake"
+        )
+        set_tests_properties (H5REPACK_UD-${testname}-h5dump PROPERTIES
+            DEPENDS H5REPACK_UD-${testname}
+        )
+        if ("H5REPACK_UD-${testname}-h5dump" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
+          set_tests_properties (H5REPACK_UD-${testname}-h5dump PROPERTIES DISABLED true)
+        endif ()
+        add_test (
+            NAME H5REPACK_UD-${testname}-clean-objects
+            COMMAND ${CMAKE_COMMAND} -E remove testfiles/out-${testname}.${resultfile}
+        )
+        set_tests_properties (H5REPACK_UD-${testname}-clean-objects PROPERTIES
+            DEPENDS H5REPACK_UD-${testname}-h5dump
+        )
+      else ()
+        add_test (
+            NAME H5REPACK_UD-${testname}-clean-objects
+            COMMAND ${CMAKE_COMMAND} -E remove testfiles/out-${testname}.${resultfile}
+        )
+        set_tests_properties (H5REPACK_UD-${testname}-clean-objects PROPERTIES
+            DEPENDS H5REPACK_UD-${testname}
+        )
       endif ()
-      add_test (
-          NAME H5REPACK_UD-${testname}-clean-objects
-          COMMAND ${CMAKE_COMMAND} -E remove testfiles/out-${testname}.${resultfile}
-      )
-      set_tests_properties (H5REPACK_UD-${testname}-clean-objects PROPERTIES
-          DEPENDS H5REPACK_UD-${testname}-h5dump
-      )
     endif ()
   endmacro ()
 
@@ -1933,6 +1958,13 @@ if (BUILD_SHARED_LIBS)
   ADD_H5_UD_TEST (plugin_none 0 h5repack_layout.UD.h5 -v -f NONE)
   # check for no parameters
   ADD_H5_UD_TEST (plugin_zero 0 h5repack_layout.h5 -v -f UD=250,0,0)
+  # check for less parameters
+  ADD_H5_UD_TEST (plugin_test_less 1 h5repack_layout.h5 --enable-error-stack -v -f UD=257,0,1)
+  # check for extra parameters
+  # could create different macro to grep: h5repack error: incorrect number of compression parameters
+  ADD_H5_UD_TEST (plugin_test_ex 1 h5repack_layout.h5 --enable-error-stack -v -f UD=257,0,1,9,9,9)
+  # check for extra parameters, which are ignored when nelms is 0
+  ADD_H5_UD_TEST (plugin_zero_extra 0 h5repack_layout.h5 --enable-error-stack -v -f UD=250,0,0,1,2)
 endif ()
 
 ##############################################################################

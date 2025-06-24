@@ -8,7 +8,7 @@
 >
 > The [PR stripping all autotools](https://github.com/HDFGroup/hdf5/pull/5308) will go into the "develop" branch on **March 10, 2025**. HDF5 2.0, scheduled for release in Fall 2025, will *only* support the CMake build system.
 > 
->If you’d like to learn more about this decision, check out this blog post from November 2022: [Can we remove the autotools?](https://www.hdfgroup.org/2022/11/14/can-we-remove-the-autotools/) And the [HDF5 2.0 planning wiki](https://github.com/HDFGroup/hdf5/wiki/HDF5-2.0-Planning#drop-support-for-the-autotools). If you use autotools for your builds, now is a great time to update your workflows to CMake. 
+>If you’d like to learn more about this decision, check out this blog post from November 2022: [Can we remove the autotools?](https://www.hdfgroup.org/2022/11/14/can-we-remove-the-autotools/) And the [HDF5 2.0 planning wiki](https://github.com/HDFGroup/hdf5/wiki/HDF5-2.0-Release-Planning). If you use autotools for your builds, now is a great time to update your workflows to CMake. 
 
 
 ![HDF5 Logo][u3]
@@ -42,13 +42,9 @@ Documentation for all HDF software is available at:
 
    https://support.hdfgroup.org/documentation/index.html
 
-Documentation for the current HDF5 library release is available at:
+The latest documentation for the HDF5 library can be found at:
 
-   https://support.hdfgroup.org/releases/hdf5/latest/
-
-The latest Doxygen documentation generated on changes to `develop`, which does **not** correspond to any particular library release, is available at:
-
-   https://hdfgroup.github.io/hdf5/develop 
+   https://support.hdfgroup.org/documentation/hdf5/latest
 
 See the [RELEASE.txt][u1] file in the [release_docs/][u4] directory for information specific
 to the features and updates included in this release of the library.

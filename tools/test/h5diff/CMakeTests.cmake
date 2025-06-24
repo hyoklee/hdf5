@@ -336,33 +336,33 @@
   # copy test files from source to build dir
   #
   foreach (h5_tstfiles ${LIST_DIFF_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
     if (H5_HAVE_PARALLEL)
-      HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
     endif ()
   endforeach ()
   foreach (h5_tstfiles ${LIST_VDS_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/vds/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/vds/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
     if (H5_HAVE_PARALLEL)
-      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/vds/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/vds/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
     endif ()
   endforeach ()
   foreach (h5_tstfiles ${LIST_HDF5_TEST_FILES})
-    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
     if (H5_HAVE_PARALLEL)
-      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
     endif ()
   endforeach ()
   foreach (h5_tstfiles ${LIST_OTHER_TEST_FILES})
-    HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}" "h5diff_files")
     if (H5_HAVE_PARALLEL)
-      HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}" "h5diff_files")
     endif ()
   endforeach ()
   # copy second version of tvlstr.h5
-  HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/tvlstr.h5" "${PROJECT_BINARY_DIR}/testfiles/tvlstr2.h5" "h5diff_files")
+  HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/tvlstr.h5" "${PROJECT_BINARY_DIR}/testfiles/tvlstr2.h5" "h5diff_files")
   if (H5_HAVE_PARALLEL)
-      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5dump/testfiles/tvlstr.h5" "${PROJECT_BINARY_DIR}/PAR/testfiles/tvlstr2.h5" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/tvlstr.h5" "${PROJECT_BINARY_DIR}/PAR/testfiles/tvlstr2.h5" "h5diff_files")
   endif ()
 
 
@@ -379,16 +379,16 @@
   endif ()
   if (COPY_WINDOWS_FILES)
     foreach (h5_tstfiles ${LIST_WIN_TEST_FILES})
-      HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}w.txt" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}.txt" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}w.txt" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}.txt" "h5diff_files")
       if (H5_HAVE_PARALLEL)
-        HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}w.txt" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}.txt" "h5diff_files")
+        HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}w.txt" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}.txt" "h5diff_files")
       endif ()
     endforeach ()
   else ()
     foreach (h5_tstfiles ${LIST_WIN_TEST_FILES})
-      HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}.txt" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}.txt" "h5diff_files")
+      HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}.txt" "${PROJECT_BINARY_DIR}/testfiles/${h5_tstfiles}.txt" "h5diff_files")
       if (H5_HAVE_PARALLEL)
-        HDFTEST_COPY_FILE("${PROJECT_SOURCE_DIR}/expected/${h5_tstfiles}.txt" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}.txt" "h5diff_files")
+        HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5diff/expected/${h5_tstfiles}.txt" "${PROJECT_BINARY_DIR}/PAR/testfiles/${h5_tstfiles}.txt" "h5diff_files")
       endif ()
     endforeach ()
   endif ()
@@ -427,7 +427,6 @@
               -D "TEST_OUTPUT=${resultfile}.out"
               -D "TEST_EXPECT=${resultcode}"
               -D "TEST_REFERENCE=${resultfile}.txt"
-              -D "TEST_APPEND=EXIT CODE:"
               -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
     endif ()
@@ -459,9 +458,7 @@
               -D "TEST_EXPECT=0" # ph5diff currently always exits with a zero status code due to
                                  # output from some MPI implementations from a non-zero exit code
               -D "TEST_REFERENCE=${resultfile}.txt"
-              -D "TEST_APPEND=EXIT CODE:"
-              -D "TEST_REF_APPEND=EXIT CODE: [0-9]"
-              -D "TEST_REF_FILTER=EXIT CODE: 0"
+              -D "TEST_REF_FILTER="
               -D "TEST_SORT_COMPARE=TRUE"
               -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
@@ -502,8 +499,7 @@
               -D "TEST_EXPECT=${resultcode}"
               -D "TEST_REFERENCE=${resultfile}.txt"
               -D "TEST_ERRREF=${result_errcheck}"
-              -D "TEST_APPEND=EXIT CODE:"
-              -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
     endif ()
     set_tests_properties (H5DIFF-${resultfile} PROPERTIES
@@ -534,10 +530,9 @@
               -D "TEST_EXPECT=0" # ph5diff currently always exits with a zero status code due to
                                  # output from some MPI implementations from a non-zero exit code
               -D "TEST_REFERENCE=${result_errcheck}"
-              -D "TEST_APPEND=EXIT CODE:"
-              -D "TEST_REF_APPEND=EXIT CODE: [0-9]"
               -D "TEST_SORT_COMPARE=TRUE"
-              -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+              -D "TEST_GREP_COMPARE=TRUE"
+              -P "${HDF_RESOURCES_DIR}/runTest.cmake"
       )
     endif ()
     set_tests_properties (MPI_TEST_H5DIFF-${resultfile} PROPERTIES
@@ -562,11 +557,10 @@
                 -D "TEST_EXPECT=${resultcode}"
                 -D "TEST_REFERENCE=${resultfile}.txt"
                 -D "TEST_ERRREF=user defined filter is not available"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
-                -P "${HDF_RESOURCES_DIR}/grepTest.cmake"
+                -P "${HDF_RESOURCES_DIR}/runTest.cmake"
         )
       else ()
         add_test (
@@ -579,7 +573,6 @@
                 -D "TEST_OUTPUT=${resultfile}.out"
                 -D "TEST_EXPECT=${resultcode}"
                 -D "TEST_REFERENCE=${resultfile}.txt"
-                -D "TEST_APPEND=EXIT CODE:"
                 -D "TEST_ENV_VAR=HDF5_PLUGIN_PATH"
                 -D "TEST_ENV_VALUE=${CMAKE_BINARY_DIR}/plugins"
                 -D "TEST_LIBRARY_DIRECTORY=${CMAKE_TEST_OUTPUT_DIRECTORY}"
@@ -767,7 +760,7 @@ ADD_H5_TEST (h5diff_51 1 -v ${FILE4} ${FILE4} dset1a dset1b)
 ADD_H5_TEST (h5diff_52 1 -v ${FILE4} ${FILE4} dset2a dset2b)
 
 # 5.3
-ADD_H5_TEST (h5diff_53 1 -v ${FILE4} ${FILE4} dset3a dset4b)
+ADD_H5_TEST (h5diff_53 1 -v ${FILE4} ${FILE4} dset3a dset3b)
 
 # 5.4
 ADD_H5_TEST (h5diff_54 1 -v ${FILE4} ${FILE4} dset4a dset4b)

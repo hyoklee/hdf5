@@ -39,7 +39,8 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype libpackage)
 
   #-- Apple Specific install_name for libraries
   if (APPLE)
-    option (HDF5_BUILD_WITH_INSTALL_NAME "Build with library install_name set to the installation path" OFF)
+    cmake_dependent_option (HDF5_BUILD_WITH_INSTALL_NAME "Build with library install_name set to the installation path" OFF APPLE OFF)
+    mark_as_advanced (HDF5_BUILD_WITH_INSTALL_NAME)
     if (HDF5_BUILD_WITH_INSTALL_NAME)
       set_target_properties (${libtarget} PROPERTIES
           INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
@@ -49,7 +50,7 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype libpackage)
     if (HDF5_BUILD_FRAMEWORKS)
       if (${libtype} MATCHES "SHARED")
         # adapt target to build frameworks instead of dylibs
-        set_target_properties(${libtarget} PROPERTIES
+        set_target_properties (${libtarget} PROPERTIES
             XCODE_ATTRIBUTE_INSTALL_PATH "@rpath"
             FRAMEWORK TRUE
             FRAMEWORK_VERSION ${HDF5_PACKAGE_VERSION_MAJOR}

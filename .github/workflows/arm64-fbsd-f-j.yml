@@ -18,7 +18,7 @@ jobs:
             host: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v5
 
       - name: ${{ matrix.os.name }}
         uses: cross-platform-actions/action@v0.29.0

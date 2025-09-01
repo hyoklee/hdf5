@@ -14,7 +14,7 @@ jobs:
           brew install openmpi flang
       - uses: lukka/get-cmake@latest
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: HDFGroup/hdf5
       - name: test

@@ -113,7 +113,7 @@ jobs:
 
       # Get files created by release script
       - name: Get zip-tarball (Windows)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: zip-tarball
               path: ${{ github.workspace }}
@@ -258,7 +258,7 @@ jobs:
 
       # Get files created by release script
       - name: Get tgz-tarball (Linux)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: tgz-tarball
               path: ${{ github.workspace }}
@@ -393,7 +393,7 @@ jobs:
         if: ${{ needs.check-secret.outputs.sign-state == 'exists' }}
 
       - name: Set up JDK 19
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -413,7 +413,7 @@ jobs:
 
       # Get files created by release script
       - name: Get tgz-tarball (MacOS_latest)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: tgz-tarball
               path: ${{ github.workspace }}
@@ -595,7 +595,7 @@ jobs:
           cmake-version: '3.31.6'
 
       - name: Install aws-c-s3 (Cached installation)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: libaws-c-s3-Release
 
@@ -628,7 +628,7 @@ jobs:
 
       # Get files created by release script
       - name: Get tgz-tarball (Linux S3)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: tgz-tarball
               path: ${{ github.workspace }}
@@ -711,7 +711,7 @@ jobs:
 
       # Get files created by release script
       - name: Get zip-tarball (Windows_intel)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: zip-tarball
               path: ${{ github.workspace }}
@@ -855,7 +855,7 @@ jobs:
 
       # Get files created by release script
       - name: Get tgz-tarball (Linux_intel)
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
               name: tgz-tarball
               path: ${{ github.workspace }}

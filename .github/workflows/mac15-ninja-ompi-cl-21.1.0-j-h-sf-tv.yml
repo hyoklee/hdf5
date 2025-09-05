@@ -1,4 +1,4 @@
-name: mac-15 ninja o4 j ompi h sf tv
+name: mac-15 ninja ompi cl-21.1.0 h sf tv
 
 on:
   push:
@@ -21,14 +21,14 @@ jobs:
         run: |
           cmake --version
           ls /opt/homebrew/bin/flang*
-          export FC=/opt/homebrew/bin/flang-20
-          export CC=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++	  
+          export FC=/opt/homebrew/bin/flang-21
+          export CC=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang++	  
           mkdir build
           cd build
           cmake -G Ninja \
             -DSITE:STRING=mac-15 \
-            -DBUILDNAME:STRING="hk/ninja/cl-20/+j/+ompi+np=3/+h+sf+tv" \
+            -DBUILDNAME:STRING="hk/ninja/ompi/cl-21/j/h/sf/tv" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DHDF5_BUILD_FORTRAN=ON \

@@ -1,4 +1,9 @@
-cmake_minimum_required (VERSION 3.18)
+# CMake configuration for building and testing the h5diff tool
+# Configures dynamic plugin library for h5diff if shared builds are enabled
+# Sets up include directories, linking, and formatting for plugin targets
+# Includes test scripts for h5diff if test tools are enabled
+
+cmake_minimum_required (VERSION 3.26)
 project (HDF5_TOOLS_TEST_H5DIFF C)
 
 

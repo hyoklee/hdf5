@@ -1,4 +1,9 @@
-cmake_minimum_required (VERSION 3.18)
+#-----------------------------------------------------------------------------
+# CMake configuration for HDF5 High-Level (HL) test suite
+# This file sets up the build, formatting, and test execution rules for the HDF5 HL test suite.
+# It handles HL C test source grouping, test executable creation, compiler options, linking, and integration with the HDF5 HL and core libraries.
+#-----------------------------------------------------------------------------
+cmake_minimum_required (VERSION 3.26)
 project (HDF5_HL_TEST C)
 # --------------------------------------------------------------------
 # Notes: When creating unit test executables they should be prefixed

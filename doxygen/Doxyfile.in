@@ -496,7 +496,7 @@ SORT_MEMBER_DOCS       = YES
 # this will also influence the order of the classes in the class list.
 # The default value is: NO.
 
-SORT_BRIEF_DOCS        = NO
+SORT_BRIEF_DOCS        = YES
 
 # If the SORT_MEMBERS_CTORS_1ST tag is set to YES then Doxygen will sort the
 # (brief and detailed) documentation of class members so that constructors and
@@ -808,6 +808,8 @@ EXCLUDE_PATTERNS       = */fortran/test/* \
                          */HDF5Examples/FORTRAN/* \
                          */sanitizer/* \
                          *WATCHME.md* \
+                         */CONTRIBUTING.md \
+
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names
 # (namespaces, classes, functions, etc.) that should be excluded from the

@@ -9,6 +9,28 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
+# -----------------------------------------------------------------------------
+# HDF5 ConfigureChecks.cmake
+#
+# This CMake module performs platform, compiler, and feature checks required
+# for building HDF5. It sets up system-specific flags, checks for headers,
+# libraries, types, and functions, and configures HDF5 build options based on
+# system capabilities. It also handles feature detection for advanced types
+# (e.g., _Float16, __float128), file locking, and VFD (Virtual File Driver)
+# support. The results are used to generate configuration headers and control
+# conditional compilation throughout the HDF5 codebase.
+#
+# Main sections:
+#   - Include CMake check modules
+#   - Platform and compiler detection (Windows, Darwin, Linux, etc.)
+#   - Header/library/function/type checks
+#   - Platform-specific flags and definitions
+#   - Type size checks for C99 and system types
+#   - Feature checks (complex numbers, _Float16, __float128, VFDs, etc.)
+#   - Options for strict format checks, file locking, and non-standard features
+#   - Macros for reusable check logic
+# -----------------------------------------------------------------------------
+
 #-----------------------------------------------------------------------------
 # Include all the necessary files for macros
 #-----------------------------------------------------------------------------
@@ -467,7 +489,6 @@ mark_as_advanced (HDF5_STRICT_FORMAT_CHECKS)
 if (HDF5_STRICT_FORMAT_CHECKS)
   set (${HDF_PREFIX}_STRICT_FORMAT_CHECKS 1)
 endif ()
-MARK_AS_ADVANCED (HDF5_STRICT_FORMAT_CHECKS)
 
 # ----------------------------------------------------------------------
 # Decide whether the data accuracy has higher priority during data
@@ -480,7 +501,6 @@ mark_as_advanced (HDF5_WANT_DATA_ACCURACY)
 if (HDF5_WANT_DATA_ACCURACY)
   set (${HDF_PREFIX}_WANT_DATA_ACCURACY 1)
 endif ()
-MARK_AS_ADVANCED (HDF5_WANT_DATA_ACCURACY)
 
 # ----------------------------------------------------------------------
 # Decide whether the presence of user's exception handling functions is
@@ -493,7 +513,6 @@ mark_as_advanced (HDF5_WANT_DCONV_EXCEPTION)
 if (HDF5_WANT_DCONV_EXCEPTION)
   set (${HDF_PREFIX}_WANT_DCONV_EXCEPTION 1)
 endif ()
-MARK_AS_ADVANCED (HDF5_WANT_DCONV_EXCEPTION)
 
 # ----------------------------------------------------------------------
 # Check if they would like to show all warnings (not suppressed internally)
@@ -504,12 +523,12 @@ if (HDF5_SHOW_ALL_WARNINGS)
   message (STATUS "....All warnings will be displayed")
   set (${HDF_PREFIX}_SHOW_ALL_WARNINGS 1)
 endif ()
-MARK_AS_ADVANCED (HDF5_SHOW_ALL_WARNINGS)
 
 # ----------------------------------------------------------------------
 # Check if they would like to use file locking by default
 #-----------------------------------------------------------------------------
 option (HDF5_USE_FILE_LOCKING "Use file locking by default (mainly for SWMR)" ON)
+mark_as_advanced (HDF5_USE_FILE_LOCKING)
 if (HDF5_USE_FILE_LOCKING)
   set (${HDF_PREFIX}_USE_FILE_LOCKING 1)
 endif ()
@@ -518,6 +537,7 @@ endif ()
 # Check if they would like to ignore file locks when disabled on a file system
 #-----------------------------------------------------------------------------
 option (HDF5_IGNORE_DISABLED_FILE_LOCKS "Ignore file locks when disabled on file system" ON)
+mark_as_advanced (HDF5_IGNORE_DISABLED_FILE_LOCKS)
 if (HDF5_IGNORE_DISABLED_FILE_LOCKS)
   set (${HDF_PREFIX}_IGNORE_DISABLED_FILE_LOCKS 1)
 endif ()
@@ -987,7 +1007,10 @@ H5ConversionTests (${HDF_PREFIX}_DISABLE_SOME_LDOUBLE_CONV FALSE "Checking IF th
 # be enabled or disabled with their respective options below
 option (HDF5_ENABLE_NONSTANDARD_FEATURES "Enable support for non-standard programming language features" ON)
 # Options for enabling or disabling individual features
-option (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 "Enable support for _Float16 C datatype" ${HDF5_ENABLE_NONSTANDARD_FEATURES})
+option (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 "Enable support for _Float16 C datatype" ON)
+if (NOT HDF5_ENABLE_NONSTANDARD_FEATURES)
+  set (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 OFF CACHE BOOL "Enable support for _Float16 C datatype" FORCE)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Check if _Float16 type is available
@@ -1100,3 +1123,14 @@ endif ()
 if (NOT ${HDF_PREFIX}_HAVE__FLOAT16)
   set (HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 OFF CACHE BOOL "Enable support for _Float16 C datatype" FORCE)
 endif ()
+
+#-----------------------------------------------------------------------------
+# Check if the platform has pkg-config support
+find_package(PkgConfig)
+if (PKG_CONFIG_FOUND)
+  set (${HDF_PREFIX}_HAVE_PKGCONFIG 1)
+else ()
+  set (${HDF_PREFIX}_HAVE_PKGCONFIG 0)
+endif ()
+
+#-----------------------------------------------------------------------------

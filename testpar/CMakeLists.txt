@@ -1,4 +1,9 @@
-cmake_minimum_required (VERSION 3.18)
+#-----------------------------------------------------------------------------
+# CMake configuration for HDF5 parallel test library and test executables
+# This file sets up the build, formatting, and installation rules for the HDF5 parallel test library (static/shared) and its test executables.
+# It handles source/header definitions, compiler options, linking, export, and test configuration for parallel HDF5 testing.
+#-----------------------------------------------------------------------------
+cmake_minimum_required (VERSION 3.26)
 project (HDF5_TEST_PAR C)
 
 #################################################################################

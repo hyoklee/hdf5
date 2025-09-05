@@ -4,7 +4,7 @@
 # EXTERNAL cache entries
 #########################
 
-# set example options to match build options
+# Set example options to match main HDF5 build options
 set (H5EX_BUILD_TESTING ${BUILD_TESTING} CACHE BOOL "Enable examples testing" FORCE)
 set (H5EX_BUILD_EXAMPLES ${HDF5_BUILD_EXAMPLES} CACHE BOOL "Build Examples" FORCE)
 set (H5EX_BUILD_FORTRAN ${HDF5_BUILD_FORTRAN} CACHE BOOL "Build examples FORTRAN support" FORCE)
@@ -15,18 +15,40 @@ set (H5EX_BUILD_HL ${HDF5_BUILD_HL_LIB} CACHE BOOL "Build High Level examples" F
 set (H5EX_ENABLE_THREADSAFE ${HDF5_ENABLE_THREADSAFE} CACHE BOOL "Enable examples thread-safety" FORCE)
 set (H5EX_ENABLE_PARALLEL ${HDF5_ENABLE_PARALLEL} CACHE BOOL "Enable examples parallel build (requires MPI)" FORCE)
 set (H5EX_USE_GNU_DIRS ${HDF5_USE_GNU_DIRS} CACHE BOOL "ON to use GNU Coding Standard install directory variables, OFF to use historical settings" FORCE)
+# set PROVIDES variables for all variables that are used in conditions in HDF5Examples.
+set (HDF5_PROVIDES_FORTRAN ${HDF5_BUILD_FORTRAN} CACHE BOOL "Provides Fortran" FORCE)
+mark_as_advanced (HDF5_PROVIDES_FORTRAN)
+set (HDF5_PROVIDES_TOOLS ${HDF5_BUILD_TOOLS} CACHE BOOL "Provides Tools" FORCE)
+mark_as_advanced (HDF5_PROVIDES_TOOLS)
+set (HDF5_PROVIDES_JAVA ${HDF5_BUILD_JAVA} CACHE BOOL "Provides JAVA" FORCE)
+mark_as_advanced (HDF5_PROVIDES_JAVA)
+set (HDF5_PROVIDES_CPP_LIB ${HDF5_BUILD_CPP_LIB} CACHE BOOL "Provides CPP_LIB" FORCE)
+mark_as_advanced (HDF5_PROVIDES_CPP_LIB)
+set (HDF5_PROVIDES_HL_LIB ${HDF5_BUILD_HL_LIB} CACHE BOOL "Provides HL_LIB" FORCE)
+mark_as_advanced (HDF5_PROVIDES_HL_LIB)
+set (HDF5_PROVIDES_PARALLEL ${HDF5_ENABLE_PARALLEL} CACHE BOOL "Provides Parallel" FORCE)
+mark_as_advanced (HDF5_PROVIDES_PARALLEL)
+set (HDF5_PROVIDES_ZLIB_SUPPORT ${HDF5_ENABLE_ZLIB_SUPPORT} CACHE BOOL "Provides Zlib Support" FORCE)
+mark_as_advanced (HDF5_PROVIDES_ZLIB_SUPPORT)
+set (HDF5_PROVIDES_SZIP_SUPPORT ${HDF5_ENABLE_SZIP_SUPPORT} CACHE BOOL "Provides Szip Support" FORCE)
+mark_as_advanced (HDF5_PROVIDES_SZIP_SUPPORT)
+set (HDF5_PROVIDES_SUBFILING_VFD ${HDF5_ENABLE_SUBFILING_VFD} CACHE BOOL "Provides Subfiling VFD" FORCE)
+mark_as_advanced (HDF5_PROVIDES_SUBFILING_VFD)
 
-#preset HDF5 cache vars to this projects libraries instead of searching
+# Preset HDF5 cache vars to this project's libraries instead of searching
 set (H5EX_HDF5_HEADER "H5pubconf.h" CACHE STRING "Name of HDF5 header" FORCE)
-#set (H5EX_HDF5_INCLUDE_DIRS $<TARGET_PROPERTY:${HDF5_LIBSH_TARGET},INCLUDE_DIRECTORIES> CACHE PATH "HDF5 include dirs" FORCE)
+# set (H5EX_HDF5_INCLUDE_DIRS $<TARGET_PROPERTY:${HDF5_LIBSH_TARGET},INCLUDE_DIRECTORIES> CACHE PATH "HDF5 include dirs" FORCE)
 set (H5EX_HDF5_INCLUDE_DIRS "${HDF5_SRC_INCLUDE_DIRS};${HDF5_SRC_BINARY_DIR}" CACHE PATH "HDF5 include dirs" FORCE)
 set (H5EX_HDF5_DIR ${CMAKE_CURRENT_BINARY_DIR} CACHE STRING "HDF5 build folder" FORCE)
 set (EXAMPLES_EXTERNALLY_CONFIGURED ON CACHE BOOL "Examples build is used in another project" FORCE)
 
+# Set up example-specific variables
 set (EXAMPLE_VARNAME "H5")
 set (H5EX_CONFIG_DIR ${HDF_CONFIG_DIR})
 set (H5EX_RESOURCES_DIR ${HDF_RESOURCES_DIR})
 message (STATUS "HDF5 Example H5EX_RESOURCES_DIR: ${H5EX_RESOURCES_DIR}")
+
+# Set API version flags based on HDF5_DEFAULT_API_VERSION
 if (HDF5_DEFAULT_API_VERSION MATCHES "v16")
   set (H5_USE_16_API ON)
 elseif (HDF5_DEFAULT_API_VERSION MATCHES "v18")
@@ -42,7 +64,9 @@ elseif (HDF5_DEFAULT_API_VERSION MATCHES "v200")
 endif ()
 message (STATUS "HDF5 H5_LIBVER_DIR: ${H5_LIBVER_DIR} HDF5_API_VERSION: ${HDF5_DEFAULT_API_VERSION}")
 
+# Configure linking and include directories based on shared/static build and enabled components
 if (NOT BUILD_SHARED_LIBS AND BUILD_STATIC_LIBS)
+  # Static build configuration
   set (USE_SHARED_LIBS OFF CACHE BOOL "Use Shared Libraries for Examples" FORCE)
   set (H5EX_HDF5_LINK_LIBS ${HDF5_LIB_TARGET} CACHE STRING "HDF5 target" FORCE)
   if (HDF5_BUILD_HL_LIB)
@@ -64,6 +88,7 @@ if (NOT BUILD_SHARED_LIBS AND BUILD_STATIC_LIBS)
     endif ()
   endif ()
 else ()
+  # Shared build configuration
   set (USE_SHARED_LIBS ON CACHE BOOL "Use Shared Libraries for Examples" FORCE)
   set (H5EX_HDF5_LINK_LIBS ${HDF5_LIBSH_TARGET} CACHE STRING "HDF5 target" FORCE)
   if (HDF5_BUILD_HL_LIB)
@@ -88,6 +113,7 @@ else ()
     endif ()
   endif ()
   if (HDF5_BUILD_JAVA)
+    # Set up Java library and include variables for examples
     set (HDF5_JAVA_INCLUDE_DIRS ${HDF5_JAVA_JARS} ${HDF5_JAVA_LOGGING_JAR})
     set (H5EX_JAVA_LIBRARY ${HDF5_JAVA_JNI_LIB_TARGET})
     set (H5EX_JAVA_LIBRARIES ${HDF5_JAVA_HDF5_LIB_TARGET} ${HDF5_JAVA_JNI_LIB_TARGET})
@@ -100,7 +126,9 @@ else ()
 endif ()
 message (STATUS "HDF5 Example link libs: ${H5EX_HDF5_LINK_LIBS} Includes: ${H5EX_HDF5_INCLUDE_DIRS}")
 
+# Set up tool and executable variables for use in example tests
 set (HDF5_TOOLS_DIR ${CMAKE_TEST_OUTPUT_DIRECTORY} CACHE STRING "HDF5 Directory for all Executables" FORCE)
 set (H5EX_HDF5_DUMP_EXECUTABLE $<TARGET_FILE:h5dump> CACHE STRING "HDF5 h5dump target" FORCE)
 set (H5EX_HDF5_REPACK_EXECUTABLE $<TARGET_FILE:h5repack> CACHE STRING "HDF5 h5repack target" FORCE)
 
+# End of HDF5ExampleCache.cmake

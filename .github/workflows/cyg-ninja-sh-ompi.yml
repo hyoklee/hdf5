@@ -12,7 +12,7 @@ jobs:
       - name: git
         run: git config --global core.autocrlf input
       - name: get
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: set
         uses: cygwin/cygwin-install-action@master
         with:

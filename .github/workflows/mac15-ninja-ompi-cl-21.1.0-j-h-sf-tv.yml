@@ -11,19 +11,30 @@ jobs:
       - name: install
         run: |
           brew update
-          brew install openmpi flang
-      - uses: lukka/get-cmake@latest
+          brew install flang
       - name: checkout
         uses: actions/checkout@v4
         with:
           repository: HDFGroup/hdf5
+      - name: Get OpenMPI source
+        uses: actions/checkout@v4
+        with:
+          repository: 'open-mpi/ompi'
+          path: 'ompi'
+          submodules: recursive
       - name: test
         run: |
           cmake --version
           ls /opt/homebrew/bin/flang*
           export FC=/opt/homebrew/bin/flang-21
           export CC=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang++	  
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang++
+          cd ompi
+          ./autogen.pl
+          ./configure
+          make -j
+          sudo make install
+          cd ..
           mkdir build
           cd build
           cmake -G Ninja \

@@ -1,38 +1,90 @@
-name: msys2
+name: hdf5 dev MSys2 CI
 
+# Triggers the workflow on a call from another workflow
 on:
-  push:
-    branches:
-      - develop-
+  workflow_call:
+    inputs:
+      build_mode:
+        description: "release vs. debug build"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
 jobs:
-  build:
+
+  Build_and_test:
+
+    # The type of runner that the job will run on
+    runs-on: windows-latest
     strategy:
       matrix:
-        sys:
-          - mingw64
-          - mingw32
-          - ucrt64
-          - clang64
-    runs-on: windows-latest
+        include:
+          - { icon: '⬛', sys: mingw32 }
+          - { icon: '🟦', sys: mingw64 }
+          - { icon: '🟨', sys: ucrt64  }
+          - { icon: '🟧', sys: clang64 }
+    name: ${{ matrix.icon }} MSYS2-${{ matrix.sys }}-${{ inputs.build_mode }}
+    defaults:
+      run:
+        shell: msys2 {0}
+
     steps:
-      - name: git
-        run: git config --global core.autocrlf input
-      - name: get
-        uses: actions/checkout@v4
-      - name: '${{ matrix.icon }} set'
+      - name: '${{ matrix.icon }} Setup MSYS2'
         uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.sys}}
           update: true
+          install: >-
+           base-devel
+           git
+           gcc
+           make
+           development
           pacboy: >-
-            toolchain:p
-            cmake:p
-            ninja:p
-      - name: build
-        shell: msys2 {0}
+           toolchain:p
+           cmake:p
+           ninja:p
+
+      - name: Set git to use LF
         run: |
-          mkdir build
-          cd build
-          cmake -DH5_HAVE_ALARM:INTERNAL=0 -DH5_HAVE_ASPRINTF:INTERNAL=0 -DH5_HAVE_VASPRINTF:INTERNAL=0 ..
-          ninja
-#          ninja test
+          git config --global core.autocrlf input
+
+      - name: Get Sources
+        uses: actions/checkout@v4.1.1
+
+      - name: Configure
+        run: |
+          mkdir "${{ runner.workspace }}/build"
+          cd "${{ runner.workspace }}/build"
+          cmake -C $GITHUB_WORKSPACE/config/cmake/cacheinit.cmake \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
+            -DCMAKE_TOOLCHAIN_FILE="" \
+            -DHDF5_GENERATE_HEADERS:BOOL=OFF \
+            -DBUILD_SHARED_LIBS:BOOL=ON \
+            -DHDF5_ENABLE_ALL_WARNINGS:BOOL=ON \
+            -DHDF5_ENABLE_PARALLEL:BOOL=OFF \
+            -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
+            -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+            -DHDF5_BUILD_JAVA:BOOL=OFF \
+            -DHDF5_BUILD_DOC:BOOL=OFF \
+            $GITHUB_WORKSPACE
+
+      - name: Build
+        run: |
+          cmake --build . --parallel 3 --config ${{ inputs.build_mode }}
+        working-directory: ${{ runner.workspace }}/build
+
+      - name: Run Tests
+        run: |
+          ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -E "testhdf5-base|cache_api|dt_arith|H5TEST-dtypes|err_compat"
+        working-directory: ${{ runner.workspace }}/build
+
+      - name: Run Expected to Fail Tests
+        run: |
+          ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -R "testhdf5-base|cache_api|dt_arith|H5TEST-dtypes|err_compat"
+        working-directory: ${{ runner.workspace }}/build
+        continue-on-error: true
+

@@ -1374,6 +1374,7 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_dbl", native_float, native_double, H5T__conv_float_double);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_flt", native_double, native_float, H5T__conv_double_float);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt_ldbl", native_float, native_ldouble, H5T__conv_float_ldouble);
     status |=
@@ -1382,13 +1383,16 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "ldbl_flt", native_ldouble, native_float, H5T__conv_ldouble_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_dbl", native_ldouble, native_double, H5T__conv_ldouble_double);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt16_flt", native_float16, native_float, H5T__conv__Float16_float);
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_dbl", native_float16, native_double,
                                 H5T__conv__Float16_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_ldbl", native_float16, native_ldouble,
                                 H5T__conv__Float16_ldouble);
+#endif /* __NVCOMPILER */
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt_flt16", native_float, native_float16, H5T__conv_float__Float16);
     status |= H5T__register_int(H5T_PERS_HARD, "dbl_flt16", native_double, native_float16,
@@ -1411,12 +1415,14 @@ H5T__init_package(void)
                                 H5T__conv_double_dcomplex);
     status |= H5T__register_int(H5T_PERS_HARD, "dbl_lcomplex", native_double, native_ldouble_complex,
                                 H5T__conv_double_lcomplex);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "ldbl_fcomplex", native_ldouble, native_float_complex,
                                 H5T__conv_ldouble_fcomplex);
     status |= H5T__register_int(H5T_PERS_HARD, "ldbl_dcomplex", native_ldouble, native_double_complex,
                                 H5T__conv_ldouble_dcomplex);
     status |= H5T__register_int(H5T_PERS_HARD, "ldbl_lcomplex", native_ldouble, native_ldouble_complex,
                                 H5T__conv_ldouble_lcomplex);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_fcomplex", native_float16, native_float_complex,
                                 H5T__conv__Float16_fcomplex);
@@ -1582,8 +1588,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "schar_flt", native_schar, native_float, H5T__conv_schar_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "schar_dbl", native_schar, native_double, H5T__conv_schar_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "schar_ldbl", native_schar, native_ldouble, H5T__conv_schar_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "schar_flt16", native_schar, native_float16,
                                 H5T__conv_schar__Float16);
@@ -1602,8 +1610,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "uchar_flt", native_uchar, native_float, H5T__conv_uchar_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "uchar_dbl", native_uchar, native_double, H5T__conv_uchar_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "uchar_ldbl", native_uchar, native_ldouble, H5T__conv_uchar_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "uchar_flt16", native_uchar, native_float16,
                                 H5T__conv_uchar__Float16);
@@ -1622,8 +1632,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "short_flt", native_short, native_float, H5T__conv_short_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "short_dbl", native_short, native_double, H5T__conv_short_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "short_ldbl", native_short, native_ldouble, H5T__conv_short_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "short_flt16", native_short, native_float16,
                                 H5T__conv_short__Float16);
@@ -1642,8 +1654,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "ushort_flt", native_ushort, native_float, H5T__conv_ushort_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "ushort_dbl", native_ushort, native_double, H5T__conv_ushort_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "ushort_ldbl", native_ushort, native_ldouble,
                                 H5T__conv_ushort_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "ushort_flt16", native_ushort, native_float16,
                                 H5T__conv_ushort__Float16);
@@ -1660,7 +1674,9 @@ H5T__init_package(void)
     /* From int to floats */
     status |= H5T__register_int(H5T_PERS_HARD, "int_flt", native_int, native_float, H5T__conv_int_float);
     status |= H5T__register_int(H5T_PERS_HARD, "int_dbl", native_int, native_double, H5T__conv_int_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "int_ldbl", native_int, native_ldouble, H5T__conv_int_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "int_flt16", native_int, native_float16, H5T__conv_int__Float16);
@@ -1677,8 +1693,10 @@ H5T__init_package(void)
     /* From unsigned int to floats */
     status |= H5T__register_int(H5T_PERS_HARD, "uint_flt", native_uint, native_float, H5T__conv_uint_float);
     status |= H5T__register_int(H5T_PERS_HARD, "uint_dbl", native_uint, native_double, H5T__conv_uint_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "uint_ldbl", native_uint, native_ldouble, H5T__conv_uint_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "uint_flt16", native_uint, native_float16, H5T__conv_uint__Float16);
@@ -1695,8 +1713,10 @@ H5T__init_package(void)
     /* From long to floats */
     status |= H5T__register_int(H5T_PERS_HARD, "long_flt", native_long, native_float, H5T__conv_long_float);
     status |= H5T__register_int(H5T_PERS_HARD, "long_dbl", native_long, native_double, H5T__conv_long_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "long_ldbl", native_long, native_ldouble, H5T__conv_long_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "long_flt16", native_long, native_float16, H5T__conv_long__Float16);
@@ -1715,8 +1735,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "ulong_flt", native_ulong, native_float, H5T__conv_ulong_float);
     status |=
         H5T__register_int(H5T_PERS_HARD, "ulong_dbl", native_ulong, native_double, H5T__conv_ulong_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ulong_ldbl", native_ulong, native_ldouble, H5T__conv_ulong_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "ulong_flt16", native_ulong, native_float16,
                                 H5T__conv_ulong__Float16);
@@ -1783,8 +1805,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_schar", native_float, native_schar, H5T__conv_float_schar);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_schar", native_double, native_schar, H5T__conv_double_schar);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_schar", native_ldouble, native_schar, H5T__conv_ldouble_schar);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_schar", native_float16, native_schar,
                                 H5T__conv__Float16_schar);
@@ -1795,8 +1819,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_uchar", native_float, native_uchar, H5T__conv_float_uchar);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_uchar", native_double, native_uchar, H5T__conv_double_uchar);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_uchar", native_ldouble, native_uchar, H5T__conv_ldouble_uchar);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_uchar", native_float16, native_uchar,
                                 H5T__conv__Float16_uchar);
@@ -1807,8 +1833,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_short", native_float, native_short, H5T__conv_float_short);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_short", native_double, native_short, H5T__conv_double_short);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_short", native_ldouble, native_short, H5T__conv_ldouble_short);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_short", native_float16, native_short,
                                 H5T__conv__Float16_short);
@@ -1819,8 +1847,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_ushort", native_float, native_ushort, H5T__conv_float_ushort);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_ushort", native_double, native_ushort, H5T__conv_double_ushort);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "ldbl_ushort", native_ldouble, native_ushort,
                                 H5T__conv_ldouble_ushort);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_ushort", native_float16, native_ushort,
                                 H5T__conv__Float16_ushort);
@@ -1829,7 +1859,9 @@ H5T__init_package(void)
     /* From floats to int */
     status |= H5T__register_int(H5T_PERS_HARD, "flt_int", native_float, native_int, H5T__conv_float_int);
     status |= H5T__register_int(H5T_PERS_HARD, "dbl_int", native_double, native_int, H5T__conv_double_int);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "ldbl_int", native_ldouble, native_int, H5T__conv_ldouble_int);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt16_int", native_float16, native_int, H5T__conv__Float16_int);
@@ -1838,8 +1870,10 @@ H5T__init_package(void)
     /* From floats to unsigned int */
     status |= H5T__register_int(H5T_PERS_HARD, "flt_uint", native_float, native_uint, H5T__conv_float_uint);
     status |= H5T__register_int(H5T_PERS_HARD, "dbl_uint", native_double, native_uint, H5T__conv_double_uint);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_uint", native_ldouble, native_uint, H5T__conv_ldouble_uint);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt16_uint", native_float16, native_uint, H5T__conv__Float16_uint);
@@ -1848,8 +1882,10 @@ H5T__init_package(void)
     /* From floats to long */
     status |= H5T__register_int(H5T_PERS_HARD, "flt_long", native_float, native_long, H5T__conv_float_long);
     status |= H5T__register_int(H5T_PERS_HARD, "dbl_long", native_double, native_long, H5T__conv_double_long);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_long", native_ldouble, native_long, H5T__conv_ldouble_long);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |=
         H5T__register_int(H5T_PERS_HARD, "flt16_long", native_float16, native_long, H5T__conv__Float16_long);
@@ -1860,8 +1896,10 @@ H5T__init_package(void)
         H5T__register_int(H5T_PERS_HARD, "flt_ulong", native_float, native_ulong, H5T__conv_float_ulong);
     status |=
         H5T__register_int(H5T_PERS_HARD, "dbl_ulong", native_double, native_ulong, H5T__conv_double_ulong);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |=
         H5T__register_int(H5T_PERS_HARD, "ldbl_ulong", native_ldouble, native_ulong, H5T__conv_ldouble_ulong);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "flt16_ulong", native_float16, native_ulong,
                                 H5T__conv__Float16_ulong);
@@ -1985,8 +2023,10 @@ H5T__init_package(void)
                                 H5T__conv_fcomplex_float);
     status |= H5T__register_int(H5T_PERS_HARD, "fcomplex_dbl", native_float_complex, native_double,
                                 H5T__conv_fcomplex_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "fcomplex_ldbl", native_float_complex, native_ldouble,
                                 H5T__conv_fcomplex_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "fcomplex_flt16", native_float_complex, native_float16,
                                 H5T__conv_fcomplex__Float16);
@@ -1995,8 +2035,10 @@ H5T__init_package(void)
                                 H5T__conv_dcomplex_float);
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_dbl", native_double_complex, native_double,
                                 H5T__conv_dcomplex_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_ldbl", native_double_complex, native_ldouble,
                                 H5T__conv_dcomplex_ldouble);
+#endif /* __NVCOMPILER */
 #ifdef H5_HAVE__FLOAT16
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_flt16", native_double_complex, native_float16,
                                 H5T__conv_dcomplex__Float16);
@@ -2005,8 +2047,10 @@ H5T__init_package(void)
                                 H5T__conv_lcomplex_float);
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_dbl", native_ldouble_complex, native_double,
                                 H5T__conv_lcomplex_double);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_ldbl", native_ldouble_complex, native_ldouble,
                                 H5T__conv_lcomplex_ldouble);
+#endif /* __NVCOMPILER */
 #if defined(H5_HAVE__FLOAT16) && defined(H5T_CONV_INTERNAL_LDOUBLE_FLOAT16)
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_flt16", native_ldouble_complex, native_float16,
                                 H5T__conv_lcomplex__Float16);
@@ -2015,16 +2059,24 @@ H5T__init_package(void)
     /* From complex numbers to complex numbers */
     status |= H5T__register_int(H5T_PERS_HARD, "fcomplex_dcomplex", native_float_complex,
                                 native_double_complex, H5T__conv_fcomplex_dcomplex);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "fcomplex_lcomplex", native_float_complex,
                                 native_ldouble_complex, H5T__conv_fcomplex_lcomplex);
+#endif /* __NVCOMPILER */
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_fcomplex", native_double_complex,
                                 native_float_complex, H5T__conv_dcomplex_fcomplex);
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_lcomplex", native_double_complex,
                                 native_ldouble_complex, H5T__conv_dcomplex_lcomplex);
+#endif /* __NVCOMPILER */
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_fcomplex", native_ldouble_complex,
                                 native_float_complex, H5T__conv_lcomplex_fcomplex);
+#endif /* __NVCOMPILER */
+#ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_dcomplex", native_ldouble_complex,
                                 native_double_complex, H5T__conv_lcomplex_dcomplex);
+#endif /* __NVCOMPILER */
 #endif
 
     /*

@@ -22,7 +22,8 @@ jobs:
           repository: 'open-mpi/ompi'
           path: 'ompi'
           submodules: recursive
-      - name: test
+      - name: mpi
+        continue-on-error: true
         run: |
           cmake --version
           ls /opt/homebrew/bin/flang*
@@ -31,10 +32,14 @@ jobs:
           export CXX=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang++
           cd ompi
           ./autogen.pl
-          ./configure
+          ./configure  --enable-mca-no-build=btl-uct \
+          --with-libevent=internal \
+          --disable-getpwuid
+          tail -50 config.log
           make -j
           sudo make install
-          cd ..
+      - name: h5
+        run: |
           mkdir build
           cd build
           cmake -G Ninja \

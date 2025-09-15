@@ -2068,11 +2068,11 @@ H5T__init_package(void)
 #ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "dcomplex_lcomplex", native_double_complex,
                                 native_ldouble_complex, H5T__conv_dcomplex_lcomplex);
-#endif /* __NVCOMPILER */
+#endif               /* __NVCOMPILER */
 #ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_fcomplex", native_ldouble_complex,
                                 native_float_complex, H5T__conv_lcomplex_fcomplex);
-#endif /* __NVCOMPILER */
+#endif               /* __NVCOMPILER */
 #ifndef __NVCOMPILER /* NVHPC has segmentation faults with long double conversions */
     status |= H5T__register_int(H5T_PERS_HARD, "lcomplex_dcomplex", native_ldouble_complex,
                                 native_double_complex, H5T__conv_lcomplex_dcomplex);

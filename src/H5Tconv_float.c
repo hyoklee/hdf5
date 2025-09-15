@@ -147,7 +147,8 @@ H5T__conv_f_f_loop(const H5T_t *src_p, const H5T_t *dst_p, const H5T_conv_ctx_t 
     if (dst_atomic.u.f.esize >= (8 * sizeof(hssize_t) - 1)) {
         /* For very large exponent sizes, use maximum safe value */
         expo_max = HSSIZET_MAX;
-    } else {
+    }
+    else {
         /* Safe shift operation with bounds checking */
         expo_max = ((hssize_t)1 << dst_atomic.u.f.esize) - 1;
     }

@@ -119,7 +119,8 @@
 
 /* Define an internal macro for converting long long to long double.  Mac OS 10.4 gives some
  * incorrect conversions. NVHPC compiler has segmentation faults with long double conversions. */
-#if ((H5_WANT_DATA_ACCURACY && defined(H5_LLONG_TO_LDOUBLE_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) && !defined(__NVCOMPILER)
+#if ((H5_WANT_DATA_ACCURACY && defined(H5_LLONG_TO_LDOUBLE_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) &&         \
+    !defined(__NVCOMPILER)
 #define H5T_CONV_INTERNAL_LLONG_LDOUBLE 1
 #endif
 
@@ -127,29 +128,35 @@
  * some incorrect conversion.  64-bit Solaris does different rounding.   Windows Visual Studio 6 does
  * not support unsigned long long.  For FreeBSD(sleipnir), the last 2 bytes of mantissa are lost when
  * compiler tries to do the conversion.  For Cygwin, compiler doesn't do rounding correctly.
- * Mac OS 10.4 gives some incorrect result. NVHPC compiler has segmentation faults with long double conversions. */
-#if ((H5_WANT_DATA_ACCURACY && defined(H5_LLONG_TO_LDOUBLE_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) && !defined(__NVCOMPILER)
+ * Mac OS 10.4 gives some incorrect result. NVHPC compiler has segmentation faults with long double
+ * conversions. */
+#if ((H5_WANT_DATA_ACCURACY && defined(H5_LLONG_TO_LDOUBLE_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) &&         \
+    !defined(__NVCOMPILER)
 #define H5T_CONV_INTERNAL_ULLONG_LDOUBLE 1
 #endif
 
 /* Define an internal macro for converting long double to long long.  SGI compilers give some incorrect
  * conversions. Mac OS 10.4 gives incorrect conversions. HP-UX 11.00 compiler generates floating exception.
- * The hard conversion on Windows .NET 2003 has a bug and gives wrong exception value. NVHPC compiler has segmentation faults with long double conversions. */
-#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || (!H5_WANT_DATA_ACCURACY)) && !defined(__NVCOMPILER)
+ * The hard conversion on Windows .NET 2003 has a bug and gives wrong exception value. NVHPC compiler has
+ * segmentation faults with long double conversions. */
+#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || (!H5_WANT_DATA_ACCURACY)) &&        \
+    !defined(__NVCOMPILER)
 #define H5T_CONV_INTERNAL_LDOUBLE_LLONG 1
 #endif
 
 /* Define an internal macro for converting long double to unsigned long long.  SGI compilers give some
  * incorrect conversions.  Mac OS 10.4 gives incorrect conversions. HP-UX 11.00 compiler generates
  * floating exception. NVHPC compiler has segmentation faults with long double conversions. */
-#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || (!H5_WANT_DATA_ACCURACY)) && !defined(__NVCOMPILER)
+#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || (!H5_WANT_DATA_ACCURACY)) &&        \
+    !defined(__NVCOMPILER)
 #define H5T_CONV_INTERNAL_LDOUBLE_ULLONG 1
 #endif
 
 /* Define an internal macro for converting long double to _Float16. Mac OS 13
  * gives incorrect conversions that appear to be resolved in Mac OS 14. */
 #ifdef H5_HAVE__FLOAT16
-#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_FLOAT16_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) && !defined(__NVCOMPILER)
+#if ((H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_FLOAT16_CORRECT)) || (!H5_WANT_DATA_ACCURACY)) &&       \
+    !defined(__NVCOMPILER)
 #define H5T_CONV_INTERNAL_LDOUBLE_FLOAT16 1
 #endif
 #endif

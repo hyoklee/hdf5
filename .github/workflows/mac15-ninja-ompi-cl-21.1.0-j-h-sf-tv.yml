@@ -28,14 +28,16 @@ jobs:
           cmake --version
           ls /opt/homebrew/bin/flang*
           export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.0/bin/clang++
+          export CC=/opt/homebrew/bin/clang
+          export CXX=/opt/homebrew/bin/clang++
+          export LDFLAGS="-L/opt/homebrew/lib"
+          export CPPFLAGS="-I/opt/homebrew/include"
           cd ompi
           ./autogen.pl
           ./configure  --enable-mca-no-build=btl-uct \
           --with-libevent=internal \
           --disable-getpwuid
-          tail -50 config.log
+          cat config.log
           make -j
           sudo make install
       - name: h5

@@ -14,7 +14,7 @@ jobs:
           ndk-version: r26c
 
       - name: Checkout HDF5
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Test HDF5
         run: |

@@ -142,7 +142,16 @@ H5T__conv_f_f_loop(const H5T_t *src_p, const H5T_t *dst_p, const H5T_conv_ctx_t 
     else
         dst_atomic = dst_p->shared->u.atomic;
 
-    expo_max = ((hssize_t)1 << dst_atomic.u.f.esize) - 1;
+    /* Calculate maximum exponent value safely to avoid NVHPC compiler issues
+     * with large shift operations on long double types */
+    if (dst_atomic.u.f.esize >= (8 * sizeof(hssize_t) - 1)) {
+        /* For very large exponent sizes, use maximum safe value */
+        expo_max = HSSIZET_MAX;
+    }
+    else {
+        /* Safe shift operation with bounds checking */
+        expo_max = ((hssize_t)1 << dst_atomic.u.f.esize) - 1;
+    }
 
 #ifndef NDEBUG
     /* Are we converting between a floating-point type and a complex number

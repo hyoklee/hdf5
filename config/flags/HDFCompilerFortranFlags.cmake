@@ -57,16 +57,22 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang")
   if (CMAKE_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
     message (STATUS "....Applying ARM64 macOS flang workarounds")
 
+    # Find the LLVM lib directory from the compiler path
+    get_filename_component(FLANG_BIN_DIR ${CMAKE_Fortran_COMPILER} DIRECTORY)
+    get_filename_component(FLANG_ROOT_DIR ${FLANG_BIN_DIR} DIRECTORY)
+    set(FLANG_LIB_DIR "${FLANG_ROOT_DIR}/lib")
+
     # Add Fortran runtime library paths for ARM64 macOS
-    if (EXISTS "/opt/homebrew/lib")
-      list (APPEND HDF5_CMAKE_Fortran_FLAGS "-L/opt/homebrew/lib")
+    if (EXISTS "${FLANG_LIB_DIR}")
+      list (APPEND HDF5_CMAKE_Fortran_FLAGS "-L${FLANG_LIB_DIR}")
+      set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L${FLANG_LIB_DIR}")
     endif ()
 
     # Link required runtime libraries explicitly for linking stage
-    set (CMAKE_Fortran_STANDARD_LIBRARIES "-lFortranRuntime -lFortranDecimal ${CMAKE_Fortran_STANDARD_LIBRARIES}")
+    set (CMAKE_Fortran_STANDARD_LIBRARIES "-lFortranRuntime -lFortranDecimal -lm ${CMAKE_Fortran_STANDARD_LIBRARIES}")
 
-    # Ensure proper linking flags
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/homebrew/lib")
+    # Add rpath for runtime library discovery
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,${FLANG_LIB_DIR}")
   endif ()
 endif ()
 

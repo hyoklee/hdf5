@@ -661,6 +661,17 @@ H5_DLL H5_ATTR_CONST int Nflock(int fd, int operation);
 #ifndef HDftruncate
 #define HDftruncate(F, L) ftruncate(F, L)
 #endif
+/* Ensure getcwd is declared for non-Windows systems */
+#if !defined(_WIN32)
+/* Force include unistd.h for ARM64 macOS with clang21+ due to detection issues */
+#if defined(__APPLE__) && defined(__aarch64__) && defined(__clang__) && (__clang_major__ >= 21)
+#include <unistd.h>
+#elif !defined(H5_HAVE_UNISTD_H)
+/* Fallback declaration when unistd.h is not detected */
+extern char *getcwd(char *buf, size_t size);
+#endif
+#endif
+
 #ifndef HDgetcwd
 #define HDgetcwd(S, Z) getcwd(S, Z)
 #endif

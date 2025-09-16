@@ -52,8 +52,22 @@ endif ()
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang")
   # Flang (LLVM Fortran) compiler flags
   message (STATUS "....Using LLVM Flang Fortran compiler")
-  # Add any flang-specific flags here if needed
-  # For now, flang should work with default flags
+
+  # Special handling for ARM64 macOS with flang-21+
+  if (CMAKE_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+    message (STATUS "....Applying ARM64 macOS flang workarounds")
+
+    # Add Fortran runtime library paths for ARM64 macOS
+    if (EXISTS "/opt/homebrew/lib")
+      list (APPEND HDF5_CMAKE_Fortran_FLAGS "-L/opt/homebrew/lib")
+    endif ()
+
+    # Link required runtime libraries explicitly for linking stage
+    set (CMAKE_Fortran_STANDARD_LIBRARIES "-lFortranRuntime -lFortranDecimal ${CMAKE_Fortran_STANDARD_LIBRARIES}")
+
+    # Ensure proper linking flags
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L/opt/homebrew/lib")
+  endif ()
 endif ()
 
 #-----------------------------------------------------------------------------

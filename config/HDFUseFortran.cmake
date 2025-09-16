@@ -36,6 +36,20 @@ include (FortranCInterface)
 #-----------------------------------------------------------------------------
 # Verifies Fortran and C/C++ compiler interoperability
 #-----------------------------------------------------------------------------
+
+# Special handling for flang-21 on ARM64 macOS before verification
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang" AND CMAKE_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+  message (STATUS "Configuring flang-21 ARM64 macOS workarounds before Fortran verification")
+
+  # Set required libraries for flang linking
+  if (EXISTS "/opt/homebrew/lib")
+    set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -L/opt/homebrew/lib")
+  endif ()
+
+  # Add runtime libraries needed for flang on ARM64 macOS
+  set (CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} -lFortranRuntime -lFortranDecimal")
+endif ()
+
 FortranCInterface_VERIFY()
 
 # Sets macros for Fortran name mangling (H5_FC_FUNC, H5_FC_FUNC_)
@@ -68,6 +82,14 @@ endmacro ()
 
 if (HDF5_REQUIRED_LIBRARIES)
   set (CMAKE_REQUIRED_LIBRARIES "${HDF5_REQUIRED_LIBRARIES}")
+endif ()
+
+# Additional libraries for flang-21 on ARM64 macOS
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang" AND CMAKE_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+  if (EXISTS "/opt/homebrew/lib")
+    set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS} -L/opt/homebrew/lib")
+  endif ()
+  set (CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES} -lFortranRuntime -lFortranDecimal")
 endif ()
 
 READ_SOURCE("PROGRAM PROG_FC_SIZEOF" "END PROGRAM PROG_FC_SIZEOF" SOURCE_CODE)

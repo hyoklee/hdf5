@@ -809,6 +809,7 @@ EXCLUDE_PATTERNS       = */fortran/test/* \
                          */sanitizer/* \
                          *WATCHME.md* \
                          */CONTRIBUTING.md \
+                         */CHANGELOG.md \
 
 
 # The EXCLUDE_SYMBOLS tag can be used to specify one or more symbol names

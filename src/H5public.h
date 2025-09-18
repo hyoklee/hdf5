@@ -258,12 +258,12 @@ typedef int herr_t;
  * \deprecated Now that we require C99, hbool_t is typedef'd to C99's bool
  *             and hbool_t is considered deprecated. Due to its long-standing,
  *             widespread use, we have no plans to remove the hbool_t typedef
- *             from the public API, though we will probably switch to using
- *             bool in the public API starting in the next major release of HDF5.
+ *             from the public API, though it is otherwise unused in the library.
  * \attention Boolean functions cannot fail.
  */
 #include <stdbool.h>
 typedef bool hbool_t;
+
 /**
  * Three-valued Boolean type. Functions that return #htri_t however return zero
  * (false), positive (true), or negative (failure).
@@ -461,6 +461,22 @@ typedef void (*H5_atclose_func_t)(void *ctx);
  * Does the compiler support the __builtin_expect() syntax?
  * It's not a problem if not.
  */
+
+/* clang-format off */
+#if defined(__has_builtin)
+    /* clang extension to check for builtins. Do this first, because clang
+     * also defines __GNUC__ and didn't support __builtin_expect() until
+     * more recently.
+     */
+#   if __has_builtin(__builtin_expect)
+#       define H5_HAVE_BUILTIN_EXPECT 1
+#   endif
+#elif defined(__GNUC__)
+    /* __builtin_expect() has been supported since 2.95 or 2.96 (circa 2000) */
+#   define H5_HAVE_BUILTIN_EXPECT 1
+#endif
+/* clang-format on */
+
 #if H5_HAVE_BUILTIN_EXPECT
 #define H5_LIKELY(expression)   __builtin_expect(!!(expression), 1)
 #define H5_UNLIKELY(expression) __builtin_expect(!!(expression), 0)
@@ -756,7 +772,7 @@ H5_DLL herr_t H5check_version(unsigned majnum, unsigned minnum, unsigned relnum)
  *
  * \since 1.14.0
  */
-H5_DLL herr_t H5is_library_terminating(hbool_t *is_terminating);
+H5_DLL herr_t H5is_library_terminating(bool *is_terminating);
 /**
  * \ingroup H5
  * \brief Determines whether the HDF5 library was built with the thread-safety
@@ -775,7 +791,7 @@ H5_DLL herr_t H5is_library_terminating(hbool_t *is_terminating);
  * \since 1.10.0
  *
  */
-H5_DLL herr_t H5is_library_threadsafe(hbool_t *is_ts);
+H5_DLL herr_t H5is_library_threadsafe(bool *is_ts);
 /**
  * \ingroup H5
  * \brief Frees memory allocated by the HDF5 library
@@ -868,7 +884,7 @@ H5_DLL herr_t H5free_memory(void *mem);
  * \since 1.8.15
  *
  */
-H5_DLL void *H5allocate_memory(size_t size, hbool_t clear);
+H5_DLL void *H5allocate_memory(size_t size, bool clear);
 /**
  * \ingroup H5
  * \brief Resizes and, if required, re-allocates memory that will later be

@@ -58,7 +58,7 @@ static const char *FILENAME[] = {"link0", "link1.h5", "link2.h5", "visit", NULL}
  *-------------------------------------------------------------------------
  */
 static void
-test_basic_links(hid_t fapl_id, hbool_t new_format)
+test_basic_links(hid_t fapl_id, bool new_format)
 {
     hsize_t size[1] = {1};
     char    filename[NAME_BUF_SIZE];
@@ -168,7 +168,7 @@ test_basic_links(hid_t fapl_id, hbool_t new_format)
 const H5std_string GROUP1NAME("First_group");
 const H5std_string GROUP2NAME("Second_group");
 static void
-test_lcpl(hid_t fapl_id, hbool_t new_format)
+test_lcpl(hid_t fapl_id, bool new_format)
 {
     H5L_info2_t linfo;
     char        filename[1024];
@@ -250,7 +250,7 @@ test_lcpl(hid_t fapl_id, hbool_t new_format)
  *-------------------------------------------------------------------------
  */
 static void
-test_move(hid_t fapl_id, hbool_t new_format)
+test_move(hid_t fapl_id, bool new_format)
 {
     char filename[1024];
 
@@ -395,7 +395,7 @@ test_move(hid_t fapl_id, hbool_t new_format)
  *-------------------------------------------------------------------------
  */
 static void
-test_copy(hid_t fapl_id, hbool_t new_format)
+test_copy(hid_t fapl_id, bool new_format)
 {
     char filename[1024];
 
@@ -533,7 +533,7 @@ test_copy(hid_t fapl_id, hbool_t new_format)
  *-------------------------------------------------------------------------
  */
 static void
-test_num_links(hid_t fapl_id, hbool_t new_format)
+test_num_links(hid_t fapl_id, bool new_format)
 {
     char filename[NAME_BUF_SIZE];
 
@@ -616,7 +616,7 @@ visit_obj_cb(H5Object &obj, const H5std_string name, const H5O_info2_t *oinfo, v
  *-------------------------------------------------------------------------
  */
 static void
-test_visit(hid_t fapl_id, hbool_t new_format)
+test_visit(hid_t fapl_id, bool new_format)
 {
     hsize_t dims[2];
     hsize_t cdims[2];

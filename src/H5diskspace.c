@@ -20,12 +20,12 @@
 /****************/
 
 #include "H5diskspace.h"
-#include "H5Eprivate.h"        /* Error handling */
+#include "H5Eprivate.h" /* Error handling */
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"         /* Generic Functions */
+#include "H5private.h" /* Generic Functions */
 
 #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 #include <sys/statvfs.h>
@@ -112,7 +112,7 @@ herr_t
 H5_check_disk_space(const char *path, long long required_bytes)
 {
     long long available;
-    herr_t ret_value = SUCCEED;
+    herr_t    ret_value = SUCCEED;
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -128,8 +128,8 @@ H5_check_disk_space(const char *path, long long required_bytes)
     /* Check if we have enough space (with some buffer) */
     if (available < (required_bytes + H5_DISKSPACE_MIN_FREE_BYTES)) {
         HGOTO_ERROR(H5E_DATASET, H5E_NOSPACE, FAIL,
-                   "insufficient disk space: available=%lld bytes, required=%lld bytes",
-                   available, required_bytes)
+                    "insufficient disk space: available=%lld bytes, required=%lld bytes", available,
+                    required_bytes)
     }
 
 done:
@@ -150,7 +150,7 @@ herr_t
 H5_check_disk_space_before_write(const char *path, size_t data_size)
 {
     long long required_bytes;
-    herr_t ret_value = SUCCEED;
+    herr_t    ret_value = SUCCEED;
 
     FUNC_ENTER_NOAPI_NOINIT
 

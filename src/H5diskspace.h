@@ -21,11 +21,11 @@
 #include "H5private.h"
 
 /* Local constants */
-#define H5_DISKSPACE_MIN_FREE_BYTES 104857600  /* 100MB minimum free space */
+#define H5_DISKSPACE_MIN_FREE_BYTES 104857600 /* 100MB minimum free space */
 
 /* Function prototypes */
 H5_DLL long long H5_get_available_disk_space(const char *path);
-H5_DLL herr_t H5_check_disk_space(const char *path, long long required_bytes);
-H5_DLL herr_t H5_check_disk_space_before_write(const char *path, size_t data_size);
+H5_DLL herr_t    H5_check_disk_space(const char *path, long long required_bytes);
+H5_DLL herr_t    H5_check_disk_space_before_write(const char *path, size_t data_size);
 
 #endif /* H5diskspace_H */

@@ -28,6 +28,7 @@
 #include "H5Iprivate.h"  /* IDs                                      */
 #include "H5MMprivate.h" /* Memory management                        */
 #include "H5VLprivate.h" /* Virtual Object Layer                     */
+#include "H5diskspace.h" /* Disk space utilities                     */
 
 #include "H5VLnative_private.h" /* Native VOL connector                     */
 
@@ -1300,6 +1301,12 @@ H5D__write_api_common(size_t count, hid_t dset_id[], hid_t mem_type_id[], hid_t 
         dxpl_id = H5P_DATASET_XFER_DEFAULT;
     else if (true != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not xfer parms");
+
+    /* Check disk space before write operation to prevent hanging */
+    /* Note: We estimate data size conservatively - in practice the actual
+     * calculation would need dataset size information from memory/file spaces */
+    if (H5_check_disk_space_before_write(".", 0) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_NOSPACE, FAIL, "insufficient disk space for write operation");
 
     /* Write the data */
     if (H5VL_dataset_write(count, obj, connector, mem_type_id, mem_space_id, file_space_id, dxpl_id, buf,

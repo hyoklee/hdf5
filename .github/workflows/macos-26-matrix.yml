@@ -7,6 +7,15 @@ on:
   pull_request:
     branches:
       - develop
+   workflow_dispatch:
+#   schedule:
+#     - cron: "0 9 * * *"
+
+# Using concurrency to cancel any in-progress job or run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref && github.ref || github.run_id }}
+  cancel-in-progress: true
+
 
 jobs:
   build-test:
@@ -16,14 +25,24 @@ jobs:
         # Test combinations of key options
         include:
           # Shared libraries with OpenMPI
+<<<<<<< HEAD
           - name: "macOS-26 Shared OpenMPI C++"
+=======
+          - name: "macOS-26 Shared OpenMPI Fortran Java"
+>>>>>>> upstream/develop
             os: macos-26
             mpi: openmpi
             shared_libs: ON
             static_libs: OFF
+<<<<<<< HEAD
             cpp: ON
             fortran: OFF
             java: OFF
+=======
+            cpp: OFF
+            fortran: OFF
+            java: ON
+>>>>>>> upstream/develop
             hl: ON
             threadsafe: OFF
             parallel: ON
@@ -52,14 +71,22 @@ jobs:
             szip: ON
 
           # Static libraries with OpenMPI
+<<<<<<< HEAD
           - name: "macOS-26 Static OpenMPI Java"
+=======
+          - name: "macOS-26 Static OpenMPI"
+>>>>>>> upstream/develop
             os: macos-26
             mpi: openmpi
             shared_libs: OFF
             static_libs: ON
             cpp: OFF
             fortran: OFF
+<<<<<<< HEAD
             java: ON
+=======
+            java: OFF
+>>>>>>> upstream/develop
             hl: ON
             threadsafe: OFF
             parallel: ON
@@ -168,7 +195,11 @@ jobs:
     - name: Install Dependencies
       run: |
         # Install base dependencies
+<<<<<<< HEAD
         brew install ninja cmake autoconf automake libtool
+=======
+        brew install autoconf automake libtool
+>>>>>>> upstream/develop
 
         # Install compression libraries
         brew install zlib
@@ -183,6 +214,7 @@ jobs:
           brew install mpich
         fi
 
+<<<<<<< HEAD
         # Install Java if needed
         if [[ "${{ matrix.java }}" == "ON" ]]; then
           brew install openjdk
@@ -192,11 +224,17 @@ jobs:
         if [[ "${{ matrix.fortran }}" == "ON" ]]; then
           brew install gcc
         fi
+=======
+>>>>>>> upstream/develop
 
     - name: Get Sources
       uses: actions/checkout@v5
 
+<<<<<<< HEAD
     - name: Configure CMake
+=======
+    - name: Configure
+>>>>>>> upstream/develop
       run: |
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
@@ -217,10 +255,15 @@ jobs:
         CMAKE_OPTS="$CMAKE_OPTS -DHDF5_BUILD_EXAMPLES=${{ matrix.examples }}"
         CMAKE_OPTS="$CMAKE_OPTS -DHDF5_ENABLE_ZLIB_SUPPORT=${{ matrix.zlib }}"
         CMAKE_OPTS="$CMAKE_OPTS -DHDF5_ENABLE_SZIP_SUPPORT=${{ matrix.szip }}"
+<<<<<<< HEAD
+=======
+        CMAKE_OPTS="$CMAKE_OPTS -DHDF5_ALLOW_UNSUPPORTED=ON"
+>>>>>>> upstream/develop
 
         # Plugin support if specified
         if [[ "${{ matrix.plugins }}" == "ON" ]]; then
           CMAKE_OPTS="$CMAKE_OPTS -DHDF5_ENABLE_PLUGIN_SUPPORT=ON"
+<<<<<<< HEAD
         fi
 
         # MPI configuration
@@ -231,6 +274,10 @@ jobs:
           elif [[ "${{ matrix.mpi }}" == "mpich" ]]; then
             CMAKE_OPTS="$CMAKE_OPTS -DMPI_C_COMPILER=mpicc"
           fi
+=======
+          CMAKE_OPTS="$CMAKE_OPTS -DHDF5_ALLOW_EXTERNAL_SUPPORT=TGZ"
+          CMAKE_OPTS="$CMAKE_OPTS -DPLUGIN_USE_LOCALCONTENT=OFF"
+>>>>>>> upstream/develop
         fi
 
         # Set Java environment if needed
@@ -241,10 +288,31 @@ jobs:
 
         # Set Fortran compiler if needed
         if [[ "${{ matrix.fortran }}" == "ON" ]]; then
+<<<<<<< HEAD
           CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_Fortran_COMPILER=gfortran"
         fi
 
         echo "CMake configuration options: $CMAKE_OPTS"
+=======
+          CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_Fortran_COMPILER=gfortran-15"
+        fi
+
+        # MPI configuration
+        if [[ "${{ matrix.parallel }}" == "ON" ]]; then
+          CMAKE_OPTS="$CMAKE_OPTS -DMPIEXEC_MAX_NUMPROCS=2"
+          if [[ "${{ matrix.mpi }}" == "openmpi" ]]; then
+            CMAKE_OPTS="$CMAKE_OPTS -DMPI_C_COMPILER=mpicc"
+            CMAKE_OPTS="$CMAKE_OPTS -DMPIEXEC_PREFLAGS=--oversubscribe"
+          elif [[ "${{ matrix.mpi }}" == "mpich" ]]; then
+            CMAKE_OPTS="$CMAKE_OPTS -DMPI_C_COMPILER=mpicc"
+            CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_Fortran_COMPILER=mpifort"
+            sudo ln -s /opt/homebrew/bin/gfortran-15 /opt/homebrew/bin/gfortran
+            mpifort --version
+          fi
+        fi
+
+        echo "Configuration options: $CMAKE_OPTS"
+>>>>>>> upstream/develop
         cmake $CMAKE_OPTS "$GITHUB_WORKSPACE"
       shell: bash
 
@@ -257,10 +325,17 @@ jobs:
         # Run tests with appropriate settings for each configuration
         if [[ "${{ matrix.parallel }}" == "ON" ]]; then
           # For parallel builds, limit concurrent tests
+<<<<<<< HEAD
           ctest --build . -C Release -V --parallel 1
         else
           # For serial builds, can run more tests concurrently
           ctest --build . -C Release -V --parallel 2
+=======
+          ctest . -C Release -V --parallel 1
+        else
+          # For serial builds, can run more tests concurrently
+          ctest . -C Release -V --parallel 2
+>>>>>>> upstream/develop
         fi
       working-directory: ${{ runner.workspace }}/build
       env:
@@ -284,4 +359,8 @@ jobs:
         if [[ -f Testing/Temporary/LastTest.log ]]; then
           tail -50 Testing/Temporary/LastTest.log
         fi
+<<<<<<< HEAD
       working-directory: ${{ runner.workspace }}/build
+=======
+      working-directory: ${{ runner.workspace }}/build
+>>>>>>> upstream/develop

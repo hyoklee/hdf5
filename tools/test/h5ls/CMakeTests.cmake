@@ -20,15 +20,18 @@
 # Copy all the test files from source directory to test directory
 # --------------------------------------------------------------------
 set (LIST_HDF5_TESTLS_FILES
-    tdset2.h5
     tdset_idx.h5
+)
+set (LIST_HDF5_END_TESTLS_FILES
+    tdset2.h5
 )
 
 set (LIST_HDF5_TEST_FILES
-    tall.h5
     tarray1.h5
     tattr2.h5
     tattrreg.h5
+    tbfloat16.h5
+    tbfloat16_be.h5
     tcomplex.h5
     tcomplex_be.h5
     tcompound.h5
@@ -54,6 +57,9 @@ set (LIST_HDF5_TEST_FILES
     tudlink.h5
     tvldtypes1.h5
 )
+set (LIST_HDF5_END_TEST_FILES
+    tall.h5
+)
 set (LIST_OTHER_TEST_FILES
     help-1.ls
     help-2.ls
@@ -61,11 +67,12 @@ set (LIST_OTHER_TEST_FILES
     nosuchfile.ls
     tall-1.ls
     tall-2.ls
-    tall-3.ls
     tarray1.ls
     tattr2.ls
     tattrreg_le.ls
     tattrreg_be.ls
+    tbfloat16.ls
+    tbfloat16_be.ls
     tcomp-1.ls
     tcomplex.ls
     tcomplex_be.ls
@@ -75,7 +82,6 @@ set (LIST_OTHER_TEST_FILES
     tdataregle.ls
     tdset-1.ls
     tdset2-1.ls
-    tdset2-2.ls
     tdset_idx-1.ls
     tdset_idx-2.ls
     tempty.ls
@@ -128,6 +134,11 @@ set (LIST_OTHER_TEST_FILES
     tvldtypes2be.ls
 )
 
+set (LIST_OTHER_TEST_FILES_LE
+    tall-3
+    tdset2-2
+)
+
 set (H5LS_S3PROXY_TEST_FILES
     tgroup.h5
 )
@@ -140,12 +151,39 @@ file (MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/S3TEST/testfiles")
 foreach (listlsfiles ${LIST_HDF5_TESTLS_FILES})
   HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${listlsfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listlsfiles}" "h5ls_files")
 endforeach ()
+if (H5_WORDS_BIGENDIAN)
+  foreach (listendlsfiles ${LIST_HDF5_END_TESTLS_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/bigendian/${listendlsfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listendlsfiles}" "h5ls_files")
+  endforeach ()
+else ()
+  foreach (listendlsfiles ${LIST_HDF5_END_TESTLS_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${listendlsfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listendlsfiles}" "h5ls_files")
+  endforeach ()
+endif ()
 foreach (listfiles ${LIST_HDF5_TEST_FILES})
   HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${listfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listfiles}" "h5ls_files")
 endforeach ()
+if (H5_WORDS_BIGENDIAN)
+  foreach (listendfiles ${LIST_HDF5_END_TEST_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/bigendian/${listendfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listendfiles}" "h5ls_files")
+  endforeach ()
+else ()
+  foreach (listendfiles ${LIST_HDF5_END_TEST_FILES})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${listendfiles}" "${PROJECT_BINARY_DIR}/testfiles/${listendfiles}" "h5ls_files")
+  endforeach ()
+endif ()
 foreach (listothers ${LIST_OTHER_TEST_FILES})
   HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5ls/expected/${listothers}" "${PROJECT_BINARY_DIR}/testfiles/${listothers}" "h5ls_files")
 endforeach ()
+if (H5_WORDS_BIGENDIAN)
+  foreach (listothersendian ${LIST_OTHER_TEST_FILES_END})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5ls/expected/${listothersendian}BE.ls" "${PROJECT_BINARY_DIR}/testfiles/${listothersendian}.ls" "h5ls_files")
+  endforeach ()
+else ()
+  foreach (listothersendian ${LIST_OTHER_TEST_FILES_END})
+    HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/h5ls/expected/${listothersendian}.ls" "${PROJECT_BINARY_DIR}/testfiles/${listothersendian}.ls" "h5ls_files")
+  endforeach ()
+endif ()
 foreach (lists3file ${H5LS_S3PROXY_TEST_FILES})
   HDFTEST_COPY_FILE("${HDF5_TOOLS_TST_DIR}/testfiles/${lists3file}" "${PROJECT_BINARY_DIR}/S3TEST/testfiles/${lists3file}" "h5ls_files")
 endforeach ()
@@ -470,6 +508,10 @@ else ()
   ADD_H5_TEST (tfloat16_nosupport RESULT_CODE 0 -w80 -v tfloat16.h5)
   ADD_H5_TEST (tfloat16_be_nosupport RESULT_CODE 0 -w80 -v tfloat16_be.h5)
 endif ()
+
+# tests for bfloat16 type
+ADD_H5_TEST (tbfloat16 RESULT_CODE 0 -w80 -v tbfloat16.h5)
+ADD_H5_TEST (tbfloat16_be RESULT_CODE 0 -w80 -v tbfloat16_be.h5)
 
 # tests for complex numbers
 if (${${HDF_PREFIX}_HAVE_COMPLEX_NUMBERS})

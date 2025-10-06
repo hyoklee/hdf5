@@ -1436,7 +1436,7 @@ typedef struct HDqsort_context_wrapper_t {
     void *gnu_arg;
 } HDqsort_context_wrapper_t;
 
-#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) && !defined(__ANDROID__) &&                      \
+#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) &&                      \
     !(defined(__FreeBSD__) && __FreeBSD__ < 14) && !defined(H5_HAVE_QSORT_R)
 /* Thread-local storage for context on systems without any reentrant qsort */
 #ifdef H5_HAVE_THREADSAFE
@@ -1483,7 +1483,7 @@ HDqsort_context(void *base, size_t nel, size_t size, int (*compar)(const void *,
     wrapper.gnu_arg    = arg;
 #if defined(H5_HAVE_WIN32_API)
     qsort_s(base, nel, size, HDqsort_context_wrapper_func, &wrapper);
-#elif defined(H5_HAVE_DARWIN) || defined(__ANDROID__) || (defined(__FreeBSD__) && __FreeBSD__ < 14)
+#elif defined(H5_HAVE_DARWIN) || (defined(__FreeBSD__) && __FreeBSD__ < 14)
     /* Old BSD-style: context parameter comes before comparator function */
     qsort_r(base, nel, size, &wrapper, HDqsort_context_wrapper_func);
 #elif !defined(H5_HAVE_QSORT_R)

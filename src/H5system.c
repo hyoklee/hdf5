@@ -1483,10 +1483,10 @@ HDqsort_context(void *base, size_t nel, size_t size, int (*compar)(const void *,
     wrapper.gnu_arg    = arg;
 #if defined(H5_HAVE_WIN32_API)
     qsort_s(base, nel, size, HDqsort_context_wrapper_func, &wrapper);
-#elif defined(H5_HAVE_DARWIN) || (defined(__FreeBSD__) && __FreeBSD__ < 14)
+#elif defined(H5_HAVE_DARWIN) || defined(__ANDROID__) || (defined(__FreeBSD__) && __FreeBSD__ < 14)
     /* Old BSD-style: context parameter comes before comparator function */
     qsort_r(base, nel, size, &wrapper, HDqsort_context_wrapper_func);
-#elif defined(__ANDROID__) || !defined(H5_HAVE_QSORT_R)
+#elif !defined(H5_HAVE_QSORT_R)
     /* Fallback for systems without any reentrant qsort (e.g., CentOS-5) */
 #ifdef H5_HAVE_THREADSAFE
     H5TS_once(&qsort_context_once, HDqsort_context_key_init);

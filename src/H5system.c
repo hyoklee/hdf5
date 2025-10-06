@@ -1428,15 +1428,15 @@ H5_strcasestr(const char *haystack, const char *needle)
  * Usage:
  *   HDqsort_context(base, count, elem_size, compare_func, context);
  */
-#if defined(H5_HAVE_WIN32_API) || defined(H5_HAVE_DARWIN) || (defined(__FreeBSD__) && __FreeBSD__ < 14) ||   \
-    !defined(H5_HAVE_QSORT_R)
-/* Need wrapper for Windows, macOS, FreeBSD < 14, and systems without qsort_r */
+#if defined(H5_HAVE_WIN32_API) || defined(H5_HAVE_DARWIN) || defined(__ANDROID__) ||                         \
+    (defined(__FreeBSD__) && __FreeBSD__ < 14) || !defined(H5_HAVE_QSORT_R)
+/* Need wrapper for Windows, macOS, Android NDK, FreeBSD < 14, and systems without qsort_r */
 typedef struct HDqsort_context_wrapper_t {
     int (*gnu_compar)(const void *, const void *, void *);
     void *gnu_arg;
 } HDqsort_context_wrapper_t;
 
-#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) &&                                               \
+#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) && !defined(__ANDROID__) &&                     \
     !(defined(__FreeBSD__) && __FreeBSD__ < 14) && !defined(H5_HAVE_QSORT_R)
 /* Thread-local storage for context on systems without any reentrant qsort */
 #ifdef H5_HAVE_THREADSAFE
@@ -1486,7 +1486,7 @@ HDqsort_context(void *base, size_t nel, size_t size, int (*compar)(const void *,
 #elif defined(H5_HAVE_DARWIN) || (defined(__FreeBSD__) && __FreeBSD__ < 14)
     /* Old BSD-style: context parameter comes before comparator function */
     qsort_r(base, nel, size, &wrapper, HDqsort_context_wrapper_func);
-#elif !defined(H5_HAVE_QSORT_R)
+#elif defined(__ANDROID__) || !defined(H5_HAVE_QSORT_R)
     /* Fallback for systems without any reentrant qsort (e.g., CentOS-5) */
 #ifdef H5_HAVE_THREADSAFE
     H5TS_once(&qsort_context_once, HDqsort_context_key_init);

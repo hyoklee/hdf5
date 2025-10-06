@@ -770,8 +770,8 @@ H5_DLL void HDqsort_context(void *base, size_t nel, size_t size,
 #define HDunsetenv(S) unsetenv(S)
 #endif
 #ifndef HDqsort_r
-#if defined(H5_HAVE_DARWIN) || !defined(H5_HAVE_QSORT_R)
-/* Use HDqsort_context fallback on Darwin (BSD qsort_r) or when qsort_r is not available */
+#if defined(H5_HAVE_DARWIN) || defined(__ANDROID__) || !defined(H5_HAVE_QSORT_R)
+/* Use HDqsort_context fallback on Darwin (BSD qsort_r), Android NDK, or when qsort_r is not available */
 #define HDqsort_r(B, N, S, C, A) HDqsort_context(B, N, S, C, A)
 #else
 /* Use GNU qsort_r on systems that have it */

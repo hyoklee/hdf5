@@ -1436,7 +1436,7 @@ typedef struct HDqsort_context_wrapper_t {
     void *gnu_arg;
 } HDqsort_context_wrapper_t;
 
-#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) &&                      \
+#if !defined(H5_HAVE_WIN32_API) && !defined(H5_HAVE_DARWIN) &&                                               \
     !(defined(__FreeBSD__) && __FreeBSD__ < 14) && !defined(H5_HAVE_QSORT_R)
 /* Thread-local storage for context on systems without any reentrant qsort */
 #ifdef H5_HAVE_THREADSAFE

@@ -32,7 +32,6 @@ set (H5_PUBLIC_HDRS
 IDE_GENERATED_PROPERTIES ("H5" "${H5_HDRS}" "${H5_SOURCES}" )
 
 set (H5_PRIVATE_HDRS
-    ${HDF5_SRC_DIR}/H5diskspace.h
     ${HDF5_SRC_DIR}/H5encode.h
     ${HDF5_SRC_DIR}/H5private.h
     ${HDF5_SRC_DIR}/H5timer.h

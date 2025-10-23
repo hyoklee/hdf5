@@ -1,21 +1,28 @@
 # Add 'repo' label to any root file changes
 repo:
-- '*'
+- changed-files:
+  - any-glob-to-any-file: '*'
 
 # Add 'test' label to any change to *.spec.js files within the source dir
 test:
-- test/**
+- changed-files:
+  - any-glob-to-any-file: 'test/**'
 
 # Add 'source' label to any change to src files within the source dir EXCEPT for the docs sub-folder
 fix:
-- any: ['src/**']
+- changed-files:
+  - any-glob-to-any-file: 'src/**'
 
 # Add 'docs` label to any change to docs/ release_docs  files
 docs:
-- any: ['doc/**', 'release_docs/**']
+- changed-files:
+  - any-glob-to-any-file:
+    - 'doc/**'
+    - 'release_docs/**'
 
 # Add 'ci` label to any change to .github/** files.
 ci:
-- any: ['.github/**']
+- changed-files:
+  - any-glob-to-any-file: '.github/**'
 
   

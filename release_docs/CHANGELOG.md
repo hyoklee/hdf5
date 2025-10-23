@@ -1,4 +1,4 @@
-HDF5 version 2.0.0-3 currently under development
+HDF5 version 2.0.0-4 currently under development
 
 # 🔺 HDF5 Changelog
 All notable changes to this project will be documented in this file. This document describes the differences between this release and the previous
@@ -62,6 +62,14 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 # 🚀 New Features & Improvements
 
 ## Configuration
+
+### Improved the cross-compile support in the build system
+
+   The CMake build system has been improved to better support cross-compiling. This includes the following changes:
+   - The CMake option, `CMAKE_CROSS_COMPILING`, indicates that the library is being cross-compiled. This option, usually in a toolchain file, can be set to ON when cross-compiling.
+   - Removed the `CMAKE_CROSSCOMPILING_EMULATOR` when cross-compiling, CMake will automatically insert it in the command.
+   - Added an option `HDF5_USE_PREGEN` to supply pre-generated files located in `HDF5_USE_PREGEN_DIR` directory, to bypass running feature detection programs when cross-compiling.
+   - Added a variable `CROSSCOMPILING_PATH` to specify a path to search for programs when cross-compiling. This is useful when the build system needs to run programs that were built for the host system.
 
 ### Refactored `HDF5_BUILD/ENABLE_{feature}` variable in hdf5-config.cmake file
 
@@ -132,6 +140,10 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 ### Added support for native zlib-ng compression
 
 Changed the zlib-ng CMake logic to prefer the native zlib-ng library. Added `#ifdef` around the compression function calls. Added including the correct header file with the same `#ifdef`.
+
+### Renamed HDF5Examples build options from `H5EXAMPLE_<option>` to `H5EXAMPLE_<option>`
+
+Changed the prefix to better distinguish the examples build options from the library options when building the examples along with the library.
 
 ### Renamed remaining HDF5 library CMake options except for CMake BUILD* variables
 
@@ -544,12 +556,24 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
 # 🪲 Bug Fixes
 
 ## Library
+
+### Fixed security issue CVE-2025-2915 and OSV-2024-381
+
+   Fixed a heap-based buffer overflow in H5F__accum_free caused by an integer overflow when calculating new_accum_size. Added validation in H5O__mdci_decode to detect and reject invalid values early, preventing the overflow condition.
+
+   Fixes GitHub issue #5380
+  
+### Fixed security issue CVE-2025-7068
+
+   Failures during the discard process on a metadata cache entry could cause the library to skip calling the callback to free the cache entry. This could result in resource leaks and issues with flushing and closing the metadata cache during file close. This has been fixed by noting errors during the discard process, but attempting to fully free a cache entry before signalling that an error has occurred.
+
+   Fixes GitHub issue #5578
+
 ### Fix bugs in object header operations
 
    In some rare circumstances, such as deleting hard links that point to their own parent group in a file using the new file format, memory corruption could occur due to recursive operations changing data structures being operated on by multiple levels of recursion. Made changes to delay changing the data structure in a dangerous way until recursion is complete.
 
    Fixes GitHub issue #5854
-
 
 ### Fixed security issues CVE-2025-6816, CVE-2025-6856 and CVE-2025-2923
 
@@ -574,6 +598,17 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
    A security fix added to 1.14.6 introduced a regression where certain data values could trigger a library error (not a crash or segfault).
 
    Fixes GitHub issue #5861
+
+### Fixed security issue CVE-2025-2153
+
+   The message flags field could be modified such that a message that is not sharable according to the share_flags field in H5O_msg_class_t can be treated as sharable. An assert has been added in H5O__msg_write_real to make sure messages that are not sharable can't be modified to shared. Additionally, the check in H5O__chunk_deserialize that catches unsharable messages being marked as sharable has been improved.
+
+   Fixes GitHub issue #5329
+
+### Fixed security issue CVE-2025-2925
+   Actual_len + H5C_IMAGE_EXTRA_SPACE, which was used by H5MM_realloc as the size input, could equal 0 due to bad inputs. When H5MM_realloc was called, it freed image, but then could get sent to done before new_image could be assigned to image. Because the pointer for image wasn't null, it was freed again in done, causing a double-free vulnerability. H5C__load_entry() now checks for an image buffer length of 0 before calling H5MM_realloc.
+
+   Fixes Github issue #5383
 
 ### Fixed security issue CVE-2025-6857
 
@@ -643,6 +678,11 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
    We've added an #ifdef `FE_INVALID` block around the exception clearing code to correct this.
 
    Fixed GitHub issue [#4952](https://github.com/HDFGroup/hdf5/issues/4952)
+
+### Fixed security issue CVE-2025-2310
+
+   A malformed HDF5 file could have an attribute with a recorded name length of zero.This would lead to an overflow and an invalid memory access. An integrity check
+   has been added to detect this case and safely stop file decoding.
 
 ## Java Library
 

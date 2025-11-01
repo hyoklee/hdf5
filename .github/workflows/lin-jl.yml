@@ -10,7 +10,7 @@ jobs:
     name: lin jl
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.0.0
         with:
           path: hdf5
       - name: Install HDF5
@@ -27,7 +27,7 @@ jobs:
         with:
           version: '1.6'
           arch: 'x64'
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.0.0
         with:
           repository: JuliaIO/HDF5.jl
           path: .

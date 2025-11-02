@@ -24,3 +24,7 @@ jobs:
     uses: ./.github/workflows/vfd-main.yml
     with:
       build_mode: ${{ matrix.build_mode }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

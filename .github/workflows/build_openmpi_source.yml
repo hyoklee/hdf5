@@ -86,3 +86,7 @@ jobs:
           name: openmpi
           path: openmpi.tar
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

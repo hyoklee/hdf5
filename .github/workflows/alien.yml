@@ -26,3 +26,7 @@ jobs:
           sudo dpkg -i hdf5_1.15.0-2_amd64.deb
           ls /HDF_Group/HDF5
           /HDF_Group/HDF5/1.15.0/bin/h5ls --help
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

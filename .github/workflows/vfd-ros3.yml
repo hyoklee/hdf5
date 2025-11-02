@@ -450,3 +450,7 @@ jobs:
           # For now, just run S3 tests
           ctest . -C ${{ inputs.build_mode }} -R "S3TEST" -V
         working-directory: ${{ runner.workspace }}/build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

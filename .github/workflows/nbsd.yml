@@ -44,4 +44,10 @@ jobs:
             -D BUILD_SHARED_LIBS:BOOL=OFF \
             -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -D SITE:STRING=nbsd ..
-            ctest -D Experimental
+            # ctest -D Experimental
+            ctest -T Build
+            ctest -T Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

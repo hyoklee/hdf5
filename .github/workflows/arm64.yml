@@ -2,8 +2,7 @@ name: arm64
 
 on:
   push:
-    branches: develop-
-
+    branches: develop
 jobs:
   test:
     name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}
@@ -43,4 +42,10 @@ jobs:
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
             -DSITE:STRING=obsd.arm64 \
             ..
-            ctest -D Experimental -C Release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+            # ctest -D Experimental -C Release
+            ctest -T Build
+            ctest -T Test

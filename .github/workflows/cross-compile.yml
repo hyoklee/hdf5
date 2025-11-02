@@ -102,3 +102,7 @@ jobs:
           path: ${{ runner.workspace }}/build/HDF5-*-win64.zip
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
         if:  ${{ inputs.build_mode != 'Debug' }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

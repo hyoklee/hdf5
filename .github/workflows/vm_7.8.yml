@@ -1,0 +1,45 @@
+name: obsd vm
+
+on:
+  push:
+    branches: develop
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    name: obsd vm
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5
+      - name: test
+        uses: vmactions/openbsd-vm@v1
+        with:
+          release: "7.8"
+          usesh: true
+          copyback: false
+          run: |
+            sudo pkg_add cmake
+            mkdir build
+            cd build
+            cmake -DSITE:STRING="obsd-7.8" \
+            -DBUILDNAME:STRING="hk/r/cpp/+hl+ts-sz-zl/da+dw+tv" \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DCTEST_DROP_LOCATION_INIT:STRING="/submit.php?project=HDF5" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DHDF5_ALLOW_UNSUPPORTED:BOOL=ON \
+            -DHDF5_BUILD_CPP_LIB:BOOL=ON \
+            -DHDF5_BUILD_HL_LIB:BOOL=ON \
+            -DHDF5_ENABLE_THREADSAFE:BOOL=ON \
+            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+            -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF \
+            ..
+            # ctest -D Experimental -C Release
+            ctest -T Build
+            ctest -T Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

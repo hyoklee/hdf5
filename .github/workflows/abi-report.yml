@@ -184,3 +184,7 @@ jobs:
           name: abi-reports
           path: |
             ${{ runner.workspace }}/buildabi/${{ inputs.file_base }}.html.abi.reports.tar.gz
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

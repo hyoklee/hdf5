@@ -85,3 +85,7 @@ jobs:
           path: |
             compat_reports/HDF5-1.${{ inputs.y0 }}.${{ inputs.z1 }}/X_to_Y/compat_report.html
             compat_reports/jarhdf5-/1.${{ inputs.y0 }}.${{ inputs.z0 }}_to_1.${{ inputs.y1 }}.0/compat_report.html
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

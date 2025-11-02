@@ -1,0 +1,63 @@
+name: mac ninja clang j ompi
+
+on:
+  push:
+    branches:
+      - develop-
+    
+jobs:
+  build:
+    strategy:
+      matrix:
+        name: ["mac ninja clang j ompi"]
+        include:
+          - name: "mac ninja clang j ompi"
+            artifact: "macOS.tar.xz"
+            os: macos-latest
+            build_type: "Release"
+            cpp: OFF
+            fortran: OFF
+            java: ON
+            ts: OFF
+            hl: ON
+            parallel: ON
+            toolchain: "config/toolchain/clang.cmake"
+            generator: "-G Ninja"
+
+    name: ${{ matrix.name }}
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+          
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Install Dependencies
+      run: brew install ninja openmpi libaec
+    
+    - name: Get Sources
+      uses: actions/checkout@v5.0.0
+
+    - name: Configure
+      run: |
+        mkdir "${{ runner.workspace }}/build"
+        cd "${{ runner.workspace }}/build"
+        cmake ${{ matrix.generator }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} -DBUILD_SHARED_LIBS=ON -DHDF5_ENABLE_ALL_WARNINGS=ON -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} -DHDF5_BUILD_JAVA=${{ matrix.java }} -DMPIEXEC_MAX_NUMPROCS:STRING=2 -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF $GITHUB_WORKSPACE
+      shell: bash
+
+    - name: Build
+      run: cmake --build . --config ${{ matrix.build_type }}
+      working-directory: ${{ runner.workspace }}/build      
+
+    - name: Test
+      run: ctest --build . -C ${{ matrix.build_type }} -V
+      working-directory: ${{ runner.workspace }}/build
+
+    - name: Upload
+      uses: actions/upload-artifact@v5
+      with:
+        name: my-artifact
+        path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

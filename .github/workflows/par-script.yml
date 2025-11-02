@@ -389,3 +389,7 @@ jobs:
         with:
           name: macos-${{ matrix.mpi }}-log
           path: ${{ runner.workspace }}/hdf5/hdf5.log
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

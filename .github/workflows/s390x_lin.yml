@@ -1,0 +1,40 @@
+name: s390x lin
+
+on:
+  push:
+    branches:
+      - develop-
+
+jobs:
+  s390x_job:
+    name: s390x lin
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Sources
+        uses: actions/checkout@v5.0.0
+
+      - name: Run
+        uses: uraimo/run-on-arch-action@v3
+        id: runcmd
+        with:
+          arch: s390x
+          distro: ubuntu_latest
+          install: |
+            apt-get update -q -y
+            apt-get install -q -y git cmake libjpeg-dev zlib1g zlib1g-dev
+            apt-get install -q -y gfortran g++  yacc flex libtool autotools-dev
+          run: |
+            mkdir build
+            cd build
+            cmake \
+            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -D SITE:STRING=s390x \
+            ..
+            # ctest -D Experimental
+            ctest -T Build
+            ctest -T Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

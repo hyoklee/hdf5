@@ -491,3 +491,7 @@ jobs:
         working-directory: ${{ runner.workspace }}/build
         if: ${{ matrix.run_tests }}
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

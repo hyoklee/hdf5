@@ -192,3 +192,7 @@ jobs:
           ROOT_DIR=${{github.workspace}}/hsdsdata \
           BUCKET_NAME=hsdstest \
           ctest --build-config ${{ inputs.build_mode }} -VV -R "h5_api" -E "H5COPY|H5DIFF|H5LS|H5DUMP|H5REPACK" .
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

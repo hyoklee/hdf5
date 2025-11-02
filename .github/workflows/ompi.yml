@@ -39,4 +39,10 @@ jobs:
             -DMPIEXEC_PREFLAGS="-oversubscribe" \
             -DSITE:STRING=obsd \
             ..
-            ctest -D Experimental
+            # ctest -D Experimental
+            ctest -T Build
+            ctest -T Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

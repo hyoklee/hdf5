@@ -43,3 +43,7 @@ jobs:
             cat Testing/Temporary/LastBuild* | grep warning
             ctest -T Test --output-on-error -j
             cat Testing/Temporary/LastTest*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

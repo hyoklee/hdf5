@@ -57,3 +57,7 @@ jobs:
         run: |
           ctest . --parallel 2 -C ${{ inputs.build_mode }} -VV
         working-directory: build
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

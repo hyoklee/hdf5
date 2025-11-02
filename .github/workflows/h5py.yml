@@ -33,3 +33,7 @@ jobs:
         spack load py-pytest
         spack load py-pytest-mpi
         python -c "import h5py; h5py.run_tests(); print(h5py.version.info);"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

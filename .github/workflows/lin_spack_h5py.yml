@@ -1,0 +1,40 @@
+name: lin spack h5py
+
+on:
+  push:
+    branches:
+      - develop-
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: gcc
+        version: 13	
+    - name: Checkout Spack
+      uses: actions/checkout@v5.0.0
+      with:
+        repository: hyoklee/spack
+        path: ./spack
+
+    - name: Run a multi-line script
+      run: |
+        sed -i 's/hdf5@1.8.4:1.14/hdf5@1.8.4:/g' ./spack/var/spack/repos/builtin/packages/py-h5py/package.py
+        ./spack/bin/spack install py-h5py@master ^openblas@develop
+        ./spack/bin/spack install py-pytest
+        ./spack/bin/spack install py-ipython
+        ./spack/bin/spack install py-pip
+        . ./spack/share/spack/setup-env.sh
+        spack load py-h5py
+        spack load py-pytest
+        spack load py-ipython
+        spack load py-pip
+        pip install pytest-mpi
+        python -c "import h5py; h5py.run_tests(); print(h5py.version.info);"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

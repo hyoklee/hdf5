@@ -1,0 +1,39 @@
+name: win ninja icx ifx p sf
+
+on:
+  push:
+    branches:
+      - develop-
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: get-cmake
+        uses: lukka/get-cmake@latest
+      - name: setup-fortran
+        uses: awvwgk/setup-fortran@main
+        with:
+          compiler: intel
+          version: "2024.1"
+      - name: setup-mpi
+        uses: mpi4py/setup-mpi@v1
+        with:
+          mpi: intelmpi
+      - name: checkout
+        uses: actions/checkout@v5.0.0
+      - name: vars
+        shell: cmd
+        run: |
+          "C:\Program Files (x86)\Intel\oneAPI\mpi\latest\env\vars.bat"
+      - name: ctest
+        shell: cmd
+        run: |
+          cd hdf5
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_C_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiicx.bat" -DCMAKE_Fortran_COMPILER="C:/Program Files (x86)/Intel/oneAPI/mpi/latest/bin/mpiifx.bat" -DHDF5_BUILD_FORTRAN:BOOL=ON -DHDF5_ENABLE_PARALLEL:BOOL=ON -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT=my.cdash.org -DSITE=win -DBUILDNAME="ninja/icx/+f/+p+sf" ..
+#         ctest -D Experimental -C Release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

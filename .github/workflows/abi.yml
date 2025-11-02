@@ -16,3 +16,7 @@ jobs:
       y1: '15'
       z0: '3'
       z1: '4'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

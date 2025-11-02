@@ -911,3 +911,7 @@ jobs:
               name: tgz-ubuntu-2404_intel-binary
               path: ${{ runner.workspace }}/build/${{ steps.set-file-base.outputs.FILE_BASE }}-ubuntu-2404_intel.tar.gz
               if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

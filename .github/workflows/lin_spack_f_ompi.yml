@@ -1,0 +1,30 @@
+name: lin spack ompi f
+
+on:
+  push:
+    branches:
+      - develop-
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: gcc
+        version: 13
+    - name: Checkout spack
+      uses: actions/checkout@v5.0.0
+      with:
+        repository: spack/spack
+        path: ./spack
+    - name: Run a multi-line script
+      run: |
+        . ./spack/share/spack/setup-env.sh
+        spack spec hdf5@develop+mpi+fortran
+        spack install hdf5@develop+mpi+fortran
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

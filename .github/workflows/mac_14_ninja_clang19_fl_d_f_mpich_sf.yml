@@ -1,0 +1,100 @@
+name: mac14 ninja clang19 fl d f mpich sf
+
+on:
+  push:
+    branches:
+      - develop-
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        name: ["mac14 ninja clang19 fl d f mpich sf"]
+        include:
+          - name: "mac14 ninja clang19 fl d f mpich sf"
+            artifact: "macOS.tar.xz"
+            os: macos-14
+            build_type: "Release"
+            cpp: OFF
+            fortran: ON
+            java: OFF
+            ts: OFF
+            hl: OFF
+            parallel: ON
+            toolchain: "config/toolchain/clang.cmake"
+            generator: "-G Ninja"
+
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+
+    steps:
+    - name: Get Sources
+      uses: actions/checkout@v5.0.0
+
+    - name: Install Dependencies (macOS)
+      run: brew install mpich ninja
+
+    - name: Install flang
+      shell: bash
+      run : |
+        git clone --quiet https://github.com/llvm/llvm-project.git
+        mkdir build
+        mkdir install
+        ROOTDIR=`pwd`
+        INSTALLDIR=$ROOTDIR/install
+        echo $INSTALLDIR
+        cd build
+        cmake \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DCMAKE_CXX_LINK_FLAGS="-Wl,-rpath,$LD_LIBRARY_PATH" \
+          -DLLVM_TARGETS_TO_BUILD=host \
+          -DLLVM_LIT_ARGS=-v \
+          -DLLVM_ENABLE_PROJECTS="clang;flang" \
+          -DLLVM_ENABLE_RUNTIMES="compiler-rt" \
+          ../llvm-project/llvm
+        ninja
+        ninja install
+
+    - name: Configure
+      shell: bash
+      run: |
+        export PATH="/Users/runner/work/hdf5/hdf5/install/bin:$PATH"
+        export LDFLAGS="-L/Users/runner/work/hdf5/hdf5/install/lib"
+        export LIBRARY_PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib	
+        export CPPFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
+        export CFLAGS="-I/Users/runner/work/hdf5/hdf5/install/include"
+        export FC="$(which flang-new)"
+        export CC="$(which clang)"
+        echo $CC
+        echo $FC
+        rm -rf "${{ runner.workspace }}/hdf5/build"
+        mkdir "${{ runner.workspace }}/hdf5/build"
+        cd "${{ runner.workspace }}/hdf5/build"
+        cmake ${{ matrix.generator }} \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DBUILD_SHARED_LIBS=ON \
+        -DBUILD_STATIC_EXECS:BOOL=OFF \
+        -DBUILD_STATIC_LIBS:BOOL=OFF \
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+        -DCMAKE_TOOLCHAIN_FILE=${{ matrix.toolchain }} \
+        -DHDF5_BUILD_CPP_LIB:BOOL=${{ matrix.cpp }} \
+        -DHDF5_BUILD_HL_LIB:BOOL=${{ matrix.hl }} \
+        -DHDF5_BUILD_FORTRAN=${{ matrix.fortran }} \
+        -DHDF5_BUILD_JAVA=${{ matrix.java }} \
+        -DHDF5_ENABLE_ALL_WARNINGS=ON \
+        -DHDF5_ENABLE_THREADSAFE:BOOL=${{ matrix.ts }} \
+        -DHDF5_ENABLE_PARALLEL:BOOL=${{ matrix.parallel }} \
+        -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
+        -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+        -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
+        ..
+        ninja
+        ninja test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true

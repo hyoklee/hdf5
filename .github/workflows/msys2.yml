@@ -34,7 +34,7 @@ jobs:
       - name: git
         run: git config --global core.autocrlf input
       - name: get
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.0.0
       - name: '${{ matrix.icon }} set'
         uses: msys2/setup-msys2@v2
         with:
@@ -56,7 +56,7 @@ jobs:
           git config --global core.autocrlf input
 
       - name: Get Sources
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.0.0
 
       - name: Configure
         run: |

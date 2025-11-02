@@ -35,7 +35,7 @@ jobs:
       run: brew install ninja openmpi libaec
     
     - name: Get Sources
-      uses: actions/checkout@v5
+      uses: actions/checkout@v5.0.0
 
     - name: Configure
       run: |
@@ -53,7 +53,7 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
 
     - name: Upload
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: my-artifact
         path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

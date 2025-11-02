@@ -29,7 +29,7 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y nvhpc-25-7
       - name: Get Sources
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.0.0
       - name: Test HDF5
         env:
           FC: nvfortran

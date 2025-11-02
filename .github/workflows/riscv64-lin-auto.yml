@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: riscv64 lin auto
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.0.0
       - uses: uraimo/run-on-arch-action@v3
         name: Run
         id: runcmd

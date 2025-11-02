@@ -15,7 +15,7 @@ jobs:
         compiler: gcc
         version: 13	
     - name: Checkout Spack
-      uses: actions/checkout@v5
+      uses: actions/checkout@v5.0.0
       with:
         repository: hyoklee/spack
         path: ./spack

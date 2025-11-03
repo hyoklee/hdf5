@@ -38,9 +38,9 @@ jobs:
 
       - name: Build
         working-directory: build
-        # run: ctest -D Experimental
-        ctest -T Build
-        ctest -T Test
+        run: |
+          ctest -T Build
+          ctest -C Release -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

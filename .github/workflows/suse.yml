@@ -27,9 +27,9 @@ jobs:
           -DHDF5_BUILD_HL_LIB=ON \
           -DHDF5_BUILD_CPP_LIB:BOOL=True \
           -DHDF5_USE_GNU_DIRS:BOOL=ON \
-          # .. && ctest -D Experimental -C Release
+          ..
           ctest -T Build
-          ctest -T Test
+          ctest -C Release -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

@@ -3,7 +3,7 @@ name: ppc64le lin
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
   ppc64le_job:
@@ -33,15 +33,15 @@ jobs:
             -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -D SITE:STRING=ppc64le \
             ..
-            # ctest -D Experimental
             ctest -T Build
-            ctest -T Test
+            ctest -C Release -T Test
 
       - name: Get the output
         # Echo the `uname` output parameter from the `runcmd` step
         run: |
+          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+

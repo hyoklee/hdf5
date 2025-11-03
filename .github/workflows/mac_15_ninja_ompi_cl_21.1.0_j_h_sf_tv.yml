@@ -26,11 +26,11 @@ jobs:
         run: |
           cmake --version
           export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.1/bin/clang-21
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.1/bin/clang++-21          
-          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.1/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.1include
-          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.1include
+          export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang-21
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang++-21          
+          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.4/lib -Wl,-rpath"
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include
+          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include
           cd ompi
           ./autogen.pl
           ./configure  --enable-mca-no-build=btl-uct \
@@ -42,9 +42,9 @@ jobs:
       - name: h5
         run: |
           export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.1/bin/clang-21
-          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.1/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.1include          
+          export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang-21
+          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.4/lib -Wl,-rpath"
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include          
           mkdir build
           cd build
           cmake -G Ninja \

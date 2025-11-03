@@ -3,7 +3,7 @@ name: lin icx f p sf
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 permissions:
   contents: read
@@ -66,8 +66,9 @@ jobs:
         run: |
           source /opt/intel/oneapi/setvars.sh
           export SYCL_DEVICE_FILTER=opencl.cpu
+          ctest --test-dir build --output-on-failure          
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-          ctest --test-dir build --output-on-failure
+

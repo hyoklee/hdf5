@@ -21,7 +21,7 @@ jobs:
           usesh: true
           copyback: false
           run: |
-            sudo pkg_add cmake
+            pkg_add cmake
             mkdir build
             cd build
             cmake -DSITE:STRING="obsd-7.8" \
@@ -36,7 +36,6 @@ jobs:
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
             -DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=OFF \
             ..
-            # ctest -D Experimental -C Release
             ctest -T Build
             ctest -T Test
 

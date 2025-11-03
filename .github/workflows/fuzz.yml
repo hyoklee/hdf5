@@ -34,8 +34,8 @@ jobs:
           fuzz-seconds: 600
           output-sarif: true
           sanitizer: ${{ matrix.sanitizer }}
+          dry-run: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-          dry-run: false

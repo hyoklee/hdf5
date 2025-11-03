@@ -16,9 +16,9 @@ jobs:
       - name: test
         run: |
           ls /opt/homebrew/bin/flang*
-          export FC=/opt/homebrew/bin/flang-20
-          export CC=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/20.1.2/bin/clang++
+          export FC=/opt/homebrew/bin/flang-21
+          export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang++
           mkdir build
           cd build
           cmake -G Ninja \
@@ -28,11 +28,10 @@ jobs:
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DHDF5_BUILD_FORTRAN=ON \
             ..
-          # ctest -D Experimental
           ctest -T Build
-          ctest -T Test
+          ctest -C Release -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-#             -DBUILD_SHARED_LIBS:BOOL=OFF \
+

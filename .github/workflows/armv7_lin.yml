@@ -35,8 +35,8 @@ jobs:
       - name: Get the output
         # Echo the `uname` output parameter from the `runcmd` step
         run: |
+          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"

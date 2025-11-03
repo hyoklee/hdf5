@@ -11,7 +11,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc-aarch64-linux-gnu
-        sudo apt-get install binfmt-support qemu qemu-user-static
+        sudo apt-get install binfmt-support qemu-system qemu-user-static
     - name: Get Sources
       uses: actions/checkout@v5.0.0
     - name: Build and Test

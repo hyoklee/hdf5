@@ -24,7 +24,7 @@ jobs:
           cmake -G "Visual Studio 17 2022" -A x64 -DSITE:STRING="win-25" -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DBUILDNAME:STRING="vcpkg/r+zl+sz" -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5"  ..
           # ctest -D Experimental -C Release
           ctest -T Build
-          ctest -T Test
+          ctest -C Release -T Test
         shell: cmd
 
 concurrency:

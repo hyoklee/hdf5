@@ -28,8 +28,8 @@ jobs:
           output-sarif: true
           sanitizer: 'memory'
           dry-run: false
+          project-src-path: "${{ runner.workspace }}/hdf5/projects/hdf5"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-          project-src-path: "${{ runner.workspace }}/hdf5/projects/hdf5"

@@ -21,6 +21,15 @@ jobs:
           sudo apt-get install -y nvhpc-24-7
       - name: Get Sources
         uses: actions/checkout@v5.0.0
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          tool-cache: false
+          swap-storage: true
       - name: Test HDF5
         env:
           FC: nvfortran

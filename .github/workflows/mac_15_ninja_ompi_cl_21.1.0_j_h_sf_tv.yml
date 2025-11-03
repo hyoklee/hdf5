@@ -29,8 +29,8 @@ jobs:
           export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang-21
           export CXX=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang++-21          
           export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.4/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include
-          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4/include
+          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4/include
           cd ompi
           ./autogen.pl
           ./configure  --enable-mca-no-build=btl-uct \
@@ -44,7 +44,7 @@ jobs:
           export FC=/opt/homebrew/bin/flang-21
           export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang-21
           export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.4/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4include          
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.4/include          
           mkdir build
           cd build
           cmake -G Ninja \

@@ -9,19 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install System dependencies
+      - name: get
+        uses: actions/checkout@v5
+      - name: install
         run: |
           sudo apt update
           sudo apt install -y cmake libzip-dev
-      - name: Install NVHPC
-        run: |
-          curl https://developer.download.nvidia.com/hpc-sdk/ubuntu/DEB-GPG-KEY-NVIDIA-HPC-SDK | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg
-          echo 'deb [signed-by=/usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg] https://developer.download.nvidia.com/hpc-sdk/ubuntu/amd64 /' | sudo tee /etc/apt/sources.list.d/nvhpc.list
-          sudo apt-get update -y
-          sudo apt-get install -y nvhpc-25-7
-      - name: Get Sources
-        uses: actions/checkout@v5
-      - name: Free Disk Space (Ubuntu)
+      - name: free
         uses: jlumbroso/free-disk-space@v1.3.1
         with:
           android: true
@@ -30,7 +24,13 @@ jobs:
           large-packages: true
           tool-cache: false
           swap-storage: true
-      - name: Test HDF5
+      - name: nvhpc
+        run: |
+          curl https://developer.download.nvidia.com/hpc-sdk/ubuntu/DEB-GPG-KEY-NVIDIA-HPC-SDK | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg
+          echo 'deb [signed-by=/usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg] https://developer.download.nvidia.com/hpc-sdk/ubuntu/amd64 /' | sudo tee /etc/apt/sources.list.d/nvhpc.list
+          sudo apt-get update -y
+          sudo apt-get install -y nvhpc-25-7
+      - name: test
         env:
           FC: nvfortran
           CC: nvc

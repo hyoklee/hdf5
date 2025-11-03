@@ -7,26 +7,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Install gcc-aarch64
+    - name: install
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc-aarch64-linux-gnu
-        sudo apt-get install binfmt-support qemu qemu-user-static
-    - name: Get Sources
+        sudo apt-get install binfmt-support qemu-system qemu-user-static
+        sudo apt-get install musl-dev gcc-aarch64-linux-gnu
+    - name: get
       uses: actions/checkout@v5.0.0
-    - name: Build and Test
+    - name: build
       run: |
         echo $PWD
-        wget https://musl.cc/aarch64-linux-musl-cross.tgz
-        tar -xvzf aarch64-linux-musl-cross.tgz
-        ./aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc --version
-        ls ./aarch64-linux-musl-cross/bin/
-        sudo cp -r ./aarch64-linux-musl-cross/aarch64-linux-musl/lib/* /lib/
-        ls /lib/
-        ls
+        aarch64-linux-musl-gcc --version
         mkdir build
         cd build
-        cmake -DCMAKE_C_COMPILER=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc -DCMAKE_AR=/home/runner/work/hdf5/hdf5/aarch64-linux-musl-cross/bin/aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_BUILD_CPP_LIB:BOOL=True ..
+        cmake -DCMAKE_C_COMPILER=aarch64-linux-musl-gcc -DCMAKE_AR=aarch64-linux-musl-ar -DCMAKE_SYSTEM_PROCESSOR=arm -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DHDF5_BUILD_CPP_LIB:BOOL=True ..
         make
         make test
 

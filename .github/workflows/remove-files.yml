@@ -20,6 +20,10 @@ on:
         type: string
 
 # Minimal permissions to be inherited by any job that doesn't declare its own permissions
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -61,7 +65,3 @@ jobs:
               ${{ steps.get-file-base.outputs.FILE_BASE }}-ubuntu-2404_intel.tar.gz
               ${{ steps.get-file-base.outputs.FILE_BASE }}-win-vs2022_intel.zip
               ${{ steps.get-file-base.outputs.FILE_BASE }}-win-vs2022_intel.msi
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

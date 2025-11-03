@@ -9,6 +9,10 @@ on:
         required: true
         type: string
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -110,7 +114,3 @@ jobs:
         run: |
           ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -E tfloatsattrs
         working-directory: ${{ runner.workspace }}/build
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

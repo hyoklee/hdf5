@@ -9,6 +9,10 @@ on:
         required: true
         type: string
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -92,7 +96,3 @@ jobs:
         working-directory: ${{ runner.workspace }}/build
         continue-on-error: true
 
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

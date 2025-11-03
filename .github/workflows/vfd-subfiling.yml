@@ -8,6 +8,10 @@ on:
         required: true
         type: string
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -97,7 +101,3 @@ jobs:
           # are better separated into categories for VFD testing.
           ctest --build-config ${{ inputs.build_mode }} -VV \
               -R "MPI_TEST_t_subfiling_vfd|MPI_TEST_t_vfd|H5_ph5_subfiling"
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

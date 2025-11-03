@@ -9,6 +9,10 @@ on:
         required: true
         type: string
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -87,7 +91,3 @@ jobs:
           ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -R "testhdf5-base|cache_api|dt_arith|H5TEST-dtypes|err_compat"
         working-directory: ${{ runner.workspace }}/build
         continue-on-error: true
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

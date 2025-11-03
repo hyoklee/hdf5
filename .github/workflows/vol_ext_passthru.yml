@@ -8,6 +8,10 @@ on:
         required: true
         type: string
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 
@@ -62,7 +66,3 @@ jobs:
         working-directory: ${{ github.workspace }}/hdf5/build
         run: |
           ctest --build-config ${{ inputs.build_mode }} -VV -R "HDF5_VOL_vol-external-passthrough" .
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

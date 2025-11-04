@@ -126,6 +126,62 @@
 | Test | Status |
 | -----| ------ |
 
+
+## Previously Untested CMake Options
+
+### Static-Only Builds
+
+| Test | Status |
+| -----| ------ |
+| Linux Static-Only | [![Linux Static-Only Build](https://github.com/hyoklee/hdf5/actions/workflows/lin_sta_onl.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_sta_onl.yml) |
+| Windows Static-Only | [![Windows Static-Only Build](https://github.com/hyoklee/hdf5/actions/workflows/win_sta_onl.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_sta_onl.yml) |
+| macOS Static-Only | [![macOS Static-Only Build](https://github.com/hyoklee/hdf5/actions/workflows/mac_sta_onl.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_sta_onl.yml) |
+
+### macOS Frameworks
+
+| Test | Status |
+| -----| ------ |
+| Frameworks | [![macOS Frameworks Build](https://github.com/hyoklee/hdf5/actions/workflows/mac_frm.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_frm.yml) |
+
+### API Version Compatibility
+
+| Test | Status |
+| -----| ------ |
+| API v1.6 | [![Linux API v1.6 Compatibility](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v16.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v16.yml) |
+| API v1.8 | [![Linux API v1.8 Compatibility](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v18.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v18.yml) [![Windows API v1.8](https://github.com/hyoklee/hdf5/actions/workflows/win_api_dep.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_api_dep.yml) [![macOS API v1.8](https://github.com/hyoklee/hdf5/actions/workflows/mac_api_map.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_api_map.yml) |
+| API v1.10 | [![Linux API v1.10 Compatibility](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v110.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v110.yml) |
+| API v1.12 | [![Linux API v1.12 Compatibility](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v112.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v112.yml) |
+| API v1.14 | [![Linux API v1.14 Compatibility](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v114.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_api_v114.yml) |
+
+### Feature Options
+
+| Test | Status |
+| -----| ------ |
+| Deprecated OFF | [![Linux Deprecated Symbols OFF](https://github.com/hyoklee/hdf5/actions/workflows/lin_dep_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_dep_off.yml) |
+| Map API | [![Linux Map API Build](https://github.com/hyoklee/hdf5/actions/workflows/lin_map_api.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_map_api.yml) |
+| Trace & Instrument | [![Linux Trace & Instrument](https://github.com/hyoklee/hdf5/actions/workflows/lin_trc_ins.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_trc_ins.yml) |
+| pread/pwrite OFF | [![Linux pread/pwrite OFF](https://github.com/hyoklee/hdf5/actions/workflows/lin_prw_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_prw_off.yml) |
+| Custom Naming | [![Linux Custom Library Naming](https://github.com/hyoklee/hdf5/actions/workflows/lin_nam_cus.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_nam_cus.yml) |
+| Memory Checker | [![Linux Memory Checker Mode](https://github.com/hyoklee/hdf5/actions/workflows/lin_mem_chk.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_mem_chk.yml) |
+| Embedded Libinfo OFF | [![Linux Embedded Libinfo OFF](https://github.com/hyoklee/hdf5/actions/workflows/lin_emb_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_emb_off.yml) |
+
+### Development Tools
+
+| Test | Status |
+| -----| ------ |
+| Analyzer & Formatter | [![Linux Analyzer & Formatter Tools](https://github.com/hyoklee/hdf5/actions/workflows/lin_anl_fmt.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_anl_fmt.yml) |
+
+### Platform-Specific
+
+| Test | Status |
+| -----| ------ |
+| MinGW Static GCC | [![Windows MinGW Static GCC Libs](https://github.com/hyoklee/hdf5/actions/workflows/win_mgw_sta.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_mgw_sta.yml) |
+
+### Advanced Tests
+
+| Test | Status |
+| -----| ------ |
+| Unsupported Combinations | [![Linux Unsupported Combinations](https://github.com/hyoklee/hdf5/actions/workflows/lin_uns_cbo.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_uns_cbo.yml) |
 ## Extra
 
 | Test     | Status |

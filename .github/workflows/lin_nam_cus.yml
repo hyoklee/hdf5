@@ -1,0 +1,80 @@
+name: Linux Custom Library Naming
+
+# Test building with custom library prefix, infix, and suffix
+# Tests: HDF5_EXTERNAL_LIB_PREFIX, HDF5_LIB_INFIX, HDF5_EXTERNAL_LIB_SUFFIX
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop, feature/**, bugfix/** ]
+  pull_request:
+    branches: [ develop ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build_and_test:
+    name: "Ubuntu Custom Naming"
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip-ci')"
+
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build
+          sudo apt install gcc-12 g++-12 gfortran-12
+          echo "CC=gcc-12" >> $GITHUB_ENV
+          echo "CXX=g++-12" >> $GITHUB_ENV
+          echo "FC=gfortran-12" >> $GITHUB_ENV
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: latest
+          ninjaVersion: latest
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: |
+          mkdir "${{ runner.workspace }}/build"
+          cd "${{ runner.workspace }}/build"
+          cmake -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DHDF5_EXTERNAL_LIB_PREFIX:STRING=custom \
+            -DHDF5_LIB_INFIX:STRING=_test \
+            -DHDF5_EXTERNAL_LIB_SUFFIX:STRING=_sfx \
+            -DBUILD_SHARED_LIBS:BOOL=ON \
+            -DHDF5_BUILD_CPP_LIB:BOOL=ON \
+            -DHDF5_BUILD_FORTRAN:BOOL=ON \
+            -DHDF5_BUILD_JAVA:BOOL=OFF \
+            -DHDF5_BUILD_HL_LIB:BOOL=ON \
+            -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
+            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
+            -DZLIB_USE_LOCALCONTENT:BOOL=OFF \
+            -DLIBAEC_USE_LOCALCONTENT:BOOL=OFF \
+            $GITHUB_WORKSPACE
+        shell: bash
+
+      - name: Build
+        run: cmake --build . --config Release
+        working-directory: ${{ runner.workspace }}/build
+
+      - name: Verify Custom Library Names
+        run: |
+          echo "Checking for custom library names..."
+          ls -la bin/
+          find . -name "libcustom*" -o -name "*_test*" -o -name "*_sfx*" | head -20
+        working-directory: ${{ runner.workspace }}/build
+        shell: bash
+
+      - name: Test
+        run: ctest --build-config Release --output-on-failure -j2
+        working-directory: ${{ runner.workspace }}/build

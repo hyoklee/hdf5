@@ -132,6 +132,7 @@
 #define FILE107 "trefer_reg.h5"
 #define FILE108 "trefer_reg_1d.h5"
 #define FILE109 "tvms.h5"
+#define FILE110 "tfloat8.h5"
 
 #define ONION_TEST_FIXNAME_SIZE 1024
 #define ONION_TEST_PAGE_SIZE    (uint32_t)32
@@ -451,6 +452,94 @@ typedef struct s1_t {
 
 /* "FILE101" macros */
 #define F101_DSET "AHFINDERDIRECT::ah_centroid_t[0] it=0 tl=0"
+
+/* "FILE110" macros */
+#define F110_XDIM     8
+#define F110_YDIM     16
+#define F110_DATASET  "DS8BITSE4M3"
+#define F110_DATASET2 "DS8BITSE5M2"
+#define F110_DATASET3 "DS8BITSE4M3_ALLVALS"
+#define F110_DATASET4 "DS8BITSE5M2_ALLVALS"
+#define F110_DATASET5 "DS8BITSE4M3_ALLVALS_CONVERT"
+#define F110_DATASET6 "DS8BITSE5M2_ALLVALS_CONVERT"
+
+/* Since there are only 256 FP8 values, it's simple enough to
+ * list them all here for reference when checking to make sure
+ * the datatypes are represented correctly.
+ */
+static float fp8_e4m3_vals[256] = {
+    0.0f,      0.001953f,  0.003906f,  0.005859f,  0.007812f,  0.009766f,  0.01172f,  0.01367f,  0.01562f,
+    0.01758f,  0.01953f,   0.02148f,   0.02344f,   0.02539f,   0.02734f,   0.0293f,   0.03125f,  0.03516f,
+    0.03906f,  0.04297f,   0.04688f,   0.05078f,   0.05469f,   0.05859f,   0.0625f,   0.07031f,  0.07812f,
+    0.08594f,  0.09375f,   0.1016f,    0.1094f,    0.1172f,    0.125f,     0.1406f,   0.1562f,   0.1719f,
+    0.1875f,   0.2031f,    0.2188f,    0.2344f,    0.25f,      0.2812f,    0.3125f,   0.3438f,   0.375f,
+    0.4062f,   0.4375f,    0.4688f,    0.5f,       0.5625f,    0.625f,     0.6875f,   0.75f,     0.8125f,
+    0.875f,    0.9375f,    1.0f,       1.125f,     1.25f,      1.375f,     1.5f,      1.625f,    1.75f,
+    1.875f,    2.0f,       2.25f,      2.5f,       2.75f,      3.0f,       3.25f,     3.5f,      3.75f,
+    4.0f,      4.5f,       5.0f,       5.5f,       6.0f,       6.5f,       7.0f,      7.5f,      8.0f,
+    9.0f,      10.0f,      11.0f,      12.0f,      13.0f,      14.0f,      15.0f,     16.0f,     18.0f,
+    20.0f,     22.0f,      24.0f,      26.0f,      28.0f,      30.0f,      32.0f,     36.0f,     40.0f,
+    44.0f,     48.0f,      52.0f,      56.0f,      60.0f,      64.0f,      72.0f,     80.0f,     88.0f,
+    96.0f,     104.0f,     112.0f,     120.0f,     128.0f,     144.0f,     160.0f,    176.0f,    192.0f,
+    208.0f,    224.0f,     240.0f,     256.0f,     288.0f,     320.0f,     352.0f,    384.0f,    416.0f,
+    448.0f,    0.0f, /* 1 NaN value, ignore with 0.0f */
+    -0.0f,     -0.001953f, -0.003906f, -0.005859f, -0.007812f, -0.009766f, -0.01172f, -0.01367f, -0.01562f,
+    -0.01758f, -0.01953f,  -0.02148f,  -0.02344f,  -0.02539f,  -0.02734f,  -0.0293f,  -0.03125f, -0.03516f,
+    -0.03906f, -0.04297f,  -0.04688f,  -0.05078f,  -0.05469f,  -0.05859f,  -0.0625f,  -0.07031f, -0.07812f,
+    -0.08594f, -0.09375f,  -0.1016f,   -0.1094f,   -0.1172f,   -0.125f,    -0.1406f,  -0.1562f,  -0.1719f,
+    -0.1875f,  -0.2031f,   -0.2188f,   -0.2344f,   -0.25f,     -0.2812f,   -0.3125f,  -0.3438f,  -0.375f,
+    -0.4062f,  -0.4375f,   -0.4688f,   -0.5f,      -0.5625f,   -0.625f,    -0.6875f,  -0.75f,    -0.8125f,
+    -0.875f,   -0.9375f,   -1.0f,      -1.125f,    -1.25f,     -1.375f,    -1.5f,     -1.625f,   -1.75f,
+    -1.875f,   -2.0f,      -2.25f,     -2.5f,      -2.75f,     -3.0f,      -3.25f,    -3.5f,     -3.75f,
+    -4.0f,     -4.5f,      -5.0f,      -5.5f,      -6.0f,      -6.5f,      -7.0f,     -7.5f,     -8.0f,
+    -9.0f,     -10.0f,     -11.0f,     -12.0f,     -13.0f,     -14.0f,     -15.0f,    -16.0f,    -18.0f,
+    -20.0f,    -22.0f,     -24.0f,     -26.0f,     -28.0f,     -30.0f,     -32.0f,    -36.0f,    -40.0f,
+    -44.0f,    -48.0f,     -52.0f,     -56.0f,     -60.0f,     -64.0f,     -72.0f,    -80.0f,    -88.0f,
+    -96.0f,    -104.0f,    -112.0f,    -120.0f,    -128.0f,    -144.0f,    -160.0f,   -176.0f,   -192.0f,
+    -208.0f,   -224.0f,    -240.0f,    -256.0f,    -288.0f,    -320.0f,    -352.0f,   -384.0f,   -416.0f,
+    -448.0f,   0.0f /* 1 NaN value, ignore with 0.0f */
+};
+
+static float fp8_e5m2_vals[256] = {
+    0.0f,        0.0000153f,  0.0000305f,  0.0000458f,  0.000061f,   0.0000763f,  0.0000916f,
+    0.0001068f,  0.0001221f,  0.0001526f,  0.0001831f,  0.0002136f,  0.0002441f,  0.0003052f,
+    0.0003662f,  0.0004272f,  0.0004883f,  0.0006104f,  0.0007324f,  0.0008545f,  0.0009766f,
+    0.001221f,   0.001465f,   0.001709f,   0.001953f,   0.002441f,   0.00293f,    0.003418f,
+    0.003906f,   0.004883f,   0.005859f,   0.006836f,   0.007812f,   0.009766f,   0.01172f,
+    0.01367f,    0.01562f,    0.01953f,    0.02344f,    0.02734f,    0.03125f,    0.03906f,
+    0.04688f,    0.05469f,    0.0625f,     0.07812f,    0.09375f,    0.1094f,     0.125f,
+    0.1562f,     0.1875f,     0.2188f,     0.25f,       0.3125f,     0.375f,      0.4375f,
+    0.5f,        0.625f,      0.75f,       0.875f,      1.0f,        1.25f,       1.5f,
+    1.75f,       2.0f,        2.5f,        3.0f,        3.5f,        4.0f,        5.0f,
+    6.0f,        7.0f,        8.0f,        10.0f,       12.0f,       14.0f,       16.0f,
+    20.0f,       24.0f,       28.0f,       32.0f,       40.0f,       48.0f,       56.0f,
+    64.0f,       80.0f,       96.0f,       112.0f,      128.0f,      160.0f,      192.0f,
+    224.0f,      256.0f,      320.0f,      384.0f,      448.0f,      512.0f,      640.0f,
+    768.0f,      896.0f,      1024.0f,     1280.0f,     1536.0f,     1792.0f,     2048.0f,
+    2560.0f,     3072.0f,     3584.0f,     4096.0f,     5120.0f,     6144.0f,     7168.0f,
+    8192.0f,     10240.0f,    12288.0f,    14336.0f,    16384.0f,    20480.0f,    24576.0f,
+    28672.0f,    32768.0f,    40960.0f,    49152.0f,    57344.0f,    INFINITY,    0.0f,
+    0.0f,        0.0f, /* 3 NaN values, ignore with 0.0f */
+    -0.0f,       -0.0000153f, -0.0000305f, -0.0000458f, -0.000061f,  -0.0000763f, -0.0000916f,
+    -0.0001068f, -0.0001221f, -0.0001526f, -0.0001831f, -0.0002136f, -0.0002441f, -0.0003052f,
+    -0.0003662f, -0.0004272f, -0.0004883f, -0.0006104f, -0.0007324f, -0.0008545f, -0.0009766f,
+    -0.001221f,  -0.001465f,  -0.001709f,  -0.001953f,  -0.002441f,  -0.00293f,   -0.003418f,
+    -0.003906f,  -0.004883f,  -0.005859f,  -0.006836f,  -0.007812f,  -0.009766f,  -0.01172f,
+    -0.01367f,   -0.01562f,   -0.01953f,   -0.02344f,   -0.02734f,   -0.03125f,   -0.03906f,
+    -0.04688f,   -0.05469f,   -0.0625f,    -0.07812f,   -0.09375f,   -0.1094f,    -0.125f,
+    -0.1562f,    -0.1875f,    -0.2188f,    -0.25f,      -0.3125f,    -0.375f,     -0.4375f,
+    -0.5f,       -0.625f,     -0.75f,      -0.875f,     -1.0f,       -1.25f,      -1.5f,
+    -1.75f,      -2.0f,       -2.5f,       -3.0f,       -3.5f,       -4.0f,       -5.0f,
+    -6.0f,       -7.0f,       -8.0f,       -10.0f,      -12.0f,      -14.0f,      -16.0f,
+    -20.0f,      -24.0f,      -28.0f,      -32.0f,      -40.0f,      -48.0f,      -56.0f,
+    -64.0f,      -80.0f,      -96.0f,      -112.0f,     -128.0f,     -160.0f,     -192.0f,
+    -224.0f,     -256.0f,     -320.0f,     -384.0f,     -448.0f,     -512.0f,     -640.0f,
+    -768.0f,     -896.0f,     -1024.0f,    -1280.0f,    -1536.0f,    -1792.0f,    -2048.0f,
+    -2560.0f,    -3072.0f,    -3584.0f,    -4096.0f,    -5120.0f,    -6144.0f,    -7168.0f,
+    -8192.0f,    -10240.0f,   -12288.0f,   -14336.0f,   -16384.0f,   -20480.0f,   -24576.0f,
+    -28672.0f,   -32768.0f,   -40960.0f,   -49152.0f,   -57344.0f,   -INFINITY,   0.0f,
+    0.0f,        0.0f /* 3 NaN values, ignore with 0.0f */
+};
 
 void
 gent_group(void)
@@ -2567,6 +2656,7 @@ gent_nestcomp(void)
     /*
      * Initialize the data
      */
+    memset(s1, 0, sizeof(s1));
     for (i = 0; i < 10; i++) {
         s1[i].a      = i;
         s1[i].b      = (float)(i * i);
@@ -4115,28 +4205,40 @@ write_attr_in(hid_t loc_id, const char *dset_name, /* for saving reference to da
 
     /* create 1D attributes with dimension [2], 2 elements */
     hsize_t    dims[1]    = {2};
-    char       buf1[2][2] = {"ab", "de"};            /* string, NO NUL fixed length */
-    char       buf2[2]    = {1, 2};                  /* bitfield, opaque */
-    s_t        buf3[2]    = {{1, 2}, {3, 4}};        /* compound */
-    hobj_ref_t buf4[2];                              /* reference */
-    hvl_t      buf5[2];                              /* vlen */
-    hsize_t    dimarray[1] = {3};                    /* array dimension */
-    int        buf6[2][3]  = {{1, 2, 3}, {4, 5, 6}}; /* array */
-    int        buf7[2]     = {1, 2};                 /* integer */
-    float      buf8[2]     = {1, 2};                 /* float */
-    float      buf9[4]     = {1, 2, 3, 4};           /* complex */
+    char       buf1[2][2] = {"ab", "de"}; /* string, NO NUL fixed length */
+    char       buf2[2]    = {1, 2};       /* bitfield, opaque */
+    s_t        buf3[2];                   /* compound */
+    hobj_ref_t buf4[2];                   /* reference */
+    hvl_t      buf5[2];                   /* vlen */
+
+    memset(buf3, 0, sizeof(buf3));
+    buf3[0].a           = 1;
+    buf3[0].b           = 2;
+    buf3[1].a           = 3;
+    buf3[1].b           = 4;
+    hsize_t dimarray[1] = {3};                    /* array dimension */
+    int     buf6[2][3]  = {{1, 2, 3}, {4, 5, 6}}; /* array */
+    int     buf7[2]     = {1, 2};                 /* integer */
+    float   buf8[2]     = {1, 2};                 /* float */
+    float   buf9[4]     = {1, 2, 3, 4};           /* complex */
 
     /* create 2D attributes with dimension [3][2], 6 elements */
     hsize_t    dims2[2]    = {3, 2};
     char       buf12[6][2] = {"ab", "cd", "ef", "gh", "ij", "kl"}; /* string, NO NUL fixed length */
     char       buf22[3][2] = {{1, 2}, {3, 4}, {5, 6}};             /* bitfield, opaque */
-    s_t        buf32[6]    = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}}; /* compound */
-    hobj_ref_t buf42[3][2];                                                       /* reference */
-    hvl_t      buf52[3][2];                                                       /* vlen */
+    s_t        buf32[6];                                           /* compound */
+    hobj_ref_t buf42[3][2];                                        /* reference */
+    hvl_t      buf52[3][2];                                        /* vlen */
     int buf62[6][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}, {13, 14, 15}, {16, 17, 18}}; /* array */
     int buf72[3][2] = {{1, 2}, {3, 4}, {5, 6}};                              /* integer */
     float buf82[3][2] = {{1, 2}, {3, 4}, {5, 6}};                            /* float */
     float buf92[6][2] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}}; /* complex */
+
+    memset(buf32, 0, sizeof(buf32));
+    for (i = 0; i < 6; i++) {
+        buf32[i].a = (2 * i) + 1;
+        buf32[i].b = (2 * i) + 2;
+    }
 
     /* create 3D attributes with dimension [4][3][2], 24 elements */
     hsize_t dims3[3]     = {4, 3, 2};
@@ -4152,6 +4254,7 @@ write_attr_in(hid_t loc_id, const char *dset_name, /* for saving reference to da
     float      buf83[4][3][2];                                                /* float */
     float      buf93[24][2];                                                  /* complex */
 
+    memset(buf33, 0, sizeof(buf33));
     /*-------------------------------------------------------------------------
      * 1D attributes
      *-------------------------------------------------------------------------
@@ -4573,28 +4676,40 @@ write_dset_in(hid_t loc_id, const char *dset_name, /* for saving reference to da
 
     /* create 1D attributes with dimension [2], 2 elements */
     hsize_t    dims[1]    = {2};
-    char       buf1[2][2] = {"ab", "de"};            /* string, NO NUL fixed length */
-    char       buf2[2]    = {1, 2};                  /* bitfield, opaque */
-    s_t        buf3[2]    = {{1, 2}, {3, 4}};        /* compound */
-    hobj_ref_t buf4[2];                              /* reference */
-    hvl_t      buf5[2];                              /* vlen */
-    hsize_t    dimarray[1] = {3};                    /* array dimension */
-    int        buf6[2][3]  = {{1, 2, 3}, {4, 5, 6}}; /* array */
-    int        buf7[2]     = {1, 2};                 /* integer */
-    float      buf8[2]     = {1, 2};                 /* float */
-    float      buf9[4]     = {1, 2, 3, 4};           /* complex */
+    char       buf1[2][2] = {"ab", "de"}; /* string, NO NUL fixed length */
+    char       buf2[2]    = {1, 2};       /* bitfield, opaque */
+    s_t        buf3[2];                   /* compound */
+    hobj_ref_t buf4[2];                   /* reference */
+    hvl_t      buf5[2];                   /* vlen */
+
+    memset(buf3, 0, sizeof(buf3));
+    buf3[0].a           = 1;
+    buf3[0].b           = 2;
+    buf3[1].a           = 3;
+    buf3[1].b           = 4;
+    hsize_t dimarray[1] = {3};                    /* array dimension */
+    int     buf6[2][3]  = {{1, 2, 3}, {4, 5, 6}}; /* array */
+    int     buf7[2]     = {1, 2};                 /* integer */
+    float   buf8[2]     = {1, 2};                 /* float */
+    float   buf9[4]     = {1, 2, 3, 4};           /* complex */
 
     /* create 2D attributes with dimension [3][2], 6 elements */
     hsize_t    dims2[2]    = {3, 2};
     char       buf12[6][2] = {"ab", "cd", "ef", "gh", "ij", "kl"}; /* string, NO NUL fixed length */
     char       buf22[3][2] = {{1, 2}, {3, 4}, {5, 6}};             /* bitfield, opaque */
-    s_t        buf32[6]    = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}}; /* compound */
-    hobj_ref_t buf42[3][2];                                                       /* reference */
-    hvl_t      buf52[3][2];                                                       /* vlen */
+    s_t        buf32[6];                                           /* compound */
+    hobj_ref_t buf42[3][2];                                        /* reference */
+    hvl_t      buf52[3][2];                                        /* vlen */
     int buf62[6][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}, {13, 14, 15}, {16, 17, 18}}; /* array */
     int buf72[3][2] = {{1, 2}, {3, 4}, {5, 6}};                              /* integer */
     float buf82[3][2] = {{1, 2}, {3, 4}, {5, 6}};                            /* float */
     float buf92[6][2] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}, {11, 12}}; /* complex */
+
+    memset(buf32, 0, sizeof(buf32));
+    for (int i = 0; i < 6; i++) {
+        buf32[i].a = (2 * i) + 1;
+        buf32[i].b = (2 * i) + 2;
+    }
 
     /* create 3D attributes with dimension [4][3][2], 24 elements */
     hsize_t dims3[3]     = {4, 3, 2};
@@ -4610,6 +4725,7 @@ write_dset_in(hid_t loc_id, const char *dset_name, /* for saving reference to da
     float      buf83[4][3][2];                                                /* float */
     float      buf93[24][2];                                                  /* complex */
 
+    memset(buf33, 0, sizeof(buf33));
     /*-------------------------------------------------------------------------
      * 1D
      *-------------------------------------------------------------------------
@@ -6080,20 +6196,29 @@ gent_fvalues(void)
         double b;
     } c_t;
 
-    hid_t                     fid;  /* file id */
-    hid_t                     dcpl; /* dataset creation property list */
-    hid_t                     sid;  /* dataspace ID */
-    hid_t                     tid;  /* datatype ID */
-    hid_t                     did;  /* datasetID */
-    hsize_t                   dims[1]     = {2};
-    int                       buf[2]      = {1, 2};                 /* integer */
-    int                       fillval1    = -99;                    /* integer fill value */
-    c_t                       buf2[2]     = {{1, 2}, {3, 4}};       /* compound */
-    c_t                       fillval2[1] = {{1, 2}};               /* compound fill value */
-    hvl_t                     buf3[2];                              /* vlen */
-    hvl_t                     fillval3;                             /* vlen fill value */
-    hsize_t                   dimarray[1] = {3};                    /* array dimension */
-    int                       buf4[2][3]  = {{1, 2, 3}, {4, 5, 6}}; /* array */
+    hid_t   fid;  /* file id */
+    hid_t   dcpl; /* dataset creation property list */
+    hid_t   sid;  /* dataspace ID */
+    hid_t   tid;  /* datatype ID */
+    hid_t   did;  /* datasetID */
+    hsize_t dims[1]  = {2};
+    int     buf[2]   = {1, 2}; /* integer */
+    int     fillval1 = -99;    /* integer fill value */
+    c_t     buf2[2];           /* compound */
+    c_t     fillval2[1];       /* compound fill value */
+    hvl_t   buf3[2];           /* vlen */
+    hvl_t   fillval3;          /* vlen fill value */
+    hsize_t dimarray[1] = {3}; /* array dimension */
+
+    memset(buf2, 0, sizeof(buf2));
+    buf2[0].a = 1;
+    buf2[0].b = 2;
+    buf2[1].a = 3;
+    buf2[1].b = 4;
+    memset(fillval2, 0, sizeof(fillval2));
+    fillval2[0].a                        = 1;
+    fillval2[0].b                        = 2;
+    int                       buf4[2][3] = {{1, 2, 3}, {4, 5, 6}}; /* array */
     int H5_ATTR_NDEBUG_UNUSED ret;
 
     /* create a file */
@@ -10195,9 +10320,9 @@ gent_compound_ints(void)
     int m; /* Array init loop vars     */
 
     /* Allocate buffers */
-    Cmpd1 = (Cmpd1Struct *)malloc(sizeof(Cmpd1Struct) * F77_LENGTH);
+    Cmpd1 = (Cmpd1Struct *)calloc(F77_LENGTH, sizeof(Cmpd1Struct));
     assert(Cmpd1);
-    Cmpd2 = (Cmpd2Struct *)malloc(sizeof(Cmpd2Struct) * F77_LENGTH);
+    Cmpd2 = (Cmpd2Struct *)calloc(F77_LENGTH, sizeof(Cmpd2Struct));
     assert(Cmpd2);
 
     /* Initialize the data in the arrays/datastructure                */
@@ -11217,6 +11342,8 @@ gent_bitnopaquefields(void)
     uint64_t buf4[F80_DIM32]; /* bitfield, opaque */
     s_t      buf5[F80_DIM32]; /* compound */
 
+    memset(buf5, 0, sizeof(buf5));
+
     file_id = H5Fcreate(FILE80, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
     if ((grp = H5Gcreate2(file_id, "bittypetests", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT)) >= 0) {
@@ -11468,7 +11595,7 @@ gent_compound_complex2(void)
     hsize_t  nelmts = F82_DIM32;
 
     /* Allocate buffer */
-    buf = (compound *)malloc(sizeof(compound) * F82_DIM32);
+    buf = (compound *)calloc(F82_DIM32, sizeof(compound));
     assert(buf);
 
     file = H5Fcreate(FILE82, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
@@ -14289,6 +14416,10 @@ gent_test_reference_external(void)
     if (H5Dwrite(dataset, H5T_STD_REF, H5S_ALL, H5S_ALL, H5P_DEFAULT, ref_wbuf) < 0)
         return 1;
 
+    /* Destroy references to free allocated memory */
+    for (i = 0; i < SPACE1_DIM1; i++)
+        H5Rdestroy(&ref_wbuf[i]);
+
     /* Close disk dataspace */
     if (H5Sclose(sid) < 0)
         return 1;
@@ -14346,4 +14477,222 @@ gent_tvms(void)
         return -1;
 
     return 0;
+}
+
+void
+gent_float8(void)
+{
+    hsize_t dims[2], adims[1];
+    hid_t   fid     = H5I_INVALID_HID;
+    hid_t   attr    = H5I_INVALID_HID;
+    hid_t   dataset = H5I_INVALID_HID;
+    hid_t   space   = H5I_INVALID_HID;
+    hid_t   aspace  = H5I_INVALID_HID;
+
+    /*
+     * Just use float as the in-memory type for the standard
+     * datasets for now, until wide support for a native FP8
+     * type is available. Note that this will cause several of
+     * the values to be rounded by the library's datatype
+     * conversion process due to the mantissa size of float
+     * being larger than that of the FP8 types. But this is not
+     * particularly interesting test data anyway and is mostly
+     * just meant to check that something is not very obviously
+     * wrong with the data after float values which can't be
+     * represented in FP8 are converted into values that can
+     * be. The more interesting parts of the file generated
+     * here are whether or not the datatype displays correctly
+     * and whether the datasets which contain all the possible
+     * FP8 values display correctly. Other tests ensure that the
+     * FP8 types are in the correct format.
+     */
+    struct {
+        float arr[F110_XDIM][F110_YDIM];
+    } *dset8;
+
+    float *aset8 = NULL;
+    float  val;
+
+    uint8_t all_vals_buf[256];
+
+    dset8 = malloc(sizeof(*dset8));
+
+    aset8 = calloc(F110_XDIM * F110_YDIM, sizeof(float));
+
+    fid = H5Fcreate(FILE110, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+
+    dims[0] = F110_XDIM;
+    dims[1] = F110_YDIM;
+    space   = H5Screate_simple(2, dims, NULL);
+
+    adims[0] = F110_XDIM * F110_YDIM;
+    aspace   = H5Screate_simple(1, adims, NULL);
+
+    val = (float)F110_YDIM;
+    for (size_t i = 0; i < dims[0]; i++) {
+        dset8->arr[i][0]   = val;
+        aset8[i * dims[1]] = dset8->arr[i][0];
+
+        for (size_t j = 1; j < dims[1]; j++) {
+            dset8->arr[i][j]       = (float)(j * dims[0] + i) / (float)F110_YDIM;
+            aset8[i * dims[1] + j] = dset8->arr[i][j];
+        }
+
+        val -= (float)1;
+    }
+
+    /* Populate all_vals_buf with every FP8 number. Note
+     * that uint8_t is used for the buffer here since we
+     * don't currently have support for an FP8 type to
+     * use and there are currently conversion issues when
+     * converting larger types to the FP8 types. Writing
+     * a uint8_t buffer allows bypassing the datatype
+     * conversion process.
+     */
+    all_vals_buf[0] = 0;
+    for (size_t i = 1; i < 256; i++)
+        all_vals_buf[i] = all_vals_buf[i - 1] + 1;
+
+    /* Dataset of 8-bit FP8 E4M3 */
+    dataset = H5Dcreate2(fid, F110_DATASET, H5T_FLOAT_F8E4M3, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset8);
+
+    /* Attribute of 8-bit FP8 E4M3 */
+    attr = H5Acreate2(dataset, F110_DATASET, H5T_FLOAT_F8E4M3, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_NATIVE_FLOAT, aset8);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+
+    /* Dataset of 8-bit FP8 E5M2 */
+    dataset = H5Dcreate2(fid, F110_DATASET2, H5T_FLOAT_F8E5M2, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset8);
+
+    /* Attribute of 8-bit FP8 E5M2 */
+    attr = H5Acreate2(dataset, F110_DATASET2, H5T_FLOAT_F8E5M2, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_NATIVE_FLOAT, aset8);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+    H5Sclose(aspace);
+    H5Sclose(space);
+
+    dims[0] = 16;
+    dims[1] = 16;
+    space   = H5Screate_simple(2, dims, NULL);
+
+    adims[0] = 256;
+    aspace   = H5Screate_simple(1, adims, NULL);
+
+    /* Dataset of 8-bit FP8 E4M3 with all values written without datatype conversion.
+     * This dataset will have the correct data in the file, but will currently display
+     * incorrectly. The library converts the data into a native type, either float16 or
+     * float, on read, but the E4M3 format doesn't follow the IEEE standard. This causes
+     * the library to interpret certain values as infinities or NaNs when the format has
+     * no infinities and only one NaN.
+     */
+    dataset = H5Dcreate2(fid, F110_DATASET3, H5T_FLOAT_F8E4M3, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_FLOAT_F8E4M3, H5S_ALL, H5S_ALL, H5P_DEFAULT, all_vals_buf);
+
+    /* Attribute of 8-bit FP8 E4M3 with all values written without datatype conversion.
+     * This attribute will have the correct data in the file, but will currently display
+     * incorrectly. The library converts the data into a native type, either float16 or
+     * float, on read, but the E4M3 format doesn't follow the IEEE standard. This causes
+     * the library to interpret certain values as infinities or NaNs when the format has
+     * no infinities and only one NaN.
+     */
+    attr = H5Acreate2(dataset, F110_DATASET3, H5T_FLOAT_F8E4M3, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_FLOAT_F8E4M3, all_vals_buf);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+
+    /* Dataset of 8-bit FP8 E5M2 with all values written without datatype conversion.
+     * This dataset will have the correct data in the file and should display correctly.
+     */
+    dataset = H5Dcreate2(fid, F110_DATASET4, H5T_FLOAT_F8E5M2, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_FLOAT_F8E5M2, H5S_ALL, H5S_ALL, H5P_DEFAULT, all_vals_buf);
+
+    /* Attribute of 8-bit FP8 E5M2 with all values written without datatype conversion.
+     * This attribute will have the correct data in the file and should display correctly.
+     */
+    attr = H5Acreate2(dataset, F110_DATASET4, H5T_FLOAT_F8E5M2, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_FLOAT_F8E5M2, all_vals_buf);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+
+    /* Dataset of 8-bit FP8 E4M3 with all values written with datatype conversion from
+     * float. This dataset will currently have incorrect data in the file. Some of the
+     * smaller values appear to be incorrectly rounded by the library, while some of the
+     * larger values get converted to infinities by the datatype conversion process due
+     * to the fact that the E4M3 format doesn't follow the IEEE standard. While bit
+     * patterns that have all exponent bits set are normal values in the E4M3 format
+     * (other than the two NaN values S1111111), these are interpreted by the library as
+     * infinities according to the IEEE standard and are converted into infinities in the
+     * file.
+     */
+    dataset = H5Dcreate2(fid, F110_DATASET5, H5T_FLOAT_F8E4M3, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, fp8_e4m3_vals);
+
+    /* Attribute of 8-bit FP8 E4M3 with all values written with datatype conversion from
+     * float. This attribute will currently have incorrect data in the file. Some of the
+     * smaller values appear to be incorrectly rounded by the library, while some of the
+     * larger values get converted to infinities by the datatype conversion process due
+     * to the fact that the E4M3 format doesn't follow the IEEE standard. While bit
+     * patterns that have all exponent bits set are normal values in the E4M3 format
+     * (other than the two NaN values S1111111), these are interpreted by the library as
+     * infinities according to the IEEE standard and are converted into infinities in the
+     * file.
+     */
+    attr = H5Acreate2(dataset, F110_DATASET5, H5T_FLOAT_F8E4M3, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_NATIVE_FLOAT, fp8_e4m3_vals);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+
+    /* Dataset of 8-bit FP8 E5M2 with all values written with datatype conversion from
+     * float. This dataset will have nearly all values correct in the file. However, a
+     * few of the smaller values appear to be incorrectly rounded by the library, at
+     * least when converting from IEEE 32-bit float.
+     */
+    dataset = H5Dcreate2(fid, F110_DATASET6, H5T_FLOAT_F8E5M2, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Dwrite(dataset, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, fp8_e5m2_vals);
+
+    /* Attribute of 8-bit FP8 E5M2 with all values written with datatype conversion from
+     * float. This attribute will have nearly all values correct in the file. However, a
+     * few of the smaller values appear to be incorrectly rounded by the library, at
+     * least when converting from IEEE 32-bit float.
+     */
+    attr = H5Acreate2(dataset, F110_DATASET6, H5T_FLOAT_F8E5M2, aspace, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5Awrite(attr, H5T_NATIVE_FLOAT, fp8_e5m2_vals);
+
+    H5Aclose(attr);
+    H5Dclose(dataset);
+
+error:
+    free(aset8);
+    free(dset8);
+
+    H5E_BEGIN_TRY
+    {
+        H5Aclose(attr);
+        H5Sclose(aspace);
+        H5Sclose(space);
+        H5Dclose(dataset);
+        H5Fclose(fid);
+    }
+    H5E_END_TRY;
 }

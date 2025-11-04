@@ -51,6 +51,10 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 
 # ⚠️ Breaking Changes
 
+### Updated default file format to 1.8
+
+   By default, HDF5 will now use the 1.8 file format (`H5F_LIBVER_V18`). This provides improved performance and space efficiency, particularly with groups and links. However, HDF5 library versions 1.6 and earlier will not be able to read files created with the default settings. The previous behavior can be restored using `H5Pset_libver_bounds(fapl_id, H5F_LIBVER_EARLIEST, H5F_LIBVER_LATEST)`.
+
 ### Renamed the option: `HDF5_ENABLE_Z_LIB_SUPPORT`
 
    The option has been renamed to `HDF5_ENABLE_ZLIB_SUPPORT` to be consistent with the naming of other options. Also, the option defaults to OFF. This requires the user to explicitly enable zlib support when configuring the library.
@@ -58,6 +62,10 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 ### Autotools support was removed from HDF5<a name="cmake">
 
    CMake is now the build system available in HDF5 code. Version 3.26 or later is required. See the AutotoolsToCMakeOptions.md file for highlights of the CMake HDF5 install layout and CMake options to use in place of former Autotools options.
+
+### Fixed problems with family driver and user block
+
+   When using a user block with the family driver, the driver would inappropriately subtract the user block size for each member file when calculating member EOAs. This could cause a failure when an address overflowed the calculated eoa. The driver would also add the user block size when returning the EOF. Modified the family driver to not consider the user block, as it is handled by the H5FD layer. The user block now spans the first X bytes of the family array, for example a 4 KiB user block with 3 KiB member size will take up the entire first member and the first 1 KiB of the second. This may cause compatibility issues with preexisting family files with user blocks, though the way it worked before was inconsistent if it worked at all.
 
 # 🚀 New Features & Improvements
 
@@ -185,6 +193,14 @@ All other HDF5 library CMake options are prefixed with `HDF5_`
 
 ## Library
 
+### Changed default chunk cache hash table size to 8191
+
+   In order to reduce hash collisions and take advantage of modern memory capacity, the default hash table size for the chunk cache has been increased from 521 to 8191. This means the hash table will consume approximately 64 KiB per open dataset. This value can be changed with `H5Pset_cache()` or `H5Pset_chunk_cache()`. This value was chosen because it is a prime number close to 8K.
+     
+### Updated default file format to 1.8
+
+   By default, HDF5 will now use the 1.8 file format (`H5F_LIBVER_V18`). This provides improved performance and space efficiency, particularly with groups and links. This behavior can be overridden with `H5Pset_libver_bounds()`.
+
 ### Added predefined datatypes for bfloat16 data
 
    Predefined datatypes have been added for little- and big-endian bfloat16 (https://en.wikipedia.org/wiki/Bfloat16_floating-point_format) data.
@@ -193,9 +209,24 @@ All other HDF5 library CMake options are prefixed with `HDF5_`
 
     - H5T_FLOAT_BFLOAT16LE / H5T_FLOAT_BFLOAT16BE
 
-      These macros map to IDs of HDF5 datatypes representing a little- or big-endian 16-bit floating-point datatype with 1 sign bit, 8 exponent bits and 7 fraction bits.
+   These macros map to IDs of HDF5 datatypes representing a little- or big-endian 16-bit floating-point datatype with 1 sign bit, 8 exponent bits and 7 fraction bits.
 
-      Note that support for a native bfloat16 datatype has not been added yet. This means that any datatype conversions to/from the new bfloat16 datatypes will be emulated in software rather than potentially using specialized hardware instructions. Until support for a native bfloat16 type is added, an application can avoid datatype conversion performance issues if it is sure that the datatype used for in-memory data buffers matches the above floating-point format (such as the __bf16 type). In this case, the application can specify one of the above macros for both the file datatype when creating a dataset or attribute and the memory datatype when performing I/O on the dataset or attribute.
+   Note that support for a native bfloat16 datatype has not been added yet. This means that any datatype conversions to/from the new bfloat16 datatypes will be emulated in software rather than potentially using specialized hardware instructions. Until support for a native bfloat16 type is added, an application can avoid datatype conversion performance issues if it is sure that the datatype used for in-memory data buffers matches the above floating-point format (such as the __bf16 type). In this case, the application can specify one of the above macros for both the file datatype when creating a dataset or attribute and the memory datatype when performing I/O on the dataset or attribute.
+
+### Added predefined datatypes for FP8 data
+
+   Predefined datatypes have been added for FP8 data in E4M3 and E5M2 formats (https://arxiv.org/abs/2209.05433).
+
+   The following new macros have been added:
+
+    - H5T_FLOAT_F8E4M3
+    - H5T_FLOAT_F8E5M2
+
+   These macros map to IDs of HDF5 datatypes representing an 8-bit floating-point datatype with 1 sign bit and either 4 exponent bits and 3 mantissa bits (E4M3 format) or 5 exponent bits and 2 mantissa bits (E5M2 format).
+
+   Note that support for a native FP8 datatype has not been added yet. This means that any datatype conversions to/from the new FP8 datatypes will be emulated in software rather than potentially using specialized hardware instructions. Until support for a native FP8 type is added, an application can avoid datatype conversion performance issues if it is sure that the datatype used for in-memory data buffers matches one of the above floating-point formats. In this case, the application can specify one of the above macros for both the file datatype when creating a dataset or attribute and the memory datatype when performing I/O on the dataset or attribute.
+
+   Also note that HDF5 currently has incomplete support for datatype conversions involving non-IEEE floating-point format datatypes. Refer to the 'Known Problems' section for information about datatype conversions with these new datatypes.
 
 ### Removed hbool_t from public API calls
                                   
@@ -240,6 +271,8 @@ Calling `H5Pset_fapl_ros3()` now has the side effect of setting the page buffer 
 The Virtual Dataset Global Heap Block format has been updated to version 1 to support shared string storage for source filenames and dataset names, reducing file size when multiple mappings reference the same sources. This new format is only used when the HDF5 library version bounds lower bound is set to 2.0 or later.
 
 Use of the shared strings option for Virtual Datasets reduces memory overhead and optimizes dataset close operations.
+
+The chunked dataset file format has been updated to always use 64 bits to encode the size of filtered chunks. This will allow data filters that expand the chunks by a large amount to still work. Chunk sizes are still limited to `2^32 - 1`. This new format is only used when the HDF5 library version bounds lower bound is set to 2.0 or later.
 
 ### The `H5Dread_chunk()` signature has changed
 
@@ -557,6 +590,16 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
 
 ## Library
 
+### Fixed problems with family driver and user block
+
+   When using a user block with the family driver, the driver would inappropriately subtract the user block size for each member file when calculating member EOAs. This could cause a failure when an address overflowed the calculated eoa. The driver would also add the user block size when returning the EOF. Modified the family driver to not consider the user block, as it is handled by the H5FD layer. The user block now spans the first X bytes of the family array, for example a 4 KiB user block with 3 KiB member size will take up the entire first member and the first 1 KiB of the second. This may cause compatibility issues with preexisting family files with user blocks, though the way it worked before was inconsistent if it worked at all.
+
+### Fixed security issue CVE-2025-7067
+
+   Fixed a heap buffer overflow in H5FS__sinfo_serialize_node_cb() by discarding file free space sections from the file free space manager when they are found to be invalid. Specifically crafted HDF5 files can result in an attempt to insert duplicate or overlapping file free space sections into a file free space manager, later resulting in a buffer overflow when the same free space section is serialized to the file multiple times.
+
+   Fixes GitHub issue #5577
+
 ### Fixed security issue CVE-2025-2915 and OSV-2024-381
 
    Fixed a heap-based buffer overflow in H5F__accum_free caused by an integer overflow when calculating new_accum_size. Added validation in H5O__mdci_decode to detect and reject invalid values early, preventing the overflow condition.
@@ -621,6 +664,12 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
    Currently, we do not check for overflow when decoding addresses from the heap, which can cause overflow problems. We've added a check in H5HL__fl_deserialize to ensure no overflow can occur.
 
    Fixes GitHub issue [#5382](https://github.com/HDFGroup/hdf5/issues/5382)
+
+### Fixed security issues CVE-2025-2913 and CVE-2025-2926
+
+   The size of a continuation message was decoded as 0, causing multiple vulnerabilities.  An error check was added to return failure to prevent further processing of invalid data.
+
+   Fixes GitHub issue #5376 and #5384
 
 ### Revised handling of Unicode filenames on Windows<a name="utf-8">
 
@@ -752,6 +801,9 @@ Added Fortran wrapper h5fdsubfiling_get_file_mapping_f() for the subfiling file 
 
 ## Fortran API
 
+   Added missing parameters H5F_ACC_SWMR_READ_F and H5F_ACC_SWMR_WRITE_F
+   Fixed GitHub issue [#5959](https://github.com/HDFGroup/hdf5/issues/5959)
+
 ## High-Level Library
 
 ### Fixed an issue with H5TB functions
@@ -788,6 +840,15 @@ A table of platforms tested can be seen on the [wiki](https://github.com/HDFGrou
 Current test results are available [here](https://my.cdash.org/index.php?project=HDF5).
 
 # ⛔ Known Problems
+
+- When performing implicit datatype conversion on specific non-IEEE floating-point format data, HDF5 may improperly convert some data values:
+
+   When performing I/O operations using a non-IEEE floating-point format datatype, HDF5 may improperly convert some data values due to incomplete handling of non-IEEE types. Such types include the following pre-defined datatypes:
+
+    H5T_FLOAT_F8E4M3
+    H5T_FLOAT_F8E5M2
+
+   If possible, an application should perform I/O with these datatypes using an in-memory type that matches the specific floating-point format and perform explicit data conversion outside of HDF5, if necessary. Otherwise, read/written values should be verified to be correct.
 
 - When the library detects and builds in support for the _Float16 datatype, an issue has been observed on at least one MacOS 14 system where the library fails to initialize due to not being able to detect the byte order of the _Float16 type [#4310](https://github.com/HDFGroup/hdf5/issues/4310):
 

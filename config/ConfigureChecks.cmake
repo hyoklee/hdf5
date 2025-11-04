@@ -451,11 +451,6 @@ if (_HAVE_QSORT_R_TMP OR _HAVE_QSORT_S_TMP)
 endif ()
 
 #-----------------------------------------------------------------------------
-# Check for qsort_r (not available on older Linux systems like CentOS-5)
-#-----------------------------------------------------------------------------
-CHECK_FUNCTION_EXISTS (qsort_r           ${HDF_PREFIX}_HAVE_QSORT_R)
-
-#-----------------------------------------------------------------------------
 # sigsetjmp is special; may actually be a macro
 #-----------------------------------------------------------------------------
 if (NOT ${HDF_PREFIX}_HAVE_SIGSETJMP)
@@ -814,17 +809,7 @@ int main(void) {\nprintf(\"\\%d\\\;\\%d\\\;\", C_LDBL_DIG, C_FLT128_DIG)\\\;\n\n
         "
     )
 
-    # Check if we're on macOS with clang21+ on ARM64, which has known issues with __float128
-    if (CMAKE_SYSTEM_NAME MATCHES "Darwin" AND
-        CMAKE_C_COMPILER_ID MATCHES "Clang" AND
-        CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
-      # Disable __float128 on ARM64 macOS with clang to avoid compilation issues
-      set (PROG_RES 0)
-      set (PROG_OUTPUT4 "0;0")
-      message (STATUS "Skipping __float128 precision test on ARM64 macOS with clang due to known compatibility issues")
-    else ()
-      C_RUN ("maximum decimal precision for C" ${PROG_SRC} PROG_RES PROG_OUTPUT4)
-    endif ()
+    C_RUN ("maximum decimal precision for C" ${PROG_SRC} PROG_RES PROG_OUTPUT4)
     message (STATUS "Testing maximum decimal precision for C - ${PROG_OUTPUT4}")
 
     # The output from the above program will be:

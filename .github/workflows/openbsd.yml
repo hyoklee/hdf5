@@ -1,4 +1,4 @@
-name: FreeBSD CI
+name: OpenBSD CI
 
 # Triggers the workflow on push or pull request or on demand
 on:
@@ -24,9 +24,9 @@ permissions:
   contents: read
 
 jobs:
-  freebsd-build-and-test:
+  openbsd-build-and-test:
     runs-on: ubuntu-latest
-    name: FreeBSD ${{ matrix.freebsd-version }} Build and Test
+    name: OpenBSD ${{ matrix.openbsd-version }} Build and Test
 
     # Don't run the action if the commit message says to skip CI
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
@@ -34,36 +34,47 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        freebsd-version: ['13.5', '14.3', '15.0']
+        openbsd-version: ['7.5']
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Build and test on FreeBSD
-        uses: vmactions/freebsd-vm@v1
+      - name: Build and test on OpenBSD
+        uses: vmactions/openbsd-vm@v1
         with:
-          release: ${{ matrix.freebsd-version }}
+          release: ${{ matrix.openbsd-version }}
           usesh: true
           prepare: |
-            pkg install -y cmake ninja pkgconf bash curl
+            echo "https://ftp.openbsd.org/pub/OpenBSD" > /etc/installurl
+            pkg_add cmake gmake pkgconf curl gcc-11.2.0p11
           run: |
             set -e
+
+            # Set up library path for gcc
+            export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+            # Get number of processors (OpenBSD uses sysctl in /sbin)
+            NPROC=$(/sbin/sysctl -n hw.ncpu)
+            echo "Number of processors: $NPROC"
 
             # Configure the build
             mkdir build
             cd build
             cmake -C ../config/cmake/cacheinit.cmake \
-              -G Ninja \
               --log-level=VERBOSE \
               -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_C_COMPILER=egcc \
+              -DCMAKE_CXX_COMPILER=eg++ \
+              -DCMAKE_MAKE_PROGRAM=gmake \
               -DBUILD_SHARED_LIBS:BOOL=ON \
               -DHDF5_ENABLE_ALL_WARNINGS:BOOL=ON \
               -DHDF5_ENABLE_PARALLEL:BOOL=OFF \
-              -DHDF5_BUILD_CPP_LIB:BOOL=ON \
+              -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
               -DHDF5_BUILD_FORTRAN:BOOL=OFF \
               -DHDF5_BUILD_JAVA:BOOL=OFF \
               -DHDF5_BUILD_DOC:BOOL=OFF \
+              -DHDF5_BUILD_HL_LIB:BOOL=OFF \
               -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
               -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
               -DLIBAEC_USE_LOCALCONTENT:BOOL=OFF \
@@ -75,9 +86,9 @@ jobs:
             echo ""
 
             # Build
-            cmake --build . --parallel 3 --config Release
+            cmake --build . --parallel $NPROC
             echo ""
 
             # Run tests
-            ctest . --parallel 2 -C Release -V
+            ctest . --parallel $NPROC
             echo ""

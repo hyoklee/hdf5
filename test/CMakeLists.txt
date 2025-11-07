@@ -6,7 +6,7 @@
 #-----------------------------------------------------------------------------
 cmake_minimum_required (VERSION 3.26)
 project (HDF5_TEST C)
-
+set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 #-----------------------------------------------------------------------------
 # Generate the H5srcdir_str.h file containing user settings needed by compilation
 #-----------------------------------------------------------------------------
@@ -464,7 +464,7 @@ macro (ADD_H5_EXE file)
     TARGET_C_PROPERTIES (${file} SHARED)
     target_link_libraries (${file} PRIVATE ${HDF5_TEST_LIBSH_TARGET})
   endif ()
-  set_target_properties (${file} PROPERTIES FOLDER test POSITION_INDEPENDENT_CODE ON)
+  set_target_properties (${file} PROPERTIES FOLDER test)
 
   #-----------------------------------------------------------------------------
   # Add Target to clang-format

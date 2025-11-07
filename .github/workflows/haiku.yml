@@ -1,0 +1,43 @@
+name: haiku
+
+on:
+  push:
+    branches: develop
+
+jobs:
+  test: # make sure the action works on a clean machine without building
+    name: haiku
+    runs-on: ${{ matrix.os.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: haiku
+            architecture: x86_64
+            version: 'r1beta5'
+            host: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@master
+        with:
+          operating_system: ${{ matrix.os.name }}
+          architecture: ${{ matrix.os.architecture }}
+          version: '${{ matrix.os.version }}'
+          shell: bash
+          run: |
+            pkgman install -y cmake
+            mkdir build
+            cd build
+            export CFLAGS='-fPIC'
+            cmake -DCMAKE_C_FLAGS="-fPIC ${CMAKE_C_FLAGS}" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILDNAME="hk/r" \
+            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+            -DSITE:STRING="haiku" \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DCTEST_DROP_LOCATION_INIT:STRING="/submit.php?project=HDF5" \
+            ..
+            ctest -D Experimental

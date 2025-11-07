@@ -37,7 +37,7 @@
 /* #define EOC_MANUAL_INSPECTION */
 
 static const char *FILENAMES[] = {"evict-on-close", /* 0 */
-                           NULL};
+                                  NULL};
 #define FILENAME_BUF_SIZE 1024
 
 /* Group names */

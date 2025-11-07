@@ -464,7 +464,7 @@ macro (ADD_H5_EXE file)
     TARGET_C_PROPERTIES (${file} SHARED)
     target_link_libraries (${file} PRIVATE ${HDF5_TEST_LIBSH_TARGET})
   endif ()
-  set_target_properties (${file} PROPERTIES FOLDER test)
+  set_target_properties (${file} PROPERTIES FOLDER test POSITION_INDEPENDENT_CODE ON)
 
   #-----------------------------------------------------------------------------
   # Add Target to clang-format

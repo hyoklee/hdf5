@@ -17,13 +17,13 @@ jobs:
         run: |
           ls /opt/homebrew/bin/flang*
           export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.4/bin/clang++
+          export CC=/opt/homebrew/Cellar/llvm/21.1.5/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.5/bin/clang++
           mkdir build
           cd build
           cmake -G Ninja \
             -DSITE:STRING=mac-15 \
-            -DBUILDNAME:STRING="hk/fl" \
+            -DBUILDNAME:STRING="hk/fl-21" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DHDF5_BUILD_FORTRAN=ON \

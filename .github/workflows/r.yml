@@ -15,7 +15,7 @@ jobs:
         os:
           - name: openbsd
             architecture: x86_64
-            version: '7.6'
+            version: '7.8'
             host: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,16 +37,17 @@ jobs:
             mkdir build
             cd build
             cmake \
-            -DBUILDNAME:STRING="hk/r" \
+            -DBUILDNAME:STRING="hk/r/ei/ui/vi" \
             -DCMAKE_BUILD_TYPE=Release \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+            -DCTEST_EXPERIMENTAL_INSTRUMENTATION=ec7aa2dc-b87f-45a3-8022-fe01c5f59984 \
+            -DCTEST_USE_INSTRUMENTATION=1 \
+            -DCTEST_USE_VERBOSE_INSTRUMENTATION=1 \
             -DSITE:STRING=obsd \
             ..
-            ctest -T Build
-            ctest -T Test
-
+            ctest -D Experimental
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

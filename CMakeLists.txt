@@ -30,6 +30,13 @@
 cmake_minimum_required (VERSION 3.26)
 project (HDF5 C)
 
+set(CMAKE_EXPERIMENTAL_INSTRUMENTATION "ec7aa2dc-b87f-45a3-8022-fe01c5f59984")
+
+cmake_instrumentation(
+  API_VERSION 1
+  DATA_VERSION 1
+)
+
 if (POLICY CMP0074)
   # find_package() uses <PackageName>_ROOT variables.
   cmake_policy (SET CMP0074 NEW)

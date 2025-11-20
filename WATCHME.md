@@ -98,6 +98,7 @@
 
 | Test  | Status |
 | ------| ------ |
+| Debug |  [![fbsd d](https://github.com/hyoklee/hdf5/actions/workflows/fbsd_d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd_d.yml) |
 | Off   | [![mac13 off](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_off.yml) |
 | Shared | [![nbsd f -sh](https://github.com/hyoklee/hdf5/actions/workflows/nbsd_f_sh.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd_f_sh.yml) |
 

@@ -3,10 +3,10 @@ name: fbsd d
 on:
   push:
     branches:
-      - develop-
+      - develop
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  test:
     name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}
     runs-on: ${{ matrix.os.host }}
     strategy:
@@ -15,7 +15,7 @@ jobs:
         os:
           - name: freebsd
             architecture: x86-64
-            version: '14.0'
+            version: '14.3'
             host: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,10 +34,10 @@ jobs:
             mkdir build
             cd build
             cmake \
-            -DBUILDNAME:STRING=d \
+            -D BUILDNAME:STRING=d \
+            -D CMAKE_BUILD_TYPE=Debug \            
             -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -D SITE:STRING=fbsd ..                        
-            # ctest -D Experimental -C Debug
             ctest -T Build
             ctest -T Test
 

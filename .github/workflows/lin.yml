@@ -1,0 +1,35 @@
+name: lin hk/r/ui/ei/vi
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: h5
+        uses: actions/checkout@v5
+
+      - name: Get CMake
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: latest
+
+      - name: test
+        env:
+          CTEST_USE_INSTRUMENTATION: 1
+          CTEST_EXPERIMENTAL_INSTRUMENTATION: ec7aa2dc-b87f-45a3-8022-fe01c5f59984
+        run: |
+          mkdir build
+          cd build
+          cmake \
+            -DBUILDNAME:STRING="hk/r/ui/ei/vi" \
+            -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DCTEST_EXPERIMENTAL_INSTRUMENTATION=ec7aa2dc-b87f-45a3-8022-fe01c5f59984 \
+            -DCTEST_USE_INSTRUMENTATION=1 \
+            -DCTEST_USE_VERBOSE_INSTRUMENTATION=1 \
+            -DSITE:STRING=ubu-24 \
+            ..
+            ctest -D Experimental -C Release

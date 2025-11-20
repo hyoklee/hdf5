@@ -30,7 +30,7 @@
 cmake_minimum_required (VERSION 3.26)
 project (HDF5 C)
 
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "4.1")
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "4.2")
   set(CMAKE_EXPERIMENTAL_INSTRUMENTATION "ec7aa2dc-b87f-45a3-8022-fe01c5f59984")
 
   cmake_instrumentation(

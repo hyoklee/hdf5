@@ -820,12 +820,10 @@ set (H5T_SOURCES
     ${HDF5_SRC_DIR}/H5Tarray.c
     ${HDF5_SRC_DIR}/H5Tbit.c
     ${HDF5_SRC_DIR}/H5Tcommit.c
-    ${HDF5_SRC_DIR}/H5Tcomplex.c
     ${HDF5_SRC_DIR}/H5Tcompound.c
     ${HDF5_SRC_DIR}/H5Tconv.c
     ${HDF5_SRC_DIR}/H5Tconv_array.c
     ${HDF5_SRC_DIR}/H5Tconv_bitfield.c
-    ${HDF5_SRC_DIR}/H5Tconv_complex.c
     ${HDF5_SRC_DIR}/H5Tconv_compound.c
     ${HDF5_SRC_DIR}/H5Tconv_enum.c
     ${HDF5_SRC_DIR}/H5Tconv_float.c
@@ -858,6 +856,14 @@ set (H5T_SOURCES
     ${HDF5_SRC_DIR}/H5Tvisit.c
     ${HDF5_SRC_DIR}/H5Tvlen.c
 )
+
+# Add complex number sources if compiler supports them
+if (H5_HAVE_COMPLEX_NUMBERS)
+  list (APPEND H5T_SOURCES
+    ${HDF5_SRC_DIR}/H5Tcomplex.c
+    ${HDF5_SRC_DIR}/H5Tconv_complex.c
+  )
+endif ()
 
 set (H5T_PUBLIC_HDRS
     ${HDF5_SRC_DIR}/H5Tdevelop.h

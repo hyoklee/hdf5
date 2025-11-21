@@ -596,4 +596,3 @@ H5T__conv_uchar_lcomplex(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
     H5T_CONV_xZ(UCHAR, LDOUBLE_COMPLEX, unsigned char, H5_ldouble_complex, -, -);
 }
 #endif
-

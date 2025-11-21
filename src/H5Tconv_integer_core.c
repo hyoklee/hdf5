@@ -1057,4 +1057,3 @@ H5T__conv_i_complex(const H5T_t *src_p, const H5T_t *dst_p, H5T_cdata_t *cdata,
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5T__conv_i_complex() */
-

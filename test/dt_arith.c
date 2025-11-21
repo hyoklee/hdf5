@@ -674,7 +674,7 @@ test_particular_fp_integer(void)
 #ifdef H5_HAVE_COMPLEX_NUMBERS
     unsigned char *buf4       = NULL;
     unsigned char *saved_buf4 = NULL;
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
     H5_float_complex src_fc = (H5_float_complex)INT_MAX;
 #else
     H5_float_complex src_fc = H5_CMPLXF(INT_MAX, 0.0F);
@@ -3949,7 +3949,7 @@ test_conv_flt_1_hw_conv_from_flt16(void *hw_dst, unsigned char *src_buf, size_t 
 #endif
 
 #ifdef H5_HAVE_COMPLEX_NUMBERS
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
         case FLT_COMPLEX:
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
             break;
@@ -4058,7 +4058,7 @@ test_conv_flt_1_hw_conv_from_flt(void *hw_dst, unsigned char *src_buf, size_t id
 #endif
 
 #ifdef H5_HAVE_COMPLEX_NUMBERS
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
         case FLT_COMPLEX:
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
             break;
@@ -4173,7 +4173,7 @@ test_conv_flt_1_hw_conv_from_double(void *hw_dst, unsigned char *src_buf, size_t
 #endif
 #ifdef H5_HAVE_COMPLEX_NUMBERS
         case FLT_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
             *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
@@ -4187,14 +4187,14 @@ test_conv_flt_1_hw_conv_from_double(void *hw_dst, unsigned char *src_buf, size_t
 
             break;
         case DBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_double_complex *)hw_dst) = (H5_double_complex)aligned;
 #else
             *((H5_double_complex *)hw_dst) = H5_CMPLX(aligned, 0.0);
 #endif
             break;
         case LDBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_ldouble_complex *)hw_dst) = (H5_ldouble_complex)aligned;
 #else
             *((H5_ldouble_complex *)hw_dst) = H5_CMPLXL(aligned, 0.0L);
@@ -4299,7 +4299,7 @@ test_conv_flt_1_hw_conv_from_ldouble(void *hw_dst, unsigned char *src_buf, size_
 #endif
 #ifdef H5_HAVE_COMPLEX_NUMBERS
         case FLT_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
             *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
@@ -4313,7 +4313,7 @@ test_conv_flt_1_hw_conv_from_ldouble(void *hw_dst, unsigned char *src_buf, size_
 
             break;
         case DBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_double_complex *)hw_dst) = (H5_double_complex)aligned;
 #else
             *((H5_double_complex *)hw_dst) = H5_CMPLX(aligned, 0.0);
@@ -4327,7 +4327,7 @@ test_conv_flt_1_hw_conv_from_ldouble(void *hw_dst, unsigned char *src_buf, size_
 
             break;
         case LDBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_ldouble_complex *)hw_dst) = (H5_ldouble_complex)aligned;
 #else
             *((H5_ldouble_complex *)hw_dst) = H5_CMPLXL(aligned, 0.0L);
@@ -4388,21 +4388,21 @@ test_conv_flt_1_hw_conv_from_fcomplex(void *hw_dst, unsigned char *src_buf, size
 
     switch (dst_type) {
         case FLT_FLOAT:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((float *)hw_dst) = (float)aligned;
 #else
             *((float *)hw_dst) = crealf(aligned);
 #endif
             break;
         case FLT_DOUBLE:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((double *)hw_dst) = (double)aligned;
 #else
             *((double *)hw_dst) = (double)crealf(aligned);
 #endif
             break;
         case FLT_LDOUBLE:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((long double *)hw_dst) = (long double)aligned;
 #else
             *((long double *)hw_dst) = (long double)crealf(aligned);
@@ -4416,7 +4416,7 @@ test_conv_flt_1_hw_conv_from_fcomplex(void *hw_dst, unsigned char *src_buf, size
             /* Suppress warning about non-standard floating-point literal suffix */
             H5_WARN_NONSTD_SUFFIX_OFF
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5__Float16 *)hw_dst) = (H5__Float16)aligned;
 #else
             *((H5__Float16 *)hw_dst) = (H5__Float16)real_val;
@@ -4441,14 +4441,14 @@ test_conv_flt_1_hw_conv_from_fcomplex(void *hw_dst, unsigned char *src_buf, size
             *((H5_float_complex *)hw_dst) = aligned;
             break;
         case DBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_double_complex *)hw_dst) = (H5_double_complex)aligned;
 #else
             *((H5_double_complex *)hw_dst) = H5_CMPLX((double)crealf(aligned), (double)cimagf(aligned));
 #endif
             break;
         case LDBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_ldouble_complex *)hw_dst) = (H5_ldouble_complex)aligned;
 #else
             *((H5_ldouble_complex *)hw_dst) =
@@ -4503,7 +4503,7 @@ test_conv_flt_1_hw_conv_from_dcomplex(void *hw_dst, unsigned char *src_buf, size
         case FLT_FLOAT:
             real_val = creal(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((float *)hw_dst) = (float)aligned;
 #else
             *((float *)hw_dst) = (float)real_val;
@@ -4517,14 +4517,14 @@ test_conv_flt_1_hw_conv_from_dcomplex(void *hw_dst, unsigned char *src_buf, size
 
             break;
         case FLT_DOUBLE:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((double *)hw_dst) = (double)aligned;
 #else
             *((double *)hw_dst) = (double)creal(aligned);
 #endif
             break;
         case FLT_LDOUBLE:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((long double *)hw_dst) = (long double)aligned;
 #else
             *((long double *)hw_dst) = (long double)creal(aligned);
@@ -4535,7 +4535,7 @@ test_conv_flt_1_hw_conv_from_dcomplex(void *hw_dst, unsigned char *src_buf, size
             /* Suppress warning about non-standard floating-point literal suffix */
             H5_WARN_NONSTD_SUFFIX_OFF
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5__Float16 *)hw_dst) = (H5__Float16)aligned;
 #else
             *((H5__Float16 *)hw_dst) = (H5__Float16)creal(aligned);
@@ -4563,7 +4563,7 @@ test_conv_flt_1_hw_conv_from_dcomplex(void *hw_dst, unsigned char *src_buf, size
             real_val = creal(aligned);
             imag_val = cimag(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
             *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)real_val, (float)imag_val);
@@ -4606,7 +4606,7 @@ test_conv_flt_1_hw_conv_from_dcomplex(void *hw_dst, unsigned char *src_buf, size
             *((H5_double_complex *)hw_dst) = aligned;
             break;
         case LDBL_COMPLEX:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_ldouble_complex *)hw_dst) = (H5_ldouble_complex)aligned;
 #else
             *((H5_ldouble_complex *)hw_dst) =
@@ -4661,7 +4661,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
         case FLT_FLOAT:
             real_val = creall(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((float *)hw_dst) = (float)aligned;
 #else
             *((float *)hw_dst) = (float)real_val;
@@ -4677,7 +4677,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
         case FLT_DOUBLE:
             real_val = creall(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((double *)hw_dst) = (double)aligned;
 #else
             *((double *)hw_dst) = (double)real_val;
@@ -4691,7 +4691,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
 
             break;
         case FLT_LDOUBLE:
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((long double *)hw_dst) = (long double)aligned;
 #else
             *((long double *)hw_dst) = (long double)creall(aligned);
@@ -4702,7 +4702,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
             /* Suppress warning about non-standard floating-point literal suffix */
             H5_WARN_NONSTD_SUFFIX_OFF
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5__Float16 *)hw_dst) = (H5__Float16)aligned;
 #else
             *((H5__Float16 *)hw_dst) = (H5__Float16)creall(aligned);
@@ -4730,7 +4730,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
             real_val = creall(aligned);
             imag_val = cimagl(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
             *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)real_val, (float)imag_val);
@@ -4776,7 +4776,7 @@ test_conv_flt_1_hw_conv_from_lcomplex(void *hw_dst, unsigned char *src_buf, size
             real_val = creall(aligned);
             imag_val = cimagl(aligned);
 
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_double_complex *)hw_dst) = (H5_double_complex)aligned;
 #else
             *((H5_double_complex *)hw_dst) = H5_CMPLX((double)real_val, (double)imag_val);
@@ -6003,7 +6003,7 @@ test_conv_int_fp_conv_to_schar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (signed char)fc;
 #else
             aligned = (signed char)crealf(fc);
@@ -6013,7 +6013,7 @@ test_conv_int_fp_conv_to_schar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (signed char)dc;
 #else
             aligned = (signed char)creal(dc);
@@ -6023,7 +6023,7 @@ test_conv_int_fp_conv_to_schar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (signed char)ldc;
 #else
             aligned = (signed char)creall(ldc);
@@ -6118,7 +6118,7 @@ test_conv_int_fp_conv_to_uchar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned char)fc;
 #else
             aligned = (unsigned char)crealf(fc);
@@ -6128,7 +6128,7 @@ test_conv_int_fp_conv_to_uchar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned char)dc;
 #else
             aligned = (unsigned char)creal(dc);
@@ -6138,7 +6138,7 @@ test_conv_int_fp_conv_to_uchar(void *hw_p, unsigned char *src_buf, size_t idx, d
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned char)ldc;
 #else
             aligned = (unsigned char)creall(ldc);
@@ -6233,7 +6233,7 @@ test_conv_int_fp_conv_to_short(void *hw_p, unsigned char *src_buf, size_t idx, d
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (short)fc;
 #else
             aligned = (short)crealf(fc);
@@ -6243,7 +6243,7 @@ test_conv_int_fp_conv_to_short(void *hw_p, unsigned char *src_buf, size_t idx, d
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (short)dc;
 #else
             aligned = (short)creal(dc);
@@ -6253,7 +6253,7 @@ test_conv_int_fp_conv_to_short(void *hw_p, unsigned char *src_buf, size_t idx, d
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (short)ldc;
 #else
             aligned = (short)creall(ldc);
@@ -6348,7 +6348,7 @@ test_conv_int_fp_conv_to_ushort(void *hw_p, unsigned char *src_buf, size_t idx, 
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned short)fc;
 #else
             aligned = (unsigned short)crealf(fc);
@@ -6358,7 +6358,7 @@ test_conv_int_fp_conv_to_ushort(void *hw_p, unsigned char *src_buf, size_t idx, 
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned short)dc;
 #else
             aligned = (unsigned short)creal(dc);
@@ -6368,7 +6368,7 @@ test_conv_int_fp_conv_to_ushort(void *hw_p, unsigned char *src_buf, size_t idx, 
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned short)ldc;
 #else
             aligned = (unsigned short)creall(ldc);
@@ -6463,7 +6463,7 @@ test_conv_int_fp_conv_to_int(void *hw_p, unsigned char *src_buf, size_t idx, dty
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (int)fc;
 #else
             aligned = (int)crealf(fc);
@@ -6473,7 +6473,7 @@ test_conv_int_fp_conv_to_int(void *hw_p, unsigned char *src_buf, size_t idx, dty
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (int)dc;
 #else
             aligned = (int)creal(dc);
@@ -6483,7 +6483,7 @@ test_conv_int_fp_conv_to_int(void *hw_p, unsigned char *src_buf, size_t idx, dty
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (int)ldc;
 #else
             aligned = (int)creall(ldc);
@@ -6578,7 +6578,7 @@ test_conv_int_fp_conv_to_uint(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned int)fc;
 #else
             aligned = (unsigned int)crealf(fc);
@@ -6588,7 +6588,7 @@ test_conv_int_fp_conv_to_uint(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned int)dc;
 #else
             aligned = (unsigned int)creal(dc);
@@ -6598,7 +6598,7 @@ test_conv_int_fp_conv_to_uint(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned int)ldc;
 #else
             aligned = (unsigned int)creall(ldc);
@@ -6693,7 +6693,7 @@ test_conv_int_fp_conv_to_long(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long)fc;
 #else
             aligned = (long)crealf(fc);
@@ -6703,7 +6703,7 @@ test_conv_int_fp_conv_to_long(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long)dc;
 #else
             aligned = (long)creal(dc);
@@ -6713,7 +6713,7 @@ test_conv_int_fp_conv_to_long(void *hw_p, unsigned char *src_buf, size_t idx, dt
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long)ldc;
 #else
             aligned = (long)creall(ldc);
@@ -6808,7 +6808,7 @@ test_conv_int_fp_conv_to_ulong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long)fc;
 #else
             aligned = (unsigned long)crealf(fc);
@@ -6818,7 +6818,7 @@ test_conv_int_fp_conv_to_ulong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long)dc;
 #else
             aligned = (unsigned long)creal(dc);
@@ -6828,7 +6828,7 @@ test_conv_int_fp_conv_to_ulong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long)ldc;
 #else
             aligned = (unsigned long)creall(ldc);
@@ -6923,7 +6923,7 @@ test_conv_int_fp_conv_to_llong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long long)fc;
 #else
             aligned = (long long)crealf(fc);
@@ -6933,7 +6933,7 @@ test_conv_int_fp_conv_to_llong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long long)dc;
 #else
             aligned = (long long)creal(dc);
@@ -6943,7 +6943,7 @@ test_conv_int_fp_conv_to_llong(void *hw_p, unsigned char *src_buf, size_t idx, d
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (long long)ldc;
 #else
             aligned = (long long)creall(ldc);
@@ -7038,7 +7038,7 @@ test_conv_int_fp_conv_to_ullong(void *hw_p, unsigned char *src_buf, size_t idx, 
         case FLT_COMPLEX: {
             H5_float_complex fc;
             memcpy(&fc, src_buf + idx * sizeof(H5_float_complex), sizeof(H5_float_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long long)fc;
 #else
             aligned = (unsigned long long)crealf(fc);
@@ -7048,7 +7048,7 @@ test_conv_int_fp_conv_to_ullong(void *hw_p, unsigned char *src_buf, size_t idx, 
         case DBL_COMPLEX: {
             H5_double_complex dc;
             memcpy(&dc, src_buf + idx * sizeof(H5_double_complex), sizeof(H5_double_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long long)dc;
 #else
             aligned = (unsigned long long)creal(dc);
@@ -7058,7 +7058,7 @@ test_conv_int_fp_conv_to_ullong(void *hw_p, unsigned char *src_buf, size_t idx, 
         case LDBL_COMPLEX: {
             H5_ldouble_complex ldc;
             memcpy(&ldc, src_buf + idx * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (unsigned long long)ldc;
 #else
             aligned = (unsigned long long)creall(ldc);
@@ -7528,7 +7528,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SCHAR: {
             signed char c;
             memcpy(&c, src_buf + idx * sizeof(signed char), sizeof(signed char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)c;
 #else
             aligned = H5_CMPLXF(c, 0.0F);
@@ -7538,7 +7538,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UCHAR: {
             unsigned char uc;
             memcpy(&uc, src_buf + idx * sizeof(unsigned char), sizeof(unsigned char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)uc;
 #else
             aligned = H5_CMPLXF(uc, 0.0F);
@@ -7548,7 +7548,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SHORT: {
             short s;
             memcpy(&s, src_buf + idx * sizeof(short), sizeof(short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)s;
 #else
             aligned = H5_CMPLXF(s, 0.0F);
@@ -7558,7 +7558,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_USHORT: {
             unsigned short us;
             memcpy(&us, src_buf + idx * sizeof(unsigned short), sizeof(unsigned short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)us;
 #else
             aligned = H5_CMPLXF(us, 0.0F);
@@ -7568,7 +7568,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_INT: {
             int i;
             memcpy(&i, src_buf + idx * sizeof(int), sizeof(int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)i;
 #else
             aligned = H5_CMPLXF(i, 0.0F);
@@ -7578,7 +7578,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UINT: {
             unsigned int ui;
             memcpy(&ui, src_buf + idx * sizeof(unsigned int), sizeof(unsigned int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ui;
 #else
             aligned = H5_CMPLXF(ui, 0.0F);
@@ -7588,7 +7588,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LONG: {
             long l;
             memcpy(&l, src_buf + idx * sizeof(long), sizeof(long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)l;
 #else
             aligned = H5_CMPLXF(l, 0.0F);
@@ -7598,7 +7598,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULONG: {
             unsigned long ul;
             memcpy(&ul, src_buf + idx * sizeof(unsigned long), sizeof(unsigned long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ul;
 #else
             aligned = H5_CMPLXF(ul, 0.0F);
@@ -7608,7 +7608,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LLONG: {
             long long ll;
             memcpy(&ll, src_buf + idx * sizeof(long long), sizeof(long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ll;
 #else
             aligned = H5_CMPLXF(ll, 0.0F);
@@ -7618,7 +7618,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULLONG: {
             unsigned long long ull;
             memcpy(&ull, src_buf + idx * sizeof(unsigned long long), sizeof(unsigned long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ull;
 #else
             aligned = H5_CMPLXF(ull, 0.0F);
@@ -7669,7 +7669,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SCHAR: {
             signed char c;
             memcpy(&c, src_buf + idx * sizeof(signed char), sizeof(signed char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)c;
 #else
             aligned = H5_CMPLX(c, 0.0);
@@ -7679,7 +7679,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UCHAR: {
             unsigned char uc;
             memcpy(&uc, src_buf + idx * sizeof(unsigned char), sizeof(unsigned char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)uc;
 #else
             aligned = H5_CMPLX(uc, 0.0);
@@ -7689,7 +7689,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SHORT: {
             short s;
             memcpy(&s, src_buf + idx * sizeof(short), sizeof(short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)s;
 #else
             aligned = H5_CMPLX(s, 0.0);
@@ -7699,7 +7699,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_USHORT: {
             unsigned short us;
             memcpy(&us, src_buf + idx * sizeof(unsigned short), sizeof(unsigned short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)us;
 #else
             aligned = H5_CMPLX(us, 0.0);
@@ -7709,7 +7709,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_INT: {
             int i;
             memcpy(&i, src_buf + idx * sizeof(int), sizeof(int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)i;
 #else
             aligned = H5_CMPLX(i, 0.0);
@@ -7719,7 +7719,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UINT: {
             unsigned int ui;
             memcpy(&ui, src_buf + idx * sizeof(unsigned int), sizeof(unsigned int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ui;
 #else
             aligned = H5_CMPLX(ui, 0.0);
@@ -7729,7 +7729,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LONG: {
             long l;
             memcpy(&l, src_buf + idx * sizeof(long), sizeof(long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)l;
 #else
             aligned = H5_CMPLX(l, 0.0);
@@ -7739,7 +7739,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULONG: {
             unsigned long ul;
             memcpy(&ul, src_buf + idx * sizeof(unsigned long), sizeof(unsigned long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ul;
 #else
             aligned = H5_CMPLX(ul, 0.0);
@@ -7749,7 +7749,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LLONG: {
             long long ll;
             memcpy(&ll, src_buf + idx * sizeof(long long), sizeof(long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ll;
 #else
             aligned = H5_CMPLX(ll, 0.0);
@@ -7759,7 +7759,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULLONG: {
             unsigned long long ull;
             memcpy(&ull, src_buf + idx * sizeof(unsigned long long), sizeof(unsigned long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ull;
 #else
             aligned = H5_CMPLX(ull, 0.0);
@@ -7811,7 +7811,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SCHAR: {
             signed char c;
             memcpy(&c, src_buf + idx * sizeof(signed char), sizeof(signed char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)c;
 #else
             aligned = H5_CMPLXL(c, 0.0L);
@@ -7821,7 +7821,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UCHAR: {
             unsigned char uc;
             memcpy(&uc, src_buf + idx * sizeof(unsigned char), sizeof(unsigned char));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)uc;
 #else
             aligned = H5_CMPLXL(uc, 0.0L);
@@ -7831,7 +7831,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_SHORT: {
             short s;
             memcpy(&s, src_buf + idx * sizeof(short), sizeof(short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)s;
 #else
             aligned = H5_CMPLXL(s, 0.0L);
@@ -7841,7 +7841,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_USHORT: {
             unsigned short us;
             memcpy(&us, src_buf + idx * sizeof(unsigned short), sizeof(unsigned short));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)us;
 #else
             aligned = H5_CMPLXL(us, 0.0L);
@@ -7851,7 +7851,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_INT: {
             int i;
             memcpy(&i, src_buf + idx * sizeof(int), sizeof(int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)i;
 #else
             aligned = H5_CMPLXL(i, 0.0L);
@@ -7861,7 +7861,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_UINT: {
             unsigned int ui;
             memcpy(&ui, src_buf + idx * sizeof(unsigned int), sizeof(unsigned int));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ui;
 #else
             aligned = H5_CMPLXL(ui, 0.0L);
@@ -7871,7 +7871,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LONG: {
             long l;
             memcpy(&l, src_buf + idx * sizeof(long), sizeof(long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)l;
 #else
             aligned = H5_CMPLXL(l, 0.0L);
@@ -7881,7 +7881,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULONG: {
             unsigned long ul;
             memcpy(&ul, src_buf + idx * sizeof(unsigned long), sizeof(unsigned long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ul;
 #else
             aligned = H5_CMPLXL(ul, 0.0L);
@@ -7891,7 +7891,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_LLONG: {
             long long ll;
             memcpy(&ll, src_buf + idx * sizeof(long long), sizeof(long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ll;
 #else
             aligned = H5_CMPLXL(ll, 0.0L);
@@ -7901,7 +7901,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
         case INT_ULLONG: {
             unsigned long long ull;
             memcpy(&ull, src_buf + idx * sizeof(unsigned long long), sizeof(unsigned long long));
-#ifdef H5_HAVE_C99_COMPLEX_NUMBERS
+#if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ull;
 #else
             aligned = H5_CMPLXL(ull, 0.0L);

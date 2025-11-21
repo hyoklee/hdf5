@@ -65,7 +65,7 @@ struct timezone {
 #define HDfseek(F, O, W)  _fseeki64(F, O, W)
 #endif
 
-#if defined(H5_HAVE_COMPLEX_NUMBERS) && !defined(H5_HAVE_C99_COMPLEX_NUMBERS)
+#if defined(H5_HAVE_COMPLEX_NUMBERS) && (!defined(H5_HAVE_C99_COMPLEX_NUMBERS) || defined(_MSC_VER))
 /*
  * MSVC uses its own types for complex numbers that are separate from the
  * C99 standard types, so we must use a typedef. These types are structure

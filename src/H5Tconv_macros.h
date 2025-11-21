@@ -985,7 +985,7 @@ typedef struct H5T_conv_hw_t {
  * needed and used as appropriate. With other platforms/compilers, the
  * H5T_CONV_CAST_Z macro just maps this to direct casts.
  */
-#ifndef H5_HAVE_C99_COMPLEX_NUMBERS
+#if !defined(H5_HAVE_C99_COMPLEX_NUMBERS) || defined(_MSC_VER)
 #define H5T_CONV_CAST_TO_FLOAT_COMPLEX(S_REAL, S_IMAG, D, DT)                                                \
     {                                                                                                        \
         *(D) = H5_CMPLXF(S_REAL, S_IMAG);                                                                    \

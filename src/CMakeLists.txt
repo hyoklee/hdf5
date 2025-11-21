@@ -829,7 +829,12 @@ set (H5T_SOURCES
     ${HDF5_SRC_DIR}/H5Tconv_compound.c
     ${HDF5_SRC_DIR}/H5Tconv_enum.c
     ${HDF5_SRC_DIR}/H5Tconv_float.c
-    ${HDF5_SRC_DIR}/H5Tconv_integer.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_core.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_schar_uchar.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_short.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_ushort_int.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_uint_long.c
+    ${HDF5_SRC_DIR}/H5Tconv_integer_ulong_llong_ullong.c
     ${HDF5_SRC_DIR}/H5Tconv_reference.c
     ${HDF5_SRC_DIR}/H5Tconv_string.c
     ${HDF5_SRC_DIR}/H5Tconv_vlen.c

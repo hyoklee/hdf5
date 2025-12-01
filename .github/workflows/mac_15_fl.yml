@@ -12,7 +12,7 @@ jobs:
           brew update
           brew install flang
       - name: checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6
       - name: test
         run: |
           ls /opt/homebrew/bin/flang*

@@ -36,7 +36,7 @@ jobs:
       uses: awvwgk/setup-fortran@v1
 
     - name: Get Sources
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@v6
 
     - name: Configure
       if: matrix.generator != 'autogen'

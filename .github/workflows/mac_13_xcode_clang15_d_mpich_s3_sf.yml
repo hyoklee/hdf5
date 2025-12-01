@@ -10,7 +10,7 @@ jobs:
     name: mac13 xcode clang15 d mpich sf
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v6
       - name: Install Dependencies
         run: brew install curl openssl libaec mpich bash
 

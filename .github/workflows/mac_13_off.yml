@@ -12,7 +12,7 @@ jobs:
     - name: Install Dependencies (macOS)
       run: brew install ninja
     - name: Get Sources
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@v6
     - name: Configure
       run: |
         mkdir "${{ runner.workspace }}/build"

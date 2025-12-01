@@ -9,7 +9,7 @@ jobs:
     container: "opensuse/tumbleweed"
     steps:
       - name: checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6
       - name: install
         run: |
           zypper up -y

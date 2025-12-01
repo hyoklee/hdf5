@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Get Sources
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6
 
       - name: Install Dependencies
         shell: bash

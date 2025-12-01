@@ -17,8 +17,8 @@ jobs:
         run: |
           ls /opt/homebrew/bin/flang*
           export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.5/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.5/bin/clang++
+          export CC=/opt/homebrew/Cellar/llvm/21.1.6/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.6/bin/clang++
           mkdir build
           cd build
           cmake -G Ninja \

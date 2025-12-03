@@ -40,7 +40,7 @@
 
 | Test    | Status |
 | --------| ------ |
-| FreeBSD |  [![fbsd](https://github.com/hyoklee/hdf5/actions/workflows/fbsd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd.yml) |
+| FreeBSD |  [![fbsd](https://github.com/hyoklee/hdf5/actions/workflows/fbsd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd.yml) [![fbsd d](https://github.com/hyoklee/hdf5/actions/workflows/fbsd_d.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/fbsd_d.yml) |
 | NetBSD |  [![nbsd](https://github.com/hyoklee/hdf5/actions/workflows/nbsd.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/nbsd.yml)|
 
 ### Mac

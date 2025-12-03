@@ -35,9 +35,9 @@ jobs:
             cd build
             cmake \
             -D BUILDNAME:STRING=d \
-            -D CMAKE_BUILD_TYPE=Debug \            
+            -D CMAKE_BUILD_TYPE=Debug \
             -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
-            -D SITE:STRING=fbsd ..                        
+            -D SITE:STRING=fbsd ..
             ctest -T Build
             ctest -T Test
 

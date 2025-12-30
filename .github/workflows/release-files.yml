@@ -31,6 +31,9 @@ on:
 permissions:
   contents: read
 
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+
 # Previous workflows must pass to get here so tag the commit that created the files
 jobs:
   create-tag:
@@ -40,7 +43,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Get Sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           fetch-depth: 0
           ref: '${{ github.head_ref || github.ref_name }}'
@@ -250,7 +253,7 @@ jobs:
           then
             TAG_NAME_BASE=$(echo "snapshot")
           else
-            TAG_NAME_BASE=$(echo "v${{ inputs.use_tag }}")
+            TAG_NAME_BASE=$(echo "${{ inputs.use_tag }}")
           fi
           echo "TAG_BASE=$TAG_NAME_BASE" >> $GITHUB_OUTPUT
         shell: bash
@@ -297,7 +300,3 @@ jobs:
           publish_dir: ${{ github.workspace }}/${{ steps.get-file-base.outputs.FILE_BASE }}.doxygen
           destination_dir: develop
 
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true

@@ -9,12 +9,11 @@ on:
         required: true
         type: string
 
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 permissions:
   contents: read
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
 
@@ -35,12 +34,8 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - name: git
-        run: git config --global core.autocrlf input
-      - name: get
-        uses: actions/checkout@v6
-      - name: '${{ matrix.icon }} set'
-        uses: msys2/setup-msys2@v2
+      - name: '${{ matrix.icon }} Setup MSYS2'
+        uses: msys2/setup-msys2@fb197b72ce45fb24f17bf3f807a388985654d1f2 # v2
         with:
           msystem: ${{matrix.sys}}
           update: true
@@ -60,7 +55,7 @@ jobs:
           git config --global core.autocrlf input
 
       - name: Get Sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Configure
         run: |
@@ -82,17 +77,16 @@ jobs:
 
       - name: Build
         run: |
-          cmake --build . --parallel 3 --config ${{ inputs.build_mode }}
+          cmake --build . --parallel 2 --config ${{ inputs.build_mode }}
         working-directory: ${{ runner.workspace }}/build
 
       - name: Run Tests
         run: |
-          ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -E "testhdf5-base|cache_api|dt_arith|H5TEST-dtypes|err_compat"
+          ctest . --parallel 2 -C ${{ inputs.build_mode }} -E "cache_api|dt_arith|err_compat"
         working-directory: ${{ runner.workspace }}/build
 
       - name: Run Expected to Fail Tests
         run: |
-          ctest . --parallel 2 -C ${{ inputs.build_mode }} -V -R "testhdf5-base|cache_api|dt_arith|H5TEST-dtypes|err_compat"
+          ctest . --parallel 2 -C ${{ inputs.build_mode }} -R "cache_api|dt_arith|err_compat"
         working-directory: ${{ runner.workspace }}/build
         continue-on-error: true
-

@@ -524,17 +524,18 @@ H5_DLL herr_t H5Gclose_async(hid_t group_id, hid_t es_id);
 /* Macros */
 
 /* Link definitions */
-#define H5G_SAME_LOC   H5L_SAME_LOC
-#define H5G_LINK_ERROR H5L_TYPE_ERROR
-#define H5G_LINK_HARD  H5L_TYPE_HARD
-#define H5G_LINK_SOFT  H5L_TYPE_SOFT
-#define H5G_link_t     H5L_type_t
+#define H5G_SAME_LOC   H5L_SAME_LOC   /**< Indicates operation occurs on same location \since 1.6.0 */
+#define H5G_LINK_ERROR H5L_TYPE_ERROR /**< Invalid link type id \since 1.8.0 */
+#define H5G_LINK_HARD  H5L_TYPE_HARD  /**< Hard link id \since 1.8.0 */
+#define H5G_LINK_SOFT  H5L_TYPE_SOFT  /**< Soft link id \since 1.8.0 */
+#define H5G_link_t     H5L_type_t     /**< Link types \since 1.0.0 */
 
 /* Macros for types of objects in a group (see H5G_obj_t definition) */
-#define H5G_NTYPES      256 /* Max possible number of types	*/
-#define H5G_NLIBTYPES   8   /* Number of internal types	*/
-#define H5G_NUSERTYPES  (H5G_NTYPES - H5G_NLIBTYPES)
-#define H5G_USERTYPE(X) (8 + (X)) /* User defined types		*/
+#define H5G_NTYPES     256 /**< Max possible number of types \since 1.0.0 */
+#define H5G_NLIBTYPES  8   /**< Number of internal types \since 1.2.0 */
+#define H5G_NUSERTYPES (H5G_NTYPES - H5G_NLIBTYPES)
+/**< Number of user-defined types \since 1.2.0 */
+#define H5G_USERTYPE(X) (8 + (X)) /**< User defined types \since 1.2.0 */
 
 /* Typedefs */
 
@@ -695,7 +696,7 @@ H5_DLL hid_t H5Gopen1(hid_t loc_id, const char *name);
  *          cur_name is \TText{./foo}, \p new_name is \TText{./x/y/bar}, and a
  *          request is made for \TText{./x/y/bar}, then the actual object looked
  *          up is \TText{./x/y/./foo}.
-
+ *
  * \version 1.8.0 Function deprecated in this release.
  *
  * \since 1.0.0
@@ -940,7 +941,7 @@ H5_DLL herr_t H5Gset_comment(hid_t loc_id, const char *name, const char *comment
  *                 name must be \TText{'.'} (dot) if \p loc_id fully specifies
  *                 the object for which the comment is to be set.
  * \param[in] bufsize Maximum number of comment characters to be returned in \p buf.
- * \param[in] buf The comment
+ * \param[out] buf The comment
  *
  * \return Returns the number of characters in the comment, counting the \c NULL
  *         terminator, if successful; the value returned may be larger than
@@ -1130,7 +1131,7 @@ H5_DLL herr_t H5Gget_objinfo(hid_t loc_id, const char *name, bool follow_link, H
  *
  * \fg_loc_id
  * \param[in] idx Transient index identifying object
- * \param[in,out] name Pointer to user-provided buffer the object name
+ * \param[out] name Pointer to user-provided buffer the object name
  * \param[in] size Name length
  *
  * \return Returns the size of the object name if successful, or 0 if no name is

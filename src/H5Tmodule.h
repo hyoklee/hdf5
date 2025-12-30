@@ -23,7 +23,6 @@
  */
 #define H5T_MODULE
 #define H5_MY_PKG      H5T
-#define H5_MY_PKG_ERR  H5E_DATATYPE
 #define H5_MY_PKG_INIT YES
 
 /** \page H5T_UG HDF5 Datatypes
@@ -2791,9 +2790,8 @@ filled according to the value of this property. The padding can be:
  * Easy to access each plane, can select any plane(s)
  * </td>
  * <td>
- * Less efficient to access a ‘column’ through the planes
+ * Less efficient to access a 'column' through the planes
  * </td>
- * </tr>
  * </tr>
  * <tr>
  * <td>
@@ -2807,7 +2805,6 @@ filled according to the value of this property. The padding can be:
  * The added dimension may not make sense in the scientific model
  * </td>
  * </tr>
- * </tr>
  * <tr>
  * <td>
  * Compound Datatype
@@ -2819,7 +2816,6 @@ filled according to the value of this property. The padding can be:
  * Planes must be named, selection is by plane<br />
  * Not a natural representation for a matrix
  * </td>
- * </tr>
  * </tr>
  * <tr>
  * <td>
@@ -4015,6 +4011,7 @@ filled according to the value of this property. The padding can be:
  *               H5T_IEEE_F64BE | H5T_IEEE_F64LE |
  *               H5T_FLOAT_BFLOAT16BE | H5T_FLOAT_BFLOAT16LE |
  *               H5T_FLOAT_F8E4M3 | H5T_FLOAT_F8E5M2 |
+ *               H5T_FLOAT_F6E2M3 | H5T_FLOAT_F6E3M2 |
  *               H5T_NATIVE_FLOAT16 | H5T_NATIVE_FLOAT |
  *               H5T_NATIVE_DOUBLE | H5T_NATIVE_LDOUBLE
  *

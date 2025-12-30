@@ -8,12 +8,11 @@ on:
         required: true
         type: string
 
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 permissions:
   contents: read
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
   #
@@ -27,7 +26,7 @@ jobs:
     name: "Parallel GCC-${{ inputs.build_mode }}"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Install Linux Dependencies
         run: |
@@ -72,11 +71,11 @@ jobs:
 
       # RUN TESTS
       - name: Run Tests
-        run: ctest . -E MPI_TEST --parallel 2 -C ${{ inputs.build_mode }} -V
+        run: ctest . -E MPI_TEST --parallel 2 -C ${{ inputs.build_mode }}
         working-directory: ${{ runner.workspace }}/build
         if: ${{ inputs.thread_safety != 'TS' }}
 
       - name: Run Parallel Tests
-        run: ctest . -R MPI_TEST -C ${{ inputs.build_mode }} -V
+        run: ctest . -R MPI_TEST -C ${{ inputs.build_mode }}
         working-directory: ${{ runner.workspace }}/build
         if: ${{ matrix.run_tests && (inputs.thread_safety != 'TS') }}

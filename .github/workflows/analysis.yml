@@ -22,6 +22,9 @@ on:
 permissions:
   contents: read
 
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+
 jobs:
   coverage_test_linux_GCC:
   # Linux (Ubuntu) w/ gcc + coverage
@@ -74,7 +77,7 @@ jobs:
         ls ${{ runner.workspace }}/hdf5
 
     - name: Create options file (Linux_coverage)
-      uses: "DamianReeves/write-file-action@master"
+      uses: "DamianReeves/write-file-action@1d019960841941be46b139298996df6f139cc7a4" # master
       with:
         path: ${{ runner.workspace }}/hdf5/HDF5options.cmake
         write-mode: overwrite
@@ -107,13 +110,13 @@ jobs:
     - name: Run CTest (Linux_coverage)
       run: |
         cd "${{ runner.workspace }}/hdf5"
-        ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}_COV,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -VV -O hdf5.log
+        ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}_COV,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -O hdf5.log
       shell: bash
       continue-on-error: true
 
     # Save log files created by CTest script
     - name: Save log (Linux_coverage)
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       with:
         name: clang-coverage-log
         path: ${{ runner.workspace }}/hdf5/hdf5.log
@@ -131,7 +134,7 @@ jobs:
           sudo apt-get install ninja-build doxygen graphviz curl libtinfo5
 
       - name: add clang to env
-        uses: KyleMayes/install-llvm-action@v2.0.8
+        uses: KyleMayes/install-llvm-action@98e68e10c96dffcb7bfed8b2144541a66b49aa02 # v2.0.8
         id: setup-clang
         with:
           env: true
@@ -175,7 +178,7 @@ jobs:
           ls ${{ runner.workspace }}/hdf5
 
       - name: Create options file (Linux_Leak)
-        uses: "DamianReeves/write-file-action@master"
+        uses: "DamianReeves/write-file-action@1d019960841941be46b139298996df6f139cc7a4" # master
         with:
           path: ${{ runner.workspace }}/hdf5/HDF5options.cmake
           write-mode: overwrite
@@ -208,13 +211,13 @@ jobs:
       - name: Run CTest (Linux_Leak)
         run: |
           cd "${{ runner.workspace }}/hdf5"
-          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-LEAK,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -VV -O hdf5.log
+          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-LEAK,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -O hdf5.log
         shell: bash
         continue-on-error: true
 
       # Save log files created by CTest script
       - name: Save log (Linux_Leak)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: leak-ubuntu-log
           path: ${{ runner.workspace }}/hdf5/hdf5.log
@@ -232,7 +235,7 @@ jobs:
           sudo apt-get install ninja-build doxygen graphviz curl libtinfo5
 
       - name: add clang to env
-        uses: KyleMayes/install-llvm-action@v2.0.8
+        uses: KyleMayes/install-llvm-action@98e68e10c96dffcb7bfed8b2144541a66b49aa02 # v2.0.8
         id: setup-clang
         with:
           env: true
@@ -276,7 +279,7 @@ jobs:
           ls ${{ runner.workspace }}/hdf5
 
       - name: Create options file (Linux_Address)
-        uses: "DamianReeves/write-file-action@master"
+        uses: "DamianReeves/write-file-action@1d019960841941be46b139298996df6f139cc7a4" # master
         with:
           path: ${{ runner.workspace }}/hdf5/HDF5options.cmake
           write-mode: overwrite
@@ -309,13 +312,13 @@ jobs:
       - name: Run CTest (Linux_Address)
         run: |
           cd "${{ runner.workspace }}/hdf5"
-          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-ADDR,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -VV -O hdf5.log
+          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-ADDR,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -O hdf5.log
         shell: bash
         continue-on-error: true
 
       # Save log files created by CTest script
       - name: Save log (Linux_Address)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: address-ubuntu-log
           path: ${{ runner.workspace }}/hdf5/hdf5.log
@@ -333,7 +336,7 @@ jobs:
           sudo apt-get install ninja-build doxygen graphviz curl libtinfo5
 
       - name: add clang to env
-        uses: KyleMayes/install-llvm-action@v2.0.8
+        uses: KyleMayes/install-llvm-action@98e68e10c96dffcb7bfed8b2144541a66b49aa02 # v2.0.8
         id: setup-clang
         with:
           env: true
@@ -377,7 +380,7 @@ jobs:
           ls ${{ runner.workspace }}/hdf5
 
       - name: Create options file (Linux_UndefinedBehavior)
-        uses: "DamianReeves/write-file-action@master"
+        uses: "DamianReeves/write-file-action@1d019960841941be46b139298996df6f139cc7a4" # master
         with:
           path: ${{ runner.workspace }}/hdf5/HDF5options.cmake
           write-mode: overwrite
@@ -410,13 +413,13 @@ jobs:
       - name: Run CTest (Linux_UndefinedBehavior)
         run: |
           cd "${{ runner.workspace }}/hdf5"
-          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-UNDEF,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -VV -O hdf5.log
+          ctest -S HDF5config.cmake,CTEST_SITE_EXT=${{ github.event.repository.full_name }}-UNDEF,LOCAL_SUBMIT=ON,NINJA=TRUE,BUILD_GENERATOR=Unix,CTEST_SOURCE_NAME=${{ steps.set-file-base.outputs.SOURCE_BASE }} -C Debug -O hdf5.log
         shell: bash
         continue-on-error: true
 
       # Save log files created by CTest script
       - name: Save log (Linux_UndefinedBehavior)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: undefined-ubuntu-log
           path: ${{ runner.workspace }}/hdf5/hdf5.log

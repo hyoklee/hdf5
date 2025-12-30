@@ -4,8 +4,6 @@ name: cve dev
 on:
   workflow_dispatch:
   push:
-    branches:
-      - develop-
   pull_request:
     branches: [ develop ]
     paths-ignore:
@@ -30,7 +28,7 @@ jobs:
     name: CVE regression
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Install HDF5
         run: |
@@ -40,7 +38,7 @@ jobs:
           make
           sudo make install
       - name: Checkout CVE test repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
         with:
           repository: HDFGroup/cve_hdf5
           path: cve_hdf5

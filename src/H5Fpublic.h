@@ -31,17 +31,24 @@
 #define H5F_ACC_EXCL   (0x0004u) /**< Fail if file already exists \since 1.0.0 */
 /* NOTE: 0x0008u was H5F_ACC_DEBUG, now deprecated */
 #define H5F_ACC_CREAT (0x0010u) /**< Create non-existing files \since 1.4.0    */
-#define H5F_ACC_SWMR_WRITE                                                                                   \
-    (0x0020u) /**< Indicates that this file is open for writing in a                                         \
-               *   single-writer/multi-reader (SWMR)  scenario.                                              \
-               *   Note that the process(es) opening the file for reading                                    \
-               *   must open the file with #H5F_ACC_RDONLY and use the                                       \
-               *   #H5F_ACC_SWMR_READ access flag. \since 1.10.0 */
-#define H5F_ACC_SWMR_READ                                                                                    \
-    (0x0040u) /**< Indicates that this file is open for reading in a                                         \
-               * single-writer/multi-reader (SWMR) scenario. Note that                                       \
-               * the process(es) opening the file for SWMR reading must also                                 \
-               * open the file with the #H5F_ACC_RDONLY flag. \since 1.10.0    */
+
+/**
+ * Indicates that this file is open for writing in a single-writer/multi-reader
+ * (SWMR) scenario. Note that the process(es) opening the file for reading must
+ * open the file with #H5F_ACC_RDONLY and use the #H5F_ACC_SWMR_READ access flag.
+ *
+ * \since 1.10.0
+ */
+#define H5F_ACC_SWMR_WRITE (0x0020u)
+
+/**
+ * Indicates that this file is open for reading in a single-writer/multi-reader
+ * (SWMR) scenario. Note that the process(es) opening the file for SWMR reading
+ * must also open the file with the #H5F_ACC_RDONLY flag.
+ *
+ * \since 1.10.0
+ */
+#define H5F_ACC_SWMR_READ (0x0040u)
 
 /**
  * Default file access
@@ -71,7 +78,7 @@
  * member is unknown \since 1.8.0 */
 #define H5F_FAMILY_DEFAULT 0 /* (hsize_t) */
 
-/* Macro used to "unset" the page buffer size in a FAPL */
+/** Macro used to "unset" the page buffer size in a FAPL \since 2.0.0 */
 #define H5F_PAGE_BUFFER_SIZE_DEFAULT SIZE_MAX
 
 #ifdef H5_HAVE_PARALLEL
@@ -79,7 +86,7 @@
  * Use this constant string as the MPI_Info key to set H5Fmpio debug flags.
  * To turn on H5Fmpio debug flags, set the MPI_Info value with this key to
  * have the value of a string consisting of the characters that turn on the
- * desired flags.
+ * desired flags. \since 1.0.0
  */
 #define H5F_MPIO_DEBUG_KEY "H5F_mpio_debug_key"
 #endif /* H5_HAVE_PARALLEL */
@@ -93,9 +100,7 @@ typedef enum H5F_scope_t {
     H5F_SCOPE_GLOBAL = 1  /**< The entire virtual file        */
 } H5F_scope_t;
 
-/**
- * Unlimited file size for H5Pset_external()
- */
+/** Unlimited file size for H5Pset_external() \since 1.0.0 */
 #define H5F_UNLIMITED HSIZE_UNDEF
 
 /**
@@ -237,15 +242,19 @@ typedef herr_t (*H5F_flush_cb_t)(hid_t object_id, void *udata);
  * H5Pset_relax_file_integrity_checks(). Use the bit-wise OR operator (|) to
  * combine them as needed.
  */
-#define H5F_RFIC_UNUSUAL_NUM_UNUSED_NUMERIC_BITS                                                             \
-    (0x0001u) /**< Suppress errors for numeric datatypes with an unusually                                   \
-               *   high number of unused bits.  See documentation for                                        \
-               *   H5Pset_relax_file_integrity_checks() for details. */
-#define H5F_RFIC_ALL                                                                                         \
-    (H5F_RFIC_UNUSUAL_NUM_UNUSED_NUMERIC_BITS) /**< Suppress all format integrity check                      \
-                                                * errors.  See documentation for                             \
-                                                * H5Pset_relax_file_integrity_checks()                       \
-                                                * for details. */
+
+/**
+ * Suppress errors for numeric datatypes with an unusually high number of
+ * unused bits. See documentation for H5Pset_relax_file_integrity_checks()
+ * for details. \since 1.14.4
+ */
+#define H5F_RFIC_UNUSUAL_NUM_UNUSED_NUMERIC_BITS (0x0001u)
+
+/**
+ * Suppress all format integrity check errors. See documentation for
+ * H5Pset_relax_file_integrity_checks() for details. \since 1.14.4
+ */
+#define H5F_RFIC_ALL (H5F_RFIC_UNUSUAL_NUM_UNUSED_NUMERIC_BITS)
 
 /*********************/
 /* Public Prototypes */
@@ -1896,7 +1905,7 @@ H5_DLL herr_t H5Fformat_convert(hid_t fid);
 #ifndef H5_NO_DEPRECATED_SYMBOLS
 
 /* Macros */
-#define H5F_ACC_DEBUG (0x0000u) /**< Print debug info \deprecated In which version? */
+#define H5F_ACC_DEBUG (0x0000u) /**< Print debug info \deprecated 1.8.16 */
 
 /* Typedefs */
 

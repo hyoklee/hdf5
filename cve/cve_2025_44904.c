@@ -42,16 +42,16 @@
 static int
 test_cve_2025_44904(void)
 {
-    hid_t         fid = H5I_INVALID_HID;  /* File ID */
-    hid_t         did = H5I_INVALID_HID;  /* Dataset ID */
-    hid_t         sid = H5I_INVALID_HID;  /* Dataspace ID */
-    hid_t         dcpl = H5I_INVALID_HID; /* Dataset creation property list */
-    hsize_t       dims[2]       = {100, 100};
-    hsize_t       chunk_dims[2] = {10, 10};
-    int           wbuf[100][100];
-    int           rbuf[100][100];
-    int           i, j;
-    herr_t        ret;
+    hid_t   fid           = H5I_INVALID_HID; /* File ID */
+    hid_t   did           = H5I_INVALID_HID; /* Dataset ID */
+    hid_t   sid           = H5I_INVALID_HID; /* Dataspace ID */
+    hid_t   dcpl          = H5I_INVALID_HID; /* Dataset creation property list */
+    hsize_t dims[2]       = {100, 100};
+    hsize_t chunk_dims[2] = {10, 10};
+    int     wbuf[100][100];
+    int     rbuf[100][100];
+    int     i, j;
+    herr_t  ret;
 
     TESTING("CVE-2025-44904 fix - chunk size validation");
 

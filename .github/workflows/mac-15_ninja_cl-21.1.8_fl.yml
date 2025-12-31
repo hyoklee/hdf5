@@ -1,0 +1,37 @@
+name: mac-15 cl-21.1.8 fl
+
+on:
+  push:
+    branches: develop
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: install
+        run: |
+          brew update
+          brew install flang
+      - name: checkout
+        uses: actions/checkout@v6
+      - name: test
+        run: |
+          ls /opt/homebrew/bin/flang*
+          export FC=/opt/homebrew/bin/flang-21
+          export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang++
+          mkdir build
+          cd build
+          cmake -G Ninja \
+            -DSITE:STRING=mac-15 \
+            -DBUILDNAME:STRING="hk/fl-21" \
+            -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+            -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
+            -DHDF5_BUILD_FORTRAN=ON \
+            ..
+          ctest -T Build
+          ctest -C Release -T Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+

@@ -53,7 +53,7 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
 
     - name: Upload
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6.0.0
       with:
         name: my-artifact
         path: ${{ runner.workspace }}/build/Testing/Temporary/CTestCostData.txt

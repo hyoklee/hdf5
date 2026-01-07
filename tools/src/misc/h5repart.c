@@ -252,9 +252,32 @@ main(int argc, char *argv[])
         fprintf(stderr, "invalid destination file name pointer");
         exit(EXIT_FAILURE);
     }
-    H5_WARN_FORMAT_NONLITERAL_OFF
-    snprintf(dst_name, NAMELEN, dst_gen_name, dst_membno);
-    H5_WARN_FORMAT_NONLITERAL_ON
+    {
+        /* Build initial destination member name safely, without using a non-literal format string */
+        const char *percent = strchr(dst_gen_name, '%');
+
+        if (percent == NULL) {
+            /* No '%' in template: append member number directly */
+            snprintf(dst_name, NAMELEN, "%s%u", dst_gen_name, dst_membno);
+        }
+        else {
+            /* Treat '%' as a literal marker position; do not interpret any format specifiers */
+            size_t prefix_len = (size_t)(percent - dst_gen_name);
+            size_t written    = 0;
+
+            if (prefix_len >= NAMELEN)
+                prefix_len = NAMELEN - 1;
+
+            HDmemcpy(dst_name, dst_gen_name, prefix_len);
+            dst_name[prefix_len] = '\0';
+
+            written = (size_t)snprintf(dst_name + prefix_len, NAMELEN - prefix_len, "%u", dst_membno);
+            if (written >= NAMELEN - prefix_len)
+                written = NAMELEN - prefix_len - 1;
+
+            snprintf(dst_name + prefix_len + written, NAMELEN - prefix_len - written, "%s", percent + 1);
+        }
+    }
     dst_is_family = strcmp(dst_name, dst_gen_name);
 
     if ((dst = HDopen(dst_name, O_RDWR | O_CREAT | O_TRUNC, H5_POSIX_CREATE_MODE_RW)) < 0) {
@@ -397,9 +420,31 @@ main(int argc, char *argv[])
                 }
             }
             HDclose(dst);
-            H5_WARN_FORMAT_NONLITERAL_OFF
-            snprintf(dst_name, NAMELEN, dst_gen_name, ++dst_membno);
-            H5_WARN_FORMAT_NONLITERAL_ON
+            {
+                /* Safely compute next destination member name without non-literal format string */
+                const char *percent = strchr(dst_gen_name, '%');
+
+                ++dst_membno;
+                if (percent == NULL) {
+                    snprintf(dst_name, NAMELEN, "%s%u", dst_gen_name, dst_membno);
+                }
+                else {
+                    size_t prefix_len = (size_t)(percent - dst_gen_name);
+                    size_t written    = 0;
+
+                    if (prefix_len >= NAMELEN)
+                        prefix_len = NAMELEN - 1;
+
+                    HDmemcpy(dst_name, dst_gen_name, prefix_len);
+                    dst_name[prefix_len] = '\0';
+
+                    written = (size_t)snprintf(dst_name + prefix_len, NAMELEN - prefix_len, "%u", dst_membno);
+                    if (written >= NAMELEN - prefix_len)
+                        written = NAMELEN - prefix_len - 1;
+
+                    snprintf(dst_name + prefix_len + written, NAMELEN - prefix_len - written, "%s", percent + 1);
+                }
+            }
             if ((dst = HDopen(dst_name, O_RDWR | O_CREAT | O_TRUNC, H5_POSIX_CREATE_MODE_RW)) < 0) {
                 perror(dst_name);
                 exit(EXIT_FAILURE);

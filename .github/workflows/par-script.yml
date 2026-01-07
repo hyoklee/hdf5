@@ -62,7 +62,7 @@ jobs:
 
       - name: Setup MPI (${{ matrix.mpi }})
         id: setup-mpi
-        uses: mpi4py/setup-mpi@d0a3bf17a182b37921ff27a6737f9009ec76d3b6 # v1
+        uses: mpi4py/setup-mpi@8ac56ec7ab12f2dffdcf55ffaf50f1920ebcc004 # v1
         with:
           mpi: ${{ matrix.mpi }}
 
@@ -191,7 +191,7 @@ jobs:
 
       - name: Setup MPI (${{ matrix.mpi }})
         id: setup-mpi
-        uses: mpi4py/setup-mpi@d0a3bf17a182b37921ff27a6737f9009ec76d3b6 # v1
+        uses: mpi4py/setup-mpi@8ac56ec7ab12f2dffdcf55ffaf50f1920ebcc004 # v1
         with:
           mpi: ${{ matrix.mpi }}
 
@@ -302,7 +302,7 @@ jobs:
 
       - name: Setup MPI (${{ matrix.mpi }})
         id: setup-mpi
-        uses: mpi4py/setup-mpi@d0a3bf17a182b37921ff27a6737f9009ec76d3b6 # v1
+        uses: mpi4py/setup-mpi@8ac56ec7ab12f2dffdcf55ffaf50f1920ebcc004 # v1
         with:
           mpi: ${{ matrix.mpi }}
 

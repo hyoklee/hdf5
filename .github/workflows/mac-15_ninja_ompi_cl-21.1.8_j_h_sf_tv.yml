@@ -35,13 +35,13 @@ jobs:
           cd ompi
           ./autogen.pl
           ./configure  --enable-mca-no-build=btl-uct \
-          --with-libevent=internal \
-          --disable-getpwuid
-          cat config.log
+            --with-libevent=internal \
+            --disable-getpwuid
           make -j
           sudo make install
       - name: h5
         run: |
+          cat ompi/config.log
           export FC=/opt/homebrew/bin/flang-21
           export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang-21
           export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.8/lib -Wl,-rpath"

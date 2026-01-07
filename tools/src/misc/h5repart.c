@@ -442,7 +442,8 @@ main(int argc, char *argv[])
                     if (written >= NAMELEN - prefix_len)
                         written = NAMELEN - prefix_len - 1;
 
-                    snprintf(dst_name + prefix_len + written, NAMELEN - prefix_len - written, "%s", percent + 1);
+                    snprintf(dst_name + prefix_len + written, NAMELEN - prefix_len - written, "%s",
+                             percent + 1);
                 }
             }
             if ((dst = HDopen(dst_name, O_RDWR | O_CREAT | O_TRUNC, H5_POSIX_CREATE_MODE_RW)) < 0) {

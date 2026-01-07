@@ -6,9 +6,9 @@ name: Linux Unsupported Combinations
 on:
   workflow_dispatch:
   push:
-    branches: [ develop, feature/**, bugfix/** ]
+    branches: develop-
   pull_request:
-    branches: [ develop ]
+    branches: develop-
 
 permissions:
   contents: read

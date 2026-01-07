@@ -1,19 +1,19 @@
-name: mac13 off
+name: mac off
 
 on:
   push:
     branches:
-      - develop-
+      - develop
 jobs:
   build:
-    name: mac13 off
-    runs-on: macos-13
+    name: mac off
+    runs-on: macos-latest
     steps:
-    - name: Install Dependencies (macOS)
+    - name: install
       run: brew install ninja
-    - name: Get Sources
+    - name: checkout
       uses: actions/checkout@v6
-    - name: Configure
+    - name: configure
       run: |
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
@@ -75,13 +75,12 @@ jobs:
         -DUSE_LIBAEC_STATIC:BOOL=OFF \
         -DZLIB_USE_EXTERNAL:BOOL=OFF \
         $GITHUB_WORKSPACE
-      shell: bash
 
-    - name: Build
+    - name: build
       run: cmake --build .
       working-directory: ${{ runner.workspace }}/build
 
-    - name: Test
+    - name: test
       run: ctest --test-dir . -V
       working-directory: ${{ runner.workspace }}/build
 

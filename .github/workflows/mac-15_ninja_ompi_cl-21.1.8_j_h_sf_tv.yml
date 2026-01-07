@@ -25,9 +25,10 @@ jobs:
         continue-on-error: true
         run: |
           cmake --version
+          find /opt/homebrew/Cellar/llvm/
           export FC=/opt/homebrew/bin/flang-21
           export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang-21
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang++-21          
+          export CXX=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang++-21
           export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.8/lib -Wl,-rpath"
           export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
           export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
@@ -44,7 +45,7 @@ jobs:
           export FC=/opt/homebrew/bin/flang-21
           export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang-21
           export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.8/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include          
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
           mkdir build
           cd build
           cmake -G Ninja \

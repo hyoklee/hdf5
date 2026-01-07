@@ -47,8 +47,8 @@
 
 | Test    | Status |
 | --------| ------ |
-| mac12 |  [![mac Xcode](https://github.com/hyoklee/hdf5/actions/workflows/mac_xcode.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_xcode.yml) |
-| mac13 | [![mac13 off](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_off.yml) |
+| xcode |  [![mac xcode](https://github.com/hyoklee/hdf5/actions/workflows/mac_xcode.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_xcode.yml) |
+| off | [![mac off](https://github.com/hyoklee/hdf5/actions/workflows/mac_off.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_off.yml) |
 | iOS |  [![mac13 ios](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/ios.yml) |
 
 ### Linux

@@ -3,7 +3,7 @@ name: nbsd f
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   test:

@@ -20,9 +20,9 @@ jobs:
         with:
           repository: 'open-mpi/ompi'
           path: 'ompi'
+          ref: 'v5.0.9'
           submodules: recursive
       - name: mpi
-        continue-on-error: true
         run: |
           cmake --version
           find /opt/homebrew/Cellar/llvm/

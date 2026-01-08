@@ -1,9 +1,11 @@
-name: mac13 clang15 r f mpich sf
+name: mac-14 ninja clang15 f h d mpich sf
 
 on:
   push:
     branches:
-      - develop-
+      - develop
+  pull_request:
+
 jobs:
   build:
     strategy:
@@ -12,8 +14,8 @@ jobs:
         include:
           - name: "macOS Latest Clang"
             artifact: "macOS.tar.xz"
-            os: macos-13
-            build_type: "Release"
+            os: macos-14
+            build_type: "Debug"
             cpp: OFF
             fortran: ON
             java: ON
@@ -30,7 +32,10 @@ jobs:
 
     steps:
     - name: Install Dependencies (macOS)
-      run: brew install ninja mpich
+      run: brew install ninja mpich bash
+
+    - name: Set Bash as the default shell
+      run: echo "/usr/local/bin/bash" >> ~/.bashrc
 
     - name: Install gfortran
       uses: awvwgk/setup-fortran@v1
@@ -60,6 +65,7 @@ jobs:
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
         $GITHUB_WORKSPACE
+      shell: bash
 
     - name: Build
       run: cmake --build . --config ${{ matrix.build_type }}
@@ -70,7 +76,9 @@ jobs:
         ctest --build . -C ${{ matrix.build_type }} \
         -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
       working-directory: ${{ runner.workspace }}/build
+      shell: bash
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+

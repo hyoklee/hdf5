@@ -1,14 +1,15 @@
-name: mac13 xcode clang15 d f mpich s3 sf
+name: mac-14 xcode clang15 d f mpich s3 sf
 
 on:
   push:
     branches:
-      - develop-
+      - develop
+  pull_request:
 
 jobs:
   build:
-    name: mac13 xcode clang15 d mpich sf
-    runs-on: macos-13
+    name: mac-14 xcode clang15 d mpich sf
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - name: Install Dependencies

@@ -84,7 +84,7 @@
 
 | Test | Status |
 | -----| ------ |
-| clang |  [![mac13 ninja clang15 d h f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_ninja_clang15_d_h_f_mpich_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_ninja_clang15_d_h_f_mpich_sf.yml) [![mac13 clang15 r f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_clang15_r_f_mpich_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_clang15_r_f_mpich_sf.yml) [![mac13 xcode clang15 d mpich s3 sf](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_xcode_clang15_d_mpich_s3_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_13_xcode_clang15_d_mpich_s3_sf.yml)  [![mac ninja clang j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac_ninja_clang_j_ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_ninja_clang_j_ompi.yml)  |
+| clang |  [![mac-14 ninja clang15 d h f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_ninja_clang15_d_h_f_mpich_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_ninja_clang15_d_h_f_mpich_sf.yml) [![mac-14 clang15 r f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_clang15_r_f_mpich_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_clang15_r_f_mpich_sf.yml) [![mac-14 xcode clang15 d mpich s3 sf](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_xcode_clang15_d_mpich_s3_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_xcode_clang15_d_mpich_s3_sf.yml)  [![mac ninja clang j ompi](https://github.com/hyoklee/hdf5/actions/workflows/mac_ninja_clang_j_ompi.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_ninja_clang_j_ompi.yml)  |
 | flang |  [![mac14 ninja clang19 fl d f mpich sf](https://github.com/hyoklee/hdf5/actions/workflows/mac_14_ninja_clang19_fl_d_f_mpich_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac_14_ninja_clang19_fl_d_f_mpich_sf.yml) |
 | gcc_min | [![lin gcc_min](https://github.com/hyoklee/hdf5/actions/workflows/lin_gcc_min.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/lin_gcc_min.yml) |
 | ifx | [![windows ninja icx ifx](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f.yml) [![win ninja icx ifx sh](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_sh.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_sh.yml) [![windows ninja icx ifx p](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_p.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_p.yml) [![win ninja icx ifx p sf](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_p_sf.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/win_ninja_icx_f_p_sf.yml)  |
@@ -125,6 +125,7 @@
 
 | Test | Status |
 | -----| ------ |
+| ROS3 | [![mac-14 sh s3](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_sh_s3.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/mac-14_sh_s3.yml) |
 
 
 ## Previously Untested CMake Options

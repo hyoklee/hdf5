@@ -1,14 +1,15 @@
-name: mac13 sh s3
+name: mac-14 sh s3
 
 on:
   push:
     branches:
-      - develop-
+      - develop
+  pull_request:
 
 jobs:
   build:
-    name: mac13 sh s3
-    runs-on: macos-13
+    name: mac-14 sh s3
+    runs-on: macos-14
     steps:
     - name: Install Dependencies
       run: brew install curl openssl

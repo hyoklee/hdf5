@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: install
-        run: brew install curl openssl libaec
+        run: brew install curl openssl libaec aws-c-s3
       - name: xcode
         run: |
           export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1

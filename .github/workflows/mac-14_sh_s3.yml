@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-14
     steps:
     - name: Install Dependencies
-      run: brew install curl openssl
+      run: brew install curl openssl aws-c-s3
     - name: Get Sources
       uses: actions/checkout@v6
     - name: Configure

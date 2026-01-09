@@ -1,19 +1,19 @@
-name: mac13 ios
+name: mac ios
 
 on:
   push:
     branches:
-      - develop-
+      - develop
 jobs:
   build:
-    name: mac13 ios
-    runs-on: macos-13
+    name: mac ios
+    runs-on: macos-latest
     steps:
-    - name: Install Dependencies (macOS)
+    - name: install
       run: brew install ninja openmpi
-    - name: Get Sources
+    - name: get
       uses: actions/checkout@v6
-    - name: Configure
+    - name: configure
       run: |
         mkdir "${{ runner.workspace }}/build"
         cd "${{ runner.workspace }}/build"
@@ -84,11 +84,11 @@ jobs:
         $GITHUB_WORKSPACE
       shell: bash
 
-    - name: Build
+    - name: build
       run: cmake --build .
       working-directory: ${{ runner.workspace }}/build
 
-    - name: Test
+    - name: test
       run: ctest --build . -V
       working-directory: ${{ runner.workspace }}/build
 

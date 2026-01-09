@@ -3,7 +3,7 @@ name: lin hk/r/ui/ei/vi
 on:
   push:
     branches:
-      - develop
+      - develop-
 jobs:
   build:
     runs-on: ubuntu-24.04

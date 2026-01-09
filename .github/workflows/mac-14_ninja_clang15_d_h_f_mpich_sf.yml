@@ -61,8 +61,8 @@ jobs:
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
         ..
-        ctest -T Build
-        ctest -T Test
+        ctest -C Release -T Build
+        ctest -C Release -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

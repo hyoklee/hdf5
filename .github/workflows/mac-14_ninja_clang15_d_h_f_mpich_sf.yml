@@ -1,4 +1,4 @@
-name: mac-14 ninja clang15 f h d mpich sf
+name: mac-14 ninja clang-15 f h d mpich sf
 
 on:
   push:
@@ -31,25 +31,21 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
 
     steps:
-    - name: Install Dependencies (macOS)
-      run: brew install ninja mpich bash
+    - name: install
+      run: brew install ninja mpich 
 
-    - name: Set Bash as the default shell
-      run: echo "/usr/local/bin/bash" >> ~/.bashrc
-
-    - name: Install gfortran
+    - name: gfortran
       uses: awvwgk/setup-fortran@v1
 
-    - name: Get Sources
+    - name: checkout
       uses: actions/checkout@v6
 
-    - name: Configure
-      if: matrix.generator != 'autogen'
+    - name: test
       run: |
         export CC=$(brew --prefix llvm@15)/bin/clang
         echo $CC
-        mkdir "${{ runner.workspace }}/build"
-        cd "${{ runner.workspace }}/build"
+        mkdir build
+        cd build
         cmake ${{ matrix.generator }} \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
@@ -64,19 +60,9 @@ jobs:
         -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
-        $GITHUB_WORKSPACE
-      shell: bash
-
-    - name: Build
-      run: cmake --build . --config ${{ matrix.build_type }}
-      working-directory: ${{ runner.workspace }}/build
-
-    - name: Test
-      run: |
-        ctest --build . -C ${{ matrix.build_type }} \
-        -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
-      working-directory: ${{ runner.workspace }}/build
-      shell: bash
+        ..
+        ctest -T Build
+        ctest -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

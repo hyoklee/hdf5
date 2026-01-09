@@ -1,4 +1,4 @@
-name: mac-14 xcode clang15 d f mpich s3 sf
+name: mac-14 xcode clang-15 d f mpich s3 sf
 
 on:
   push:
@@ -8,35 +8,27 @@ on:
 
 jobs:
   build:
-    name: mac-14 xcode clang15 d mpich sf
+    name: mac-14 xcode clang-15 d mpich sf
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
-      - name: Install Dependencies
-        run: brew install curl openssl libaec mpich bash aws-c-s3
-
-      - name: Set Bash
-        run: echo "/usr/local/bin/bash" >> ~/.bashrc
-
-      - name: Test HDF5
-        shell: bash
+      - name: install
+        run: brew install mpich aws-c-s3
+      - name: test
         run: |
-          export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3/3.1.1
           export CC=$(brew --prefix llvm@15)/bin/clang
           echo $CC
           mkdir build
           cd build
           cmake \
-            -DHDF5_BUILD_FORTRAN:BOOL=OFF \
             -DHDF5_ENABLE_PARALLEL:BOOL=ON \
             -DHDF5_ENABLE_ROS3_VFD:BOOL=ON \
             -DHDF5_ENABLE_SUBFILING_VFD:BOOL=ON \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
             -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
             -G Xcode ..
-          cmake --build . --config Debug
-          ctest --build . -C Debug -E MPI_TEST_H5DIFF-h5diff -VV --output-on-error
-          sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_CONFIG_NAME=Debug  -P cmake_install.cmake
+          ctest -T Build
+          ctest -T Test
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

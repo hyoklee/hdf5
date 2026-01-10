@@ -31,18 +31,32 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'skip-ci')"
 
     steps:
-    - name: install
-      run: brew install ninja mpich 
-
-    - name: gfortran
-      uses: awvwgk/setup-fortran@v1
-
     - name: checkout
       uses: actions/checkout@v6
 
+    - name: get
+      run: |
+        curl -O -L  https://github.com/macports/macports-base/releases/download/v2.11.5/MacPorts-2.11.6-14-Sonoma.pkg
+          
+    - name: install
+      run: |
+        sudo installer -pkg MacPorts-2.11.6-14-Sonoma.pkg -target /
+
+    - name: update
+      run: |
+        export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+        sudo port selfupdate
+
+    - name: mpich
+      run: |
+        export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+        port version
+        sudo port install flang-21
+        sudo port install mpich-clang
+        sudo port select --set mpi mpich-clang-fortran
+       
     - name: test
       run: |
-        export CC=$(brew --prefix llvm@15)/bin/clang
         echo $CC
         mkdir build
         cd build
@@ -68,3 +82,5 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+#         export CC=$(brew --prefix llvm@15)/bin/clang
+#         brew install flang --build-from-source

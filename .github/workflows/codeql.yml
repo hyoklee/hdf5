@@ -31,6 +31,7 @@ jobs:
 
           # Set env vars
           echo "CC=mpicc" >> $GITHUB_ENV
+          echo "CXX=mpic++" >> $GITHUB_ENV          
           echo "FC=mpif90" >> $GITHUB_ENV
           echo "F77=mpif90" >> $GITHUB_ENV
 

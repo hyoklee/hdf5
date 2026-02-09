@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Check if 'libaws-c-s3-${{ inputs.build_mode }}' exists
         id: check_artifact
-        uses: softwareforgood/check-artifact-v4-existence@9772fb919376f476e208587e99db557f956a2276 # v0
+        uses: softwareforgood/check-artifact-v4-existence@3bbed0d010832929f3e2c1e9ff75e0f09a35bcf1 # v0
         with:
           name: libaws-c-s3-${{ inputs.build_mode }}
 

@@ -20,15 +20,9 @@ jobs:
     name: "nvhpc ${{ inputs.build_mode }}"
     runs-on: ubuntu-latest
     env:
-<<<<<<< HEAD
-      CUDAVERDOT: "13.0"
-      NVERDOT: "25.11"
-      NVERDASH: "25-11"
-=======
       CUDAVERDOT: "13.1"
       NVERDOT: "26.1"
       NVERDASH: "26-1"
->>>>>>> upstream/develop
 
     steps:
       - name: Get Sources

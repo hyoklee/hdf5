@@ -61,11 +61,7 @@ jobs:
             ..
 
       - name: Initialize CodeQL
-<<<<<<< HEAD
-        uses: github/codeql-action/init@v4.32.0
-=======
         uses: github/codeql-action/init@v4.32.2
->>>>>>> upstream/develop
         with:
           languages: c-cpp
           build-mode: manual

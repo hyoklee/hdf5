@@ -32,4 +32,5 @@ jobs:
         spack load py-h5py
         spack load py-pytest
         spack load py-pytest-mpi
+        export H5PY_TEST_CHECK_FILTERS=1
         python -c "import h5py; h5py.run_tests(); print(h5py.version.info);"

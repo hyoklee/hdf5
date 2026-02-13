@@ -81,11 +81,7 @@ jobs:
         shell: bash
 
       - name: Perform CodeQL Analysis
-<<<<<<< HEAD
-        uses: github/codeql-action/analyze@v4.32.0
-=======
         uses: github/codeql-action/analyze@v4.32.2
->>>>>>> upstream/develop
         with:
           category: "/language:c-cpp"
           output: sarif-results
@@ -102,10 +98,6 @@ jobs:
           output: sarif-results/cpp.sarif
 
       - name: Upload SARIF
-<<<<<<< HEAD
-        uses: github/codeql-action/upload-sarif@v4.32.0
-=======
         uses: github/codeql-action/upload-sarif@v4.32.2
->>>>>>> upstream/develop
         with:
           sarif_file: sarif-results/cpp.sarif

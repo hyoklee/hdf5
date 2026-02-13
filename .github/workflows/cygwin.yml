@@ -39,11 +39,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Install Cygwin
-<<<<<<< HEAD
-        uses: cygwin/cygwin-install-action@41415fa848738cfd62048b969da76d276782d43f # master
-=======
         uses: cygwin/cygwin-install-action@2566376092c4e280f21131be027af3f5bb2420a4 # master
->>>>>>> upstream/develop
         with:
           packages: cmake gcc-fortran make ninja zlib-devel flex bison perl
 

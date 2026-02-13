@@ -44,11 +44,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Build and test on FreeBSD
-<<<<<<< HEAD
-        uses: vmactions/freebsd-vm@ba6bedee4a4884da2b782a41a64329a1c8e42ffb # v1
-=======
         uses: vmactions/freebsd-vm@c9f815bc7aa0d34c9fdd0619b034a32d6ca7b57e # v1
->>>>>>> upstream/develop
         with:
           release: ${{ matrix.freebsd-version }}
           usesh: true

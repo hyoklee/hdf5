@@ -36,11 +36,11 @@ jobs:
 
     - name: get
       run: |
-        curl -O -L  https://github.com/macports/macports-base/releases/download/v2.11.5/MacPorts-2.11.6-14-Sonoma.pkg
+        curl -O -L https://github.com/macports/macports-base/releases/download/v2.12.1/MacPorts-2.12.1-14-Sonoma.pkg
           
     - name: install
       run: |
-        sudo installer -pkg MacPorts-2.11.6-14-Sonoma.pkg -target /
+        sudo installer -pkg MacPorts-2.12.1-14-Sonoma.pkg -target /
 
     - name: update
       run: |

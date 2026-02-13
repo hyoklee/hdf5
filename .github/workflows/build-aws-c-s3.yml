@@ -78,7 +78,7 @@ jobs:
 
       - name: Cache/Restore aws-c-s3 (GCC) installation
         id: cache-aws-c-s3-ubuntu-gcc
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v4
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v4
         with:
           path: ${{ runner.workspace }}/aws-c-s3-build
           key: ${{ runner.os }}-${{ runner.arch }}-gcc-aws-c-s3-${{ steps.get-sha.outputs.sha }}-${{ inputs.build_mode }}

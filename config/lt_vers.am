@@ -27,39 +27,38 @@ LT_VERS_REVISION = 0
 ## version.
 ##
 ## 4. If the source changes but there are no API changes, increment
-## LT_VERS_REVISION.  This will happen automatically when
-## bin/h5vers is run, but doing it manually shouldn't hurt
-## anything.
+## LT_VERS_REVISION. This should be done manually when updating the
+## version in src/H5public.h.
 ##
 ## Note that this versioning system doesn't attempt to handle
 ## the effects of the H5_V1_x_COMPAT flag.
 ##
 ## Version numbers for wrapper shared library files.
 LT_CXX_VERS_INTERFACE = 1000
-LT_CXX_VERS_REVISION = 0
 LT_CXX_VERS_AGE = 0
+LT_CXX_VERS_REVISION = 0
 
 LT_F_VERS_INTERFACE = 1000
-LT_F_VERS_REVISION = 0
 LT_F_VERS_AGE = 0
+LT_F_VERS_REVISION = 0
 
 LT_HL_VERS_INTERFACE = 1000
-LT_HL_VERS_REVISION = 0
 LT_HL_VERS_AGE = 0
+LT_HL_VERS_REVISION = 0
 
 LT_HL_CXX_VERS_INTERFACE = 1000
-LT_HL_CXX_VERS_REVISION = 0
 LT_HL_CXX_VERS_AGE = 0
+LT_HL_CXX_VERS_REVISION = 0
 
 LT_HL_F_VERS_INTERFACE = 1000
-LT_HL_F_VERS_REVISION = 0
 LT_HL_F_VERS_AGE = 0
+LT_HL_F_VERS_REVISION = 0
 
 LT_JAVA_VERS_INTERFACE = 1000
-LT_JAVA_VERS_REVISION = 0
 LT_JAVA_VERS_AGE = 0
+LT_JAVA_VERS_REVISION = 0
 
 LT_TOOLS_VERS_INTERFACE = 1000
-LT_TOOLS_VERS_REVISION = 0
 LT_TOOLS_VERS_AGE = 0
+LT_TOOLS_VERS_REVISION = 0
 

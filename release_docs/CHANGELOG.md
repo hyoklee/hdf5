@@ -1,4 +1,4 @@
-HDF5 version 2.0.1 currently under development
+v2.2.0 --- January X , 2026
 
 # 🔺 HDF5 Changelog
 All notable changes to this project will be documented in this file. This document describes the differences between this release and the previous
@@ -21,7 +21,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 * [Platforms Tested](CHANGELOG.md#%EF%B8%8F-platforms-tested)
 * [Known Problems](CHANGELOG.md#-known-problems)
 
-# 🔆 Executive Summary: HDF5 Version 2.0.1
+# 🔆 Executive Summary: HDF5 Version 2.2.0
 
 ## Performance Enhancements:
 
@@ -36,6 +36,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 > - Transitioned to [CMake-only](CHANGELOG.md#cmake) builds, and Autotools is no longer in use.
 > - Renamed library state variables, notably `HDF5_ENABLE_PARALLEL` is now `HDF5_PROVIDES_PARALLEL`, see PR [#5716](https://github.com/HDFGroup/hdf5/pull/5716) for more details.
 > - The default setting for `H5Fset_libver_bounds` has been updated to set the lower bound to the HDF5 library version 1.8. This change ensures that users can take advantage of the library's optimal performance and the latest features by default. If users need their files to be compatible with older versions of the HDF5 library, they will need to adjust this lower bound manually.
+> - The format of the GitHub tag for HDF5 releases has been changed to Major.Minor.Patch, consistent with the versioning policy change to follow the Semantic Versioning Specification described in this [Wiki page](https://github.com/HDFGroup/hdf5/wiki/HDF5-Version-Numbers-and-Branch-Strategy).  The previous tag format hdf5_Major_Minor_Patch that was created in addition for the 2.0.0 and 2.1.0 releases will not be continued.   
 
 ## Enhanced Features:
 
@@ -45,7 +46,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
   
 ## Acknowledgements: 
 
-We would like to thank the many HDF5 community members who contributed to HDF5 2.0.
+We would like to thank the many HDF5 community members who contributed to this release of HDF5.
 
 # ⚠️ Breaking Changes
 
@@ -54,36 +55,11 @@ We would like to thank the many HDF5 community members who contributed to HDF5 2
 
 ## Configuration
 
+### Added a CMake module to locate libaec for SZIP support
+
+   A new `Findlibaec.cmake` CMake module has been added. This module is intended to locate libaec on the system for SZIP support in HDF5 when libaec was built with Autotools instead of CMake. When SZIP support is enabled in HDF5 with the `HDF5_ENABLE_SZIP_SUPPORT` option, this module will first check for an existing CMake-built libaec and use that if it's available. Otherwise, the module will heuristically search for libaec on the system. If necessary, the module can be hinted toward a particular libaec installation by setting the CMake variable `libaec_ROOT` to point to a directory. If it is known that a CMake-built libaec installation exists on the system in a non-standard location, the CMake variable `libaec_DIR` can instead be set to a directory containing a `libaec-config.cmake` file to cause the module to prefer that libaec installation.
+
 ## Library
-
-### Added predefined datatypes for FP6 data
-
-   Predefined datatypes have been added for FP6 data in E2M3 and E3M2 formats (https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf).
-
-   The following new macros have been added:
-
-    - H5T_FLOAT_F6E2M3
-    - H5T_FLOAT_F6E3M2
-
-   These macros map to IDs of HDF5 datatypes representing a 6-bit floating-point datatype with 1 sign bit and either 2 exponent bits and 3 mantissa bits (E2M3 format) or 3 exponent bits and 2 mantissa bits (E3M2 format).
-
-   Note that support for a native FP6 datatype has not been added yet. This means that any datatype conversions to/from the new FP6 datatypes will be emulated in software rather than potentially using specialized hardware instructions. Until support for a native FP6 type is added, an application can avoid datatype conversion performance issues if it is sure that the datatype used for in-memory data buffers matches one of the above floating-point formats. In this case, the application can specify one of the above macros for both the file datatype when creating a dataset or attribute and the memory datatype when performing I/O on the dataset or attribute.
-
-   Also note that HDF5 currently has incomplete support for datatype conversions involving non-IEEE floating-point format datatypes. Refer to the 'Known Problems' section for information about datatype conversions with these new datatypes.
-
-### Added predefined datatype for FP4 data
-
-   A predefined datatype has been added for FP4 data in E2M1 format (https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf).
-
-   The following new macro has been added:
-
-    - H5T_FLOAT_F4E2M1
-
-   This macro maps to the ID of an HDF5 datatype representing a 4-bit floating-point datatype with 1 sign bit, 2 exponent bits and 1 mantissa bit.
-
-   Note that support for a native FP4 datatype has not been added yet. This means that any datatype conversions to/from the new FP4 datatype will be emulated in software rather than potentially using specialized hardware instructions. Until support for a native FP4 type is added, an application can avoid datatype conversion performance issues if it is sure that the datatype used for in-memory data buffers matches the above floating-point format. In this case, the application can specify the above macro for both the file datatype when creating a dataset or attribute and the memory datatype when performing I/O on the dataset or attribute.
-
-   Also note that HDF5 currently has incomplete support for datatype conversions involving non-IEEE floating-point format datatypes. Refer to the 'Known Problems' section for information about datatype conversions with these new datatypes.
 
 ## Parallel Library
 
@@ -119,12 +95,6 @@ We would like to thank the many HDF5 community members who contributed to HDF5 2
 ## Fortran API
 
 ### Added Fortran wrappers for SWMR functionality
-
-   Added four new Fortran wrappers that provide direct access to SWMR (Single Writer Multiple Reader) C APIs:
-   - `h5fstart_swmr_write_f` - Enables SWMR writing mode for a file
-   - `h5dflush_f`            - Flushes dataset buffers to disk
-   - `h5pset_append_flush_f` - Sets append flush property values including optional callback function
-   - `h5pget_append_flush_f` - Retrieves append flush property values including callback function
 
 ## High-Level Library
 

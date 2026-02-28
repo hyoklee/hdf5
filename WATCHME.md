@@ -14,13 +14,6 @@
 | Markdown | [![Check Markdown links](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/markdown-link-check.yml)|
 | Linkchecker |[![linkchecker](https://github.com/hyoklee/hdf5/actions/workflows/linkchecker.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/linkchecker.yml)|
 
-## Installation
-
-| Test | Status |
-| -----| ------ |
-| RPM | [![alien](https://github.com/hyoklee/hdf5/actions/workflows/alien.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/alien.yml) |
-| DEB | [![dpkg](https://github.com/hyoklee/hdf5/actions/workflows/dpkg.yml/badge.svg)](https://github.com/hyoklee/hdf5/actions/workflows/dpkg.yml) |
-
 
 ## Arch
 

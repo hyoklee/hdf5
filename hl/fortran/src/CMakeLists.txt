@@ -278,14 +278,11 @@ if (BUILD_SHARED_LIBS)
       LINKER_LANGUAGE Fortran
       Fortran_MODULE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/shared
   )
-<<<<<<< HEAD
   # For flang, use C linker instead of Fortran linker to avoid macOS-specific flags
   if (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang")
     set_target_properties (${HDF5_HL_F90_LIBSH_TARGET} PROPERTIES LINKER_LANGUAGE C)
   endif ()
   H5_SET_LIB_OPTIONS (${HDF5_HL_F90_LIBSH_TARGET} ${HDF5_HL_F90_LIB_NAME} SHARED "HL_F")
-=======
->>>>>>> upstream
   set_global_variable (HDF5_LIBRARIES_TO_EXPORT "${HDF5_LIBRARIES_TO_EXPORT};${HDF5_HL_F90_LIBSH_TARGET}")
   H5_SET_LIB_OPTIONS (${HDF5_HL_F90_LIBSH_TARGET} ${HDF5_HL_F90_LIB_NAME} SHARED "HL_F")
   set (install_targets_shared ${install_targets_shared} ${HDF5_HL_F90_LIBSH_TARGET})

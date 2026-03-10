@@ -1,4 +1,4 @@
-name: mac-15 ninja ompi cl-21.1.8 h sf tv
+name: mac-15 ninja ompi cl-22.1.0 h sf tv
 
 on:
   push:
@@ -26,12 +26,12 @@ jobs:
         run: |
           cmake --version
           find /opt/homebrew/Cellar/llvm/
-          export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang-21
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang++-21
-          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.8/lib -Wl,-rpath,/opt/homebrew/Cellar/llvm/21.1.8/lib"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
-          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
+          export FC=/opt/homebrew/bin/flang-22
+          export CC=/opt/homebrew/Cellar/llvm/22.1.0/bin/clang-22
+          export CXX=/opt/homebrew/Cellar/llvm/22.1.0/bin/clang++-22
+          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/22.1.0/lib -Wl,-rpath,/opt/homebrew/Cellar/llvm/22.1.0/lib"
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/22.1.0/include
+          export CPPFLAGS=-I/opt/homebrew/Cellar/llvm/22.1.0/include
           cd ompi
           ./autogen.pl
           ./configure  --enable-mca-no-build=btl-uct \
@@ -42,15 +42,15 @@ jobs:
       - name: h5
         run: |
           cat ompi/config.log
-          export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang-21
-          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/21.1.8/lib -Wl,-rpath"
-          export CFLAGS=-I/opt/homebrew/Cellar/llvm/21.1.8/include
+          export FC=/opt/homebrew/bin/flang-22
+          export CC=/opt/homebrew/Cellar/llvm/22.1.0/bin/clang-22
+          export LDFLAGS="-L/opt/homebrew/Cellar/llvm/22.1.0/lib -Wl,-rpath"
+          export CFLAGS=-I/opt/homebrew/Cellar/llvm/22.1.0/include
           mkdir build
           cd build
           cmake -G Ninja \
             -DSITE:STRING=mac-15 \
-            -DBUILDNAME:STRING="hk/ninja/ompi/cl-21/j/h/sf/tv" \
+            -DBUILDNAME:STRING="hk/ninja/ompi/cl-22/j/h/sf/tv" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DHDF5_BUILD_FORTRAN=OFF \

@@ -42,7 +42,7 @@ jobs:
           cmake -G Ninja \
             -DCMAKE_C_COMPILER=/opt/local/bin/mpicc-mpich-clang \
             -DCMAKE_Fortran_COMPILER=/opt/local/bin/mpifort-mpich-clang \
-            -DBUILDNAME="ninja/mpich-4.3/cl-17/fl/aw/sf/np=3" \
+            -DBUILDNAME="hk/ninja/mpich-4.3/cl-17/fl/aw/sf/np=3" \
             -DCTEST_DROP_SITE_INIT=my.cdash.org \
             -DCMAKE_BUILD_TYPE=Debug \
             -DBUILD_SHARED_LIBS=ON \

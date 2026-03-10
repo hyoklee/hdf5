@@ -1,4 +1,4 @@
-name: mac-15 cl-21.1.8 fl
+name: mac-15 cl-22.1.0 fl
 
 on:
   push:
@@ -16,9 +16,9 @@ jobs:
       - name: test
         run: |
           ls /opt/homebrew/bin/flang*
-          export FC=/opt/homebrew/bin/flang-21
-          export CC=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang
-          export CXX=/opt/homebrew/Cellar/llvm/21.1.8/bin/clang++
+          export FC=/opt/homebrew/bin/flang-22
+          export CC=/opt/homebrew/Cellar/llvm/22.1.0/bin/clang
+          export CXX=/opt/homebrew/Cellar/llvm/22.1.0/bin/clang++
           mkdir build
           cd build
           cmake -G Ninja \

@@ -1,0 +1,20 @@
+name: win-25 vs-26 zl-ng
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+      - name: test
+        run: |
+          mkdir build
+          cd build
+          vcpkg install zlib-ng
+          vcpkg integrate install
+          cmake -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DBUILD_SHARED_LIBS:BOOL=OFF -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON -DHDF5_USE_ZLIB_NG:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org"  -DSITE="win-25" -DBUILDNAME="hk/vs-26/zl-ng" ..
+          ctest -C Release -D Experimental 

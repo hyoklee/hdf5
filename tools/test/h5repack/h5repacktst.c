@@ -1602,8 +1602,8 @@ main(void)
      */
     TESTING("    options_get_object with max-length path (PR #6303 Finding 1)");
     {
-        pack_opttbl_t *tbl      = NULL;
-        pack_info_t   *found    = NULL;
+        pack_opttbl_t *tbl   = NULL;
+        pack_info_t   *found = NULL;
         pack_info_t    pack_obj;
         obj_list_t     olist[1];
         /* MAX_NC_NAME-1 chars without leading '/', fits in path[MAX_NC_NAME] */

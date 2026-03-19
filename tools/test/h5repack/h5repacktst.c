@@ -1591,6 +1591,119 @@ main(void)
         PASSED();
     }
 
+    /*-------------------------------------------------------------------------
+     * Test PR #6303 Finding 1: tbl_path buffer in options_get_object is
+     * exactly MAX_NC_NAME+1 bytes.  When a stored path has the maximum valid
+     * length (MAX_NC_NAME-1 chars, no leading '/'), options_get_object must
+     * prepend '/' to form a 256-character string before the NUL, filling
+     * tbl_path[MAX_NC_NAME+1] to its very last byte.  The test verifies the
+     * lookup still succeeds (no truncation) at this boundary.
+     *-------------------------------------------------------------------------
+     */
+    TESTING("    options_get_object with max-length path (PR #6303 Finding 1)");
+    {
+        pack_opttbl_t *tbl      = NULL;
+        pack_info_t   *found    = NULL;
+        pack_info_t    pack_obj;
+        obj_list_t     olist[1];
+        /* MAX_NC_NAME-1 chars without leading '/', fits in path[MAX_NC_NAME] */
+        char long_path[MAX_NC_NAME];
+        /* '/' + MAX_NC_NAME-1 chars + NUL — what the caller passes */
+        char query_path[MAX_NC_NAME + 1];
+
+        /* Build a path that is exactly MAX_NC_NAME-1 = 255 characters */
+        memset(long_path, 'a', MAX_NC_NAME - 1);
+        long_path[MAX_NC_NAME - 1] = '\0';
+
+        /* Build the corresponding absolute query path */
+        query_path[0] = '/';
+        memcpy(query_path + 1, long_path, MAX_NC_NAME - 1);
+        query_path[MAX_NC_NAME] = '\0'; /* index 256, last byte of 257-byte tbl_path */
+
+        /* Populate the obj_list entry with the path (no leading '/') */
+        memcpy(olist[0].obj, long_path, MAX_NC_NAME);
+
+        /* Set up a minimal pack_info_t */
+        init_packobject(&pack_obj);
+        pack_obj.layout = H5D_CONTIGUOUS;
+
+        /* Create the option table and add the object */
+        if (options_table_init(&tbl) < 0)
+            GOERROR;
+        if (options_add_layout(olist, 1, &pack_obj, tbl) < 0) {
+            options_table_free(tbl);
+            GOERROR;
+        }
+
+        /*
+         * Look up using the absolute path.  Inside options_get_object,
+         * tbl_path[MAX_NC_NAME+1] receives '/' + long_path + NUL.
+         * That is 1 + 255 + 1 = 257 bytes — exactly the buffer size,
+         * so NUL lands at the very last byte.  A buffer of MAX_NC_NAME
+         * (256 bytes) would cause snprintf/strcat to truncate the result,
+         * making strcmp fail and returning NULL.
+         */
+        found = options_get_object(query_path, tbl);
+        options_table_free(tbl);
+
+        if (found == NULL)
+            GOERROR;
+    }
+    PASSED();
+
+    /*-------------------------------------------------------------------------
+     * Prove Finding 1 requires MAX_NC_NAME + 2 (not just MAX_NC_NAME + 1).
+     *
+     * Inject a path that occupies all MAX_NC_NAME = 256 bytes of
+     * path[MAX_NC_NAME] with no NUL inside the array.  We zero the entire
+     * pack_info_t entry first so the byte immediately after path[]—the first
+     * byte of filter[0].filtn—is 0x00.  This gives strcat/snprintf a
+     * well-defined C string of exactly MAX_NC_NAME = 256 characters.
+     *
+     * Building tbl_path = '/' + 256 chars + NUL requires 258 = MAX_NC_NAME + 2
+     * bytes.  With tbl_path[MAX_NC_NAME + 1] = 257 bytes, strcat would write
+     * the terminating NUL one byte past the buffer end (stack overflow,
+     * caught by AddressSanitizer).  With tbl_path[MAX_NC_NAME + 2] = 258
+     * bytes the NUL lands within the buffer and the lookup succeeds.
+     *-------------------------------------------------------------------------
+     */
+    TESTING("    options_get_object needs MAX_NC_NAME+2 buffer (PR #6303 Finding 1)");
+    {
+        pack_opttbl_t *tbl2   = NULL;
+        pack_info_t   *found2 = NULL;
+        /* '/' + MAX_NC_NAME chars + NUL = MAX_NC_NAME + 2 bytes */
+        char query_path2[MAX_NC_NAME + 2];
+
+        if (options_table_init(&tbl2) < 0)
+            GOERROR;
+
+        /* Zero the entire first entry so filter[0].filtn's first byte (the
+         * byte immediately after path[MAX_NC_NAME-1] in memory) is 0x00.
+         * Then fill path with MAX_NC_NAME non-NUL bytes.  The string read by
+         * strcat/snprintf through path is therefore exactly MAX_NC_NAME = 256
+         * characters long. */
+        memset(&tbl2->objs[0], 0, sizeof(pack_info_t));
+        memset(tbl2->objs[0].path, 'a', MAX_NC_NAME);
+        tbl2->nelems = 1;
+
+        /* Absolute query path: '/' + MAX_NC_NAME 'a's + NUL */
+        query_path2[0] = '/';
+        memset(query_path2 + 1, 'a', MAX_NC_NAME);
+        query_path2[MAX_NC_NAME + 1] = '\0';
+
+        /* With tbl_path[MAX_NC_NAME + 1] = 257 bytes, strcat writes the NUL
+         * to tbl_path[257]—one byte past the end—and strcmp fails (or
+         * AddressSanitizer aborts).  With tbl_path[MAX_NC_NAME + 2] = 258
+         * bytes the NUL lands at tbl_path[257], which is within bounds, and
+         * strcmp succeeds. */
+        found2 = options_get_object(query_path2, tbl2);
+        options_table_free(tbl2);
+
+        if (found2 == NULL)
+            GOERROR;
+    }
+    PASSED();
+
     /* Remove test files */
     TESTING("    test file cleanup");
 

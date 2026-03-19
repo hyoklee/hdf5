@@ -334,7 +334,7 @@ pack_info_t *
 options_get_object(const char *path, pack_opttbl_t *table)
 {
     unsigned int i;
-    char         tbl_path[MAX_NC_NAME + 1]; /* +1 for start with "/" case */
+    char         tbl_path[MAX_NC_NAME + 2]; /* '/' + MAX_NC_NAME chars + NUL */
 
     for (i = 0; i < table->nelems; i++) {
         /* make full path (start with "/") to compare correctly  */

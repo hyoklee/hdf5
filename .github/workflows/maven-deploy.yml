@@ -85,7 +85,7 @@ jobs:
       platform-classifier: ${{ steps.platform-info.outputs.classifier }}
     steps:
       - name: Download all Maven artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           pattern: maven-staging-artifacts-*
           path: ./artifacts
@@ -255,7 +255,7 @@ jobs:
     if: ${{ !inputs.dry_run }}
     steps:
       - name: Download all Maven artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           pattern: maven-staging-artifacts-*
           path: ./artifacts

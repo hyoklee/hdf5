@@ -670,7 +670,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Download all Maven artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           pattern: maven-staging-artifacts-*
           path: ./artifacts
@@ -801,7 +801,7 @@ jobs:
           echo "Installed gtimeout: $(which gtimeout)"
 
       - name: Download Maven artifacts (${{ matrix.platform }} - ${{ matrix.implementation }})
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           name: maven-staging-artifacts-${{ matrix.artifact-suffix }}
           path: ./maven-artifacts/${{ matrix.platform }}

@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Download all Maven staging artifacts
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           pattern: maven-staging-artifacts-*
           path: ./artifacts
@@ -152,7 +152,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Download HDF5 installation from workflow
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           name: hdf5-install-linux-x86_64-jni
           path: ${{ runner.workspace }}/hdf5-install
@@ -202,7 +202,7 @@ jobs:
           distribution: 'oracle'
 
       - name: Download HDF5 installation from workflow
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v6
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v6
         with:
           name: hdf5-install-linux-x86_64-ffm
           path: ${{ runner.workspace }}/hdf5-install

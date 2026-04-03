@@ -4,15 +4,21 @@ name: hdf5 dev cmake CI
 on:
   workflow_dispatch:
   push:
-    branches:
-      - develop
+    paths-ignore:
+      - '.github/CODEOWNERS'
+      - '.github/FUNDING.yml'
+      - 'docs/**'
+      - 'release_docs/**'
+      - 'ACKNOWLEDGEMENTS'
+      - 'LICENSE**'
+      - '**.md'
   pull_request:
     branches:
       - develop-
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
-      - 'doc/**'
+      - 'docs/**'
       - 'release_docs/**'
       - 'ACKNOWLEDGEMENTS'
       - 'LICENSE**'

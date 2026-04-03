@@ -4,12 +4,20 @@ name: netCDF dev
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - '.github/CODEOWNERS'
+      - '.github/FUNDING.yml'
+      - 'docs/**'
+      - 'release_docs/**'
+      - 'ACKNOWLEDGEMENTS'
+      - 'LICENSE**'
+      - '**.md'
   pull_request:
     branches: [ develop ]
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
-      - 'doc/**'
+      - 'docs/**'
       - 'release_docs/**'
       - 'ACKNOWLEDGEMENTS'
       - 'LICENSE**'
@@ -45,7 +53,8 @@ jobs:
             -G Ninja \
             --log-level=VERBOSE \
             -DCMAKE_BUILD_TYPE=Release \
-            -DHDF5_ONLY_SHARED_LIBS:BOOL=ON \
+            -DBUILD_SHARED_LIBS=ON \
+            -DBUILD_STATIC_LIBS=OFF \
             -DHDF5_ENABLE_PARALLEL:BOOL=OFF \
             -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
             -DHDF5_BUILD_FORTRAN:BOOL=OFF \

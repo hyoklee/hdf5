@@ -72,9 +72,11 @@ function (extract_lib_pkgconfig_info
   # only if the logging level is VERBOSE or DEBUG. While a bit odd to do
   # in this way, the below warnings about generator expressions are fairly
   # verbose and won't be of interest to most.
-  cmake_language (GET_MESSAGE_LOG_LEVEL cmake_msg_log_level)
-  if (cmake_msg_log_level MATCHES "VERBOSE|DEBUG")
-    set (show_dev_warnings TRUE)
+  if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.25")
+    cmake_language (GET_MESSAGE_LOG_LEVEL cmake_msg_log_level)
+    if (cmake_msg_log_level MATCHES "VERBOSE|DEBUG")
+      set (show_dev_warnings TRUE)
+    endif ()
   endif ()
 
   # Determine if we are building with MSVC

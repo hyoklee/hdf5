@@ -1,5 +1,7 @@
 <map id="H5O_native_info_t" name="H5O_native_info_t">
-<area shape="rect" id="node1" title=" " alt="" coords="63,109,206,136"/>
-<area shape="rect" id="node2" href="$struct_h5_o__hdr__info__t.html" title=" " alt="" coords="5,5,128,32"/>
-<area shape="rect" id="node3" href="$struct_h5__ih__info__t.html" title=" " alt="" coords="153,5,255,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="63,108,206,133"/>
+<area shape="rect" id="Node000002" href="$struct_h5_o__hdr__info__t.html" title=" " alt="" coords="5,5,128,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,41,129,106,125,109,80,44"/>
+<area shape="rect" id="Node000003" href="$struct_h5__ih__info__t.html" title=" " alt="" coords="153,5,255,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,44,145,110,140,106,186,41"/>
 </map>

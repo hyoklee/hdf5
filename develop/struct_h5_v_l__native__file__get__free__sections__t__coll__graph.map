@@ -1,5 +1,7 @@
 <map id="H5VL_native_file_get_free_sections_t" name="H5VL_native_file_get_free_sections_t">
-<area shape="rect" id="node1" title=" " alt="" coords="15,109,173,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,65,32"/>
-<area shape="rect" id="node3" href="$struct_h5_f__sect__info__t.html" title=" " alt="" coords="89,5,216,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="48,108,207,148"/>
+<area shape="rect" id="Node000002" href="$struct_h5_f__sect__info__t.html" title=" " alt="" coords="5,5,132,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,43,95,83,112,106,108,109,90,85,73,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="156,5,216,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,45,159,85,144,109,139,106,154,83,174,42"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="LinkCreatPropList" name="LinkCreatPropList">
-<area shape="rect" id="node1" title="Class LinkCreatPropList inherits from PropList and provides wrappers for the HDF5 link creation prope..." alt="" coords="5,155,141,181"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="36,80,111,107"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="19,5,128,32"/>
+<area shape="rect" id="Node000001" title="Class LinkCreatPropList inherits from PropList and provides wrappers for the HDF5 link creation prope..." alt="" coords="5,152,141,177"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="36,79,111,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,118,76,152,71,152,71,118"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="19,5,128,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="76,44,76,79,71,79,71,44"/>
 </map>

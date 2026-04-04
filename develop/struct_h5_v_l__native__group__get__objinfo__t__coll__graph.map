@@ -1,11 +1,19 @@
 <map id="H5VL_native_group_get_objinfo_t" name="H5VL_native_group_get_objinfo_t">
-<area shape="rect" id="node1" title=" " alt="" coords="123,273,299,315"/>
-<area shape="rect" id="node2" href="$struct_h5_g__stat__t.html" title=" " alt="" coords="89,184,184,211"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,95,65,121"/>
-<area shape="rect" id="node4" href="$struct_h5_o__stat__t.html" title=" " alt="" coords="89,95,184,121"/>
-<area shape="rect" id="node5" href="$struct_h5_v_l__loc__params__t.html" title=" " alt="" coords="337,184,488,211"/>
-<area shape="rect" id="node6" href="$struct_h5_v_l__loc__by__token__t.html" title=" " alt="" coords="209,95,369,121"/>
-<area shape="rect" id="node7" href="$struct_h5_o__token__t.html" title=" " alt="" coords="236,5,341,32"/>
-<area shape="rect" id="node8" href="$struct_h5_v_l__loc__by__name__t.html" title=" " alt="" coords="393,95,555,121"/>
-<area shape="rect" id="node9" href="$struct_h5_v_l__loc__by__idx__t.html" title=" " alt="" coords="579,95,723,121"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="333,269,509,309"/>
+<area shape="rect" id="Node000002" href="$struct_h5_v_l__loc__params__t.html" title=" " alt="" coords="274,181,425,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="369,216,409,268,405,271,364,219"/>
+<area shape="rect" id="Node000003" href="$struct_h5_v_l__loc__by__token__t.html" title=" " alt="" coords="5,93,165,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="124,121,211,155,299,179,297,184,210,160,122,126"/>
+<area shape="rect" id="Node000004" href="$struct_h5_o__token__t.html" title=" " alt="" coords="33,5,138,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="88,45,88,93,83,93,83,45"/>
+<area shape="rect" id="Node000005" href="$struct_h5_v_l__loc__by__name__t.html" title=" " alt="" coords="190,93,351,119"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="292,127,340,179,336,183,288,131"/>
+<area shape="rect" id="Node000006" href="$struct_h5_v_l__loc__by__idx__t.html" title=" " alt="" coords="376,93,520,119"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="437,132,414,159,377,183,374,179,410,155,433,129"/>
+<area shape="rect" id="Node000007" href="$struct_h5_g__stat__t.html" title=" " alt="" coords="527,181,622,207"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="546,216,454,271,451,267,543,211"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="545,93,605,119"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="577,133,577,181,572,181,572,133"/>
+<area shape="rect" id="Node000009" href="$struct_h5_o__stat__t.html" title=" " alt="" coords="629,93,723,119"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="659,131,631,159,597,183,594,179,628,155,656,128"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="CommonFG" name="CommonFG">
-<area shape="rect" id="node1" title="CommonFG is an abstract base class of H5Group." alt="" coords="5,5,104,32"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_group.html" title="Class Group represents an HDF5 group." alt="" coords="24,80,85,107"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_h5_file.html" title="Class H5File represents an HDF5 file and inherits from class Group as file is a root group." alt="" coords="23,155,86,181"/>
+<area shape="rect" id="Node000001" title="CommonFG is an abstract base class of H5Group." alt="" coords="5,5,104,31"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_group.html" title="Class Group represents an HDF5 group." alt="" coords="24,79,85,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,44,57,79,52,79,52,44"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_h5_file.html" title="Class H5File represents an HDF5 file and inherits from class Group as file is a root group." alt="" coords="23,152,86,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="57,118,57,152,52,152,52,118"/>
 </map>

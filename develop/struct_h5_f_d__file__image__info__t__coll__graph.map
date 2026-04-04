@@ -1,5 +1,7 @@
 <map id="H5FD_file_image_info_t" name="H5FD_file_image_info_t">
-<area shape="rect" id="node1" title=" " alt="" coords="103,95,281,121"/>
-<area shape="rect" id="node2" href="$struct_h5_f_d__file__image__callbacks__t.html" title=" " alt="" coords="5,5,219,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="243,5,303,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="27,93,204,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,65,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,39,106,91,102,95,53,43"/>
+<area shape="rect" id="Node000003" href="$struct_h5_f_d__file__image__callbacks__t.html" title=" " alt="" coords="90,5,303,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,43,129,95,125,91,174,39"/>
 </map>

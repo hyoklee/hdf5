@@ -1,8 +1,15 @@
 <map id="pack_opt_t" name="pack_opt_t">
-<area shape="rect" id="node1" title=" " alt="" coords="79,363,173,389"/>
-<area shape="rect" id="node2" href="$structfilter__info__t.html" title=" " alt="" coords="138,95,234,121"/>
-<area shape="rect" id="node5" href="$structpack__info__t.html" title=" " alt="" coords="77,184,175,211"/>
-<area shape="rect" id="node3" title=" " alt="" coords="156,5,216,32"/>
-<area shape="rect" id="node4" href="$structpack__opttbl__t.html" title=" " alt="" coords="71,273,181,300"/>
-<area shape="rect" id="node6" href="$structchunk__info__t.html" title=" " alt="" coords="5,95,111,121"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="72,357,165,383"/>
+<area shape="rect" id="Node000002" href="$structpack__opttbl__t.html" title=" " alt="" coords="63,269,174,295"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,309,121,357,116,357,116,309"/>
+<area shape="rect" id="Node000003" href="$structpack__info__t.html" title=" " alt="" coords="70,181,167,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,221,121,269,116,269,116,221"/>
+<area shape="rect" id="Node000004" href="$structfilter__info__t.html" title=" " alt="" coords="5,93,101,119"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="50,132,44,166,41,207,43,251,53,294,63,312,76,329,104,355,101,359,72,333,59,315,48,296,37,252,35,207,39,165,45,132"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="67,130,83,156,106,179,103,183,79,159,63,133"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="23,5,83,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="56,45,56,93,51,93,51,45"/>
+<area shape="rect" id="Node000006" href="$structchunk__info__t.html" title=" " alt="" coords="142,93,247,119"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="199,132,199,206,195,251,188,295,183,316,171,335,142,359,139,355,167,332,178,314,183,294,190,250,194,206,193,132"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="168,129,151,144,126,183,122,180,147,141,164,125"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="UserData4Aiterate" name="UserData4Aiterate">
-<area shape="rect" id="node1" title=" " alt="" coords="5,261,148,288"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="35,157,118,184"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="29,81,124,108"/>
-<area shape="rect" id="node4" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="22,5,131,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,257,148,283"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="35,155,118,180"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,194,79,257,74,257,74,194"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="29,80,124,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,120,79,154,74,154,74,120"/>
+<area shape="rect" id="Node000004" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="22,5,131,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="79,45,79,80,74,80,74,45"/>
 </map>

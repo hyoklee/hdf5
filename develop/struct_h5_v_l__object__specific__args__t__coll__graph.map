@@ -1,6 +1,10 @@
 <map id="H5VL_object_specific_args_t" name="H5VL_object_specific_args_t">
-<area shape="rect" id="node1" title=" " alt="" coords="5,273,164,315"/>
-<area shape="rect" id="node2" href="$struct_h5_v_l__object__visit__args__t.html" title=" " alt="" coords="80,184,265,211"/>
-<area shape="rect" id="node3" href="$struct_h5_o__info2__t.html" title=" " alt="" coords="83,95,185,121"/>
-<area shape="rect" id="node4" href="$struct_h5_o__token__t.html" title=" " alt="" coords="11,5,116,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,269,164,309"/>
+<area shape="rect" id="Node000002" href="$struct_h5_o__token__t.html" title=" " alt="" coords="32,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,45,87,269,82,269,82,45"/>
+<area shape="rect" id="Node000004" href="$struct_h5_o__info2__t.html" title=" " alt="" coords="104,93,207,119"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="105,39,148,91,143,94,101,43"/>
+<area shape="rect" id="Node000003" href="$struct_h5_v_l__object__visit__args__t.html" title=" " alt="" coords="101,181,287,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,218,109,271,105,267,168,214"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="169,130,191,180,186,182,164,132"/>
 </map>

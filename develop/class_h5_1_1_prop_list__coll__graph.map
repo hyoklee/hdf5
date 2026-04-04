@@ -1,4 +1,9 @@
 <map id="PropList" name="PropList">
-<area shape="rect" id="node1" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="23,81,97,108"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,32"/>
+<area shape="rect" id="Node000001" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="28,168,103,193"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,44,68,168,62,168,58,45"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="81,80,156,105"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="80,40,111,78,107,81,76,43"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,119,75,169,70,166,102,116"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="171,84,183,93,174,100,157,102,156,97,172,95,177,93,169,89"/>
 </map>

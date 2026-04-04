@@ -1,26 +1,49 @@
 <map id="HDF5LibraryException" name="HDF5LibraryException">
-<area shape="rect" id="node1" title=" " alt="" coords="365,512,532,539"/>
-<area shape="rect" id="node4" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_attribute_exception.html" title=" " alt="" coords="621,5,799,32"/>
-<area shape="rect" id="node5" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_btree_exception.html" title=" " alt="" coords="631,56,789,83"/>
-<area shape="rect" id="node6" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_data_filters_exception.html" title=" " alt="" coords="613,107,807,133"/>
-<area shape="rect" id="node7" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_data_storage_exception.html" title=" " alt="" coords="609,157,811,184"/>
-<area shape="rect" id="node8" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_dataset_interface_exception.html" title=" " alt="" coords="595,208,825,235"/>
-<area shape="rect" id="node9" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_dataspace_interface_exception.html" title=" " alt="" coords="585,259,835,285"/>
-<area shape="rect" id="node10" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_datatype_interface_exception.html" title=" " alt="" coords="590,309,830,336"/>
-<area shape="rect" id="node11" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_external_file_list_exception.html" title=" " alt="" coords="599,360,821,387"/>
-<area shape="rect" id="node12" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_file_interface_exception.html" title=" " alt="" coords="609,411,811,437"/>
-<area shape="rect" id="node13" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_function_argument_exception.html" title=" " alt="" coords="589,461,831,488"/>
-<area shape="rect" id="node14" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_function_entry_exit_exception.html" title=" " alt="" coords="592,512,828,539"/>
-<area shape="rect" id="node15" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_heap_exception.html" title=" " alt="" coords="632,563,788,589"/>
-<area shape="rect" id="node16" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_id_exception.html" title=" " alt="" coords="643,613,777,640"/>
-<area shape="rect" id="node17" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_internal_error_exception.html" title=" " alt="" coords="609,664,811,691"/>
-<area shape="rect" id="node18" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_low_level_i_o_exception.html" title=" " alt="" coords="611,715,809,741"/>
-<area shape="rect" id="node19" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_meta_data_cache_exception.html" title=" " alt="" coords="597,765,823,792"/>
-<area shape="rect" id="node20" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_object_header_exception.html" title=" " alt="" coords="605,816,815,843"/>
-<area shape="rect" id="node21" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_property_list_interface_exception.html" title=" " alt="" coords="613,867,807,909"/>
-<area shape="rect" id="node22" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_reference_exception.html" title=" " alt="" coords="616,933,804,960"/>
-<area shape="rect" id="node23" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_resource_unavailable_exception.html" title=" " alt="" coords="580,984,840,1011"/>
-<area shape="rect" id="node24" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_symbol_table_exception.html" title=" " alt="" coords="607,1035,813,1061"/>
-<area shape="rect" id="node2" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_exception.html" title=" " alt="" coords="195,512,317,539"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,512,147,539"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="365,499,532,524"/>
+<area shape="rect" id="Node000004" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_attribute_exception.html" title=" " alt="" coords="621,5,799,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="451,485,467,386,494,252,511,185,531,124,553,74,578,40,598,27,619,19,621,24,600,32,582,44,558,76,536,126,516,186,499,254,472,387,456,485"/>
+<area shape="rect" id="Node000005" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_btree_exception.html" title=" " alt="" coords="631,55,789,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="447,485,451,407,457,355,467,299,484,242,507,186,538,134,578,89,603,74,630,66,632,71,605,79,582,93,542,137,512,188,489,244,473,301,462,356,456,407,452,485"/>
+<area shape="rect" id="Node000006" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_data_filters_exception.html" title=" " alt="" coords="613,104,807,129"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="448,485,455,415,474,321,491,271,513,222,542,177,578,139,612,120,614,125,582,143,546,181,518,225,496,273,479,322,460,415,453,485"/>
+<area shape="rect" id="Node000007" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_data_storage_exception.html" title=" " alt="" coords="609,153,811,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="450,485,459,423,481,342,498,300,519,259,546,221,578,188,607,172,610,176,582,192,550,224,524,261,502,302,486,344,465,424,455,485"/>
+<area shape="rect" id="Node000008" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_dataset_interface_exception.html" title=" " alt="" coords="595,203,825,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="452,485,464,432,488,364,505,329,525,295,549,264,578,237,597,226,600,230,582,241,553,268,529,298,509,332,493,366,470,433,457,486"/>
+<area shape="rect" id="Node000009" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_dataspace_interface_exception.html" title=" " alt="" coords="585,252,835,277"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="455,484,470,440,496,386,531,332,553,307,578,286,599,275,602,280,582,291,557,311,535,335,500,389,475,442,460,486"/>
+<area shape="rect" id="Node000010" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_datatype_interface_exception.html" title=" " alt="" coords="590,301,830,327"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="459,485,477,451,504,410,537,369,579,336,602,324,604,329,581,340,541,373,508,413,482,453,464,487"/>
+<area shape="rect" id="Node000011" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_external_file_list_exception.html" title=" " alt="" coords="599,351,821,376"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="466,486,513,434,544,407,579,385,607,374,609,379,581,390,547,411,516,438,470,489"/>
+<area shape="rect" id="Node000012" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_file_interface_exception.html" title=" " alt="" coords="609,400,811,425"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="477,489,524,460,579,434,618,423,620,428,581,439,526,465,480,493"/>
+<area shape="rect" id="Node000013" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_function_argument_exception.html" title=" " alt="" coords="589,449,831,475"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="528,493,580,483,639,472,640,477,580,489,529,499"/>
+<area shape="rect" id="Node000014" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_function_entry_exit_exception.html" title=" " alt="" coords="592,499,828,524"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="546,509,592,509,592,514,546,514"/>
+<area shape="rect" id="Node000015" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_heap_exception.html" title=" " alt="" coords="632,548,788,573"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="529,524,580,534,640,545,639,551,580,539,528,529"/>
+<area shape="rect" id="Node000016" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_id_exception.html" title=" " alt="" coords="643,597,777,623"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="480,529,526,558,581,583,643,599,641,605,579,589,524,562,477,534"/>
+<area shape="rect" id="Node000017" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_internal_error_exception.html" title=" " alt="" coords="609,647,811,672"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="470,533,516,585,547,611,581,633,609,644,607,649,579,638,544,616,513,589,466,537"/>
+<area shape="rect" id="Node000018" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_low_level_i_o_exception.html" title=" " alt="" coords="611,696,809,721"/>
+<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="464,535,482,569,508,610,541,650,581,682,612,696,610,701,579,687,537,653,504,613,477,572,459,538"/>
+<area shape="rect" id="Node000019" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_meta_data_cache_exception.html" title=" " alt="" coords="597,745,823,771"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="460,537,475,580,500,634,535,688,557,711,582,732,602,743,599,748,578,736,553,715,531,691,496,636,470,582,455,538"/>
+<area shape="rect" id="Node000020" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_object_header_exception.html" title=" " alt="" coords="605,795,815,820"/>
+<area shape="poly" id="edge19_Node000001_Node000020" title=" " alt="" coords="457,537,470,589,493,656,509,691,529,724,553,755,582,781,606,795,603,799,578,785,549,759,525,728,505,694,488,658,464,591,452,538"/>
+<area shape="rect" id="Node000021" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_property_list_interface_exception.html" title=" " alt="" coords="613,845,807,885"/>
+<area shape="poly" id="edge20_Node000001_Node000021" title=" " alt="" coords="455,537,466,598,487,678,504,719,525,760,551,798,582,831,614,849,611,854,578,835,546,801,520,763,499,722,482,679,460,599,450,538"/>
+<area shape="rect" id="Node000022" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_reference_exception.html" title=" " alt="" coords="616,909,804,935"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="453,538,459,610,478,707,494,758,516,809,545,855,582,895,598,906,617,914,615,918,596,911,578,899,541,858,511,811,489,760,472,708,454,610,448,538"/>
+<area shape="rect" id="Node000023" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_resource_unavailable_exception.html" title=" " alt="" coords="580,959,840,984"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="452,538,455,618,460,671,471,729,487,788,510,846,541,899,582,945,598,956,595,961,578,949,537,903,505,848,482,790,465,730,455,672,449,618,446,538"/>
+<area shape="rect" id="Node000024" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_symbol_table_exception.html" title=" " alt="" coords="607,1008,813,1033"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="456,537,471,639,498,777,515,847,535,910,557,961,582,995,608,1011,606,1016,578,999,553,964,530,912,510,848,493,778,466,640,451,538"/>
+<area shape="rect" id="Node000002" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_exception.html" title=" " alt="" coords="195,499,317,524"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="331,509,365,509,365,514,331,514"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,499,147,524"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="160,509,194,509,194,514,160,514"/>
 </map>

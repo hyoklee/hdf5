@@ -1,4 +1,9 @@
 <map id="DataSpace" name="DataSpace">
-<area shape="rect" id="node1" title="Class DataSpace inherits from IdComponent and provides wrappers for the HDF5&#39;s dataspaces." alt="" coords="14,81,106,108"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,32"/>
+<area shape="rect" id="Node000001" title="Class DataSpace inherits from IdComponent and provides wrappers for the HDF5&#39;s dataspaces." alt="" coords="19,168,111,193"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,44,68,168,62,168,58,45"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_data_space.html" title="Class DataSpace inherits from IdComponent and provides wrappers for the HDF5&#39;s dataspaces." alt="" coords="82,80,174,105"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="82,39,119,78,115,81,79,43"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,118,76,169,72,166,109,115"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="189,85,201,93,192,100,174,102,174,97,190,95,195,93,186,89"/>
 </map>

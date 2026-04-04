@@ -1,5 +1,8 @@
 <map id="H5FD_class_t" name="H5FD_class_t">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,116,136"/>
-<area shape="rect" id="node2" href="$struct_h5_f_d__t.html" title=" " alt="" coords="25,199,96,225"/>
-<area shape="rect" id="node3" title=" " alt="" coords="31,5,91,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,108,116,133"/>
+<area shape="rect" id="Node000003" href="$struct_h5_f_d__t.html" title=" " alt="" coords="25,196,96,221"/>
+<area shape="poly" id="edge3_Node000003_Node000001" title=" " alt="" coords="42,145,35,158,34,168,37,177,50,194,46,198,32,179,29,168,30,157,37,143"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="31,5,91,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,45,63,108,58,108,58,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="58,182,58,134,63,134,63,182"/>
 </map>

@@ -1,6 +1,15 @@
 <map id="DSetCreatPropList" name="DSetCreatPropList">
-<area shape="rect" id="node1" title="Class DSetCreatPropList inherits from ObjCreatPropList and provides wrappers for the HDF5 dataset cre..." alt="" coords="5,233,145,260"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_obj_creat_prop_list.html" title="Class ObjCreatPropList inherits from PropList and provides wrappers for the HDF5 object create proper..." alt="" coords="10,157,141,184"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="38,81,113,108"/>
-<area shape="rect" id="node4" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="21,5,130,32"/>
+<area shape="rect" id="Node000001" title="Class DSetCreatPropList inherits from ObjCreatPropList and provides wrappers for the HDF5 dataset cre..." alt="" coords="6,317,146,343"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_obj_creat_prop_list.html" title="Class ObjCreatPropList inherits from PropList and provides wrappers for the HDF5 object create proper..." alt="" coords="5,155,136,180"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,194,78,317,73,317,69,194"/>
+<area shape="poly" id="edge5_Node000002_Node000002" title=" " alt="" coords="151,160,163,167,154,174,136,177,136,171,152,169,157,167,149,164"/>
+<area shape="rect" id="Node000005" href="$class_h5_1_1_d_set_creat_prop_list.html" title="Class DSetCreatPropList inherits from ObjCreatPropList and provides wrappers for the HDF5 dataset cre..." alt="" coords="93,229,233,255"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="98,186,149,227,146,231,94,191"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="33,80,108,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,120,73,154,68,154,68,120"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="123,84,135,93,126,100,109,102,108,97,124,95,129,93,121,89"/>
+<area shape="rect" id="Node000004" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="16,5,125,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="73,45,73,80,68,80,68,45"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="143,266,90,319,86,315,140,262"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="248,234,259,242,251,249,233,251,232,246,249,244,254,242,245,239"/>
 </map>

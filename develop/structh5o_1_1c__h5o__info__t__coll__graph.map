@@ -1,4 +1,5 @@
 <map id="c_h5o_info_t" name="c_h5o_info_t">
-<area shape="rect" id="node1" title="C interoperable structure for h5o_info_t. The Fortran derived type returns the time values as an inte..." alt="" coords="10,95,114,121"/>
-<area shape="rect" id="node2" href="$structh5global_1_1h5o__token__t__f.html" title=" " alt="" coords="5,5,119,32"/>
+<area shape="rect" id="Node000001" title="C interoperable structure for h5o_info_t. The Fortran derived type returns the time values as an inte..." alt="" coords="10,93,114,119"/>
+<area shape="rect" id="Node000002" href="$structh5global_1_1h5o__token__t__f.html" title=" " alt="" coords="5,5,119,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,45,65,93,59,93,59,45"/>
 </map>

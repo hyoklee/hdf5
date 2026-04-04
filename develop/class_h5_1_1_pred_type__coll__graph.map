@@ -1,8 +1,17 @@
 <map id="PredType" name="PredType">
-<area shape="rect" id="node1" title="Class PredType holds the definition of all the HDF5 predefined datatypes." alt="" coords="19,453,101,479"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_atom_type.html" title="AtomType is a base class, inherited by IntType, FloatType, StrType, and PredType." alt="" coords="17,309,103,336"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_data_type.html" title="Class DataType provides generic operations on HDF5 datatypes." alt="" coords="19,233,101,260"/>
-<area shape="rect" id="node4" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="19,157,101,184"/>
-<area shape="rect" id="node5" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="13,81,107,108"/>
-<area shape="rect" id="node6" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,32"/>
+<area shape="rect" id="Node000001" title="Class PredType holds the definition of all the HDF5 predefined datatypes." alt="" coords="25,749,106,775"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_atom_type.html" title="AtomType is a base class, inherited by IntType, FloatType, StrType, and PredType." alt="" coords="17,304,103,329"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="63,343,68,749,63,749,58,343"/>
+<area shape="rect" id="Node000007" href="$class_h5_1_1_pred_type.html" title="Class PredType holds the definition of all the HDF5 predefined datatypes." alt="" coords="82,447,163,472"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="73,341,120,445,115,447,68,343"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_data_type.html" title="Class DataType provides generic operations on HDF5 datatypes." alt="" coords="19,229,101,255"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="63,269,63,304,57,304,57,269"/>
+<area shape="rect" id="Node000004" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="19,155,101,180"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="63,194,63,229,57,229,57,194"/>
+<area shape="rect" id="Node000005" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="13,80,107,105"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="63,120,63,154,57,154,57,120"/>
+<area shape="rect" id="Node000006" href="$class_h5_1_1_id_component.html" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,5,115,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="63,45,63,80,57,80,57,45"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="121,486,70,750,65,749,115,485"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="151,439,165,437,177,440,186,447,190,459,185,473,172,481,155,481,138,475,139,470,156,476,171,475,181,470,185,459,182,450,175,445,164,443,152,444"/>
 </map>

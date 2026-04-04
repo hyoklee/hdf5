@@ -1,4 +1,5 @@
 <map id="h5fd_subfiling_config_t" name="h5fd_subfiling_config_t">
-<area shape="rect" id="node1" title="H5FD_subfiling_config_t derived type used in the subfiling VFD." alt="" coords="11,95,181,121"/>
-<area shape="rect" id="node2" href="$structh5p_1_1h5fd__subfiling__params__t.html" title="H5FD_subfiling_params_t derived type used in the subfiling VFD." alt="" coords="5,5,187,32"/>
+<area shape="rect" id="Node000001" title="H5FD_subfiling_config_t derived type used in the subfiling VFD." alt="" coords="11,93,181,119"/>
+<area shape="rect" id="Node000002" href="$structh5p_1_1h5fd__subfiling__params__t.html" title="H5FD_subfiling_params_t derived type used in the subfiling VFD." alt="" coords="5,5,187,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,45,99,93,93,93,93,45"/>
 </map>

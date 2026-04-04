@@ -1,5 +1,7 @@
 <map id="H5G_stat_t" name="H5G_stat_t">
-<area shape="rect" id="node1" title=" " alt="" coords="39,95,133,121"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,65,32"/>
-<area shape="rect" id="node3" href="$struct_h5_o__stat__t.html" title=" " alt="" coords="89,5,184,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="39,93,133,119"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,65,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="47,42,60,68,78,91,73,94,56,71,43,45"/>
+<area shape="rect" id="Node000003" href="$struct_h5_o__stat__t.html" title=" " alt="" coords="89,5,184,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,44,110,71,95,94,91,92,105,68,121,41"/>
 </map>

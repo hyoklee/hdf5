@@ -1,7 +1,14 @@
 <map id="H5VL_file_get_args_t" name="H5VL_file_get_args_t">
-<area shape="rect" id="node1" title=" " alt="" coords="136,213,295,240"/>
-<area shape="rect" id="node2" href="$struct_h5_v_l__file__get__name__args__t.html" title=" " alt="" coords="67,109,222,151"/>
-<area shape="rect" id="node3" title=" " alt="" coords="191,5,251,32"/>
-<area shape="rect" id="node4" href="$struct_h5_v_l__file__get__obj__ids__args__t.html" title=" " alt="" coords="247,109,411,151"/>
-<area shape="rect" id="node5" href="$struct_h5_v_l__file__cont__info__t.html" title=" " alt="" coords="435,117,598,143"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,211,288,236"/>
+<area shape="rect" id="Node000002" href="$struct_h5_v_l__file__cont__info__t.html" title=" " alt="" coords="67,115,230,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,151,203,209,199,212,161,154"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="192,5,252,31"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="178,27,137,35,92,51,49,75,31,91,16,109,9,128,11,144,22,159,40,172,90,193,144,208,143,213,88,198,38,177,19,163,6,146,3,127,12,107,27,87,46,71,90,46,136,30,177,21"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,43,159,116,154,113,204,40"/>
+<area shape="rect" id="Node000004" href="$struct_h5_v_l__file__get__name__args__t.html" title=" " alt="" coords="254,108,408,148"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="262,35,286,53,309,80,324,106,320,109,304,83,283,57,259,40"/>
+<area shape="rect" id="Node000005" href="$struct_h5_v_l__file__get__obj__ids__args__t.html" title=" " alt="" coords="433,108,597,148"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="266,20,334,31,407,52,455,78,494,106,491,110,452,82,405,57,332,36,265,26"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="297,159,225,213,222,208,294,154"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="452,155,349,189,259,213,257,208,348,184,451,150"/>
 </map>

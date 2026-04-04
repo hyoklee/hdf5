@@ -1,29 +1,55 @@
 <map id="IdComponent" name="IdComponent">
-<area shape="rect" id="node1" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,157,115,184"/>
-<area shape="rect" id="node2" href="$class_h5_1_1_data_space.html" title="Class DataSpace inherits from IdComponent and provides wrappers for the HDF5&#39;s dataspaces." alt="" coords="164,107,256,133"/>
-<area shape="rect" id="node3" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="163,157,257,184"/>
-<area shape="rect" id="node19" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="173,309,247,336"/>
-<area shape="rect" id="node4" href="$class_h5_1_1_attribute.html" title="Class Attribute operates on HDF5 attributes." alt="" coords="349,107,427,133"/>
-<area shape="rect" id="node5" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="347,157,429,184"/>
-<area shape="rect" id="node6" href="$class_h5_1_1_data_set.html" title="Class DataSet operates on HDF5 datasets." alt="" coords="551,107,626,133"/>
-<area shape="rect" id="node7" href="$class_h5_1_1_data_type.html" title="Class DataType provides generic operations on HDF5 datatypes." alt="" coords="547,157,630,184"/>
-<area shape="rect" id="node17" href="$class_h5_1_1_group.html" title="Class Group represents an HDF5 group." alt="" coords="558,259,619,285"/>
-<area shape="rect" id="node8" href="$class_h5_1_1_array_type.html" title="Class ArrayType inherits from DataType and provides wrappers for the HDF5&#39;s Array Datatypes." alt="" coords="711,31,798,57"/>
-<area shape="rect" id="node9" href="$class_h5_1_1_atom_type.html" title="AtomType is a base class, inherited by IntType, FloatType, StrType, and PredType." alt="" coords="711,81,798,108"/>
-<area shape="rect" id="node14" href="$class_h5_1_1_comp_type.html" title="CompType is a derivative of a DataType and operates on HDF5 compound datatypes." alt="" coords="709,132,800,159"/>
-<area shape="rect" id="node15" href="$class_h5_1_1_enum_type.html" title="EnumType is a derivative of a DataType and operates on HDF5 enum datatypes." alt="" coords="710,183,799,209"/>
-<area shape="rect" id="node16" href="$class_h5_1_1_var_len_type.html" title="VarLenType is a derivative of a DataType and operates on HDF5 Variable&#45;length Datatypes." alt="" coords="707,233,803,260"/>
-<area shape="rect" id="node10" href="$class_h5_1_1_float_type.html" title="FloatType is a derivative of a DataType and operates on HDF5 floating point datatype." alt="" coords="851,5,936,32"/>
-<area shape="rect" id="node11" href="$class_h5_1_1_int_type.html" title="IntType is a derivative of a DataType and operates on HDF5 integer datatype." alt="" coords="859,56,928,83"/>
-<area shape="rect" id="node12" href="$class_h5_1_1_pred_type.html" title="Class PredType holds the definition of all the HDF5 predefined datatypes." alt="" coords="853,107,934,133"/>
-<area shape="rect" id="node13" href="$class_h5_1_1_str_type.html" title="StrType is a derivative of a DataType and operates on HDF5 string datatype." alt="" coords="858,157,929,184"/>
-<area shape="rect" id="node18" href="$class_h5_1_1_h5_file.html" title="Class H5File represents an HDF5 file and inherits from class Group as file is a root group." alt="" coords="723,284,786,311"/>
-<area shape="rect" id="node20" href="$class_h5_1_1_d_set_mem_xfer_prop_list.html" title="Class DSetCreatPropList inherits from PropList and provides wrappers for the HDF5 dataset memory and ..." alt="" coords="305,208,471,235"/>
-<area shape="rect" id="node21" href="$class_h5_1_1_file_acc_prop_list.html" title="Class FileAccPropList inherits from PropList and provides wrappers for the HDF5 file access property ..." alt="" coords="328,259,448,285"/>
-<area shape="rect" id="node22" href="$class_h5_1_1_file_creat_prop_list.html" title="Class FileCreatPropList inherits from PropList and provides wrappers for the HDF5 file create propert..." alt="" coords="322,309,454,336"/>
-<area shape="rect" id="node23" href="$class_h5_1_1_link_acc_prop_list.html" title="Class LinkAccPropList inherits from PropList and provides wrappers for the HDF5 link access property ..." alt="" coords="326,360,450,387"/>
-<area shape="rect" id="node25" href="$class_h5_1_1_link_creat_prop_list.html" title="Class LinkCreatPropList inherits from PropList and provides wrappers for the HDF5 link creation prope..." alt="" coords="320,411,456,437"/>
-<area shape="rect" id="node26" href="$class_h5_1_1_obj_creat_prop_list.html" title="Class ObjCreatPropList inherits from PropList and provides wrappers for the HDF5 object create proper..." alt="" coords="323,461,453,488"/>
-<area shape="rect" id="node24" href="$class_h5_1_1_d_set_acc_prop_list.html" title="Class DSetAccPropList inherits from LinkAccPropList and provides wrappers for the HDF5 dataset access..." alt="" coords="525,360,653,387"/>
-<area shape="rect" id="node27" href="$class_h5_1_1_d_set_creat_prop_list.html" title="Class DSetCreatPropList inherits from ObjCreatPropList and provides wrappers for the HDF5 dataset cre..." alt="" coords="519,461,659,488"/>
+<area shape="rect" id="Node000001" title="Class IdComponent provides wrappers of the C functions that operate on an HDF5 identifier." alt="" coords="5,152,115,177"/>
+<area shape="rect" id="Node000002" href="$class_h5_1_1_data_space.html" title="Class DataSpace inherits from IdComponent and provides wrappers for the HDF5&#39;s dataspaces." alt="" coords="164,103,256,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,145,169,126,171,131,113,150"/>
+<area shape="rect" id="Node000003" href="$class_h5_1_1_h5_location.html" title="H5Location is an abstract base class, added in version 1.8.12." alt="" coords="163,152,257,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="128,162,163,162,163,167,128,167"/>
+<area shape="rect" id="Node000019" href="$class_h5_1_1_prop_list.html" title="Class PropList inherits from IdComponent and provides wrappers for the HDF5 generic property list." alt="" coords="173,300,247,325"/>
+<area shape="poly" id="edge18_Node000001_Node000019" title=" " alt="" coords="86,186,198,298,194,302,82,189"/>
+<area shape="rect" id="Node000004" href="$class_h5_1_1_attribute.html" title="Class Attribute operates on HDF5 attributes." alt="" coords="349,103,427,128"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="269,146,347,124,349,129,270,151"/>
+<area shape="rect" id="Node000005" href="$class_h5_1_1_h5_object.html" title="Class H5Object is a bridge between H5Location and DataSet, DataType, and Group." alt="" coords="347,152,429,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="271,162,346,162,346,167,271,167"/>
+<area shape="rect" id="Node000006" href="$class_h5_1_1_data_set.html" title="Class DataSet operates on HDF5 datasets." alt="" coords="551,103,626,128"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="442,149,551,122,552,127,443,154"/>
+<area shape="rect" id="Node000007" href="$class_h5_1_1_data_type.html" title="Class DataType provides generic operations on HDF5 datatypes." alt="" coords="547,152,630,177"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="443,162,547,162,547,167,443,167"/>
+<area shape="rect" id="Node000017" href="$class_h5_1_1_group.html" title="Class Group represents an HDF5 group." alt="" coords="558,251,619,276"/>
+<area shape="poly" id="edge16_Node000005_Node000017" title=" " alt="" coords="443,175,472,186,528,218,572,248,569,253,525,222,470,191,441,180"/>
+<area shape="rect" id="Node000008" href="$class_h5_1_1_array_type.html" title="Class ArrayType inherits from DataType and provides wrappers for the HDF5&#39;s Array Datatypes." alt="" coords="711,29,798,55"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="641,147,657,137,673,120,681,102,689,84,705,64,721,53,724,57,708,68,694,86,686,104,677,123,660,141,644,152"/>
+<area shape="rect" id="Node000009" href="$class_h5_1_1_atom_type.html" title="AtomType is a base class, inherited by IntType, FloatType, StrType, and PredType." alt="" coords="711,79,798,104"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="639,145,658,137,727,102,730,106,660,142,641,149"/>
+<area shape="rect" id="Node000014" href="$class_h5_1_1_comp_type.html" title="CompType is a derivative of a DataType and operates on HDF5 compound datatypes." alt="" coords="709,128,800,153"/>
+<area shape="poly" id="edge13_Node000007_Node000014" title=" " alt="" coords="643,154,708,145,709,150,644,159"/>
+<area shape="rect" id="Node000015" href="$class_h5_1_1_enum_type.html" title="EnumType is a derivative of a DataType and operates on HDF5 enum datatypes." alt="" coords="710,177,799,203"/>
+<area shape="poly" id="edge14_Node000007_Node000015" title=" " alt="" coords="644,170,710,181,710,186,644,176"/>
+<area shape="rect" id="Node000016" href="$class_h5_1_1_var_len_type.html" title="VarLenType is a derivative of a DataType and operates on HDF5 Variable&#45;length Datatypes." alt="" coords="707,227,803,252"/>
+<area shape="poly" id="edge15_Node000007_Node000016" title=" " alt="" coords="632,181,727,224,725,229,629,186"/>
+<area shape="rect" id="Node000010" href="$class_h5_1_1_float_type.html" title="FloatType is a derivative of a DataType and operates on HDF5 floating point datatype." alt="" coords="851,5,936,31"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="790,70,867,29,869,33,793,75"/>
+<area shape="rect" id="Node000011" href="$class_h5_1_1_int_type.html" title="IntType is a derivative of a DataType and operates on HDF5 integer datatype." alt="" coords="859,55,928,80"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="811,79,858,71,859,76,812,84"/>
+<area shape="rect" id="Node000012" href="$class_h5_1_1_pred_type.html" title="Class PredType holds the definition of all the HDF5 predefined datatypes." alt="" coords="853,104,934,129"/>
+<area shape="poly" id="edge11_Node000009_Node000012" title=" " alt="" coords="812,99,853,107,852,112,811,104"/>
+<area shape="rect" id="Node000013" href="$class_h5_1_1_str_type.html" title="StrType is a derivative of a DataType and operates on HDF5 string datatype." alt="" coords="858,153,929,179"/>
+<area shape="poly" id="edge12_Node000009_Node000013" title=" " alt="" coords="795,108,804,113,871,151,869,156,801,118,792,113"/>
+<area shape="rect" id="Node000018" href="$class_h5_1_1_h5_file.html" title="Class H5File represents an HDF5 file and inherits from class Group as file is a root group." alt="" coords="723,276,786,301"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="634,267,723,281,722,287,633,273"/>
+<area shape="rect" id="Node000020" href="$class_h5_1_1_d_set_mem_xfer_prop_list.html" title="Class DSetCreatPropList inherits from PropList and provides wrappers for the HDF5 dataset memory and ..." alt="" coords="305,201,471,227"/>
+<area shape="poly" id="edge19_Node000019_Node000020" title=" " alt="" coords="233,288,265,261,304,236,332,224,334,229,307,240,268,265,236,292"/>
+<area shape="rect" id="Node000021" href="$class_h5_1_1_file_acc_prop_list.html" title="Class FileAccPropList inherits from PropList and provides wrappers for the HDF5 file access property ..." alt="" coords="328,251,448,276"/>
+<area shape="poly" id="edge20_Node000019_Node000021" title=" " alt="" coords="260,296,340,274,342,279,261,301"/>
+<area shape="rect" id="Node000022" href="$class_h5_1_1_file_creat_prop_list.html" title="Class FileCreatPropList inherits from PropList and provides wrappers for the HDF5 file create propert..." alt="" coords="322,300,454,325"/>
+<area shape="poly" id="edge21_Node000019_Node000022" title=" " alt="" coords="261,310,322,310,322,315,261,315"/>
+<area shape="rect" id="Node000023" href="$class_h5_1_1_link_acc_prop_list.html" title="Class LinkAccPropList inherits from PropList and provides wrappers for the HDF5 link access property ..." alt="" coords="326,349,450,375"/>
+<area shape="poly" id="edge22_Node000019_Node000023" title=" " alt="" coords="261,324,342,347,340,352,260,329"/>
+<area shape="rect" id="Node000025" href="$class_h5_1_1_link_creat_prop_list.html" title="Class LinkCreatPropList inherits from PropList and provides wrappers for the HDF5 link creation prope..." alt="" coords="320,399,456,424"/>
+<area shape="poly" id="edge24_Node000019_Node000025" title=" " alt="" coords="237,333,269,359,307,384,337,396,335,401,304,388,266,364,233,337"/>
+<area shape="rect" id="Node000026" href="$class_h5_1_1_obj_creat_prop_list.html" title="Class ObjCreatPropList inherits from PropList and provides wrappers for the HDF5 object create proper..." alt="" coords="323,448,453,473"/>
+<area shape="poly" id="edge25_Node000019_Node000026" title=" " alt="" coords="226,336,259,386,281,412,307,434,328,445,326,450,304,439,277,416,254,390,222,339"/>
+<area shape="rect" id="Node000024" href="$class_h5_1_1_d_set_acc_prop_list.html" title="Class DSetAccPropList inherits from LinkAccPropList and provides wrappers for the HDF5 dataset access..." alt="" coords="525,349,653,375"/>
+<area shape="poly" id="edge23_Node000023_Node000024" title=" " alt="" coords="464,359,524,359,524,365,464,365"/>
+<area shape="rect" id="Node000027" href="$class_h5_1_1_d_set_creat_prop_list.html" title="Class DSetCreatPropList inherits from ObjCreatPropList and provides wrappers for the HDF5 dataset cre..." alt="" coords="519,448,659,473"/>
+<area shape="poly" id="edge26_Node000026_Node000027" title=" " alt="" coords="467,458,519,458,519,463,467,463"/>
 </map>

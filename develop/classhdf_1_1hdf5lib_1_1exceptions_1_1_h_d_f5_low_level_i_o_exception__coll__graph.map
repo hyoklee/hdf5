@@ -1,6 +1,9 @@
 <map id="HDF5LowLevelIOException" name="HDF5LowLevelIOException">
-<area shape="rect" id="node1" title=" " alt="" coords="5,229,203,256"/>
-<area shape="rect" id="node2" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_library_exception.html" title=" " alt="" coords="21,155,187,181"/>
-<area shape="rect" id="node3" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_exception.html" title=" " alt="" coords="43,80,165,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="33,5,175,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,225,203,251"/>
+<area shape="rect" id="Node000002" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_library_exception.html" title=" " alt="" coords="21,152,187,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,191,107,225,101,225,101,191"/>
+<area shape="rect" id="Node000003" href="$classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_exception.html" title=" " alt="" coords="43,79,165,104"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,118,107,152,101,152,101,118"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="33,5,175,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="107,44,107,79,101,79,101,44"/>
 </map>

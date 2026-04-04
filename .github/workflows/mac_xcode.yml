@@ -3,7 +3,7 @@ name: mac xcode
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

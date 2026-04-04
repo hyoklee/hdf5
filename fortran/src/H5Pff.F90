@@ -6364,7 +6364,7 @@ END SUBROUTINE h5pget_fapl_mpio_f
 !! \brief Gets a dataspace identifier for the selection within the virtual dataset used in the mapping.
 !!
 !! \param dcpl_id The identifier of the virtual dataset creation property list.
-!! \param index   Mapping index. The value of index is 0 (zero) or greater and less than count (0 ≤ index < count),
+!! \param index   Mapping index. The value of index is 0 (zero) or greater and less than count (0 <= index < count),
 !!                where count is the number of mappings returned by h5pget_virtual_count.
 !! \param ds_id   Valid dataspace identifier identifier if successful; otherwise returns H5I_INVALID_HID_F.
 !! \param hdferr  \fortran_error
@@ -6401,7 +6401,7 @@ END SUBROUTINE h5pget_virtual_vspace_f
 !! \brief Gets a dataspace identifier for the selection within the source dataset used in the mapping.
 !!
 !! \param dcpl_id The Identifier of the virtual dataset creation property list.
-!! \param index   Mapping index.The value of index is 0 (zero) or greater and less than count (0 ≤ index < count),
+!! \param index   Mapping index.The value of index is 0 (zero) or greater and less than count (0 <= index < count),
 !!                where count is the number of mappings returned by h5pget_virtual_count.
 !! \param ds_id   Dataspace identifier.
 !! \param hdferr  \fortran_error
@@ -6438,7 +6438,7 @@ END SUBROUTINE h5pget_virtual_srcspace_f
 !! \brief Gets the filename of a source dataset used in the mapping.
 !!
 !! \param dcpl_id  The identifier of the virtual dataset creation property list.
-!! \param index    Mapping index. The value of index is 0 (zero) or greater and less than count (0 ≤ index < count),
+!! \param index    Mapping index. The value of index is 0 (zero) or greater and less than count (0 <= index < count),
 !!                 where count is the number of mappings returned by h5pget_virtual_count.
 !! \param name     A buffer containing the name of the file containing the source dataset.
 !! \param hdferr   \fortran_error
@@ -6493,7 +6493,7 @@ END SUBROUTINE h5pget_virtual_filename_f
 !! \brief Gets the name of a source dataset used in the mapping.
 !!
 !! \param dcpl_id  The identifier of the virtual dataset creation property list.
-!! \param index    Mapping index. The value of index is 0 (zero) or greater and less than count (0 ≤ index < count),
+!! \param index    Mapping index. The value of index is 0 (zero) or greater and less than count (0 <= index < count),
 !!                 where count is the number of mappings returned by h5pget_virtual_count.
 !! \param name     A buffer containing the name of the source dataset.
 !! \param hdferr   \fortran_error

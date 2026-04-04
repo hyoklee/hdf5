@@ -2,7 +2,7 @@ name: arm64 fbsd f j
 
 on:
   push:
-    branches: develop
+    branches: develop-
 jobs:
   test:
     name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}

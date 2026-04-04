@@ -3,7 +3,7 @@ name: win-25 vs-26 zl-ng
 on:
   push:
     branches:
-      - develop
+      - develop-
 jobs:
   build:
     runs-on: windows-2025-vs2026

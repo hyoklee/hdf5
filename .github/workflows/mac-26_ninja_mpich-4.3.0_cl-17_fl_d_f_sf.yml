@@ -3,7 +3,7 @@ name: mac-26 ninja d mpich cl fl sf
 on:
   workflow_dispatch:
   push:
-    branches: develop
+    branches: develop-
 
 jobs:
   build:

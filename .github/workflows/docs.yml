@@ -51,7 +51,9 @@ jobs:
           cd hdf5lib_docs/html
           touch .nojekyll
           cd ../latex
-          make
+          touch topics.tex annotated.tex files.tex
+          printf 'extra_mem_top = 50000000\nextra_mem_bot = 50000000\n' > /tmp/texmf.cnf
+          TEXMFCNF=/tmp: make
 
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v4

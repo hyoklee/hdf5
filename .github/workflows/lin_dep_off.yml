@@ -6,9 +6,9 @@ name: Linux Deprecated Symbols OFF
 on:
   workflow_dispatch:
   push:
-    branches: [ develop, feature/**, bugfix/** ]
+    branches: [ develop-, feature/**, bugfix/** ]
   pull_request:
-    branches: [ develop ]
+    branches: [ develop- ]
 
 permissions:
   contents: read

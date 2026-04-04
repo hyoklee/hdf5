@@ -1776,7 +1776,6 @@ Class specific information for Floating-Point Numbers (Class 1):
   <th width="30%">Field Name</th>
   <th>Property Description</th>
 </tr>
-
 <tr>
   <td>Bit Offset</td>
   <td>The bit offset of the first significant bit of the floating-point value within the datatype. The

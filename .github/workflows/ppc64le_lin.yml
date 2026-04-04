@@ -3,7 +3,7 @@ name: ppc64le lin
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   ppc64le_job:

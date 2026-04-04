@@ -313,7 +313,7 @@
  * the new token-based API calls, and protecting native-VOL-connector-specific
  * functions.
  *
- * \subsubsection subsubsec_vol_adapt_token haddr_t → H5O_token_t
+ * \subsubsection subsubsec_vol_adapt_token haddr_t -> H5O_token_t
  * Some HDF5 API calls and data structures refer to addresses in the HDF5 using
  * the #haddr_t type. Unfortunately, the concept of an ”address” will make no
  * sense for many connectors, though they may still have some sort of location key
@@ -352,7 +352,7 @@
  * \endcode
  *
  * \subsubsection subsubsec_vol_adapt_api Specific API Call Substitutions
- * <h4>H5Fis_hdf5() → H5Fis_accessible()</h4>
+ * <h4>H5Fis_hdf5() -> H5Fis_accessible()</h4>
  * \ref H5Fis_hdf5() does not take a file access property list (fapl). As this is where the
  * VOL connector is specified, this call cannot be used with arbitrary connectors.
  * As a VOL-enabled replacement, \ref H5Fis_accessible() has been added to the
@@ -369,7 +369,7 @@
  * if a file (or container) is accessible.  It is not an error to return 'false'
  * for whether the file is accessible.
  *
- * <h4> H5Oget_info[1|2]() → H5Oget_info3() and H5Oget_native_info()</h4>
+ * <h4> H5Oget_info[1|2]() -> H5Oget_info3() and H5Oget_native_info()</h4>
  * The \ref H5Oget_info1() and \ref H5Oget_info2() family of HDF5 API calls are often
  * used by user code to obtain information about an object in the file, however
  * these calls returned a struct which contained native information and are thus
@@ -427,7 +427,7 @@
  *     } H5O_native_info_t;
  * \endcode
  *
- * <h4>H5Ovisit[1|2]() → H5Ovisit3()</h4>
+ * <h4>H5Ovisit[1|2]() -> H5Ovisit3()</h4>
  * The callback used in the \ref H5Ovisit() family of API calls took an H5O info t
  * struct parameter. As in \ref H5Oget_info(), this both commingled data model and
  * native file format information and also used native HDF5 file addresses.
@@ -448,7 +448,7 @@
  *     typedef herr_t (*H5O_iterate2_t)(hid_t obj, const char *name, const H5O_info2_t *info, void *op_data)
  * \endcode
  *
- * <h4>H5Lget_info() → H5Lget_info2()</h4>
+ * <h4>H5Lget_info() -> H5Lget_info2()</h4>
  * The \ref H5Lget_info() API calls were updated to use tokens instead of addresses
  * in the #H5L_info_t struct.
  * \code
@@ -471,7 +471,7 @@
  *     } H5L_info2_t;
  * \endcode
  *
- * <h4>H5Literate() and H5Lvisit() → H5Literate2() and H5Lvisit2()</h4>
+ * <h4>H5Literate() and H5Lvisit() -> H5Literate2() and H5Lvisit2()</h4>
  * The callback used in these API calls used the old #H5L_info_t struct, which used
  * addresses instead of tokens. These callbacks were versioned in the C library and
  * now take modified #H5L_iterate2_t callbacks which use the new token-based info
@@ -496,7 +496,7 @@
  *                                      void *op_data);
  * \endcode
  *
- * <h4> H5Oopen by addr() → H5Oopen by token()</h4>
+ * <h4> H5Oopen by addr() -> H5Oopen by token()</h4>
  * The new \ref H5Oopen_by_token() API call can be used to open objects by the
  * tokens that are returned by the various ”get info”, et al. API calls.
  * \code

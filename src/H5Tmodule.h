@@ -2682,15 +2682,9 @@ filled according to the value of this property. The padding can be:
  * <table>
  * <caption>Representing data with multiple measurements</caption>
  * <tr>
- * <th>
- * <p>Storage Strategy</p>
- * </th>
- * <th>
- * <p>Stored as</p>
- * </th>
- * <th>
- * <p>Remarks</p>
- * </th>
+ * <th>Storage Strategy</th>
+ * <th>Stored as</th>
+ * <th>Remarks</th>
  * </tr>
  * <tr>
  * <td>Multiple planes
@@ -2772,15 +2766,9 @@ filled according to the value of this property. The padding can be:
  * <table>
  * <caption>Storage method advantages and disadvantages</caption>
  * <tr>
- * <th>
- * <p>Method</p>
- * </th>
- * <th>
- * <p>Advantages</p>
- * </th>
- * <th>
- * <p>Disadvantages</p>
- * </th>
+ * <th>Method</th>
+ * <th>Advantages</th>
+ * <th>Disadvantages</th>
  * </tr>
  * <tr>
  * <td>

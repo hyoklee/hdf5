@@ -6,9 +6,9 @@ name: Linux API v1.12 Compatibility
 on:
   workflow_dispatch:
   push:
-    branches: [ develop, feature/**, bugfix/** ]
+    branches: [ develop-, feature/**, bugfix/** ]
   pull_request:
-    branches: [ develop ]
+    branches: [ develop- ]
 
 permissions:
   contents: read

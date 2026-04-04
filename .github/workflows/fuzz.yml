@@ -2,7 +2,7 @@ name: fuzz
 on:
   push:
     branches:
-      - develop
+      - develop-
 jobs:
   fuzz:
     runs-on: ubuntu-latest

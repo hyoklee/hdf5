@@ -3,7 +3,7 @@ name: Maven Staging Repository Test
 # Triggers on pull requests that modify Maven-related files
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop-, main ]
     paths:
       - 'java/src/hdf/hdf5lib/**'
       - 'HDF5Examples/JAVA/**'

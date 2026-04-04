@@ -18,7 +18,7 @@ main(void)
         unsigned mode        = H5F_ACC_TRUNC;
         char     file_name[] = "f1.h5";
         // attribute names can be arbitrary Unicode strings
-        char attr_name[] = "Χαρακτηριστικό";
+        char attr_name[] = "Ñoño";
 
         if ((file = H5Fcreate(file_name, mode, H5P_DEFAULT, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;
@@ -63,7 +63,7 @@ fail_file:;
 
         unsigned mode        = H5F_ACC_RDONLY;
         char     file_name[] = "f1.h5";
-        char     attr_name[] = "Χαρακτηριστικό";
+        char     attr_name[] = "Ñoño";
         int      value;
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
@@ -94,7 +94,7 @@ fail_file:;
 
         unsigned mode        = H5F_ACC_RDWR;
         char     file_name[] = "f1.h5";
-        char     attr_name[] = "Χαρακτηριστικό";
+        char     attr_name[] = "Ñoño";
         int      value       = 1234;
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
@@ -123,7 +123,7 @@ fail_file:;
 
         unsigned mode        = H5F_ACC_RDWR;
         char     file_name[] = "f1.h5";
-        char     attr_name[] = "Χαρακτηριστικό";
+        char     attr_name[] = "Ñoño";
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;

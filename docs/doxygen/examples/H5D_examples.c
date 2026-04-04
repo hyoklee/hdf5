@@ -98,7 +98,7 @@ main(void)
         unsigned mode        = H5F_ACC_TRUNC;
         char     file_name[] = "d1.h5";
         // link names can be arbitrary Unicode strings
-        char dset_name[] = "σύνολο/δεδομένων";
+        char dset_name[] = "Ñoño/datos";
 
         if ((file = H5Fcreate(file_name, mode, H5P_DEFAULT, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;
@@ -149,7 +149,7 @@ fail_file:;
         unsigned mode        = H5F_ACC_RDONLY;
         char     file_name[] = "d1.h5";
         // assume a priori knowledge of dataset name and size
-        char dset_name[] = "σύνολο/δεδομένων";
+        char dset_name[] = "Ñoño/datos";
         int  elts[10];
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
@@ -180,7 +180,7 @@ fail_file:;
 
         unsigned mode           = H5F_ACC_RDWR;
         char     file_name[]    = "d1.h5";
-        char     dset_name[]    = "σύνολο/δεδομένων";
+        char     dset_name[]    = "Ñoño/datos";
         int      new_elts[6][2] = {{-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}};
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
@@ -224,8 +224,8 @@ fail_file:;
 
         unsigned mode         = H5F_ACC_RDWR;
         char     file_name[]  = "d1.h5";
-        char     group_name[] = "σύνολο";
-        char     dset_name[]  = "σύνολο/δεδομένων";
+        char     group_name[] = "Ñoño";
+        char     dset_name[]  = "Ñoño/datos";
 
         if ((file = H5Fopen(file_name, mode, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;

@@ -1715,7 +1715,7 @@
  * #H5LTopen_file_image to fail. \li flags contains a set of flags indicating whether the image is to be
  * opened read/write, whether HDF5 is to take control of the buffer, and how long the application promises to
  * maintain the buffer. Possible flags are described in the table below: <table> <caption id="FITable3">Flags
- * for #H5LTopen_file_image</caption> <tr> <td>#H5LT_FILE_IMAGE_OPEN_RW</td><td>Indicates that the HDF5
+ * for H5LTopen_file_image</caption> <tr> <td>#H5LT_FILE_IMAGE_OPEN_RW</td><td>Indicates that the HDF5
  * Library should open the image read/write instead of the default read-only.</td>
  * </tr>
  * <tr>

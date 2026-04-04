@@ -850,15 +850,9 @@
  * <table>
  *   <caption>Selection operations</caption>
  *   <tr>
- *   <th>
- *   <p>Source</p>
- * </th>
- *   <th>
- *   <p>Destination</p>
- * </th>
- *   <th>
- *   <p>Operation</p>
- * </th>
+ *   <th>Source</th>
+ *   <th>Destination</th>
+ *   <th>Operation</th>
  * </tr>
  *   <tr>
  *   <td>
@@ -1350,12 +1344,8 @@
  * <table>
  * <caption>The inquiry functions</caption>
  * <tr>
- * <th>
- * <p>Function</p>
- * </th>
- * <th>
- * <p>Information</p>
- * </th>
+ * <th>Function</th>
+ * <th>Information</th>
  * </tr>
  * <tr>
  * <td>

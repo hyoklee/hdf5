@@ -1220,7 +1220,7 @@ H5_DLL herr_t H5Dwrite_multi_async(size_t count, hid_t dset_id[], hid_t mem_type
  *          used with the chunk. The default value of the mask is
  *          zero (0), indicating that all enabled filters are applied. A
  *          filter is skipped if the bit corresponding to the filter's
- *          position in the pipeline (0 ≤ position < 32) is turned on.
+ *          position in the pipeline (0 <= position < 32) is turned on.
  *          This mask is saved with the chunk in the file.
  *
  *          \p offset is an array specifying the logical position of the
@@ -1289,7 +1289,7 @@ H5_DLL herr_t H5Dwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, con
  *          chunk was written. A zero value (all bits 0) indicates that all
  *          enabled filters are applied on the chunk. A filter is skipped if
  *          the bit corresponding to the filter's position in the pipeline
- *          (0 ≤ position < 32) is turned on.
+ *          (0 <= position < 32) is turned on.
  *
  *          \p buf is the memory buffer containing the chunk read from
  *          the dataset in the file.
@@ -1960,7 +1960,7 @@ H5_DLL herr_t H5Dvlen_reclaim(hid_t type_id, hid_t space_id, hid_t dxpl_id, void
  *          chunk was written. A zero value (all bits 0) indicates that all
  *          enabled filters are applied on the chunk. A filter is skipped if
  *          the bit corresponding to the filter's position in the pipeline
- *          (0 ≤ position < 32) is turned on.
+ *          (0 <= position < 32) is turned on.
  *
  *          \p buf is the memory buffer containing the chunk read from
  *          the dataset in the file.

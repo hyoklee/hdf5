@@ -3,7 +3,7 @@ name: mac-14 xcode clang-15 d mpich s3 sf
 on:
   push:
     branches:
-      - develop
+      - develop-
   pull_request:
 
 jobs:

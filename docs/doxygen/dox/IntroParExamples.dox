@@ -387,17 +387,17 @@ The C and Fortran 90 examples use four processes to write the pattern shown abov
 \li Specifying a different offset for each process:
 <table>
 <tr>
-<th rowspan="3"><strong>C</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
+<th></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
 </tr><tr>
-<td>offset[0] = 0</td><td>offset[0] = 1</td><td>offset[0] = 0</td><td>offset[0] = 1</td>
+<th><strong>C</strong></th><td>offset[0] = 0</td><td>offset[0] = 1</td><td>offset[0] = 0</td><td>offset[0] = 1</td>
 </tr><tr>
-<td>offset[1] = 0</td><td>offset[1] = 0</td><td>offset[1] = 1</td><td>offset[1] = 1</td>
+<td></td><td>offset[1] = 0</td><td>offset[1] = 0</td><td>offset[1] = 1</td><td>offset[1] = 1</td>
 </tr><tr>
-<th rowspan="3"><strong>Fortran</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
+<th><strong>Fortran</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
 </tr><tr>
-<td>offset(1) = 0</td><td>offset(1) = 0</td><td>offset(1) = 1</td><td>offset(1) = 1</td>
+<td></td><td>offset(1) = 0</td><td>offset(1) = 0</td><td>offset(1) = 1</td><td>offset(1) = 1</td>
 </tr><tr>
-<td>offset(2) = 0</td><td>offset(2) = 1</td><td>offset(2) = 0</td><td>offset(2) = 1</td>
+<td></td><td>offset(2) = 0</td><td>offset(2) = 1</td><td>offset(2) = 0</td><td>offset(2) = 1</td>
 </tr>
 </table>
 \li Specifying the size of the slab to write. The count is the number of positions along a dimension to write to. If writing a 4 x 2 slab,
@@ -497,17 +497,17 @@ To do this, you would:
 \li Use a different offset (start) for each process, based on the chunk size:
 <table>
 <tr>
-<th rowspan="3"><strong>C</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
+<th></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
 </tr><tr>
-<td>offset[0] = 0</td><td>offset[0] = 0</td><td>offset[0] = 4</td><td>offset[0] = 4</td>
+<th><strong>C</strong></th><td>offset[0] = 0</td><td>offset[0] = 0</td><td>offset[0] = 4</td><td>offset[0] = 4</td>
 </tr><tr>
-<td>offset[1] = 0</td><td>offset[1] = 2</td><td>offset[1] = 0</td><td>offset[1] = 2</td>
+<td></td><td>offset[1] = 0</td><td>offset[1] = 2</td><td>offset[1] = 0</td><td>offset[1] = 2</td>
 </tr><tr>
-<th rowspan="3"><strong>Fortran</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
+<th><strong>Fortran</strong></th><th>Process 0</th><th>Process 1</th><th>Process 2</th><th>Process 3</th>
 </tr><tr>
-<td>offset(1) = 0</td><td>offset(1) = 2</td><td>offset(1) = 0</td><td>offset(1) = 2</td>
+<td></td><td>offset(1) = 0</td><td>offset(1) = 2</td><td>offset(1) = 0</td><td>offset(1) = 2</td>
 </tr><tr>
-<td>offset(2) = 0</td><td>offset(2) = 0</td><td>offset(2) = 4</td><td>offset(2) = 4</td>
+<td></td><td>offset(2) = 0</td><td>offset(2) = 0</td><td>offset(2) = 4</td><td>offset(2) = 4</td>
 </tr>
 </table>
 

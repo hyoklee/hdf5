@@ -2,7 +2,7 @@ name: suse f cpp hl
 
 on:
   push:
-    branches: develop
+    branches: develop-
 jobs:
   test:
     runs-on: ubuntu-latest

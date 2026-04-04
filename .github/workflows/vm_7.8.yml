@@ -2,7 +2,7 @@ name: obsd vm
 
 on:
   push:
-    branches: develop
+    branches: develop-
 
 defaults:
   run:

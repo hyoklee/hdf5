@@ -3,7 +3,7 @@ name: mac-14 clang15 r f mpich sf
 on:
   push:
     branches:
-      - develop
+      - develop-
   pull_request:
 jobs:
   build:

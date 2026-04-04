@@ -1625,7 +1625,6 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
   <th width="25%">byte</th>
   <th>byte</th>
 </tr>
-
 <tr>
   <td colspan="4"><br />Creation Order <em>(8 bytes)</em><br /><br /></td>
 </tr>
@@ -1874,7 +1873,6 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
   <td>This is an 8-byte sequence of bytes and is the heap ID for the attribute in the object&rsquo;s
       attribute fractal heap.</td>
 </tr>
-
 <tr>
   <td>Message Flags</td>
   <td>The object header message flags for the attribute message.</td>
@@ -1885,8 +1883,9 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
 </tr>
 </table>
 
+\anchor FMT4V2BtType10
 <table>
-<caption>\anchor FMT4V2BtType10 <strong>Layout: Version 2 B-tree, Type 10 Record Layout - Non-filtered Dataset Chunks</strong></caption>
+<caption><strong>Layout: Version 2 B-tree, Type 10 Record Layout - Non-filtered Dataset Chunks</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -1931,8 +1930,9 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
 </tr>
 </table>
 
+\anchor FMT4V2BtType11
 <table>
-<caption>\anchor FMT4V2BtType11 <strong>Layout: Version 2 B-tree, Type 11 Record Layout - Filtered Dataset Chunks (Layout Version 4)</strong></caption>
+<caption><strong>Layout: Version 2 B-tree, Type 11 Record Layout - Filtered Dataset Chunks (Layout Version 4)</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -5869,7 +5869,6 @@ implemented in the HDF5 Library:
   <th width="30%">Field Name</th>
   <th>Property Description</th>
 </tr>
-
 <tr>
   <td>Bit Offset</td>
   <td>The bit offset of the first significant bit of the floating-point value within the datatype. The
@@ -10964,8 +10963,9 @@ types are described below.<br />
 </tr>
 </table>
 
+\anchor FMT4FADataBlockPage
 <table>
-<caption><strong>\anchor FMT4FADataBlockPage Layout: Fixed Array Data Block Page</strong></caption>
+<caption><strong>Layout: Fixed Array Data Block Page</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -11783,7 +11783,7 @@ indexing dataset chunks.
 See the reference manual description for these two public routines.
 
 <table>
-<caption><strong>Layout: Dataspace Description for #H5Sencode/#H5Sdecode</strong></caption>
+<caption><strong>Layout: Dataspace Description for H5Sencode/H5Sdecode</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -11808,7 +11808,7 @@ See the reference manual description for these two public routines.
 </table>
 
 <table>
-<caption><strong> Fields: Dataspace Description for #H5Sencode/#H5Sdecode</strong></caption>
+<caption><strong> Fields: Dataspace Description for H5Sencode/H5Sdecode</strong></caption>
 <tr>
   <th width="40%">Field Name</th>
   <th>Description</th>
@@ -11918,7 +11918,7 @@ See the reference manual description for these two public routines.
 
 \anchor FMT4SelNONE
 <table>
-<caption><strong>Layout: Selection Info for #H5S_SEL_NONE</strong></caption>
+<caption><strong>Layout: Selection Info for H5S_SEL_NONE</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -11934,7 +11934,7 @@ See the reference manual description for these two public routines.
 </table>
 <br />
 <table>
-<caption><strong>Fields: Selection Info for #H5S_SEL_NONE</strong></caption>
+<caption><strong>Fields: Selection Info for H5S_SEL_NONE</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>
@@ -11947,7 +11947,7 @@ See the reference manual description for these two public routines.
 
 \anchor FMT4SelPOINTS
 <table>
-<caption><strong>Layout: Selection Info for #H5S_SEL_POINTS</strong></caption>
+<caption><strong>Layout: Selection Info for H5S_SEL_POINTS</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -11963,7 +11963,7 @@ See the reference manual description for these two public routines.
 </table>
 
 <table>
-<caption><strong>Fields: Selection Info for #H5S_SEL_POINTS</strong></caption>
+<caption><strong>Fields: Selection Info for H5S_SEL_POINTS</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>
@@ -12133,7 +12133,7 @@ See the reference manual description for these two public routines.
 
 \anchor FMT4SelHYPER
 <table>
-<caption><strong>Layout: Selection Info for #H5S_SEL_HYPERSLABS</strong></caption>
+<caption><strong>Layout: Selection Info for H5S_SEL_HYPERSLABS</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -12149,7 +12149,7 @@ See the reference manual description for these two public routines.
 </table>
 
 <table>
-<caption><strong>Fields: Selection Info for #H5S_SEL_HYPERSLABS</strong></caption>
+<caption><strong>Fields: Selection Info for H5S_SEL_HYPERSLABS</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>
@@ -12583,7 +12583,7 @@ See the reference manual description for these two public routines.
 
 \anchor FMT4SelALL
 <table>
-<caption><strong>Layout: Selection Info for #H5S_SEL_ALL</strong></caption>
+<caption><strong>Layout: Selection Info for H5S_SEL_ALL</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -12599,7 +12599,7 @@ See the reference manual description for these two public routines.
 </table>
 <br />
 <table>
-<caption><strong>Fields: Selection Info for #H5S_SEL_ALL</strong></caption>
+<caption><strong>Fields: Selection Info for H5S_SEL_ALL</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>
@@ -12786,7 +12786,7 @@ raw data in the file. The global heap ID is used to locate the reference encodin
 </ul>
 
 <table>
-<caption><strong>Layout: Reference for #H5R_OBJECT1</strong></caption>
+<caption><strong>Layout: Reference for H5R_OBJECT1</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -12801,7 +12801,7 @@ raw data in the file. The global heap ID is used to locate the reference encodin
     &ldquo;@ref FMT4SizeOfOffsetsV0 "Size of Offsets"&rdquo; field in the superblock.
 
 <table>
-<caption><strong>Fields: Reference for #H5R_OBJECT1</strong></caption>
+<caption><strong>Fields: Reference for H5R_OBJECT1</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>
@@ -12813,7 +12813,7 @@ raw data in the file. The global heap ID is used to locate the reference encodin
 </table>
 <br />
 <table>
-<caption><strong>Layout: Reference for #H5R_DATASET_REGION1</strong></caption>
+<caption><strong>Layout: Reference for H5R_DATASET_REGION1</strong></caption>
 <tr>
   <th width="25%">byte</th>
   <th width="25%">byte</th>
@@ -12831,7 +12831,7 @@ raw data in the file. The global heap ID is used to locate the reference encodin
     &ldquo;@ref FMT4SizeOfOffsetsV0 "Size of Offsets"&rdquo; field in the superblock.
 
 <table>
-<caption><strong>Fields: Reference for #H5R_DATASET_REGION1</strong></caption>
+<caption><strong>Fields: Reference for H5R_DATASET_REGION1</strong></caption>
 <tr>
   <th width="30%">Field Name</th>
   <th>Description</th>

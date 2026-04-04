@@ -1538,7 +1538,6 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
   <th width="25%">byte</th>
   <th>byte</th>
 </tr>
-
 <tr>
   <td colspan="4"><br />Creation Order <em>(8 bytes)</em><br /><br /></td>
 </tr>
@@ -1780,7 +1779,6 @@ The record layout for each stored (in other words, non-testing) B-tree type is a
   <td>This is an 8-byte sequence of bytes and is the heap ID for the attribute in the object&rsquo;s
       attribute fractal heap.</td>
 </tr>
-
 <tr>
   <td>Message Flags</td>
   <td>The object header message flags for the attribute message.</td>
@@ -5359,7 +5357,6 @@ Class specific information for Floating-Point Numbers (Class 1):
   <th width="30%">Field Name</th>
   <th>Property Description</th>
 </tr>
-
 <tr>
   <td>Bit Offset</td>
   <td>The bit offset of the first significant bit of the floating-point value within the datatype. The

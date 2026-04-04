@@ -90,11 +90,11 @@ jobs:
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
             -DHDF5_VOL_ALLOW_EXTERNAL:STRING="GIT" \
             -DHDF5_VOL_URL01:STRING="https://github.com/HDFGroup/vol-async.git" \
-            -DHDF5_VOL_VOL-ASYNC_BRANCH:STRING="develop" \
+            -DHDF5_VOL_VOL-ASYNC_BRANCH:STRING="develop-" \
             -DHDF5_VOL_VOL-ASYNC_NAME:STRING="async under_vol=0\;under_info={}" \
             -DHDF5_VOL_VOL-ASYNC_TEST_PARALLEL:BOOL=ON \
             -DHDF5_VOL_URL02:STRING="https://github.com/HDFGroup/vol-cache.git" \
-            -DHDF5_VOL_VOL-CACHE_BRANCH:STRING="develop" \
+            -DHDF5_VOL_VOL-CACHE_BRANCH:STRING="develop-" \
             -DHDF5_VOL_VOL-CACHE_NAME:STRING="$HDF5_VOL_CACHE_TEST_NAME" \
             -DHDF5_VOL_VOL-CACHE_TEST_PARALLEL:BOOL=ON \
             -DASYNC_INCLUDE_DIR=${{ github.workspace }}/hdf5/build/_deps/vol-async-src/src \

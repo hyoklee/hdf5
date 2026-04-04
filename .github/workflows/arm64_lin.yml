@@ -2,7 +2,7 @@ name: arm64 lin
 
 on:
   push:
-    branches: develop
+    branches: develop-
 jobs:
   build:
     runs-on: ubuntu-24.04-arm

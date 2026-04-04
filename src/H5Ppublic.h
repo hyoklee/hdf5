@@ -6250,7 +6250,7 @@ H5_DLL herr_t H5Pget_virtual_count(hid_t dcpl_id, size_t *count /*out*/);
  * \dcpl_id
  * \param[in]  index Mapping index. The value of \p index is 0 (zero) or
  *                   greater and less than \p count
- *                   (0 ≤ \p index < \p count), where \p count is the
+ *                   (0 <= \p index < \p count), where \p count is the
  *                   number of mappings returned by H5Pget_virtual_count().
  * \param[out] name  A buffer containing the name of the source dataset
  * \param[in]  size  The size, in bytes, of the \p name buffer. Must be the
@@ -6286,7 +6286,7 @@ H5_DLL ssize_t H5Pget_virtual_dsetname(hid_t dcpl_id, size_t index, char *name /
  * \dcpl_id
  * \param[in]  index Mapping index. The value of \p index is 0 (zero) or
  *                   greater and less than \p count
- *                   (0 ≤ \p index < \p count), where \p count is the
+ *                   (0 <= \p index < \p count), where \p count is the
  *                   number of mappings returned by H5Pget_virtual_count().
  * \param[out] name  A buffer containing the name of the file containing
  *                   the source dataset
@@ -6324,7 +6324,7 @@ H5_DLL ssize_t H5Pget_virtual_filename(hid_t dcpl_id, size_t index, char *name /
  * \dcpl_id
  * \param[in] index Mapping index. The value of \p index is 0 (zero) or
  *                  greater and less than \p count
- *                  (0 ≤ \p index < \p count), where \p count is the number
+ *                  (0 <= \p index < \p count), where \p count is the number
  *                  of mappings returned by H5Pget_virtual_count().
  *
  * \return \hid_t{valid dataspace identifier}
@@ -6349,7 +6349,7 @@ H5_DLL hid_t H5Pget_virtual_srcspace(hid_t dcpl_id, size_t index);
  * \dcpl_id
  * \param[in] index Mapping index. The value of \p index is 0 (zero) or
  *                  greater and less than \p count
- *                  (0 ≤ \p index < \p count), where \p count is the number
+ *                  (0 <= \p index < \p count), where \p count is the number
  *                  of mappings returned by H5Pget_virtual_count()
  *
  * \return \hid_t{valid dataspace identifier}

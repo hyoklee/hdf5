@@ -25,7 +25,7 @@ jobs:
         sed -i '' 's/hdf5@1.8.4:1.14/hdf5@1.8.4:/g' ./spack/var/spack/repos/builtin/packages/py-h5py/package.py
         ./spack/bin/spack compiler find
         ./spack/bin/spack external find perl
-        ./spack/bin/spack install py-h5py@master+mpi ^openblas@develop
+        ./spack/bin/spack install py-h5py@master+mpi ^openblas@develop-
         ./spack/bin/spack install py-pytest
         ./spack/bin/spack install py-ipython
         . ./spack/share/spack/setup-env.sh

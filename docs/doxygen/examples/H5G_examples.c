@@ -16,7 +16,7 @@ main(void)
         __label__ fail_group, fail_prop, fail_lcpl, fail_file;
         hid_t file, lcpl, group;
         char  fname[] = "g1.h5";
-        char  path[]  = "/αυτή/είναι/μια/νέα/ομάδα";
+        char  path[]  = "/este/es/un/nuevo/grupo";
 
         if ((file = H5Fcreate(fname, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;
@@ -57,7 +57,7 @@ fail_file:;
     {
         __label__ fail_file;
         char       fname[] = "g1.h5";
-        char       path[]  = "/αυτή/είναι";
+        char       path[]  = "/este/es";
         hid_t      file;
         H5G_info_t info;
 
@@ -98,7 +98,7 @@ fail_file:;
         __label__ fail_group, fail_prop, fail_lcpl, fail_file;
         hid_t file, lcpl, group;
         char  fname[] = "g1.h5";
-        char  path[]  = "/αυτή/είναι/μια/άλλη/νέα/ομάδα";
+        char  path[]  = "/este/es/un/otro/grupo";
 
         if ((file = H5Fopen(fname, H5F_ACC_RDWR, H5P_DEFAULT)) == H5I_INVALID_HID) {
             ret_val = EXIT_FAILURE;
@@ -124,7 +124,7 @@ fail_file:;
             ret_val = EXIT_FAILURE;
             goto fail_group;
         }
-        // link the new group to existing the group at "/αυτή/είναι/μια"
+        // link the new group to existing the group at "/este/es/un"
         if (H5Lcreate_hard(group, ".", file, path, lcpl, H5P_DEFAULT) < 0) {
             ret_val = EXIT_FAILURE;
         }
@@ -144,8 +144,8 @@ fail_file:;
         __label__ fail_info, fail_object, fail_file;
         hid_t      file, obj;
         char       fname[]       = "g1.h5";
-        char       path[]        = "/αυτή/είναι/μια/άλλη/νέα/ομάδα";
-        char       delete_path[] = "/αυτή/είναι/μια";
+        char       path[]        = "/este/es/un/otro/grupo";
+        char       delete_path[] = "/este/es/un";
         H5O_info_t info;
 
         if ((file = H5Fopen(fname, H5F_ACC_RDWR, H5P_DEFAULT)) == H5I_INVALID_HID) {

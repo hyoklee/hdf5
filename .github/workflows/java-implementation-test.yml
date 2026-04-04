@@ -3,7 +3,7 @@ name: Java Implementation Testing (FFM vs JNI)
 # Test both FFM and JNI implementations across multiple Java versions
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop-, main ]
     paths:
       - 'java/**'
       - 'CMakeBuildOptions.cmake'

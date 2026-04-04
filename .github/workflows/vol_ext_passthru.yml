@@ -49,7 +49,7 @@ jobs:
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
             -DHDF5_VOL_ALLOW_EXTERNAL:STRING="GIT" \
             -DHDF5_VOL_URL01:STRING="https://github.com/hpc-io/vol-external-passthrough.git" \
-            -DHDF5_VOL_VOL-EXTERNAL-PASSTHROUGH_BRANCH:STRING="develop" \
+            -DHDF5_VOL_VOL-EXTERNAL-PASSTHROUGH_BRANCH:STRING="develop-" \
             -DHDF5_VOL_VOL-EXTERNAL-PASSTHROUGH_NAME:STRING="pass_through_ext under_vol=0\;under_info={}\;" \
             -DHDF5_VOL_VOL-EXTERNAL-PASSTHROUGH_TEST_PARALLEL:BOOL=ON \
             ${{ github.workspace }}/hdf5

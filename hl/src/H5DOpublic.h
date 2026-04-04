@@ -365,7 +365,7 @@ H5HL_DLL herr_t H5DOappend(hid_t dset_id, hid_t dxpl_id, unsigned axis, size_t e
  *          with the chunk. The default value of the mask is zero (\c 0),
  *          indicating that all enabled filters are applied. A filter is skipped
  *          if the bit corresponding to the filter's position in the pipeline
- *          (<tt>0 ≤ position < 32</tt>) is turned on. This mask is saved
+ *          (<tt>0 <= position < 32</tt>) is turned on. This mask is saved
  *          with the chunk in the file.
  *
  *          \p offset is an array specifying the logical position of the first
@@ -441,7 +441,7 @@ H5HL_DLL herr_t H5DOwrite_chunk(hid_t dset_id, hid_t dxpl_id, uint32_t filters, 
  *          chunk when written. A zero value indicates that all enabled filters
  *          are applied on the chunk. A filter is skipped if the bit corresponding
  *          to the filter's position in the pipeline
- *          (<tt>0 ≤ position < 32</tt>) is turned on.
+ *          (<tt>0 <= position < 32</tt>) is turned on.
  *
  *          \p offset is an array specifying the logical position of the first
  *          element of the chunk in the dataset's dataspace. The length of the

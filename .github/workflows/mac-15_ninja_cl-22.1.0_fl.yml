@@ -2,7 +2,7 @@ name: mac-15 cl-22.1.0 fl
 
 on:
   push:
-    branches: develop
+    branches: develop-
 jobs:
   build:
     runs-on: macos-15

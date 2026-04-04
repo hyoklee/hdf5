@@ -1578,6 +1578,7 @@ EXTRA_SEARCH_MAPPINGS  =
 # The default value is: YES.
 
 GENERATE_LATEX         = YES
+LATEX_HEADER           = @DOXYGEN_LATEX_HEADER@
 
 #---------------------------------------------------------------------------
 # Configuration options related to the RTF output

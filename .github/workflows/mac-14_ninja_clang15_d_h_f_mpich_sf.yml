@@ -3,7 +3,7 @@ name: mac-14 ninja clang-15 f h d mpich sf
 on:
   push:
     branches:
-      - develop
+      - develop-
   pull_request:
 
 jobs:

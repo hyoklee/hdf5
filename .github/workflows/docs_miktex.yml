@@ -58,6 +58,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: /home/runner/work/hdf5/hdf5/build/hdf5lib_docs/html
-          destination_dir: develop
+          destination_dir: develop-
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

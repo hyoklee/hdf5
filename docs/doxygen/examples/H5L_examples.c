@@ -58,7 +58,7 @@ main(void)
         }
 
         // create a loop by hard linking the root group
-        if (H5Lcreate_hard(file, ".", file, "√", lcpl, H5P_DEFAULT) < 0) {
+        if (H5Lcreate_hard(file, ".", file, "sqrt", lcpl, H5P_DEFAULT) < 0) {
             ret_val = EXIT_FAILURE;
             goto fail_link;
         }
@@ -115,9 +115,9 @@ fail_read:;
             goto fail_update;
         }
 
-        // move the "√" link to the group at "/path/to"
+        // move the "sqrt" link to the group at "/path/to"
         // the cycle remains!
-        if (H5Lmove(file, "√", file, "path/to/√", H5P_DEFAULT, H5P_DEFAULT) < 0) {
+        if (H5Lmove(file, "sqrt", file, "path/to/sqrt", H5P_DEFAULT, H5P_DEFAULT) < 0) {
             ret_val = EXIT_FAILURE;
             goto fail_move;
         }

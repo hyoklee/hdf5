@@ -26,7 +26,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 
 > [!IMPORTANT]
 >
-> - The format of the GitHub tag for HDF5 releases has been changed to Major.Minor.Patch, consistent with the versioning policy change to follow the Semantic Versioning Specification described in this [Wiki page](https://github.com/HDFGroup/hdf5/wiki/HDF5-Version-Numbers-and-Branch-Strategy).  The previous tag format hdf5_Major_Minor_Patch that was created in addition for the 2.0.0 and 2.1.0 releases will not be continued.   
+> - The format of the GitHub tag for HDF5 releases has been changed to Major.Minor.Patch, consistent with the versioning policy change to follow the Semantic Versioning Specification described in this [Wiki page](https://github.com/HDFGroup/hdf5/wiki/HDF5-Version-Numbers-and-Branch-Strategy).  The previous tag format hdf5_Major_Minor_Patch that was created in addition for the 2.0.0 and 2.1.0 releases will not be continued.
 > - An RPM package is not provided for this release of HDF5 as an issue with the package was found during testing. The HDF Group is investigating alternative packaging methods for future releases.
 
 
@@ -44,8 +44,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 
 - Java dependency JAR paths are now configurable CMake cache variables, allowing system-provided JARs to be used in place of the bundled copies.
 
-
-## Acknowledgements: 
+## Acknowledgements:
 
 We would like to thank the many HDF5 community members who contributed to this release of HDF5.
 
@@ -118,6 +117,10 @@ We would like to thank the many HDF5 community members who contributed to this r
    The CMake variables `HDF5_JAVA_LOGGING_JAR`, `HDF5_JAVA_LOGGING_NOP_JAR`, `HDF5_JAVA_LOGGING_SIMPLE_JAR`, `HDF5_JAVA_JUNIT_JAR`, and `HDF5_JAVA_HAMCREST_JAR` are now CMake cache variables with the bundled JARs as defaults. Users can override these at configure time to use system-provided JARs. See `INSTALL_CMake_options.md` for details.
 
 ## Tools
+
+### Default lower library version bound in `h5repack` changed to `H5F_LIBVER_V18`
+
+New default lower library version bound for output `h5repack` files is `H5F_LIBVER_V18`. This change brings the tool's library version defaults in line with the HDF5 v2 defaults. To revert to using the previous library version bound settings, apply the `--low=0` command option.
 
 ## High-Level APIs
 

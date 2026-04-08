@@ -3,9 +3,9 @@
   $latex_batchmode
 
   % to overcome problems with too many open files
-  \let\mypdfximage\pdfximage\def\pdfximage{\immediate\mypdfximage}
+  \ifdefined\pdfximage\let\mypdfximage\pdfximage\def\pdfximage{\immediate\mypdfximage}\fi
 
-  \pdfminorversion=7
+  \ifdefined\pdfminorversion\pdfminorversion=7\fi
 
   % Set document class depending on configuration
 %%BEGIN COMPACT_LATEX
@@ -34,7 +34,7 @@
   \let\protected@wlog\@@protected@wlog
   \makeatother
   \IfFormatAtLeastTF{2016/01/01}{}{\usepackage{fixltx2e}} % for \textsubscript
-  \IfFormatAtLeastTF{2015/01/01}{\pdfsuppresswarningpagegroup=1}{}
+  \IfFormatAtLeastTF{2015/01/01}{\ifdefined\pdfsuppresswarningpagegroup\pdfsuppresswarningpagegroup=1\fi}{}
 
   \usepackage{doxygen}
 
@@ -156,6 +156,15 @@
 
   % creating indexes
   $makeindex
+
+  % LuaLaTeX compatibility: provide a fallback \nuc@check if newunicodechar does
+  % not define it (LuaLaTeX handles UTF-8 natively so \inputencodingname is empty,
+  % causing newunicodechar to early-exit without defining \nuc@check).
+  % The fallback simply accepts all characters (\@tempswatrue).
+  % If newunicodechar defines \nuc@check normally (pdfLaTeX), it overrides this.
+  \makeatletter
+  \providecommand\nuc@check{\@tempswatrue}
+  \makeatother
 
   $extralatexpackages
 

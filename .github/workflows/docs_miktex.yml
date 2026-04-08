@@ -3,7 +3,7 @@ name: doxygen gh-pages miktex
 on:
   workflow_dispatch:
   push:
-    branches: develop-
+    branches: develop
   pull_request:
     branches: develop-
     paths-ignore:

@@ -30,77 +30,20 @@ _TABU_ORIG = (
     r'\RequirePackage{tabularx}'
 )
 
-# Replacement: ltablex (loads longtable + tabularx) + TX@endtabularx patch
-_LTABLEX_BLOCK = (
-    r'\RequirePackage{ltablex}' + '\n'
-    r'\keepXColumns' + '\n'
-    r'% Use ltablex with keepXColumns. Nested tabularx environments have been' + '\n'
-    r'% converted to plain tabular in the generated .tex files (see build script).' + '\n'
-    r'%' + '\n'
-    r"% Patch ltablex's \TX@endtabularx to use \end{\TX@} (dynamic env name) instead" + '\n'
-    r'% of the hardcoded \end{tabularx}. This is required when \tabularx is called' + '\n'
-    r'% directly (without \begin{tabularx}) inside \newenvironment BEGIN code: in that' + '\n'
-    r'% case \TX@ equals the outer environment name, not "tabularx".' + '\n'
-    r'\renewcommand\TX@endtabularx{%' + '\n'
-    r'  \expandafter\TX@newcol\expandafter{\tabularxcolumn{\TX@col@width}}%' + '\n'
-    r'  \let\verb\TX@verb' + '\n'
-    r'  \def\@elt##1{\global\value{##1}\the\value{##1}\relax}%' + '\n'
-    r'  \edef\TX@ckpt{\cl@@ckpt}%' + '\n'
-    r'  \let\@elt\relax' + '\n'
-    r'  \TX@old@table=\maxdimen' + '\n'
-    r'  \TX@col@width=\TX@target' + '\n'
-    r'  \global\TX@cols=\@ne' + '\n'
-    r'  \TX@typeout@' + '\n'
-    r'    {\@spaces Table Width\@spaces Column Width\@spaces X Columns}%' + '\n'
-    r'  \let\savecaption\caption' + '\n'
-    r'  \def\caption{%' + '\n'
-    r'    \@ifstar\TX@cap@gobble\TX@cap@gobble' + '\n'
-    r'  }%' + '\n'
-    r'  \let\saveendhead\endhead' + '\n'
-    r'  \def\endhead{\\}%' + '\n'
-    r'  \let\saveendfirsthead\endfirsthead' + '\n'
-    r'  \def\endfirsthead{\\}%' + '\n'
-    r'  \let\saveendfoot\endfoot' + '\n'
-    r'  \def\endfoot{\\}%' + '\n'
-    r'  \let\saveendlastfoot\endlastfoot' + '\n'
-    r'  \def\endlastfoot{\\}%' + '\n'
-    r'  \ifTX@convertX@' + '\n'
-    r'    \TX@trial{\def\NC@rewrite@X{\NC@find l}}%' + '\n'
-    r'    \ifdim\wd\@tempboxa<\TX@target' + '\n'
-    r'      \TX@newcol{l}%' + '\n'
-    r'    \else' + '\n'
-    r'      \TX@convertX@false' + '\n'
-    r'    \fi' + '\n'
-    r'  \fi' + '\n'
-    r'  \ifTX@convertX@' + '\n'
-    r'    \relax' + '\n'
-    r'  \else' + '\n'
-    r'    \TX@trial{\def\NC@rewrite@X{%' + '\n'
-    r'        \global\advance\TX@cols\@ne\NC@find p{\TX@col@width}}}%' + '\n'
-    r'    \loop' + '\n'
-    r'      \TX@arith' + '\n'
-    r'      \ifTX@' + '\n'
-    r'      \TX@trial{}%' + '\n'
-    r'    \repeat' + '\n'
-    r'  \fi' + '\n'
-    r'  {\let\@footnotetext\TX@ftntext\let\@xfootnotenext\TX@xftntext' + '\n'
-    r'    \LTchunksize\maxdimen' + '\n'
-    r'    \let\caption\savecaption' + '\n'
-    r'    \let\endhead\saveendhead' + '\n'
-    r'    \let\endfirsthead\saveendfirsthead' + '\n'
-    r'    \let\endfoot\saveendfoot' + '\n'
-    r'    \let\endlastfoot\saveendlastfoot' + '\n'
-    r'    \expandafter\longtable' + '\n'
-    r'      \the\toks@' + '\n'
-    r'    \endlongtable' + '\n'
-    r'    }%' + '\n'
-    r'  \global\TX@ftn\expandafter{\expandafter}\the\TX@ftn' + '\n'
-    r'  \ifnum0=`{\fi}%' + '\n'
-    r'   \expandafter\end\expandafter{\TX@}%' + '\n'
-    r'}' + '\n'
+# Replacement: standard longtable + tabularx (no ltablex).
+# Using standard tabularx avoids ltablex's global redefinition of \begin{tabularx}
+# to longtable internals, which causes "\insert@pcolumn undefined" when the
+# MiKTeX longtable version doesn't match what ltablex's \TX@endtabularx expects.
+# doxygen.sty environments (DoxyItemize, DoxyEnumerate, ...) use \begin{tabularx}
+# which with standard tabularx produces a single-page table — acceptable for list
+# items. Top-level longtabu tables in .tex files are converted to \begin{longtable}
+# with p{} columns (see fix_longtabu_in_tex below).
+_STD_TABULARX_BLOCK = (
+    r'\RequirePackage{longtable}' + '\n'
+    r'\RequirePackage{tabularx}' + '\n'
+    r'\RequirePackage{fancyvrb}' + '\n'
     r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
-    r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
-    r'\RequirePackage{fancyvrb}'
+    r'\newdimen\tabulinesep \tabulinesep=1mm'
 )
 
 
@@ -111,12 +54,40 @@ def _convert_tabu_cols(cols):
     return result
 
 
+def _convert_tabu_cols_for_longtable(cols):
+    """Convert tabu X column spec to longtable p{} column spec.
+
+    Counts the number of X columns (expanding *{N}{...} repetitions) and
+    replaces each X with p{W} where W divides \\linewidth equally among
+    all X columns, minus space for vertical rules and column separators.
+    """
+    # Expand *{N}{inner} repetitions (one level deep) to count X columns
+    expanded = re.sub(
+        r'\*\{(\d+)\}\{([^{}]*)\}',
+        lambda m: m.group(2) * int(m.group(1)),
+        cols)
+    n_x = len(re.findall(r'X(?:\[-1(?:,[lrc])?\])?|\bX\b', expanded))
+    if n_x == 0:
+        return _convert_tabu_cols(cols)
+
+    # Width = (\linewidth - (n_x+1)*\arrayrulewidth) / n_x - 2*\tabcolsep
+    width = (r'\dimexpr(\linewidth - ' + str(n_x + 1) +
+             r'\arrayrulewidth)/' + str(n_x) + r' - 2\tabcolsep\relax')
+
+    r_col = '>{\\raggedleft\\arraybackslash}p{' + width + '}'
+    p_col = 'p{' + width + '}'
+    result = re.sub(r'X\[-1,r\]', lambda m: r_col, cols)
+    result = re.sub(r'X\[-1(?:,[lc])?\]', lambda m: p_col, result)
+    result = re.sub(r'\bX\b', lambda m: p_col, result)
+    return result
+
+
 def fix_doxygen_sty(path):
-    """Replace tabu_doxygen/longtable_doxygen with ltablex in doxygen.sty."""
+    """Replace tabu_doxygen/longtable_doxygen with standard tabularx+longtable in doxygen.sty."""
     with open(path, encoding='utf-8') as f:
         content = f.read()
 
-    if r'\RequirePackage{ltablex}' in content:
+    if r'\RequirePackage{longtable}' in content and r'\RequirePackage{tabu_doxygen}' not in content:
         print(f"  {path}: already patched, skipping")
         return
 
@@ -124,38 +95,36 @@ def fix_doxygen_sty(path):
         print(f"  WARNING: {path}: expected tabu_doxygen pattern not found; skipping")
         return
 
-    # 1. Replace the tabu_doxygen packages with ltablex block
-    content = content.replace(_TABU_ORIG, _LTABLEX_BLOCK)
+    # 1. Replace the tabu_doxygen packages with standard tabularx + longtable
+    content = content.replace(_TABU_ORIG, _STD_TABULARX_BLOCK)
     if r'\RequirePackage{tabu_doxygen}' in content:
         print(f"  WARNING: {path}: replacement did not match exactly; trying fallback")
         # Fallback: replace line by line
         content = content.replace(
-            r'\RequirePackage{longtable_doxygen}', r'\RequirePackage{ltablex}')
+            r'\RequirePackage{longtable_doxygen}', r'\RequirePackage{longtable}')
         content = content.replace(
-            r'\RequirePackage{tabu_doxygen}', r'\keepXColumns')
-        content = content.replace(
-            r'\RequirePackage{tabularx}', '')
+            r'\RequirePackage{tabu_doxygen}',
+            r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
+            r'\newdimen\tabulinesep \tabulinesep=1mm')
 
-    # 2. Fix environments that use longtabu* / tabu
-    #    These have the form:  \tabulinesep=1mm%
-    #                          \begin{longtabu*}spread 0pt [l]{COLS}%
-    #    Replace with:         \setlength{\extrarowheight}{\tabulinesep}%
-    #                          \tabularx{\linewidth}{COLS}%
+    # 2. Fix environments that use longtabu* / tabu.
+    #    Replace internal \tabulinesep assignment and convert longtabu* to standard
+    #    \begin{tabularx}{\linewidth}{COLS}...\end{tabularx} form.
     content = content.replace(
         r'    \tabulinesep=1mm%',
         r'    \setlength{\extrarowheight}{\tabulinesep}%')
 
-    # Replace \begin{longtabu*}spread 0pt [l]{...} → \tabularx{\linewidth}{...}
+    # Replace \begin{longtabu*}spread 0pt [l|c]{...} → \begin{tabularx}{\linewidth}{...}
     def longtabu_repl(m):
         cols = _convert_tabu_cols(m.group(1))
-        return r'\tabularx{\linewidth}{' + cols + r'}'
+        return r'\begin{tabularx}{\linewidth}{' + cols + r'}'
 
     content = re.sub(
         r'\\begin\{longtabu\*\}spread 0pt \[[lc]\]\{([^}]+)\}',
         longtabu_repl,
         content)
-    content = content.replace(r'\end{longtabu*}%', r'\endtabularx%')
-    content = content.replace(r'\end{longtabu*}', r'\endtabularx')
+    content = content.replace(r'\end{longtabu*}%', r'\end{tabularx}%')
+    content = content.replace(r'\end{longtabu*}', r'\end{tabularx}')
 
     # Fix TabularC: {\tabulinesep=1mm  (no trailing %)
     content = content.replace(
@@ -168,21 +137,17 @@ def fix_doxygen_sty(path):
     # Fix TabularNC: {\begin{tabu}spread 0pt [l]{*#1{|X[-1]}|}}%
     content = content.replace(
         '{\\begin{tabu}spread 0pt [l]{*#1{|X[-1]}|}}%',
-        '{\\tabularx{\\linewidth}{*#1{|X}|}}%')
+        '{\\begin{tabularx}{\\linewidth}{*#1{|X}|}}%')
     content = content.replace(
         '{\\end{longtabu*}\\par}%',
-        '{\\endtabularx\\par}%')
+        '{\\end{tabularx}\\par}%')
     content = content.replace(
         '{\\end{tabu}\\par}%',
-        '{\\endtabularx\\par}%')
-
-    # Note: the original doxygen 1.9.8's doxygen.sty does NOT use \begin{tabularx}
-    # in environment definitions - it uses \begin{longtabu*} which we've already
-    # replaced above. No further \begin{tabularx} → \tabularx conversion needed.
+        '{\\end{tabularx}\\par}%')
 
     with open(path, 'w', encoding='utf-8') as f:
         f.write(content)
-    print(f"  {path}: patched (tabu_doxygen -> ltablex)")
+    print(f"  {path}: patched (tabu_doxygen -> standard tabularx+longtable)")
 
 
 # ---------------------------------------------------------------------------
@@ -200,13 +165,14 @@ _BEGIN_LONGTABU_PLAIN_RE = re.compile(
 
 
 def fix_longtabu_in_tex(path):
-    """Replace longtabu (without asterisk) with tabularx in a .tex file.
+    """Replace longtabu (without asterisk) with longtable in a .tex file.
 
-    Uses \\begin{tabularx}...\\end{tabularx} (standard LaTeX environment form)
-    rather than the internal \\tabularx{..}...\\endtabularx form used in
-    doxygen.sty.  The internal form relies on ltablex's \\TX@ mechanism which
-    is only correct inside \\newenvironment BEGIN code; direct .tex file usage
-    causes '! File ended while scanning use of \\TX@get@body'.
+    Converts X columns to p{W} columns where W divides \\linewidth equally
+    among the X columns (computed by _convert_tabu_cols_for_longtable).
+
+    Using longtable (not tabularx) avoids longtable-inside-longtable nesting
+    that occurs when ltablex is used and doxygen.sty environments (DoxyItemize
+    etc.) appear inside outer table cells.
     """
     with open(path, encoding='utf-8', errors='replace') as f:
         content = f.read()
@@ -215,17 +181,17 @@ def fix_longtabu_in_tex(path):
         return
 
     def _longtabu_plain_repl(m):
-        cols = _convert_tabu_cols(m.group(1))
-        return r'\begin{tabularx}{\linewidth}{' + cols + r'}'
+        cols = _convert_tabu_cols_for_longtable(m.group(1))
+        return r'\begin{longtable}{' + cols + r'}'
 
     new_content = _BEGIN_LONGTABU_PLAIN_RE.sub(_longtabu_plain_repl, content)
-    new_content = new_content.replace(r'\end{longtabu}%', r'\end{tabularx}%')
-    new_content = new_content.replace(r'\end{longtabu}', r'\end{tabularx}')
+    new_content = new_content.replace(r'\end{longtabu}%', r'\end{longtable}%')
+    new_content = new_content.replace(r'\end{longtabu}', r'\end{longtable}')
 
     if new_content != content:
         with open(path, 'w', encoding='utf-8') as f:
             f.write(new_content)
-        print(f"  {os.path.basename(path)}: replaced longtabu with tabularx")
+        print(f"  {os.path.basename(path)}: replaced longtabu with longtable")
 
 
 # ---------------------------------------------------------------------------
@@ -233,12 +199,12 @@ def fix_longtabu_in_tex(path):
 # ---------------------------------------------------------------------------
 # doxygen 1.9.8 emits {\begin{tabularx}{\linewidth}{COLS} inside longtabu
 # table cells (after &{ or similar).  After fix_longtabu_in_tex converts the
-# outer longtabu → tabularx, the inner {\begin{tabularx} creates nested ltablex
-# environments (longtable inside longtable) → "! Undefined control sequence."
-# Fix: replace nested {\begin{tabularx}{W}{COLS} with {\begin{tabular}{COLS'}
-# where X column types are mapped to l (plain left-aligned).
+# outer longtabu → longtable with p{} columns, the inner {\begin{tabularx}
+# would use \linewidth = the p-column width for its X column calculation.
+# Converting to plain tabular with X→l is simpler and avoids any potential
+# issues with tabularx inside a parbox (p column).
 # The matching \end{tabularx}} (extra } closes the cell group) is the reliable
-# distinguisher from outer \end{tabularx} (no extra }).
+# distinguisher from outer \end{tabularx} patterns.
 
 _NESTED_TABULARX_RE = re.compile(
     r'\{\\begin\{tabularx\}\{[^}]+\}\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}'
@@ -257,10 +223,12 @@ def _convert_x_cols_to_l(cols):
 def fix_nested_tabularx(path):
     """Convert tabularx nested inside table cells to plain tabular.
 
-    ltablex redefines tabularx to use longtable internally; nested tabularx
-    environments (those appearing as {\\begin{tabularx} inside table cells)
-    fail because longtable cannot be nested.  Replace them with plain tabular,
-    mapping X column types to l.
+    doxygen 1.9.8 emits {\\begin{tabularx}{W}{COLS} inside table cells.
+    After fix_longtabu_in_tex converts the outer longtabu to longtable with
+    p{} columns, the inner \\begin{tabularx} would have \\linewidth equal to
+    the p-column width.  Converting to plain tabular with X columns mapped
+    to l is simpler and avoids any potential issues with tabularx inside a
+    parbox.
 
     The nested closing \\end{tabularx}} (with extra } closing the cell group)
     reliably distinguishes inner from outer \\end{tabularx}.

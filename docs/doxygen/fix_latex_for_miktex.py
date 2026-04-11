@@ -200,7 +200,14 @@ _BEGIN_LONGTABU_PLAIN_RE = re.compile(
 
 
 def fix_longtabu_in_tex(path):
-    """Replace longtabu (without asterisk) with tabularx in a .tex file."""
+    """Replace longtabu (without asterisk) with tabularx in a .tex file.
+
+    Uses \\begin{tabularx}...\\end{tabularx} (standard LaTeX environment form)
+    rather than the internal \\tabularx{..}...\\endtabularx form used in
+    doxygen.sty.  The internal form relies on ltablex's \\TX@ mechanism which
+    is only correct inside \\newenvironment BEGIN code; direct .tex file usage
+    causes '! File ended while scanning use of \\TX@get@body'.
+    """
     with open(path, encoding='utf-8', errors='replace') as f:
         content = f.read()
 
@@ -209,11 +216,11 @@ def fix_longtabu_in_tex(path):
 
     def _longtabu_plain_repl(m):
         cols = _convert_tabu_cols(m.group(1))
-        return r'\tabularx{\linewidth}{' + cols + r'}'
+        return r'\begin{tabularx}{\linewidth}{' + cols + r'}'
 
     new_content = _BEGIN_LONGTABU_PLAIN_RE.sub(_longtabu_plain_repl, content)
-    new_content = new_content.replace(r'\end{longtabu}%', r'\endtabularx%')
-    new_content = new_content.replace(r'\end{longtabu}', r'\endtabularx')
+    new_content = new_content.replace(r'\end{longtabu}%', r'\end{tabularx}%')
+    new_content = new_content.replace(r'\end{longtabu}', r'\end{tabularx}')
 
     if new_content != content:
         with open(path, 'w', encoding='utf-8') as f:

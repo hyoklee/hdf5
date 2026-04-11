@@ -32,18 +32,24 @@ _TABU_ORIG = (
 
 # Replacement: standard longtable + tabularx (no ltablex).
 # Using standard tabularx avoids ltablex's global redefinition of \begin{tabularx}
-# to longtable internals, which causes "\insert@pcolumn undefined" when the
-# MiKTeX longtable version doesn't match what ltablex's \TX@endtabularx expects.
-# doxygen.sty environments (DoxyItemize, DoxyEnumerate, ...) use \begin{tabularx}
-# which with standard tabularx produces a single-page table — acceptable for list
-# items. Top-level longtabu tables in .tex files are converted to \begin{longtable}
-# with p{} columns (see fix_longtabu_in_tex below).
+# to longtable internals.  doxygen.sty environments (DoxyItemize, DoxyEnumerate,
+# ...) use \begin{tabularx} which produces a single-page table — acceptable for
+# list items. Top-level longtabu tables in .tex files are converted to
+# \begin{tabularx}{\linewidth}{X cols} (see fix_longtabu_in_tex below).
+#
+# \insert@pcolumn compatibility shim: newer array.sty generates \insert@pcolumn
+# in the p-column preamble (called from \@endpbox).  This macro is defined by
+# longtable >=4.20 (2023-12-22) but may be absent in MiKTeX installations that
+# ship an earlier longtable.  \providecommand defines it as a no-op only when
+# absent, so newer installations use the real definition unchanged.
 _STD_TABULARX_BLOCK = (
     r'\RequirePackage{longtable}' + '\n'
     r'\RequirePackage{tabularx}' + '\n'
     r'\RequirePackage{fancyvrb}' + '\n'
     r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
-    r'\newdimen\tabulinesep \tabulinesep=1mm'
+    r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
+    r'% Compatibility shim: defined by longtable >=4.20; no-op for older installs.' + '\n'
+    r'\providecommand\insert@pcolumn{}'
 )
 
 

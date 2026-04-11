@@ -41,19 +41,46 @@ _TABU_ORIG = (
 # fix_nested_tabularx, which converts them to plain \begin{tabular} before ltablex
 # can turn them into nested longtable (unsupported by LaTeX).
 #
-# \insert@pcolumn compatibility shim: newer array.sty generates \insert@pcolumn
-# in the p-column preamble (called from \@endpbox).  This macro is defined by
-# longtable >=4.20 (2023-12-22) but may be absent in MiKTeX installations that
-# ship an earlier longtable.  \providecommand defines it as a no-op only when
-# absent, so newer installations use the real definition unchanged.
+# \insert@pcolumn compatibility shim.
+#
+# array.sty >= 2.6a (2023-10-02) moved the p-column cell-content placeholder
+# (\@sharp) out of the preamble template and into a hook called \insert@pcolumn.
+# array.sty >= ~2.6b (2024+) defines \insert@pcolumn itself.
+# longtable >= 4.20 (2023-12-22) also defines \insert@pcolumn (for footnote
+# collection in longtable p-columns).
+#
+# MiKTeX on Ubuntu noble can ship the transitional array.sty 2.6a that CALLS
+# \insert@pcolumn but does NOT define it, while longtable is still < 4.20.
+# In that window the command is undefined -> "Undefined control sequence" error.
+#
+# Making it a no-op (\providecommand\insert@pcolumn{}) is WRONG: the hook is
+# supposed to supply \@sharp (the alignment # placeholder), so an empty
+# definition causes "Missing # inserted in alignment preamble".
+#
+# The correct minimal definition mirrors what newer array.sty provides:
+#   \the@toks \the \@tempcnta \relax   -- before-column hook tokens (>{ } spec)
+#   \ignorespaces \@sharp \unskip       -- the cell-content placeholder
+#   \the@toks \the \count@ \relax       -- after-column hook tokens
+# \the@toks and the \@tempcnta/\count@ registers are set up by array.sty's own
+# preamble builder, so they are available whenever \insert@pcolumn is called.
+# \UseTaggingSocket calls (PDF accessibility) are omitted here for compatibility.
+#
+# \providecommand is used so that if array.sty >= 2.6b or longtable >= 4.20
+# has already defined \insert@pcolumn, this shim is silently skipped.
 _LTABLEX_BLOCK = (
     r'\RequirePackage{longtable}' + '\n'
     r'\RequirePackage{ltablex}' + '\n'
     r'\RequirePackage{fancyvrb}' + '\n'
     r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
     r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
-    r'% Compatibility shim: defined by longtable >=4.20; no-op for older installs.' + '\n'
-    r'\providecommand\insert@pcolumn{}'
+    r'% Compatibility shim for transitional array.sty 2.6a (calls \insert@pcolumn' + '\n'
+    r'% but does not define it) paired with longtable < 4.20 (also does not define it).' + '\n'
+    r'% The shim supplies the \@sharp placeholder plus column-hook tokens.' + '\n'
+    r'\providecommand\insert@pcolumn{%' + '\n'
+    r'   \the@toks \the \@tempcnta \relax' + '\n'
+    r'   \ignorespaces \@sharp \unskip' + '\n'
+    r'   \the@toks \the \count@ \relax' + '\n'
+    r'}'
 )
 
 
@@ -117,8 +144,11 @@ def fix_doxygen_sty(path):
             r'\RequirePackage{ltablex}' + '\n'
             r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
             r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
-            r'% Compatibility shim: defined by longtable >=4.20; no-op for older installs.' + '\n'
-            r'\providecommand\insert@pcolumn{}')
+            r'\providecommand\insert@pcolumn{%' + '\n'
+            r'   \the@toks \the \@tempcnta \relax' + '\n'
+            r'   \ignorespaces \@sharp \unskip' + '\n'
+            r'   \the@toks \the \count@ \relax' + '\n'
+            r'}')
 
     # 2. Fix environments that use longtabu* / tabu.
     #    Replace internal \tabulinesep assignment and convert longtabu* to standard

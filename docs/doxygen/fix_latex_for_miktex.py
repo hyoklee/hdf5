@@ -229,6 +229,62 @@ def fix_longtabu_in_tex(path):
 
 
 # ---------------------------------------------------------------------------
+# Convert tabularx nested inside table cells to plain tabular
+# ---------------------------------------------------------------------------
+# doxygen 1.9.8 emits {\begin{tabularx}{\linewidth}{COLS} inside longtabu
+# table cells (after &{ or similar).  After fix_longtabu_in_tex converts the
+# outer longtabu → tabularx, the inner {\begin{tabularx} creates nested ltablex
+# environments (longtable inside longtable) → "! Undefined control sequence."
+# Fix: replace nested {\begin{tabularx}{W}{COLS} with {\begin{tabular}{COLS'}
+# where X column types are mapped to l (plain left-aligned).
+# The matching \end{tabularx}} (extra } closes the cell group) is the reliable
+# distinguisher from outer \end{tabularx} (no extra }).
+
+_NESTED_TABULARX_RE = re.compile(
+    r'\{\\begin\{tabularx\}\{[^}]+\}\{((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}'
+)
+
+
+def _convert_x_cols_to_l(cols):
+    """Convert X column types (tabularx) to l (plain tabular)."""
+    # >{\raggedright\arraybackslash}X  → l
+    cols = re.sub(r'>\{[^{}]+\}X', 'l', cols)
+    # bare X  → l
+    cols = re.sub(r'\bX\b', 'l', cols)
+    return cols
+
+
+def fix_nested_tabularx(path):
+    """Convert tabularx nested inside table cells to plain tabular.
+
+    ltablex redefines tabularx to use longtable internally; nested tabularx
+    environments (those appearing as {\\begin{tabularx} inside table cells)
+    fail because longtable cannot be nested.  Replace them with plain tabular,
+    mapping X column types to l.
+
+    The nested closing \\end{tabularx}} (with extra } closing the cell group)
+    reliably distinguishes inner from outer \\end{tabularx}.
+    """
+    with open(path, encoding='utf-8', errors='replace') as f:
+        content = f.read()
+
+    if r'{\begin{tabularx}' not in content:
+        return
+
+    def _replace(m):
+        cols = _convert_x_cols_to_l(m.group(1))
+        return r'{\begin{tabular}{' + cols + r'}'
+
+    new_content = _NESTED_TABULARX_RE.sub(_replace, content)
+    new_content = new_content.replace(r'\end{tabularx}}', r'\end{tabular}}')
+
+    if new_content != content:
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        print(f"  {os.path.basename(path)}: converted nested tabularx to tabular")
+
+
+# ---------------------------------------------------------------------------
 # Remove blank lines inside tabular environments in .tex files
 # ---------------------------------------------------------------------------
 
@@ -300,6 +356,7 @@ def main():
     for fname in tex_files:
         fpath = os.path.join(latex_dir, fname)
         fix_longtabu_in_tex(fpath)
+        fix_nested_tabularx(fpath)
         fix_blank_lines(fpath)
 
     print("Done.")

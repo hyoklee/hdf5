@@ -158,6 +158,8 @@ def fix_doxygen_sty(path):
 # the tabu_doxygen package, those bare longtabu calls become undefined.
 # Column specs may contain nested braces (e.g. *{2}{|X[-1]|}), so we need a
 # regex that handles one level of nesting.
+# Standard tabularx is used (not longtable with p{} columns) to avoid a
+# MiKTeX longtable/array package version mismatch (\insert@pcolumn undefined).
 
 _BEGIN_LONGTABU_PLAIN_RE = re.compile(
     r'\\begin\{longtabu\}spread 0pt \[[lcrb]\]\{((?:[^{}]|\{[^{}]*\})*)\}'
@@ -165,14 +167,15 @@ _BEGIN_LONGTABU_PLAIN_RE = re.compile(
 
 
 def fix_longtabu_in_tex(path):
-    """Replace longtabu (without asterisk) with longtable in a .tex file.
+    """Replace longtabu (without asterisk) with tabularx in a .tex file.
 
-    Converts X columns to p{W} columns where W divides \\linewidth equally
-    among the X columns (computed by _convert_tabu_cols_for_longtable).
+    Uses standard \\begin{tabularx}{\\linewidth}{COLS}...\\end{tabularx}, keeping
+    X column types so tabularx computes column widths automatically.
 
-    Using longtable (not tabularx) avoids longtable-inside-longtable nesting
-    that occurs when ltablex is used and doxygen.sty environments (DoxyItemize
-    etc.) appear inside outer table cells.
+    Standard tabularx (not longtable) avoids the MiKTeX longtable/array package
+    version mismatch that causes '\\insert@pcolumn undefined' when using p{}
+    columns in longtable with certain MiKTeX installations.  Standard tabularx
+    is also safe to nest inside table cells (unlike longtable).
     """
     with open(path, encoding='utf-8', errors='replace') as f:
         content = f.read()
@@ -181,17 +184,17 @@ def fix_longtabu_in_tex(path):
         return
 
     def _longtabu_plain_repl(m):
-        cols = _convert_tabu_cols_for_longtable(m.group(1))
-        return r'\begin{longtable}{' + cols + r'}'
+        cols = _convert_tabu_cols(m.group(1))
+        return r'\begin{tabularx}{\linewidth}{' + cols + r'}'
 
     new_content = _BEGIN_LONGTABU_PLAIN_RE.sub(_longtabu_plain_repl, content)
-    new_content = new_content.replace(r'\end{longtabu}%', r'\end{longtable}%')
-    new_content = new_content.replace(r'\end{longtabu}', r'\end{longtable}')
+    new_content = new_content.replace(r'\end{longtabu}%', r'\end{tabularx}%')
+    new_content = new_content.replace(r'\end{longtabu}', r'\end{tabularx}')
 
     if new_content != content:
         with open(path, 'w', encoding='utf-8') as f:
             f.write(new_content)
-        print(f"  {os.path.basename(path)}: replaced longtabu with longtable")
+        print(f"  {os.path.basename(path)}: replaced longtabu with tabularx")
 
 
 # ---------------------------------------------------------------------------
@@ -199,10 +202,9 @@ def fix_longtabu_in_tex(path):
 # ---------------------------------------------------------------------------
 # doxygen 1.9.8 emits {\begin{tabularx}{\linewidth}{COLS} inside longtabu
 # table cells (after &{ or similar).  After fix_longtabu_in_tex converts the
-# outer longtabu → longtable with p{} columns, the inner {\begin{tabularx}
-# would use \linewidth = the p-column width for its X column calculation.
-# Converting to plain tabular with X→l is simpler and avoids any potential
-# issues with tabularx inside a parbox (p column).
+# outer longtabu → tabularx, the inner {\begin{tabularx} would be nested
+# tabularx.  Standard tabularx supports nesting (it re-measures from scratch),
+# but converting to plain tabular with X→l is safer and simpler.
 # The matching \end{tabularx}} (extra } closes the cell group) is the reliable
 # distinguisher from outer \end{tabularx} patterns.
 

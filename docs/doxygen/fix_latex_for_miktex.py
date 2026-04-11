@@ -3,7 +3,7 @@
 Post-process doxygen-generated LaTeX files for MiKTeX/LuaLaTeX compatibility.
 
 Two problems are fixed:
-1. doxygen.sty: replace unmaintained tabu/longtabu packages with ltablex.
+1. doxygen.sty: replace unmaintained tabu/longtabu packages with ltablex+longtable.
 2. Generated .tex files: remove blank lines inside tabular environments
    (blank lines in tabularx/longtabu/tabu bodies cause TeX errors).
 
@@ -30,21 +30,25 @@ _TABU_ORIG = (
     r'\RequirePackage{tabularx}'
 )
 
-# Replacement: standard longtable + tabularx (no ltablex).
-# Using standard tabularx avoids ltablex's global redefinition of \begin{tabularx}
-# to longtable internals.  doxygen.sty environments (DoxyItemize, DoxyEnumerate,
-# ...) use \begin{tabularx} which produces a single-page table — acceptable for
-# list items. Top-level longtabu tables in .tex files are converted to
-# \begin{tabularx}{\linewidth}{X cols} (see fix_longtabu_in_tex below).
+# Replacement: longtable + ltablex (ltablex globally redefines \begin{tabularx} to
+# use longtable internally).  doxygen.sty environments (DoxyParams, DoxyFields,
+# DoxyEnumFields) use \begin{tabularx} together with longtable header commands
+# (\endfirsthead, \endhead) — these only work correctly when tabularx IS longtable,
+# i.e. with ltablex.  Standard tabularx ignores those header commands and corrupts
+# alignment state ("Missing # in alignment preamble").
+#
+# Nested tabularx inside table cells (emitted by doxygen 1.9.8) is handled by
+# fix_nested_tabularx, which converts them to plain \begin{tabular} before ltablex
+# can turn them into nested longtable (unsupported by LaTeX).
 #
 # \insert@pcolumn compatibility shim: newer array.sty generates \insert@pcolumn
 # in the p-column preamble (called from \@endpbox).  This macro is defined by
 # longtable >=4.20 (2023-12-22) but may be absent in MiKTeX installations that
 # ship an earlier longtable.  \providecommand defines it as a no-op only when
 # absent, so newer installations use the real definition unchanged.
-_STD_TABULARX_BLOCK = (
+_LTABLEX_BLOCK = (
     r'\RequirePackage{longtable}' + '\n'
-    r'\RequirePackage{tabularx}' + '\n'
+    r'\RequirePackage{ltablex}' + '\n'
     r'\RequirePackage{fancyvrb}' + '\n'
     r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
     r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
@@ -89,11 +93,11 @@ def _convert_tabu_cols_for_longtable(cols):
 
 
 def fix_doxygen_sty(path):
-    """Replace tabu_doxygen/longtable_doxygen with standard tabularx+longtable in doxygen.sty."""
+    """Replace tabu_doxygen/longtable_doxygen with ltablex+longtable in doxygen.sty."""
     with open(path, encoding='utf-8') as f:
         content = f.read()
 
-    if r'\RequirePackage{longtable}' in content and r'\RequirePackage{tabu_doxygen}' not in content:
+    if r'\RequirePackage{ltablex}' in content and r'\RequirePackage{tabu_doxygen}' not in content:
         print(f"  {path}: already patched, skipping")
         return
 
@@ -101,8 +105,8 @@ def fix_doxygen_sty(path):
         print(f"  WARNING: {path}: expected tabu_doxygen pattern not found; skipping")
         return
 
-    # 1. Replace the tabu_doxygen packages with standard tabularx + longtable
-    content = content.replace(_TABU_ORIG, _STD_TABULARX_BLOCK)
+    # 1. Replace the tabu_doxygen packages with longtable + ltablex
+    content = content.replace(_TABU_ORIG, _LTABLEX_BLOCK)
     if r'\RequirePackage{tabu_doxygen}' in content:
         print(f"  WARNING: {path}: replacement did not match exactly; trying fallback")
         # Fallback: replace line by line
@@ -110,8 +114,11 @@ def fix_doxygen_sty(path):
             r'\RequirePackage{longtable_doxygen}', r'\RequirePackage{longtable}')
         content = content.replace(
             r'\RequirePackage{tabu_doxygen}',
+            r'\RequirePackage{ltablex}' + '\n'
             r'\newcolumntype{R}{>{\raggedleft\arraybackslash}X}' + '\n'
-            r'\newdimen\tabulinesep \tabulinesep=1mm')
+            r'\newdimen\tabulinesep \tabulinesep=1mm' + '\n'
+            r'% Compatibility shim: defined by longtable >=4.20; no-op for older installs.' + '\n'
+            r'\providecommand\insert@pcolumn{}')
 
     # 2. Fix environments that use longtabu* / tabu.
     #    Replace internal \tabulinesep assignment and convert longtabu* to standard
@@ -153,7 +160,7 @@ def fix_doxygen_sty(path):
 
     with open(path, 'w', encoding='utf-8') as f:
         f.write(content)
-    print(f"  {path}: patched (tabu_doxygen -> standard tabularx+longtable)")
+    print(f"  {path}: patched (tabu_doxygen -> ltablex+longtable)")
 
 
 # ---------------------------------------------------------------------------

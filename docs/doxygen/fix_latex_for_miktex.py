@@ -186,6 +186,42 @@ def fix_doxygen_sty(path):
 
 
 # ---------------------------------------------------------------------------
+# Replace longtabu (without asterisk) in generated .tex files
+# ---------------------------------------------------------------------------
+# doxygen can emit \begin{longtabu}spread 0pt [c]{COLS} directly in individual
+# .tex files (not only via doxygen.sty macros).  After fix_doxygen_sty removes
+# the tabu_doxygen package, those bare longtabu calls become undefined.
+# Column specs may contain nested braces (e.g. *{2}{|X[-1]|}), so we need a
+# regex that handles one level of nesting.
+
+_BEGIN_LONGTABU_PLAIN_RE = re.compile(
+    r'\\begin\{longtabu\}spread 0pt \[[lcrb]\]\{((?:[^{}]|\{[^{}]*\})*)\}'
+)
+
+
+def fix_longtabu_in_tex(path):
+    """Replace longtabu (without asterisk) with tabularx in a .tex file."""
+    with open(path, encoding='utf-8', errors='replace') as f:
+        content = f.read()
+
+    if r'\begin{longtabu}' not in content:
+        return
+
+    def _longtabu_plain_repl(m):
+        cols = _convert_tabu_cols(m.group(1))
+        return r'\tabularx{\linewidth}{' + cols + r'}'
+
+    new_content = _BEGIN_LONGTABU_PLAIN_RE.sub(_longtabu_plain_repl, content)
+    new_content = new_content.replace(r'\end{longtabu}%', r'\endtabularx%')
+    new_content = new_content.replace(r'\end{longtabu}', r'\endtabularx')
+
+    if new_content != content:
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        print(f"  {os.path.basename(path)}: replaced longtabu with tabularx")
+
+
+# ---------------------------------------------------------------------------
 # Remove blank lines inside tabular environments in .tex files
 # ---------------------------------------------------------------------------
 
@@ -251,11 +287,13 @@ def main():
     else:
         print(f"  WARNING: doxygen.sty not found in {latex_dir}")
 
-    # 2. Remove blank lines from all .tex files
+    # 2. Fix longtabu (without asterisk) in .tex files, then remove blank lines
     tex_files = sorted(f for f in os.listdir(latex_dir) if f.endswith('.tex'))
-    print(f"Checking {len(tex_files)} .tex files for blank lines in tabular envs...")
+    print(f"Checking {len(tex_files)} .tex files for longtabu and blank lines...")
     for fname in tex_files:
-        fix_blank_lines(os.path.join(latex_dir, fname))
+        fpath = os.path.join(latex_dir, fname)
+        fix_longtabu_in_tex(fpath)
+        fix_blank_lines(fpath)
 
     print("Done.")
 

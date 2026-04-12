@@ -4,6 +4,7 @@ name: Test qsort_r Fallback
 on:
   workflow_dispatch:
   push:
+    branches: [ develop- ]    
   pull_request:
     branches: [ develop- ]
     paths-ignore:

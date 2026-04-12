@@ -5,7 +5,7 @@ on:
   push:
     branches: develop
   pull_request:
-    branches: develop-
+    branches: develop
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
@@ -41,7 +41,108 @@ jobs:
           sudo apt install -y miktex
           sudo miktexsetup --shared=yes finish
           sudo initexmf --admin --update-db
-
+          sudo initexmf --admin --mklinks --force
+          sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
+          sudo mpm --admin --update-db
+          sudo mpm --admin --update
+          sudo initexmf --admin --update-fndb
+          # User-level MiKTeX setup: lualatex runs as runner (non-admin).
+          # miktexsetup finish may timeout connecting to the MiKTeX API; allow failure.
+          miktexsetup finish || true
+          initexmf --update-fndb
+          initexmf --mklinks --force
+          miktex packages update-package-database || true
+          miktex packages update || true
+          # Install all packages required for doxygen lualatex to the USER tree.
+          # lualatex (running as runner) searches the user tree; admin-installed
+          # packages are not visible to it, so we pre-install here to prevent
+          # auto-install calls during compilation (which trigger the update-check nag).
+          mpm --install xkeyval
+          mpm --install adjustbox
+          mpm --install luaotfload
+          mpm --install lualibs
+          mpm --install courier
+          mpm --install wasy
+          mpm --install latex-tools
+          mpm --install infwarerr
+          mpm --install float
+          mpm --install xcolor
+          mpm --install graphics-cfg
+          mpm --install graphics-def
+          mpm --install graphics
+          mpm --install colortbl
+          mpm --install multirow
+          mpm --install hanging
+          mpm --install iftex
+          mpm --install fancyvrb
+          mpm --install ltablex
+          mpm --install caption
+          mpm --install fancyhdr
+          mpm --install geometry
+          mpm --install hyperref
+          mpm --install lmodern
+          mpm --install makeidx
+          mpm --install needspace
+          mpm --install setspace
+          mpm --install stmaryrd
+          mpm --install tocloft
+          mpm --install wasysym
+          mpm --install url
+          mpm --install etoolbox
+          mpm --install amsmath
+          mpm --install oberdiek
+          # Adjustbox dependencies observed being auto-installed during lualatex
+          mpm --install collectbox
+          mpm --install ifoddpage
+          mpm --install varwidth
+          mpm --install stackengine
+          mpm --install listofitems
+          mpm --install amsfonts
+          mpm --install enumitem
+          # LaTeX3 backend and standard packages observed being auto-installed
+          mpm --install l3backend
+          mpm --install l3backend-dev
+          mpm --install l3kernel
+          mpm --install l3packages
+          mpm --install mptopdf
+          mpm --install epstopdf-pkg
+          mpm --install miktex-latex
+          # More packages observed being auto-installed during lualatex compilation
+          mpm --install alphalph
+          mpm --install bigintcalc
+          mpm --install bitset
+          mpm --install changepage
+          mpm --install etoc
+          mpm --install gettitlestring
+          mpm --install helvetic
+          mpm --install hycolor
+          mpm --install intcalc
+          mpm --install kvdefinekeys
+          mpm --install kvoptions
+          mpm --install kvsetkeys
+          mpm --install ltxcmds
+          mpm --install natbib
+          mpm --install newunicodechar
+          mpm --install pdfescape
+          mpm --install pdftexcmds
+          mpm --install psnfss
+          mpm --install refcount
+          mpm --install rerunfilecheck
+          mpm --install stringenc
+          mpm --install ulem
+          mpm --install uniquecounter
+          # Update user FNDB after all user-level package installations
+          initexmf --update-fndb
+          # Set LastUserUpdateCheck to 24 hours in the future so that any
+          # remaining auto-installs during lualatex cannot set a newer
+          # LastUserUpdateDb and trigger the "not checked for updates" nag.
+          TS=$(($(date +%s) + 86400))
+          initexmf --set-config-value "[MPM]AutoInstall=1"
+          initexmf --set-config-value "[MPM]LastUserUpdateCheck=${TS}"
+          initexmf --set-config-value "[MPM]LastUserUpdateDb=${TS}"
+          initexmf --set-config-value "[MPM]LastUserUpdate=${TS}"
+          miktex packages check-update || true
+          echo "=== miktex.ini after user setup ===" && cat ~/.miktex/texmfs/config/miktex/config/miktex.ini 2>/dev/null || echo "Config not found"
       - name: Build Develop Documentation
         run: |
           mkdir build
@@ -59,14 +160,28 @@ jobs:
           cd hdf5lib_docs/html
           touch .nojekyll
           cd ../latex
+          echo "=== miktex.ini before lualatex ===" && cat ~/.miktex/texmfs/config/miktex/config/miktex.ini 2>/dev/null || echo "NOT FOUND"
+          # Re-stamp LastUserUpdateCheck to 24 hours in the future right before
+          # lualatex runs. Each auto-install during compilation updates LastUserUpdateDb
+          # to the current time; keeping LastUserUpdateCheck ahead prevents the
+          # "not checked for MiKTeX updates" nag from firing during compilation.
+          TS_BUILD=$(($(date +%s) + 86400))
+          initexmf --set-config-value "[MPM]LastUserUpdateCheck=${TS_BUILD}"
+          initexmf --set-config-value "[MPM]LastUserUpdateDb=${TS_BUILD}"
           # Use lualatex: dynamic memory allocation avoids the fixed 5MB limit
           # of pdflatex which is insufficient for this 4000+ page document.
-          make LATEX_CMD=lualatex
+          echo "=== array.sty version ===" && grep "ProvidesPackage\|fileversion\|filedate" $(kpsewhich array.sty) 2>/dev/null | head -5 || true
+          echo "=== longtable.sty version ===" && grep "ProvidesPackage\|fileversion\|filedate" $(kpsewhich longtable.sty) 2>/dev/null | head -5 || true
+          echo "=== insert@pcolumn in array.sty ===" && grep -n "insert@pcolumn" $(kpsewhich array.sty) 2>/dev/null || echo "not found"	  
+          # Use lualatex: dynamic memory allocation avoids the fixed 5MB limit
+          # of pdflatex which is insufficient for this 4000+ page document.
+          make LATEX_CMD=lualatex  || (echo "=== refman.log (last 200 lines) ===" && tail -200 refman.log 2>/dev/null; echo "=== MiKTeX lualatex.log ===" && cat ~/.miktex/texmfs/data/miktex/log/lualatex.log; exit 1)	  
+
 
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: /home/runner/work/hdf5/hdf5/build/hdf5lib_docs/html
-          destination_dir: develop-
+          destination_dir: develop
           github_token: ${{ secrets.GITHUB_TOKEN }}
 

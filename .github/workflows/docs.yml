@@ -55,6 +55,12 @@ jobs:
           printf 'extra_mem_top = 50000000\nextra_mem_bot = 50000000\n' > /tmp/texmf.cnf
           TEXMFCNF=/tmp: make
 
+      - name: Upload
+        uses: actions/upload-artifact@v7.0.0
+        with:
+          name: refman.pdf
+          path: ${{ runner.workspace }}/hdf5/build/hdf5lib_docs/latex/refman.pdf
+
       - name: Deploy Develop
         uses: peaceiris/actions-gh-pages@v4
         with:

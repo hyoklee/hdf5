@@ -4,6 +4,7 @@ name: hdfeos5 dev
 on:
   workflow_dispatch:
   push:
+    branches: develop-  
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'

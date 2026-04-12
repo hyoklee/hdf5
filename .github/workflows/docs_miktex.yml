@@ -40,7 +40,6 @@ jobs:
           sudo apt install -y cmake
           sudo apt install -y miktex
           sudo miktexsetup --shared=yes finish
-          sudo initexmf --admin --update-db
           sudo initexmf --admin --mklinks --force
           sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
           sudo mpm --admin --update-db
@@ -177,11 +176,8 @@ jobs:
           # of pdflatex which is insufficient for this 4000+ page document.
           make LATEX_CMD=lualatex  || (echo "=== refman.log (last 200 lines) ===" && tail -200 refman.log 2>/dev/null; echo "=== MiKTeX lualatex.log ===" && cat ~/.miktex/texmfs/data/miktex/log/lualatex.log; exit 1)	  
 
-
-      - name: Deploy Develop
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload
+        uses: actions/upload-artifact@v7.0.0
         with:
-          publish_dir: /home/runner/work/hdf5/hdf5/build/hdf5lib_docs/html
-          destination_dir: develop
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
+          name: refman.pdf
+          path: ${{ runner.workspace }}/build/hdf5lib_docs/latex/refman.pdf

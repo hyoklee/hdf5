@@ -51,7 +51,6 @@ test_cve_2025_44904(void)
     int     wbuf[100][100];
     int     rbuf[100][100];
     int     i, j;
-    herr_t  ret;
 
     TESTING("CVE-2025-44904 fix - chunk size validation");
 

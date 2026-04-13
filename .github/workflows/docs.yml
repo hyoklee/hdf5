@@ -52,6 +52,9 @@ jobs:
           touch .nojekyll
           cd ../latex
           touch topics.tex annotated.tex files.tex
+          # Fix tabu/longtabu → ltablex+longtable to avoid "! Missing \endcsname
+          # inserted" with hyperref (tabu is unmaintained and buggy with hyperref)
+          python3 ${GITHUB_WORKSPACE}/docs/doxygen/fix_latex_for_miktex.py .
           printf 'extra_mem_top = 50000000\nextra_mem_bot = 50000000\n' > /tmp/texmf.cnf
           TEXMFCNF=/tmp: make
 

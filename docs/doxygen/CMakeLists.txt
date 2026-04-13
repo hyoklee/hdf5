@@ -60,6 +60,14 @@ if (DOXYGEN_FOUND)
   include(${HDF5_DOXYGEN_DIR}/H5version_doxygen.cmake)
   list (JOIN _doxygen_predefined_entries " " DOXYGEN_PREDEFINED)
   set (DOXYGEN_WARN_AS_ERROR ${HDF5_DOXY_WARNINGS})
+  # Enable LaTeX generation only when epstopdf is available (Doxygen 1.16+ treats
+  # a missing epstopdf as a fatal error, so we disable it when not present)
+  find_program (EPSTOPDF_FOUND epstopdf)
+  if (EPSTOPDF_FOUND)
+    set (DOXYGEN_GENERATE_LATEX YES)
+  else ()
+    set (DOXYGEN_GENERATE_LATEX NO)
+  endif ()
 
 # This configure and individual custom targets work together
   # Replace variables inside @@ with the current values

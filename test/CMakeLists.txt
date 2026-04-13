@@ -490,6 +490,12 @@ foreach (h5_test ${H5_TESTS} ${H5_EXPRESS_TESTS} ${H5_S3TESTS})
   endif ()
 endforeach ()
 
+# NVHPC 26.3 LLC crashes with signal 6 in instruction selection when
+# compiling dt_arith.c at -O1. Use -O0 to work around the compiler bug.
+if (CMAKE_C_COMPILER_ID MATCHES "NVHPC|PGI")
+  target_compile_options(dt_arith PRIVATE "-O0")
+endif ()
+
 ##############################################################################
 ###           M U L T I P L E  S O U R C E   T E S T S                     ###
 ##############################################################################

@@ -763,7 +763,7 @@ FILE_PATTERNS  = H5*public.h H5*module.h H5*develop.h H5FD*.h \
                  *.F90 \
                  *.dox \
                  h5copy.h h5diff_main.h h5dump.h h5format_convert.h h5import.h h5jam.h h5ls.h h5repack.h h5stat.h \
-                 h5watch.h h5clear.h h5debug.h h5delete.h h5mkgrp.h h5repart.h \
+                 h5watch.h h5clear.h h5debug.h h5delete.h h5mkgrp.h h5repart.h h5tools.h \
                  @HDF5_CPP_SRC_DIR@/*.h \
                  @HDF5_CPP_SRC_DIR@/*.cpp
 
@@ -1577,7 +1577,7 @@ EXTRA_SEARCH_MAPPINGS  =
 # If the GENERATE_LATEX tag is set to YES, Doxygen will generate LaTeX output.
 # The default value is: YES.
 
-GENERATE_LATEX         = YES
+GENERATE_LATEX         = @DOXYGEN_GENERATE_LATEX@
 LATEX_HEADER           = @DOXYGEN_LATEX_HEADER@
 
 #---------------------------------------------------------------------------

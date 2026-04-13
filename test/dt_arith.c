@@ -4039,8 +4039,6 @@ test_conv_flt_1_hw_conv_from_flt(void *hw_dst, unsigned char *src_buf, size_t id
 #ifdef H5_HAVE__FLOAT16
             /* Suppress warning about non-standard floating-point literal suffix */
             H5_WARN_NONSTD_SUFFIX_OFF
-#pragma omp simd   collapse(1)
-#pragma clang loop vectorize(disable)
             *((H5__Float16 *)hw_dst) = (H5__Float16)aligned;
 
             /* Check for overflow and underflow */

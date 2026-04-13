@@ -33,6 +33,7 @@ jobs:
               - '**/*.hpp'
               - '**/CMakeLists.txt'
               - '**/*.cmake'
+              - '**/*.yml'
 
   analyze:
     name: Analyze

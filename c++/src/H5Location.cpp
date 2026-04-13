@@ -11,6 +11,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <iostream>
+#include <memory>
 #include <string>
 using namespace std;
 
@@ -1637,7 +1638,6 @@ H5std_string
 H5Location::getLinkval(const char *name, size_t size) const
 {
     H5L_info2_t  linkinfo;
-    char        *value_C; // value in C string
     size_t       val_size = size;
     H5std_string value;
     herr_t       ret_value;
@@ -1653,17 +1653,14 @@ H5Location::getLinkval(const char *name, size_t size) const
 
     // if link has value, retrieve the value, otherwise, return null string
     if (val_size > 0) {
-        // Create buffer for C string
-        value_C = new char[val_size + 1]();
+        // Create buffer for C string; unique_ptr ensures it is freed on all paths
+        std::unique_ptr<char[]> value_C(new char[val_size + 1]());
 
-        ret_value = H5Lget_val(getId(), name, value_C, val_size, H5P_DEFAULT);
-        if (ret_value < 0) {
-            delete[] value_C;
+        ret_value = H5Lget_val(getId(), name, value_C.get(), val_size, H5P_DEFAULT);
+        if (ret_value < 0)
             throwException("getLinkval", "H5Lget_val failed");
-        }
 
-        value = H5std_string(value_C);
-        delete[] value_C;
+        value = H5std_string(value_C.get());
     }
     return (value);
 }
@@ -1823,21 +1820,16 @@ H5Location::getObjnameByIdx(hsize_t idx) const
     // (unfortunate in/out type sign mismatch)
     size_t actual_name_len = static_cast<size_t>(name_len) + 1;
 
-    // Create buffer for C string
-    char *name_C = new char[actual_name_len]();
+    // Create buffer for C string; unique_ptr ensures it is freed on all paths
+    std::unique_ptr<char[]> name_C(new char[actual_name_len]());
 
-    name_len = H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name_C, actual_name_len,
-                                  H5P_DEFAULT);
+    name_len = H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name_C.get(),
+                                  actual_name_len, H5P_DEFAULT);
 
-    if (name_len < 0) {
-        delete[] name_C;
+    if (name_len < 0)
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
-    }
 
-    // clean up and return the string
-    H5std_string name = H5std_string(name_C);
-    delete[] name_C;
-    return (name);
+    return (H5std_string(name_C.get()));
 }
 
 //--------------------------------------------------------------------------
@@ -1876,19 +1868,15 @@ H5Location::getObjnameByIdx(hsize_t idx, char *name, size_t size) const
 ssize_t
 H5Location::getObjnameByIdx(hsize_t idx, H5std_string &name, size_t size) const
 {
-    // Create buffer for C string
-    char *name_C = new char[size + 1]();
+    // Create buffer for C string; unique_ptr ensures it is freed on all paths
+    std::unique_ptr<char[]> name_C(new char[size + 1]());
 
     // call overloaded function to get the name
-    ssize_t name_len = getObjnameByIdx(idx, name_C, size + 1);
-    if (name_len < 0) {
-        delete[] name_C;
+    ssize_t name_len = getObjnameByIdx(idx, name_C.get(), size + 1);
+    if (name_len < 0)
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
-    }
 
-    // clean up and return the string
-    name = H5std_string(name_C);
-    delete[] name_C;
+    name = H5std_string(name_C.get());
     return (name_len);
 }
 

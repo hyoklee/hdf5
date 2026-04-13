@@ -905,8 +905,9 @@ H5D__virtual_load_layout(H5F_t *f, H5O_layout_t *layout)
                             "unable to update virtual dataset minimum dimensions");
         }
 
-        /* Read stored checksum */
-        if (H5_IS_BUFFER_OVERFLOW(heap_block_p, 4, heap_block_p_end))
+        /* Read stored checksum - verify 4 bytes remain using direct arithmetic
+         * so static analyzers can prove the UINT32DECODE reads are in-bounds */
+        if (heap_block_p + 4 > (const uint8_t *)heap_block + block_size)
             HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, FAIL, "ran off end of input buffer while decoding");
         UINT32DECODE(heap_block_p, stored_chksum);
 

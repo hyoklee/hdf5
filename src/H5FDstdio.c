@@ -349,8 +349,8 @@ H5FD_stdio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr
             /* Use open()+fdopen() to set explicit permissions; fopen() has no
              * mode argument and would rely on umask, risking world-writable files */
             {
-                int open_fd = open(name, O_CREAT | O_RDWR | O_TRUNC,
-                                   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); /* 0644 */
+                int open_fd =
+                    open(name, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); /* 0644 */
                 if (open_fd >= 0) {
                     f = fdopen(open_fd, "wb+");
                     if (!f)

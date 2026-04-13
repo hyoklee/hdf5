@@ -20,6 +20,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.sha || github.event.pull_request.number }}
   cancel-in-progress: true
 
+permissions: read-all
+
 jobs:
   # This workflow contains a single job called "build"
   build:

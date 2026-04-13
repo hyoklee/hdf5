@@ -3,6 +3,9 @@ name: lin gcc_min
 on:
   push:
     branches: develop-
+
+permissions: read-all
+
 jobs:
   gcc_min:
     name: lin gcc_min

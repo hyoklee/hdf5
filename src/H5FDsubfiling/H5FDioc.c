@@ -1290,6 +1290,12 @@ H5FD__ioc_delete(const char *name, hid_t fapl)
         /* Check if a prefix has been set for the configuration file name */
         prefix_env = getenv(H5FD_SUBFILING_CONFIG_FILE_PREFIX);
 
+        /* Reject path traversal sequences in the env var to prevent path injection */
+        if (prefix_env && (strstr(prefix_env, "../") || strstr(prefix_env, "/.."))) {
+            HGOTO_ERROR(H5E_FILE, H5E_BADVALUE, FAIL,
+                        H5FD_SUBFILING_CONFIG_FILE_PREFIX " contains path traversal sequence");
+        }
+
         /* TODO: No support for subfile directory prefix currently */
         /* TODO: Possibly try loading config file prefix from file before deleting */
         snprintf(tmp_filename, PATH_MAX, "%s/" H5FD_SUBFILING_CONFIG_FILENAME_TEMPLATE,

@@ -5,6 +5,8 @@ on:
     branches:
       - develop-
 
+permissions: read-all
+
 jobs:
   build:
     name: "mac14 ninja h j ompi cd"

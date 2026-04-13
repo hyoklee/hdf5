@@ -340,6 +340,10 @@ H5PL__open(const char *path, H5PL_type_t type, const H5PL_key_t *key, bool *succ
     if (plugin_type)
         *plugin_type = H5PL_TYPE_ERROR;
 
+    /* Reject paths with traversal sequences before passing to dlopen */
+    if (strstr(path, "../") || strstr(path, "/.."))
+        HGOTO_DONE(SUCCEED);
+
     /* There are different reasons why a library can't be open, e.g. wrong architecture.
      * If we can't open the library, just return.
      */

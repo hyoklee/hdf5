@@ -6,6 +6,8 @@ on:
       - develop-
   pull_request:
 
+permissions: read-all
+
 jobs:
   build:
     name: mac-14 xcode clang-15 d mpich s3 sf

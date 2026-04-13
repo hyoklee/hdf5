@@ -3,6 +3,9 @@ name: arm64 lin
 on:
   push:
     branches: develop-
+
+permissions: read-all
+
 jobs:
   build:
     runs-on: ubuntu-24.04-arm

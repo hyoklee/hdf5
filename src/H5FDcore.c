@@ -766,9 +766,8 @@ H5FD__core_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr
     /* Create the new file struct */
     if (NULL == (file = (H5FD_core_t *)H5MM_calloc(sizeof(H5FD_core_t))))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "unable to allocate file struct");
-    file->fd = fd;
-    if (name && *name)
-        file->name = H5MM_xstrdup(name);
+    file->fd   = fd;
+    file->name = H5MM_xstrdup(name); /* name validated non-NULL/non-empty above */
 
     /* The increment comes from either the file access property list or the
      * default value. But if the file access property list was zero then use

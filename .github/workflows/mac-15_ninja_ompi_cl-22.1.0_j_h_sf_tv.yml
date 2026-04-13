@@ -3,6 +3,9 @@ name: mac-15 ninja ompi cl-22.1.0 h sf tv
 on:
   push:
     branches: develop-
+
+permissions: read-all
+
 jobs:
   build:
     runs-on: macos-15

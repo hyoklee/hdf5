@@ -6,6 +6,8 @@ on:
       - develop-
   pull_request:
 
+permissions: read-all
+
 jobs:
   build:
     name: mac-14 sh s3

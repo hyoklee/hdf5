@@ -5,6 +5,8 @@ on:
     branches:
       - develop-
 
+permissions: read-all
+
 jobs:
   armv7:
     # The host should always be Linux

@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - develop-
+
+permissions: read-all
+
 jobs:
   build:
     runs-on: windows-latest

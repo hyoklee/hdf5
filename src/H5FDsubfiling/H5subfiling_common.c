@@ -2378,6 +2378,11 @@ H5FD__subfiling_open_config_file(const char *base_filename, const char *config_d
         HSYS_GOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, FAIL,
                         "couldn't check existence of subfiling configuration file");
 
+    /* Reject path traversal sequences to prevent path injection */
+    if (strstr(config_filename, "../") || strstr(config_filename, "/.."))
+        HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL,
+                    "subfiling configuration filename contains path traversal sequence");
+
     if (NULL == (config_file = fopen(config_filename, mode)))
         HSYS_GOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, FAIL, "couldn't open subfiling configuration file");
 

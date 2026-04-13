@@ -5,6 +5,8 @@ on:
   push:
     branches: develop-
 
+permissions: read-all
+
 jobs:
   build:
     name: mac-26 ninja d mpich cl fl sf

@@ -3,6 +3,9 @@ name: mac-15 cl-22.1.0 fl
 on:
   push:
     branches: develop-
+
+permissions: read-all
+
 jobs:
   build:
     runs-on: macos-15

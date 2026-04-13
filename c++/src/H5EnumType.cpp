@@ -10,6 +10,7 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <memory>
 #include <string>
 
 #include "H5Include.h"
@@ -205,20 +206,18 @@ EnumType::insert(const H5std_string &name, void *value) const
 H5std_string
 EnumType::nameOf(void *value, size_t size) const
 {
-    char *name_C = new char[size + 1](); // temporary C-string for C API
+    // temporary C-string for C API; unique_ptr ensures it is freed on all paths
+    std::unique_ptr<char[]> name_C(new char[size + 1]());
 
     // Calls C routine H5Tenum_nameof to get the name of the specified enum type
-    herr_t ret_value = H5Tenum_nameof(id, value, name_C, size);
+    herr_t ret_value = H5Tenum_nameof(id, value, name_C.get(), size);
 
     // If H5Tenum_nameof returns a negative value, raise an exception,
-    if (ret_value < 0) {
-        delete[] name_C;
+    if (ret_value < 0)
         throw DataTypeIException("EnumType::nameOf", "H5Tenum_nameof failed");
-    }
+
     // otherwise, create the string to hold the datatype name and return it
-    H5std_string name(name_C);
-    delete[] name_C;
-    return (name);
+    return (H5std_string(name_C.get()));
 }
 
 //--------------------------------------------------------------------------

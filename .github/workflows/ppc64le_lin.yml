@@ -5,6 +5,8 @@ on:
     branches:
       - develop-
 
+permissions: read-all
+
 jobs:
   ppc64le_job:
     name: ppc64le lin

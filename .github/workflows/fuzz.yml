@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - develop-
+
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   fuzz:
     runs-on: ubuntu-latest

@@ -5,6 +5,8 @@ on:
     branches:
       - develop-
 
+permissions: read-all
+
 jobs:
   s390x_job:
     name: s390x lin f

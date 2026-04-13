@@ -5,6 +5,8 @@ on:
     branches:
       - develop-
 
+permissions: read-all
+
 jobs:
   test:
     name: nbsd f sh

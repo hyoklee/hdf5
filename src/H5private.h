@@ -591,7 +591,7 @@ typedef struct stat h5_stat_t;
  * types for complex numbers and casts can't be made between structure
  * types and other types.
  */
-#if defined(H5_HAVE_COMPLEX_NUMBERS) && defined(H5_HAVE_C99_COMPLEX_NUMBERS) && \
+#if defined(H5_HAVE_COMPLEX_NUMBERS) && defined(H5_HAVE_C99_COMPLEX_NUMBERS) &&                              \
     (!defined(_MSC_VER) || defined(__INTEL_LLVM_COMPILER))
 typedef float _Complex H5_float_complex;
 typedef double _Complex H5_double_complex;

@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#ifndef H5_HAVE_WIN32_API
+#ifndef _WIN32
 #include <fcntl.h>
 #include <unistd.h>
 #endif

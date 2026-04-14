@@ -4,6 +4,8 @@ name: hdf5 dev cmake CI
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop-    
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'

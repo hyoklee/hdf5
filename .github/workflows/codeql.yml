@@ -34,6 +34,21 @@ jobs:
               - '**/CMakeLists.txt'
               - '**/*.cmake'
               - '.github/workflows/*.yml'
+  analyze-actions:
+    name: Analyze (Actions)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4
+        with:
+          languages: actions
+          build-mode: none
+      - name: Perform Analysis
+        uses: github/codeql-action/analyze@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4
 
   analyze:
     name: Analyze
@@ -91,9 +106,9 @@ jobs:
             ..
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4
+        uses: github/codeql-action/init@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4s
         with:
-          languages: c-cpp, actions
+          languages: c-cpp
           build-mode: manual
           queries: +security-and-quality
 
@@ -217,7 +232,7 @@ jobs:
   codeql-complete:
     name: codeql-complete
     if: always()
-    needs: [check-changes, analyze]
+    needs: [check-changes, analyze-actions, analyze]
     runs-on: ubuntu-latest
     permissions:
       security-events: write

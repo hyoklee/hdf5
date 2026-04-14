@@ -685,7 +685,7 @@ _ARRAY_ROLLBACK_FIXED = r'  \usepackage{array}'
 # Format: (chapter_title, input_basename)
 _OPTIONAL_INDEX_CHAPTERS = [
     ('Topic Index', 'topics'),
-    ('Data Type Index', 'annotated'),
+#    ('Data Type Index', 'annotated'),
     ('File Index', 'files'),
     ('Namespace Index', 'namespaces'),
     ('Module Index', 'modules'),

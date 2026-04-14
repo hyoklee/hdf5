@@ -17,8 +17,11 @@
     <tab type="user" url="@ref FTS" title="Full-Text Search" />
     <tab type="user" url="@ref About" title="About" />
     <tab type="modules" visible="no" title=""/>
-    <tab type="annotated" visible="no" title=""/>
-    <tab type="files" visible="no" title=""/>    
+    <!--    
+	 <tab type="annotated" visible="no" title=""/>
+    -->	 
+    <tab type="files" visible="no" title=""/>
+
   </navindex>
 
   <!-- Layout definition for a class page -->

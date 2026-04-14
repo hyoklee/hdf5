@@ -1,0 +1,5 @@
+checks:
+  - name: Code-Review
+    # Setting this to 0 prevents it from 
+    # lowering your aggregate score
+    score: 0

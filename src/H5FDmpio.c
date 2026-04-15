@@ -1144,7 +1144,7 @@ H5FD__mpio_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags /* out
         *flags |= H5FD_FEAT_HAS_MPI; /* This driver uses MPI                                             */
         *flags |= H5FD_FEAT_DEFAULT_VFD_COMPATIBLE; /* VFD creates a file which can be opened with the default
                                                        VFD */
-    }                                               /* end if */
+    } /* end if */
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5FD__mpio_query() */
@@ -1363,7 +1363,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
              */
             mpi_off = 0;
         } /* end if */
-    }     /* end if */
+    } /* end if */
 
     /* Read the data. */
     if (use_view_this_time) {
@@ -2120,9 +2120,9 @@ H5FD__mpio_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t cou
     haddr_t                   *s_addrs           = NULL;
     size_t                    *s_sizes           = NULL;
     void                     **s_bufs            = NULL;
-    char                       unused            = 0; /* Unused, except for non-NULL pointer value */
-    void                      *mpi_bufs_base     = NULL;
-    MPI_Datatype               buf_type          = MPI_BYTE; /* MPI description of the selection in memory */
+    static char                unused        = 0; /* Non-NULL placeholder; never written, only address used */
+    void                      *mpi_bufs_base = NULL;
+    MPI_Datatype               buf_type      = MPI_BYTE; /* MPI description of the selection in memory */
     bool                       buf_type_created  = false;
     MPI_Datatype               file_type         = MPI_BYTE; /* MPI description of the selection in file */
     bool                       file_type_created = false;
@@ -2488,9 +2488,9 @@ H5FD__mpio_write_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t co
     haddr_t                   *s_addrs           = NULL;
     size_t                    *s_sizes           = NULL;
     const void               **s_bufs            = NULL;
-    char                       unused            = 0; /* Unused, except for non-NULL pointer value */
-    const void                *mpi_bufs_base     = NULL;
-    MPI_Datatype               buf_type          = MPI_BYTE; /* MPI description of the selection in memory */
+    static char                unused        = 0; /* Non-NULL placeholder; never written, only address used */
+    const void                *mpi_bufs_base = NULL;
+    MPI_Datatype               buf_type      = MPI_BYTE; /* MPI description of the selection in memory */
     bool                       buf_type_created  = false;
     MPI_Datatype               file_type         = MPI_BYTE; /* MPI description of the selection in file */
     bool                       file_type_created = false;
@@ -3021,12 +3021,12 @@ H5FD__mpio_read_selection(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED d
     H5_flexible_const_ptr_t *s_bufs               = NULL;
     bool                     selection_was_sorted = true;
 
-    uint32_t i, j;
-    H5S_t  **s_mem_spaces  = NULL;
-    H5S_t  **s_file_spaces = NULL;
-    haddr_t  tmp_offset    = 0;
-    void    *mpi_bufs_base = NULL;
-    char     unused        = 0; /* Unused, except for non-NULL pointer value */
+    uint32_t    i, j;
+    H5S_t     **s_mem_spaces  = NULL;
+    H5S_t     **s_file_spaces = NULL;
+    haddr_t     tmp_offset    = 0;
+    void       *mpi_bufs_base = NULL;
+    static char unused        = 0; /* Non-NULL placeholder; never written, only address used */
 
     MPI_Count bytes_read = 0; /* Number of bytes read in */
     MPI_Count type_size;      /* MPI datatype used for I/O's size */
@@ -3380,7 +3380,7 @@ H5FD__mpio_write_selection(H5FD_t *_file, H5FD_mem_t type, hid_t H5_ATTR_UNUSED 
     H5S_t                 **s_mem_spaces  = NULL;
     H5S_t                 **s_file_spaces = NULL;
     haddr_t                 tmp_offset    = 0;
-    char                    unused        = 0; /* Unused, except for non-NULL pointer value */
+    static char             unused        = 0; /* Non-NULL placeholder; never written, only address used */
     H5_flexible_const_ptr_t mbb;
 
     MPI_Count bytes_written;

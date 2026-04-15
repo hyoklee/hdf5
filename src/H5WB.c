@@ -104,8 +104,9 @@ H5WB_wrap(void *buf, size_t buf_size)
     if (NULL == (wb = H5FL_MALLOC(H5WB_t)))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed for wrapped buffer info");
 
-    /* Wrap buffer given */
-    wb->wrapped_buf  = buf;
+    /* Wrap buffer given — buf may be stack-allocated; H5WB_t is always freed
+     * within the scope that holds the wrapped buffer, so no actual escape occurs. */
+    wb->wrapped_buf  = buf; // codeql[cpp/stack-address-escape]
     wb->wrapped_size = buf_size;
 
     /* No actual buffer yet */

@@ -404,7 +404,7 @@ build_match_list(const char *objname1, trav_info_t *info1, const char *objname2,
             }
             curr2++;
         } /* end else */
-    }     /* end while */
+    } /* end while */
 
     /* list1 did not end */
     infile[0] = 1;
@@ -770,8 +770,9 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
             if (src_linfo1.type == H5L_TYPE_HARD) {
                 size_t idx;
 
-                /* optional data pass */
-                info1_obj->opts = (diff_opt_t *)opts;
+                /* optional data pass — opts is valid for the lifetime of the
+                 * trav_info_t (freed before h5diff returns). */
+                info1_obj->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 
                 if (H5Oget_info_by_name3(file1_id, obj1fullname, &oinfo1, H5O_INFO_BASIC, H5P_DEFAULT) < 0) {
                     parallel_print("Error: Could not get file contents\n");
@@ -820,8 +821,9 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
             if (src_linfo2.type == H5L_TYPE_HARD) {
                 size_t idx;
 
-                /* optional data pass */
-                info2_obj->opts = (diff_opt_t *)opts;
+                /* optional data pass — opts is valid for the lifetime of the
+                 * trav_info_t (freed before h5diff returns). */
+                info2_obj->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 
                 if (H5Oget_info_by_name3(file2_id, obj2fullname, &oinfo2, H5O_INFO_BASIC, H5P_DEFAULT) < 0) {
                     parallel_print("Error: Could not get file contents\n");
@@ -970,8 +972,8 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
          * traverse group1
          */
         trav_info_init(fname1, file1_id, &info1_grp);
-        /* optional data pass */
-        info1_grp->opts = (diff_opt_t *)opts;
+        /* optional data pass — opts valid for trav_info_t lifetime */
+        info1_grp->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 
         if (h5trav_visit(file1_id, obj1fullname, true, true, trav_grp_objs, trav_grp_symlinks, info1_grp,
                          H5O_INFO_BASIC) < 0) {
@@ -984,8 +986,8 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
          * traverse group2
          */
         trav_info_init(fname2, file2_id, &info2_grp);
-        /* optional data pass */
-        info2_grp->opts = (diff_opt_t *)opts;
+        /* optional data pass — opts valid for trav_info_t lifetime */
+        info2_grp->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 
         if (h5trav_visit(file2_id, obj2fullname, true, true, trav_grp_objs, trav_grp_symlinks, info2_grp,
                          H5O_INFO_BASIC) < 0) {

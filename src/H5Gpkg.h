@@ -15,12 +15,12 @@
  *              only within the H5G package. Source files outside the
  *              H5G package should include H5Gprivate.h instead.
  */
+#ifndef H5Gpkg_H
+#define H5Gpkg_H
+
 #if !(defined H5G_FRIEND || defined H5G_MODULE)
 #error "Do not include this file outside the H5G package!"
 #endif
-
-#ifndef H5Gpkg_H
-#define H5Gpkg_H
 
 /* Get package's private header */
 #include "H5Gprivate.h"

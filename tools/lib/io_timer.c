@@ -64,7 +64,8 @@ io_time_new(clock_type type)
     /* set global timer variable */
     timer_g = pt;
 
-    pt->type = type;
+    if (pt)
+        pt->type = type;
     return pt;
 }
 

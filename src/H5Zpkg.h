@@ -10,12 +10,12 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifndef H5Zpkg_H
+#define H5Zpkg_H
+
 #if !(defined H5Z_FRIEND || defined H5Z_MODULE)
 #error "Do not include this file outside the H5Z package!"
 #endif
-
-#ifndef H5Zpkg_H
-#define H5Zpkg_H
 
 /* Include private header file */
 #include "H5Zprivate.h" /* Filter functions                */

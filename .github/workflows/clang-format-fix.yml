@@ -12,8 +12,7 @@ on:
   workflow_dispatch:
   push:
 
-permissions:
-  contents: read
+permissions: read-all
 
 jobs:
   formatting-check:

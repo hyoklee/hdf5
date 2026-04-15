@@ -15,12 +15,12 @@
  *              only within the H5HG package. Source files outside the
  *              H5HG package should include H5HGprivate.h instead.
  */
+#ifndef H5HGpkg_H
+#define H5HGpkg_H
+
 #if !(defined H5HG_FRIEND || defined H5HG_MODULE)
 #error "Do not include this file outside the H5HG package!"
 #endif
-
-#ifndef H5HGpkg_H
-#define H5HGpkg_H
 
 /* Get package's private header */
 #include "H5HGprivate.h"
@@ -96,7 +96,7 @@ H5FL_BLK_EXTERN(gheap_chunk);
  * some overhead and each message has some overhead.  The `+2' accounts for
  * rounding and for the free space object.
  */
-#define H5HG_NOBJS(f, z) ((((z)-H5HG_SIZEOF_HDR(f)) / H5HG_SIZEOF_OBJHDR(f) + 2))
+#define H5HG_NOBJS(f, z) ((((z) - H5HG_SIZEOF_HDR(f)) / H5HG_SIZEOF_OBJHDR(f) + 2))
 
 /****************************/
 /* Package Private Typedefs */

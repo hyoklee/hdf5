@@ -248,6 +248,8 @@ parse_subset_params(const char *dset)
         *brace++ = '\0';
 
         s = (struct subset_t *)calloc(1, sizeof(struct subset_t));
+        if (!s)
+            return NULL;
         parse_hsize_list(brace, &s->start);
 
         while (*brace && *brace != ';')
@@ -704,7 +706,7 @@ find_objs_cb(const char *name, const H5O_info2_t *oinfo, const char *already_see
                     /* Mark named datatype as having valid name */
                     found_obj->recorded = true;
                 } /* end else */
-            }     /* end if */
+            } /* end if */
             break;
 
         case H5O_TYPE_MAP:

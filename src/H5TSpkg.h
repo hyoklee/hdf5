@@ -15,12 +15,12 @@
  *          the H5TS package.  Source files outside the H5TS package should
  *          include H5TSprivate.h instead.
  */
+#ifndef H5TSpkg_H
+#define H5TSpkg_H
+
 #if !(defined H5TS_FRIEND || defined H5TS_MODULE)
 #error "Do not include this file outside the H5TS package!"
 #endif
-
-#ifndef H5TSpkg_H
-#define H5TSpkg_H
 
 #ifdef H5_HAVE_THREADS
 /* Get package's private header */

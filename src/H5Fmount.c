@@ -328,8 +328,9 @@ H5F_unmount(const H5G_loc_t *loc, const char *name)
         H5G_loc_free(&mp_loc);
         mp_loc_setup = false;
         mp_loc.oloc  = mnt_oloc;
-        mp_loc.path  = H5G_nameof(parent->shared->mtab.child[md].group);
-        child        = parent->shared->mtab.child[child_idx].file;
+        if (NULL == (mp_loc.path = H5G_nameof(parent->shared->mtab.child[md].group)))
+            HGOTO_ERROR(H5E_FILE, H5E_BADVALUE, FAIL, "unable to get path for mount point group");
+        child = parent->shared->mtab.child[child_idx].file;
 
         /* Set the parent to be the actual parent of the discovered child.
          * Could be different due to the shared mount table. */

@@ -372,11 +372,12 @@ H5VL_pass_through_new_obj(void *under_obj, hid_t under_vol_id)
 {
     H5VL_pass_through_t *new_obj;
 
-    new_obj               = (H5VL_pass_through_t *)calloc(1, sizeof(H5VL_pass_through_t));
-    new_obj->under_object = under_obj;
-    new_obj->under_vol_id = under_vol_id;
-
-    H5Iinc_ref(new_obj->under_vol_id);
+    new_obj = (H5VL_pass_through_t *)calloc(1, sizeof(H5VL_pass_through_t));
+    if (new_obj) {
+        new_obj->under_object = under_obj;
+        new_obj->under_vol_id = under_vol_id;
+        H5Iinc_ref(new_obj->under_vol_id);
+    }
 
     return new_obj;
 } /* end H5VL__pass_through_new_obj() */
@@ -493,6 +494,8 @@ H5VL_pass_through_info_copy(const void *_info)
 
     /* Allocate new VOL info struct for the pass through connector */
     new_info = (H5VL_pass_through_info_t *)calloc(1, sizeof(H5VL_pass_through_info_t));
+    if (!new_info)
+        return NULL;
 
     /* Increment reference count on underlying VOL ID, and copy the VOL info */
     new_info->under_vol_id = info->under_vol_id;
@@ -670,7 +673,9 @@ H5VL_pass_through_str_to_info(const char *str, void **_info)
     } /* end else */
 
     /* Allocate new pass-through VOL connector info and set its fields */
-    info                 = (H5VL_pass_through_info_t *)calloc(1, sizeof(H5VL_pass_through_info_t));
+    info = (H5VL_pass_through_info_t *)calloc(1, sizeof(H5VL_pass_through_info_t));
+    if (!info)
+        return -1;
     info->under_vol_id   = under_vol_id;
     info->under_vol_info = under_vol_info;
 
@@ -724,6 +729,8 @@ H5VL_pass_through_get_wrap_ctx(const void *obj, void **wrap_ctx)
 
     /* Allocate new VOL object wrapping context for the pass through connector */
     new_wrap_ctx = (H5VL_pass_through_wrap_ctx_t *)calloc(1, sizeof(H5VL_pass_through_wrap_ctx_t));
+    if (!new_wrap_ctx)
+        return -1;
 
     /* Increment reference count on underlying VOL ID, and copy the VOL info */
     new_wrap_ctx->under_vol_id = o->under_vol_id;
@@ -2169,7 +2176,7 @@ H5VL_pass_through_link_create(H5VL_link_create_args_t *args, void *obj, const H5
             /* Update the object for the link target */
             args->args.hard.curr_obj = ((H5VL_pass_through_t *)cur_obj)->under_object;
         } /* end if */
-    }     /* end if */
+    } /* end if */
 
     ret_value = H5VLlink_create(args, (o ? o->under_object : NULL), loc_params, under_vol_id, lcpl_id,
                                 lapl_id, dxpl_id, req);

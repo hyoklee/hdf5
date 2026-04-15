@@ -16,12 +16,12 @@
  *          include H5PLprivate.h instead.
  */
 
+#ifndef H5PLpkg_H
+#define H5PLpkg_H
+
 #if !(defined H5PL_FRIEND || defined H5PL_MODULE)
 #error "Do not include this file outside the H5PL package!"
 #endif
-
-#ifndef H5PLpkg_H
-#define H5PLpkg_H
 
 /* Include private header file */
 #include "H5PLprivate.h" /* Filter functions                */

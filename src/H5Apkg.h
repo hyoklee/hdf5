@@ -15,12 +15,12 @@
  *              the H5A package.  Source files outside the H5A package should
  *              include H5Aprivate.h instead.
  */
+#ifndef H5Apkg_H
+#define H5Apkg_H
+
 #if !(defined H5A_FRIEND || defined H5A_MODULE)
 #error "Do not include this file outside the H5A package!"
 #endif
-
-#ifndef H5Apkg_H
-#define H5Apkg_H
 
 /*
  * Define this to enable debugging.

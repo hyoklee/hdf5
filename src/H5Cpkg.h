@@ -16,12 +16,12 @@
  *		include H5Cprivate.h instead.
  */
 
+#ifndef H5Cpkg_H
+#define H5Cpkg_H
+
 #if !(defined H5C_FRIEND || defined H5C_MODULE)
 #error "Do not include this file outside the H5C package!"
 #endif
-
-#ifndef H5Cpkg_H
-#define H5Cpkg_H
 
 /* Get package's private header */
 #include "H5Cprivate.h"
@@ -1739,7 +1739,7 @@
                               (cache_ptr)->coll_list_len, (cache_ptr)->coll_list_size, (fail_val))           \
                                                                                                              \
     } while (0) /* H5C__MOVE_TO_TOP_IN_COLL_LIST */
-#endif          /* H5_HAVE_PARALLEL */
+#endif /* H5_HAVE_PARALLEL */
 
 /****************************/
 /* Package Private Typedefs */

@@ -836,7 +836,7 @@ H5FD__splitter_open(const char *name, unsigned flags, hid_t splitter_fapl_id, ha
                 HGOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, NULL, "unable to open log file");
             }
         } /* end if logfile path given */
-    }     /* end if logfile pointer/handle does not exist */
+    } /* end if logfile pointer/handle does not exist */
 
     if (H5FD_open(false, &file_ptr->rw_file, name, flags, fapl_ptr->rw_fapl_id, HADDR_UNDEF) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_CANTOPENFILE, NULL, "unable to open R/W file");
@@ -1302,24 +1302,19 @@ H5FD__splitter_ctl(H5FD_t *_file, uint64_t op_code, uint64_t flags, const void *
     /* Sanity checks */
     assert(file);
 
-    switch (op_code) {
-        /* Unknown op code */
-        default:
-            if (flags & H5FD_CTL_ROUTE_TO_TERMINAL_VFD_FLAG) {
-                /* Pass ctl call down to R/W channel VFD */
-                if (H5FDctl(file->rw_file, op_code, flags, input, output) < 0)
-                    HGOTO_ERROR(H5E_VFL, H5E_FCNTL, FAIL, "VFD ctl request failed");
-            }
-            else {
-                /* If no valid VFD routing flag is specified, fail for unknown op code
-                 * if H5FD_CTL_FAIL_IF_UNKNOWN_FLAG flag is set.
-                 */
-                if (flags & H5FD_CTL_FAIL_IF_UNKNOWN_FLAG)
-                    HGOTO_ERROR(H5E_VFL, H5E_FCNTL, FAIL,
-                                "VFD ctl request failed (unknown op code and fail if unknown flag is set)");
-            }
-
-            break;
+    /* Unknown op code - all op codes are handled by routing to the terminal VFD */
+    if (flags & H5FD_CTL_ROUTE_TO_TERMINAL_VFD_FLAG) {
+        /* Pass ctl call down to R/W channel VFD */
+        if (H5FDctl(file->rw_file, op_code, flags, input, output) < 0)
+            HGOTO_ERROR(H5E_VFL, H5E_FCNTL, FAIL, "VFD ctl request failed");
+    }
+    else {
+        /* If no valid VFD routing flag is specified, fail for unknown op code
+         * if H5FD_CTL_FAIL_IF_UNKNOWN_FLAG flag is set.
+         */
+        if (flags & H5FD_CTL_FAIL_IF_UNKNOWN_FLAG)
+            HGOTO_ERROR(H5E_VFL, H5E_FCNTL, FAIL,
+                        "VFD ctl request failed (unknown op code and fail if unknown flag is set)");
     }
 
 done:

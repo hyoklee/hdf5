@@ -15,12 +15,12 @@
  *          the H5E package.  Source files outside the H5E package should
  *          include H5Eprivate.h instead.
  */
+#ifndef H5Epkg_H
+#define H5Epkg_H
+
 #if !(defined H5E_FRIEND || defined H5E_MODULE)
 #error "Do not include this file outside the H5E package!"
 #endif
-
-#ifndef H5Epkg_H
-#define H5Epkg_H
 
 /* Get package's private header */
 #include "H5Eprivate.h"

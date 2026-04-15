@@ -15,12 +15,12 @@
  *          the H5B package.  Source files outside the H5B package should
  *          include H5Bprivate.h instead.
  */
+#ifndef H5Bpkg_H
+#define H5Bpkg_H
+
 #if !(defined H5B_FRIEND || defined H5B_MODULE)
 #error "Do not include this file outside the H5B package!"
 #endif
-
-#ifndef H5Bpkg_H
-#define H5Bpkg_H
 
 /* Get package's private header */
 #include "H5Bprivate.h"

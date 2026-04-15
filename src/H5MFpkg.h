@@ -15,12 +15,12 @@
  *              the H5MF package.  Source files outside the H5MF package should
  *              include H5MFprivate.h instead.
  */
+#ifndef H5MFpkg_H
+#define H5MFpkg_H
+
 #if !(defined H5MF_FRIEND || defined H5MF_MODULE)
 #error "Do not include this file outside the H5MF package!"
 #endif
-
-#ifndef H5MFpkg_H
-#define H5MFpkg_H
 
 /* Get package's private header */
 #include "H5MFprivate.h"
@@ -71,7 +71,7 @@
         hsize_t m;                                                                                           \
                                                                                                              \
         if (H5_addr_gt((E), 0) && ((m) = ((E) + H5F_BASE_ADDR(F)) % (A)))                                    \
-            (FR) = (A)-m;                                                                                    \
+            (FR) = (A) - m;                                                                                  \
         else                                                                                                 \
             (FR) = 0;                                                                                        \
     } while (0)

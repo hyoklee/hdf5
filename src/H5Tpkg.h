@@ -15,12 +15,12 @@
  *          the H5T package.  Source files outside the H5T package should
  *          include H5Tprivate.h instead.
  */
+#ifndef H5Tpkg_H
+#define H5Tpkg_H
+
 #if !(defined H5T_FRIEND || defined H5T_MODULE)
 #error "Do not include this file outside the H5T package!"
 #endif
-
-#ifndef H5Tpkg_H
-#define H5Tpkg_H
 
 /*
  * Define this to enable debugging.

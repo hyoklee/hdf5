@@ -15,12 +15,12 @@
  *          the H5B2 package.  Source files outside the H5B2 package should
  *          include H5B2private.h instead.
  */
+#ifndef H5B2pkg_H
+#define H5B2pkg_H
+
 #if !(defined H5B2_FRIEND || defined H5B2_MODULE)
 #error "Do not include this file outside the H5B2 package!"
 #endif
-
-#ifndef H5B2pkg_H
-#define H5B2pkg_H
 
 /* Get package's private header */
 #include "H5B2private.h"
@@ -43,9 +43,9 @@
 
 /* Size of a internal node pointer (on disk) */
 #define H5B2_INT_POINTER_SIZE(h, d)                                                                          \
-    ((unsigned)(h)->sizeof_addr                /* Address of child node */                                   \
-     + (h)->max_nrec_size                      /* # of records in child node */                              \
-     + (h)->node_info[(d)-1].cum_max_nrec_size /* Total # of records in child & below */                     \
+    ((unsigned)(h)->sizeof_addr                  /* Address of child node */                                 \
+     + (h)->max_nrec_size                        /* # of records in child node */                            \
+     + (h)->node_info[(d) - 1].cum_max_nrec_size /* Total # of records in child & below */                   \
     )
 
 /* Size of checksum information (on disk) */

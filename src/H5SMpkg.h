@@ -15,12 +15,12 @@
  *              the H5SM shared object header messages package.  Source files
  *              outside the H5SM package should	include H5SMprivate.h instead.
  */
+#ifndef H5SMpkg_H
+#define H5SMpkg_H
+
 #if !(defined H5SM_FRIEND || defined H5SM_MODULE)
 #error "Do not include this file outside the H5SM package!"
 #endif
-
-#ifndef H5SMpkg_H
-#define H5SMpkg_H
 
 /* Get package's private header */
 #include "H5SMprivate.h" /* Shared Object Header Messages	*/

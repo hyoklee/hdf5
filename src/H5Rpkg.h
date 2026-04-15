@@ -14,12 +14,12 @@
  *              only within the H5R package. Source files outside the
  *              H5R package should include H5Rprivate.h instead.
  */
+#ifndef H5Rpkg_H
+#define H5Rpkg_H
+
 #if !(defined H5R_FRIEND || defined H5R_MODULE)
 #error "Do not include this file outside the H5R package!"
 #endif
-
-#ifndef H5Rpkg_H
-#define H5Rpkg_H
 
 /* Get package's private header */
 #include "H5Rprivate.h"

@@ -15,12 +15,12 @@
  *          the H5F package.  Source files outside the H5F package should
  *          include H5Fprivate.h instead.
  */
+#ifndef H5Fpkg_H
+#define H5Fpkg_H
+
 #if !(defined H5F_FRIEND || defined H5F_MODULE)
 #error "Do not include this file outside the H5F package!"
 #endif
-
-#ifndef H5Fpkg_H
-#define H5Fpkg_H
 
 /* Get package's private header */
 #include "H5Fprivate.h"

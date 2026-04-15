@@ -22,12 +22,12 @@
  *          Indeed, this is the main reason why this file was created.
  */
 
+#ifndef H5ACpkg_H
+#define H5ACpkg_H
+
 #if !(defined H5AC_FRIEND || defined H5AC_MODULE)
 #error "Do not include this file outside the H5AC package!"
 #endif
-
-#ifndef H5ACpkg_H
-#define H5ACpkg_H
 
 /* Get package's private header */
 #include "H5ACprivate.h" /* Metadata cache			*/

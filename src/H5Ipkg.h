@@ -15,12 +15,12 @@
  *          the H5I package.  Source files outside the H5I package should
  *          include H5Iprivate.h instead.
  */
+#ifndef H5Ipkg_H
+#define H5Ipkg_H
+
 #if !(defined H5I_FRIEND || defined H5I_MODULE)
 #error "Do not include this file outside the H5I package!"
 #endif
-
-#ifndef H5Ipkg_H
-#define H5Ipkg_H
 
 /* Get package's private header */
 #include "H5Iprivate.h"

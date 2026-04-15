@@ -573,8 +573,8 @@ H5HL_insert(H5F_t *f, H5HL_t *heap, size_t buf_size, const void *buf, size_t *of
         else if (fl->size == need_size) {
             /* Free block of exact size found */
             offset = fl->offset;
-            fl     = H5HL__remove_free(heap, fl);
-            found  = true;
+            H5HL__remove_free(heap, fl);
+            found = true;
             break;
         }
         else if (!last_fl || last_fl->offset < fl->offset) {

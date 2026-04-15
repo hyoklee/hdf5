@@ -16,12 +16,12 @@
  *          include H5VLprivate.h instead.
  */
 
+#ifndef H5VLpkg_H
+#define H5VLpkg_H
+
 #if !(defined H5VL_FRIEND || defined H5VL_MODULE)
 #error "Do not include this file outside the H5VL package!"
 #endif
-
-#ifndef H5VLpkg_H
-#define H5VLpkg_H
 
 /* Get package's private header */
 #include "H5VLprivate.h" /* Generic Functions                    */

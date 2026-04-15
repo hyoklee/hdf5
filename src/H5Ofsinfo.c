@@ -168,9 +168,6 @@ H5O__fsinfo_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNU
         fsinfo->mapped  = true;
     }
     else {
-        if (vers < H5O_FSINFO_VERSION_1)
-            HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, NULL, "bad version number");
-
         fsinfo->version = vers;
         if (H5_IS_BUFFER_OVERFLOW(p, 1 + 1, p_end))
             HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding");

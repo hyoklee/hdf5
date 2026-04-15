@@ -15,12 +15,12 @@
  *              the H5FS package.  Source files outside the H5FS package should
  *              include H5FSprivate.h instead.
  */
+#ifndef H5FSpkg_H
+#define H5FSpkg_H
+
 #if !(defined H5FS_FRIEND || defined H5FS_MODULE)
 #error "Do not include this file outside the H5FS package!"
 #endif
-
-#ifndef H5FSpkg_H
-#define H5FSpkg_H
 
 /* Uncomment this macro to enable debugging output for free space manager */
 /* #define H5FS_DEBUG */

@@ -411,7 +411,7 @@ H5I_clear_type(H5I_type_t type, bool force, bool app_ref)
     {
         if (item->marked) {
             HASH_DELETE(hh, udata.type_info->hash_table, item);
-            item = H5FL_FREE(H5I_id_info_t, item);
+            (void)H5FL_FREE(H5I_id_info_t, item);
         }
     }
 

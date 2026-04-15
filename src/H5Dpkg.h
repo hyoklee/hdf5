@@ -15,12 +15,12 @@
  *          the H5D package.  Source files outside the H5D package should
  *          include H5Dprivate.h instead.
  */
+#ifndef H5Dpkg_H
+#define H5Dpkg_H
+
 #if !(defined H5D_FRIEND || defined H5D_MODULE)
 #error "Do not include this file outside the H5D package!"
 #endif
-
-#ifndef H5Dpkg_H
-#define H5Dpkg_H
 
 /* Get package's private header */
 #include "H5Dprivate.h"

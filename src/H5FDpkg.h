@@ -15,12 +15,12 @@
  *          the H5FD package.  Source files outside the H5FD package should
  *          include H5FDprivate.h instead.
  */
+#ifndef H5FDpkg_H
+#define H5FDpkg_H
+
 #if !(defined H5FD_FRIEND || defined H5FD_MODULE)
 #error "Do not include this file outside the H5FD package!"
 #endif
-
-#ifndef H5FDpkg_H
-#define H5FDpkg_H
 
 /* Get package's private header */
 #include "H5FDprivate.h" /* File drivers				*/

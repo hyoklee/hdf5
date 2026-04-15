@@ -328,9 +328,8 @@ run_test_loop(struct options *opts)
 
         parms.num_procs = num_procs;
 
-        if (create_comm_world(parms.num_procs, &doing_pio) != SUCCESS) {
-            /* do something harsh */
-        }
+        if (create_comm_world(parms.num_procs, &doing_pio) != SUCCESS)
+            fprintf(stderr, "create_comm_world failed for %d procs\n", parms.num_procs);
 
         /* only processes doing PIO will run the tests */
         if (doing_pio) {
@@ -382,9 +381,8 @@ run_test_loop(struct options *opts)
                     break;
             }
 
-            if (destroy_comm_world() != SUCCESS) {
-                /* do something harsh */
-            }
+            if (destroy_comm_world() != SUCCESS)
+                fprintf(stderr, "destroy_comm_world failed\n");
         }
     }
 }

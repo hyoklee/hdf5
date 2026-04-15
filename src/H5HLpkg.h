@@ -15,12 +15,12 @@
  *              only within the H5HL package. Source files outside the
  *              H5HL package should include H5HLprivate.h instead.
  */
+#ifndef H5HLpkg_H
+#define H5HLpkg_H
+
 #if !(defined H5HL_FRIEND || defined H5HL_MODULE)
 #error "Do not include this file outside the H5HL package!"
 #endif
-
-#ifndef H5HLpkg_H
-#define H5HLpkg_H
 
 /* Get package's private header */
 #include "H5HLprivate.h"

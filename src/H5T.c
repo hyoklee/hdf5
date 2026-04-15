@@ -847,7 +847,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* -Inf */
     d = (uint8_t *)&H5T_NATIVE_FLOAT_NEG_INF_g;
@@ -863,7 +863,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* Get the double datatype */
     if (NULL == (dst_p = (H5T_t *)H5I_object(H5T_NATIVE_DOUBLE_g)))
@@ -888,7 +888,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* -Inf */
     d = (uint8_t *)&H5T_NATIVE_DOUBLE_NEG_INF_g;
@@ -904,7 +904,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* Get the long double datatype */
     if (NULL == (dst_p = (H5T_t *)H5I_object(H5T_NATIVE_LDOUBLE_g)))
@@ -929,7 +929,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* -Inf */
     d = (uint8_t *)&H5T_NATIVE_LDOUBLE_NEG_INF_g;
@@ -945,7 +945,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
 #ifdef H5_HAVE__FLOAT16
     /* Get the _Float16 datatype */
@@ -971,7 +971,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 
     /* -Inf */
     d = (uint8_t *)&H5T_NATIVE_FLOAT16_NEG_INF_g;
@@ -987,7 +987,7 @@ H5T__init_inf(void)
             d[dst_p->shared->size - (u + 1)] = d[u];
             d[u]                             = tmp;
         } /* end for */
-    } /* end if */
+    }     /* end if */
 #endif
 
 #ifdef H5_HAVE_COMPLEX_NUMBERS
@@ -2265,8 +2265,8 @@ done:
                 dt->shared = H5FL_FREE(H5T_shared_t, dt->shared);
                 dt         = H5FL_FREE(H5T_t, dt);
             } /* end else */
-        } /* end if */
-    } /* end if */
+        }     /* end if */
+    }         /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5T__init_package() */
@@ -2354,7 +2354,7 @@ H5T_top_term_package(void)
         if (H5I_nmembers(H5I_DATATYPE) > 0) {
             (void)H5I_clear_type(H5I_DATATYPE, false, false);
             n++; /*H5I*/
-        } /* end if */
+        }        /* end if */
 
         /* Reset all the datatype IDs */
         if (H5T_IEEE_F32BE_g > 0) {
@@ -3331,7 +3331,7 @@ H5T__register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst, H5T_con
                 if (new_path != H5T_g.path[i])
                     H5T_g.path[i]->cdata.recalc = true;
         } /* end if */
-    } /* end if */
+    }     /* end if */
     else {
         H5T_conv_ctx_t conv_ctx = {0};
 
@@ -3410,7 +3410,7 @@ H5T__register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst, H5T_con
                         HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
                     continue;
                 } /* end if */
-            } /* end if */
+            }     /* end if */
             else if ((conv->u.lib_func)(old_path->src, old_path->dst, &cdata, &conv_ctx, 0, 0, 0, NULL,
                                         NULL) < 0) {
                 if (H5E_clear_stack() < 0)
@@ -3458,7 +3458,7 @@ H5T__register(H5T_pers_t pers, const char *name, H5T_t *src, H5T_t *dst, H5T_con
             if (H5E_clear_stack() < 0)
                 HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRESET, FAIL, "unable to clear current error stack");
         } /* end for */
-    } /* end else */
+    }     /* end else */
 
 done:
     if (ret_value < 0) {
@@ -3469,7 +3469,7 @@ done:
                 HDONE_ERROR(H5E_DATATYPE, H5E_CANTCLOSEOBJ, FAIL, "unable to close datatype");
             new_path = H5FL_FREE(H5T_path_t, new_path);
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
     if (tmp_sid >= 0) {
         if (H5I_dec_ref(tmp_sid) < 0)
@@ -4341,7 +4341,7 @@ H5T__complete_copy(H5T_t *new_dt, const H5T_t *old_dt, H5T_shared_t *reopened_fo
                                 old_match = (int)j;
                                 break;
                             } /* end if */
-                        } /* end for */
+                        }     /* end for */
 
                         /* check if we couldn't find a match */
                         if (old_match < 0)
@@ -4362,7 +4362,7 @@ H5T__complete_copy(H5T_t *new_dt, const H5T_t *old_dt, H5T_shared_t *reopened_fo
                             (ssize_t)(new_dt->shared->u.compnd.memb[i].type->shared->size -
                                       old_dt->shared->u.compnd.memb[old_match].type->shared->size);
                     } /* end if */
-                } /* end for */
+                }     /* end for */
 
                 /* Range check against datatype size */
                 if ((accum_change < 0) && ((ssize_t)new_dt->shared->size < accum_change))
@@ -4433,7 +4433,7 @@ H5T__complete_copy(H5T_t *new_dt, const H5T_t *old_dt, H5T_shared_t *reopened_fo
             default:
                 break;
         } /* end switch */
-    } /* end if */
+    }     /* end if */
 
     /* Set the cached location & name path if the original type was a named
      * type and the new type is also named.
@@ -4934,7 +4934,7 @@ H5T_close(H5T_t *dt)
                 if (H5O_loc_free(&(dt->oloc)) < 0)
                     HGOTO_ERROR(H5E_DATATYPE, H5E_CANTRELEASE, FAIL, "problem attempting to free location");
         } /* end else */
-    } /* end if */
+    }     /* end if */
 
     /* Clean up resources */
     if (H5T_close_real(dt) < 0)
@@ -5031,7 +5031,7 @@ H5T__set_size(H5T_t *dt, size_t size)
                                 max_offset = memb_offset;
                                 max_index  = i;
                             } /* end if */
-                        } /* end for */
+                        }     /* end for */
 
                         max_size = H5T__get_member_size(dt, max_index);
 
@@ -6990,7 +6990,7 @@ H5T_set_loc(H5T_t *dt, H5VL_object_t *file, H5T_loc_t loc)
                         /* Adjust the size of the array */
                         dt->shared->size = dt->shared->u.array.nelem * dt->shared->parent->shared->size;
                     } /* end if */
-                } /* end if */
+                }     /* end if */
                 break;
 
             case H5T_COMPOUND: /* Check each field and recurse on VL, compound and array type */
@@ -7041,8 +7041,8 @@ H5T_set_loc(H5T_t *dt, H5VL_object_t *file, H5T_loc_t loc)
                             /* Add that change to the accumulated size change */
                             accum_change += (ssize_t)(memb_type->shared->size - old_size);
                         } /* end if */
-                    } /* end if */
-                } /* end for */
+                    }     /* end if */
+                }         /* end for */
 
                 /* Range check against datatype size */
                 if ((accum_change < 0) && ((ssize_t)dt->shared->size < accum_change))
@@ -7092,7 +7092,7 @@ H5T_set_loc(H5T_t *dt, H5VL_object_t *file, H5T_loc_t loc)
             default:
                 break;
         } /* end switch */
-    } /* end if */
+    }     /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

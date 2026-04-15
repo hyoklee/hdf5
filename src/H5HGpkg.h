@@ -96,7 +96,7 @@ H5FL_BLK_EXTERN(gheap_chunk);
  * some overhead and each message has some overhead.  The `+2' accounts for
  * rounding and for the free space object.
  */
-#define H5HG_NOBJS(f, z) ((((z) - H5HG_SIZEOF_HDR(f)) / H5HG_SIZEOF_OBJHDR(f) + 2))
+#define H5HG_NOBJS(f, z) ((((z)-H5HG_SIZEOF_HDR(f)) / H5HG_SIZEOF_OBJHDR(f) + 2))
 
 /****************************/
 /* Package Private Typedefs */

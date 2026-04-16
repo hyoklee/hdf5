@@ -676,7 +676,7 @@ H5CX_retrieve_state(H5CX_state_t **api_state)
             if (H5VL_conn_inc_rc((*api_state)->vol_connector_prop.connector) < 0)
                 HGOTO_ERROR(H5E_CONTEXT, H5E_CANTINC, FAIL, "incrementing VOL connector refcount failed");
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
 #ifdef H5_HAVE_PARALLEL
     /* Save parallel I/O settings */
@@ -692,7 +692,7 @@ done:
                 HDONE_ERROR(H5E_CONTEXT, H5E_CANTRELEASE, FAIL, "unable to release API state");
             *api_state = NULL;
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5CX_retrieve_state() */
@@ -1079,8 +1079,8 @@ H5CX_set_apl(hid_t *acspl_id, const H5P_libclass_t *libclass,
             if (H5P_USER_TRUE == md_coll_read)
                 is_collective = true;
         } /* end if */
-#endif /* H5_HAVE_PARALLEL */
-    } /* end else */
+#endif    /* H5_HAVE_PARALLEL */
+    }     /* end else */
 
 #ifdef H5_HAVE_PARALLEL
     /* Check for collective operation */
@@ -1103,8 +1103,8 @@ H5CX_set_apl(hid_t *acspl_id, const H5P_libclass_t *libclass,
             if (mpi_comm != MPI_COMM_NULL)
                 MPI_Barrier(mpi_comm);
         } /* end if */
-    } /* end if */
-#endif /* H5_HAVE_PARALLEL */
+    }     /* end if */
+#endif    /* H5_HAVE_PARALLEL */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -3356,7 +3356,7 @@ H5CX_pop(bool update_dxpl_props)
         H5CX_SET_PROP(H5D_XFER_COLL_RANK0_BCAST_NAME, mpio_coll_rank0_bcast)
 #endif /* H5_HAVE_INSTRUMENTED_LIBRARY */
 #endif /* H5_HAVE_PARALLEL */
-    } /* end if */
+    }  /* end if */
 
     /* Pop the top context node from the stack */
     (*head) = (*head)->next;

@@ -1144,7 +1144,7 @@ H5FD__mpio_query(const H5FD_t H5_ATTR_UNUSED *_file, unsigned long *flags /* out
         *flags |= H5FD_FEAT_HAS_MPI; /* This driver uses MPI                                             */
         *flags |= H5FD_FEAT_DEFAULT_VFD_COMPATIBLE; /* VFD creates a file which can be opened with the default
                                                        VFD */
-    } /* end if */
+    }                                               /* end if */
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5FD__mpio_query() */
@@ -1363,7 +1363,7 @@ H5FD__mpio_read(H5FD_t *_file, H5FD_mem_t H5_ATTR_UNUSED type, hid_t H5_ATTR_UNU
              */
             mpi_off = 0;
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
     /* Read the data. */
     if (use_view_this_time) {

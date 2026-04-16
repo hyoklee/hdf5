@@ -698,7 +698,7 @@ typedef struct H5T_conv_hw_t {
                     count += 1;                                                                              \
                 break;                                                                                       \
             } /* end if */                                                                                   \
-        } /* end for */                                                                                      \
+        }     /* end for */                                                                                  \
                                                                                                              \
         HI = count;                                                                                          \
                                                                                                              \
@@ -726,7 +726,7 @@ typedef struct H5T_conv_hw_t {
                     count += 7;                                                                              \
                 break;                                                                                       \
             } /* end if */                                                                                   \
-        } /* end for */                                                                                      \
+        }     /* end for */                                                                                  \
                                                                                                              \
         LO = count;                                                                                          \
     }
@@ -1842,7 +1842,7 @@ typedef struct H5T_conv_hw_t {
                                 dst = (DT *)(dst_buf = (void *)((uint8_t *)buf +                             \
                                                                 (nelmts - safe) * (size_t)d_stride));        \
                             } /* end else */                                                                 \
-                        } /* end if */                                                                       \
+                        }     /* end if */                                                                   \
                         else {                                                                               \
                             /* Single forward pass over all data */                                          \
                             src  = (ST *)(src_buf = buf);                                                    \

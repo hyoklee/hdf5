@@ -404,7 +404,7 @@ build_match_list(const char *objname1, trav_info_t *info1, const char *objname2,
             }
             curr2++;
         } /* end else */
-    } /* end while */
+    }     /* end while */
 
     /* list1 did not end */
     infile[0] = 1;

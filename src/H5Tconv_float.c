@@ -1467,7 +1467,8 @@ H5T__conv__Float16_schar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
                          void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT16, SCHAR, H5__Float16, signed char, SCHAR_MIN, SCHAR_MAX);
+    H5T_CONV_Fx(FLOAT16, SCHAR, H5__Float16, signed char, SCHAR_MIN,
+                SCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1486,7 +1487,7 @@ H5T__conv__Float16_uchar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
                          void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT16, UCHAR, H5__Float16, unsigned char, 0, UCHAR_MAX);
+    H5T_CONV_Fx(FLOAT16, UCHAR, H5__Float16, unsigned char, 0, UCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1505,7 +1506,7 @@ H5T__conv__Float16_short(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
                          void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT16, SHORT, H5__Float16, short, SHRT_MIN, SHRT_MAX);
+    H5T_CONV_Fx(FLOAT16, SHORT, H5__Float16, short, SHRT_MIN, SHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1749,7 +1750,7 @@ H5T__conv_float_schar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, SCHAR, float, signed char, SCHAR_MIN, SCHAR_MAX);
+    H5T_CONV_Fx(FLOAT, SCHAR, float, signed char, SCHAR_MIN, SCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1769,7 +1770,7 @@ H5T__conv_float_uchar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, UCHAR, float, unsigned char, 0, UCHAR_MAX);
+    H5T_CONV_Fx(FLOAT, UCHAR, float, unsigned char, 0, UCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1789,7 +1790,7 @@ H5T__conv_float_short(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, SHORT, float, short, SHRT_MIN, SHRT_MAX);
+    H5T_CONV_Fx(FLOAT, SHORT, float, short, SHRT_MIN, SHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1809,7 +1810,7 @@ H5T__conv_float_ushort(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, USHORT, float, unsigned short, 0, USHRT_MAX);
+    H5T_CONV_Fx(FLOAT, USHORT, float, unsigned short, 0, USHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1829,7 +1830,7 @@ H5T__conv_float_int(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, const 
                     void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, INT, float, int, INT_MIN, INT_MAX);
+    H5T_CONV_Fx(FLOAT, INT, float, int, INT_MIN, INT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1849,7 +1850,7 @@ H5T__conv_float_uint(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, const
                      void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, UINT, float, unsigned int, 0, UINT_MAX);
+    H5T_CONV_Fx(FLOAT, UINT, float, unsigned int, 0, UINT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1869,7 +1870,7 @@ H5T__conv_float_long(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, const
                      void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, LONG, float, long, LONG_MIN, LONG_MAX);
+    H5T_CONV_Fx(FLOAT, LONG, float, long, LONG_MIN, LONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1889,7 +1890,7 @@ H5T__conv_float_ulong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, ULONG, float, unsigned long, 0, ULONG_MAX);
+    H5T_CONV_Fx(FLOAT, ULONG, float, unsigned long, 0, ULONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1909,7 +1910,7 @@ H5T__conv_float_llong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, LLONG, float, long long, LLONG_MIN, LLONG_MAX);
+    H5T_CONV_Fx(FLOAT, LLONG, float, long long, LLONG_MIN, LLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -1929,7 +1930,7 @@ H5T__conv_float_ullong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(FLOAT, ULLONG, float, unsigned long long, 0, ULLONG_MAX);
+    H5T_CONV_Fx(FLOAT, ULLONG, float, unsigned long long, 0, ULLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2067,7 +2068,7 @@ H5T__conv_double_schar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, SCHAR, double, signed char, SCHAR_MIN, SCHAR_MAX);
+    H5T_CONV_Fx(DOUBLE, SCHAR, double, signed char, SCHAR_MIN, SCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2087,7 +2088,7 @@ H5T__conv_double_uchar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, UCHAR, double, unsigned char, 0, UCHAR_MAX);
+    H5T_CONV_Fx(DOUBLE, UCHAR, double, unsigned char, 0, UCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2107,7 +2108,7 @@ H5T__conv_double_short(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, SHORT, double, short, SHRT_MIN, SHRT_MAX);
+    H5T_CONV_Fx(DOUBLE, SHORT, double, short, SHRT_MIN, SHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2127,7 +2128,7 @@ H5T__conv_double_ushort(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, USHORT, double, unsigned short, 0, USHRT_MAX);
+    H5T_CONV_Fx(DOUBLE, USHORT, double, unsigned short, 0, USHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2147,7 +2148,7 @@ H5T__conv_double_int(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, const
                      void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, INT, double, int, INT_MIN, INT_MAX);
+    H5T_CONV_Fx(DOUBLE, INT, double, int, INT_MIN, INT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2167,7 +2168,7 @@ H5T__conv_double_uint(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, UINT, double, unsigned int, 0, UINT_MAX);
+    H5T_CONV_Fx(DOUBLE, UINT, double, unsigned int, 0, UINT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2187,7 +2188,7 @@ H5T__conv_double_long(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, LONG, double, long, LONG_MIN, LONG_MAX);
+    H5T_CONV_Fx(DOUBLE, LONG, double, long, LONG_MIN, LONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2207,7 +2208,7 @@ H5T__conv_double_ulong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, ULONG, double, unsigned long, 0, ULONG_MAX);
+    H5T_CONV_Fx(DOUBLE, ULONG, double, unsigned long, 0, ULONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2227,7 +2228,7 @@ H5T__conv_double_llong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, LLONG, double, long long, LLONG_MIN, LLONG_MAX);
+    H5T_CONV_Fx(DOUBLE, LLONG, double, long long, LLONG_MIN, LLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2247,7 +2248,7 @@ H5T__conv_double_ullong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(DOUBLE, ULLONG, double, unsigned long long, 0, ULLONG_MAX);
+    H5T_CONV_Fx(DOUBLE, ULLONG, double, unsigned long long, 0, ULLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2385,7 +2386,8 @@ H5T__conv_ldouble_schar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, SCHAR, long double, signed char, SCHAR_MIN, SCHAR_MAX);
+    H5T_CONV_Fx(LDOUBLE, SCHAR, long double, signed char, SCHAR_MIN,
+                SCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2405,7 +2407,7 @@ H5T__conv_ldouble_uchar(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, UCHAR, long double, unsigned char, 0, UCHAR_MAX);
+    H5T_CONV_Fx(LDOUBLE, UCHAR, long double, unsigned char, 0, UCHAR_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2425,7 +2427,7 @@ H5T__conv_ldouble_short(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, SHORT, long double, short, SHRT_MIN, SHRT_MAX);
+    H5T_CONV_Fx(LDOUBLE, SHORT, long double, short, SHRT_MIN, SHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2445,7 +2447,7 @@ H5T__conv_ldouble_ushort(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
                          void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, USHORT, long double, unsigned short, 0, USHRT_MAX);
+    H5T_CONV_Fx(LDOUBLE, USHORT, long double, unsigned short, 0, USHRT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2465,7 +2467,7 @@ H5T__conv_ldouble_int(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, cons
                       void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, INT, long double, int, INT_MIN, INT_MAX);
+    H5T_CONV_Fx(LDOUBLE, INT, long double, int, INT_MIN, INT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2485,7 +2487,7 @@ H5T__conv_ldouble_uint(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, UINT, long double, unsigned int, 0, UINT_MAX);
+    H5T_CONV_Fx(LDOUBLE, UINT, long double, unsigned int, 0, UINT_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2505,7 +2507,7 @@ H5T__conv_ldouble_long(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, con
                        void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, LONG, long double, long, LONG_MIN, LONG_MAX);
+    H5T_CONV_Fx(LDOUBLE, LONG, long double, long, LONG_MIN, LONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2525,7 +2527,7 @@ H5T__conv_ldouble_ulong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, ULONG, long double, unsigned long, 0, ULONG_MAX);
+    H5T_CONV_Fx(LDOUBLE, ULONG, long double, unsigned long, 0, ULONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 
@@ -2546,7 +2548,8 @@ H5T__conv_ldouble_llong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, co
                         void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, LLONG, long double, long long, LLONG_MIN, LLONG_MAX);
+    H5T_CONV_Fx(LDOUBLE, LLONG, long double, long long, LLONG_MIN,
+                LLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 #endif /*H5T_CONV_INTERNAL_LDOUBLE_LLONG*/
@@ -2568,7 +2571,8 @@ H5T__conv_ldouble_ullong(const H5T_t *st, const H5T_t *dt, H5T_cdata_t *cdata, c
                          void H5_ATTR_UNUSED *bkg)
 {
     H5_WARN_FLOAT_EQUAL_OFF
-    H5T_CONV_Fx(LDOUBLE, ULLONG, long double, unsigned long long, 0, ULLONG_MAX);
+    H5T_CONV_Fx(LDOUBLE, ULLONG, long double, unsigned long long, 0,
+                ULLONG_MAX); // codeql[cpp/equality-on-floats]
     H5_WARN_FLOAT_EQUAL_ON
 }
 #endif /*H5T_CONV_INTERNAL_LDOUBLE_ULLONG*/

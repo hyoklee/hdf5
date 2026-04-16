@@ -130,7 +130,7 @@ H5T__conv_enum_init(const H5T_t *src, const H5T_t *dst, H5T_cdata_t *cdata, cons
          */
         H5T__sort_name(priv->src_copy, NULL);
         H5T__sort_name(priv->dst_copy, NULL);
-        for (size_t i = 0, j = 0; i < src_nmembs && j < dst_nmembs; i++, j++) {
+        for (size_t i = 0, j = 0; i < src_nmembs && j < dst_nmembs; i++) {
             char *src_name = src_sh->u.enumer.name[i];
             char *dst_name = dst_sh->u.enumer.name[j];
 
@@ -142,6 +142,7 @@ H5T__conv_enum_init(const H5T_t *src, const H5T_t *dst, H5T_cdata_t *cdata, cons
                             "source enum type is not a subset of destination enum type");
 
             H5_CHECKED_ASSIGN(priv->src2dst[i], int, j, size_t);
+            j++; /* advance past matched destination member */
         }
 
         /*

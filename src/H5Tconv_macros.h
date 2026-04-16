@@ -698,7 +698,7 @@ typedef struct H5T_conv_hw_t {
                     count += 1;                                                                              \
                 break;                                                                                       \
             } /* end if */                                                                                   \
-        }     /* end for */                                                                                  \
+        } /* end for */                                                                                      \
                                                                                                              \
         HI = count;                                                                                          \
                                                                                                              \
@@ -726,7 +726,7 @@ typedef struct H5T_conv_hw_t {
                     count += 7;                                                                              \
                 break;                                                                                       \
             } /* end if */                                                                                   \
-        }     /* end for */                                                                                  \
+        } /* end for */                                                                                      \
                                                                                                              \
         LO = count;                                                                                          \
     }
@@ -785,6 +785,7 @@ typedef struct H5T_conv_hw_t {
 #define H5T_CONV_Fx_CORE(STYPE, DTYPE, S, D, ST, DT, D_MIN, D_MAX)                                           \
     {                                                                                                        \
         H5T_conv_ret_t except_ret;                                                                           \
+        /* codeql[cpp/equality-on-floats] -- intentional: checks exact boundary for overflow detection */    \
         if (*(S) > (ST)(D_MAX) || (sprec < dprec && *(S) == (ST)(D_MAX))) {                                  \
             /* Prepare & restore library for user callback */                                                \
             H5_BEFORE_USER_CB(FAIL)                                                                          \
@@ -860,6 +861,7 @@ typedef struct H5T_conv_hw_t {
 #define H5T_CONV_Xf_CORE(STYPE, DTYPE, S, D, ST, DT, D_MIN, D_MAX)                                           \
     {                                                                                                        \
         H5T_conv_ret_t except_ret;                                                                           \
+        /* codeql[cpp/equality-on-floats] -- intentional: checks exact boundary for overflow detection */    \
         if (*(S) > (ST)(D_MAX) || (sprec < dprec && *(S) == (ST)(D_MAX))) {                                  \
             /* Prepare & restore library for user callback */                                                \
             H5_BEFORE_USER_CB(FAIL)                                                                          \
@@ -1467,6 +1469,7 @@ typedef struct H5T_conv_hw_t {
 #define H5T_CONV_Zx_CORE_IMP(STYPE, DTYPE, S, D, ST, DT, SBT, D_MIN, D_MAX)                                  \
     {                                                                                                        \
         H5T_CONV_##STYPE##_REALVAL(S); /* Extract "real" part of complex number */                           \
+        /* codeql[cpp/equality-on-floats] -- intentional: checks exact boundary for overflow detection */    \
         if ((sr_val) > (SBT)(D_MAX) || (sprec < dprec && (sr_val) == (SBT)(D_MAX))) {                        \
             H5T_conv_ret_t except_ret;                                                                       \
                                                                                                              \
@@ -1839,7 +1842,7 @@ typedef struct H5T_conv_hw_t {
                                 dst = (DT *)(dst_buf = (void *)((uint8_t *)buf +                             \
                                                                 (nelmts - safe) * (size_t)d_stride));        \
                             } /* end else */                                                                 \
-                        }     /* end if */                                                                   \
+                        } /* end if */                                                                       \
                         else {                                                                               \
                             /* Single forward pass over all data */                                          \
                             src  = (ST *)(src_buf = buf);                                                    \

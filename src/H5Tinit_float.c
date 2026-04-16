@@ -90,6 +90,7 @@
                 _buf1[_i] ^= _byte_mask;                                                                     \
                 H5MM_memcpy((void *)&_v2, (const void *)_buf1, sizeof(TYPE));                                \
                 H5_WARN_FLOAT_EQUAL_OFF                                                                      \
+                /* codeql[cpp/equality-on-floats] -- intentional: bit-level float format detection */        \
                 if (_v1 != _v2)                                                                              \
                     _pad_mask[_i] |= _byte_mask;                                                             \
                 H5_WARN_FLOAT_EQUAL_ON                                                                       \
@@ -121,7 +122,7 @@
                                                                                                              \
         /* Sign bit */                                                                                       \
         _v1 = (TYPE)1.0L;                                                                                    \
-        _v2 = (TYPE)-1.0L;                                                                                   \
+        _v2 = (TYPE) - 1.0L;                                                                                 \
         if (H5T__bit_cmp(sizeof(TYPE), INFO.perm, &_v1, &_v2, _pad_mask, &(INFO.sign)) < 0)                  \
             HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "failed to determine sign bit");                   \
                                                                                                              \

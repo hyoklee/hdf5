@@ -1,42 +1,62 @@
-name: s390x lin
+name: hdf5 dev s390x
 
+# Triggers the workflow on a call from another workflow
 on:
-  push:
-    branches:
-      - develop-
+  workflow_call:
+    inputs:
+      build_mode:
+        description: "release vs. debug build"
+        required: true
+        type: string
 
-permissions: read-all
+permissions:
+  contents: read
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
-  s390x_job:
-    name: s390x lin
+  s390x_build_and_test:
+    name: "s390x ${{ inputs.build_mode }}"
     runs-on: ubuntu-latest
-
     steps:
       - name: Get Sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Run
-        uses: uraimo/run-on-arch-action@v3
-        id: runcmd
+      - name: setup alpine (s390x)
+        uses: jirutka/setup-alpine@ae3b3ddba35054804fc4a3507b519fa7e8152050 # v1
         with:
           arch: s390x
-          distro: ubuntu_latest
-          install: |
-            apt-get update -q -y
-            apt-get install -q -y git cmake libjpeg-dev zlib1g zlib1g-dev
-            apt-get install -q -y gfortran g++  yacc flex libtool autotools-dev
-          run: |
-            mkdir build
-            cd build
-            cmake \
-            -D CTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
-            -D SITE:STRING=s390x \
-            ..
-            # ctest -D Experimental
-            ctest -T Build
-            ctest -T Test
+          packages: >
+            build-base
+            libaec-dev
+            libgit2-dev
+            cmake
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+      - name: Configure
+        shell: alpine.sh --root {0}
+        run: |
+          mkdir build
+          cd build
+          cmake -C ../config/cmake/cacheinit.cmake -G "Unix Makefiles" \
+          --log-level=VERBOSE \
+          -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
+          -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=OFF \
+          -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+          -DHDF5_ENABLE_PLUGIN_SUPPORT:BOOL=OFF \
+          -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
+          -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+          -DHDF5_BUILD_JAVA:BOOL=OFF \
+          ..
+
+      - name: Build
+        shell: alpine.sh --root {0}
+        run: |
+          cmake --build . --parallel 3 --config ${{ inputs.build_mode }}
+        working-directory: build
+
+      - name: Run Tests
+        shell: alpine.sh --root {0}
+        run: |
+          ctest . --parallel 2 -C ${{ inputs.build_mode }}
+        working-directory: build

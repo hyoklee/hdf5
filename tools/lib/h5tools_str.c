@@ -616,6 +616,16 @@ h5tools_print_char(h5tools_str_t *str, const h5tool_format_t *info, char ch)
         }
     }
 }
+
+/*-------------------------------------------------------------------------
+ * Function:    h5tools_str_indent
+ *
+ * Purpose:     Append indentation whitespace to STR based on the current
+ *              indent level in CTX and the line_indent string in INFO.
+ *
+ * Return:      void
+ *-------------------------------------------------------------------------
+ */
 void
 h5tools_str_indent(h5tools_str_t *str, const h5tool_format_t *info, h5tools_context_t *ctx)
 {
@@ -961,7 +971,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                         h5tools_str_append(str, OPT(info->fmt_llong, fmt_llong), templlong);
                     }
                 } /* end if (sizeof(long long) == nsize) */
-#endif            /* H5_SIZEOF_LONG != H5_SIZEOF_LONG_LONG */
+#endif /* H5_SIZEOF_LONG != H5_SIZEOF_LONG_LONG */
                 break;
 
             case H5T_COMPOUND:

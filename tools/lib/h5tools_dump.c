@@ -224,6 +224,15 @@ static void h5tools_print_virtual_selection(hid_t vspace, FILE *stream, const h5
                                             hsize_t           *curr_pos, /* total data element position */
                                             size_t             ncols);
 
+/*-------------------------------------------------------------------------
+ * Function:    h5tools_dump_init
+ *
+ * Purpose:     Initialize the h5tools dump module by setting the global
+ *              header format to the standard format.
+ *
+ * Return:      void
+ *-------------------------------------------------------------------------
+ */
 void
 h5tools_dump_init(void)
 {
@@ -3699,8 +3708,8 @@ h5tools_dump_dcpl(FILE *stream, const h5tool_format_t *info, h5tools_context_t *
                                                (hsize_t)0, (hsize_t)0);
                         break;
                 } /*switch*/
-            }     /*i*/
-        }         /*nfilters*/
+            } /*i*/
+        } /*nfilters*/
         else {
             ctx->need_prefix = true;
 

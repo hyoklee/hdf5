@@ -244,6 +244,14 @@ ref_path_table_put(const char *path, const H5O_token_t *token)
  */
 static int xid = 1;
 
+/*-------------------------------------------------------------------------
+ * Function:    get_next_xid
+ *
+ * Purpose:     Returns the next disambiguation index value.
+ *
+ * Return:      Integer counter value, incremented on each call.
+ *-------------------------------------------------------------------------
+ */
 int
 get_next_xid(void)
 {
@@ -258,6 +266,16 @@ get_next_xid(void)
  */
 static haddr_t fake_xid = HADDR_MAX;
 
+/*-------------------------------------------------------------------------
+ * Function:    get_fake_token
+ *
+ * Purpose:     Generate a fake object token for objects that do not have
+ *              real object tokens (e.g., soft links).  Uses a descending
+ *              counter starting from HADDR_MAX to minimize collision risk.
+ *
+ * Return:      void
+ *-------------------------------------------------------------------------
+ */
 void
 get_fake_token(H5O_token_t *token)
 {
@@ -271,14 +289,17 @@ get_fake_token(H5O_token_t *token)
         *token = H5O_TOKEN_UNDEF;
 }
 
-/*
- * for an object that does not have an object token (e.g., soft link),
- * create a table entry with a fake object token as the key.
+/*-------------------------------------------------------------------------
+ * Function:    ref_path_table_gen_fake
  *
- * Assumes 'path' is for an object that is not in the table.
+ * Purpose:     For an object that does not have an object token (e.g., a
+ *              soft link), create a table entry with a fake object token
+ *              as the key.  Assumes 'path' is for an object not already
+ *              in the table.
  *
+ * Return:      void
+ *-------------------------------------------------------------------------
  */
-
 void
 ref_path_table_gen_fake(const char *path, H5O_token_t *token)
 {

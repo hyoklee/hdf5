@@ -757,7 +757,7 @@ H5P__dxfr_xform_enc(const void *value, void **_pp, size_t *size)
             *pp += len;
             *pp[0] = '\0';
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
     /* Size of encoded data transform */
     *size += (1 + H5VM_limit_enc_size((uint64_t)len));
@@ -920,7 +920,7 @@ H5P__dxfr_xform_cmp(const void *_xform1, const void *_xform2, size_t H5_ATTR_UNU
             assert(pexp2);
             ret_value = strcmp(pexp1, pexp2);
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -2305,7 +2305,7 @@ H5Pset_dataset_io_hyperslab_selection(hid_t plist_id, unsigned rank, H5S_seloper
             else
                 HGOTO_ERROR(H5E_PLIST, H5E_BADVALUE, FAIL, "different rank for previous and new selections");
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
     /* Check for first time called */
     if (NULL == space) {

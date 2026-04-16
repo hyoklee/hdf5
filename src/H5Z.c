@@ -190,9 +190,9 @@ next:
                     free(timestrs.system);
                     free(timestrs.elapsed);
                 } /* end for */
-            } /* end for */
-        } /* end if */
-#endif /* H5Z_DEBUG */
+            }     /* end for */
+        }         /* end if */
+#endif            /* H5Z_DEBUG */
 
         /* Free the table of filters */
         if (H5Z_table_g) {
@@ -269,7 +269,7 @@ H5Zregister(const void *cls)
         /* Deprecated symbols not allowed, throw an error */
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid H5Z_class_t version number");
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
-    } /* end if */
+    }  /* end if */
 
     if (cls_real->id < 0 || cls_real->id > H5Z_FILTER_MAX)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid filter identification number");
@@ -337,7 +337,7 @@ H5Z_register(const H5Z_class2_t *cls)
 #ifdef H5Z_DEBUG
         memset(H5Z_stat_table_g + i, 0, sizeof(H5Z_stats_t));
 #endif /* H5Z_DEBUG */
-    } /* end if */
+    }  /* end if */
     /* Filter already registered */
     else {
         /* Replace old contents */
@@ -677,7 +677,7 @@ H5Z__flush_file_cb(void H5_ATTR_UNUSED *obj_ptr, hid_t obj_id, void H5_ATTR_PARA
                     /* Set the "sanity checked" flag */
                     object->sanity_checked = true;
                 } /* end if */
-            } /* end if */
+            }     /* end if */
         }
 #endif /* H5_HAVE_PARALLEL */
 
@@ -840,8 +840,8 @@ H5Z__prelude_callback(const H5O_pline_t *pline, hid_t dcpl_id, hid_t type_id, hi
                 default:
                     assert("invalid prelude type" && 0);
             } /* end switch */
-        } /* end else */
-    } /* end for */
+        }     /* end else */
+    }         /* end for */
 
 done:
 

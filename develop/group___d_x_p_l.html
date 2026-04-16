@@ -49,7 +49,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="HDFG-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-04-15</span>
+   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-04-16</span>
    </div>
    <div id="projectbrief">The HDF5 Field Guide</div>
   </td>
@@ -701,8 +701,8 @@ Functions</h2></td></tr>
 <p>Valid values returned in <code>actual_chunk_opt_mode:</code> </p><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956">H5D_mpio_actual_chunk_opt_mode_t</a> {</div>
 <div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956aadaa21a8cd9cf87f1f2402713860d292">H5D_MPIO_NO_CHUNK_OPTIMIZATION</a> = 0,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956aad6c2490e65e0471e215051a6c389d17">H5D_MPIO_LINK_CHUNK</a>,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956af9b13cc1511b7c60e9cacbb208fae2bf">H5D_MPIO_MULTI_CHUNK</a></div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956aad6c2490e65e0471e215051a6c389d17">H5D_MPIO_LINK_CHUNK</a> = 1,</div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956af9b13cc1511b7c60e9cacbb208fae2bf">H5D_MPIO_MULTI_CHUNK</a> = 2</div>
 <div class="line">} <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956">H5D_mpio_actual_chunk_opt_mode_t</a>;</div>
 <div class="ttc" id="a_h5_ppublic_8h_html_a3d1f48e6c05b649980ddc5837e227956"><div class="ttname"><a href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956">H5D_mpio_actual_chunk_opt_mode_t</a></div><div class="ttdeci">H5D_mpio_actual_chunk_opt_mode_t</div><div class="ttdef"><b>Definition</b> H5Ppublic.h:421</div></div>
 <div class="ttc" id="a_h5_ppublic_8h_html_a3d1f48e6c05b649980ddc5837e227956aad6c2490e65e0471e215051a6c389d17"><div class="ttname"><a href="_h5_ppublic_8h.html#a3d1f48e6c05b649980ddc5837e227956aad6c2490e65e0471e215051a6c389d17">H5D_MPIO_LINK_CHUNK</a></div><div class="ttdeci">@ H5D_MPIO_LINK_CHUNK</div><div class="ttdef"><b>Definition</b> H5Ppublic.h:425</div></div>
@@ -975,8 +975,8 @@ Functions</h2></td></tr>
 <p>Values returned in <code>selection_io_mode:</code> </p><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795">H5D_selection_io_mode_t</a> {</div>
 <div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a69dfe00660babb8a8f8abb29ba5210e7">H5D_SELECTION_IO_MODE_DEFAULT</a> = 0,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8">H5D_SELECTION_IO_MODE_OFF</a>,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795ad38fb01652ffe7ef8601455483ab809e">H5D_SELECTION_IO_MODE_ON</a></div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8">H5D_SELECTION_IO_MODE_OFF</a> = 1,</div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795ad38fb01652ffe7ef8601455483ab809e">H5D_SELECTION_IO_MODE_ON</a> = 2</div>
 <div class="line">} <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795">H5D_selection_io_mode_t</a>;</div>
 <div class="ttc" id="a_h5_ppublic_8h_html_a830b3ed265553177c07dd644f83ea795"><div class="ttname"><a href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795">H5D_selection_io_mode_t</a></div><div class="ttdeci">H5D_selection_io_mode_t</div><div class="ttdef"><b>Definition</b> H5Ppublic.h:542</div></div>
 <div class="ttc" id="a_h5_ppublic_8h_html_a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8"><div class="ttname"><a href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8">H5D_SELECTION_IO_MODE_OFF</a></div><div class="ttdeci">@ H5D_SELECTION_IO_MODE_OFF</div><div class="ttdef"><b>Definition</b> H5Ppublic.h:545</div></div>
@@ -1818,8 +1818,8 @@ Functions</h2></td></tr>
 <p>Values that can be set in <code>selection_io_mode:</code> </p><div class="fragment"><div class="line"> </div>
 <div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795">H5D_selection_io_mode_t</a> {</div>
 <div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a69dfe00660babb8a8f8abb29ba5210e7">H5D_SELECTION_IO_MODE_DEFAULT</a> = 0,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8">H5D_SELECTION_IO_MODE_OFF</a>,</div>
-<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795ad38fb01652ffe7ef8601455483ab809e">H5D_SELECTION_IO_MODE_ON</a></div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795a45fa23a7883df7239cfe4f36a97b99d8">H5D_SELECTION_IO_MODE_OFF</a> = 1,</div>
+<div class="line">    <a class="code hl_enumvalue" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795ad38fb01652ffe7ef8601455483ab809e">H5D_SELECTION_IO_MODE_ON</a> = 2</div>
 <div class="line">} <a class="code hl_enumeration" href="_h5_ppublic_8h.html#a830b3ed265553177c07dd644f83ea795">H5D_selection_io_mode_t</a>;</div>
 </div><!-- fragment --><p> (Click on a enumerator, field, or type for more information.)</p>
 <dl class="section note"><dt>Note</dt><dd>The library may not perform selection I/O as it asks for if the layout callback determines that it is not feasible to do so. Please refer to <a class="el" href="group___d_x_p_l.html#gad6fa6bfa5956e8c0bd69c22bde65f84c" title="Retrieves the cause for not performing selection or vector I/O on the last parallel I/O call.">H5Pget_no_selection_io_cause()</a> for details.</dd></dl>

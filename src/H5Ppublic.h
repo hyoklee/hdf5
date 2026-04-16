@@ -422,9 +422,9 @@ typedef enum H5D_mpio_actual_chunk_opt_mode_t {
     H5D_MPIO_NO_CHUNK_OPTIMIZATION = 0,
     /**< No chunk optimization was performed. Either no collective I/O was
         attempted or the dataset wasn't chunked. */
-    H5D_MPIO_LINK_CHUNK,
+    H5D_MPIO_LINK_CHUNK = 1,
     /**< Collective I/O is performed on all chunks simultaneously. */
-    H5D_MPIO_MULTI_CHUNK
+    H5D_MPIO_MULTI_CHUNK = 2
     /**< Each chunk was individually assigned collective or independent I/O based
          on what fraction of processes access the chunk. If the fraction is greater
          than the multi chunk ratio threshold, collective I/O is performed on that
@@ -542,9 +542,9 @@ typedef enum H5D_mpio_no_collective_cause_t {
 typedef enum H5D_selection_io_mode_t {
     H5D_SELECTION_IO_MODE_DEFAULT = 0,
     /**< Default selection I/O mode. */
-    H5D_SELECTION_IO_MODE_OFF,
+    H5D_SELECTION_IO_MODE_OFF = 1,
     /**< Selection I/O is off. */
-    H5D_SELECTION_IO_MODE_ON
+    H5D_SELECTION_IO_MODE_ON = 2
     /**< Selection I/O is on. */
 } H5D_selection_io_mode_t;
 //! <!--[H5D_selection_io_mode_t_snip] -->

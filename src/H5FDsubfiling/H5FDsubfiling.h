@@ -218,11 +218,11 @@
  *      Unused. Sentinel value
  */
 typedef enum {
-    SELECT_IOC_ONE_PER_NODE = 0, /* Default                              */
-    SELECT_IOC_EVERY_NTH_RANK,   /* Starting at rank 0, select-next += N */
-    SELECT_IOC_WITH_CONFIG,      /* NOT IMPLEMENTED: Read-from-file      */
-    SELECT_IOC_TOTAL,            /* Starting at rank 0, mpi_size / total */
-    ioc_selection_options        /* Sentinel value                       */
+    SELECT_IOC_ONE_PER_NODE   = 0, /* Default                              */
+    SELECT_IOC_EVERY_NTH_RANK = 1, /* Starting at rank 0, select-next += N */
+    SELECT_IOC_WITH_CONFIG    = 2, /* NOT IMPLEMENTED: Read-from-file      */
+    SELECT_IOC_TOTAL          = 3, /* Starting at rank 0, mpi_size / total */
+    ioc_selection_options     = 4  /* Sentinel value                       */
     /* NOTE: Add to the Fortran constants (H5f90global.F90)  when adding new entries */
 } H5FD_subfiling_ioc_select_t;
 

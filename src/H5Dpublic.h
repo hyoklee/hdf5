@@ -78,7 +78,7 @@ typedef enum H5D_chunk_index_t {
     H5D_CHUNK_IDX_FARRAY = 3, /**< Fixed array (for 0 unlimited dims) \since 1.10.0       */
     H5D_CHUNK_IDX_EARRAY = 4, /**< Extensible array (for 1 unlimited dim) \since 1.10.0   */
     H5D_CHUNK_IDX_BT2    = 5, /**< v2 B-tree index (for >1 unlimited dims) \since 1.10.0  */
-    H5D_CHUNK_IDX_NTYPES      /**< This one must be last! \since 1.10.0                   */
+    H5D_CHUNK_IDX_NTYPES = 6  /**< This one must be last! \since 1.10.0                   */
 } H5D_chunk_index_t;
 //! <!-- [H5D_chunk_index_t_snip] -->
 

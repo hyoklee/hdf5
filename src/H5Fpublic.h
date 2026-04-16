@@ -160,7 +160,7 @@ typedef enum H5F_mem_t {
     H5FD_MEM_LHEAP = 5,   /**< Local heap data */
     H5FD_MEM_OHDR  = 6,   /**< Object header data */
 
-    H5FD_MEM_NTYPES /**< Sentinel value - must be last */
+    H5FD_MEM_NTYPES = 7 /**< Sentinel value - must be last */
 } H5F_mem_t;
 
 /**
@@ -185,7 +185,7 @@ typedef enum H5F_libver_t {
     H5F_LIBVER_V114     = 4, /**< Use the 1.14 file format for storing objects */
     H5F_LIBVER_V200     = 5, /**< Use the 2.0 file format for storing objects */
     H5F_LIBVER_LATEST   = 5, /**< Use the latest file format for storing objects */
-    H5F_LIBVER_NBOUNDS       /**< Sentinel */
+    H5F_LIBVER_NBOUNDS  = 6  /**< Sentinel */
 } H5F_libver_t;
 
 /**
@@ -197,9 +197,9 @@ typedef enum H5F_fspace_strategy_t {
                                          drivers This is the library default when not set */
     H5F_FSPACE_STRATEGY_PAGE =
         1, /**< Mechanisms: free-space managers with embedded paged aggregation and virtual file drivers */
-    H5F_FSPACE_STRATEGY_AGGR = 2, /**< Mechanisms: aggregators and virtual file drivers */
-    H5F_FSPACE_STRATEGY_NONE = 3, /**< Mechanisms: virtual file drivers */
-    H5F_FSPACE_STRATEGY_NTYPES    /**< Sentinel */
+    H5F_FSPACE_STRATEGY_AGGR   = 2, /**< Mechanisms: aggregators and virtual file drivers */
+    H5F_FSPACE_STRATEGY_NONE   = 3, /**< Mechanisms: virtual file drivers */
+    H5F_FSPACE_STRATEGY_NTYPES = 4  /**< Sentinel */
 } H5F_fspace_strategy_t;
 //! <!-- [H5F_fspace_strategy_t_snip] -->
 
@@ -215,7 +215,7 @@ typedef enum H5F_file_space_type_t {
                                          This is the library default */
     H5F_FILE_SPACE_AGGR_VFD = 3,    /**< Aggregators, Virtual file driver */
     H5F_FILE_SPACE_VFD      = 4,    /**< Virtual file driver */
-    H5F_FILE_SPACE_NTYPES           /**< Sentinel */
+    H5F_FILE_SPACE_NTYPES   = 5     /**< Sentinel */
 } H5F_file_space_type_t;
 
 //! <!-- [H5F_retry_info_t_snip] -->

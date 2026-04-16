@@ -298,9 +298,9 @@ H5VL_term_package(void)
                     if (0 == n)
                         H5_PKG_INIT_VAR = false;
                 } /* end else */
-            }     /* end else */
-        }         /* end else */
-    }             /* end if */
+            } /* end else */
+        } /* end else */
+    } /* end if */
 
     FUNC_LEAVE_NOAPI(n)
 } /* end H5VL_term_package() */
@@ -431,7 +431,7 @@ H5VL__set_def_conn(void)
                 if (NULL == (connector = H5VL__register_connector_by_name(tok, H5P_VOL_INITIALIZE_DEFAULT)))
                     HGOTO_ERROR(H5E_VOL, H5E_CANTREGISTER, FAIL, "can't register connector");
             } /* end else */
-        }     /* end else */
+        } /* end else */
 
         /* Was there any connector info specified in the environment variable? */
         if (NULL != (tok = HDstrtok_r(NULL, "\n\r", &lasts)))
@@ -550,9 +550,12 @@ H5VL_new_vol_obj(H5I_type_t type, void *object, H5VL_connector_t *connector, boo
     assert(connector);
 
     /* Make sure type number is valid */
-    if (type != H5I_ATTR && type != H5I_DATASET && type != H5I_DATATYPE && type != H5I_FILE &&
-        type != H5I_GROUP && type != H5I_MAP)
-        HGOTO_ERROR(H5E_VOL, H5E_BADVALUE, NULL, "invalid type number");
+    {
+        bool valid_type = (type == H5I_ATTR || type == H5I_DATASET || type == H5I_DATATYPE ||
+                           type == H5I_FILE || type == H5I_GROUP || type == H5I_MAP);
+        if (!valid_type)
+            HGOTO_ERROR(H5E_VOL, H5E_BADVALUE, NULL, "invalid type number");
+    }
 
     /* Create the new VOL object */
     if (NULL == (new_vol_obj = H5FL_CALLOC(H5VL_object_t)))
@@ -631,8 +634,8 @@ H5VL_conn_prop_copy(H5VL_connector_prop_t *connector_prop)
                 /* Set the connector info to the copy */
                 connector_prop->connector_info = new_connector_info;
             } /* end if */
-        }     /* end if */
-    }         /* end if */
+        } /* end if */
+    } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -955,14 +958,14 @@ H5VL__conn_find(H5PL_vol_key_t *key, H5VL_connector_t **connector)
                 *connector = node;
                 break;
             } /* end if */
-        }     /* end if */
+        } /* end if */
         else {
             assert(H5VL_GET_CONNECTOR_BY_VALUE == key->kind);
             if (node->cls->value == key->u.value) {
                 *connector = node;
                 break;
             } /* end if */
-        }     /* end else */
+        } /* end else */
 
         /* Advance to next node */
         node = node->next;

@@ -2010,11 +2010,14 @@ H5Fget_name(hid_t obj_id, char *name /*out*/, size_t size)
     if (name && size == 0)
         name = NULL;
 
-    /* Check the type */
+    /* Check the type — accept file, group, datatype, dataset, or attribute */
     type = H5I_get_type(obj_id);
-    if (H5I_FILE != type && H5I_GROUP != type && H5I_DATATYPE != type && H5I_DATASET != type &&
-        H5I_ATTR != type)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, (-1), "not a file or file object");
+    {
+        bool valid_obj_type = (type == H5I_FILE || type == H5I_GROUP || type == H5I_DATATYPE ||
+                               type == H5I_DATASET || type == H5I_ATTR);
+        if (!valid_obj_type)
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, (-1), "not a file or file object");
+    }
 
     /* Get the file object */
     if (NULL == (vol_obj = H5VL_vol_object(obj_id)))
@@ -2066,11 +2069,14 @@ H5Fget_info2(hid_t obj_id, H5F_info2_t *finfo /*out*/)
     if (!finfo)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "file info pointer can't be NULL");
 
-    /* Check the type */
+    /* Check the type — accept file, group, datatype, dataset, or attribute */
     type = H5I_get_type(obj_id);
-    if (H5I_FILE != type && H5I_GROUP != type && H5I_DATATYPE != type && H5I_DATASET != type &&
-        H5I_ATTR != type)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a file or file object");
+    {
+        bool valid_obj_type = (type == H5I_FILE || type == H5I_GROUP || type == H5I_DATATYPE ||
+                               type == H5I_DATASET || type == H5I_ATTR);
+        if (!valid_obj_type)
+            HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a file or file object");
+    }
 
     /* Get the file object */
     if (NULL == (vol_obj = H5VL_vol_object(obj_id)))

@@ -503,8 +503,16 @@ H5T__conv_order_opt(const H5T_t *src, const H5T_t *dst, H5T_cdata_t *cdata,
                 !((H5T_ORDER_BE == src_order && H5T_ORDER_LE == dst_order) ||
                   (H5T_ORDER_LE == src_order && H5T_ORDER_BE == dst_order)))
                 HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion not supported");
-            if (src_size != 1 && src_size != 2 && src_size != 4 && src_size != 8 && src_size != 16)
-                HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion not supported");
+            switch (src_size) {
+                case 1:
+                case 2:
+                case 4:
+                case 8:
+                case 16:
+                    break; /* valid byte-swappable sizes */
+                default:
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_UNSUPPORTED, FAIL, "conversion not supported");
+            }
             switch (src->shared->type) {
                 case H5T_INTEGER:
                 case H5T_BITFIELD:

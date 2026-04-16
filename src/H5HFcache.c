@@ -1030,14 +1030,14 @@ H5HF__cache_iblock_deserialize(const void *_image, size_t H5_ATTR_NDEBUG_UNUSED 
                 /* I/O filter mask for filtered direct block */
                 UINT32DECODE(image, iblock->filt_ents[u].filter_mask);
             } /* end if */
-        }     /* end if */
+        } /* end if */
 
         /* Count child blocks */
         if (H5_addr_defined(iblock->ents[u].addr)) {
             iblock->nchildren++;
             iblock->max_child = u;
         } /* end if */
-    }     /* end for */
+    } /* end for */
 
     /* Sanity check */
     assert(iblock->nchildren); /* indirect blocks w/no children should have been deleted */
@@ -1312,7 +1312,7 @@ H5HF__cache_iblock_serialize(const H5F_t *f, void *_image, size_t H5_ATTR_NDEBUG
                 /* I/O filter mask for filtered direct block */
                 UINT32ENCODE(image, iblock->filt_ents[u].filter_mask);
             } /* end if */
-        }     /* end if */
+        } /* end if */
 
 #ifndef NDEBUG
         /* Count child blocks */
@@ -1321,8 +1321,8 @@ H5HF__cache_iblock_serialize(const H5F_t *f, void *_image, size_t H5_ATTR_NDEBUG
             if (u > max_child)
                 max_child = u;
         } /* end if */
-#endif    /* NDEBUG */
-    }     /* end for */
+#endif /* NDEBUG */
+    } /* end for */
 
     /* Compute checksum */
     metadata_chksum = H5_checksum_metadata((uint8_t *)_image, (size_t)(image - (uint8_t *)_image), 0);
@@ -1575,7 +1575,7 @@ H5HF__cache_dblock_verify_chksum(const void *_image, size_t len, void *_udata)
         H5MM_memcpy(read_buf, image, len);
 
         /* Push direct block data through I/O filter pipeline */
-        if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, filter_cb, &nbytes,
+        if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, &filter_cb, &nbytes,
                          &len, &read_buf) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTFILTER, FAIL, "output pipeline failed");
 
@@ -1729,7 +1729,7 @@ H5HF__cache_dblock_deserialize(const void *_image, size_t len, void *_udata, boo
             /* Push direct block data through I/O filter pipeline */
             nbytes      = len;
             filter_mask = udata->filter_mask;
-            if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, filter_cb,
+            if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, &filter_cb,
                              &nbytes, &len, &read_buf) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTFILTER, NULL, "output pipeline failed");
 
@@ -1739,7 +1739,7 @@ H5HF__cache_dblock_deserialize(const void *_image, size_t len, void *_udata, boo
             /* Copy un-filtered data into block's buffer */
             H5MM_memcpy(dblock->blk, read_buf, dblock->size);
         } /* end if */
-    }     /* end if */
+    } /* end if */
     else {
         /* Sanity checks */
         assert(udata->dblk == NULL);
@@ -1888,7 +1888,7 @@ H5HF__cache_dblock_image_len(const void *_thing, size_t *image_len)
             if (size == 0)
                 size = dblock->size;
         } /* end else */
-    }     /* end if */
+    } /* end if */
     else
         size = dblock->size;
 
@@ -2090,7 +2090,7 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
 
         /* Push direct block data through I/O filter pipeline */
         nbytes = write_size;
-        if (H5Z_pipeline(&(hdr->pline), 0, &filter_mask, H5Z_ENABLE_EDC, filter_cb, &nbytes, &write_size,
+        if (H5Z_pipeline(&(hdr->pline), 0, &filter_mask, H5Z_ENABLE_EDC, &filter_cb, &nbytes, &write_size,
                          &write_buf) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_WRITEERROR, FAIL, "output pipeline failed");
 
@@ -2159,7 +2159,7 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
             if (hdr_changed)
                 if (H5HF__hdr_dirty(hdr) < 0)
                     HGOTO_ERROR(H5E_HEAP, H5E_CANTDIRTY, FAIL, "can't mark heap header as dirty");
-        }                             /* end if */
+        } /* end if */
         else {                        /* the direct block's parent is an indirect block */
             bool par_changed = false; /* Whether the parent's infochanged */
 
@@ -2215,7 +2215,7 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
                 if (H5HF__iblock_dirty(par_iblock) < 0)
                     HGOTO_ERROR(H5E_HEAP, H5E_CANTDIRTY, FAIL, "can't mark heap header as dirty");
         } /* end else */
-    }     /* end if */
+    } /* end if */
     else {
         /* I/O filters are not enabled -- thus all we need to do is check to
          * see if the direct block is in temporary (AKA imaginary) file
@@ -2252,7 +2252,7 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
                 /* Mark that heap header was modified */
                 if (H5HF__hdr_dirty(hdr) < 0)
                     HGOTO_ERROR(H5E_HEAP, H5E_CANTDIRTY, FAIL, "can't mark heap header as dirty");
-            }      /* end if */
+            } /* end if */
             else { /* the direct block's parent is an indirect block */
                 /* Sanity checks */
                 assert(par_iblock);
@@ -2267,8 +2267,8 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
                 if (H5HF__iblock_dirty(par_iblock) < 0)
                     HGOTO_ERROR(H5E_HEAP, H5E_CANTDIRTY, FAIL, "can't mark heap header as dirty");
             } /* end else */
-        }     /* end if */
-    }         /* end else */
+        } /* end if */
+    } /* end else */
 
     /* At this point, write_buf points to a buffer containing the image
      * of the direct block that is ready to copy into the image buffer,
@@ -2642,7 +2642,7 @@ H5HF__cache_verify_hdr_descendants_clean(H5F_t *f, H5HF_hdr_t *hdr, bool *fd_cle
             assert(fd_exists);
 
             *fd_clean = false;
-        }      /* end else-if */
+        } /* end else-if */
         else { /* must examine children */
             bool unprotect_root_iblock = false;
 
@@ -2723,8 +2723,8 @@ H5HF__cache_verify_hdr_descendants_clean(H5F_t *f, H5HF_hdr_t *hdr, bool *fd_cle
                     if (H5AC_get_entry_ptr_from_addr(f, root_iblock_addr, (void **)(&root_iblock)) < 0)
                         HGOTO_ERROR(H5E_HEAP, H5E_CANTGET, FAIL, "H5AC_get_entry_ptr_from_addr() failed.");
                     assert(root_iblock);
-                }  /* end else */
-            }      /* end if */
+                } /* end else */
+            } /* end if */
             else { /* root_iblock != NULL */
                    /* we have the pointer to the root iblock.  Protect it
                     * if it is neither pinned nor protected -- otherwise we
@@ -2760,7 +2760,7 @@ H5HF__cache_verify_hdr_descendants_clean(H5F_t *f, H5HF_hdr_t *hdr, bool *fd_cle
                     unprotect_root_iblock = true;
                     assert(iblock == root_iblock);
                 } /* end if */
-            }     /* end else */
+            } /* end else */
 
             /* at this point, one way or another, the root iblock is locked
              * in memory for the duration of the call.  Do some sanity checks,
@@ -2779,8 +2779,8 @@ H5HF__cache_verify_hdr_descendants_clean(H5F_t *f, H5HF_hdr_t *hdr, bool *fd_cle
                     0)
                     HGOTO_ERROR(H5E_HEAP, H5E_CANTUNPROTECT, FAIL, "H5AC_unprotect() failed.");
             } /* end if */
-        }     /* end else */
-    }         /* end if */
+        } /* end else */
+    } /* end if */
     else if ((hdr->man_dtable.curr_root_rows == 0) && (HADDR_UNDEF != hdr->man_dtable.table_addr)) {
         haddr_t  root_dblock_addr;
         unsigned root_dblock_status = 0;
@@ -2821,12 +2821,12 @@ H5HF__cache_verify_hdr_descendants_clean(H5F_t *f, H5HF_hdr_t *hdr, bool *fd_cle
                         (!H5AC_get_serialization_in_progress(f))));
 
             *fd_clean = *clean;
-        }      /* end if */
+        } /* end if */
         else { /* root dblock not in cache */
             *fd_clean = true;
             *clean    = true;
         } /* end else */
-    }     /* end else-if */
+    } /* end else-if */
     else {
         /* this is scenario 3 -- the fractal heap is empty, and we
          * have nothing to do.
@@ -3096,7 +3096,7 @@ H5HF__cache_verify_iblocks_dblocks_clean(H5F_t *f, haddr_t fd_parent_addr, H5HF_
                     HGOTO_ERROR(H5E_HEAP, H5E_SYSTEM, FAIL,
                                 "dblock in cache and not a flush dep child of iblock.");
             } /* end if */
-        }     /* end if */
+        } /* end if */
 
         i++;
     } /* end while */
@@ -3335,7 +3335,7 @@ H5HF__cache_verify_descendant_iblocks_clean(H5F_t *f, haddr_t fd_parent_addr, H5
                                             "H5AC_get_entry_ptr_from_addr() failed.");
                             assert(child_iblock);
                         } /* end else */
-                    }     /* end if */
+                    } /* end if */
                     else {
                         /* child iblock is pinned -- look it up in the */
                         /* parent iblocks child_iblocks array.         */
@@ -3375,9 +3375,9 @@ H5HF__cache_verify_descendant_iblocks_clean(H5F_t *f, haddr_t fd_parent_addr, H5
                                            H5AC__NO_FLAGS_SET) < 0)
                             HGOTO_ERROR(H5E_HEAP, H5E_CANTUNPROTECT, FAIL, "H5AC_unprotect() failed.");
                     } /* end if */
-                }     /* end if */
-            }         /* end if */
-        }             /* end if */
+                } /* end if */
+            } /* end if */
+        } /* end if */
 
         i++;
     } /* end while */

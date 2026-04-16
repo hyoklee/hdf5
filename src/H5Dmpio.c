@@ -779,9 +779,9 @@ H5D__mpio_opt_possible(H5D_io_info_t *io_info)
                     if (dset_size > ((hsize_t)(2.0F * H5_GB) - 1))
                         local_cause[1] |= H5D_MPIO_RANK0_GREATER_THAN_2GB;
                 } /* end else */
-            }     /* end else */
-        }         /* end else */
-    }             /* end for loop */
+            } /* end else */
+        } /* end else */
+    } /* end for loop */
 
     /* Check for independent I/O */
     if (local_cause[0] & H5D_MPIO_SET_INDEPENDENT)
@@ -807,7 +807,7 @@ H5D__mpio_opt_possible(H5D_io_info_t *io_info)
 #ifdef H5_HAVE_INSTRUMENTED_LIBRARY
         H5CX_test_set_mpio_coll_rank0_bcast(true);
 #endif /* H5_HAVE_INSTRUMENTED_LIBRARY */
-    }  /* end if */
+    } /* end if */
 
     /* Set the return value, based on the global cause */
     ret_value = global_cause[0] > 0 ? false : true;
@@ -1242,7 +1242,7 @@ H5D__piece_io(H5D_io_info_t *io_info)
             if (H5CX_test_set_mpio_coll_chunk_link_hard(0) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTSET, FAIL, "unable to set property value");
         } /* end if */
-#endif    /* H5_HAVE_INSTRUMENTED_LIBRARY */
+#endif /* H5_HAVE_INSTRUMENTED_LIBRARY */
 
         /* Process all the filtered datasets first */
         if (io_info->filtered_count > 0) {
@@ -1733,7 +1733,7 @@ H5D__link_piece_collective_io(H5D_io_info_t *io_info, int H5_ATTR_UNUSED mpi_ran
 
             /* We have a single, complicated MPI datatype for both memory & file */
             mpi_buf_count = (hsize_t)1;
-        }      /* end if */
+        } /* end if */
         else { /* no selection at all for this process */
             ctg_store.contig.dset_addr = 0;
 
@@ -2178,7 +2178,7 @@ H5D__multi_chunk_collective_io(H5D_io_info_t *io_info, H5D_dset_io_info_t *dset_
             /* Perform the I/O */
             if (H5D__inter_collective_io(io_info, dset_info, fspace, mspace) < 0)
                 HGOTO_ERROR(H5E_IO, H5E_CANTGET, FAIL, "couldn't finish shared collective MPI-IO");
-        }      /* end if */
+        } /* end if */
         else { /* possible independent IO for this chunk */
 #ifdef H5Dmpio_DEBUG
             H5D_MPIO_DEBUG_VA(mpi_rank, "inside independent IO mpi_rank = %d, chunk index = %zu", mpi_rank,
@@ -2216,7 +2216,7 @@ H5D__multi_chunk_collective_io(H5D_io_info_t *io_info, H5D_dset_io_info_t *dset_
             H5D_MPIO_DEBUG(mpi_rank, "after inter collective IO");
 #endif
         } /* end else */
-    }     /* end for */
+    } /* end for */
 
     /* Write the local value of actual io mode to the API context. */
     H5CX_set_mpio_actual_io_mode(actual_io_mode);
@@ -3073,15 +3073,15 @@ H5D__obtain_mpio_mode(H5D_io_info_t *io_info, H5D_dset_io_info_t *di, uint8_t as
                 if (*tmp_recv_io_mode_info != 0) {
                     nproc_per_chunk[ic]++;
                 } /* end if */
-            }     /* end for */
-        }         /* end for */
+            } /* end for */
+        } /* end for */
 
         /* Calculating MPIO mode for each chunk (collective, independent, none) */
         for (ic = 0; ic < total_chunks; ic++) {
             if (nproc_per_chunk[ic] > MAX(1, threshold_nproc_per_chunk)) {
                 assign_io_mode[ic] = H5D_CHUNK_IO_MODE_COL;
             } /* end if */
-        }     /* end for */
+        } /* end for */
 
         /* merge buffer io_mode info and chunk addr into one */
         H5MM_memcpy(mergebuf, assign_io_mode, total_chunks);
@@ -4613,7 +4613,7 @@ H5D__mpio_collective_filtered_chunk_read(H5D_filtered_collective_io_info_t *chun
         /* Unfilter the chunk, unless we didn't read it from the file */
         if (chunk_entry->need_read && !chunk_entry->skip_filter_pline) {
             if (H5Z_pipeline(&chunk_info->dset_info->dset->shared->dcpl_cache.pline, H5Z_FLAG_REVERSE,
-                             &(chunk_entry->index_info.filter_mask), err_detect, filter_cb,
+                             &(chunk_entry->index_info.filter_mask), err_detect, &filter_cb,
                              (size_t *)&chunk_entry->chunk_new.length, &chunk_entry->chunk_buf_size,
                              &chunk_entry->buf) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, FAIL, "couldn't unfilter chunk for modifying");
@@ -4836,7 +4836,7 @@ H5D__mpio_collective_filtered_chunk_update(H5D_filtered_collective_io_info_t *ch
          */
         if (chunk_entry->need_read && !chunk_entry->skip_filter_pline) {
             if (H5Z_pipeline(&chunk_info->dset_info->dset->shared->dcpl_cache.pline, H5Z_FLAG_REVERSE,
-                             &(chunk_entry->index_info.filter_mask), err_detect, filter_cb,
+                             &(chunk_entry->index_info.filter_mask), err_detect, &filter_cb,
                              (size_t *)&chunk_entry->chunk_new.length, &chunk_entry->chunk_buf_size,
                              &chunk_entry->buf) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, FAIL, "couldn't unfilter chunk for modifying");
@@ -4927,7 +4927,7 @@ H5D__mpio_collective_filtered_chunk_update(H5D_filtered_collective_io_info_t *ch
         if (!chunk_list->chunk_infos[info_idx].skip_filter_pline) {
             if (H5Z_pipeline(
                     &chunk_list->chunk_infos[info_idx].chunk_info->dset_info->dset->shared->dcpl_cache.pline,
-                    0, &(chunk_list->chunk_infos[info_idx].index_info.filter_mask), err_detect, filter_cb,
+                    0, &(chunk_list->chunk_infos[info_idx].index_info.filter_mask), err_detect, &filter_cb,
                     (size_t *)&chunk_list->chunk_infos[info_idx].chunk_new.length,
                     &chunk_list->chunk_infos[info_idx].chunk_buf_size,
                     &chunk_list->chunk_infos[info_idx].buf) < 0)

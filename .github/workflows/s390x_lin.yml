@@ -29,6 +29,7 @@ jobs:
           arch: s390x
           packages: >
             build-base
+            gfortran
             libaec-dev
             libgit2-dev
             cmake
@@ -45,7 +46,7 @@ jobs:
           -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
           -DHDF5_ENABLE_PLUGIN_SUPPORT:BOOL=OFF \
           -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
-          -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+          -DHDF5_BUILD_FORTRAN:BOOL=ON \
           -DHDF5_BUILD_JAVA:BOOL=OFF \
           ..
 

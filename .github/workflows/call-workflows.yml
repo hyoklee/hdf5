@@ -321,3 +321,15 @@ jobs:
         with:
             build_mode: "Release"
 
+    call-release-s390x:
+        name: "s390x Release Workflows"
+        uses: ./.github/workflows/s390x_lin.yml
+        with:
+            build_mode: "Release"
+
+    call-debug-s390x:
+        name: "s390x Debug Workflows"
+        uses: ./.github/workflows/s390x_lin.yml
+        with:
+            build_mode: "Debug"
+

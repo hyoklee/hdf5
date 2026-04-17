@@ -747,9 +747,23 @@ macro (ADD_H5_TEST testname)
               FIXTURES_REQUIRED h5repack_vol_files
           )
         else ()
+          # For native VOL, create a per-test fixture so that CLEAR and REPACK
+          # are automatically included when this h5stat test runs in isolation
+          # (e.g., ctest --rerun-failed or ctest -R ".*h5stat.*"). Without this,
+          # DEPENDS only orders tests within a run; it cannot force the h5repack
+          # test into a filtered run, leaving out-*.h5 absent and h5stat failing.
+          set (STAT_FIXTURE "h5repack_stat_${base_testname}")
+          set_tests_properties (${CLEAR_TESTNAME} PROPERTIES
+              FIXTURES_SETUP "${STAT_FIXTURE}"
+          )
+          set_tests_properties (${REPACK_TESTNAME} PROPERTIES
+              FIXTURES_SETUP "${STAT_FIXTURE}"
+          )
           set_tests_properties (${STAT_TESTNAME} PROPERTIES
               ENVIRONMENT "${vol_env}"
+              FIXTURES_REQUIRED "${STAT_FIXTURE}"
           )
+          # Note: FIXTURES_CLEANUP is applied to CLEAN_TESTNAME below, after it is created.
         endif ()
 
         set_tests_properties (${STAT_TESTNAME} PROPERTIES
@@ -771,6 +785,13 @@ macro (ADD_H5_TEST testname)
           WORKING_DIRECTORY "${BINARY_DIR_VOL}/testfiles"
           FIXTURES_REQUIRED h5repack_vol_files
       )
+      # For native VOL STAT_CHECK tests: register CLEAN as the fixture cleanup so
+      # the output file is removed even when the h5stat test runs in isolation.
+      if (${ARG_STAT_CHECK} AND NOT HDF5_ENABLE_USING_MEMCHECKER AND "${vol}" STREQUAL "native")
+        set_tests_properties (${CLEAN_TESTNAME} PROPERTIES
+            FIXTURES_CLEANUP "h5repack_stat_${base_testname}"
+        )
+      endif ()
       # Only set dependencies if necessary
       if (NOT "${ARG_CLEANUP_DEPENDS}" STREQUAL "")
         set_tests_properties (${CLEAN_TESTNAME} PROPERTIES

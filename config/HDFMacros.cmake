@@ -519,6 +519,10 @@ macro (HDF_DIR_PATHS package_prefix)
   else ()
     list (APPEND CMAKE_INSTALL_RPATH "\$ORIGIN/../${${package_prefix}_INSTALL_LIB_DIR}:\$ORIGIN/")
   endif ()
+  # Build binaries with the install RPATH so that make install works even
+  # when the install prefix equals the build directory (avoids CMake's
+  # RPATH_CHECK deleting the source binary before file(INSTALL) can copy it).
+  set (CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 
   if (DEFINED ADDITIONAL_CMAKE_PREFIX_PATH AND EXISTS "${ADDITIONAL_CMAKE_PREFIX_PATH}")
     set (CMAKE_PREFIX_PATH ${ADDITIONAL_CMAKE_PREFIX_PATH} ${CMAKE_PREFIX_PATH})

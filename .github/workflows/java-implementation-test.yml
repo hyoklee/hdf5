@@ -189,7 +189,7 @@ jobs:
 
       - name: Upload build artifacts on failure
         if: failure()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v5
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v5
         with:
           name: build-logs-${{ matrix.os }}-java${{ matrix.java-version }}-${{ matrix.implementation }}
           path: |
@@ -200,7 +200,7 @@ jobs:
 
       - name: Upload Maven artifacts (if generated)
         if: inputs.test_mode == 'maven' || inputs.test_mode == 'full'
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v5
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v5
         with:
           name: maven-artifacts-${{ matrix.os }}-java${{ matrix.java-version }}-${{ matrix.implementation }}
           path: |

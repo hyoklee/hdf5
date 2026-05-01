@@ -83,7 +83,7 @@ jobs:
         continue-on-error: true
 
       - name: Save output as artifact
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: output-file
           path: |

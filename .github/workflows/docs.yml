@@ -64,7 +64,7 @@ jobs:
           TEXMFCNF=/tmp: make
 
       - name: Upload
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: refman.pdf
           path: ${{ runner.workspace }}/hdf5/build/hdf5lib_docs/latex/refman.pdf

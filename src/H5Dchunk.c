@@ -4292,7 +4292,7 @@ H5D__chunk_flush_entry(const H5D_t *dset, H5D_rdcc_ent_t *ent, bool reset)
             } /* end else */
             H5_CHECKED_ASSIGN(nbytes, size_t, udata.chunk_block.length, hsize_t);
             if (H5Z_pipeline(&(dset->shared->dcpl_cache.pline), 0, &(udata.filter_mask), err_detect,
-                             &filter_cb, &nbytes, &alloc, &buf) < 0)
+                             filter_cb, &nbytes, &alloc, &buf) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, FAIL, "output pipeline failed");
 
             H5_CHECKED_ASSIGN(udata.chunk_block.length, hsize_t, nbytes, size_t);
@@ -4853,7 +4853,7 @@ H5D__chunk_lock(const H5D_io_info_t H5_ATTR_NDEBUG_UNUSED *io_info, const H5D_ds
 
                     /* Perform filter pipeline */
                     if (H5Z_pipeline(old_pline, H5Z_FLAG_REVERSE, &(udata->filter_mask), err_detect,
-                                     &filter_cb, &chunk_nbytes, &buf_alloc, &chunk) < 0)
+                                     filter_cb, &chunk_nbytes, &buf_alloc, &chunk) < 0)
                         HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, NULL, "data pipeline read failed");
 
                     /* Make sure the chunk is the correct size after being unfiltered */
@@ -5375,7 +5375,7 @@ H5D__chunk_allocate(const H5D_t *dset, bool full_overwrite, const hsize_t old_di
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get I/O filter callback function");
 
             /* Push the chunk through the filters */
-            if (H5Z_pipeline(pline, 0, &filter_mask, err_detect, &filter_cb, &orig_chunk_size, &buf_size,
+            if (H5Z_pipeline(pline, 0, &filter_mask, err_detect, filter_cb, &orig_chunk_size, &buf_size,
                              &fb_info.fill_buf) < 0)
                 HGOTO_ERROR(H5E_PLINE, H5E_WRITEERROR, FAIL, "output pipeline failed");
         } /* end if */
@@ -5518,7 +5518,7 @@ H5D__chunk_allocate(const H5D_t *dset, bool full_overwrite, const hsize_t old_di
                         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't get I/O filter callback function");
 
                     /* Push the chunk through the filters */
-                    if (H5Z_pipeline(pline, 0, &filter_mask, err_detect, &filter_cb, &nbytes,
+                    if (H5Z_pipeline(pline, 0, &filter_mask, err_detect, filter_cb, &nbytes,
                                      &fb_info.fill_buf_size, &fb_info.fill_buf) < 0)
                         HGOTO_ERROR(H5E_PLINE, H5E_WRITEERROR, FAIL, "output pipeline failed");
 
@@ -7890,7 +7890,7 @@ H5D__chunk_format_convert_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata)
             HGOTO_ERROR(H5E_IO, H5E_READERROR, H5_ITER_ERROR, "unable to read raw data chunk");
 
         /* Pass the chunk through the pipeline */
-        if (H5Z_pipeline(new_idx_info->pline, 0, &filter_mask, H5Z_NO_EDC, &filter_cb, &nbytes, &read_size,
+        if (H5Z_pipeline(new_idx_info->pline, 0, &filter_mask, H5Z_NO_EDC, filter_cb, &nbytes, &read_size,
                          &buf) < 0)
             HGOTO_ERROR(H5E_PLINE, H5E_CANTFILTER, H5_ITER_ERROR, "output pipeline failed");
 

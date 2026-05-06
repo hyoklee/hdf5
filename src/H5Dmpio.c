@@ -4613,7 +4613,7 @@ H5D__mpio_collective_filtered_chunk_read(H5D_filtered_collective_io_info_t *chun
         /* Unfilter the chunk, unless we didn't read it from the file */
         if (chunk_entry->need_read && !chunk_entry->skip_filter_pline) {
             if (H5Z_pipeline(&chunk_info->dset_info->dset->shared->dcpl_cache.pline, H5Z_FLAG_REVERSE,
-                             &(chunk_entry->index_info.filter_mask), err_detect, &filter_cb,
+                             &(chunk_entry->index_info.filter_mask), err_detect, filter_cb,
                              (size_t *)&chunk_entry->chunk_new.length, &chunk_entry->chunk_buf_size,
                              &chunk_entry->buf) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, FAIL, "couldn't unfilter chunk for modifying");
@@ -4836,7 +4836,7 @@ H5D__mpio_collective_filtered_chunk_update(H5D_filtered_collective_io_info_t *ch
          */
         if (chunk_entry->need_read && !chunk_entry->skip_filter_pline) {
             if (H5Z_pipeline(&chunk_info->dset_info->dset->shared->dcpl_cache.pline, H5Z_FLAG_REVERSE,
-                             &(chunk_entry->index_info.filter_mask), err_detect, &filter_cb,
+                             &(chunk_entry->index_info.filter_mask), err_detect, filter_cb,
                              (size_t *)&chunk_entry->chunk_new.length, &chunk_entry->chunk_buf_size,
                              &chunk_entry->buf) < 0)
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTFILTER, FAIL, "couldn't unfilter chunk for modifying");
@@ -4927,7 +4927,7 @@ H5D__mpio_collective_filtered_chunk_update(H5D_filtered_collective_io_info_t *ch
         if (!chunk_list->chunk_infos[info_idx].skip_filter_pline) {
             if (H5Z_pipeline(
                     &chunk_list->chunk_infos[info_idx].chunk_info->dset_info->dset->shared->dcpl_cache.pline,
-                    0, &(chunk_list->chunk_infos[info_idx].index_info.filter_mask), err_detect, &filter_cb,
+                    0, &(chunk_list->chunk_infos[info_idx].index_info.filter_mask), err_detect, filter_cb,
                     (size_t *)&chunk_list->chunk_infos[info_idx].chunk_new.length,
                     &chunk_list->chunk_infos[info_idx].chunk_buf_size,
                     &chunk_list->chunk_infos[info_idx].buf) < 0)

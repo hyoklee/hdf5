@@ -1575,7 +1575,7 @@ H5HF__cache_dblock_verify_chksum(const void *_image, size_t len, void *_udata)
         H5MM_memcpy(read_buf, image, len);
 
         /* Push direct block data through I/O filter pipeline */
-        if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, filter_cb, &nbytes,
+        if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, &filter_cb, &nbytes,
                          &len, &read_buf) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTFILTER, FAIL, "output pipeline failed");
 
@@ -1729,7 +1729,7 @@ H5HF__cache_dblock_deserialize(const void *_image, size_t len, void *_udata, boo
             /* Push direct block data through I/O filter pipeline */
             nbytes      = len;
             filter_mask = udata->filter_mask;
-            if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, filter_cb,
+            if (H5Z_pipeline(&(hdr->pline), H5Z_FLAG_REVERSE, &filter_mask, H5Z_ENABLE_EDC, &filter_cb,
                              &nbytes, &len, &read_buf) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTFILTER, NULL, "output pipeline failed");
 
@@ -2090,7 +2090,7 @@ H5HF__cache_dblock_pre_serialize(H5F_t *f, void *_thing, haddr_t addr, size_t le
 
         /* Push direct block data through I/O filter pipeline */
         nbytes = write_size;
-        if (H5Z_pipeline(&(hdr->pline), 0, &filter_mask, H5Z_ENABLE_EDC, filter_cb, &nbytes, &write_size,
+        if (H5Z_pipeline(&(hdr->pline), 0, &filter_mask, H5Z_ENABLE_EDC, &filter_cb, &nbytes, &write_size,
                          &write_buf) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_WRITEERROR, FAIL, "output pipeline failed");
 

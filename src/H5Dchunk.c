@@ -6994,7 +6994,7 @@ H5D__chunk_copy_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata)
         unsigned filter_mask = chunk_rec->filter_mask;
 
         /* Execute filter pipeline */
-        if (H5Z_pipeline(pline, H5Z_FLAG_REVERSE, &filter_mask, H5Z_NO_EDC, filter_cb, &nbytes,
+        if (H5Z_pipeline(pline, H5Z_FLAG_REVERSE, &filter_mask, H5Z_NO_EDC, &filter_cb, &nbytes,
                          &udata->buf_size, &udata->buf) < 0)
             HGOTO_ERROR(H5E_PLINE, H5E_CANTFILTER, H5_ITER_ERROR, "data pipeline read failed");
 
@@ -7060,8 +7060,8 @@ H5D__chunk_copy_cb(const H5D_chunk_rec_t *chunk_rec, void *_udata)
     /* Need to compress variable-length or reference data elements or a chunk found in cache before writing to
      * file */
     if (must_filter && (is_vlen || fix_ref || udata->chunk_in_cache)) {
-        if (H5Z_pipeline(pline, 0, &(udata_dst.filter_mask), H5Z_NO_EDC, filter_cb, &nbytes, &udata->buf_size,
-                         &udata->buf) < 0)
+        if (H5Z_pipeline(pline, 0, &(udata_dst.filter_mask), H5Z_NO_EDC, &filter_cb, &nbytes,
+                         &udata->buf_size, &udata->buf) < 0)
             HGOTO_ERROR(H5E_PLINE, H5E_CANTFILTER, H5_ITER_ERROR, "output pipeline failed");
 
         H5_CHECKED_ASSIGN(udata_dst.chunk_block.length, hsize_t, nbytes, size_t);

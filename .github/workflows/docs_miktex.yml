@@ -179,7 +179,7 @@ jobs:
           make LATEX_CMD=lualatex  || (echo "=== refman.log (last 200 lines) ===" && tail -200 refman.log 2>/dev/null; echo "=== MiKTeX lualatex.log ===" && cat ~/.miktex/texmfs/data/miktex/log/lualatex.log; exit 1)	  
 
       - name: Upload
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: refman.pdf
           path: ${{ runner.workspace }}/hdf5/build/hdf5lib_docs/latex/refman.pdf

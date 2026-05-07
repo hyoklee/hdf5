@@ -141,8 +141,7 @@ parse_option(int argc, char *const argv[], options_t *opts)
             fprintf(stderr, "malloc: failed\n");
             Hgoto_error(-1);
         }
-        strcpy(opts->filename, opts->progname);
-        strcat(opts->filename, ".h5");
+        snprintf(opts->filename, strlen(opts->progname) + 4, "%s.h5", opts->progname);
     }
 
 done:

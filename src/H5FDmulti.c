@@ -714,7 +714,7 @@ H5FD_multi_sb_encode(H5FD_t *_file, char *name /*out*/, unsigned char *buf /*out
     p = buf + 8 + nseen * 2 * 8;
     UNIQUE_MEMBERS (file->fa.memb_map, mt) {
         size_t n = strlen(file->fa.memb_name[mt]) + 1;
-        strcpy((char *)p, file->fa.memb_name[mt]);
+        memcpy((char *)p, file->fa.memb_name[mt], n);
         p += n;
         for (i = n; i % 8; i++)
             *p++ = '\0';
@@ -2031,6 +2031,7 @@ H5FD_multi_ctl(H5FD_t *_file, uint64_t op_code, uint64_t flags, const void *inpu
 
     /* Silence compiler */
     (void)file;
+    (void)op_code;
     (void)input;
     (void)output;
 

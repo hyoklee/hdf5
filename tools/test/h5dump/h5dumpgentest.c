@@ -13878,7 +13878,7 @@ gent_tattr4_be(void)
     H5Tset_cset(type_id, H5T_CSET_ASCII);
 
     for (int i = 0; i < 9; i++) {
-        sprintf(attr_name, "attr%d", i);
+        snprintf(attr_name, sizeof(attr_name), "attr%d", i);
 
         attr_id = H5Acreate2(file_id, attr_name, type_id, attr_dataspace_id, H5P_DEFAULT, H5P_DEFAULT);
 

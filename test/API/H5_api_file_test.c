@@ -1882,8 +1882,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (object_id != group_id) {
                 H5_FAILED();
-                printf("    opened object ID (%ld) did not match only currently open group ID (%ld)\n",
-                       object_id, group_id);
+                printf("    opened object ID (%lld) did not match only currently open group ID (%lld)\n",
+                       (long long)object_id, (long long)group_id);
                 PART_ERROR(H5Fget_obj_ids_singular_grp);
             }
 

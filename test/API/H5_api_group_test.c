@@ -1456,8 +1456,8 @@ test_get_group_info(void H5_ATTR_UNUSED *params)
 
             if (group_info.nlinks != GROUP_GET_INFO_TEST_GROUP_NUMB) {
                 H5_FAILED();
-                printf("    group's number of links '%lu' doesn't match expected value '%u'\n",
-                       group_info.nlinks, (unsigned int)GROUP_GET_INFO_TEST_GROUP_NUMB);
+                printf("    group's number of links '%llu' doesn't match expected value '%u'\n",
+                       (unsigned long long)group_info.nlinks, (unsigned int)GROUP_GET_INFO_TEST_GROUP_NUMB);
                 PART_ERROR(H5Gget_info);
             }
 
@@ -1511,8 +1511,8 @@ test_get_group_info(void H5_ATTR_UNUSED *params)
 
             if (group_info.nlinks != GROUP_GET_INFO_TEST_GROUP_NUMB) {
                 H5_FAILED();
-                printf("    group's number of links '%lu' doesn't match expected value '%u'\n",
-                       group_info.nlinks, (unsigned int)GROUP_GET_INFO_TEST_GROUP_NUMB);
+                printf("    group's number of links '%llu' doesn't match expected value '%u'\n",
+                       (unsigned long long)group_info.nlinks, (unsigned int)GROUP_GET_INFO_TEST_GROUP_NUMB);
                 PART_ERROR(H5Gget_info_by_name);
             }
 
@@ -1573,8 +1573,8 @@ test_get_group_info(void H5_ATTR_UNUSED *params)
 
                 if (group_info.nlinks != 0) {
                     H5_FAILED();
-                    printf("    group's number of links '%lu' doesn't match expected value '%d'\n",
-                           group_info.nlinks, 0);
+                    printf("    group's number of links '%llu' doesn't match expected value '%d'\n",
+                           (unsigned long long)group_info.nlinks, 0);
                     PART_ERROR(H5Gget_info_by_idx_crt_order_increasing);
                 }
 
@@ -1630,8 +1630,8 @@ test_get_group_info(void H5_ATTR_UNUSED *params)
 
                 if (group_info.nlinks != 0) {
                     H5_FAILED();
-                    printf("    group's number of links '%lu' doesn't match expected value '%d'\n",
-                           group_info.nlinks, 0);
+                    printf("    group's number of links '%llu' doesn't match expected value '%d'\n",
+                           (unsigned long long)group_info.nlinks, 0);
                     PART_ERROR(H5Gget_info_by_idx_crt_order_decreasing);
                 }
 
@@ -1681,8 +1681,8 @@ test_get_group_info(void H5_ATTR_UNUSED *params)
 
                 if (group_info.nlinks != 0) {
                     H5_FAILED();
-                    printf("    group's number of links '%lu' doesn't match expected value '%d'\n",
-                           group_info.nlinks, 0);
+                    printf("    group's number of links '%llu' doesn't match expected value '%d'\n",
+                           (unsigned long long)group_info.nlinks, 0);
                     PART_ERROR(H5Gget_info_by_idx_name_order_increasing);
                 }
 

@@ -851,7 +851,7 @@ H5FD__onion_parse_config_str(const char *config_str, H5FD_onion_fapl_info_t *fa)
                     fa->creation_flags = (uint8_t)strtoul(token2, NULL, 10);
                 }
                 else if (!strcmp(token1, "comment")) {
-                    strcpy(fa->comment, token2);
+                    strlcpy(fa->comment, token2, H5FD_ONION_FAPL_INFO_COMMENT_MAX_LEN + 1);
                 }
                 else
                     HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "unknown token in the configure string: %s",

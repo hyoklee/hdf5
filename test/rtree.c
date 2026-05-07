@@ -485,7 +485,7 @@ create_virtual_dataset(hid_t file_id, hid_t dapl_id, int num_mappings, hid_t src
 
     /* Create multiple source dsets and add virtual mappings */
     for (i = 0; i < num_mappings; i++) {
-        sprintf(srcdset_name, "%d_src_dset", i);
+        snprintf(srcdset_name, sizeof(srcdset_name), "%d_src_dset", i);
 
         /* Create source dataset */
         if ((srcdset_id = H5Dcreate2(srcfile_id, srcdset_name, H5T_NATIVE_INT, srcspace_id, H5P_DEFAULT,

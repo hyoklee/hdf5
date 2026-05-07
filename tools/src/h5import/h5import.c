@@ -3990,7 +3990,6 @@ setDefaultValues(struct Input *in, int count)
 {
     int  i;
     char temp[255];
-    char num[255];
 
     in->h5dumpInput    = 0;
     in->inputClass     = 3; /* FP */
@@ -4001,10 +4000,8 @@ setDefaultValues(struct Input *in, int count)
     in->rank           = 0;
     in->path.count     = 1;
 
-    strcpy(temp, "dataset");
-    snprintf(num, sizeof(num), "%d", count);
-    strcat(temp, num);
-    strcpy(in->path.group[0], temp);
+    snprintf(temp, sizeof(temp), "dataset%d", count);
+    strlcpy(in->path.group[0], temp, MAX_PATH_NAME_LENGTH);
 
     in->outputArchitecture = 0;  /* NATIVE */
     in->outputByteOrder    = -1; /* use default    */

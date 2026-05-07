@@ -1047,6 +1047,9 @@ H5G__get_name_by_addr_cb(hid_t gid, const char *path, const H5O_loc_t *obj_oloc,
 
     FUNC_ENTER_PACKAGE
 
+    /* Silence compiler */
+    (void)gid;
+
     /* Sanity check */
     assert(path);
     assert(obj_oloc);

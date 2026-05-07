@@ -100,7 +100,7 @@ liter_cb(hid_t H5_ATTR_UNUSED group, const char *name, const H5L_info2_t H5_ATTR
         return 1;
     }
 
-    strcpy(info->name, name);
+    strlcpy(info->name, name, sizeof(info->name));
 
     switch (info->command) {
         case RET_ZERO:
@@ -425,7 +425,7 @@ aiter_cb(hid_t H5_ATTR_UNUSED group, const char *name, const H5A_info_t H5_ATTR_
     static int count  = 0;
     static int count2 = 0;
 
-    strcpy(info->name, name);
+    strlcpy(info->name, name, sizeof(info->name));
 
     switch (info->command) {
         case RET_ZERO:
@@ -727,7 +727,7 @@ test_iter_group_large(hid_t fapl)
         snprintf(gname, sizeof(gname), "Group_%d", i);
 
         /* Add the name to the list of objects in the root group */
-        strcpy(names[i].name, gname);
+        strlcpy(names[i].name, gname, NAMELEN);
         names[i].type = H5O_TYPE_GROUP;
 
         /* Create a group */
@@ -744,7 +744,7 @@ test_iter_group_large(hid_t fapl)
     CHECK(dataset, FAIL, "H5Dcreate2");
 
     /* Add the name to the list of objects in the root group */
-    strcpy(names[ITER_NGROUPS].name, "Dataset1");
+    strlcpy(names[ITER_NGROUPS].name, "Dataset1", NAMELEN);
     names[ITER_NGROUPS].type = H5O_TYPE_DATASET;
 
     /* Close Dataset */
@@ -774,7 +774,7 @@ test_iter_group_large(hid_t fapl)
     CHECK(ret, FAIL, "H5Tcommit2");
 
     /* Add the name to the list of objects in the root group */
-    strcpy(names[ITER_NGROUPS + 1].name, "Datatype1");
+    strlcpy(names[ITER_NGROUPS + 1].name, "Datatype1", NAMELEN);
     names[ITER_NGROUPS + 1].type = H5O_TYPE_NAMED_DATATYPE;
 
     /* Close datatype */
@@ -914,7 +914,7 @@ test_grp_memb_funcs(hid_t fapl)
         VERIFY(ret, name_len, "H5Lget_name_by_idx");
 
         /* Test with non-null buffer for name and 0 for size */
-        strcpy(non_null_buf, NON_NULL_BUF);
+        strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
         buf_ptr = &non_null_buf[4];
         ret = (herr_t)H5Lget_name_by_idx(root_group, ".", H5_INDEX_NAME, H5_ITER_INC, (hsize_t)i, buf_ptr, 0,
                                          H5P_DEFAULT);
@@ -1138,7 +1138,7 @@ test_corrupted_attnamelen(void)
     /* Make sure the intended error was caught */
     if (err_status == -1) {
         /* Initialize client data */
-        strcpy(err_caught.message, err_message);
+        strlcpy(err_caught.message, err_message, sizeof(err_caught.message));
         err_caught.found = false;
 
         /* Look for the correct error message */

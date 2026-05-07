@@ -1275,11 +1275,11 @@ H5O__dtype_encode_helper(uint8_t **pp, const H5T_t *dt)
                 /* Check that the version is at least as great as the member */
                 assert(dt->shared->version >= dt->shared->u.compnd.memb[i].type->shared->version);
 
-                /* Name */
-                strcpy((char *)(*pp), dt->shared->u.compnd.memb[i].name);
-
                 /* Version 3 of the datatype message removed the padding to multiple of 8 bytes */
                 n = strlen(dt->shared->u.compnd.memb[i].name);
+
+                /* Name */
+                memcpy((char *)(*pp), dt->shared->u.compnd.memb[i].name, n + 1);
                 if (dt->shared->version >= H5O_DTYPE_VERSION_3)
                     *pp += n + 1;
                 else {
@@ -1350,10 +1350,9 @@ H5O__dtype_encode_helper(uint8_t **pp, const H5T_t *dt)
             /* Names, each a multiple of eight bytes */
             for (i = 0; i < dt->shared->u.enumer.nmembs; i++) {
                 /* Name */
-                strcpy((char *)(*pp), dt->shared->u.enumer.name[i]);
-
                 /* Version 3 of the datatype message removed the padding to multiple of 8 bytes */
                 n = strlen(dt->shared->u.enumer.name[i]);
+                memcpy((char *)(*pp), dt->shared->u.enumer.name[i], n + 1);
                 if (dt->shared->version >= H5O_DTYPE_VERSION_3)
                     *pp += n + 1;
                 else {

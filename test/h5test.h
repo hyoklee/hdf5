@@ -1419,6 +1419,14 @@ H5TEST_DLL herr_t h5_load_aws_profile(const char *profile_name, bool *profile_fo
                                       size_t aws_region_out_len);
 #endif
 
+/* On OpenBSD, rand() triggers a linker warning suggesting arc4random().
+ * Redirect rand() to arc4random() so test files avoid the warning without
+ * needing individual changes. arc4random() returns uint32_t; cast to int
+ * to match rand()'s return type. */
+#ifdef __OpenBSD__
+#define rand() ((int)arc4random())
+#endif
+
 #ifdef __cplusplus
 }
 #endif

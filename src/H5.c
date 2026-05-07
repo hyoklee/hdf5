@@ -367,9 +367,11 @@ H5_term_library(void)
      */
 #define DOWN(F)                                                                                              \
     (((n = H5##F##_term_package()) && (at + 8) < sizeof loop)                                                \
-         ? (sprintf(loop + at, "%s%s", (at ? "," : ""), #F), at += strlen(loop + at), n)                     \
-         : ((n > 0 && (at + 5) < sizeof loop) ? (sprintf(loop + at, "..."), at += strlen(loop + at), n)      \
-                                              : n))
+         ? (snprintf(loop + at, sizeof(loop) - at, "%s%s", (at ? "," : ""), #F),                             \
+            at += strlen(loop + at), n)                                                                       \
+         : ((n > 0 && (at + 5) < sizeof loop)                                                                \
+                ? (snprintf(loop + at, sizeof(loop) - at, "..."), at += strlen(loop + at), n)                 \
+                : n))
 
     do {
         pending = 0;

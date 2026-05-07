@@ -1626,10 +1626,9 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr, pack_opt_
     else {
         char str[512], temp[512];
 
-        strcpy(str, "dset     ");
-        strcat(str, strfilter);
+        snprintf(str, sizeof(str), "dset     %s", strfilter);
         snprintf(temp, sizeof(temp), "  (%.3f:1)", ratio);
-        strcat(str, temp);
+        strlcat(str, temp, sizeof(str));
         if (options->verbose == 2)
             printf(FORMAT_OBJ_TIME, str, read_time, write_time, objname);
         else

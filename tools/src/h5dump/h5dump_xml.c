@@ -181,9 +181,7 @@ xml_dump_all_cb(hid_t group, const char *name, const H5L_info2_t *linfo, void H5
         goto done;
     }
 
-    strcpy(obj_path, prefix);
-    strcat(obj_path, "/");
-    strcat(obj_path, name);
+    snprintf(obj_path, strlen(prefix) + strlen(name) + 2, "%s/%s", prefix, name);
 
     if (linfo->type == H5L_TYPE_HARD) {
         H5O_info2_t oinfo;
@@ -220,7 +218,7 @@ xml_dump_all_cb(hid_t group, const char *name, const H5L_info2_t *linfo, void H5
                         dump_function_table->dump_group_function(obj, name);
 
                         /* Restore old prefix name */
-                        strcpy(prefix, old_prefix);
+                        memcpy(prefix, old_prefix, strlen(old_prefix) + 1);
                         free(old_prefix);
                     }
 
@@ -2466,9 +2464,7 @@ xml_dump_named_datatype(hid_t type, const char *name)
         goto done;
     }
 
-    strcpy(tmp, prefix);
-    strcat(tmp, "/");
-    strcat(tmp, name);
+    snprintf(tmp, strlen(prefix) + strlen(name) + 2, "%s/%s", prefix, name);
 
     /* setup */
     memset(&buffer, 0, sizeof(h5tools_str_t));
@@ -2740,7 +2736,7 @@ xml_dump_group(hid_t gid, const char *name)
             return;
         }
 
-        strcpy(tmp, prefix);
+        memcpy(tmp, prefix, strlen(prefix) + 1);
         par = strdup(tmp);
         cp  = strrchr(par, '/');
         if (cp) {
@@ -4038,9 +4034,7 @@ xml_dump_dataset(hid_t did, const char *name, struct subset_t H5_ATTR_UNUSED *ss
         return;
     }
 
-    strcpy(tmp, prefix);
-    strcat(tmp, "/");
-    strcat(tmp, name);
+    snprintf(tmp, strlen(prefix) + strlen(name) + 2, "%s/%s", prefix, name);
 
     /* setup */
     memset(&buffer, 0, sizeof(h5tools_str_t));

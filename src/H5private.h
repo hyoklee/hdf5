@@ -815,23 +815,35 @@ H5_DLL int HDvasprintf(char **bufp, const char *fmt, va_list _ap);
  * can't be used directly on variables of complex number types. These macros
  * abstract away the construction of complex numbers across platforms.
  *
- * Note that the use of _Complex_I means that an imaginary part of -0 may
- * be converted to +0. If the minimum required C standard is moved to C11
- * or later, these can be simplified to the standard CMPLXF/CMPLX/CMPLXL
- * macros, which don't have this problem.
+ * On GCC/Clang, __builtin_complex() constructs complex numbers without using
+ * imaginary constants (avoids -Wgnu-imaginary-constant with -Wpedantic).
+ * On other compilers, fall back to the _Complex_I approach (note that an
+ * imaginary part of -0 may be converted to +0 with _Complex_I).
  */
 #ifdef H5_HAVE_COMPLEX_NUMBERS
 #ifndef H5_CMPLXF
+#if defined(__GNUC__)
+#define H5_CMPLXF(real, imag) __builtin_complex((float)(real), (float)(imag))
+#else
 #define H5_CMPLXF(real, imag)                                                                                \
     ((H5_float_complex)((float)(real) + (float)(imag) * (H5_float_complex)_Complex_I))
 #endif
+#endif
 #ifndef H5_CMPLX
+#if defined(__GNUC__)
+#define H5_CMPLX(real, imag) __builtin_complex((double)(real), (double)(imag))
+#else
 #define H5_CMPLX(real, imag)                                                                                 \
     ((H5_double_complex)((double)(real) + (double)(imag) * (H5_double_complex)_Complex_I))
 #endif
+#endif
 #ifndef H5_CMPLXL
+#if defined(__GNUC__)
+#define H5_CMPLXL(real, imag) __builtin_complex((long double)(real), (long double)(imag))
+#else
 #define H5_CMPLXL(real, imag)                                                                                \
     ((H5_ldouble_complex)((long double)(real) + (long double)(imag) * (H5_ldouble_complex)_Complex_I))
+#endif
 #endif
 #endif
 

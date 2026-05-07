@@ -48,11 +48,16 @@ test_cve_2025_44904(void)
     hid_t   dcpl          = H5I_INVALID_HID; /* Dataset creation property list */
     hsize_t dims[2]       = {100, 100};
     hsize_t chunk_dims[2] = {10, 10};
-    int     wbuf[100][100];
-    int     rbuf[100][100];
-    int     i, j;
+    int(*wbuf)[100]       = NULL; /* write buffer - heap allocated to avoid large stack frame */
+    int(*rbuf)[100]       = NULL; /* read buffer - heap allocated to avoid large stack frame */
+    int i, j;
 
     TESTING("CVE-2025-44904 fix - chunk size validation");
+
+    if (NULL == (wbuf = malloc(100 * 100 * sizeof(int))))
+        TEST_ERROR;
+    if (NULL == (rbuf = malloc(100 * 100 * sizeof(int))))
+        TEST_ERROR;
 
     /* Initialize write buffer */
     for (i = 0; i < 100; i++)
@@ -142,6 +147,8 @@ test_cve_2025_44904(void)
         TEST_ERROR;
 
     PASSED();
+    free(wbuf);
+    free(rbuf);
     return 0;
 
 error:
@@ -153,6 +160,8 @@ error:
         H5Fclose(fid);
     }
     H5E_END_TRY
+    free(wbuf);
+    free(rbuf);
 
     return -1;
 } /* end test_cve_2025_44904() */

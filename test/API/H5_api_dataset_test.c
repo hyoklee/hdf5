@@ -3144,7 +3144,7 @@ test_create_many_dataset(void H5_ATTR_UNUSED *params)
     for (i = 0; i < DATASET_NUMB; i++) {
         printf("\r %u/%u", i + 1, DATASET_NUMB);
         snprintf(dset_name, sizeof(dset_name), "dset_%02u", i);
-        data = i % 256;
+        data = (unsigned char)(i % 256);
 
         if ((dset_id = H5Dcreate2(group_id, dset_name, H5T_NATIVE_UCHAR, dataspace_id, H5P_DEFAULT,
                                   H5P_DEFAULT, H5P_DEFAULT)) < 0) {
@@ -10026,7 +10026,7 @@ test_dataset_vlen_io(void H5_ATTR_UNUSED *params)
                     float expected = ((float *)wbuf[i].p)[j];
                     float actual   = ((float *)rbuf[i].p)[j];
 
-                    if (!(H5_DBL_REL_EQUAL(expected, actual, 0.001)))
+                    if (!(H5_DBL_REL_EQUAL((double)expected, (double)actual, 0.001)))
                         PART_TEST_ERROR(rw_all_float);
                 }
             }
@@ -14219,11 +14219,12 @@ test_get_vlen_buf_size(void H5_ATTR_UNUSED *params)
         ((DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM * (DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM + 1)) / 2) *
             sizeof(unsigned int)) {
         H5_FAILED();
-        printf("    H5Dvlen_get_buf_size returned wrong size (%lu), compared to the correct size (%lu)\n",
-               size,
-               ((DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM * (DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM + 1)) /
-                2) *
-                   sizeof(unsigned int));
+        printf("    H5Dvlen_get_buf_size returned wrong size (%llu), compared to the correct size (%llu)\n",
+               (unsigned long long)size,
+               (unsigned long long)(((DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM *
+                                      (DATASET_GET_VLEN_BUF_SIZE_DSET_SPACE_DIM + 1)) /
+                                     2) *
+                                    sizeof(unsigned int)));
         goto error;
     }
 

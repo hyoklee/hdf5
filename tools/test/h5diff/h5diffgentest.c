@@ -4046,32 +4046,32 @@ test_comp_vlen_strings(const char *fname1, const char *grp_name, int is_file_new
 
     /* copy fixlen string attay data to compound buffers */
     for (i = 0; i < FIXLEN_STR_ARRY_DIM; i++) {
-        strcpy(comp1_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp1_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp1_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp1_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp2_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp2_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp2_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp2_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp3_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp3_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp3_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp3_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp4_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp4_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp4_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp4_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp5_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp5_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp5_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp5_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp6_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp6_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp6_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp6_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp7_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp7_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp7_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp7_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp8_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp8_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp8_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp8_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
 
-        strcpy(comp9_buf.str_array_fixlen[i], fixlen_str_array_buf[i]);
-        strcpy(comp9_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i]);
+        strlcpy(comp9_buf.str_array_fixlen[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
+        strlcpy(comp9_buf.str_fixlen_array_again[i], fixlen_str_array_buf[i], FIXLEN_STR_ARRY_SIZE);
     }
 
     /* int data */

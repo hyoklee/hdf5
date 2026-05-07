@@ -89,9 +89,7 @@ main(int argc, char **argv)
     }
 
     /* create file to be used in following tests */
-    strcpy(filename, FILENAME);
-    strcat(filename, argv[1]);
-    strcat(filename, FILEEXT);
+    snprintf(filename, sizeof(filename), "%s%s%s", FILENAME, argv[1], FILEEXT);
     if (H5Fcreate(filename, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT) < 0) {
         nerrors = 1;
         goto error;
@@ -117,9 +115,7 @@ open_test_file(const char *fileext)
 {
     char filename[65];
 
-    strcpy(filename, FILENAME);
-    strcat(filename, fileext);
-    strcat(filename, FILEEXT);
+    snprintf(filename, sizeof(filename), "%s%s%s", FILENAME, fileext, FILEEXT);
 
     return H5Fopen(filename, H5F_ACC_RDWR, H5P_DEFAULT);
 }
@@ -153,26 +149,22 @@ create_long_dataset(hid_t fid, const char *name, const char *dsidx)
         /* make a DS dataset for the first dimension */
         char dsname[32];
 
-        strcpy(dsname, DS_1_NAME);
-        strcat(dsname, dsidx);
+        snprintf(dsname, sizeof(dsname), "%s%s", DS_1_NAME, dsidx);
         /* make a DS dataset for the first dimension */
         if (H5LTmake_dataset_long(fid, dsname, rankds, s1_dim, s1_wbuf) < 0)
             return FAIL;
 
-        strcpy(dsname, DS_2_NAME);
-        strcat(dsname, dsidx);
+        snprintf(dsname, sizeof(dsname), "%s%s", DS_2_NAME, dsidx);
         /* make a DS dataset for the first dimension */
         if (H5LTmake_dataset_long(fid, dsname, rankds, s2_dim, s2_wbuf) < 0)
             return FAIL;
 
-        strcpy(dsname, DS_3_NAME);
-        strcat(dsname, dsidx);
+        snprintf(dsname, sizeof(dsname), "%s%s", DS_3_NAME, dsidx);
         /* make a DS dataset for the first dimension */
         if (H5LTmake_dataset_long(fid, dsname, rankds, s3_dim, s3_wbuf) < 0)
             return FAIL;
 
-        strcpy(dsname, DS_4_NAME);
-        strcat(dsname, dsidx);
+        snprintf(dsname, sizeof(dsname), "%s%s", DS_4_NAME, dsidx);
         /* make a DS dataset for the first dimension */
         if (H5LTmake_dataset_long(fid, dsname, rankds, s4_dim, s4_wbuf) < 0)
             return FAIL;

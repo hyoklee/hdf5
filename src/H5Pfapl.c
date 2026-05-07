@@ -4168,7 +4168,7 @@ H5P__facc_cache_config_dec(const void **_pp, void *_value)
 
     H5_DECODE_UNSIGNED(*pp, config->close_trace_file);
 
-    strcpy(config->trace_file_name, (const char *)(*pp));
+    strlcpy(config->trace_file_name, (const char *)(*pp), H5AC__MAX_TRACE_FILE_NAME_LEN + 1);
     *pp += H5AC__MAX_TRACE_FILE_NAME_LEN + 1;
 
     H5_DECODE_UNSIGNED(*pp, config->evictions_enabled);

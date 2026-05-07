@@ -1259,7 +1259,7 @@ test_vltypes_compound_vlstr(void)
         for (t1 = (s2 *)((wdata[i].v).p), j = 0; j < (i + L3_INCM); j++, t1++) {
             strcat(str, "m");
             t1->string = (char *)malloc(strlen(str) * sizeof(char) + 1);
-            strcpy(t1->string, str);
+            memcpy(t1->string, str, strlen(str) + 1);
             /*t1->color = red;*/
             t1->color = blue;
         }
@@ -1429,7 +1429,7 @@ test_vltypes_compound_vlstr(void)
         for (t1 = (s2 *)(wdata2[i].v).p, j = 0; j < i + 1; j++, t1++) {
             strcat(str, "pp");
             t1->string = (char *)malloc(strlen(str) * sizeof(char) + 1);
-            strcpy(t1->string, str);
+            memcpy(t1->string, str, strlen(str) + 1);
             t1->color = green;
         }
     } /* end for */

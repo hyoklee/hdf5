@@ -1765,5 +1765,6 @@ add_prefix(char **prfx, size_t *prfx_len, const char *name)
     }
 
     /* Append object name to prefix */
-    strcat(strcat(*prfx, "/"), name);
+    strlcat(*prfx, "/", *prfx_len);
+    strlcat(*prfx, name, *prfx_len);
 } /* end add_prefix */

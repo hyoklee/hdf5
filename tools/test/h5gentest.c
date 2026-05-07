@@ -309,8 +309,8 @@ gen_h5fc_files(void)
 
             memset(filename, 0, sizeof(filename));
             if (!new_format)
-                strcat(filename, "old_");
-            strcat(filename, H5FC_FILENAME[i]);
+                strlcat(filename, "old_", sizeof(filename));
+            strlcat(filename, H5FC_FILENAME[i], sizeof(filename));
 
             gen_ext(filename, new_format, i);
         } /* end for */

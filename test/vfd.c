@@ -959,7 +959,7 @@ test_family_opens(char *fname, hid_t fa_pl)
         TEST_ERROR;
 
     /* Case 4: reopen file with wrong name template */
-    strcpy(wrong_name, fname);
+    strlcpy(wrong_name, fname, sizeof(wrong_name));
     for (i = 0; i < 1024; i++)
         if (wrong_name[i] == '5') {
             wrong_name[i] = '4';
@@ -1223,7 +1223,7 @@ test_family_compat(void)
     h5_fixname(FILENAME[3], fapl, newname, sizeof(newname));
 
     pathname[0] = '\0';
-    strcat(pathname, filename);
+    strlcat(pathname, filename, sizeof(pathname));
 
     /* The following code makes the copies of the family files in the source directory.
      * Since we're going to open the files with write mode, this protects the original

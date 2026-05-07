@@ -124,7 +124,7 @@ H5O__name_encode(H5F_t H5_ATTR_UNUSED *f, bool H5_ATTR_UNUSED disable_shared, si
     assert(mesg && mesg->s);
 
     /* encode */
-    strcpy((char *)p, mesg->s);
+    memcpy((char *)p, mesg->s, strlen(mesg->s) + 1);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5O__name_encode() */

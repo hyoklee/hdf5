@@ -209,9 +209,7 @@ dump_all_cb(hid_t group, const char *name, const H5L_info2_t *linfo, void H5_ATT
         goto done;
     }
 
-    strcpy(obj_path, prefix);
-    strcat(obj_path, "/");
-    strcat(obj_path, name);
+    snprintf(obj_path, strlen(prefix) + strlen(name) + 2, "%s/%s", prefix, name);
 
     if (linfo->type == H5L_TYPE_HARD) {
         H5O_info2_t oinfo;
@@ -244,7 +242,7 @@ dump_all_cb(hid_t group, const char *name, const H5L_info2_t *linfo, void H5_ATT
                         dump_function_table->dump_group_function(obj, name);
 
                         /* Restore old prefix name */
-                        strcpy(prefix, old_prefix);
+                        memcpy(prefix, old_prefix, strlen(old_prefix) + 1);
                         free(old_prefix);
                     }
                     else
@@ -1475,12 +1473,10 @@ lnk_search(const char *path, const H5L_info2_t *li, void *_op_data)
         h5tools_setstatus(EXIT_FAILURE);
     }
     else {
-        if (k == 2) {
-            strcpy(search_name, "/");
-            strcat(search_name, op_name);
-        }
+        if (k == 2)
+            snprintf(search_name, search_len + k, "/%s", op_name);
         else
-            strcpy(search_name, op_name);
+            memcpy(search_name, op_name, search_len + 1);
         search_name[search_len + k - 1] = '\0';
 
         if (strcmp(path, search_name) == 0) {
@@ -1915,7 +1911,7 @@ handle_groups(hid_t fid, const char *group, void H5_ATTR_UNUSED *data, int pe, c
             prefix     = (char *)realloc(prefix, prefix_len);
         } /* end if */
 
-        strcpy(prefix, group);
+        memcpy(prefix, group, strlen(group) + 1);
 
         dump_indent += COL;
         dump_group(gid, real_name);

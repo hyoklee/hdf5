@@ -619,7 +619,7 @@ test_table(hid_t fid, int do_write)
             wbufd[i].longi       = wbuf[i].longi;
             wbufd[i].pressure    = wbuf[i].pressure;
             wbufd[i].temperature = wbuf[i].temperature;
-            strcpy(wbufd[i].name, wbuf[i].name);
+            strlcpy(wbufd[i].name, wbuf[i].name, sizeof(wbufd[i].name));
         }
 
         if (H5TBmake_table(TITLE, fid, "table3", FIELDS, RECORDS, type_size_mem, field_names, field_offset,

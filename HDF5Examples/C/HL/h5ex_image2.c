@@ -133,12 +133,10 @@ read_data(const char *fname, /*IN*/
      * compose the name of the file to open, using "srcdir", if appropriate
      *-------------------------------------------------------------------------
      */
-    strcpy(data_file, "");
-    if (srcdir) {
-        strcpy(data_file, srcdir);
-        strcat(data_file, "/");
-    }
-    strcat(data_file, fname);
+    if (srcdir)
+        snprintf(data_file, sizeof(data_file), "%s/%s", srcdir, fname);
+    else
+        snprintf(data_file, sizeof(data_file), "%s", fname);
 
     /*-------------------------------------------------------------------------
      * read

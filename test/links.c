@@ -405,9 +405,7 @@ const H5L_class_t UD_plist_class[1] = {{
 static void
 fix_ext_filename(char *path_name, char *cwd, const char *file_name)
 {
-    strcpy(path_name, cwd);
-    strcat(path_name, "/");
-    strcat(path_name, file_name);
+    snprintf(path_name, NAME_BUF_SIZE, "%s/%s", cwd, file_name);
 }
 
 /*-------------------------------------------------------------------------

@@ -30,6 +30,11 @@
 #include <unistd.h>
 #endif
 
+/* On OpenBSD, rand() triggers a linker warning suggesting arc4random(). */
+#ifdef __OpenBSD__
+#define rand() ((int)arc4random())
+#endif
+
 #if !defined(H5_HAVE_ATTRIBUTE) || defined __cplusplus
 #undef __attribute__
 #define __attribute__(X) /*void*/

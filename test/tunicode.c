@@ -604,12 +604,11 @@ test_strpad(hid_t H5_ATTR_UNUSED fid, const char *string)
      * an 'x' to 'string' when necessary. */
     length = strlen(string);
     if (length % 2 != 1) {
-        strcpy(new_string, "x");
-        strcat(new_string, string);
+        snprintf(new_string, length + 2, "x%s", string);
         length++;
     }
     else {
-        strcpy(new_string, string);
+        strlcpy(new_string, string, length + 1);
     }
 
     /* Convert a null-terminated string to a shorter and longer null
@@ -643,7 +642,7 @@ test_strpad(hid_t H5_ATTR_UNUSED fid, const char *string)
     cmpbuf[small_len - 1] = '\0';
     strncpy(&cmpbuf[small_len], new_string, small_len - 1);
     cmpbuf[2 * small_len - 1] = '\0';
-    strcpy(&cmpbuf[2 * small_len], new_string);
+    strlcpy(&cmpbuf[2 * small_len], new_string, big_len - 2 * small_len + 1);
 
     VERIFY(memcmp(buf, cmpbuf, 2 * big_len), 0, "memcmp");
 
@@ -670,12 +669,11 @@ test_strpad(hid_t H5_ATTR_UNUSED fid, const char *string)
      * different and we want a string with an even number of characters. */
     length = strlen(string);
     if (length % 2 != 0) {
-        strcpy(new_string, "x");
-        strcat(new_string, string);
+        snprintf(new_string, length + 2, "x%s", string);
         length++;
     }
     else {
-        strcpy(new_string, string);
+        strlcpy(new_string, string, length + 1);
     }
 
     /* Create a src_type that holds the UTF-8 string */
@@ -735,8 +733,8 @@ test_strpad(hid_t H5_ATTR_UNUSED fid, const char *string)
 
     /* Fill the buffer with two copies of the UTF-8 string.
      * It will look like "abcdefghabcdefgh". */
-    strcpy(buf, new_string);
-    strcpy(&buf[big_len], new_string);
+    strlcpy(buf, new_string, LONG_BUF_SIZE);
+    strlcpy(&buf[big_len], new_string, LONG_BUF_SIZE - big_len);
 
     ret = H5Tconvert(src_type, dst_type, (size_t)2, buf, NULL, H5P_DEFAULT);
     CHECK(ret, FAIL, "H5Tconvert");
@@ -955,9 +953,7 @@ test_objnames(hid_t fid, const char *string)
 
     ret = H5Lcreate_hard(fid, GROUP2_NAME, grp3_id, GROUP2_NAME, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(ret, FAIL, "H5Lcreate_hard");
-    strcpy(path_buf, GROUP2_NAME);
-    strcat(path_buf, "/");
-    strcat(path_buf, string);
+    snprintf(path_buf, sizeof(path_buf), "%s/%s", GROUP2_NAME, string);
     ret = H5Lcreate_hard(grp3_id, path_buf, H5L_SAME_LOC, string, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(ret, FAIL, "H5Lcreate_hard");
 

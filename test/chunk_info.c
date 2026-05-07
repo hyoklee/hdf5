@@ -548,8 +548,8 @@ test_get_chunk_info_highest_v18(hid_t fapl)
 #if defined(H5_HAVE_ZLIBNG_H)
     {
         size_t z_dst_nbytes_sz = (size_t)z_dst_nbytes;
-        ret          = zng_compress2(z_dst, &z_dst_nbytes_sz, z_src, z_src_nbytes, aggression);
-        z_dst_nbytes = (uLongf)z_dst_nbytes_sz;
+        ret                    = zng_compress2(z_dst, &z_dst_nbytes_sz, z_src, z_src_nbytes, aggression);
+        z_dst_nbytes           = (uLongf)z_dst_nbytes_sz;
     }
 #else
     ret = compress2(z_dst, &z_dst_nbytes, z_src, z_src_nbytes, aggression);

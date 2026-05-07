@@ -174,13 +174,13 @@ H5Z__filter_deflate(unsigned flags, size_t cd_nelmts, const unsigned cd_values[]
         Bytef       *z_dst; /*destination buffer		*/
 #if defined(H5_HAVE_ZLIBNG_H)
         size_t z_dst_buf_size = zng_compressBound(nbytes); /* 5730 */
-        size_t z_dst_nbytes = z_dst_buf_size;		
+        size_t z_dst_nbytes   = z_dst_buf_size;
 #else
         uLongf z_dst_buf_size = (uLongf)compressBound(nbytes);
-        uLongf z_dst_nbytes = z_dst_buf_size;	
+        uLongf z_dst_nbytes   = z_dst_buf_size;
 #endif
-        uLong  z_src_nbytes = (uLong)nbytes;
-        int    aggression; /* Compression aggression setting */
+        uLong z_src_nbytes = (uLong)nbytes;
+        int   aggression; /* Compression aggression setting */
 
         /* Set the compression aggression level */
         H5_CHECKED_ASSIGN(aggression, int, cd_values[0], unsigned);

@@ -173,7 +173,7 @@ H5Z__filter_deflate(unsigned flags, size_t cd_nelmts, const unsigned cd_values[]
         const Bytef *z_src = (const Bytef *)(*buf);
         Bytef       *z_dst; /*destination buffer		*/
 #if defined(H5_HAVE_ZLIBNG_H)
-        szie_t z_dst_buf_size = zng_compressBound(nbytes); /* 5730 */
+        size_t z_dst_buf_size = zng_compressBound(nbytes); /* 5730 */
 #else
         uLongf z_dst_buf_size = (uLongf)compressBound(nbytes);
 #endif

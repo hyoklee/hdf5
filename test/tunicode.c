@@ -642,7 +642,7 @@ test_strpad(hid_t H5_ATTR_UNUSED fid, const char *string)
     cmpbuf[small_len - 1] = '\0';
     strncpy(&cmpbuf[small_len], new_string, small_len - 1);
     cmpbuf[2 * small_len - 1] = '\0';
-    strlcpy(&cmpbuf[2 * small_len], new_string, big_len - 2 * small_len + 1);
+    memcpy(&cmpbuf[2 * small_len], new_string, big_len);
 
     VERIFY(memcmp(buf, cmpbuf, 2 * big_len), 0, "memcmp");
 

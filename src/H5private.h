@@ -153,6 +153,34 @@
 
 #endif /*H5_HAVE_WIN32_API*/
 
+/* strlcpy/strlcat are not available on Windows; provide portable implementations */
+#ifdef H5_HAVE_WIN32_API
+static inline size_t
+strlcpy(char *dst, const char *src, size_t dsize)
+{
+    size_t srclen = strlen(src);
+    if (dsize > 0) {
+        size_t copylen = (srclen < dsize - 1) ? srclen : dsize - 1;
+        memcpy(dst, src, copylen);
+        dst[copylen] = '\0';
+    }
+    return srclen;
+}
+
+static inline size_t
+strlcat(char *dst, const char *src, size_t dsize)
+{
+    size_t dstlen = strlen(dst);
+    size_t srclen = strlen(src);
+    if (dsize > dstlen + 1) {
+        size_t copylen = srclen < dsize - dstlen - 1 ? srclen : dsize - dstlen - 1;
+        memcpy(dst + dstlen, src, copylen);
+        dst[dstlen + copylen] = '\0';
+    }
+    return dstlen + srclen;
+}
+#endif /* H5_HAVE_WIN32_API */
+
 /* Macros for suppressing warnings */
 #include "H5warnings.h"
 

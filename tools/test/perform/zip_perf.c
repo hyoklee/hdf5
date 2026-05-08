@@ -224,7 +224,7 @@ get_unique_name(void)
 
     filename[0] = 0;
     if (prefix) {
-        strcpy(filename, prefix);
+        strlcpy(filename, prefix, strlen(prefix) + strlen(ZIP_PERF_FILE) + 2);
         strcat(filename, "/");
     }
     strcat(filename, ZIP_PERF_FILE);

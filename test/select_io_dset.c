@@ -1173,8 +1173,9 @@ test_multi_dsets_no_bkg(hid_t fid, unsigned set_cache, unsigned chunked, unsigne
                  chunked ? "chunked" : "contig", dtrans ? "xform" : "noxform", mwbuf ? "mwbuf" : "nomwbuf");
 
         /* Create ith dataset */
-        if ((dset_dids[i] = H5Dcreate2(fid, dset_names[i], ((urand() % 2u) ? H5T_NATIVE_LONG : H5T_NATIVE_INT),
-                                       file_sids[i], H5P_DEFAULT, dcpl, H5P_DEFAULT)) < 0)
+        if ((dset_dids[i] =
+                 H5Dcreate2(fid, dset_names[i], ((urand() % 2u) ? H5T_NATIVE_LONG : H5T_NATIVE_INT),
+                            file_sids[i], H5P_DEFAULT, dcpl, H5P_DEFAULT)) < 0)
             TEST_ERROR;
     }
 

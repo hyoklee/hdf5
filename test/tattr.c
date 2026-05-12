@@ -4515,6 +4515,11 @@ test_attr_many(bool new_format, hid_t fcpl, hid_t fapl)
     hid_t    aid;                                                    /* Attribute ID            */
     char     attrname[NAME_BUF_SIZE];                                /* Name of attribute */
     unsigned nattr = (new_format ? NATTR_MANY_NEW : NATTR_MANY_OLD); /* Number of attributes */
+
+    /* Reduce attribute count for quick/smoke-test levels to avoid timeout on
+     * platforms where each attribute operation is expensive (e.g. OpenBSD). */
+    if (new_format && GetTestExpress() >= H5_TEST_EXPRESS_QUICK)
+        nattr = NATTR_MANY_OLD;
     htri_t   exists;                                                 /* Whether the attribute exists or not */
     unsigned u;                                                      /* Local index variable */
     herr_t   ret;                                                    /* Generic return value        */

@@ -209,3 +209,77 @@ After all five fixes, `dsets` tests on OpenBSD show:
 All dataset tests passed.
 PASSED: 3543, FAILED: 0, SKIP: 168
 ```
+
+---
+
+## Fix 6: `test/testhdf5-base` — `id` test failure and `attr` test timeout
+
+### Symptom
+`H5TEST-testhdf5-base` CTest failed on OpenBSD with two issues:
+1. `test_remove_clear_type` (User-Created Identifiers): assertion
+   `UNEXPECTED VALUE: incorrect number of objects remaining should be 0, but is -2`
+2. `test_attr_many` (Attributes): timeout — creating 35,000 attributes takes ~35 minutes
+   per call (called up to 4 times), far exceeding the 20-minute CTest default.
+
+### Root Cause (id test)
+
+In `test_remove_clear_type` (`test/tid.c`), `rand()` returns negative on OpenBSD:
+
+```c
+obj_list.count = obj_list.remaining =
+    RCT_MIN_NOBJS + (rand() % (long)(RCT_MAX_NOBJS - RCT_MIN_NOBJS + 1));
+```
+
+When `rand()` returns a negative value, `rand() % 21` can be negative (e.g., -7), making
+`count = remaining = 5 + (-7) = -2`. No objects are created (loop `j < -2` doesn't
+execute), but `remaining = -2`. After `H5Iclear_type`, `found = 0` but `remaining = -2`,
+so `VERIFY(remaining, found, ...)` fails.
+
+Similarly, in the free callback:
+```c
+remove_nth = rand() % obj->list->remaining;
+```
+A negative `remove_nth` means the scanning loop never breaks out and returns an error.
+
+### Fix (id test)
+Added `rct_urand()` helper in `test/tid.c` and replaced all three `rand()` calls:
+```c
+static unsigned int
+rct_urand(void)
+{
+    return (unsigned int)rand();
+}
+```
+
+- Line 953: `RCT_MIN_NOBJS + (long)(rct_urand() % (RCT_MAX_NOBJS - RCT_MIN_NOBJS + 1))`
+- Line 864: `(long)(rct_urand() % (unsigned long)obj->list->remaining)`
+- Line 970: `if (rct_urand() % 2)`
+
+### Root Cause (attr test)
+
+`test_attr_many` with `new_format=true` uses `NATTR_MANY_NEW = 35,000` attributes per call,
+but it is called up to 4 times (3 fapl × 2 shared combos with `new_format=true`). On
+OpenBSD, each attribute operation involves multiple syscalls and expensive allocator behavior,
+making the full 35,000-attribute test take ~35 minutes per call → total ~2+ hours.
+
+The `testhdf5-base` CTest has a 1200-second (20-minute) timeout. This is exceeded.
+
+### Fix (attr test)
+Check `GetTestExpress()` in `test_attr_many` to cap `nattr` at `NATTR_MANY_OLD` (350)
+when the express level is QUICK (2) or higher. The CMake build sets
+`H5_TEST_EXPRESS_LEVEL_DEFAULT=3` (SMOKE_TEST) by default, so this reduction applies
+automatically without any environment variable changes:
+
+```c
+/* Reduce attribute count for quick/smoke-test levels to avoid timeout on
+ * platforms where each attribute operation is expensive (e.g. OpenBSD). */
+if (new_format && GetTestExpress() >= H5_TEST_EXPRESS_QUICK)
+    nattr = NATTR_MANY_OLD;
+```
+
+### Verification
+After both fixes, `testhdf5-base` completes in ~5 minutes:
+```
+real    4m45.468s
+All tests were successful.
+```

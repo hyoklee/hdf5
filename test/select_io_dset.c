@@ -22,6 +22,14 @@ const char *FILENAME[] = {"select_io", /* 0 */
 
 #define FILENAME_BUF_SIZE 1024
 
+/* On OpenBSD, rand() can return negative values; use unsigned wrapper to
+ * keep modulo results non-negative when used as indices. */
+static unsigned int
+urand(void)
+{
+    return (unsigned int)rand();
+}
+
 /*
  * Test configurations
  */
@@ -1165,7 +1173,7 @@ test_multi_dsets_no_bkg(hid_t fid, unsigned set_cache, unsigned chunked, unsigne
                  chunked ? "chunked" : "contig", dtrans ? "xform" : "noxform", mwbuf ? "mwbuf" : "nomwbuf");
 
         /* Create ith dataset */
-        if ((dset_dids[i] = H5Dcreate2(fid, dset_names[i], ((rand() % 2) ? H5T_NATIVE_LONG : H5T_NATIVE_INT),
+        if ((dset_dids[i] = H5Dcreate2(fid, dset_names[i], ((urand() % 2u) ? H5T_NATIVE_LONG : H5T_NATIVE_INT),
                                        file_sids[i], H5P_DEFAULT, dcpl, H5P_DEFAULT)) < 0)
             TEST_ERROR;
     }
@@ -1650,7 +1658,7 @@ test_multi_dsets_cmpd_with_bkg(hid_t fid, unsigned chunked, unsigned mwbuf)
             }
 
     /* Case c */
-    mm = rand() % (int)ndsets;
+    mm = (int)(urand() % (unsigned)ndsets);
     if (!mm)
         mm++;
 
@@ -2400,7 +2408,7 @@ test_multi_dsets_all(int niter, hid_t fid, unsigned chunked, unsigned mwbuf)
             if ((mem_sids[i] = H5Screate_simple(1, dims, NULL)) < 0)
                 TEST_ERROR;
 
-            mm = rand() % (int)ndsets;
+            mm = (int)(urand() % (unsigned)ndsets);
             if (mm == 0) {
                 dset_types[i] = DSET_WITH_NO_CONV;
                 snprintf(dset_names[i], sizeof(dset_names[i]), "multi_all_nconv_dset%d_%s_%s", i,

@@ -2024,8 +2024,9 @@ H5Pset_chunk(hid_t plist_id, int ndims, const hsize_t dim[/*ndims*/])
     H5MM_memcpy(&chunk_layout, &H5D_def_layout_chunk_g, sizeof(H5D_def_layout_chunk_g));
     memset(&chunk_layout.u.chunk.dim, 0, sizeof(chunk_layout.u.chunk.dim));
     for (u = 0; u < (unsigned)ndims; u++) {
-        if (dim[u] == 0)
+        if (dim[u] == 0) {
             HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "all chunk dimensions must be positive");
+        }
         chunk_layout.u.chunk.dim[u] = dim[u]; /* Store user's chunk dimensions */
     }                                         /* end for */
 

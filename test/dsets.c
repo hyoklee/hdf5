@@ -397,6 +397,14 @@ filter_count(unsigned int flags, size_t H5_ATTR_UNUSED cd_nelmts,
     return nbytes;
 } /* end filter_count() */
 
+/* rand() can return negative values on some platforms/configurations.
+ * Use unsigned cast to ensure non-negative values before modulo. */
+static unsigned int
+urand(void)
+{
+    return (unsigned int)rand();
+}
+
 /*-------------------------------------------------------------------------
  * Function:  test_create
  *
@@ -3901,7 +3909,7 @@ test_nbit_array(hid_t file)
             for (m = 0; m < (size_t)adims[0]; m++)
                 for (n = 0; n < (size_t)adims[1]; n++) {
                     power                 = pow(2.0, (double)precision);
-                    orig_data[i][j][m][n] = (unsigned int)(((long long)rand() % (long long)power) << offset);
+                    orig_data[i][j][m][n] = (unsigned int)(((long long)urand() % (long long)power) << offset);
                 } /* end for */
     PASSED();
 
@@ -4380,7 +4388,7 @@ test_nbit_compound_2(hid_t file)
             orig_data[i][j].a.f = float_val[i][j];
 
             power             = pow(2.0, (double)precision[3]);
-            orig_data[i][j].v = (unsigned int)(((long long)rand() % (long long)power) << offset[3]);
+            orig_data[i][j].v = (unsigned int)(((long long)urand() % (long long)power) << offset[3]);
 
             for (m = 0; m < (size_t)array_dims[0]; m++)
                 for (n = 0; n < (size_t)array_dims[1]; n++) {
@@ -4623,7 +4631,7 @@ test_nbit_compound_3(hid_t file)
     for (i = 0; i < (size_t)size[0]; i++) {
         power = pow(2.0, 17.0 - 1.0);
         memset(&orig_data[i], 0, sizeof(orig_data[i]));
-        orig_data[i].i = (int)(rand() % (long)power);
+        orig_data[i].i = (int)(urand() % (long)power);
         strcpy(orig_data[i].str, "fixed-length C string");
         orig_data[i].vl_str = strdup("variable-length C string");
 
@@ -8541,7 +8549,7 @@ make_random_offset_and_increment(long nelts, long *offsetp, long *incp)
 
     assert(0 < nelts);
 
-    *offsetp = rand() % nelts;
+    *offsetp = (long)(urand() % (unsigned long)nelts);
 
     /* `maxinc` is chosen so that for any `x` in [0, nelts - 1],
      * `x + maxinc` does not overflow a long.
@@ -8554,7 +8562,7 @@ make_random_offset_and_increment(long nelts, long *offsetp, long *incp)
      * number.
      */
     do {
-        inc = 1 + rand() % maxinc;
+        inc = 1 + (long)(urand() % (unsigned long)maxinc);
     } while (gcd(inc, nelts) != 1);
 
     *incp = inc;

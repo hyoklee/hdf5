@@ -21,6 +21,14 @@
 /* Number of elements in each test */
 #define NTESTELEM 100000
 
+/* On OpenBSD, rand() can return negative values; use unsigned modulo to avoid
+ * negative results being cast to size_t (which wraps to near-UINT64_MAX). */
+static unsigned int
+urand(void)
+{
+    return (unsigned int)rand();
+}
+
 /* For test_compound_8 and test_compound_10 */
 #define ARRAY_DIM 4
 
@@ -5442,9 +5450,9 @@ test_conv_str_2(void)
     if (NULL == (buf = (char *)calloc(nelmts, (size_t)8)))
         goto error;
     for (i = 0; i < nelmts; i++) {
-        nchars = (size_t)(rand() % 8);
+        nchars = (size_t)(urand() % 8u);
         for (j = 0; j < nchars; j++)
-            buf[i * 8 + j] = (char)('a' + rand() % 26);
+            buf[i * 8 + j] = (char)('a' + urand() % 26u);
         while (j < nchars)
             buf[i * 8 + j++] = '\0';
     } /* end for */
@@ -5516,9 +5524,9 @@ test_conv_str_3(void)
     if (NULL == (buf = (char *)calloc(nelmts, (size_t)8)))
         FAIL_PUTS_ERROR("Allocation failed.");
     for (i = 0; i < nelmts; i++) {
-        nchars = (size_t)(rand() % 8);
+        nchars = (size_t)(urand() % 8u);
         for (j = 0; j < nchars; j++)
-            buf[i * 8 + j] = (char)('a' + rand() % 26);
+            buf[i * 8 + j] = (char)('a' + urand() % 26u);
         while (j < nchars)
             buf[i * 8 + j++] = '\0';
     } /* end for */

@@ -4520,9 +4520,9 @@ test_attr_many(bool new_format, hid_t fcpl, hid_t fapl)
      * platforms where each attribute operation is expensive (e.g. OpenBSD). */
     if (new_format && GetTestExpress() >= H5_TEST_EXPRESS_QUICK)
         nattr = NATTR_MANY_OLD;
-    htri_t   exists;                                                 /* Whether the attribute exists or not */
-    unsigned u;                                                      /* Local index variable */
-    herr_t   ret;                                                    /* Generic return value        */
+    htri_t   exists; /* Whether the attribute exists or not */
+    unsigned u;      /* Local index variable */
+    herr_t   ret;    /* Generic return value        */
 
     /* Output message about test being performed */
     MESSAGE(5, ("Testing Storing Many Attributes\n"));

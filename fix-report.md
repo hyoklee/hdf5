@@ -2,7 +2,7 @@
 
 ## Summary
 
-Five test failures were fixed on the `develop` branch targeting OpenBSD 7.8 and s390x.
+Eight test failures were fixed on the `develop` branch targeting OpenBSD 7.8 and s390x.
 
 ---
 
@@ -282,4 +282,89 @@ After both fixes, `testhdf5-base` completes in ~5 minutes:
 ```
 real    4m45.468s
 All tests were successful.
+```
+
+---
+
+## Fix 7: `test/istore.c` — sparse write failure (istore test)
+
+### Symptom
+`H5TEST-istore` CTest failed:
+```
+*FAILED*
+    Write failed: ctr=0
+    offset=(18446744073709153549,164815,18446744073709389644), size=(50,50,50)
+***** 7 I-STORE TESTS FAILED! *****
+```
+
+### Root Cause
+In `test_sparse()`, three offset values are computed with `rand()` cast to `hsize_t`:
+```c
+offset[0] = (hsize_t)(rand() % (int)(TEST_SPARSE_SIZE - nx));
+offset[1] = (hsize_t)(rand() % (int)(TEST_SPARSE_SIZE - ny));
+offset[2] = (hsize_t)(rand() % (int)(TEST_SPARSE_SIZE - nz));
+```
+
+On OpenBSD, `rand()` returns negative values. A negative modulo result (e.g., `-356275`)
+cast to `hsize_t` (uint64_t) wraps to near-`UINT64_MAX` (e.g., `18446744073709195341`),
+which vastly exceeds the dataset extent (1,000,000 per dimension). `H5Dwrite` then fails
+with "selection + offset not within extent for file dataspace".
+
+### Fix
+Added `urand()` helper and replaced all three offset calculations with unsigned modulo:
+```c
+static unsigned int
+urand(void) { return (unsigned int)rand(); }
+
+offset[0] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - nx));
+offset[1] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - ny));
+offset[2] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - nz));
+```
+
+### Verification
+```
+Testing istore sparse: 50x50x50   PASSED
+All i-store tests passed.
+real    4m14.993s
+```
+
+---
+
+## Fix 8: `test/dtypes.c` — segfault in string conversion tests
+
+### Symptom
+`H5TEST-dtypes` CTest failed with exit code 139 (segmentation fault) immediately after
+printing "Testing string conversions  PASSED". The binary never reached the summary line.
+
+### Root Cause
+In `test_conv_str_2()` and `test_conv_str_3()`, `rand()` is cast to `size_t`:
+```c
+nchars = (size_t)(rand() % 8);
+for (j = 0; j < nchars; j++)
+    buf[i * 8 + j] = (char)('a' + rand() % 26);
+```
+
+On OpenBSD, `rand()` can be negative. For example, `rand() = -3` gives `-3 % 8 = -3`
+(C99 truncation-toward-zero). Casting -3 to `size_t` yields `UINT64_MAX - 2 = 18446744073709551613`.
+The inner loop then runs ~18 quintillion iterations, writing far past the end of `buf`
+(allocated for `NTESTELEM * 8 = 800,000` bytes) within nanoseconds → segfault.
+
+### Fix
+Added `urand()` helper in `dtypes.c` and replaced the four affected `rand()` calls in
+both `test_conv_str_2` and `test_conv_str_3` with unsigned modulo:
+```c
+static unsigned int
+urand(void) { return (unsigned int)rand(); }
+
+nchars = (size_t)(urand() % 8u);
+buf[i * 8 + j] = (char)('a' + urand() % 26u);
+```
+
+### Verification
+```
+Testing random string conversion speed   PASSED
+Testing some type functions for string   PASSED
+...
+All datatype tests passed.
+EXIT_CODE=0
 ```

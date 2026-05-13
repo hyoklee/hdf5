@@ -40,12 +40,6 @@ static const char *FILENAME[] = {"istore", NULL};
 
 static hsize_t chunk_dims[H5O_LAYOUT_NDIMS];
 
-static unsigned int
-urand(void)
-{
-    return (unsigned int)rand();
-}
-
 /*-------------------------------------------------------------------------
  * Function:    is_sparse
  *
@@ -485,9 +479,9 @@ test_sparse(hid_t f, const char *prefix, size_t nblocks, size_t nx, size_t ny, s
         TEST_ERROR;
 
     for (ctr = 0; ctr < nblocks; ctr++) {
-        offset[0] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - nx));
-        offset[1] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - ny));
-        offset[2] = (hsize_t)(urand() % (unsigned)(TEST_SPARSE_SIZE - nz));
+        offset[0] = (hsize_t)(arc4random() % (unsigned)(TEST_SPARSE_SIZE - nx));
+        offset[1] = (hsize_t)(arc4random() % (unsigned)(TEST_SPARSE_SIZE - ny));
+        offset[2] = (hsize_t)(arc4random() % (unsigned)(TEST_SPARSE_SIZE - nz));
 
         /* Select region in file dataspace */
         if (H5Sselect_hyperslab(fspace, H5S_SELECT_SET, offset, NULL, size, NULL) < 0)

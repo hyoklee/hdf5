@@ -461,6 +461,11 @@ if (NOT ${HDF_PREFIX}_HAVE_SIGSETJMP)
 endif ()
 
 #-----------------------------------------------------------------------------
+# Check for arc4random (available on OpenBSD, FreeBSD, macOS; not on Linux)
+#-----------------------------------------------------------------------------
+CHECK_SYMBOL_EXISTS (arc4random "stdlib.h" ${HDF_PREFIX}_HAVE_ARC4RANDOM)
+
+#-----------------------------------------------------------------------------
 # Check a bunch of other functions
 #-----------------------------------------------------------------------------
 foreach (other_test

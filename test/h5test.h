@@ -25,6 +25,19 @@
 #include "H5Eprivate.h"
 
 /*
+ * On platforms without arc4random() (e.g. Linux, Windows), provide a
+ * non-negative wrapper around rand(). On OpenBSD and other BSDs, the
+ * native arc4random() returns uint32_t and is always non-negative.
+ */
+#ifndef H5_HAVE_ARC4RANDOM
+static H5_ATTR_UNUSED unsigned int
+arc4random(void)
+{
+    return (unsigned int)rand();
+}
+#endif
+
+/*
  * This contains the filename prefix specified as command line option for
  * the parallel test files.
  */

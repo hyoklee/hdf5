@@ -86,6 +86,9 @@
 /* Define to 1 if you have the `alarm' function. */
 #cmakedefine H5_HAVE_ALARM @H5_HAVE_ALARM@
 
+/* Define to 1 if you have the `arc4random' function. */
+#cmakedefine H5_HAVE_ARC4RANDOM @H5_HAVE_ARC4RANDOM@
+
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #cmakedefine H5_HAVE_ARPA_INET_H @H5_HAVE_ARPA_INET_H@
 

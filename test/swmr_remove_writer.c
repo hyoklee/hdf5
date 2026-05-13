@@ -158,7 +158,7 @@ remove_records(hid_t fid, unsigned verbose, unsigned long nshrinks, unsigned lon
         symbol = choose_dataset();
 
         /* Shrink the dataset's dataspace */
-        remove_size = (hsize_t)rand() % MAX_REMOVE_SIZE + 1;
+        remove_size = (hsize_t)arc4random() % MAX_REMOVE_SIZE + 1;
         if (remove_size > symbol->nrecords)
             symbol->nrecords = 0;
         else

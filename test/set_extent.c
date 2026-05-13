@@ -2389,7 +2389,7 @@ test_random_rank4(hid_t fapl, hid_t dcpl, hid_t dxpl, bool do_fillvalue, bool di
                 for (k = 0; k < dims[1]; k++)
                     for (l = 0; l < dims[2]; l++)
                         for (m = 0; m < dims[3]; m++)
-                            wbuf->arr[j][k][l][m] = arc4random();
+                            wbuf->arr[j][k][l][m] = (int)arc4random();
 
             /* Write data */
             if (H5Dwrite(dset, H5T_NATIVE_INT, mspace, H5S_ALL, dxpl, wbuf) < 0)
@@ -2649,8 +2649,8 @@ test_random_rank4_vl(hid_t fapl, hid_t dcpl, hid_t dxpl, bool do_fillvalue, bool
                 for (k = 0; k < dims[1]; k++)
                     for (l = 0; l < dims[2]; l++)
                         for (m = 0; m < dims[3]; m++) {
-                            ((int *)wbuf->arr[j][k][l][m].p)[0] = arc4random();
-                            ((int *)wbuf->arr[j][k][l][m].p)[1] = arc4random();
+                            ((int *)wbuf->arr[j][k][l][m].p)[0] = (int)arc4random();
+                            ((int *)wbuf->arr[j][k][l][m].p)[1] = (int)arc4random();
                         } /* end for */
 
             /* Write data */

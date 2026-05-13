@@ -172,7 +172,7 @@ addrem_records(hid_t fid, unsigned verbose, unsigned long nops, unsigned long fl
         symbol = choose_dataset();
 
         /* Decide whether to shrink or expand, and by how much */
-        count[1] = (hsize_t)rand() % (MAX_SIZE_CHANGE * 2) + 1;
+        count[1] = (hsize_t)arc4random() % (MAX_SIZE_CHANGE * 2) + 1;
 
         if (count[1] > MAX_SIZE_CHANGE) {
             /* Add records */

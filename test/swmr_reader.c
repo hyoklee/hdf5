@@ -228,7 +228,7 @@ read_records(const char *filename, bool verbose, FILE *verbose_file, unsigned ra
 
             /* Determine the offset of the symbol, within level 0 symbols */
             /* (level 0 symbols are the most common symbols) */
-            offset     = (unsigned)((unsigned)rand() % symbol_count[0]);
+            offset     = (unsigned)((unsigned)arc4random() % symbol_count[0]);
             sym_com[v] = &symbol_info[0][offset];
 
             /* Emit informational message */

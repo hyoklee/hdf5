@@ -208,7 +208,7 @@ add_records(hid_t fid, unsigned verbose, unsigned long nrecords, unsigned long f
         } /* end else */
 
         /* Get the coordinate to write */
-        start[1] = (hsize_t)rand() % symbol->nrecords;
+        start[1] = (hsize_t)arc4random() % symbol->nrecords;
 
         /* Set the record's ID (equal to its position) */
         record.rec_id = start[1];

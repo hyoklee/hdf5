@@ -106,7 +106,7 @@ check_dataset(hid_t fid, unsigned verbose, const symbol_info_t *symbol, symbol_t
 
     /* Choose the random record in the dataset (will be the same as chosen by
      * the writer) */
-    start[1] = (hsize_t)rand() % symbol->nrecords;
+    start[1] = (hsize_t)arc4random() % symbol->nrecords;
     if (H5Sselect_hyperslab(file_sid, H5S_SELECT_SET, start, NULL, count, NULL) < 0)
         return -1;
 

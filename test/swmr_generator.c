@@ -195,7 +195,7 @@ gen_skeleton(const char *filename, bool verbose, bool swmr_write, int comp_level
              * moved out of chunk #0 of the object header
              * (Set to true for every fourth dataset)
              */
-            move_dataspace_message = !(rand() % 4);
+            move_dataspace_message = !(arc4random() % 4);
             if (move_dataspace_message) {
                 unsigned chunk_num; /* Object header chunk # for dataspace message */
 

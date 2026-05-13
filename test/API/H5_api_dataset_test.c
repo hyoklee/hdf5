@@ -2872,7 +2872,7 @@ test_create_dataset_creation_properties(void H5_ATTR_UNUSED *params)
                     size_t  j;
 
                     for (j = 0; j < DATASET_CREATION_PROPERTIES_TEST_CHUNK_DIM_RANK; j++)
-                        local_chunk_dims[j] = (hsize_t)(arc4random() % (int)dims[j] + 1);
+                        local_chunk_dims[j] = (hsize_t)(arc4random() % dims[j] + 1);
 
                     if (H5Pset_chunk(dcpl_id, DATASET_CREATION_PROPERTIES_TEST_CHUNK_DIM_RANK,
                                      local_chunk_dims) < 0) {
@@ -3960,7 +3960,7 @@ test_dataset_property_lists(void H5_ATTR_UNUSED *params)
         TEST_ERROR;
 
     for (i = 0; i < DATASET_PROPERTY_LIST_TEST_SPACE_RANK; i++)
-        chunk_dims[i] = (hsize_t)(arc4random() % (int)dims[i] + 1);
+        chunk_dims[i] = (hsize_t)(arc4random() % dims[i] + 1);
 
     if ((dset_dtype1 = generate_random_datatype(H5T_NO_CLASS, false)) < 0)
         TEST_ERROR;
@@ -5285,7 +5285,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = arc4random();
+                buf_all[i][j] = (int)arc4random();
 
         /* Write data */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf_all) < 0)
@@ -5324,7 +5324,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
 
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_NPOINTS; i++)
-            buf_point[i] = arc4random();
+            buf_point[i] = (int)arc4random();
 
         /* Write points from "all" memory buffer */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_all, fspace_id, H5P_DEFAULT, buf_point) < 0)
@@ -5389,7 +5389,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = arc4random();
+                buf_all[i][j] = (int)arc4random();
 
         /* Write data points->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, fspace_id, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5462,7 +5462,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = arc4random();
+                buf_all[i][j] = (int)arc4random();
 
         /* Write data points->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5534,7 +5534,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = arc4random();
+                buf_all[i][j] = (int)arc4random();
 
         /* Write data hlsab->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5608,7 +5608,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = arc4random();
+                buf_all[i][j] = (int)arc4random();
 
         /* Write data points->hslab */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)

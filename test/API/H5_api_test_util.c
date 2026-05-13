@@ -552,7 +552,7 @@ generate_random_datatype_enum(H5T_class_t H5_ATTR_UNUSED parent_class, bool H5_A
         snprintf(name, ENUM_TYPE_MAX_MEMBER_NAME_LENGTH, "enum_val%zu", i);
 
         do {
-            enum_val = arc4random();
+            enum_val = (int)arc4random();
 
             /* Check for uniqueness of enum member */
             unique = true;

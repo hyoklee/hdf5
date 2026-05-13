@@ -1434,10 +1434,11 @@ H5TEST_DLL herr_t h5_load_aws_profile(const char *profile_name, bool *profile_fo
 
 /* On OpenBSD, rand() triggers a linker warning suggesting arc4random().
  * Redirect rand() to arc4random() so test files avoid the warning without
- * needing individual changes. arc4random() returns uint32_t; cast to int
- * to match rand()'s return type. */
+ * needing individual changes. Mask the high bit so the result fits in
+ * rand()'s non-negative range [0, RAND_MAX], avoiding sign-cast issues
+ * when the uint32_t value is used as a signed int (e.g. in modulo). */
 #ifdef __OpenBSD__
-#define rand() ((int)arc4random())
+#define rand() ((int)(arc4random() & 0x7fffffffu))
 #endif
 
 #ifdef __cplusplus

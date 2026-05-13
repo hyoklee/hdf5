@@ -2354,7 +2354,8 @@ test_random_rank4(hid_t fapl, hid_t dcpl, hid_t dxpl, bool do_fillvalue, bool di
      * scalar_iter is 0 */
     for (i = 0; i < 4; i++) {
         dims[i] =
-            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((arc4random() % 10) + 1)) : 10);
+            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((arc4random() % 10) + 1))
+                                                       : 10);
         dim_log->arr[0][i] = dims[i];
     } /* end for */
 
@@ -2600,7 +2601,8 @@ test_random_rank4_vl(hid_t fapl, hid_t dcpl, hid_t dxpl, bool do_fillvalue, bool
      * scalar_iter is 0 */
     for (i = 0; i < 4; i++) {
         dims[i] =
-            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((arc4random() % 10) + 1)) : 10);
+            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((arc4random() % 10) + 1))
+                                                       : 10);
         dim_log->arr[0][i] = dims[i];
     }
 

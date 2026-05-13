@@ -5197,8 +5197,8 @@ error:
     {                                                                                                        \
         for ((I) = 0; (I) < DATASET_IO_POINT_NPOINTS; (I)++)                                                 \
             do {                                                                                             \
-                (POINTS)[2 * (I)]     = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_0);                          \
-                (POINTS)[2 * (I) + 1] = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_1);                          \
+                (POINTS)[2 * (I)]     = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_0);                    \
+                (POINTS)[2 * (I) + 1] = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_1);                    \
                 for ((J) = 0; ((J) < (I)) && (((POINTS)[2 * (I)] != (POINTS)[2 * (J)]) ||                    \
                                               ((POINTS)[2 * (I) + 1] != (POINTS)[2 * (J) + 1]));             \
                      (J)++)                                                                                  \

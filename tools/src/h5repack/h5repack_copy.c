@@ -1460,8 +1460,8 @@ do_copy_objects(hid_t fidin, hid_t fidout, trav_table_t *travt, pack_opt_t *opti
                                 if (ocopy_ret < 0) {
                                     /* H5Ocopy failed (e.g. chained or circular external links).
                                      * Fall back to copying the link as-is. */
-                                    if (H5Lcopy(fidin, travt->objs[i].name, fidout,
-                                                travt->objs[i].name, H5P_DEFAULT, H5P_DEFAULT) < 0)
+                                    if (H5Lcopy(fidin, travt->objs[i].name, fidout, travt->objs[i].name,
+                                                H5P_DEFAULT, H5P_DEFAULT) < 0)
                                         H5TOOLS_GOTO_ERROR((-1), "H5Lcopy failed");
                                 }
                             }

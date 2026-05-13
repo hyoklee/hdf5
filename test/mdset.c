@@ -352,19 +352,19 @@ test_mdset(size_t niter, unsigned flags, hid_t fapl_id)
             /* Create dataset */
             /* If MDSET_FLAG_TCONV is set, use a different datatype with 50% probability, so
              * some datasets require type conversion and others do not */
-            if ((dset_ids[j] =
-                     H5Dcreate2(file_id, dset_name[j],
-                                (flags & MDSET_FLAG_TCONV && arc4random() % 2) ? H5T_NATIVE_LONG : H5T_NATIVE_UINT,
-                                file_space_ids[j], H5P_DEFAULT, dcpl_id[j], H5P_DEFAULT)) < 0)
+            if ((dset_ids[j] = H5Dcreate2(file_id, dset_name[j],
+                                          (flags & MDSET_FLAG_TCONV && arc4random() % 2) ? H5T_NATIVE_LONG
+                                                                                         : H5T_NATIVE_UINT,
+                                          file_space_ids[j], H5P_DEFAULT, dcpl_id[j], H5P_DEFAULT)) < 0)
                 TEST_ERROR;
 
             /* Create virtual source dataset if necessary.  Use dcpl_id[0] for a contiguous dataset
              */
             if ((flags & MDSET_FLAG_MLAYOUT) && (j == 6)) {
-                if ((source_dset = H5Dcreate2(file_id, SOURCE_DS_NAME,
-                                              (flags & MDSET_FLAG_TCONV && arc4random() % 2) ? H5T_NATIVE_LONG
-                                                                                        : H5T_NATIVE_UINT,
-                                              file_space_ids[j], H5P_DEFAULT, dcpl_id[0], H5P_DEFAULT)) < 0)
+                if ((source_dset = H5Dcreate2(
+                         file_id, SOURCE_DS_NAME,
+                         (flags & MDSET_FLAG_TCONV && arc4random() % 2) ? H5T_NATIVE_LONG : H5T_NATIVE_UINT,
+                         file_space_ids[j], H5P_DEFAULT, dcpl_id[0], H5P_DEFAULT)) < 0)
                     TEST_ERROR;
                 if (H5Dclose(source_dset) < 0)
                     TEST_ERROR;

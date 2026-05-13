@@ -3900,8 +3900,9 @@ test_nbit_array(hid_t file)
         for (j = 0; j < (size_t)size[1]; j++)
             for (m = 0; m < (size_t)adims[0]; m++)
                 for (n = 0; n < (size_t)adims[1]; n++) {
-                    power                 = pow(2.0, (double)precision);
-                    orig_data[i][j][m][n] = (unsigned int)(((long long)arc4random() % (long long)power) << offset);
+                    power = pow(2.0, (double)precision);
+                    orig_data[i][j][m][n] =
+                        (unsigned int)(((long long)arc4random() % (long long)power) << offset);
                 } /* end for */
     PASSED();
 

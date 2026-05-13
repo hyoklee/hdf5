@@ -120,6 +120,8 @@ set (LIST_OTHER_TEST_FILES
     thlink-1.ls
     tloop-1.ls
     tmultifile.ls
+    tqmarkfile.ls
+    tstarfile.ls
     tnestcomp-1.ls
     tnestcomp-2.ls
     tnestcomp-3.ls
@@ -551,9 +553,9 @@ else ()
   endif ()
 endif ()
 
-# test for wildcards in filename (does not work with cmake)
-ADD_H5_TEST (tstarfile RESULT_CODE 0 -w80 t*link.h5 SKIP_TEST)
-ADD_H5_TEST (tqmarkfile RESULT_CODE 0 -w80 t?link.h5 SKIP_TEST)
+# test for wildcards in filename (cmake does not expand globs; use explicit file list instead)
+ADD_H5_TEST (tstarfile RESULT_CODE 0 -w80 textlink.h5 thlink.h5 tslink.h5 tudlink.h5)
+ADD_H5_TEST (tqmarkfile RESULT_CODE 0 -w80 thlink.h5 tslink.h5)
 ADD_H5_TEST (tmultifile RESULT_CODE 0 -w80 thlink.h5 tslink.h5)
 
 # tests for hard links

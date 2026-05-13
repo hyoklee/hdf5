@@ -195,6 +195,7 @@ set (HDF5_REFERENCE_FILES
     tscalarstring.ddl
     tscaleoffset.ddl
     tshuffle.ddl
+    t128bit_float.ddl
     tslink-1.ddl
     tslink-2.ddl
     tslink-D.ddl
@@ -1452,7 +1453,7 @@ ADD_H5_TEST (infinite_loop RESULT_CODE 1 H5ERRREF "unable to open file" TARGET_F
 ADD_H5_TEST (err_attr_dspace RESULT_CODE 1 H5ERRREF "error getting attribute information" TARGET_FILE err_attr_dspace.h5)
 
 # test to verify HDFFV-9407: long double full precision
-ADD_H5_TEST (t128bit_float RESULT_CODE 1 RESULT_ERRCHECK "1.123456789012345" -m %.35Lg TARGET_FILE t128bit_float.h5 SKIP_TEST)
+ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.35Lg TARGET_FILE t128bit_float.h5)
 
 # test to verify HDFFV-10480: out of bounds read in H5O_fill_new[old]_decode
 ADD_H5_TEST (tCVE_2018_11206_fill_old RESULT_CODE 1 H5ERRREF "" TARGET_FILE tCVE_2018_11206_fill_old.h5)

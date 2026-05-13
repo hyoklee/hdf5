@@ -1147,7 +1147,7 @@ test_create_dataset_random_shapes(void H5_ATTR_UNUSED *params)
 
     for (i = 0; i < DATASET_SHAPE_TEST_NUM_ITERATIONS; i++) {
         char name[100];
-        int  ndims = rand() % DATASET_SHAPE_TEST_MAX_DIMS + 1;
+        int  ndims = arc4random() % DATASET_SHAPE_TEST_MAX_DIMS + 1;
 
         if ((space_id = generate_random_dataspace(ndims, NULL, NULL, false)) < 0) {
             H5_FAILED();
@@ -1532,7 +1532,7 @@ test_create_dataset_compound_types(void H5_ATTR_UNUSED *params)
     if ((fspace_id = generate_random_dataspace(DATASET_COMPOUND_TYPE_TEST_DSET_RANK, NULL, NULL, false)) < 0)
         TEST_ERROR;
 
-    num_passes = (rand() % DATASET_COMPOUND_TYPE_TEST_MAX_PASSES) + 1;
+    num_passes = (arc4random() % DATASET_COMPOUND_TYPE_TEST_MAX_PASSES) + 1;
 
     for (i = 0; i < (size_t)num_passes; i++) {
         size_t num_subtypes;
@@ -1548,7 +1548,7 @@ test_create_dataset_compound_types(void H5_ATTR_UNUSED *params)
         for (j = 0; j < DATASET_COMPOUND_TYPE_TEST_MAX_SUBTYPES; j++)
             type_pool[j] = H5I_INVALID_HID;
 
-        num_subtypes = (size_t)(rand() % DATASET_COMPOUND_TYPE_TEST_MAX_SUBTYPES) + 1;
+        num_subtypes = (size_t)(arc4random() % DATASET_COMPOUND_TYPE_TEST_MAX_SUBTYPES) + 1;
 
         if ((compound_type = H5Tcreate(H5T_COMPOUND, 1)) < 0) {
             H5_FAILED();
@@ -1845,7 +1845,7 @@ test_create_dataset_array_types(void H5_ATTR_UNUSED *params)
 
     /* Test creation of array with some different types */
     for (i = 0; i < DATASET_ARRAY_TYPE_TEST_RANK1; i++)
-        array_dims1[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        array_dims1[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
 
     if ((array_base_type_id1 = generate_random_datatype(H5T_ARRAY, false)) < 0)
         TEST_ERROR;
@@ -1858,7 +1858,7 @@ test_create_dataset_array_types(void H5_ATTR_UNUSED *params)
     }
 
     for (i = 0; i < DATASET_ARRAY_TYPE_TEST_RANK2; i++)
-        array_dims2[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        array_dims2[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
 
     if ((array_base_type_id2 = generate_random_datatype(H5T_ARRAY, false)) < 0)
         TEST_ERROR;
@@ -1872,7 +1872,7 @@ test_create_dataset_array_types(void H5_ATTR_UNUSED *params)
 
     /* Test nested arrays */
     for (i = 0; i < DATASET_ARRAY_TYPE_TEST_RANK3; i++)
-        array_dims3[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        array_dims3[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
 
     if ((array_base_type_id3 = generate_random_datatype(H5T_ARRAY, false)) < 0)
         TEST_ERROR;
@@ -2872,7 +2872,7 @@ test_create_dataset_creation_properties(void H5_ATTR_UNUSED *params)
                     size_t  j;
 
                     for (j = 0; j < DATASET_CREATION_PROPERTIES_TEST_CHUNK_DIM_RANK; j++)
-                        local_chunk_dims[j] = (hsize_t)(rand() % (int)dims[j] + 1);
+                        local_chunk_dims[j] = (hsize_t)(arc4random() % (int)dims[j] + 1);
 
                     if (H5Pset_chunk(dcpl_id, DATASET_CREATION_PROPERTIES_TEST_CHUNK_DIM_RANK,
                                      local_chunk_dims) < 0) {
@@ -3960,7 +3960,7 @@ test_dataset_property_lists(void H5_ATTR_UNUSED *params)
         TEST_ERROR;
 
     for (i = 0; i < DATASET_PROPERTY_LIST_TEST_SPACE_RANK; i++)
-        chunk_dims[i] = (hsize_t)(rand() % (int)dims[i] + 1);
+        chunk_dims[i] = (hsize_t)(arc4random() % (int)dims[i] + 1);
 
     if ((dset_dtype1 = generate_random_datatype(H5T_NO_CLASS, false)) < 0)
         TEST_ERROR;
@@ -5197,8 +5197,8 @@ error:
     {                                                                                                        \
         for ((I) = 0; (I) < DATASET_IO_POINT_NPOINTS; (I)++)                                                 \
             do {                                                                                             \
-                (POINTS)[2 * (I)]     = (hsize_t)(rand() % DATASET_IO_POINT_DIM_0);                          \
-                (POINTS)[2 * (I) + 1] = (hsize_t)(rand() % DATASET_IO_POINT_DIM_1);                          \
+                (POINTS)[2 * (I)]     = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_0);                          \
+                (POINTS)[2 * (I) + 1] = (hsize_t)(arc4random() % DATASET_IO_POINT_DIM_1);                          \
                 for ((J) = 0; ((J) < (I)) && (((POINTS)[2 * (I)] != (POINTS)[2 * (J)]) ||                    \
                                               ((POINTS)[2 * (I) + 1] != (POINTS)[2 * (J) + 1]));             \
                      (J)++)                                                                                  \
@@ -5285,7 +5285,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = rand();
+                buf_all[i][j] = arc4random();
 
         /* Write data */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf_all) < 0)
@@ -5324,7 +5324,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
 
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_NPOINTS; i++)
-            buf_point[i] = rand();
+            buf_point[i] = arc4random();
 
         /* Write points from "all" memory buffer */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_all, fspace_id, H5P_DEFAULT, buf_point) < 0)
@@ -5389,7 +5389,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = rand();
+                buf_all[i][j] = arc4random();
 
         /* Write data points->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, fspace_id, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5462,7 +5462,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = rand();
+                buf_all[i][j] = arc4random();
 
         /* Write data points->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5534,7 +5534,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = rand();
+                buf_all[i][j] = arc4random();
 
         /* Write data hlsab->points */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -5608,7 +5608,7 @@ test_dataset_io_point_selections(void H5_ATTR_UNUSED *params)
         /* Fill write buffer */
         for (i = 0; i < DATASET_IO_POINT_DIM_0; i++)
             for (j = 0; j < DATASET_IO_POINT_DIM_1; j++)
-                buf_all[i][j] = rand();
+                buf_all[i][j] = arc4random();
 
         /* Write data points->hslab */
         if (H5Dwrite(dset_id, H5T_NATIVE_INT, mspace_id_full, fspace_id, H5P_DEFAULT, buf_all) < 0)
@@ -10460,7 +10460,7 @@ test_dataset_set_extent_chunked_unlimited(void H5_ATTR_UNUSED *params)
 
     for (i = 0; i < DATASET_SET_EXTENT_CHUNKED_UNLIMITED_TEST_SPACE_RANK; i++) {
         max_dims[i]   = H5S_UNLIMITED;
-        chunk_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        chunk_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
     }
 
     if ((fspace_id = generate_random_dataspace(DATASET_SET_EXTENT_CHUNKED_UNLIMITED_TEST_SPACE_RANK, max_dims,
@@ -10492,7 +10492,7 @@ test_dataset_set_extent_chunked_unlimited(void H5_ATTR_UNUSED *params)
         for (j = 0; j < DATASET_SET_EXTENT_CHUNKED_UNLIMITED_TEST_SPACE_RANK; j++) {
             /* Ensure that the new dimensionality doesn't match the old dimensionality. */
             do {
-                new_dims[j] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+                new_dims[j] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
             } while (new_dims[j] == dims[j]);
         }
 
@@ -10548,7 +10548,7 @@ test_dataset_set_extent_chunked_unlimited(void H5_ATTR_UNUSED *params)
         for (j = 0; j < DATASET_SET_EXTENT_CHUNKED_UNLIMITED_TEST_SPACE_RANK; j++) {
             /* Ensure that the new dimensionality doesn't match the old dimensionality. */
             do {
-                new_dims[j] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+                new_dims[j] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
             } while (new_dims[j] == dims[j]);
         }
 
@@ -10691,10 +10691,10 @@ test_dataset_set_extent_chunked_fixed(void H5_ATTR_UNUSED *params)
     }
 
     for (i = 0; i < DATASET_SET_EXTENT_CHUNKED_FIXED_TEST_SPACE_RANK; i++) {
-        dims[i]  = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        dims[i]  = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
         dims2[i] = dims[i];
         do {
-            chunk_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+            chunk_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
         } while (chunk_dims[i] > dims[i]);
     }
 
@@ -10746,7 +10746,7 @@ test_dataset_set_extent_chunked_fixed(void H5_ATTR_UNUSED *params)
                     break;
                 }
                 else
-                    new_dims[j] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+                    new_dims[j] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
             } while (new_dims[j] >= dims[j]);
         }
 
@@ -10815,7 +10815,7 @@ test_dataset_set_extent_chunked_fixed(void H5_ATTR_UNUSED *params)
                     break;
                 }
                 else
-                    new_dims[j] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+                    new_dims[j] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
             } while (new_dims[j] >= dims2[j]);
         }
 
@@ -11460,10 +11460,10 @@ test_dataset_set_extent_invalid_params(void H5_ATTR_UNUSED *params)
 
     for (i = 0; i < DATASET_SET_EXTENT_INVALID_PARAMS_TEST_SPACE_RANK; i++) {
         do {
-            new_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+            new_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
         } while (new_dims[i] > dims[i]);
         do {
-            chunk_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+            chunk_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
         } while (chunk_dims[i] > dims[i]);
     }
 

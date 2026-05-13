@@ -109,7 +109,7 @@ generate_random_datatype(H5T_class_t parent_class, bool is_compact)
     depth++;
 
 roll_datatype:
-    switch (rand() % H5T_NCLASSES) {
+    switch (arc4random() % H5T_NCLASSES) {
         case H5T_INTEGER:
             gen_func = generate_random_datatype_integer;
             break;
@@ -225,7 +225,7 @@ generate_random_datatype_integer(H5T_class_t H5_ATTR_UNUSED parent_class, bool H
     hid_t datatype     = H5I_INVALID_HID;
     hid_t ret_value    = H5I_INVALID_HID;
 
-    switch (rand() % NUM_PREDEFINED_INT_TYPES) {
+    switch (arc4random() % NUM_PREDEFINED_INT_TYPES) {
         case 0:
             type_to_copy = H5T_STD_I8BE;
             break;
@@ -302,7 +302,7 @@ generate_random_datatype_float(H5T_class_t H5_ATTR_UNUSED parent_class, bool H5_
     hid_t datatype     = H5I_INVALID_HID;
     hid_t ret_value    = H5I_INVALID_HID;
 
-    switch (rand() % NUM_PREDEFINED_FLOAT_TYPES) {
+    switch (arc4random() % NUM_PREDEFINED_FLOAT_TYPES) {
         case 0:
             type_to_copy = H5T_IEEE_F16BE;
             break;
@@ -376,9 +376,9 @@ generate_random_datatype_string(H5T_class_t H5_ATTR_UNUSED parent_class, bool H5
      * fixed-length strings, but these may change in the future.
      */
 #if 0 /* Currently, all VL types are disabled */
-    if (0 == (rand() % 2)) {
+    if (0 == (arc4random() % 2)) {
 #endif
-    if ((datatype = H5Tcreate(H5T_STRING, (size_t)(rand() % STRING_TYPE_MAX_SIZE) + 1)) < 0) {
+    if ((datatype = H5Tcreate(H5T_STRING, (size_t)(arc4random() % STRING_TYPE_MAX_SIZE) + 1)) < 0) {
         printf("    couldn't create fixed-length string datatype\n");
         goto done;
     }
@@ -439,7 +439,7 @@ generate_random_datatype_compound(H5T_class_t H5_ATTR_UNUSED parent_class, bool 
         goto done;
     }
 
-    num_members = (size_t)(rand() % COMPOUND_TYPE_MAX_MEMBERS + 1);
+    num_members = (size_t)(arc4random() % COMPOUND_TYPE_MAX_MEMBERS + 1);
 
     for (size_t i = 0; i < num_members; i++) {
         size_t member_size;
@@ -496,7 +496,7 @@ generate_random_datatype_reference(H5T_class_t H5_ATTR_UNUSED parent_class, bool
     hid_t ret_value = H5I_INVALID_HID;
 
 #if 0 /* Region references are currently unsupported */
-    if (0 == (rand() % 2)) {
+    if (0 == (arc4random() % 2)) {
 #endif
     if ((datatype = H5Tcopy(H5T_STD_REF_OBJ)) < 0) {
         printf("    couldn't copy object reference datatype\n");
@@ -537,7 +537,7 @@ generate_random_datatype_enum(H5T_class_t H5_ATTR_UNUSED parent_class, bool H5_A
         goto done;
     }
 
-    num_members = (size_t)(rand() % ENUM_TYPE_MAX_MEMBERS + 1);
+    num_members = (size_t)(arc4random() % ENUM_TYPE_MAX_MEMBERS + 1);
 
     if (NULL == (enum_member_vals = malloc(num_members * sizeof(int)))) {
         printf("    couldn't allocate space for enum members\n");
@@ -552,7 +552,7 @@ generate_random_datatype_enum(H5T_class_t H5_ATTR_UNUSED parent_class, bool H5_A
         snprintf(name, ENUM_TYPE_MAX_MEMBER_NAME_LENGTH, "enum_val%zu", i);
 
         do {
-            enum_val = rand();
+            enum_val = arc4random();
 
             /* Check for uniqueness of enum member */
             unique = true;
@@ -591,7 +591,7 @@ generate_random_datatype_array(H5T_class_t H5_ATTR_UNUSED parent_class, bool is_
     hid_t    datatype      = H5I_INVALID_HID;
     hid_t    ret_value     = H5I_INVALID_HID;
 
-    ndims = (unsigned)(rand() % ARRAY_TYPE_MAX_DIMS + 1);
+    ndims = (unsigned)(arc4random() % ARRAY_TYPE_MAX_DIMS + 1);
 
     if (NULL == (array_dims = malloc(ndims * sizeof(*array_dims)))) {
         printf("    couldn't allocate space for array datatype dims\n");
@@ -599,7 +599,7 @@ generate_random_datatype_array(H5T_class_t H5_ATTR_UNUSED parent_class, bool is_
     }
 
     for (size_t i = 0; i < ndims; i++)
-        array_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+        array_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
 
     if ((base_datatype = generate_random_datatype(H5T_ARRAY, is_compact)) < 0) {
         printf("    couldn't create array base datatype\n");
@@ -636,7 +636,7 @@ generate_random_datatype_complex(H5T_class_t H5_ATTR_UNUSED parent_class, bool H
     hid_t datatype     = H5I_INVALID_HID;
     hid_t ret_value    = H5I_INVALID_HID;
 
-    switch (rand() % NUM_PREDEFINED_COMPLEX_TYPES) {
+    switch (arc4random() % NUM_PREDEFINED_COMPLEX_TYPES) {
         case 0:
             type_to_copy = H5T_COMPLEX_IEEE_F16BE;
             break;
@@ -701,9 +701,9 @@ generate_random_dataspace(int rank, const hsize_t *max_dims, hsize_t *dims_out, 
      */
     for (i = 0; i < (size_t)rank; i++) {
         if (is_compact)
-            dataspace_dims[i] = (hsize_t)(rand() % COMPACT_SPACE_MAX_DIM_SIZE + 1);
+            dataspace_dims[i] = (hsize_t)(arc4random() % COMPACT_SPACE_MAX_DIM_SIZE + 1);
         else
-            dataspace_dims[i] = (hsize_t)(rand() % MAX_DIM_SIZE + 1);
+            dataspace_dims[i] = (hsize_t)(arc4random() % MAX_DIM_SIZE + 1);
 
         if (dims_out)
             dims_out[i] = dataspace_dims[i];

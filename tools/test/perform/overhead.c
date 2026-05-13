@@ -32,7 +32,7 @@
 
 /* On OpenBSD, rand() triggers a linker warning suggesting arc4random(). */
 #ifdef __OpenBSD__
-#define rand() ((int)arc4random())
+#define rand() arc4random()
 #endif
 
 #if !defined(H5_HAVE_ATTRIBUTE) || defined __cplusplus

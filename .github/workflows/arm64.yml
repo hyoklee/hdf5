@@ -2,7 +2,7 @@ name: arm64
 
 on:
   push:
-    branches: develop-
+    branches: develop
 
 permissions: read-all
 
@@ -16,7 +16,7 @@ jobs:
         os:
           - name: openbsd
             architecture: arm64
-            version: '7.6'
+            version: '7.8'
             host: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,11 +24,7 @@ jobs:
 
       - name: ${{ matrix.os.name }}
         uses: cross-platform-actions/action@master
-        env:
-          FOO: A
-          BAR: B
         with:
-          environment_variables: FOO BAR
           operating_system: ${{ matrix.os.name }}
           architecture: ${{ matrix.os.architecture }}
           version: '${{ matrix.os.version }}'
@@ -43,10 +39,9 @@ jobs:
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
-            -DSITE:STRING=obsd.arm64 \
+            -DSITE:STRING="obsd-7.8.arm64" \
             ..
-            ctest -T Build
-            ctest -C Release -T Test
+            ctest -D Experimental
             
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

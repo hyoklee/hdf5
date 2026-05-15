@@ -1453,7 +1453,10 @@ ADD_H5_TEST (infinite_loop RESULT_CODE 1 H5ERRREF "unable to open file" TARGET_F
 ADD_H5_TEST (err_attr_dspace RESULT_CODE 1 H5ERRREF "error getting attribute information" TARGET_FILE err_attr_dspace.h5)
 
 # test to verify HDFFV-9407: long double full precision
-ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.35Lg TARGET_FILE t128bit_float.h5)
+# Skip on Windows where sizeof(long double) == sizeof(double), producing truncated output
+if (NOT WIN32)
+  ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.35Lg TARGET_FILE t128bit_float.h5)
+endif ()
 
 # test to verify HDFFV-10480: out of bounds read in H5O_fill_new[old]_decode
 ADD_H5_TEST (tCVE_2018_11206_fill_old RESULT_CODE 1 H5ERRREF "" TARGET_FILE tCVE_2018_11206_fill_old.h5)

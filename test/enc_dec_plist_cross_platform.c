@@ -178,7 +178,7 @@ test_plists(const char *filename_prefix)
             size_1 = (size_t)HDlseek(fd_1, 0, SEEK_END);
             HDlseek(fd_1, 0, SEEK_SET);
             buf_1 = (void *)malloc(size_1);
-            if (HDread(fd_1, buf_1, size_1) < 0)
+            if (HDread(fd_1, buf_1, (h5_posix_io_t)size_1) < 0)
                 TEST_ERROR;
             HDclose(fd_1);
 
@@ -194,7 +194,7 @@ test_plists(const char *filename_prefix)
             size_2 = (size_t)HDlseek(fd_2, 0, SEEK_END);
             HDlseek(fd_2, 0, SEEK_SET);
             buf_2 = (void *)malloc(size_2);
-            if (HDread(fd_2, buf_2, size_2) < 0)
+            if (HDread(fd_2, buf_2, (h5_posix_io_t)size_2) < 0)
                 TEST_ERROR;
             HDclose(fd_2);
 

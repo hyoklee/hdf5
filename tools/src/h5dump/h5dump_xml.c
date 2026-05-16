@@ -3727,7 +3727,7 @@ xml_dump_fill_value(hid_t dcpl, hid_t type)
                 h5tools_str_reset(&buffer);
                 h5tools_str_append(&buffer, "\"");
                 for (i = 0; i < sz; i++) {
-                    unsigned long val = *(unsigned int *)buf + (i * sizeof(unsigned int));
+                    unsigned long val = (unsigned long)(*(unsigned int *)buf + (i * sizeof(unsigned int)));
 
                     H5_CHECK_OVERFLOW(val, unsigned long, unsigned);
                     h5tools_str_append(&buffer, "%x ", (unsigned)val);

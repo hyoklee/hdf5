@@ -11742,7 +11742,7 @@ test_chunk_expand2(hid_t fapl)
 
             /* Read elements */
             hs_size[0] = hs_size[1] = 1;
-            for (u = 0; u < (i == 0 ? 2 : 12); u++) {
+            for (u = 0; u < (unsigned)(i == 0 ? 2 : 12); u++) {
                 /* Select a single element in the datasets */
                 hs_offset[0] = hs_offset[1] = u;
                 if (H5Sselect_hyperslab(sid[i], H5S_SELECT_SET, hs_offset, NULL, hs_size, NULL) < 0)

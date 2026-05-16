@@ -9223,7 +9223,8 @@ external_set_elink_fapl1(hid_t fapl, bool new_format)
     /* settings for multi file */
     memset(memb_map, 0, sizeof memb_map);
     memset(memb_fapl, 0, sizeof memb_fapl);
-    memset(memb_name, 0, sizeof memb_name);
+    for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
+        memb_name[mt] = NULL;
     memset(memb_addr, 0, sizeof memb_addr);
     memset(sv, 0, sizeof sv);
 

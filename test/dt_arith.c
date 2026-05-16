@@ -677,7 +677,7 @@ test_particular_fp_integer(void)
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
     H5_float_complex src_fc = (H5_float_complex)INT_MAX;
 #else
-    H5_float_complex src_fc = H5_CMPLXF(INT_MAX, 0.0F);
+    H5_float_complex src_fc = H5_CMPLXF((float)INT_MAX, 0.0F);
 #endif
     size_t src_size4;
     size_t dst_size4;
@@ -3961,7 +3961,7 @@ test_conv_flt_1_hw_conv_from_flt16(void *hw_dst, unsigned char *src_buf, size_t 
             break;
 #else  /* H5_HAVE_C99_COMPLEX_NUMBERS */
         case FLT_COMPLEX:
-            *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
+            *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)aligned, 0.0F);
             break;
         case DBL_COMPLEX:
             *((H5_double_complex *)hw_dst) = H5_CMPLX(aligned, 0.0);
@@ -4069,7 +4069,7 @@ test_conv_flt_1_hw_conv_from_flt(void *hw_dst, unsigned char *src_buf, size_t id
             break;
 #else  /* H5_HAVE_C99_COMPLEX_NUMBERS */
         case FLT_COMPLEX:
-            *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
+            *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)aligned, 0.0F);
             break;
         case DBL_COMPLEX:
             *((H5_double_complex *)hw_dst) = H5_CMPLX(aligned, 0.0);
@@ -4175,7 +4175,7 @@ test_conv_flt_1_hw_conv_from_double(void *hw_dst, unsigned char *src_buf, size_t
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
-            *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
+            *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)aligned, 0.0F);
 #endif
 
             /* Check for overflow and underflow */
@@ -4301,7 +4301,7 @@ test_conv_flt_1_hw_conv_from_ldouble(void *hw_dst, unsigned char *src_buf, size_
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             *((H5_float_complex *)hw_dst) = (H5_float_complex)aligned;
 #else
-            *((H5_float_complex *)hw_dst) = H5_CMPLXF(aligned, 0.0F);
+            *((H5_float_complex *)hw_dst) = H5_CMPLXF((float)aligned, 0.0F);
 #endif
 
             /* Check for overflow and underflow */
@@ -7570,7 +7570,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)i;
 #else
-            aligned = H5_CMPLXF(i, 0.0F);
+            aligned = H5_CMPLXF((float)i, 0.0F);
 #endif
             break;
         }
@@ -7580,7 +7580,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ui;
 #else
-            aligned = H5_CMPLXF(ui, 0.0F);
+            aligned = H5_CMPLXF((float)ui, 0.0F);
 #endif
             break;
         }
@@ -7590,7 +7590,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)l;
 #else
-            aligned = H5_CMPLXF(l, 0.0F);
+            aligned = H5_CMPLXF((float)l, 0.0F);
 #endif
             break;
         }
@@ -7600,7 +7600,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ul;
 #else
-            aligned = H5_CMPLXF(ul, 0.0F);
+            aligned = H5_CMPLXF((float)ul, 0.0F);
 #endif
             break;
         }
@@ -7610,7 +7610,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ll;
 #else
-            aligned = H5_CMPLXF(ll, 0.0F);
+            aligned = H5_CMPLXF((float)ll, 0.0F);
 #endif
             break;
         }
@@ -7620,7 +7620,7 @@ test_conv_int_fp_conv_to_fcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_float_complex)ull;
 #else
-            aligned = H5_CMPLXF(ull, 0.0F);
+            aligned = H5_CMPLXF((float)ull, 0.0F);
 #endif
             break;
         }
@@ -7751,7 +7751,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ll;
 #else
-            aligned = H5_CMPLX(ll, 0.0);
+            aligned = H5_CMPLX((double)ll, 0.0);
 #endif
             break;
         }
@@ -7761,7 +7761,7 @@ test_conv_int_fp_conv_to_dcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_double_complex)ull;
 #else
-            aligned = H5_CMPLX(ull, 0.0);
+            aligned = H5_CMPLX((double)ull, 0.0);
 #endif
             break;
         }
@@ -7893,7 +7893,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ll;
 #else
-            aligned = H5_CMPLXL(ll, 0.0L);
+            aligned = H5_CMPLXL((long double)ll, 0.0L);
 #endif
             break;
         }
@@ -7903,7 +7903,7 @@ test_conv_int_fp_conv_to_lcomplex(void *hw_p, unsigned char *src_buf, size_t idx
 #if defined(H5_HAVE_C99_COMPLEX_NUMBERS) && !defined(_MSC_VER)
             aligned = (H5_ldouble_complex)ull;
 #else
-            aligned = H5_CMPLXL(ull, 0.0L);
+            aligned = H5_CMPLXL((long double)ull, 0.0L);
 #endif
             break;
         }
@@ -8889,6 +8889,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
             }
 #else
                 assert(0 && "Should not reach this point!");
+                break;
 #endif
 #ifdef H5_HAVE_COMPLEX_NUMBERS
             case FLT_COMPLEX: {
@@ -9025,6 +9026,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
             }
 #else
                 assert(0 && "Should not reach this point!");
+                break;
 #endif
 #ifdef H5_HAVE_COMPLEX_NUMBERS
             case FLT_COMPLEX: {
@@ -9118,6 +9120,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
                 break;
 #else
                 assert(0 && "Should not reach this point!");
+                break;
 #endif
 #ifdef H5_HAVE_COMPLEX_NUMBERS
             case FLT_COMPLEX:

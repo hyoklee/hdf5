@@ -479,7 +479,7 @@ H5FD__onion_commit_new_revision_record(H5FD_onion_t *file)
 
     file->onion_eof = phys_addr + size;
     if (true == file->align_history_on_pages)
-        file->onion_eof = (file->onion_eof + (file->header.page_size - 1)) & (~(file->header.page_size - 1));
+        file->onion_eof = (file->onion_eof + (file->header.page_size - 1)) & ~((haddr_t)(file->header.page_size - 1));
 
     /* Update history info to accommodate new revision */
 
@@ -745,7 +745,7 @@ H5FD__onion_create_truncate_onion(H5FD_onion_t *file, const char *filename, cons
         HGOTO_ERROR(H5E_VFL, H5E_WRITEERROR, FAIL, "cannot write header to the backing onion file");
     file->onion_eof = (haddr_t)size;
     if (true == file->align_history_on_pages)
-        file->onion_eof = (file->onion_eof + (hdr->page_size - 1)) & (~(hdr->page_size - 1));
+        file->onion_eof = (file->onion_eof + (hdr->page_size - 1)) & ~((haddr_t)(hdr->page_size - 1));
 
     rec->archival_index.list = NULL;
 
@@ -1085,7 +1085,7 @@ H5FD__onion_open(const char *filename, unsigned flags, hid_t fapl_id, haddr_t ma
 
                 file->onion_eof = (haddr_t)saved_size;
                 if (true == file->align_history_on_pages)
-                    file->onion_eof = (file->onion_eof + (hdr->page_size - 1)) & (~(hdr->page_size - 1));
+                    file->onion_eof = (file->onion_eof + (hdr->page_size - 1)) & ~((haddr_t)(hdr->page_size - 1));
 
                 rec->archival_index.list = NULL;
 
@@ -1170,7 +1170,7 @@ H5FD__onion_open(const char *filename, unsigned flags, hid_t fapl_id, haddr_t ma
 
     file->onion_eof = H5FD_get_eoa(file->onion_file, H5FD_MEM_DRAW);
     if (true == file->align_history_on_pages)
-        file->onion_eof = (file->onion_eof + (file->header.page_size - 1)) & (~(file->header.page_size - 1));
+        file->onion_eof = (file->onion_eof + (file->header.page_size - 1)) & ~((haddr_t)(file->header.page_size - 1));
 
     ret_value = (H5FD_t *)file;
 

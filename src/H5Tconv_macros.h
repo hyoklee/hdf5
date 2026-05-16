@@ -990,15 +990,15 @@ typedef struct H5T_conv_hw_t {
 #if !defined(H5_HAVE_C99_COMPLEX_NUMBERS) || defined(_MSC_VER)
 #define H5T_CONV_CAST_TO_FLOAT_COMPLEX(S_REAL, S_IMAG, D, DT)                                                \
     {                                                                                                        \
-        *(D) = H5_CMPLXF(S_REAL, S_IMAG);                                                                    \
+        *(D) = H5_CMPLXF((float)(S_REAL), (float)(S_IMAG));                                                  \
     }
 #define H5T_CONV_CAST_TO_DOUBLE_COMPLEX(S_REAL, S_IMAG, D, DT)                                               \
     {                                                                                                        \
-        *(D) = H5_CMPLX(S_REAL, S_IMAG);                                                                     \
+        *(D) = H5_CMPLX((double)(S_REAL), (double)(S_IMAG));                                                 \
     }
 #define H5T_CONV_CAST_TO_LDOUBLE_COMPLEX(S_REAL, S_IMAG, D, DT)                                              \
     {                                                                                                        \
-        *(D) = H5_CMPLXL(S_REAL, S_IMAG);                                                                    \
+        *(D) = H5_CMPLXL((long double)(S_REAL), (long double)(S_IMAG));                                      \
     }
 
 #define H5T_CONV_CAST_zZ(STYPE, DTYPE, S, S_REAL, S_IMAG, D, ST, DT)                                         \

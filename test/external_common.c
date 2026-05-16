@@ -66,7 +66,7 @@ reset_raw_data_files(bool is_env)
          * the ability to set an offset in the raw data file.
          */
         garbage_bytes = i * 10;
-        n             = HDwrite(fd, garbage, garbage_bytes);
+        n             = HDwrite(fd, garbage, (h5_posix_io_t)garbage_bytes);
         if (n < 0 || (size_t)n != garbage_bytes)
             goto error;
 
@@ -102,7 +102,7 @@ reset_raw_data_files(bool is_env)
          * the ability to set an offset in the raw data file.
          */
         garbage_bytes = i * 10;
-        n             = HDwrite(fd, garbage, garbage_bytes);
+        n             = HDwrite(fd, garbage, (h5_posix_io_t)garbage_bytes);
         if (n < 0 || (size_t)n != garbage_bytes)
             goto error;
 

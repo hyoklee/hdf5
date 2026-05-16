@@ -12019,7 +12019,7 @@ test_attr(void H5_ATTR_UNUSED *params)
         }
 
         for (fapl_no = 1; fapl_no <= 3; fapl_no++) {
-            hid_t my_fapl;
+            hid_t my_fapl = H5I_INVALID_HID;
 
             /* Set the FAPL for the type of format */
             switch (fapl_no) {

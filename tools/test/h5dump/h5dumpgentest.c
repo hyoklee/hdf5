@@ -4080,7 +4080,8 @@ gent_multi(void)
 
     memset(memb_map, 0, sizeof memb_map);
     memset(memb_fapl, 0, sizeof memb_fapl);
-    memset(memb_name, 0, sizeof memb_name);
+    for (mt = H5FD_MEM_DEFAULT; mt < H5FD_MEM_NTYPES; mt++)
+        memb_name[mt] = NULL;
     memset(memb_addr, 0, sizeof memb_addr);
 
     assert(strlen(multi_letters) == H5FD_MEM_NTYPES);

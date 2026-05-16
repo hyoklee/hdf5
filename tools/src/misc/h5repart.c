@@ -287,7 +287,7 @@ main(int argc, char *argv[])
         }
         else if (src_offset < src_act_size) {
             n = (size_t)MIN((HDoff_t)n, src_act_size - src_offset);
-            if ((nio = HDread(src, buf, n)) < 0) {
+            if ((nio = HDread(src, buf, (h5_posix_io_t)n)) < 0) {
                 perror("read");
                 exit(EXIT_FAILURE);
             }
@@ -317,7 +317,7 @@ main(int argc, char *argv[])
                 perror("HDlseek");
                 exit(EXIT_FAILURE);
             }
-            if ((nio = HDwrite(dst, buf, n)) < 0) {
+            if ((nio = HDwrite(dst, buf, (h5_posix_io_t)n)) < 0) {
                 perror("write");
                 exit(EXIT_FAILURE);
             }

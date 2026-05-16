@@ -633,7 +633,7 @@ test_core(void)
     VERIFY(ret == 0, "fstat failed");
     size       = (size_t)sb.st_size;
     file_image = (unsigned char *)malloc(size);
-    if (HDread(fd, file_image, size) < 0)
+    if (HDread(fd, file_image, (h5_posix_io_t)size) < 0)
         FAIL_PUTS_ERROR("unable to read from file descriptor");
     ret = HDclose(fd);
     VERIFY(ret == 0, "close failed");
@@ -836,7 +836,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
             }
 
             /* read the member file from disk into the buffer */
-            bytes_read = HDread(fd, insertion_ptr, (size_t)bytes_to_read);
+            bytes_read = HDread(fd, insertion_ptr, (h5_posix_io_t)bytes_to_read);
             VERIFY(bytes_read == bytes_to_read, "HDread() failed.");
 
             insertion_ptr = (void *)(((char *)insertion_ptr) + bytes_to_read);
@@ -885,7 +885,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
         }
 
         /* read the test file from disk into the buffer */
-        bytes_read = HDread(fd, file_image_ptr, (size_t)file_size);
+        bytes_read = HDread(fd, file_image_ptr, (h5_posix_io_t)file_size);
         VERIFY(bytes_read == file_size, "HDread() failed.");
 
         /* close the test file */

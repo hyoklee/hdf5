@@ -1683,9 +1683,9 @@ copy_user_block(const char *infile, const char *outfile, hsize_t size)
 
         /* Read buffer from source file */
         if (size > USERBLOCK_XFER_SIZE)
-            nread = HDread(infid, rbuf, (size_t)USERBLOCK_XFER_SIZE);
+            nread = HDread(infid, rbuf, (h5_posix_io_t)USERBLOCK_XFER_SIZE);
         else
-            nread = HDread(infid, rbuf, (size_t)size);
+            nread = HDread(infid, rbuf, (h5_posix_io_t)size);
         if (nread < 0)
             H5TOOLS_GOTO_ERROR((-1), "HDread failed to read userblock");
 
@@ -1697,7 +1697,7 @@ copy_user_block(const char *infile, const char *outfile, hsize_t size)
             ssize_t nwritten; /* # of bytes written */
 
             do {
-                nwritten = HDwrite(outfid, wbuf, (size_t)nbytes);
+                nwritten = HDwrite(outfid, wbuf, (h5_posix_io_t)nbytes);
             } while (-1 == nwritten && EINTR == errno);
             if (-1 == nwritten) /* error */
                 H5TOOLS_GOTO_ERROR((-1), "HDwrite failed");

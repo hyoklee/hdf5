@@ -3298,7 +3298,7 @@ cal_chksum(const char *file, uint32_t *chksum)
 
     if (file_data) {
         /* Read file's data into memory */
-        bytes_read = HDread(fdes, file_data, (size_t)sb.st_size);
+        bytes_read = HDread(fdes, file_data, (h5_posix_io_t)sb.st_size);
         CHECK(bytes_read == sb.st_size, false, "malloc");
 
         /* Calculate checksum */
@@ -5009,7 +5009,7 @@ test_sects_freespace(const char *driver_name, bool new_format)
         tmp_tot += raw_sect_info[u].size;
 
     /* Verify free-space info */
-    VERIFY(nmeta + nraw, nall, "H5Fget_free_sections");
+    VERIFY((long)(nmeta + nraw), (long)nall, "H5Fget_free_sections");
     VERIFY(tmp_tot, total, "H5Fget_free_sections");
 
     /* Closing */
@@ -5072,7 +5072,7 @@ test_filespace_compatible(void)
 
         /* Copy data */
         while ((nread = HDread(fd_old, buf, (size_t)READ_OLD_BUFSIZE)) > 0) {
-            ssize_t write_err = HDwrite(fd_new, buf, (size_t)nread);
+            ssize_t write_err = HDwrite(fd_new, buf, (h5_posix_io_t)nread);
             CHECK(write_err, -1, "HDwrite");
         } /* end while */
 
@@ -7663,7 +7663,7 @@ test_libver_bounds_attributes(hid_t fapl)
                 CHECK_PTR(attr, "H5VL_object");
 
                 /* Verify the attribute message version */
-                VERIFY(attr->shared->version >= H5O_attr_ver_bounds[f->shared->low_bound], true,
+                VERIFY((int)attr->shared->version >= (int)H5O_attr_ver_bounds[f->shared->low_bound], 1,
                        "H5O_attr_ver_bounds");
 
                 /* Close the attribute */

@@ -8674,7 +8674,7 @@ fprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
             TEST_ERROR;
 
         /* Read file's data into memory */
-        if (HDread(fd, file_data, (size_t)sb.st_size) < (ssize_t)sb.st_size)
+        if (HDread(fd, file_data, (h5_posix_io_t)sb.st_size) < (ssize_t)sb.st_size)
             TEST_ERROR;
 
         /* Close the file */
@@ -8761,7 +8761,7 @@ fprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
             TEST_ERROR;
 
         /* Write file's data from memory */
-        if (HDwrite(fd, file_data, (size_t)sb.st_size) < (ssize_t)sb.st_size)
+        if (HDwrite(fd, file_data, (h5_posix_io_t)sb.st_size) < (ssize_t)sb.st_size)
             TEST_ERROR;
 
         /* Close the file */
@@ -8845,7 +8845,7 @@ fprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
             TEST_ERROR;
 
         /* Write file's data from memory */
-        if (HDwrite(fd, file_data, (size_t)sb.st_size) < (ssize_t)sb.st_size)
+        if (HDwrite(fd, file_data, (h5_posix_io_t)sb.st_size) < (ssize_t)sb.st_size)
             TEST_ERROR;
 
         /* Close the file */
@@ -8927,7 +8927,7 @@ fprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
             TEST_ERROR;
 
         /* Write file's data from memory */
-        if (HDwrite(fd, file_data, (size_t)sb.st_size) < (ssize_t)sb.st_size)
+        if (HDwrite(fd, file_data, (h5_posix_io_t)sb.st_size) < (ssize_t)sb.st_size)
             TEST_ERROR;
 
         /* Close the file */

@@ -1734,7 +1734,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (obj_count != 1) {
                 H5_FAILED();
-                printf("    number of open groups (%ld) did not match expected number (1)\n", (long)obj_count);
+                printf("    number of open groups (%ld) did not match expected number (1)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_grps_single_file);
             }
 
@@ -1755,7 +1756,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (obj_count != 1) {
                 H5_FAILED();
-                printf("    number of open groups (%ld) did not match expected number (1)\n", (long)obj_count);
+                printf("    number of open groups (%ld) did not match expected number (1)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_grps);
             }
 
@@ -1798,7 +1800,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (obj_count != 1) {
                 H5_FAILED();
-                printf("    number of open attributes (%ld) did not match expected number (1)\n", (long)obj_count);
+                printf("    number of open attributes (%ld) did not match expected number (1)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_attrs);
             }
 
@@ -1819,7 +1822,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (obj_count != 1) {
                 H5_FAILED();
-                printf("    number of open datasets (%ld) did not match expected number (1)\n", (long)obj_count);
+                printf("    number of open datasets (%ld) did not match expected number (1)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_dsets);
             }
 
@@ -1841,7 +1845,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
             /* One for the file and another for the group */
             if (obj_count != 2) {
                 H5_FAILED();
-                printf("    number of open objects (%ld) did not match expected number (2)\n", (long)obj_count);
+                printf("    number of open objects (%ld) did not match expected number (2)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_all_single_file);
             }
 
@@ -1862,7 +1867,8 @@ test_get_file_obj_count(void H5_ATTR_UNUSED *params)
 
             if (obj_count != 6) {
                 H5_FAILED();
-                printf("    number of open objects (%ld) did not match expected number (6)\n", (long)obj_count);
+                printf("    number of open objects (%ld) did not match expected number (6)\n",
+                       (long)obj_count);
                 PART_ERROR(H5Fget_obj_count_all);
             }
 
@@ -2021,7 +2027,8 @@ test_file_open_overlap(void H5_ATTR_UNUSED *params)
 
     if (obj_count != 3) {
         H5_FAILED();
-        printf("    number of objects opened in file (%ld) did not match expected number (3)\n", (long)obj_count);
+        printf("    number of objects opened in file (%ld) did not match expected number (3)\n",
+               (long)obj_count);
         goto error;
     }
 

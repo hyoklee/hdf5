@@ -31,12 +31,11 @@ jobs:
             sudo pkg_add git
             sudo pkg_add cmake
             sudo pkg_add libaec
-            export MALLOC_OPTIONS="SCFGJRU"
             mkdir build
             cd build
             cmake \
             -DBUILDNAME:STRING=hk/d \
-            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
@@ -44,4 +43,4 @@ jobs:
             -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
             -DSITE:STRING=obsd-7.8 \
             ..
-            ctest -D Experimental -C Debug
+            ctest -D Experimental -C RelWithDebInfo

@@ -313,11 +313,18 @@ H5G__link_to_ent(H5F_t *f, H5HL_t *heap, const H5O_link_t *lnk, H5O_type_t obj_t
                     targ_oloc.file = f;
                     targ_oloc.addr = lnk->u.hard.addr;
 
-                    /* Check if a symbol table message exists */
-                    if ((stab_exists = H5O_msg_exists(&targ_oloc, H5O_STAB_ID)) < 0)
-                        HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to check for STAB message");
+                    /* Check if a symbol table message exists - suppress errors because
+                     * the object header may not be accessible yet during H5Ocopy
+                     * (the target object may still be in the process of being copied) */
+                    H5E_BEGIN_TRY
+                    {
+                        stab_exists = H5O_msg_exists(&targ_oloc, H5O_STAB_ID);
+                    }
+                    H5E_END_TRY
 
-                    assert(!stab_exists);
+                    /* Only assert if the check succeeded */
+                    if (stab_exists >= 0)
+                        assert(!stab_exists);
                 } /* end else */
 #endif            /* NDEBUG */
             }     /* end if */

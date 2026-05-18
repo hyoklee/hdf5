@@ -304,7 +304,7 @@ H5G__link_to_ent(H5F_t *f, H5HL_t *heap, const H5O_link_t *lnk, H5O_type_t obj_t
                 else {
                     /* Make sure there is no stab message in the target object
                      */
-                    H5O_loc_t targ_oloc;   /* Location of link target */
+                    H5O_loc_t targ_oloc;          /* Location of link target */
                     htri_t    stab_exists = FAIL; /* Whether the target symbol table exists */
 
                     /* Build target object location */

@@ -578,6 +578,13 @@ if (CMAKE_C_COMPILER_ID MATCHES "NVHPC|PGI")
   target_compile_options(dt_arith PRIVATE "-O0")
 endif ()
 
+# MSVC ARM64 linker fails with LNK1322 (Cortex-A53 errata 843419) on dtypes.c
+# because a section exceeds the threshold for the ARM errata workaround even
+# with /Gy. /O1 reduces section sizes to allow the linker workaround to succeed.
+if (MSVC AND CMAKE_SYSTEM_PROCESSOR MATCHES "ARM64")
+  target_compile_options(dtypes PRIVATE "/O1")
+endif ()
+
 ##############################################################################
 ###           M U L T I P L E  S O U R C E   T E S T S                     ###
 ##############################################################################

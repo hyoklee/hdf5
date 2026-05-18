@@ -565,6 +565,14 @@ set (H5_TESTS_MULTIPLE
     ttsafe
     mirror_vfd
 )
+
+# dtypes.c triggers LNK1322 (Cortex-A53 errata 843419) on MSVC ARM64 even
+# with /Gy: a section in the object file exceeds the threshold for the ARM
+# errata linker workaround.  Skip building and testing dtypes on this platform.
+if (MSVC AND CMAKE_SYSTEM_PROCESSOR MATCHES "ARM64")
+  list (REMOVE_ITEM H5_TESTS dtypes)
+endif ()
+
 # Only build single source tests here
 foreach (h5_test ${H5_TESTS} ${H5_EXPRESS_TESTS} ${H5_S3TESTS})
   if (NOT h5_test IN_LIST H5_TESTS_MULTIPLE)
@@ -576,13 +584,6 @@ endforeach ()
 # compiling dt_arith.c at -O1. Use -O0 to work around the compiler bug.
 if (CMAKE_C_COMPILER_ID MATCHES "NVHPC|PGI")
   target_compile_options(dt_arith PRIVATE "-O0")
-endif ()
-
-# MSVC ARM64 linker fails with LNK1322 (Cortex-A53 errata 843419) on dtypes.c
-# because a section exceeds the threshold for the ARM errata workaround even
-# with /Gy. /O1 reduces section sizes to allow the linker workaround to succeed.
-if (MSVC AND CMAKE_SYSTEM_PROCESSOR MATCHES "ARM64")
-  target_compile_options(dtypes PRIVATE "/O1")
 endif ()
 
 ##############################################################################

@@ -24,5 +24,5 @@ jobs:
           vcpkg integrate install
           mkdir build
           cd build
-          cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_FLAGS="/Gy" -DCMAKE_CXX_FLAGS="/Gy" -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON -DHDF5_TEST_API=ON  -DCTEST_DROP_SITE_INIT=my.cdash.org -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" -DSITE="win-11.arm64" -DBUILDNAME="ninja/ae/zl" ..
-          ctest -D Experimental --output-on-failure
+          cmake -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_FLAGS="/Gy" -DCMAKE_CXX_FLAGS="/Gy" -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON -DHDF5_TEST_API=ON  -DCTEST_DROP_SITE_INIT=my.cdash.org -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" -DSITE="win-11.arm64" -DBUILDNAME="ae/zl" ..
+          ctest -C Release -D Experimental --output-on-failure

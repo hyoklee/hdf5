@@ -1,0 +1,28 @@
+name: arm64 win-11 ninja ae zl
+
+on:
+  push:
+    branches:
+      - develop-
+
+jobs:
+  build:
+    runs-on: windows-11-arm
+    steps:
+      - name: h5
+        uses: actions/checkout@v6
+      - name: setup-msvc
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: arm64
+      - name: test
+        shell: cmd
+        run: |
+          SET CL=/Gy
+          vcpkg install libaec
+          vcpkg install zlib
+          vcpkg integrate install
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_FLAGS="/Gy" -DCMAKE_CXX_FLAGS="/Gy" -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON -DHDF5_TEST_API=ON  -DCTEST_DROP_SITE_INIT=my.cdash.org -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" -DSITE="win-11.arm64" -DBUILDNAME="ninja/ae/zl" ..
+          ctest -D Experimental --output-on-failure

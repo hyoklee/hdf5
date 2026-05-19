@@ -3,7 +3,7 @@ name: arm64 win-11 ae zl
 on:
   push:
     branches:
-      - develop
+      - develop-
 
 jobs:
   build:

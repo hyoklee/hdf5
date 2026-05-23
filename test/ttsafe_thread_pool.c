@@ -94,8 +94,26 @@ decr_task(void *_counter)
 void
 tts_thread_pool(void H5_ATTR_UNUSED *params)
 {
-    H5TS_pool_t *pool = NULL;
+    H5TS_pool_t *pool        = NULL;
+    int          express_test;
+    unsigned     num_incr_tasks = 2 * 1000 * 1000;
+    unsigned     num_decr_tasks = 1 * 1000 * 1000;
     herr_t       result;
+
+    /* Reduce # of tasks for higher levels of express testing */
+    express_test = GetTestExpress();
+    if (express_test >= H5_TEST_EXPRESS_FULL) {
+        num_incr_tasks /= 10;
+        num_decr_tasks /= 10;
+    }
+    if (express_test >= H5_TEST_EXPRESS_QUICK) {
+        num_incr_tasks /= 10;
+        num_decr_tasks /= 10;
+    }
+    if (express_test >= H5_TEST_EXPRESS_SMOKE_TEST) {
+        num_incr_tasks /= 10;
+        num_decr_tasks /= 10;
+    }
 
     /* Initialize the counter */
     result = H5TS_mutex_init(&counter_g.mutex, H5TS_MUTEX_TYPE_PLAIN);
@@ -186,12 +204,12 @@ tts_thread_pool(void H5_ATTR_UNUSED *params)
     result        = H5TS_pool_create(&pool, NUM_THREADS);
     CHECK_I(result, "H5TS_pool_create");
 
-    for (unsigned u = 0; u < 2 * 1000 * 1000; u++) {
+    for (unsigned u = 0; u < num_incr_tasks; u++) {
         result = H5TS_pool_add_task(pool, incr_task, &counter_g);
         CHECK_I(result, "H5TS_pool_add_task");
     }
 
-    for (unsigned u = 0; u < 1 * 1000 * 1000; u++) {
+    for (unsigned u = 0; u < num_decr_tasks; u++) {
         result = H5TS_pool_add_task(pool, decr_task, &counter_g);
         CHECK_I(result, "H5TS_pool_add_task");
     }
@@ -199,7 +217,7 @@ tts_thread_pool(void H5_ATTR_UNUSED *params)
     result = H5TS_pool_destroy(pool);
     CHECK_I(result, "H5TS_pool_destroy");
 
-    VERIFY(counter_g.val, 5 + (1000 * 1000), "2,000,000 incr + 1,000,000 decr");
+    VERIFY(counter_g.val, (int)(5 + num_incr_tasks - num_decr_tasks), "lots of incr + decr tasks");
 
     /* Destroy the counter's mutex */
     result = H5TS_mutex_destroy(&counter_g.mutex);

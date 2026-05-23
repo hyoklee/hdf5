@@ -29,6 +29,7 @@ typedef struct {
     H5TS_semaphore_t ping_sem, pong_sem;
     unsigned         ping_counter;
     unsigned         pong_counter;
+    unsigned         num_pingpong;
 } pingpong_t;
 
 typedef struct {
@@ -52,7 +53,7 @@ ping(void *_test_info)
 
         result = H5TS_semaphore_signal(&test_info->pong_sem);
         CHECK_I(result, "H5TS_semaphore_signal");
-    } while (test_info->ping_counter < NUM_PINGPONG);
+    } while (test_info->ping_counter < test_info->num_pingpong);
 
     return ret_value;
 }
@@ -72,7 +73,7 @@ pong(void *_test_info)
 
         result = H5TS_semaphore_signal(&test_info->ping_sem);
         CHECK_I(result, "H5TS_semaphore_signal");
-    } while (test_info->pong_counter < NUM_PINGPONG);
+    } while (test_info->pong_counter < test_info->num_pingpong);
 
     return ret_value;
 }
@@ -83,7 +84,7 @@ pong(void *_test_info)
  **********************************************************************
  */
 static void
-tts_semaphore_pingpong(void)
+tts_semaphore_pingpong(unsigned num_pingpong)
 {
     H5TS_thread_t ping_thread, pong_thread;
     pingpong_t    test_info;
@@ -96,6 +97,7 @@ tts_semaphore_pingpong(void)
     CHECK_I(result, "H5TS_semaphore_init");
     test_info.ping_counter = 0;
     test_info.pong_counter = 0;
+    test_info.num_pingpong = num_pingpong;
 
     /* Start ping & pong threads */
     result = H5TS_thread_create(&ping_thread, ping, &test_info);
@@ -113,8 +115,8 @@ tts_semaphore_pingpong(void)
     result = H5TS_thread_join(pong_thread, NULL);
     CHECK_I(result, "H5TS_thread_join");
 
-    VERIFY(test_info.ping_counter, NUM_PINGPONG, "ping counter");
-    VERIFY(test_info.pong_counter, NUM_PINGPONG, "pong counter");
+    VERIFY(test_info.ping_counter, num_pingpong, "ping counter");
+    VERIFY(test_info.pong_counter, num_pingpong, "pong counter");
 
     /* Destroy semaphores */
     result = H5TS_semaphore_destroy(&test_info.ping_sem);
@@ -156,7 +158,7 @@ client(void *_test_info)
  **********************************************************************
  */
 static void
-tts_semaphore_clientserver(void)
+tts_semaphore_clientserver(unsigned num_clientserver)
 {
     H5TS_thread_t  client_threads[NUM_THREADS];
     clientserver_t test_info[NUM_THREADS];
@@ -178,7 +180,7 @@ tts_semaphore_clientserver(void)
     }
 
     /* Issue "work" to clients */
-    for (unsigned v = 0; v < NUM_CLIENTSERVER; v++)
+    for (unsigned v = 0; v < num_clientserver; v++)
         for (u = 0; u < NUM_THREADS; u++) {
             /* Wait for client to be ready */
             result = H5TS_semaphore_wait(&test_info[u].ready_sem);
@@ -232,7 +234,25 @@ void
 tts_semaphore(void H5_ATTR_UNUSED *params)
 {
     H5TS_semaphore_t sem;
+    int              express_test;
+    unsigned         num_pingpong     = NUM_PINGPONG;
+    unsigned         num_clientserver = NUM_CLIENTSERVER;
     herr_t           result;
+
+    /* Reduce # of iterations for higher levels of express testing */
+    express_test = GetTestExpress();
+    if (express_test >= H5_TEST_EXPRESS_FULL) {
+        num_pingpong /= 10;
+        num_clientserver /= 10;
+    }
+    if (express_test >= H5_TEST_EXPRESS_QUICK) {
+        num_pingpong /= 10;
+        num_clientserver /= 10;
+    }
+    if (express_test >= H5_TEST_EXPRESS_SMOKE_TEST) {
+        num_pingpong /= 10;
+        num_clientserver /= 10;
+    }
 
     /* Sanity checks on bad input */
     result = H5TS_semaphore_init(NULL, 0);
@@ -265,10 +285,10 @@ tts_semaphore(void H5_ATTR_UNUSED *params)
     CHECK_I(result, "H5TS_semaphore_destroy");
 
     /* Ping-pong test */
-    tts_semaphore_pingpong();
+    tts_semaphore_pingpong(num_pingpong);
 
     /* Client-server test */
-    tts_semaphore_clientserver();
+    tts_semaphore_clientserver(num_clientserver);
 } /* end tts_semaphore() */
 
 #endif /* defined(H5_HAVE_THREADS) */

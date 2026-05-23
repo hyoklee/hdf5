@@ -31,6 +31,29 @@ Nsecs_rem=3             # number of seconds per read interval
 Nsecs_addrem=8          # number of seconds per read interval
 nerrors=0
 
+# Scale test parameters based on HDF5TestExpress level
+# (0=exhaustive, 1=full, 2=quick, 3=smoke_test)
+# This mirrors the GetTestExpress() scaling used in C tests.
+case "${HDF5TestExpress}" in
+    0)  # Exhaustive - keep default values
+        ;;
+    1)  # Full - divide by 10
+        Nrecords=$((Nrecords / 10))
+        Nrecs_rem=$((Nrecs_rem / 10))
+        Nrecs_spa=$((Nrecs_spa / 10))
+        ;;
+    2)  # Quick - divide by 100
+        Nrecords=$((Nrecords / 100))
+        Nrecs_rem=$((Nrecs_rem / 100))
+        Nrecs_spa=$((Nrecs_spa / 100))
+        ;;
+    *)  # Smoke test (3) or unrecognized - divide by 1000
+        Nrecords=$((Nrecords / 1000))
+        Nrecs_rem=$((Nrecs_rem / 1000))
+        Nrecs_spa=$((Nrecs_spa / 1000))
+        ;;
+esac
+
 ###############################################################################
 ## definitions for message file to coordinate test runs
 ###############################################################################

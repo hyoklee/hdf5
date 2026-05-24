@@ -94,7 +94,7 @@ decr_task(void *_counter)
 void
 tts_thread_pool(void H5_ATTR_UNUSED *params)
 {
-    H5TS_pool_t *pool        = NULL;
+    H5TS_pool_t *pool = NULL;
     int          express_test;
     unsigned     num_incr_tasks = 2 * 1000 * 1000;
     unsigned     num_decr_tasks = 1 * 1000 * 1000;

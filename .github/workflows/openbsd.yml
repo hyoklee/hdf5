@@ -4,7 +4,7 @@ name: OpenBSD CI
 on:
   workflow_dispatch:
   push:
-    branches: [ develop- ]  
+    branches: [ develop ]  
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
@@ -14,7 +14,7 @@ on:
       - 'LICENSE**'
       - '**.md'
   pull_request:
-    branches: [ develop- ]
+    branches: [ develop ]
     paths-ignore:
       - '.github/CODEOWNERS'
       - '.github/FUNDING.yml'
@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        openbsd-version: ['7.8']
+        openbsd-version: ['7.9']
 
     steps:
       - name: Checkout repository

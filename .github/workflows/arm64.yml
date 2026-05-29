@@ -2,7 +2,7 @@ name: arm64
 
 on:
   push:
-    branches: develop-
+    branches: develop
 
 jobs:
   test:
@@ -14,7 +14,7 @@ jobs:
         os:
           - name: openbsd
             architecture: arm64
-            version: '7.8'
+            version: '7.9'
             host: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,11 +35,11 @@ jobs:
           mkdir build
           cd build
           cmake \
-          -DBUILDNAME:STRING="hk/r" \
+          -DBUILDNAME:STRING="hk" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
           -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
           -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
-          -DSITE:STRING="obsd-7.8.arm64" \
+          -DSITE:STRING="obsd-7.9.arm64" \
           ..
           ctest -D Experimental

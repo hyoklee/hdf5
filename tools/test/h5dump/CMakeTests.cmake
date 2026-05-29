@@ -1452,10 +1452,16 @@ ADD_H5_TEST (infinite_loop RESULT_CODE 1 H5ERRREF "unable to open file" TARGET_F
 # test to verify HDFFV-10333: error similar to H5O_attr_decode in the jira issue
 ADD_H5_TEST (err_attr_dspace RESULT_CODE 1 H5ERRREF "error getting attribute information" TARGET_FILE err_attr_dspace.h5)
 
-# test to verify HDFFV-9407: long double full precision
-# Skip on Windows where sizeof(long double) == sizeof(double), producing truncated output
-if (NOT WIN32)
-  ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.35Lg TARGET_FILE t128bit_float.h5)
+# test to verify HDFFV-9407: long double has more precision than double.
+# Only run where "long double" is actually wider than "double" (this skips
+# Windows and macOS/arm64, where they are identical). The dump precision is
+# kept at %.18Lg: that is within the ~19 reliable decimal digits of an 80-bit
+# x86 "long double" yet still more than a 64-bit "double" (~16 digits), so an
+# 80-bit platform and a 128-bit platform (arm64, s390x, ...) produce identical
+# output. A higher precision (e.g. %.35Lg) diverges past ~19 digits between
+# 80-bit and 128-bit long double and cannot match a single expected file.
+if (H5_SIZEOF_LONG_DOUBLE GREATER H5_SIZEOF_DOUBLE)
+  ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.18Lg TARGET_FILE t128bit_float.h5)
 endif ()
 
 # test to verify HDFFV-10480: out of bounds read in H5O_fill_new[old]_decode

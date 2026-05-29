@@ -56,7 +56,7 @@ jobs:
             echo "==== h5dump=$H5DUMP  testfile=$TFILE ===="
 
             echo "==== ACTUAL OpenBSD arm64 output ===="
-            "$H5DUMP" -L %.35Lg "$TFILE" | tee /tmp/actual.ddl
+            "$H5DUMP" -L %.18Lg "$TFILE" | tee /tmp/actual.ddl
 
             echo "==== EXPECTED (.ddl in repo) ===="
             cat tools/test/h5dump/expected/t128bit_float.ddl

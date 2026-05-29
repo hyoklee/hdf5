@@ -49,7 +49,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="HDFG-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-05-25</span>
+   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-05-29</span>
    </div>
    <div id="projectbrief">The HDF5 Field Guide</div>
   </td>
@@ -311,7 +311,7 @@ Functions/Subroutines</h2></td></tr>
     <tr><td class="paramname">loc_id</td><td>Location identifier. The identifier may be that of a file or group. </td></tr>
     <tr><td class="paramname">dset_name</td><td>The name of the dataset to read. </td></tr>
     <tr><td class="paramname">nfields</td><td>The number of fields. </td></tr>
-    <tr><td class="paramname">field_names</td><td>An array containing the names of the fields. </td></tr>
+    <tr><td class="paramname">field_names</td><td>An array of character buffers to receive the field names. Each element must be declared with at least HLTB_MAX_FIELD_LEN_F characters. Field names longer than HLTB_MAX_FIELD_LEN_F - 1 characters are silently truncated. A truncated name may inadvertently match a different, shorter field when subsequently passed to <a class="el" href="h5repack_8h.html#a314b5651a0aa5175d64605dbc83e094e">h5tbread_fields_name_f()</a> or <a class="el" href="h5repack_8h.html#a314b5651a0aa5175d64605dbc83e094e">h5tbwrite_fields_name_f()</a>. </td></tr>
     <tr><td class="paramname">field_sizes</td><td>An array containing the size of the fields. </td></tr>
     <tr><td class="paramname">field_offsets</td><td>An array containing the offsets of the fields. </td></tr>
     <tr><td class="paramname">type_size</td><td>The size of the HDF5 datatype associated with the table (i.e., the size in bytes of the HDF5 compound datatype used to define a row, or record, in the table). </td></tr>
@@ -552,7 +552,7 @@ Functions/Subroutines</h2></td></tr>
     <tr><td class="paramname">nfields</td><td>The number of fields. </td></tr>
     <tr><td class="paramname">nrecords</td><td>The number of records. </td></tr>
     <tr><td class="paramname">type_size</td><td>The size in bytes of the structure associated with the table. Obtained with sizeof or storage_size. </td></tr>
-    <tr><td class="paramname">field_names</td><td>An array containing the names of the fields. </td></tr>
+    <tr><td class="paramname">field_names</td><td>An array containing the names of the fields. Names longer than HLTB_MAX_FIELD_LEN_F - 1 characters are silently truncated when read back by <a class="el" href="group___f_h5_t_b.html#ga4f66143082feb48482071385d9e69cd2" title="Gets information about a table.">h5tbget_field_info_f()</a>. </td></tr>
     <tr><td class="paramname">field_offset</td><td>An array containing the offsets of the fields. </td></tr>
     <tr><td class="paramname">field_types</td><td>An array containing the type of the fields. </td></tr>
     <tr><td class="paramname">chunk_size</td><td>The chunk size. </td></tr>
@@ -673,7 +673,7 @@ Functions/Subroutines</h2></td></tr>
     <tr><td class="paramname">nfields</td><td>The number of fields </td></tr>
     <tr><td class="paramname">nrecords</td><td>The number of records </td></tr>
     <tr><td class="paramname">type_size</td><td>The size in bytes of the structure associated with the table; This value is obtained with <a class="el" href="h5repack_8h.html#a314b5651a0aa5175d64605dbc83e094e">sizeof()</a>. </td></tr>
-    <tr><td class="paramname">field_names</td><td>An array containing the names of the fields </td></tr>
+    <tr><td class="paramname">field_names</td><td>An array containing the names of the fields. Names longer than HLTB_MAX_FIELD_LEN_F - 1 characters are silently truncated when read back by <a class="el" href="group___f_h5_t_b.html#ga4f66143082feb48482071385d9e69cd2" title="Gets information about a table.">h5tbget_field_info_f()</a>. </td></tr>
     <tr><td class="paramname">field_offset</td><td>An array containing the offsets of the fields </td></tr>
     <tr><td class="paramname">field_types</td><td>An array containing the type of the fields </td></tr>
     <tr><td class="paramname">chunk_size</td><td>The chunk size </td></tr>

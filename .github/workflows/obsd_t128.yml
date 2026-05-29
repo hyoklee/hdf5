@@ -1,0 +1,65 @@
+name: obsd arm64 t128bit_float diag
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - obsd-t128-diag
+
+permissions:
+  contents: read
+
+jobs:
+  t128:
+    name: openbsd arm64 7.9 t128bit_float
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: openbsd
+        uses: cross-platform-actions/action@b412ac9c4c4979654bb817a5d91878fdf87af740 # master
+        with:
+          operating_system: openbsd
+          architecture: arm64
+          version: '7.9'
+          shell: bash
+          run: |
+            set -x
+            sudo pkg_add cmake
+            # Long double characteristics on this platform
+            cat > /tmp/ld.c <<'EOF'
+            #include <stdio.h>
+            #include <float.h>
+            int main(void){ printf("sizeof(long double)=%zu LDBL_MANT_DIG=%d LDBL_DIG=%d\n",
+                                    sizeof(long double), LDBL_MANT_DIG, LDBL_DIG); return 0; }
+            EOF
+            cc /tmp/ld.c -o /tmp/ld && /tmp/ld
+            cc --version | head -1
+
+            # Minimal build: libhdf5 + h5dump only
+            cmake -S . -B build \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_TESTING=OFF \
+              -DBUILD_SHARED_LIBS=OFF \
+              -DHDF5_BUILD_TOOLS:BOOL=ON \
+              -DHDF5_BUILD_HL_LIB:BOOL=OFF \
+              -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+              -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
+              -DHDF5_BUILD_EXAMPLES:BOOL=OFF \
+              -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+              -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=OFF
+            cmake --build build --target h5dump --parallel 3
+
+            H5DUMP=$(find build -name h5dump -type f | head -1)
+            TFILE=$(find . -name t128bit_float.h5 | head -1)
+            echo "==== h5dump=$H5DUMP  testfile=$TFILE ===="
+
+            echo "==== ACTUAL OpenBSD arm64 output ===="
+            "$H5DUMP" -L %.35Lg "$TFILE" | tee /tmp/actual.ddl
+
+            echo "==== EXPECTED (.ddl in repo) ===="
+            cat tools/test/h5dump/expected/t128bit_float.ddl
+
+            echo "==== DIFF (expected vs actual) ===="
+            diff -u tools/test/h5dump/expected/t128bit_float.ddl /tmp/actual.ddl && echo "NO DIFF (test would pass)" || echo "DIFF ABOVE (test fails)"

@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: Get Sources
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Run
-        uses: uraimo/run-on-arch-action@v3
+        uses: uraimo/run-on-arch-action@fd7aa8593480287702b446a273a68f788a9bad3a # v3
         id: runcmd
         with:
           arch: s390x

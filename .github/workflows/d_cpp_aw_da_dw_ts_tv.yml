@@ -21,10 +21,10 @@ jobs:
             host: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: ${{ matrix.os.name }}
-        uses: cross-platform-actions/action@master
+        uses: cross-platform-actions/action@b412ac9c4c4979654bb817a5d91878fdf87af740 # master
         with:
           operating_system: ${{ matrix.os.name }}
           architecture: ${{ matrix.os.architecture }}

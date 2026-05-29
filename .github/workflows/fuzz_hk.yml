@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           repository: hyoklee/oss-fuzz
       - name: Build Fuzzers
         id: build
-        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@a068ebf54a1caecb36a7fae35db217ba7e0d93b6 # master
         with:
           oss-fuzz-project-name: 'hdf5'
           sanitizer: 'memory'
@@ -24,7 +24,7 @@ jobs:
           keep-unaffected-fuzz-targets: true
           project-src-path: "${{ runner.workspace }}/hdf5/projects/hdf5"
       - name: Run Fuzzers
-        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@a068ebf54a1caecb36a7fae35db217ba7e0d93b6 # master
         with:
           oss-fuzz-project-name: 'hdf5'
           fuzz-seconds: 600

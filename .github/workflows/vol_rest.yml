@@ -102,7 +102,7 @@ jobs:
       # key to use for caching/restoring from the cache
       #- name: Restore HSDS (${{ env.HSDS_COMMIT_SHORT }}) installation cache
       #  id: restore-hsds
-      #  uses: actions/cache@v3
+      #  uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
       #  with:
       #    path: ${{ runner.workspace }}/hsds-${{ env.HSDS_COMMIT_SHORT }}-install
       #    key: ${{ runner.os }}-${{ runner.arch }}-hsds-${{ env.HSDS_COMMIT }}-${{ inputs.build_mode }}-cache
@@ -123,7 +123,7 @@ jobs:
           pip install -e .
 
       #- name: Cache HSDS (${{ env.HSDS_COMMIT_SHORT }}) installation
-      #  uses: actions/cache/save@v3
+      #  uses: actions/cache/save@6f8efc29b200d32929f49075959781ed54ec270c # v3
       #  if: ${{ ! steps.restore-hsds.outputs.cache-hit }}
       #  with:
       #    path: ${{ runner.workspace }}/hsds-${{ env.HSDS_COMMIT_SHORT }}-install

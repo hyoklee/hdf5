@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Build Fuzzers
         id: build
-        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@a068ebf54a1caecb36a7fae35db217ba7e0d93b6 # master
         with:
           oss-fuzz-project-name: 'hdf5'
           sanitizer: ${{ matrix.sanitizer }}
@@ -33,7 +33,7 @@ jobs:
           dry-run: false
           keep-unaffected-fuzz-targets: true
       - name: Run Fuzzers
-        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@a068ebf54a1caecb36a7fae35db217ba7e0d93b6 # master
         with:
           oss-fuzz-project-name: 'hdf5'
           fuzz-seconds: 600

@@ -777,7 +777,7 @@ jobs:
         shell: bash
 
       - name: Notarize .dmg
-        uses: cocoalibs/xcode-notarization-action@v1
+        uses: cocoalibs/xcode-notarization-action@5cf433d494b6fa26504b574c591f4dd120388846 # v1
         with:
           app-path: ${{ runner.workspace }}/hdf5/build/${{ inputs.preset_name }}-Clang/HDF5-1.15.0-Darwin.dmg
           apple-id: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}

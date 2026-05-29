@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v6    
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6    
       - name: test
-        uses: vmactions/solaris-vm@v1
+        uses: vmactions/solaris-vm@3702ccf20b84c7f7c0a9bb68894aba7623f8301d # v1
         with:
           release: "11.4-gcc"
           usesh: true

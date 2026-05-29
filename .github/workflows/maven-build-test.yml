@@ -42,7 +42,7 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  packages: read
 
 jobs:
   build-maven-packages:

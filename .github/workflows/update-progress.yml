@@ -32,8 +32,8 @@ jobs:
         
     - name: Install dependencies
       run: |
-        pip install requests
-        
+        pip install requests==2.32.3
+
     - name: Validate required secrets
       run: |
         if [ -z "${{ secrets.GIST_TOKEN }}" ]; then

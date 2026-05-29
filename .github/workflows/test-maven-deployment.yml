@@ -23,7 +23,7 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  packages: read
 
 jobs:
   generate-test-artifacts:
@@ -127,6 +127,9 @@ jobs:
   test-maven-deployment:
     name: Test Maven Deployment to HDFGroup Packages
     needs: generate-test-artifacts
+    permissions:
+      contents: read
+      packages: write # In order to deploy test artifacts to GitHub Packages
     uses: ./.github/workflows/maven-deploy.yml
     with:
       file_base: "hdf5-test"

@@ -4,6 +4,9 @@ on:
   push:
     branches: develop-
 
+permissions:
+  contents: read
+
 jobs:
   test: # make sure the action works on a clean machine without building
     name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}

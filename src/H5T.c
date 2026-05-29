@@ -2589,8 +2589,10 @@ H5Tcreate(H5T_class_t type, size_t size)
 
     FUNC_ENTER_API(H5I_INVALID_HID)
 
-    /* check args. We support string (fixed-size or variable-length) now. */
-    if (size == 0 && size != H5T_VARIABLE)
+    /* check args. We support string (fixed-size or variable-length) now.
+     * Note: H5T_VARIABLE is (size_t)(-1), so a zero size can never be the
+     * variable-length marker; checking size == 0 alone is sufficient. */
+    if (size == 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "size must be positive");
 
     /* create the type */
@@ -3153,7 +3155,9 @@ H5Tset_size(hid_t type_id, size_t size)
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype");
     if (H5T_STATE_TRANSIENT != dt->shared->state)
         HGOTO_ERROR(H5E_ARGS, H5E_CANTINIT, FAIL, "datatype is read-only");
-    if (size == 0 && size != H5T_VARIABLE)
+    /* H5T_VARIABLE is (size_t)(-1), so a zero size is never the variable-length
+     * marker; checking size == 0 alone is sufficient. */
+    if (size == 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "size must be positive");
     if (size == H5T_VARIABLE && !H5T_IS_STRING(dt->shared))
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "only strings may be variable length");

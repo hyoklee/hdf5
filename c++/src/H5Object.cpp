@@ -476,8 +476,8 @@ H5Object::getObjName() const
     else if (name_size == 0) {
         throw Exception(inMemFunc("getObjName"), "Object must have a name, but name length is 0");
     }
-    // Object's name exists, retrieve it
-    else if (name_size > 0) {
+    // Object's name exists, retrieve it (name_size > 0 is guaranteed here)
+    else {
 
         // The actual size is the cast value + 1 for the terminal ASCII NUL
         // (unfortunate in/out type sign mismatch)

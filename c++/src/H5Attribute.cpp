@@ -311,8 +311,8 @@ Attribute::getName() const
     else if (name_size == 0) {
         throw AttributeIException("Attribute::getName", "Attribute must have a name, name length is 0");
     }
-    // Attribute's name exists, retrieve it
-    else if (name_size > 0) {
+    // Attribute's name exists, retrieve it (name_size > 0 is guaranteed here)
+    else {
         // The actual size is the cast value + 1 for the terminal ASCII NUL
         // (unfortunate in/out type sign mismatch)
         size_t actual_name_size = static_cast<size_t>(name_size) + 1;

@@ -267,7 +267,9 @@ Group::throwException(const H5std_string &func_name, const H5std_string &msg) co
 Group::~Group()
 {
     try {
-        close();
+        // Explicitly qualify to call this class's close(); during destruction
+        // virtual dispatch already resolves to Group::close, so make it explicit.
+        Group::close();
     }
     catch (Exception &close_error) {
         cerr << "Group::~Group - " << close_error.getDetailMsg() << endl;

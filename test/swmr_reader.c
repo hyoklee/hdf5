@@ -228,7 +228,7 @@ read_records(const char *filename, bool verbose, FILE *verbose_file, unsigned ra
 
             /* Determine the offset of the symbol, within level 0 symbols */
             /* (level 0 symbols are the most common symbols) */
-            offset     = (unsigned)((unsigned)arc4random() % symbol_count[0]);
+            offset     = swmr_rand() % symbol_count[0];
             sym_com[v] = &symbol_info[0][offset];
 
             /* Emit informational message */
@@ -475,7 +475,7 @@ main(int argc, char *argv[])
         HDgettimeofday(&t, NULL);
         random_seed = (unsigned)(t.tv_usec);
     } /* end if */
-    srand(random_seed);
+    swmr_srand(random_seed);
 
     /* Open output file */
     if (verbose) {

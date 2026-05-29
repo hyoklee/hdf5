@@ -63,6 +63,18 @@ H5TEST_DLLVAR unsigned       symbol_count[NLEVELS];
 extern "C" {
 #endif
 
+/* Deterministic, seedable PRNG used by the SWMR test programs.
+ *
+ * The writers and readers coordinate by generating the *same* pseudo-random
+ * sequence of datasets and offsets after seeding with a shared seed (stored in
+ * the file's "seed" attribute).  libc rand() cannot be used for this directly:
+ * on OpenBSD h5test.h redirects rand() to arc4random(), and on platforms with a
+ * native arc4random() that generator ignores srand() entirely - either way the
+ * sequence becomes unseedable and the writer/reader fall out of sync.  This
+ * self-contained generator behaves identically on every platform. */
+H5TEST_DLL void     swmr_srand(unsigned seed);
+H5TEST_DLL unsigned swmr_rand(void);
+
 H5TEST_DLL symbol_info_t *choose_dataset(void);
 H5TEST_DLL hid_t          create_symbol_datatype(void);
 H5TEST_DLL int generate_name(char *name_buf, size_t name_buf_length, unsigned level, unsigned count);

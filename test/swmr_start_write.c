@@ -442,7 +442,7 @@ main(int argc, char *argv[])
         HDgettimeofday(&t, NULL);
         random_seed = (unsigned)(t.tv_usec);
     } /* end if */
-    srand(random_seed);
+    swmr_srand(random_seed);
 
     /* Open output file */
     if (verbose) {

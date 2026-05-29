@@ -83,6 +83,38 @@ char VDS_FILE_NAME[NAME_LEN]    = "vds_swmr.h5";
 char SOURCE_DSET_PATH[NAME_LEN] = "/source_dset";
 char VDS_DSET_NAME[NAME_LEN]    = "vds_dset";
 
+/* State for the SWMR test PRNG (see swmr_srand/swmr_rand below) */
+static uint64_t swmr_rand_state = 1;
+
+/*-------------------------------------------------------------------------
+ * Function:    swmr_srand / swmr_rand
+ *
+ * Purpose:     Deterministic, seedable PRNG shared by the SWMR writers and
+ *              readers.  A fixed linear-congruential generator is used so the
+ *              sequence is identical on every platform once seeded, which is
+ *              required for writers and readers to agree on which datasets and
+ *              offsets are accessed.  This is intentionally independent of libc
+ *              rand()/arc4random() (see the note in swmr_common.h).
+ *
+ * Return:      swmr_rand: a pseudo-random value in [0, 0x7fffffff]
+ *
+ *-------------------------------------------------------------------------
+ */
+void
+swmr_srand(unsigned seed)
+{
+    swmr_rand_state = seed;
+} /* end swmr_srand() */
+
+unsigned
+swmr_rand(void)
+{
+    /* Numerical Recipes LCG constants; arithmetic is on a fixed-width type so
+     * the result does not depend on the platform's int/long width. */
+    swmr_rand_state = (swmr_rand_state * 1664525u) + 1013904223u;
+    return (unsigned)((swmr_rand_state >> 16) & 0x7fffffffu);
+} /* end swmr_rand() */
+
 /*-------------------------------------------------------------------------
  * Function:    choose_dataset
  *
@@ -101,11 +133,15 @@ choose_dataset(void)
     unsigned level;  /* The level of the dataset */
     unsigned offset; /* The "offset" of the dataset at that level */
 
-    /* Determine level of dataset */
-    level = symbol_mapping[arc4random() % NMAPPING];
+    /* Determine level of dataset.
+     * NB: the seeded swmr_rand() (not arc4random) must be used here so that the
+     * writer and reader, seeded identically, generate the same sequence of
+     * datasets and offsets.  This synchronization is what lets the readers know
+     * which datasets the writer has written. */
+    level = symbol_mapping[swmr_rand() % (unsigned)NMAPPING];
 
     /* Determine the offset of the level */
-    offset = (unsigned)(arc4random() % (uint32_t)symbol_count[level]);
+    offset = swmr_rand() % symbol_count[level];
 
     return &symbol_info[level][offset];
 } /* end choose_dataset() */

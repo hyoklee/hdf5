@@ -102,7 +102,7 @@ open_skeleton(const char *filename, unsigned verbose)
         return -1;
     if (H5Aclose(aid) < 0)
         return -1;
-    srand(seed);
+    swmr_srand(seed);
 
     /* Open the datasets */
     for (u = 0; u < NLEVELS; u++)
@@ -207,8 +207,8 @@ add_records(hid_t fid, unsigned verbose, unsigned long nrecords, unsigned long f
             corked = false;
         } /* end else */
 
-        /* Get the coordinate to write */
-        start[1] = (hsize_t)arc4random() % symbol->nrecords;
+        /* Get the coordinate to write (seeded rand keeps writer/reader in sync) */
+        start[1] = (hsize_t)swmr_rand() % symbol->nrecords;
 
         /* Set the record's ID (equal to its position) */
         record.rec_id = start[1];

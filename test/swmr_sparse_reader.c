@@ -105,8 +105,8 @@ check_dataset(hid_t fid, unsigned verbose, const symbol_info_t *symbol, symbol_t
         return -1;
 
     /* Choose the random record in the dataset (will be the same as chosen by
-     * the writer) */
-    start[1] = (hsize_t)arc4random() % symbol->nrecords;
+     * the writer, since both use seeded swmr_rand()) */
+    start[1] = (hsize_t)swmr_rand() % symbol->nrecords;
     if (H5Sselect_hyperslab(file_sid, H5S_SELECT_SET, start, NULL, count, NULL) < 0)
         return -1;
 
@@ -205,7 +205,7 @@ read_records(const char *filename, unsigned verbose, unsigned long nrecords, uns
         return -1;
     if (H5Aclose(aid) < 0)
         return -1;
-    srand(seed);
+    swmr_srand(seed);
 
     /* Reset the record */
     /* (record's 'info' field might need to change for each record written, also) */

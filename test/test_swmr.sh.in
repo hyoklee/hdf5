@@ -26,6 +26,9 @@ Nrdrs_spa=3             # number of sparse readers to launch
 Nrecords=200000         # number of records to write
 Nrecs_rem=40000         # number of times to shrink
 Nrecs_spa=20000         # number of records to write in the sparse test
+Fl_records=10000        # writer flush interval (must stay < Nrecords)
+Fl_rem=1000             # remove-writer flush interval (must stay < Nrecs_rem)
+Fl_spa=1000             # sparse-writer flush interval (must stay < Nrecs_spa)
 Nsecs_add=5             # number of seconds per read interval
 Nsecs_rem=3             # number of seconds per read interval
 Nsecs_addrem=8          # number of seconds per read interval
@@ -34,6 +37,9 @@ nerrors=0
 # Scale test parameters based on HDF5TestExpress level
 # (0=exhaustive, 1=full, 2=quick, 3=smoke_test)
 # This mirrors the GetTestExpress() scaling used in C tests.
+# The flush intervals are scaled by the same factor as the record counts so
+# that they always remain strictly less than the (scaled) record count, which
+# the writer programs require (flush_count >= nrecords is a usage error).
 case "${HDF5TestExpress}" in
     0)  # Exhaustive - keep default values
         ;;
@@ -41,16 +47,25 @@ case "${HDF5TestExpress}" in
         Nrecords=$((Nrecords / 10))
         Nrecs_rem=$((Nrecs_rem / 10))
         Nrecs_spa=$((Nrecs_spa / 10))
+        Fl_records=$((Fl_records / 10))
+        Fl_rem=$((Fl_rem / 10))
+        Fl_spa=$((Fl_spa / 10))
         ;;
     2)  # Quick - divide by 100
         Nrecords=$((Nrecords / 100))
         Nrecs_rem=$((Nrecs_rem / 100))
         Nrecs_spa=$((Nrecs_spa / 100))
+        Fl_records=$((Fl_records / 100))
+        Fl_rem=$((Fl_rem / 100))
+        Fl_spa=$((Fl_spa / 100))
         ;;
     *)  # Smoke test (3) or unrecognized - divide by 1000
         Nrecords=$((Nrecords / 1000))
         Nrecs_rem=$((Nrecs_rem / 1000))
         Nrecs_spa=$((Nrecs_spa / 1000))
+        Fl_records=$((Fl_records / 1000))
+        Fl_rem=$((Fl_rem / 1000))
+        Fl_spa=$((Fl_spa / 1000))
         ;;
 esac
 
@@ -216,7 +231,7 @@ do
         # Launch the Writer
         echo launch the swmr_start_writer
         seed="" # Put -r <random seed> command here
-        $testdir/swmr_start_write -q $compress $index_type $Nrecords $seed 2>&1 |tee swmr_writer.out &
+        $testdir/swmr_start_write -q -f $Fl_records $compress $index_type $Nrecords $seed 2>&1 |tee swmr_writer.out &
         pid_writer=$!
         $DPRINT pid_writer=$pid_writer
 
@@ -288,7 +303,7 @@ do
         # Launch the Writer
         echo launch the swmr_writer
         seed="" # Put -r <random seed> command here
-        $testdir/swmr_writer -q -o $Nrecords $seed 2>&1 |tee swmr_writer.out &
+        $testdir/swmr_writer -q -o -f $Fl_records $Nrecords $seed 2>&1 |tee swmr_writer.out &
         pid_writer=$!
         $DPRINT pid_writer=$pid_writer
 
@@ -351,7 +366,7 @@ do
         # Launch the Remove Writer
         echo launch the swmr_remove_writer
         seed="" # Put -r <random seed> command here
-        $testdir/swmr_remove_writer -q -o $Nrecs_rem $seed 2>&1 |tee swmr_writer.out &
+        $testdir/swmr_remove_writer -q -o -f $Fl_rem $Nrecs_rem $seed 2>&1 |tee swmr_writer.out &
         pid_writer=$!
         $DPRINT pid_writer=$pid_writer
 
@@ -420,7 +435,7 @@ do
         # Launch the Writer (not in parallel - just to rebuild the datasets)
         echo launch the swmr_writer
         seed="" # Put -r <random seed> command here
-        $testdir/swmr_writer -q $Nrecords $seed
+        $testdir/swmr_writer -q -f $Fl_records $Nrecords $seed
         if test $? -ne 0; then
             echo writer had error
             nerrors=`expr $nerrors + 1`
@@ -432,7 +447,7 @@ do
         # Launch the Add/Remove Writer
         echo launch the swmr_addrem_writer
         seed="" # Put -r <random seed> command here
-        $testdir/swmr_addrem_writer -q $Nrecords $seed 2>&1 |tee swmr_writer.out &
+        $testdir/swmr_addrem_writer -q -f $Fl_records $Nrecords $seed 2>&1 |tee swmr_writer.out &
         pid_writer=$!
         $DPRINT pid_writer=$pid_writer
 
@@ -505,7 +520,7 @@ do
         rm -f $WRITER_MESSAGE
         # Launch the Sparse writer
         echo launch the swmr_sparse_writer
-        nice -n 20 $testdir/swmr_sparse_writer -q $Nrecs_spa 2>&1 |tee swmr_writer.out &
+        nice -n 20 $testdir/swmr_sparse_writer -q -f $Fl_spa $Nrecs_spa 2>&1 |tee swmr_writer.out &
         pid_writer=$!
         $DPRINT pid_writer=$pid_writer
 

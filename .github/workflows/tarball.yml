@@ -70,7 +70,7 @@ jobs:
 
     - name: Check for changed source
       id: check-new-commits
-      uses: adriangl/check-new-commits-action@e6471f4fda990ebdb3bf44726371e1ad45ac4d37 # v1
+      uses: adriangl/check-new-commits-action@dedf5c6983190ab27db843cde2965221459cdc6a # v2.0.1
       with:
         seconds: 86400 # One day in seconds
         branch: '${{ steps.get-branch-name.outputs.branch_ref }}'

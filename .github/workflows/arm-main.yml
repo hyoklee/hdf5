@@ -45,7 +45,7 @@ jobs:
         uses: ./.github/actions/setup-doxygen
 
       - name: Install CMake
-        uses: lukka/get-cmake@7bfc9baacbbdcb5e37957ad05c3546b3e222be3c # latest
+        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # latest
         with:
           cmakeVersion: ${{ inputs.cmake_version }}
           ninjaVersion: latest
@@ -286,7 +286,7 @@ jobs:
         uses: ./.github/actions/setup-doxygen
 
       - name: Install CMake
-        uses: lukka/get-cmake@7bfc9baacbbdcb5e37957ad05c3546b3e222be3c # latest
+        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # latest
         with:
             cmakeVersion: ${{ inputs.cmake_version }}
             ninjaVersion: latest

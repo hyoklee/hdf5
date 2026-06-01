@@ -58,7 +58,7 @@ jobs:
         working-directory: ${{ runner.workspace }}/build
 
       - name: Install julia
-        uses: julia-actions/setup-julia@f6f565d9f7cf12f53dc8045742460d6260ad3b39 # latest
+        uses: julia-actions/setup-julia@fa02766e078afaaf09b14210362cee14137e6a32 # latest
         with:
           version: '1.6'
           arch: 'x64'

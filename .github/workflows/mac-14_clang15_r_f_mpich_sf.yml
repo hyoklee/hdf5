@@ -36,10 +36,10 @@ jobs:
       run: brew install ninja mpich
 
     - name: Install gfortran
-      uses: awvwgk/setup-fortran@2a1b9c55897d827a9dfeb114408f3615e53b2b72 # v1
+      uses: awvwgk/setup-fortran@195bac823dc6e05bb7c706311ad4540ffc34d5b9 # v1
 
     - name: Get Sources
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
 
     - name: Configure
       if: matrix.generator != 'autogen'

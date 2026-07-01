@@ -15,9 +15,9 @@ jobs:
       - name: git
         run: |
           git config --global core.autocrlf input
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
       - name: set
-        uses: cygwin/cygwin-install-action@4ef15ca7fd18a18f1000989fcfd968e06d146ce8 # master
+        uses: cygwin/cygwin-install-action@a3d72946b163026bbd0fa9a88379ccbda4bd86bb # master
         with:
           packages: cmake gcc-fortran make ninja perl zlib-devel
       - name: test

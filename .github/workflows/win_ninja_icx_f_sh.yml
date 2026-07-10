@@ -12,14 +12,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: cmake
-        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # latest
+        uses: lukka/get-cmake@f5b8fbb4d77cec1acc5a5f9f0df4beffaf5d98d9 # latest
       - name: ifx
-        uses: awvwgk/setup-fortran@6e78ae7d5259eeee47a5fdc1dc6cd2a450c5f54d # main
+        uses: awvwgk/setup-fortran@2a1b9c55897d827a9dfeb114408f3615e53b2b72 # main
         with:
           compiler: intel
           version: '2024.1'
       - name: checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
       - name: test
         shell: cmd
         run: |

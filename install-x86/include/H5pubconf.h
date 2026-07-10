@@ -42,13 +42,13 @@
 
 /* Define to a macro mangling the given C identifier (in lower and upper
    case), which must not contain underscores, for linking with Fortran. */
-#define H5_FC_FUNC(name,NAME) name ## _
+#define H5_FC_FUNC(name, NAME) name##_
 
 /* Same as H5_FC_FUNC, but for C identifiers containing underscores. */
-#define H5_FC_FUNC_(name,NAME) name ## _
+#define H5_FC_FUNC_(name, NAME) name##_
 
 /* Define if Fortran C_BOOL is different from default LOGICAL */
-#define H5_FORTRAN_C_BOOL_IS_UNIQUE 
+#define H5_FORTRAN_C_BOOL_IS_UNIQUE
 
 /* Define if we have Fortran intrinsic C_SIZEOF */
 /* #undef H5_FORTRAN_HAVE_C_SIZEOF */
@@ -66,7 +66,7 @@
 /* #undef H5_FORTRAN_SIZEOF_LONG_DOUBLE */
 
 /* Define Fortran compiler ID */
-#define H5_Fortran_COMPILER_ID 
+#define H5_Fortran_COMPILER_ID
 
 /* Define number of valid Fortran INTEGER KINDs (must be defined before F_IKIND)*/
 /* #undef H5_H5CONFIG_F_NUM_IKIND */
@@ -311,7 +311,7 @@
 /* #undef H5_HAVE_SZLIB_H */
 
 /* Define if we have thread support */
-# define H5_HAVE_THREADS 1
+#define H5_HAVE_THREADS 1
 
 #if defined(_WIN32) && !defined(H5_BUILT_AS_DYNAMIC_LIB)
 /* Not supported on WIN32 platforms with static linking */
@@ -433,10 +433,10 @@
 #define H5_PACKAGE_VERSION "2.2.0"
 
 /* Determine the maximum decimal precision in C */
-#define H5_PAC_C_MAX_REAL_PRECISION 
+#define H5_PAC_C_MAX_REAL_PRECISION
 
 /* Define Fortran Maximum Real Decimal Precision */
-#define H5_PAC_FC_MAX_REAL_PRECISION 
+#define H5_PAC_FC_MAX_REAL_PRECISION
 
 /* The size of `bool', as computed by sizeof. */
 #define H5_SIZEOF_BOOL 1
@@ -514,39 +514,39 @@
 
 #else
 
-  /* On Apple, to support Universal Binaries (where multiple CPU
-     architectures exist in one library/executable), we can't assume
-     the machine doing the compiling has the same endianness or type
-     sizes as all the various architectures (PowerPC, Intel, ARM). */
+/* On Apple, to support Universal Binaries (where multiple CPU
+   architectures exist in one library/executable), we can't assume
+   the machine doing the compiling has the same endianness or type
+   sizes as all the various architectures (PowerPC, Intel, ARM). */
 
-  # if defined(__LP64__) && __LP64__
-  #define H5_SIZEOF_LONG 8
-  #define H5_SIZEOF_SIZE_T 8
-  #define H5_SIZEOF_SSIZE_T 8
-  # else
-  #define H5_SIZEOF_LONG 4
-  #define H5_SIZEOF_SIZE_T 4
-  #define H5_SIZEOF_SSIZE_T 4
-  # endif
+#if defined(__LP64__) && __LP64__
+#define H5_SIZEOF_LONG    8
+#define H5_SIZEOF_SIZE_T  8
+#define H5_SIZEOF_SSIZE_T 8
+#else
+#define H5_SIZEOF_LONG    4
+#define H5_SIZEOF_SIZE_T  4
+#define H5_SIZEOF_SSIZE_T 4
+#endif
 
-  # if defined(__i386__) || defined(__x86_64__)
-  #define H5_SIZEOF_LONG_DOUBLE 16
-  #define H5_SIZEOF_LONG_DOUBLE_COMPLEX 32
-  # elif defined(__aarch64__)
-  #define H5_SIZEOF_LONG_DOUBLE 8
-  #define H5_SIZEOF_LONG_DOUBLE_COMPLEX 16
-  # else
-  #define H5_SIZEOF_LONG_DOUBLE 16
-  #define H5_SIZEOF_LONG_DOUBLE_COMPLEX 32
-  # endif
+#if defined(__i386__) || defined(__x86_64__)
+#define H5_SIZEOF_LONG_DOUBLE         16
+#define H5_SIZEOF_LONG_DOUBLE_COMPLEX 32
+#elif defined(__aarch64__)
+#define H5_SIZEOF_LONG_DOUBLE         8
+#define H5_SIZEOF_LONG_DOUBLE_COMPLEX 16
+#else
+#define H5_SIZEOF_LONG_DOUBLE         16
+#define H5_SIZEOF_LONG_DOUBLE_COMPLEX 32
+#endif
 
 #endif
 
 /* The size of `long long', as computed by sizeof. */
 #if !defined(__APPLE__)
- #define H5_SIZEOF_LONG_LONG 8
+#define H5_SIZEOF_LONG_LONG 8
 #else
- #define H5_SIZEOF_LONG_LONG 8
+#define H5_SIZEOF_LONG_LONG 8
 #endif
 
 /* The size of `off_t', as computed by sizeof. */
@@ -647,13 +647,13 @@
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
 #if !defined(__APPLE__)
-# ifndef WORDS_BIGENDIAN
-#  undef WORDS_BIGENDIAN
-# endif
+#ifndef WORDS_BIGENDIAN
+#undef WORDS_BIGENDIAN
+#endif
 #else
-# if defined __BIG_ENDIAN__
-#  define WORDS_BIGENDIAN 1
-# endif
+#if defined __BIG_ENDIAN__
+#define WORDS_BIGENDIAN 1
+#endif
 #endif
 
 /* #undef WORDS_BIGENDIAN */

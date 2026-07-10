@@ -36,8 +36,21 @@ jobs:
         style: file
         exclude: './config ./hl/src/H5LTanalyze.c ./hl/src/H5LTparse.c ./hl/src/H5LTparse.h ./src/H5Epubgen.h ./src/H5Einit.h ./src/H5Eterm.h ./src/H5Edefin.h ./src/H5version.h ./src/H5overflow.h'
 
-    - uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321 # v10.0.0
-      with:
-          author_name: github-actions
-          author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          message: 'Committing clang-format changes'
+    # Commit and push any formatting changes. The checkout above uses
+    # persist-credentials: false (so no token is written to .git/config), so we
+    # authenticate the push with an explicit, non-persisted token in the remote
+    # URL. Pushes made with GITHUB_TOKEN do not trigger further workflow runs,
+    # which prevents this push-triggered workflow from looping on itself.
+    - name: Commit clang-format changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No formatting changes to commit."
+          exit 0
+        fi
+        git config user.name 'github-actions'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m 'Committing clang-format changes'
+        git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"

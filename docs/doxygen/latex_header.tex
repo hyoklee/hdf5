@@ -208,8 +208,16 @@
   }
 
   % caption style definition
+  % list=no: refman has no \listoftables/\listoffigures, so no list entry is
+  % ever typeset. Writing one is not merely useless, it breaks the build: the
+  % entry is written with \protected@edef, which fully expands the caption
+  % text. Doxygen puts non-robust hyperref macros in captions -- \Hypertarget
+  % for an \anchor inside <caption> and \doxylink for a #Ref or @ref inside
+  % <caption> -- and expanding those raises "Undefined control sequence"
+  % inside \Hy@raisedlink / \hyper@@link and aborts lualatex. Suppressing the
+  % list entry keeps the caption text unexpanded and fixes all such cases.
   \usepackage{caption}
-  \captionsetup{labelsep=space,justification=centering,font={bf},singlelinecheck=off,skip=4pt,position=top}
+  \captionsetup{labelsep=space,justification=centering,font={bf},singlelinecheck=off,skip=4pt,position=top,list=no}
 
 
   % in page table of contents

@@ -12,6 +12,7 @@
 
 # Other files, most of which are created by scripts in bin/
 /build*
+/install*
 src/H5config.h.in
 
 /.classpath

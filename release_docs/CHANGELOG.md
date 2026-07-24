@@ -32,6 +32,8 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 
 ## Performance Enhancements:
 
+- Added an I/O block cache to the ROS3 VFD to reduce the number of requests to S3 for files not using paged allocation
+
 - Improved the performance of several tools (h5dump, h5ls, h5diff, h5repack, h5stat and h5format_convert) for specific file structures where many objects are linked to with multiple hard links
 
 ## Significant Advancements:
@@ -98,6 +100,10 @@ We would like to thank the many HDF5 community members who contributed to this r
 
 ## Library
 
+### Added an I/O block cache to the ROS3 VFD
+
+   Added an I/O block cache to the ROS3 VFD to reduce the number of requests to S3 for files that don't use paged allocation. This is a simple LRU cache that performs I/O in fixed-size blocks and serves I/O requests from the in-memory cached buffers. By default, the ROS3 VFD now performs I/O in 16 MiB (see new macro `HDF5_ROS3_VFD_DEFAULT_BLOCK_SIZE`) blocks, caching up to a total of 128 MiB (see new macro `HDF5_ROS3_VFD_DEFAULT_BLOCK_CACHE_SIZE`) of data at a time. The new `H5Pset_fapl_ros3_block_caching()` / `H5Pget_fapl_ros3_block_caching()` API functions can be used to modify or retrieve the caching parameters set on a File Access Property List, respectively. Additionally, caching of the initial bytes of a file has been delayed from file open to the first read of a file instead to reduce the overhead of file opens.
+
 ### Added optional digital signature verification for dynamically loaded plugins
 
    When built with `-DHDF5_REQUIRE_SIGNED_PLUGINS=ON` and OpenSSL, HDF5 will cryptographically verify each plugin before loading it. Plugins are signed with the new `h5sign` tool, which appends an RSA signature and a compact footer to the plugin binary. Verification uses a keystore directory of trusted public keys, configurable at compile time (`-DHDF5_PLUGIN_KEYSTORE_DIR=<path>`) or at runtime via the `HDF5_PLUGIN_KEYSTORE` environment variable. Individual signatures can be revoked without removing the entire public key by listing their SHA-256 hashes in a `revoked_signatures.txt` file in the keystore directory. Supported algorithms include SHA-256, SHA-384, and SHA-512 with both PKCS#1 v1.5 and PSS padding. See `docs/PLUGIN_SIGNATURE_README.md` for details.
@@ -145,6 +151,33 @@ The `h5repack` tool now obtains its default low and high library version bounds 
 
 ## Library
 
+### Fixed a possible heap leak in a utility function
+
+   A couple of unnecessary allocations in h5str_convert were never freed, causing memory leaks. These are now removed.
+
+   Fixes GitHub issue #6511
+### Fixed bug that prevented internal library filters from printing error messages
+
+   Previously the error stack would be cleared when exiting a data filter, even an internal library filter, so the user could not see what caused the filter to fail. This has been fixed by not treating internal data filters like a user callback. Note that user-defined or third-party filters that use the default error stack will need to print that stack before returning from their callbacks.
+
+### Fixed error when reading variable-length chunked datasets in read-only mode
+
+   Passing NULL for the callback function pointer to H5Aiterate2 and H5Aiterate_by_name was not detected, leading to a subsequent access of an uninitialized pointer. This is now fixed.
+
+    Fixes CVE-2025-9274
+
+### Fixed error when reading variable-length chunked datasets in read-only mode
+
+   When reading from a chunked dataset with a variable-length type, a non-default fill value, and unwritten chunks, the library would internally try to write data to the file and fail due to writing to a read-only file. Reworked the I/O code to avoid these writes in this case. This may also improve performance and file space usage in similar cases with files open with write access.
+
+### Validate free space section type during decode
+
+   When loading a free space section info block, the per-section type byte read from the file was used directly to index the free space manager's section class array and to call the class `deserialize` callback, guarded only by an assertion that is removed in release builds. A corrupted or fuzzed file could supply a type beyond the number of registered classes, causing an out-of-bounds read of the class array and an indirect call through a bogus function pointer. `H5FS__cache_sinfo_deserialize()` now rejects a section type that is not less than the number of section classes.
+
+### Fixed a heap buffer overflow when decoding a shared message list
+
+   When reading a shared object header message (SOHM) list from the metadata cache, `H5SM__cache_list_deserialize()` allocated the message array for `list_max` entries but drove the decode loop with the `num_messages` count read from the on-disk index header. A corrupted or malicious file whose `num_messages` exceeds `list_max` caused writes past the end of the array and reads past the end of the input buffer. The count is now validated against `list_max` before the loop runs.
+
 ### HTTP 403 errors in the ROS3 VFD for object keys with special characters
 
    The ROS3 VFD did not URI-encode the S3 object key when building the HTTP request path, so keys containing characters that AWS Signature Version 4 requires to be percent-encoded — such as the '=' in Hive-style `key=value` partition prefixes, '+', or spaces — produced a signed request whose signature did not match S3's server-side recomputation. S3 rejects such requests with `SignatureDoesNotMatch`, which surfaces as an HTTP 403 error (indistinguishable from a permissions error on a HEAD request), even though tools like the AWS CLI could access the same object. The object key is now percent-encoded exactly once when the request path is built, matching the behavior of other S3 clients. Note that URLs must now be passed to the ROS3 VFD with their object keys unencoded; a key that was pre-encoded as a workaround for this issue will now be double-encoded and fail to resolve.
@@ -185,7 +218,22 @@ The `h5repack` tool now obtains its default low and high library version bounds 
 
    Fixed a bug where a flag in H5Cimage.c wasn't getting set correctly for release builds of HDF5, leading to incorrect error checking when reconstructing metadata cache entries.
 
+### Hardened decoding of serialized dataspace selections against malformed buffers
+
+   `H5S_select_deserialize()` and the per-selection-type deserialize callbacks (all, hyperslab, none, and point) previously computed the pointer to the last valid buffer byte as `buffer + size - 1` without first checking the buffer size. A buffer shorter than the 4-byte selection-type header, or a zero-length selection-info buffer, would underflow this computation and produce an out-of-bounds end pointer, defeating subsequent overflow checks. The deserialize routines now reject a buffer that is too small to hold the selection type, and they reject an empty selection-info buffer before deriving the end pointer. Hyperslab decoding additionally now rejects a serialized rank of 0 or greater than `H5S_MAX_RANK`. As a companion fix, `H5S__hyper_serialize()` now returns an error when asked to serialize a hyperslab selection on a rank-0 (scalar or null) dataspace, a state that can arise when a dataspace extent is collapsed to a scalar after a hyperslab selection has already been made.
+
 ## Java Library
+
+### Fixed a datatype ID leak when reading or writing array/vlen datatypes
+
+   The JNI wrappers for `H5Dread`, `H5Dwrite`, `H5Aread`, and `H5Awrite` inspect the
+   memory datatype using an internal helper (`h5str_detect_vlen_str()`). For an array
+   or variable-length datatype whose base type is not a variable-length string, the
+   helper opened the base type with `H5Tget_super()` but failed to close it if
+   no variable-length string was found, leaking one datatype ID per
+   read/write call. The base type ID is now closed on all paths, so Java applications
+   that repeatedly access datasets or attributes with these datatypes no longer leak
+   HDF5 datatype IDs.
 
 ## Configuration
 

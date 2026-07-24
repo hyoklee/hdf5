@@ -49,7 +49,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="HDFG-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-07-01</span>
+   <div id="projectname">HDF5<span id="projectnumber">&#160;Last Updated on 2026-07-24</span>
    </div>
    <div id="projectbrief">The HDF5 Field Guide</div>
   </td>
@@ -185,7 +185,7 @@ $(document).ready(function(){initNavTree('_f_m_t4.html',''); initResizable(); })
 <li>
 <a class="el" href="_f_m_t4.html#subsec_fmt4_infra_freespaceindex">III.H. Disk Format: Level 1H - Free-space Index</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsec_fmt4_infra_sohm">III.I. Disk Format: Level 1I - Shared Object Header Message Table</a> </li>
+<a class="el" href="_f_m_t4.html#subsec_fmt4_infra_sohm">III.I. Disk Format: Level 1I - Shared Object Header Message (SOHM) Master Table</a> </li>
 </ol>
 </li>
 <li>
@@ -201,55 +201,57 @@ $(document).ready(function(){initNavTree('_f_m_t4.html',''); initResizable(); })
 </ol>
 </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Messages</a> <ol type="a">
+<a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_nil">IV.A.2.a. The NIL Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg_catalog">IV.A.3 Disk Format: Level 2A3 - Data Object Header Messages</a> <ol type="a">
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_simple">IV.A.2.b. The Dataspace Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_nil">IV.A.3.a. The NIL Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.2.c. The Link Info Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_simple">IV.A.3.b. The Dataspace Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.2.d. The Datatype Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.3.c. The Link Info Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_ofvmessage">IV.A.2.e. Data Storage - Fill Value (Old) Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.3.d. The Datatype Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fvmessage">IV.A.2.f. The Data Storage - Fill Value Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_ofvmessage">IV.A.3.e. Data Storage - Fill Value (Old) Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_link">IV.A.2.g. The Link Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fvmessage">IV.A.3.f. The Data Storage - Fill Value Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_external">IV.A.2.h. The Data Storage - External Data Files Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_link">IV.A.3.g. The Link Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_layout">IV.A.2.i. The Data Layout Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_external">IV.A.3.h. The Data Storage - External Data Files Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_bogus">IV.A.2.j. The Bogus Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_layout">IV.A.3.i. The Data Layout Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_groupinfo">IV.A.2.k. The Group Info Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_bogus">IV.A.3.j. The Bogus Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_filter">IV.A.2.l. The Data Storage - Filter Pipeline Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_groupinfo">IV.A.3.k. The Group Info Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attribute">IV.A.2.m. The Attribute Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_filter">IV.A.3.l. The Data Storage - Filter Pipeline Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_comment">IV.A.2.n. The Object Comment Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attribute">IV.A.3.m. The Attribute Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_omodified">IV.A.2.o. The Object Modification Time (Old) Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_comment">IV.A.3.n. The Object Comment Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.2.p. The Shared Message Table Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_omodified">IV.A.3.o. The Object Modification Time (Old) Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_continuation">IV.A.2.q. The Object Header Continuation Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.3.p. The Shared Message Table Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_stmgroup">IV.A.2.r. The Symbol Table Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_continuation">IV.A.3.q. The Object Header Continuation Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_mod">IV.A.2.s. The Object Modification Time Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_stmgroup">IV.A.3.r. The Symbol Table Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_btreek">IV.A.2.t. The B-tree &lsquo;K&rsquo; Values Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_mod">IV.A.3.s. The Object Modification Time Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_drvinfo">IV.A.2.u. The Driver Info Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_btreek">IV.A.3.t. The B-tree &lsquo;K&rsquo; Values Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attrinfo">IV.A.2.v. The Attribute Info Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_drvinfo">IV.A.3.u. The Driver Info Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_refcount">IV.A.2.w. The Object Reference Count Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attrinfo">IV.A.3.v. The Attribute Info Message</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.2.x. The File Space Info Message</a> </li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_refcount">IV.A.3.w. The Object Reference Count Message</a> </li>
+<li>
+<a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.3.x. The File Space Info Message</a> </li>
 </ol>
 </li>
 </ol>
@@ -277,13 +279,15 @@ $(document).ready(function(){initNavTree('_f_m_t4.html',''); initResizable(); })
 </ol>
 </li>
 <li>
-<a class="el" href="_f_m_t4.html#sec_fmt4_appendixd">VIII. Appendix D: Encoding for Dataspace and Reference</a> <ol type="A">
+<a class="el" href="_f_m_t4.html#sec_fmt4_appendixd">VIII. Appendix D: Encoding for Dataspace, Datatype, and Reference</a> <ol type="A">
 <li>
 <a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encode">VIII.A. Dataspace Encoding</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encoderv">VIII.B. Reference Encoding (Revised)</a> </li>
+<a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encodet">VIII.B. Datatype Encoding</a> </li>
 <li>
-<a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encodedp">VIII.C. Reference Encoding (Backward Compatibility)</a> </li>
+<a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encoderv">VIII.C. Reference Encoding (Revised)</a> </li>
+<li>
+<a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encodedp">VIII.D. Reference Encoding (Backward Compatibility)</a> </li>
 </ol>
 </li>
 </ol>
@@ -339,13 +343,13 @@ I.A. This Document</h2>
 <h2><a class="anchor" id="subsec_fmt4_intro_20"></a>
 I.B. Changes for HDF5 2.0</h2>
 <p>The following sections have been changed or added for the 2.0 release: </p><ul>
-<li>Under <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.2.d. The Datatype Message</a>, in the Description for &ldquo;Fields:Datatype Message&rdquo;, version 5 was added, as well as the new Complex class (11).</li>
+<li>Under <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.3.d. The Datatype Message</a>, in the Description for &ldquo;Fields:Datatype Message&rdquo;, version 5 was added, as well as the new Complex class (11).</li>
 </ul>
 <h2><a class="anchor" id="subsec_fmt4_intro_112"></a>
 I.C. Changes for HDF5 1.12</h2>
 <p>The following sections have been changed or added for the 1.12 release: </p><ul>
-<li>Under <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.2.d. The Datatype Message</a>, in the Description for &ldquo;Fields:Datatype Message&rdquo;, version 4 was added and Reference class (7) of the datatype was updated to describe version 4. </li>
-<li><a class="el" href="_f_m_t4.html#sec_fmt4_appendixd">VIII. Appendix D: Encoding for Dataspace and Reference</a> was added.</li>
+<li>Under <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.3.d. The Datatype Message</a>, in the Description for &ldquo;Fields:Datatype Message&rdquo;, version 4 was added and Reference class (7) of the datatype was updated to describe version 4. </li>
+<li><a class="el" href="_f_m_t4.html#sec_fmt4_appendixd">VIII. Appendix D: Encoding for Dataspace, Datatype, and Reference</a> was added.</li>
 </ul>
 <h2><a class="anchor" id="subsec_fmt4_intro_110"></a>
 I.D. Changes for HDF5 1.10</h2>
@@ -354,8 +358,8 @@ I.D. Changes for HDF5 1.10</h2>
 <li>In the <a class="el" href="_f_m_t4.html#subsec_fmt4_boot_supext">II.C. Disk Format: Level 0C - Superblock Extension</a> section, a link to the Data Storage message was added. </li>
 <li>In the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_infra_btrees_v2">III.A.2. Disk Format: Level 1A2 - Version 2 B-trees</a> section, additional B-tree types were added. Tables that describe the <a class="el" href="_f_m_t4.html#FMT4V2BtType10">type 10</a> and <a class="el" href="_f_m_t4.html#FMT4V2BtType11">11</a> record layouts were added at the end of the section. </li>
 <li>The <a class="el" href="_f_m_t4.html#subsec_fmt4_infra_globalheapvds">III.F. Disk Format: Level 1F - Global Heap Block for Virtual Datasets</a> was added. </li>
-<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_layout">IV.A.2.i. The Data Layout Message</a> section was changed. The name was changed, and <a class="el" href="_f_m_t4.html#FMT4DataLayoutV4">version 4</a> of the data layout message was added for the virtual type. </li>
-<li>The <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.2.x. The File Space Info Message</a> header message type was added. </li>
+<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_layout">IV.A.3.i. The Data Layout Message</a> section was changed. The name was changed, and <a class="el" href="_f_m_t4.html#FMT4DataLayoutV4">version 4</a> of the data layout message was added for the virtual type. </li>
+<li>The <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.3.x. The File Space Info Message</a> header message type was added. </li>
 <li><a class="el" href="_f_m_t4.html#sec_fmt4_appendixc">VII. Appendix C: Types of Indexes for Dataset Chunks</a> was added. Five indexing types were added.</li>
 </ul>
 <h1><a class="anchor" id="sec_fmt4_meta"></a>
@@ -436,7 +440,7 @@ Format Signature <em>(8 bytes)</em><br  />
  <em>This field is present in version 0 and 1 of the superblock.</em>  </td></tr>
 <tr valign="top">
 <td>Version Number of the Shared Header Message Format </td><td>This value is used to determine the format of the information in a shared object header message. Since the format of the shared header messages differs from the other private header messages, a version number is used to identify changes in the format.<br  />
- The only value currently valid in this field is &lsquo;0&rsquo;, which indicates that shared header messages are formatted as described in <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.2.p. The Shared Message Table Message</a> below.<br  />
+ The only value currently valid in this field is &lsquo;0&rsquo;, which indicates that shared header messages are formatted as described in <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.3.p. The Shared Message Table Message</a> below.<br  />
  <em>This field is present in version 0 and 1 of the superblock.</em>  </td></tr>
 <tr valign="top">
 <td><a class="anchor" id="FMT4SizeOfOffsetsV0"></a>Size of Offsets </td><td>This value contains the number of bytes used to store addresses in the file. The values for the addresses of objects in the file are offsets relative to a base address, usually the address of the superblock signature. This allows a wrapper to be added after the file is created without invalidating the internal offset locations.<br  />
@@ -556,7 +560,7 @@ Bits 3-7 are reserved for future use. </li>
 </table>
 <h2><a class="anchor" id="subsec_fmt4_boot_driver"></a>
 II.B. Disk Format: Level 0B - File Driver Info</h2>
-<p>The <b>driver information block</b> is an optional region of the file which contains information needed by the file driver in order to reopen a file. The format is described below: </p><table class="doxtable">
+<p>The <b>driver information block</b> lives right after the superblock. It is an optional region of the file which contains information needed by the file driver in order to reopen a file and may only exist when superblock version is less than 2. The format is described below: </p><table class="doxtable">
 <caption align="top"><b>Layout: Driver Information Block</b></caption>
 <tr align="center">
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
@@ -593,7 +597,7 @@ Driver Information <em>(variable size)</em><br  />
 </table>
 <p>The two drivers encoded in the <em>Driver Identification</em> field are as follows: </p><ul>
 <li>Multi driver:<br  />
-The identifier for this driver is &ldquo;NCSAmulti&rdquo;. This driver provides a mechanism for segregating raw data and different types of metadata into multiple files. These files are viewed by the library as a single virtual HDF5 file with a single file address. A maximum of 6 files will be created for the following data: superblock, B-tree, raw data, global heap, local heap, and object header. More than one type of data can be written to the same file. </li>
+The identifier for this driver is &ldquo;NCSAmult&rdquo;. This driver provides a mechanism for segregating raw data and different types of metadata into multiple files. These files are viewed by the library as a single virtual HDF5 file with a single file address. A maximum of 6 files will be created for the following data: superblock, B-tree, raw data, global heap, local heap, and object header. More than one type of data can be written to the same file. </li>
 <li>Family driver:<br  />
 The identifier for this driver is &ldquo;NCSAfami&rdquo; and is encoded in this field for library version 1.8 and after. This driver is designed for systems that do not support files larger than 2 gigabytes by splitting the HDF5 file address space across several smaller files. It does nothing to segregate metadata and raw data; they are mixed in the address space just as they would be in a single contiguous file.</li>
 </ul>
@@ -716,10 +720,10 @@ Size of Member File<br  />
 <h2><a class="anchor" id="subsec_fmt4_boot_supext"></a>
 II.C. Disk Format: Level 0C - Superblock Extension</h2>
 <p>The <em>superblock extension</em> is used to store superblock metadata which is either optional, or added after the version of the superblock was defined. Superblock extensions may only exist when version 2+ or later of the superblock is used. A superblock extension is an object header which may hold the following messages: </p><ul>
-<li><a class="el" href="_f_m_t4.html#subsec_fmt4_infra_sohm">III.I. Disk Format: Level 1I - Shared Object Header Message Table</a> containing information to locate the master table of shared object header message indices. </li>
-<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_btreek">IV.A.2.t. The B-tree &lsquo;K&rsquo; Values Message</a> containing non-default B-tree &lsquo;K&rsquo; values. </li>
-<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_drvinfo">IV.A.2.u. The Driver Info Message</a> containing information needed by the file driver in order to reopen a file. See also the <a class="el" href="_f_m_t4.html#subsec_fmt4_boot_driver">II.B. Disk Format: Level 0B - File Driver Info</a> section above. </li>
-<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.2.x. The File Space Info Message</a> containing information about file space handling in the file.</li>
+<li><a class="el" href="_f_m_t4.html#subsec_fmt4_infra_sohm">III.I. Disk Format: Level 1I - Shared Object Header Message (SOHM) Master Table</a> containing information to locate the master table of shared object header message indices. </li>
+<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_btreek">IV.A.3.t. The B-tree &lsquo;K&rsquo; Values Message</a> containing non-default B-tree &lsquo;K&rsquo; values. </li>
+<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_drvinfo">IV.A.3.u. The Driver Info Message</a> containing information needed by the file driver in order to reopen a file. See also the <a class="el" href="_f_m_t4.html#subsec_fmt4_boot_driver">II.B. Disk Format: Level 0B - File Driver Info</a> section above. </li>
+<li><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_fsinfo">IV.A.3.x. The File Space Info Message</a> containing information about file space handling in the file.</li>
 </ul>
 <h1><a class="anchor" id="sec_fmt4_infra"></a>
 III. Disk Format: Level 1 - File Infrastructure</h1>
@@ -816,9 +820,9 @@ Address of Child 2<em>K</em><sup>O</sup><br  />
 <tr valign="top" align="left">
 <td width="20%">Bytes 1-4 </td><td>Size of chunk in bytes.  </td></tr>
 <tr valign="top" align="left">
-<td>Bytes 4-8 </td><td>Filter mask, a 32-bit bit field indicating which filters have been skipped for this chunk. Each filter has an index number in the pipeline (starting at 0, with the first filter to apply) and if that filter is skipped, the bit corresponding to its index is set.  </td></tr>
+<td>Bytes 5-8 </td><td>Filter mask, a 32-bit bit field indicating which filters have been skipped for this chunk. Each filter has an index number in the pipeline (starting at 0, with the first filter to apply) and if that filter is skipped, the bit corresponding to its index is set.  </td></tr>
 <tr valign="top" align="left">
-<td>(<em>D + 1</em>) 64-bit fields </td><td>The offset of the chunk within the dataset where <em>D</em> is the number of dimensions of the dataset, and the last value is the offset within the dataset&rsquo;s datatype and should always be zero. For example, if a chunk in a 3-dimensional dataset begins at the position <code>[5,5,5]</code>, there will be three such 64-bit indices, each with the value of <code>5</code>, followed by a <code>0</code> value.  </td></tr>
+<td>(<em>d</em> + 1) 64-bit fields </td><td>The offset of the chunk within the dataset, where <b>d</b> is the number of dimensions of the dataset. The first <em>d</em> values are the chunk&rsquo;s offset along each real dataset dimension. The extra (<em>d</em>+1)<sup>th</sup> value is not a real dimension offset; it is a placeholder for the offset within the dataset&rsquo;s datatype element and is always <code>0</code>. For example, if a chunk in a 3-dimensional dataset begins at the position <code>[5,5,5]</code>, there will be three such 64-bit indices, each with the value of <code>5</code>, followed by a <code>0</code> value for the datatype-element placeholder.  </td></tr>
 </table>
 </td></tr>
 <tr valign="top">
@@ -1388,21 +1392,22 @@ Dimension 1 Scaled Offset <em>(8 bytes)</em><br  />
   </td></tr>
 <tr>
 <td colspan="4"><br  />
-Dimension #n Scaled Offset <em>(8 bytes)</em><br  />
+Dimension #(d - 1) Scaled Offset <em>(8 bytes)</em><br  />
 <br  />
   </td></tr>
 </table>
 <ul>
-<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>In the above table, <b>d</b> is the number of dimensions in the dataset&rsquo;s dataspace. Unlike the version 1 B-tree chunk key, there is no extra field for the dataset&rsquo;s datatype element; exactly <em>d</em> scaled offsets are stored, one per real dataset dimension.</li>
 </ul>
 <table class="doxtable">
-<caption><b>Fields: Version 2 B-tree, Type 10 Record Layout - Non-filtered Dataset Chunks</b></caption>
+<caption><a class="anchor" id="FMT4V2BtType10Fields"></a><b>Fields: Version 2 B-tree, Type 10 Record Layout - Non-filtered Dataset Chunks</b></caption>
 <tr>
 <th width="30%">Field Name </th><th>Description  </th></tr>
 <tr>
 <td>Address </td><td>This field is the address of the dataset chunk in the file.  </td></tr>
 <tr>
-<td>Dimension #n Scaled Offset </td><td>This field is the scaled offset of the chunk within the dataset. <em>n</em> is the number of dimensions for the dataset. The first scaled offset stored in the list is for the slowest changing dimension, and the last scaled offset stored is for the fastest changing dimension. Scaled offset is calculated by dividing the chunk dimension sizes into the chunk offsets.  </td></tr>
+<td>Dimension #i Scaled Offset (i = 0 to (d-1)) </td><td>This field is the scaled offset of the chunk within the dataset, where <b>d</b> is the number of dimensions for the dataset. The first scaled offset stored in the list is for the slowest changing dimension, and the last scaled offset stored is for the fastest changing dimension. Scaled offset is calculated by dividing the chunk dimension sizes into the chunk offsets.  </td></tr>
 </table>
 <p><a class="anchor" id="FMT4V2BtType11"></a></p><table class="doxtable">
 <caption><b>Layout: Version 2 B-tree, Type 11 Record Layout - Filtered Dataset Chunks (Layout Version 4)</b></caption>
@@ -1437,16 +1442,17 @@ Dimension 1 Scaled Offset <em>(8 bytes)</em><br  />
   </td></tr>
 <tr>
 <td colspan="4"><br  />
-Dimension #n Scaled Offset <em>(8 bytes)</em><br  />
+Dimension #(d - 1) Scaled Offset <em>(8 bytes)</em><br  />
 <br  />
   </td></tr>
 </table>
 <ul>
 <li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>See the note for <a class="el" href="_f_m_t4.html#FMT4V2BtType10">Type 10 Record Layout</a> above for the definition of <b>d</b> and the scaled offset fields. </li>
 <li>This encoding is used when this B-Tree is used as an index for a dataset with layout message version 4.</li>
 </ul>
 <table class="doxtable">
-<caption>Type11 <b>Layout: Version 2 B-tree, Type 11 Record Layout - Filtered Dataset Chunks (Layout Version 5)</b></caption>
+<caption><a class="anchor" id="FMT4V2BtType11V5"></a><b>Layout: Version 2 B-tree, Type 11 Record Layout - Filtered Dataset Chunks (Layout Version 5)</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
 <tr>
@@ -1478,12 +1484,13 @@ Dimension 1 Scaled Offset <em>(8 bytes)</em><br  />
   </td></tr>
 <tr>
 <td colspan="4"><br  />
-Dimension #n Scaled Offset <em>(8 bytes)</em><br  />
+Dimension #(d - 1) Scaled Offset <em>(8 bytes)</em><br  />
 <br  />
   </td></tr>
 </table>
 <ul>
 <li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>See the note for <a class="el" href="_f_m_t4.html#FMT4V2BtType10">Type 10 Record Layout</a> above for the definition of <b>d</b> and the scaled offset fields. </li>
 <li>This encoding is used when this B-tree is used as an index for a dataset with layout message version 5 or above.</li>
 </ul>
 <table class="doxtable">
@@ -1505,7 +1512,7 @@ Dimension #n Scaled Offset <em>(8 bytes)</em><br  />
 <tr>
 <td>Filter Mask </td><td>This field is the filter mask which indicates the filter to skip for the dataset chunk. Each filter has an index number in the pipeline and if that filter is skipped, the bit corresponding to its index is set.  </td></tr>
 <tr>
-<td>Dimension #n Scaled Offset </td><td>This field is the scaled offset of the chunk within the dataset. <em>n</em> is the number of dimensions for the dataset. The first scaled offset stored in the list is for the slowest changing dimension, and the last scaled offset stored is for the fastest changing dimension.  </td></tr>
+<td>Dimension #i Scaled Offset (i = 0 to (d-1)) </td><td>See the <a class="el" href="_f_m_t4.html#FMT4V2BtType10Fields">Dimension #i Scaled Offset</a> field description in the Type 10 Record Layout Fields table above.  </td></tr>
 </table>
 <h2><a class="anchor" id="subsec_fmt4_infra_symboltable"></a>
 III.B. Disk Format: Level 1B - Group Symbol Table Nodes</h2>
@@ -1549,7 +1556,7 @@ III.C. Disk Format: Level 1C - Symbol Table Entry</h2>
 <tr align="center">
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
 <tr align="center">
-<td colspan="4">Link Name Offset<sup>O</sup>  </td></tr>
+<td colspan="4">Link Name Offset<sup>L</sup>  </td></tr>
 <tr align="center">
 <td colspan="4">Object Header Address<sup>O</sup>  </td></tr>
 <tr align="center">
@@ -1565,7 +1572,8 @@ Scratch-pad Space <em>(16 bytes)</em><br  />
   </td></tr>
 </table>
 <ul>
-<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>Items marked with an &lsquo;L&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfLengthsV0">Size of Lengths</a>&rdquo; field in the superblock.</li>
 </ul>
 <table class="doxtable">
 <caption align="top"><b>Fields: Symbol Table Entry</b></caption>
@@ -2182,7 +2190,7 @@ Size of Filtered Root Direct Block <em>(optional)</em><sup>L</sup><br  />
 <tr>
 <td>I/O Filter Mask </td><td>This is the filter mask for the root direct block, if filters are applied to heap objects. This mask has the same format as that used for the filter mask in chunked raw data records in a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_infra_btrees_v1">III.A.1. Disk Format: Level 1A1 - Version 1 B-trees</a>. This field is only stored in the header if the <em>I/O Filters&rsquo; Encoded Length</em> is greater than 0.  </td></tr>
 <tr>
-<td>I/O Filter Information </td><td>This is the I/O filter information encoding direct blocks and huge objects, if filters are applied to heap objects. This field is encoded as a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_filter">IV.A.2.l. The Data Storage - Filter Pipeline Message</a> message. The size of this field is determined by <em>I/O Filters&rsquo; Encoded Length</em>.  </td></tr>
+<td>I/O Filter Information </td><td>This is the I/O filter information encoding direct blocks and huge objects, if filters are applied to heap objects. This field is encoded as a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_filter">IV.A.3.l. The Data Storage - Filter Pipeline Message</a> message. The size of this field is determined by <em>I/O Filters&rsquo; Encoded Length</em>.  </td></tr>
 <tr>
 <td>Checksum </td><td>This is the checksum for the header.  </td></tr>
 </table>
@@ -2861,13 +2869,13 @@ The defined record types for a <em>fractal heap</em> client are: <table class="d
 <td>Number of Blocks </td><td>This is the number of empty blocks covered by the section.  </td></tr>
 </table>
 <h2><a class="anchor" id="subsec_fmt4_infra_sohm"></a>
-III.I. Disk Format: Level 1I - Shared Object Header Message Table</h2>
+III.I. Disk Format: Level 1I - Shared Object Header Message (SOHM) Master Table</h2>
 <p>The <em>shared object header message table</em> is used to locate object header messages that are shared between two or more object headers in the file. Shared object header messages are stored and indexed in the file in one of two ways: indexed sequentially in a <em>shared header message list</em> or indexed with a v2 B-tree. The shared messages themselves are either stored in a fractal heap (when two or more objects share the message), or remain in an object&rsquo;s header (when only one object uses the message currently, but the message can be shared in the future).</p>
 <p>The <em>shared object header message table</em> contains a list of shared message index headers. Each index header records information about the version of the index format, the index storage type, flags for the message types indexed, the number of messages in the index, the address where the index resides, and the fractal heap address if shared messages are stored there.</p>
 <p>Each index can be either a list or a v2 B-tree and may transition between those two forms as the number of messages in the index varies. Each shared message record contains information used to locate the shared message from either a fractal heap or an object header. The types of messages that can be shared are: <em>Dataspace, Datatype, Fill Value, Filter Pipeline and Attribute</em>.</p>
-<p>The <em>shared object header message table</em> is pointed to from a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.2.p. The Shared Message Table Message</a> message in the superblock extension for a file. This message stores the version of the table format, along with the number of index headers in the table.</p>
+<p>The <em>shared object header message master table</em> is pointed to from a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_shared">IV.A.3.p. The Shared Message Table Message</a> in the superblock extension for a file. This message stores the version of the table format, along with the number of index headers, <em>N</em>, in the table.</p>
 <table class="doxtable">
-<caption><b>Layout: Shared Object Header Message Table</b></caption>
+<caption><b>Layout: Shared Object Header Message (SOHM) Master Table</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
 <tr>
@@ -2919,7 +2927,7 @@ Fractal Heap Address<sup>O</sup> for index #N-1<br  />
 <li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
 </ul>
 <table class="doxtable">
-<caption><b>Fields: Shared Object Header Message Table</b></caption>
+<caption><b>Fields: Shared Object Header Message (SOHM) Master Table</b></caption>
 <tr>
 <th width="35%">Field Name </th><th>Description  </th></tr>
 <tr>
@@ -2961,7 +2969,7 @@ An index can track more than one type of message, but each type of message can o
 <tr>
 <td>Checksum </td><td>This is the checksum for the table.  </td></tr>
 </table>
-<p>Shared messages are indexed either with a <em>shared message record list</em>, described below, or using a v2 B-tree (using record type 7). The number of records in the <em>shared message record list</em> is determined in the index&rsquo;s entry in the <em>shared object header message table</em>. </p><table class="doxtable">
+<p>Shared messages are indexed either with a <em>shared message record list</em>, described below, or using a v2 B-tree (using record type 7). The number of records, <em>M</em>, in the <em>shared message record list</em> is determined in the index&rsquo;s entry in the <em>shared object header message table</em> (see &ldquo;Number of Messages for index #N&rdquo; above). </p><table class="doxtable">
 <caption><b>Layout: Shared Message Record List</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
@@ -2974,7 +2982,7 @@ An index can track more than one type of message, but each type of message can o
 <tr>
 <td colspan="4">...  </td></tr>
 <tr>
-<td colspan="4">Shared Message Record #N-1  </td></tr>
+<td colspan="4">Shared Message Record #M-1  </td></tr>
 <tr>
 <td colspan="4">Checksum  </td></tr>
 </table>
@@ -2985,7 +2993,7 @@ An index can track more than one type of message, but each type of message can o
 <tr>
 <td>Signature </td><td>The ASCII character string &ldquo;<code>SMLI</code>&rdquo; is used to indicate the beginning of a list of index nodes. This gives file consistency checking utilities a better chance of reconstructing a damaged file.  </td></tr>
 <tr>
-<td>Shared Message Record #N </td><td>The record for locating the shared message, either in the fractal heap for the index, or an object header (see format for <em>index nodes</em> below).  </td></tr>
+<td>Shared Message Record #M </td><td>The record for locating the shared message, either in the fractal heap for the index, or an object header (see format for <em>index nodes</em> below).  </td></tr>
 <tr>
 <td>Checksum </td><td>This is the checksum for the list.  </td></tr>
 </table>
@@ -3124,7 +3132,7 @@ Header Message Data #n<br  />
 <tr>
 <td align="center"><code>0</code> </td><td>If set, the message data is constant. This is used for messages like the datatype message of a dataset.  </td></tr>
 <tr>
-<td align="center"><code>1</code> </td><td>If set, the message is <em>shared</em> and stored in another location than the object header. The Header Message Data field contains a Shared Message (described in the <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Messages</a> section below) and the Size of Header Message Data field contains the size of that Shared Message.  </td></tr>
+<td align="center"><code>1</code> </td><td>If set, the message is <em>shared</em> and stored in another location than the object header. The Header Message Data field contains a Shared Message (described in the <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> section below) and the Size of Header Message Data field contains the size of that Shared Message.  </td></tr>
 <tr>
 <td align="center"><code>2</code> </td><td>If set, the message should not be shared.  </td></tr>
 <tr>
@@ -3265,9 +3273,8 @@ Header Message Data #n<br  />
 </table>
 <p>The header message types and the message data associated with them compose the critical "meta-data" about each object. Some header messages are required for each object while others are optional. Some optional header messages may also be repeated several times in the header itself, the requirements and number of times allowed in the header will be noted in each header message description below.</p>
 <h2><a class="anchor" id="subsec_fmt4_dataobject_hdr_msg"></a>
-IV.A.2 Disk Format: Level 2A2 - Data Object Header Messages</h2>
-<p>Data object header messages are small pieces of metadata that are stored in the data object header for each object in an HDF5 file. Data object header messages provide the metadata required to describe an object and its contents, as well as optional pieces of metadata that annotate the meaning or purpose of the object.</p>
-<p>Data object header messages are either stored directly in the data object header for the object or are shared between multiple objects in the file. When a message is shared, a flag in the <em>Message Flags</em> indicates that the actual <em>Message Data</em> portion of that message is stored in another location (such as another data object header, or a heap in the file) and the <em>Message Data</em> field contains the information needed to locate the actual information for the message.</p>
+IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</h2>
+<p>Data object header message data is either stored directly in the data object header for the object or is shared between multiple objects in the file. When a message is shared, a flag in the <em>Message Flags</em> indicates that the actual <em>Message Data</em> portion of that message is stored in another location (such as another data object header, or a heap in the file) and the <em>Message Data</em> field contains the information needed to locate the actual information for the message.</p>
 <p>The format of shared message data is described here: </p><table class="doxtable">
 <caption><b>Layout: Shared Message (Version 1)</b></caption>
 <tr>
@@ -3277,13 +3284,16 @@ IV.A.2 Disk Format: Level 2A2 - Data Object Header Messages</h2>
 <tr>
 <td colspan="4">Reserved (zero)  </td></tr>
 <tr>
+<td colspan="4">Link Name Offset<sup>L</sup>  </td></tr>
+<tr>
 <td colspan="4"><br  />
 Address<sup>O</sup><br  />
 <br  />
   </td></tr>
 </table>
 <ul>
-<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>Items marked with an &lsquo;L&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfLengthsV0">Size of Lengths</a>&rdquo; field in the superblock.</li>
 </ul>
 <table class="doxtable">
 <caption><b>Fields: Shared Message (Version 1)</b></caption>
@@ -3307,6 +3317,8 @@ Address<sup>O</sup><br  />
 <td align="center"><code>0</code> </td><td>Message stored in another object&rsquo;s header (a <em>committed</em> message).  </td></tr>
 </table>
 </td></tr>
+<tr>
+<td>Link Name Offset </td><td>This field is skipped over, but not read, by the library&rsquo;s shared message decoding code. Its name is deduced matching the <em>Link Name Offset</em> field of the <a class="el" href="_f_m_t4.html#subsec_fmt4_infra_symboltableentry">III.C. Disk Format: Level 1C - Symbol Table Entry</a> structure, which this shared message format reuses.  </td></tr>
 <tr>
 <td>Address </td><td>The address of the object header containing the message to be shared.  </td></tr>
 </table>
@@ -3386,9 +3398,12 @@ Address<sup>O</sup><br  />
 <tr>
 <td>Location </td><td>This field contains either a <em><a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a></em>-bytes address of the object header containing the message to be shared, or an 8-byte fractal heap ID for the message in the file&rsquo;s <em>shared object header message</em> heap.  </td></tr>
 </table>
+<h2><a class="anchor" id="subsec_fmt4_dataobject_hdr_msg_catalog"></a>
+IV.A.3 Disk Format: Level 2A3 - Data Object Header Messages</h2>
+<p>Data object header messages are small pieces of metadata that are stored in the data object header for each object in an HDF5 file. Data object header messages provide the metadata required to describe an object and its contents, as well as optional pieces of metadata that annotate the meaning or purpose of the object.</p>
 <p>The following is a list of currently defined header messages:</p>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_nil"></a>
-IV.A.2.a. The NIL Message</h3>
+IV.A.3.a. The NIL Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> NIL  </td></tr>
@@ -3404,7 +3419,7 @@ IV.A.2.a. The NIL Message</h3>
 <td colspan="2"><b>Format of Data:</b> Unspecified  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_simple"></a>
-IV.A.2.b. The Dataspace Message</h3>
+IV.A.3.b. The Dataspace Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Dataspace  </td></tr>
@@ -3415,7 +3430,8 @@ IV.A.2.b. The Dataspace Message</h3>
 <tr>
 <td colspan="2"><b>Status:</b> Required for dataset objects; may not be repeated.  </td></tr>
 <tr>
-<td><b>Description:</b> </td><td>The dataspace message describes the number of dimensions (in other words, &ldquo;rank&rdquo;) and size of each dimension that the data object has. This message is only used for datasets which have a simple, rectilinear, array-like layout; datasets requiring a more complex layout are not yet supported.  </td></tr>
+<td><b>Description:</b> </td><td>The dataspace message describes the number of dimensions (in other words, &ldquo;rank&rdquo;) and size of each dimension that the data object has. This message is only used for datasets which have a simple, rectilinear, array-like layout; datasets requiring a more complex layout are not yet supported.<br  />
+ This message may be shared between multiple objects in the file; see <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> for the shared message encoding.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -3559,7 +3575,7 @@ Dimension #n Maximum Size<sup>L</sup><br  />
 <td>Dimension #n Maximum Size </td><td>This value is the maximum size of the dimension of the data as stored in the file. This value may be the special &ldquo;<a class="el" href="_f_m_t4.html#FMT4UnlimitedDim">unlimited size</a>&rdquo; which indicates that the data may expand along this dimension indefinitely. If these values are not stored, the maximum size of each dimension is assumed to be the dimension&rsquo;s current size.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_linkinfo"></a>
-IV.A.2.c. The Link Info Message</h3>
+IV.A.3.c. The Link Info Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Link Info  </td></tr>
@@ -3570,7 +3586,7 @@ IV.A.2.c. The Link Info Message</h3>
 <tr>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
-<td><b>Description:</b> </td><td>The link info message tracks variable information about the current state of the links for a &ldquo;new style&rdquo; group&rsquo;s behavior. Variable information will be stored in this message and constant information will be stored in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_groupinfo">IV.A.2.k. The Group Info Message</a> message.  </td></tr>
+<td><b>Description:</b> </td><td>The link info message tracks variable information about the current state of the links for a &ldquo;new style&rdquo; group&rsquo;s behavior. Variable information will be stored in this message and constant information will be stored in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_groupinfo">IV.A.3.k. The Group Info Message</a> message.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -3626,7 +3642,7 @@ Address of v2 B-tree for Creation Order Index<sup>O</sup> <em>(optional)</em><br
 <td>Maximum Creation Index </td><td>This 64-bit value is the maximum creation order index value stored for a link in this group.<br  />
  This field is present if bit 0 of <em>flags</em> is set.  </td></tr>
 <tr>
-<td>Fractal Heap Address </td><td>This is the address of the fractal heap to store dense links. Each link stored in the fractal heap is stored as a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_link">IV.A.2.g. The Link Message</a>.<br  />
+<td>Fractal Heap Address </td><td>This is the address of the fractal heap to store dense links. Each link stored in the fractal heap is stored as a <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_link">IV.A.3.g. The Link Message</a>.<br  />
  If there are no links in the group, or the group&rsquo;s links are stored &ldquo;compactly&rdquo; (as object header messages), this value will be the <a class="el" href="_f_m_t4.html#FMT4UndefinedAddress">undefined address</a>.  </td></tr>
 <tr>
 <td>Address of v2 B-tree for Name Index </td><td>This is the address of the version 2 B-tree to index names of links.<br  />
@@ -3637,7 +3653,7 @@ Address of v2 B-tree for Creation Order Index<sup>O</sup> <em>(optional)</em><br
  This field exists if bit 1 of <em>flags</em> is set.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_dtmessage"></a>
-IV.A.2.d. The Datatype Message</h3>
+IV.A.3.d. The Datatype Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Datatype  </td></tr>
@@ -3649,7 +3665,8 @@ IV.A.2.d. The Datatype Message</h3>
 <td colspan="2"><b>Status:</b> Required for dataset or committed datatype (formerly named datatype) objects; may not be repeated.  </td></tr>
 <tr>
 <td><b>Description:</b> </td><td>The datatype message defines the datatype for each element of a dataset or a common datatype for sharing between multiple datasets. A datatype can describe an atomic type like a fixed- or floating-point type or more complex types like a C struct (compound datatype), array (array datatype) or C++ vector (variable-length datatype).<br  />
- Datatype messages that are part of a dataset object do not describe how elements are related to one another; the dataspace message is used for that purpose. Datatype messages that are part of a committed datatype (formerly named datatype) message describe a common datatype that can be shared by multiple datasets in the file.  </td></tr>
+ Datatype messages that are part of a dataset object do not describe how elements are related to one another; the dataspace message is used for that purpose.<br  />
+ Datatype messages that are part of a committed datatype (formerly named datatype) message describe a common datatype that can be shared by multiple datasets in the file. See <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> for the shared message encoding.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -4095,17 +4112,13 @@ Member Type Message<br  />
 <tr>
 <th width="10%">Bits </th><th>Meaning  </th></tr>
 <tr>
-<td>0-3 </td><td><b>Type.</b> This four-bit value contains the revised reference types. The values defined are: <table width="100%">
+<td>0-3 </td><td><b>Type.</b> This four-bit value contains the revised generic reference type. The value defined is: <table width="100%">
 <tr>
 <th width="20%">Value </th><th align="left">Description  </th></tr>
 <tr>
-<td align="center"><code>2</code> </td><td>Object Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea58376ddd57d594982e0034a3ca2e5bad">H5R_OBJECT2</a>): A reference to another object in this file or an external file.  </td></tr>
+<td align="center"><code>2</code> </td><td>It covers all three revised reference types: Object Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea58376ddd57d594982e0034a3ca2e5bad">H5R_OBJECT2</a>), Dataset Region Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>), and Attribute Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056eae63b3cfa3688767f46335fad6db981a5">H5R_ATTR</a>).  </td></tr>
 <tr>
-<td align="center"><code>3</code> </td><td>Dataset Region Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>): A reference to a region within a dataset in this file or an external file.  </td></tr>
-<tr>
-<td align="center"><code>4</code> </td><td>Attribute Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056eae63b3cfa3688767f46335fad6db981a5">H5R_ATTR</a>): A reference to an attribute attached to an object in this file or an external file.  </td></tr>
-<tr>
-<td align="center"><code>5-15</code> </td><td>Reserved  </td></tr>
+<td align="center"><code>3-15</code> </td><td>Reserved  </td></tr>
 </table>
 </td></tr>
 <tr>
@@ -4377,7 +4390,7 @@ Parent Type Message<br  />
 <td>Parent Type Message </td><td>Each complex number type is based on a parent floating point type. This field contains the datatype message describing that parent type.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_ofvmessage"></a>
-IV.A.2.e. Data Storage - Fill Value (Old) Message</h3>
+IV.A.3.e. Data Storage - Fill Value (Old) Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Fill Value (old)  </td></tr>
@@ -4389,7 +4402,8 @@ IV.A.2.e. Data Storage - Fill Value (Old) Message</h3>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
 <td><b>Description:</b> </td><td>The fill value message stores a single data value which is returned to the application when an uninitialized data element is read from a dataset. The fill value is interpreted with the same datatype as the dataset. If no fill value message is present then a fill value of all zero bytes is assumed.<br  />
- This fill value message is deprecated in favor of the &ldquo;new&rdquo; fill value message (Message Type 0x0005) and is only written to the file for forward compatibility with versions of the HDF5 Library before the 1.6.0 version. Additionally, it only appears for datasets with a user-defined fill value (as opposed to the library default fill value or an explicitly set &ldquo;undefined&rdquo; fill value).  </td></tr>
+ This fill value message is deprecated in favor of the &ldquo;new&rdquo; fill value message (Message Type 0x0005) and is only written to the file for forward compatibility with versions of the HDF5 Library before the 1.6.0 version. Additionally, it only appears for datasets with a user-defined fill value (as opposed to the library default fill value or an explicitly set &ldquo;undefined&rdquo; fill value).<br  />
+ This message may be shared between multiple objects in the file; see <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> for the shared message encoding.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -4416,7 +4430,7 @@ Fill Value <em>(optional, variable size)</em><br  />
 <td>Fill Value </td><td>The fill value. The bytes of the fill value are interpreted using the same datatype as for the dataset.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_fvmessage"></a>
-IV.A.2.f. The Data Storage - Fill Value Message</h3>
+IV.A.3.f. The Data Storage - Fill Value Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Fill Value  </td></tr>
@@ -4427,7 +4441,8 @@ IV.A.2.f. The Data Storage - Fill Value Message</h3>
 <tr>
 <td colspan="2"><b>Status:</b> Required for dataset objects; may not be repeated.  </td></tr>
 <tr>
-<td><b>Description:</b> </td><td>The fill value message stores a single data value which is returned to the application when an uninitialized data element is read from a dataset. The fill value is interpreted with the same datatype as the dataset.  </td></tr>
+<td><b>Description:</b> </td><td>The fill value message stores a single data value which is returned to the application when an uninitialized data element is read from a dataset. The fill value is interpreted with the same datatype as the dataset.<br  />
+ This message may be shared between multiple objects in the file; see <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> for the shared message encoding.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -4550,7 +4565,7 @@ Fill Value <em>(optional, variable size)</em><br  />
 <td>Fill Value </td><td>The fill value. The bytes of the fill value are interpreted using the same datatype as for the dataset. This field is not present if the Version field is greater than 1 and the Fill Value Defined flag is set to 0.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_link"></a>
-IV.A.2.g. The Link Message</h3>
+IV.A.3.g. The Link Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Link  </td></tr>
@@ -4562,7 +4577,7 @@ IV.A.2.g. The Link Message</h3>
 <td colspan="2"><b>Status:</b> Optional; may be repeated.  </td></tr>
 <tr>
 <td><b>Description:</b> </td><td>This message encodes the information for a link in a group&rsquo;s object header, when the group is storing its links &ldquo;compactly&rdquo;, or in the group&rsquo;s fractal heap, when the group is storing its links &ldquo;densely&rdquo;.<br  />
- A group is storing its links compactly when the fractal heap address in the <em><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.2.c. The Link Info Message</a></em> is set to the <a class="el" href="_f_m_t4.html#FMT4UndefinedAddress">undefined address</a> value.  </td></tr>
+ A group is storing its links compactly when the fractal heap address in the <em><a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.3.c. The Link Info Message</a></em> is set to the <a class="el" href="_f_m_t4.html#FMT4UndefinedAddress">undefined address</a> value.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -4684,7 +4699,7 @@ This field is present if bit 4 of <em>Flags</em> is set.  </td></tr>
 </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_external"></a>
-IV.A.2.h. The Data Storage - External Data Files Message</h3>
+IV.A.3.h. The Data Storage - External Data Files Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> External Data Files  </td></tr>
@@ -4779,7 +4794,7 @@ Data Size in External File<sup>L</sup><br  />
 <td>Data Size in External File </td><td>This is the total number of bytes reserved in the specified file for raw data storage. For a file that contains exactly one complete dataset which is not extendable, the size will usually be the exact size of the dataset. However, by making the size larger one allows HDF5 to extend the dataset. The size can be set to a value larger than the entire file since HDF5 will read zeros past the end of the file without failing.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_layout"></a>
-IV.A.2.i. The Data Layout Message</h3>
+IV.A.3.i. The Data Layout Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Data Storage - Layout  </td></tr>
@@ -4808,23 +4823,25 @@ Virtual: This is only supported for version 4 of the Data Layout message. The me
 <caption align="top"><b>Layout: Data Layout Message (Versions 1 and 2)</b></caption>
 <tr align="center">
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
-<tr align="center">
+<tr>
 <td>Version </td><td>Dimensionality </td><td>Layout Class </td><td>Reserved <em>(zero)</em>  </td></tr>
-<tr align="center">
+<tr>
 <td colspan="4">Reserved <em>(zero)</em>  </td></tr>
-<tr align="center">
+<tr>
 <td colspan="4"><br  />
 Data Address<sup>O</sup> <em>(optional)</em><br  />
 <br  />
   </td></tr>
-<tr align="center">
+<tr>
 <td colspan="4">Dimension 0 Size  </td></tr>
-<tr align="center">
+<tr>
 <td colspan="4">Dimension 1 Size  </td></tr>
-<tr align="center">
+<tr>
 <td colspan="4">...  </td></tr>
 <tr>
-<td colspan="4">Dataset Element Size <em>(optional)</em>  </td></tr>
+<td colspan="4">Dimension #(d - 1) Size  </td></tr>
+<tr>
+<td colspan="4">Dataset Element Size <em>(stored as Dimension #d)</em>  </td></tr>
 <tr>
 <td colspan="4">Compact Data Size <em>(optional)</em>  </td></tr>
 <tr>
@@ -4853,7 +4870,8 @@ Compact Data...<em>(variable size, optional)</em><br  />
 </table>
 </td></tr>
 <tr valign="top">
-<td>Dimensionality </td><td>An array has a fixed dimensionality. This field specifies the number of dimension size fields later in the message. The value stored for chunked storage is 1 greater than the number of dimensions in the dataset&rsquo;s dataspace. For example, 2 is stored for a 1 dimensional dataset.  </td></tr>
+<td>Dimensionality </td><td><a class="anchor" id="FMT4V12Dimensionality"></a>An array has a fixed dimensionality. Let <b>d</b> be the number of dimensions in the dataset&rsquo;s dataspace. For compact and contiguous storage, this field stores <b>d</b>. <br  />
+ For chunked storage, this field stores <b>d + 1</b>: entries 0 through d&minus;1 are the chunk dimension sizes, and entry d holds the Dataset Element Size (see below). For example, a 1-dimensional chunked dataset stores a value of 2.  </td></tr>
 <tr valign="top">
 <td>Layout Class </td><td>The layout class specifies the type of storage for the data and how the other fields of the layout message are to be interpreted. <table class="doxtable">
 <tr>
@@ -4869,11 +4887,12 @@ Compact Data...<em>(variable size, optional)</em><br  />
 <tr valign="top">
 <td>Data Address </td><td>For contiguous storage, this is the address of the raw data in the file. For chunked storage this is the address of the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_infra_btrees_v1">III.A.1. Disk Format: Level 1A1 - Version 1 B-trees</a> that is used to look up the addresses of the chunks. This field is not present for compact storage. If the version for this message is greater than 1, the address may have the <a class="el" href="_f_m_t4.html#FMT4UndefinedAddress">undefined address</a> value, to indicate that storage has not yet been allocated for this array.  </td></tr>
 <tr valign="top">
-<td>Dimension #n Size </td><td>For contiguous and compact storage the dimensions define the entire size of the array while for chunked storage they define the size of a single chunk. In all cases, they are in units of array elements (not bytes). The first dimension stored in the list of dimensions is the slowest changing dimension and the last dimension stored is the fastest changing dimension.  </td></tr>
+<td>Dimension #i Size (i = 0 to (d-1)) </td><td><a class="anchor" id="FMT4V12DimInfoN"></a>For contiguous and compact storage the dimensions define the entire size of the array in units of array elements (not bytes). Dimension 0 is the slowest-changing axis and Dimension d&minus;1 is the fastest-changing axis. <br  />
+For chunked storage, the dimensions define the size of a single chunk in units of array elements (not bytes). Dimension 0 is the slowest-changing axis and Dimension d&minus;1 is the fastest-changing axis. Dimension d stores the Dataset Element Size (see below) and is not a chunk dimension.  </td></tr>
 <tr>
-<td>Dataset Element Size </td><td>The size of a dataset element, in bytes. This field is only present for chunked storage.  </td></tr>
+<td>Dataset Element Size </td><td><a class="anchor" id="FMT4V12DsetElmSz"></a>The size of a dataset element, in bytes. This field is only present for chunked data storage. Although logically distinct from the chunk dimensions, this value is encoded as dimension entry d where d is the number of dataset dimensions, which is why the Dimensionality field stores d + 1.  </td></tr>
 <tr>
-<td>Compact Data Size </td><td>This field is only present for compact data storage. It contains the size of the raw data for the dataset array, in bytes. </td></tr>
+<td>Compact Data Size </td><td>This field is only present for compact data storage. It contains the size of the raw data for the dataset array, in bytes.  </td></tr>
 <tr>
 <td>Compact Data </td><td>This field is only present for compact data storage. It contains the raw data for the dataset array.  </td></tr>
 </table>
@@ -4988,25 +5007,26 @@ Address<sup>O</sup><br  />
 <tr>
 <td colspan="4">...  </td></tr>
 <tr>
-<td colspan="4">Dimension #n Size  </td></tr>
+<td colspan="4">Dimension #(d - 1) Size  </td></tr>
 <tr>
-<td colspan="4">Dataset Element Size  </td></tr>
+<td colspan="4">Dataset Element Size <em>(stored as Dimension #d)</em>  </td></tr>
 </table>
 <ul>
-<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>In the above table, <b>d</b> is the number of dimensions in the dataset&rsquo;s dataspace; see <a class="el" href="_f_m_t4.html#FMT4V12Dimensionality">Dimensionality</a> in versions 1 and 2 Data Layout message, in particular the chunked storage portion.</li>
 </ul>
 <table class="doxtable">
 <caption><b>Fields: Chunked Storage Property Description</b></caption>
 <tr>
 <th width="30%">Field Name </th><th>Description  </th></tr>
 <tr>
-<td>Dimensionality </td><td>&gt;A chunk has a fixed dimensionality. This field specifies the number of dimension size fields later in the message.  </td></tr>
+<td>Dimensionality </td><td><a class="anchor" id="FMT4Dimensionality"></a>See <a class="el" href="_f_m_t4.html#FMT4V12Dimensionality">Dimensionality</a> description in versions 1 and 2 Data Layout message, in particular the chunked storage portion.  </td></tr>
 <tr>
 <td>Address </td><td>This is the address of the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_infra_btrees_v1">III.A.1. Disk Format: Level 1A1 - Version 1 B-trees</a> that is used to look up the addresses of the chunks that actually store portions of the array data. The address may have the <a class="el" href="_f_m_t4.html#FMT4UndefinedAddress">undefined address</a> value, to indicate that storage has not yet been allocated for this array.  </td></tr>
 <tr>
-<td>Dimension #n Size </td><td>These values define the dimension size of a single chunk, in units of array elements (not bytes). The first dimension stored in the list of dimensions is the slowest changing dimension and the last dimension stored is the fastest changing dimension.  </td></tr>
+<td>Dimension #i Size (i = 0 to (d-1)) </td><td><a class="anchor" id="FMT4DimInfoN"></a>See <a class="el" href="_f_m_t4.html#FMT4V12DimInfoN">Dimension #i Size</a> description in versions 1 and 2 Data Layout message, in particular the chunked storage portion.  </td></tr>
 <tr>
-<td>Dataset Element Size </td><td>The size of a dataset element, in bytes.  </td></tr>
+<td>Dataset Element Size </td><td><a class="anchor" id="FMT4DsetElmSz"></a>See <a class="el" href="_f_m_t4.html#FMT4V12DsetElmSz">Dataset Element Size</a> description in versions 1 and 2 Data Layout message.  </td></tr>
 </table>
 <p><a class="anchor" id="FMT4DataLayoutV4"></a></p><h4>Version 4 of this message is similar to version 3 but has additional information for the virtual layout class as well as indexing information for the chunked layout class.</h4>
 <h4>Version 5 of this message is identical to version 4, except for the encoding of filtered chunk records for Fixed Array, Extensible Array, and v2 B-Tree indices. The Library also requires layout version 5 for datasets with chunk size greater than or equal to 4 GiB.</h4>
@@ -5037,7 +5057,7 @@ Properties <em>(variable size)</em><br  />
 </table>
 </td></tr>
 <tr>
-<td>Layout Class </td><td>The layout class specifies specifies the type of storage for the data and how the other fields of the layout message are to be interpreted. <table class="doxtable">
+<td>Layout Class </td><td>The layout class specifies the type of storage for the data and how the other fields of the layout message are to be interpreted. <table class="doxtable">
 <tr>
 <th width="20%" align="center">Value </th><th align="left">Description  </th></tr>
 <tr>
@@ -5089,7 +5109,12 @@ Dimension 1 Size <em>(variable size)</em><br  />
   </td></tr>
 <tr>
 <td colspan="4"><br  />
-Dimension #n Size <em>(variable size)</em><br  />
+Dimension #(d - 1) Size <em>(variable size)</em><br  />
+<br  />
+  </td></tr>
+<tr>
+<td colspan="4"><br  />
+Dataset Element Size <em>(stored as Dimension #d)</em> <em>(variable size)</em><br  />
 <br  />
   </td></tr>
 <tr>
@@ -5106,7 +5131,8 @@ Address<sup>O</sup><br  />
   </td></tr>
 </table>
 <ul>
-<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock. </li>
+<li>In the above table, <b>d</b> is the number of dimensions in the dataset&rsquo;s dataspace; see <a class="el" href="_f_m_t4.html#FMT4V12Dimensionality">Dimensionality</a> in versions 1 and 2 Data Layout message, in particular the chunked storage portion.</li>
 </ul>
 <table class="doxtable">
 <caption><b>Fields: Chunked Storage Property Description</b></caption>
@@ -5123,11 +5149,13 @@ Address<sup>O</sup><br  />
 </table>
 </td></tr>
 <tr>
-<td>Dimensionality </td><td>A chunk has fixed dimension. This field specifies the number of <em>Dimension Size</em> fields later in the message.  </td></tr>
+<td>Dimensionality </td><td>See <a class="el" href="_f_m_t4.html#FMT4V12Dimensionality">Dimensionality</a> description in versions 1 and 2 Data Layout message, in particular the chunked storage portion.  </td></tr>
 <tr>
 <td>Dimension Size Encoded Length </td><td>This is the size in bytes used to encode <em>Dimension Size</em>.  </td></tr>
 <tr>
-<td>Dimension #n Size </td><td>These values define the dimension size of a single chunk, in units of array elements (not bytes). The first dimension stored in the list of dimensions is the slowest changing dimension and the last dimension stored is the fastest changing dimension.  </td></tr>
+<td>Dimension #i Size (i = 0 to (d-1)) </td><td>See <a class="el" href="_f_m_t4.html#FMT4V12DimInfoN">Dimension #i Size</a> description in versions 1 and 2 Data Layout message, in particular the chunked storage portion.  </td></tr>
+<tr>
+<td>Dataset Element Size </td><td>See <a class="el" href="_f_m_t4.html#FMT4V12DsetElmSz">Dataset Element Size</a> description in versions 1 and 2 Data Layout message.  </td></tr>
 <tr>
 <td>Chunk Indexing Type </td><td>There are five indexing types used to look up addresses of the chunks. For more information on each type, see <a class="el" href="_f_m_t4.html#sec_fmt4_appendixc">VII. Appendix C: Types of Indexes for Dataset Chunks</a><br  />
  <table class="doxtable">
@@ -5148,15 +5176,15 @@ Address<sup>O</sup><br  />
 <tr>
 <td>Indexing Type Information </td><td>This variable-sized field encodes information specific to an indexing type. More information on what is encoded with each type can be found below this table. <ul>
 <li>
-See <a class="el" href="_f_m_t4.html#FMT4IndexInfoSingle">&lt;i&gt;Single Chunk&lt;/i&gt;</a> below. </li>
+See <em><a class="el" href="_f_m_t4.html#FMT4IndexInfoSingle">Single Chunk</a></em> below. </li>
 <li>
-See <a class="el" href="_f_m_t4.html#FMT4IndexInfoImplicit">&lt;i&gt;Implicit&lt;/i&gt;</a> below. </li>
+See <em><a class="el" href="_f_m_t4.html#FMT4IndexInfoImplicit">Implicit</a></em> below. </li>
 <li>
-See <a class="el" href="_f_m_t4.html#FMT4IndexInfoFixed">&lt;i&gt;Fixed Array&lt;/i&gt;</a> below. </li>
+See <em><a class="el" href="_f_m_t4.html#FMT4IndexInfoFixed">Fixed Array</a></em> below. </li>
 <li>
-See <a class="el" href="_f_m_t4.html#FMT4IndexInfoExtensible">&lt;i&gt;Extensible Array&lt;/i&gt;</a> below. </li>
+See <em><a class="el" href="_f_m_t4.html#FMT4IndexInfoExtensible">Extensible Array</a></em> below. </li>
 <li>
-See <a class="el" href="_f_m_t4.html#FMT4IndexInfoV2Btrees">&lt;i&gt;Version 2 B-tree&lt;/i&gt;</a> below. </li>
+See <em><a class="el" href="_f_m_t4.html#FMT4IndexInfoV2Btrees">Version 2 B-tree</a></em> below. </li>
 </ul>
 </td></tr>
 <tr>
@@ -5180,7 +5208,7 @@ See <a class="el" href="_f_m_t4.html#FMT4IndexInfoV2Btrees">&lt;i&gt;Version 2 B
 <ol>
 <li>
 <p class="startli"><a class="anchor" id="FMT4IndexInfoSingle"></a></p><h4>Index-specific information for <em>Single Chunk</em>:</h4>
-<p class="interli">The following information exists only when the chunk is filtered. In other words, when <code>DONT_FILTER_PARTIAL_BOUND_CHUNKS</code> (bit 0) is enabled in the field <em>flags</em>. </p><table class="doxtable">
+<p class="interli">The following information exists only when the chunk is filtered. In other words, when <code>SINGLE_INDEX_WITH_FILTER</code> (bit 1) is enabled in the field <em>flags</em>. </p><table class="doxtable">
 <caption><b>Layout: Single Chunk Indexing Information</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
@@ -5313,7 +5341,7 @@ Address<sup>O</sup><br  />
 <td>Index </td><td>This is the index of the data object within the global heap collection.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_bogus"></a>
-IV.A.2.j. The Bogus Message</h3>
+IV.A.3.j. The Bogus Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Bogus  </td></tr>
@@ -5343,7 +5371,7 @@ IV.A.2.j. The Bogus Message</h3>
 <td>Bogus Value </td><td>This value should always be: <code>0xdeadbeef</code>.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_groupinfo"></a>
-IV.A.2.k. The Group Info Message</h3>
+IV.A.3.k. The Group Info Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Group Info  </td></tr>
@@ -5354,7 +5382,7 @@ IV.A.2.k. The Group Info Message</h3>
 <tr>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
-<td><b>Description:</b> </td><td>This message stores information for the constants defining a &ldquo;new style&rdquo; group&rsquo;s behavior. Constant information will be stored in this message and variable information will be stored in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.2.c. The Link Info Message</a> message.<br  />
+<td><b>Description:</b> </td><td>This message stores information for the constants defining a &ldquo;new style&rdquo; group&rsquo;s behavior. Constant information will be stored in this message and variable information will be stored in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.3.c. The Link Info Message</a> message.<br  />
  Note: the &ldquo;estimated entry&rdquo; information below is used when determining the size of the object header for the group when it is created.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
@@ -5392,7 +5420,7 @@ IV.A.2.k. The Group Info Message</h3>
 <td>Link Phase Change: Maximum Compact Value </td><td>The is the maximum number of links to store &ldquo;compactly&rdquo; (in the group&rsquo;s object header).<br  />
  This field is present if bit 0 of <em>Flags</em> is set.  </td></tr>
 <tr>
-<td>Link Phase Change: Minimum Dense Value </td><td>This is the minimum number of links to store &ldquo;densely&rdquo; (in the group&rsquo;s fractal heap). The fractal heap&rsquo;s address is located in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.2.c. The Link Info Message</a> message.<br  />
+<td>Link Phase Change: Minimum Dense Value </td><td>This is the minimum number of links to store &ldquo;densely&rdquo; (in the group&rsquo;s fractal heap). The fractal heap&rsquo;s address is located in the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_linkinfo">IV.A.3.c. The Link Info Message</a> message.<br  />
  This field is present if bit 0 of <em>Flags</em> is set.  </td></tr>
 <tr>
 <td>Estimated Number of Entries </td><td>This is the estimated number of entries in groups. If this field is not present, the default value of <code>4</code> will be used for the estimated number of group entries.<br  />
@@ -5402,7 +5430,7 @@ IV.A.2.k. The Group Info Message</h3>
  This field is present if bit 1 of <em>Flags</em> is set.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_filter"></a>
-IV.A.2.l. The Data Storage - Filter Pipeline Message</h3>
+IV.A.3.l. The Data Storage - Filter Pipeline Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Data Storage - Filter Pipeline  </td></tr>
@@ -5414,7 +5442,8 @@ IV.A.2.l. The Data Storage - Filter Pipeline Message</h3>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
 <td><b>Description:</b> </td><td>This message describes the filter pipeline which should be applied to the data stream by providing filter identification numbers, flags, a name, and client data.<br  />
- This message may be present in the object headers of both dataset and group objects. For datasets, it specifies the filters to apply to raw data. For groups, it specifies the filters to apply to the group&rsquo;s fractal heap. Currently, only datasets using chunked data storage use the filter pipeline on their raw data.  </td></tr>
+ This message may be present in the object headers of both dataset and group objects. For datasets, it specifies the filters to apply to raw data. For groups, it specifies the filters to apply to the group&rsquo;s fractal heap. Currently, only datasets using chunked data storage use the filter pipeline on their raw data.<br  />
+ This message may be shared between multiple objects in the file; see <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">IV.A.2 Disk Format: Level 2A2 - Data Object Header Shared Message Encoding</a> for the shared message encoding.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -5534,7 +5563,7 @@ Filter Description List <em>(variable size)</em><br  />
 <br  />
   </td></tr>
 </table>
-<table class="doxtable">
+<p>u </p><table class="doxtable">
 <caption align="top"><b>Fields: Filter Pipeline Message - Version 2</b></caption>
 <tr>
 <th width="30%">Field Name </th><th>Description  </th></tr>
@@ -5601,7 +5630,7 @@ Links to any relevant information, including licensing information </li>
 </table>
 </td></tr>
 <tr valign="top">
-<td>Name Length </td><td>Each filter has an optional null-terminated ASCII name and this field holds the length of the name including the null termination padded with nulls to be a multiple of eight. If the filter has no name then a value of zero is stored in this field.<br  />
+<td>Name Length </td><td>Each filter has an optional null-terminated ASCII name and this field holds the length of the name including the null termination. If the filter has no name then a value of zero is stored in this field.<br  />
  Filters with IDs less than 256 (in other words, filters that are defined in this format documentation) do not store the <em>Name Length</em> or <em>Name</em> fields.  </td></tr>
 <tr valign="top">
 <td>Flags </td><td>The flags indicate certain properties for a filter. The bit values defined so far are: <table class="doxtable">
@@ -5616,12 +5645,12 @@ Links to any relevant information, including licensing information </li>
 <tr valign="top">
 <td>Number of Client Data Values </td><td>Each filter can store integer values to control how the filter operates. The number of entries in the <em>Client Data</em> array is stored in this field.  </td></tr>
 <tr valign="top">
-<td>Name </td><td>If the <em>Name Length</em> field is non-zero then it will contain the size of this field, padded to a multiple of eight. This field contains a null-terminated, ASCII character string to serve as a comment/name for the filter.  </td></tr>
+<td>Name </td><td>If the <em>Name Length</em> field is non-zero then it will contain the size of this field, not padded to a multiple of eight. This field contains a null-terminated, ASCII character string to serve as a comment/name for the filter.  </td></tr>
 <tr valign="top">
 <td>Client Data </td><td>This is an array of four-byte integers which will be passed to the filter function. The <em>Client Data Number of Values</em> determines the number of elements in the array.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_attribute"></a>
-IV.A.2.m. The Attribute Message</h3>
+IV.A.3.m. The Attribute Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Attribute  </td></tr>
@@ -5738,7 +5767,7 @@ Data <em>(variable size)</em><br  />
 </table>
 </td></tr>
 <tr>
-<td>Flags </td><td>&gt;This bit field contains extra information about interpreting the attribute message: <table class="doxtable">
+<td><a class="anchor" id="FMT4AttrV2Flags"></a>Flags </td><td>This bit field contains extra information about interpreting the attribute message: <table class="doxtable">
 <tr>
 <th width="20%">Bit </th><th align="left">Description  </th></tr>
 <tr>
@@ -5748,23 +5777,23 @@ Data <em>(variable size)</em><br  />
 </table>
 </td></tr>
 <tr>
-<td>Name Size </td><td>The length of the attribute name in bytes including the null terminator.  </td></tr>
+<td><a class="anchor" id="FMT4AttrV2NameSize"></a>Name Size </td><td>The length of the attribute name in bytes including the null terminator.  </td></tr>
 <tr>
-<td>Datatype Size </td><td>The length of the datatype description in the <em>Datatype</em> field below.  </td></tr>
+<td><a class="anchor" id="FMT4AttrV2DatatypeSize"></a>Datatype Size </td><td>The length of the datatype description in the <em>Datatype</em> field below.  </td></tr>
 <tr>
-<td>Dataspace Size </td><td>The length of the dataspace description in the <em>Dataspace</em> field below.  </td></tr>
+<td><a class="anchor" id="FMT4AttrV2DataspaceSize"></a>Dataspace Size </td><td>The length of the dataspace description in the <em>Dataspace</em> field below.  </td></tr>
 <tr>
-<td>Name </td><td>The null-terminated attribute name. This field is <em>not</em> padded with additional bytes.  </td></tr>
+<td><a class="anchor" id="FMT4AttrV2Name"></a>Name </td><td>The null-terminated attribute name. This field is <em>not</em> padded with additional bytes.  </td></tr>
 <tr>
-<td>Datatype </td><td>The datatype description follows the same format as described for the datatype object header message.<br  />
- If the <em>Flag</em> field indicates this attribute&rsquo;s datatype is shared, this field will contain a &ldquo;shared message&rdquo; encoding instead of the datatype encoding.<br  />
+<td><a class="anchor" id="FMT4AttrV2Datatype"></a>Datatype </td><td>The datatype description follows the same format as described for the datatype object header message.<br  />
+ If the <em>Flag</em> field indicates this attribute&rsquo;s datatype is shared, this field will contain a <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">shared message encoding</a> instead of the datatype encoding.<br  />
  This field is <em>not</em> padded with additional bytes.  </td></tr>
 <tr>
-<td>Dataspace </td><td>The dataspace description follows the same format as described for the dataspace object header message.<br  />
- If the <em>Flag</em> field indicates this attribute&rsquo;s dataspace is shared, this field will contain a &ldquo;shared message&rdquo; encoding instead of the dataspace encoding.<br  />
+<td><a class="anchor" id="FMT4AttrV2Dataspace"></a>Dataspace </td><td>The dataspace description follows the same format as described for the dataspace object header message.<br  />
+ If the <em>Flag</em> field indicates this attribute&rsquo;s dataspace is shared, this field will contain a <a class="el" href="_f_m_t4.html#subsec_fmt4_dataobject_hdr_msg">shared message encoding</a> instead of the dataspace encoding.<br  />
  This field is <em>not</em> padded with additional bytes.  </td></tr>
 <tr>
-<td>Data </td><td>The raw data for the attribute. The size is determined from the datatype and dataspace descriptions.<br  />
+<td><a class="anchor" id="FMT4AttrV2Data"></a>Data </td><td>The raw data for the attribute. The size is determined from the datatype and dataspace descriptions.<br  />
  This field is <em>not</em> padded with additional zero bytes.  </td></tr>
 </table>
 <table class="doxtable">
@@ -5807,27 +5836,20 @@ Data <em>(variable size)</em><br  />
 <tr>
 <th width="20%">Version </th><th align="left">Description  </th></tr>
 <tr>
-<td align="center"><code>2</code> </td><td>Used by the library of version 1.8.x and after to encode attribute messages. This version supports attributes with non-ASCII names.  </td></tr>
+<td align="center"><code>3</code> </td><td>Used by the library of version 1.8.x and after to encode attribute messages. This version supports attributes with non-ASCII names.  </td></tr>
 </table>
 </td></tr>
 <tr>
-<td>Flags </td><td>&gt;This bit field contains extra information about interpreting the attribute message: <table class="doxtable">
+<td>Flags </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2Flags">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<th width="20%">Bit </th><th align="left">Description  </th></tr>
+<td>Name Size </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2NameSize">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td align="center"><code>0</code> </td><td>If set, datatype is shared.  </td></tr>
+<td>Datatype Size </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2DatatypeSize">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td align="center"><code>1</code> </td><td>If set, dataspace is shared.  </td></tr>
-</table>
-</td></tr>
+<td>Dataspace Size </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2DataspaceSize">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td>Name Size </td><td>The length of the attribute name in bytes including the null terminator.  </td></tr>
-<tr>
-<td>Datatype Size </td><td>The length of the datatype description in the <em>Datatype</em> field below.  </td></tr>
-<tr>
-<td>Dataspace Size </td><td>The length of the dataspace description in the <em>Dataspace</em> field below.  </td></tr>
-<tr>
-<td>Name Character Set Encoding </td><td>The character set encoding for the attribute&rsquo;s name: <table class="doxtable">
+<td>Name Character Set Encoding </td><td>The character set encoding for the attribute&rsquo;s name:<br  />
+ <table class="doxtable">
 <tr>
 <th width="20%" align="center">Value </th><th align="left">Description  </th></tr>
 <tr>
@@ -5837,21 +5859,16 @@ Data <em>(variable size)</em><br  />
 </table>
 </td></tr>
 <tr>
-<td>Name </td><td>The null-terminated attribute name. This field is <em>not</em> padded with additional bytes.  </td></tr>
+<td>Name </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2Name">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td>Datatype </td><td>The datatype description follows the same format as described for the datatype object header message.<br  />
- If the <em>Flag</em> field indicates this attribute&rsquo;s datatype is shared, this field will contain a &ldquo;shared message&rdquo; encoding instead of the datatype encoding.<br  />
- This field is <em>not</em> padded with additional bytes.  </td></tr>
+<td>Datatype </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2Datatype">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td>Dataspace </td><td>The dataspace description follows the same format as described for the dataspace object header message.<br  />
- If the <em>Flag</em> field indicates this attribute&rsquo;s dataspace is shared, this field will contain a &ldquo;shared message&rdquo; encoding instead of the dataspace encoding.<br  />
- This field is <em>not</em> padded with additional bytes.  </td></tr>
+<td>Dataspace </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2Dataspace">version 2</a> of the attribute message.  </td></tr>
 <tr>
-<td>Data </td><td>The raw data for the attribute. The size is determined from the datatype and dataspace descriptions.<br  />
- This field is <em>not</em> padded with additional zero bytes.  </td></tr>
+<td>Data </td><td>This field is the same as described for <a class="el" href="_f_m_t4.html#FMT4AttrV2Data">version 2</a> of the attribute message.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_comment"></a>
-IV.A.2.n. The Object Comment Message</h3>
+IV.A.3.n. The Object Comment Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Object Comment  </td></tr>
@@ -5886,7 +5903,7 @@ Comment <em>(variable size)</em><br  />
 <td>Name </td><td>A null terminated ASCII character string.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_omodified"></a>
-IV.A.2.o. The Object Modification Time (Old) Message</h3>
+IV.A.3.o. The Object Modification Time (Old) Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Object Modification Time (Old)  </td></tr>
@@ -5898,7 +5915,7 @@ IV.A.2.o. The Object Modification Time (Old) Message</h3>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
 <td><b>Description:</b> </td><td>The object modification date and time is a timestamp which indicates (using ISO-8601 date and time format) the last modification of an object. The time is updated when any object header message changes according to the system clock where the change was posted. All fields of this message should be interpreted as coordinated universal time (UTC).<br  />
- This modification time message is deprecated in favor of the &ldquo;new&rdquo; <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_mod">IV.A.2.s. The Object Modification Time Message</a> message and is no longer written to the file in versions of the HDF5 Library after the 1.6.0 version.  </td></tr>
+ This modification time message is deprecated in favor of the &ldquo;new&rdquo; <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_mod">IV.A.3.s. The Object Modification Time Message</a> message and is no longer written to the file in versions of the HDF5 Library after the 1.6.0 version.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -5935,7 +5952,7 @@ IV.A.2.o. The Object Modification Time (Old) Message</h3>
 <td>Reserved </td><td>This field is reserved and should always be zero.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_shared"></a>
-IV.A.2.p. The Shared Message Table Message</h3>
+IV.A.3.p. The Shared Message Table Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Shared Message Table  </td></tr>
@@ -5946,7 +5963,7 @@ IV.A.2.p. The Shared Message Table Message</h3>
 <tr>
 <td colspan="2"><b>Status:</b> Optional; may not be repeated.  </td></tr>
 <tr>
-<td><b>Description:</b> </td><td>This message is used to locate the table of shared object header message (SOHM) indexes. Each index consists of information to find the shared messages from either the heap or object header. This message is <em>only</em> found in the superblock extension.  </td></tr>
+<td><b>Description:</b> </td><td>This message is used to locate the <a class="el" href="_f_m_t4.html#subsec_fmt4_infra_sohm">SOHM Master Table</a>. Each index in the table consists of information to find the shared messages from either the heap or object header. This message is <em>only</em> found in the superblock extension.  </td></tr>
 <tr>
 <td colspan="2"><b>Format of Data:</b> See the tables below.  </td></tr>
 </table>
@@ -5979,7 +5996,7 @@ Shared Object Header Message Table Address<sup>O</sup><br  />
 <td>Number of Indices </td><td>This field is the number of indices in the master table.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_continuation"></a>
-IV.A.2.q. The Object Header Continuation Message</h3>
+IV.A.3.q. The Object Header Continuation Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Object Header Continuation  </td></tr>
@@ -6083,7 +6100,7 @@ Header Message Data #n<br  />
 <td>Checksum </td><td>This is the checksum for the object header chunk.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_stmgroup"></a>
-IV.A.2.r. The Symbol Table Message</h3>
+IV.A.3.r. The Symbol Table Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Symbol Table Message  </td></tr>
@@ -6126,7 +6143,7 @@ Local Heap Address<sup>O</sup><br  />
 <td>Local Heap Address </td><td>This value is the address of the local heap containing the link names for the symbol table entries for the group.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_mod"></a>
-IV.A.2.s. The Object Modification Time Message</h3>
+IV.A.3.s. The Object Modification Time Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Object Modification Time  </td></tr>
@@ -6168,7 +6185,7 @@ IV.A.2.s. The Object Modification Time Message</h3>
 <td>Seconds After UNIX Epoch </td><td>A 32-bit unsigned integer value that stores the number of seconds since 0 hours, 0 minutes, 0 seconds, January 1, 1970, Coordinated Universal Time.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_btreek"></a>
-IV.A.2.t. The B-tree ‘K’ Values Message</h3>
+IV.A.3.t. The B-tree ‘K’ Values Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> B-tree &lsquo;K&rsquo; Values  </td></tr>
@@ -6206,7 +6223,7 @@ IV.A.2.t. The B-tree ‘K’ Values Message</h3>
 <td>Group Leaf Node K </td><td>This is the node &lsquo;K&rsquo; value for each leaf node of a group v1 B-tree. See the description of this field in version 0 and 1 of the superblock as well as the section on v1 B-trees.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_drvinfo"></a>
-IV.A.2.u. The Driver Info Message</h3>
+IV.A.3.u. The Driver Info Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Driver Info  </td></tr>
@@ -6254,7 +6271,7 @@ Driver Information <em>(variable size)</em><br  />
 <td>Driver Information </td><td>Driver information is stored in a format defined by the file driver.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_attrinfo"></a>
-IV.A.2.v. The Attribute Info Message</h3>
+IV.A.3.v. The Attribute Info Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Attribute Info  </td></tr>
@@ -6316,7 +6333,7 @@ Attribute Creation Order v2 B-tree Address<sup>O</sup> <em>(optional)</em><br  /
 <td>Maximum Creation Index </td><td>The is the maximum creation order index value for the attributes on the object.<br  />
  This field is present if bit 0 of <em>Flags</em> is set.  </td></tr>
 <tr>
-<td>Fractal Heap Address </td><td>This is the address of the fractal heap to store dense attributes. Each attribute stored in the fractal heap is described by the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attribute">IV.A.2.m. The Attribute Message</a>.  </td></tr>
+<td>Fractal Heap Address </td><td>This is the address of the fractal heap to store dense attributes. Each attribute stored in the fractal heap is described by the <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_attribute">IV.A.3.m. The Attribute Message</a>.  </td></tr>
 <tr>
 <td>Attribute Name v2 B-tree Address </td><td>This is the address of the version 2 B-tree to index the names of densely stored attributes.  </td></tr>
 <tr>
@@ -6324,7 +6341,7 @@ Attribute Creation Order v2 B-tree Address<sup>O</sup> <em>(optional)</em><br  /
  This field is present if bit 1 of <em>Flags</em> is set.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_refcount"></a>
-IV.A.2.w. The Object Reference Count Message</h3>
+IV.A.3.w. The Object Reference Count Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> Object Reference Count  </td></tr>
@@ -6358,7 +6375,7 @@ IV.A.2.w. The Object Reference Count Message</h3>
 <td>Reference Count </td><td>The unsigned 32-bit integer is the reference count for the object. This message is only present in &ldquo;version 2&rdquo; (or later) object headers, and if not present in those object header versions, the reference count for the object is assumed to be 1.  </td></tr>
 </table>
 <h3><a class="anchor" id="subsubsec_fmt4_dataobject_hdr_msg_fsinfo"></a>
-IV.A.2.x. The File Space Info Message</h3>
+IV.A.3.x. The File Space Info Message</h3>
 <table class="doxtable">
 <tr>
 <td colspan="2"><b>Header Message Name:</b> File Space Info  </td></tr>
@@ -6681,9 +6698,9 @@ IV.B. Disk Format: Level 2B - Data Object Data Storage</h2>
 <p>Data whose elements are composed of reference datatypes are stored in several different ways depending on the particular reference type involved. Object pointers are just stored as the offset of the object header being pointed to with the size of the pointer being the same number of bytes as offsets in the file.</p>
 <p>Dataset region references are stored as a heap-ID which points to the following information within the file-heap: an offset of the object pointed to, number-type information (same format as header message), dimensionality information (same format as header message), sub-set start and end information (in other words, a coordinate location for each), and field start and end names (in other words, a [pointer to the] string indicating the first field included and a [pointer to the] string name for the last field).</p>
 <p>Data of a compound datatype is stored as a contiguous stream of the items in the structure, with each item formatted according to its datatype.<br  />
- Description of datatypes for variable-length, references and compound classes can be found in <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.2.d. The Datatype Message</a>.<br  />
+ Description of datatypes for variable-length, references and compound classes can be found in <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.3.d. The Datatype Message</a>.<br  />
  Information about global heap and heap ID can be found in <a class="el" href="_f_m_t4.html#subsec_fmt4_infra_globalheap">III.E. Disk Format: Level 1E - Global Heap</a>..<br  />
- For reference datatype, see also the encoding description for <a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encoderv">VIII.B. Reference Encoding (Revised)</a> and <a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encodedp">VIII.C. Reference Encoding (Backward Compatibility)</a> in Appendix D.</p>
+ For reference datatype, see also the encoding description for <a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encoderv">VIII.C. Reference Encoding (Revised)</a> and <a class="el" href="_f_m_t4.html#subsec_fmt4_appendixd_encodedp">VIII.D. Reference Encoding (Backward Compatibility)</a> in Appendix D.</p>
 <h1><a class="anchor" id="sec_fmt4_appendixa"></a>
 V. Appendix A: Definitions</h1>
 <p>Definitions of various terms used in this document are included in this section. </p><table class="doxtable">
@@ -7483,7 +7500,7 @@ more than one dimension of unlimited extent </li>
 </ul>
 <p>Version 2 B-trees can be used to index various objects in the library. See <a class="el" href="_f_m_t4.html#subsubsec_fmt4_infra_btrees_v2">III.A.2. Disk Format: Level 1A2 - Version 2 B-trees</a> for more information. The B-tree types <a class="el" href="_f_m_t4.html#FMT4V2BtType10">10</a> and <a class="el" href="_f_m_t4.html#FMT4V2BtType11">11</a> record layouts are for indexing dataset chunks.</p>
 <h1><a class="anchor" id="sec_fmt4_appendixd"></a>
-VIII. Appendix D: Encoding for Dataspace and Reference</h1>
+VIII. Appendix D: Encoding for Dataspace, Datatype, and Reference</h1>
 <h1><a class="anchor" id="subsec_fmt4_appendixd_encode"></a>
 VIII.A. Dataspace Encoding</h1>
 <p><em><a class="el" href="group___h5_s.html#ga35e289baf490229e233296929fbf5208">H5Sencode</a></em> is a public routine that encodes a dataspace description into a buffer while <em><a class="el" href="group___h5_s.html#ga0ac0ebd5f292460354f574476be49fad" title="Decodes a binary object description of data space and returns a new object handle.">H5Sdecode</a></em> is the corresponding routine that decodes the description encoded in the buffer. See the reference manual description for these two public routines.</p>
@@ -7524,7 +7541,7 @@ Dataspace Selection <em>(variable size)</em><br  />
 <tr>
 <td>Size of Extent </td><td>Size of the dataspace message.  </td></tr>
 <tr>
-<td>Dataspace Message </td><td>The dataspace message information. See <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_simple">IV.A.2.b. The Dataspace Message</a>  </td></tr>
+<td>Dataspace Message </td><td>The dataspace message information. See <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_simple">IV.A.3.b. The Dataspace Message</a>  </td></tr>
 <tr>
 <td>Dataspace Selection </td><td>The dataspace selection information. See <a class="el" href="_f_m_t4.html#FMT4DataspaceSEL">Dataspace Selection</a>.  </td></tr>
 </table>
@@ -7665,7 +7682,7 @@ Points Selection Info <em>(variable size)</em><br  />
 <tr>
 <th width="30%">Field Name </th><th>Description  </th></tr>
 <tr>
-<td>Length </td><td>The size in bytes from <em>Length</em> to the end of the selection info.  </td></tr>
+<td>Length </td><td>The size in bytes from <em>Rank</em> to the end of the selection info.  </td></tr>
 <tr>
 <td>Rank </td><td>The number of dimensions.  </td></tr>
 <tr>
@@ -8051,25 +8068,41 @@ Reserved <em>(zero, 8 bytes)</em><br  />
 <tr>
 <td>Version </td><td>The version number for the <a class="el" href="_h5_spublic_8h.html#a1e9590539381e3922a1582067d496304a865473ae023d0ac257aeb9424f363e75">H5S_SEL_ALL</a> Selection Info; the value is 1.  </td></tr>
 </table>
+<h1><a class="anchor" id="subsec_fmt4_appendixd_encodet"></a>
+VIII.B. Datatype Encoding</h1>
+<p><em><a class="el" href="group___h5_t.html#ga1ceda41ee462fab8dd70bdf67205ed1c" title="Encodes a datatype object description into a binary buffer.">H5Tencode</a></em> is a public routine that encodes a datatype description into a buffer while <em><a class="el" href="_h5version_8h.html#ac90f7722dacad861c0a22507d3adf0dd">H5Tdecode</a></em> is the corresponding routine that decodes the description encoded in the buffer. See the reference manual description for these two public routines.</p>
+<table class="doxtable">
+<caption><b>Layout: Datatype Description for <a class="el" href="group___h5_t.html#ga1ceda41ee462fab8dd70bdf67205ed1c" title="Encodes a datatype object description into a binary buffer.">H5Tencode</a>/<a class="el" href="_h5version_8h.html#ac90f7722dacad861c0a22507d3adf0dd">H5Tdecode</a></b></caption>
+<tr>
+<th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
+<tr>
+<td>Datatype ID </td><td>Encode Version </td><td colspan="2" bgcolor="#DDDDDD"><em>This space inserted only to align table nicely</em>  </td></tr>
+<tr>
+<td colspan="4"><br  />
+<br  />
+Datatype Message <em>(variable size)</em><br  />
+<br  />
+  </td></tr>
+</table>
+<table class="doxtable">
+<caption><b>Fields: Datatype Description for <a class="el" href="group___h5_t.html#ga1ceda41ee462fab8dd70bdf67205ed1c" title="Encodes a datatype object description into a binary buffer.">H5Tencode</a>/<a class="el" href="_h5version_8h.html#ac90f7722dacad861c0a22507d3adf0dd">H5Tdecode</a></b></caption>
+<tr>
+<th width="40%">Field Name </th><th>Description  </th></tr>
+<tr>
+<td>Datatype ID </td><td>The datatype message ID which is 3.  </td></tr>
+<tr>
+<td>Encode Version </td><td>H5T_ENCODE_VERSION which is 0.  </td></tr>
+<tr>
+<td>Datatype Message </td><td>The datatype message information. See <a class="el" href="_f_m_t4.html#subsubsec_fmt4_dataobject_hdr_msg_dtmessage">IV.A.3.d. The Datatype Message</a>  </td></tr>
+</table>
 <h1><a class="anchor" id="subsec_fmt4_appendixd_encoderv"></a>
-VIII.B. Reference Encoding (Revised)</h1>
-<p>For the following reference type, the Reference Header and Reference Block are stored together as the dataset's raw data: </p><ul>
-<li>
-Object Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea58376ddd57d594982e0034a3ca2e5bad">H5R_OBJECT2</a>) (without reference to an external file) </li>
-</ul>
-<p>For the following reference types, the Reference Header plus the <a class="el" href="_f_m_t4.html#FMT4GlobalHeapID">Global Heap ID</a> are stored as the dataset's raw data in the file. The global heap ID is used to locate the Reference Block stored in the global heap: </p><ul>
-<li>
-Object Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea58376ddd57d594982e0034a3ca2e5bad">H5R_OBJECT2</a>) (with reference to an external file) </li>
-<li>
-Dataset Region Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>) (with/without reference to an external file) </li>
-<li>
-Attribute Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056eae63b3cfa3688767f46335fad6db981a5">H5R_ATTR</a>) (with/without reference to an external file) </li>
-</ul>
+VIII.C. Reference Encoding (Revised)</h1>
+<p>Reference information is stored as the dataset's raw data. The layout format is described below as the Reference Header and the Reference Block.</p>
 <table class="doxtable">
 <caption><b>Layout: Reference Header</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
-<tr>
+<tr align="center">
 <td>Reference Type </td><td>Flags </td><td colspan="2" bgcolor="#DDDDDD"><em>This space inserted only to align table nicely</em>  </td></tr>
 </table>
 <table class="doxtable">
@@ -8103,32 +8136,32 @@ Attribute Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01e
 <caption><b>Layout: Reference Block</b></caption>
 <tr>
 <th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
-<tr>
+<tr align="center">
 <td>Token Size </td><td colspan="3" bgcolor="#DDDDDD"><em>This space inserted only to align table nicely</em>  </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4"><br  />
 Token <em>(variable size)</em><br  />
 <br  />
   </td></tr>
 <tr>
 <td colspan="2">Length of External File Name </td><td colspan="2" bgcolor="#DDDDDD"><em>This space inserted only to align table nicely</em>  </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4"><br  />
 External File Name <em>(variable size)</em><br  />
 <br  />
   </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4">Size of Dataspace Selection  </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4">Rank of Dataspace Selection  </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4"><br  />
 Dataspace Selection Information <em>(variable size)</em><br  />
 <br  />
   </td></tr>
-<tr>
+<tr align="center">
 <td colspan="2">Length of Attribute Name  </td><td colspan="2" bgcolor="#DDDDDD"><em>This space inserted only to align table nicely</em>  </td></tr>
-<tr>
+<tr align="center">
 <td colspan="4"><br  />
 Attribute Name <em>(variable size)</em><br  />
 <br  />
@@ -8147,7 +8180,15 @@ Attribute Name <em>(variable size)</em><br  />
  This field exists if bit 0 of <em>flags</em> is set.  </td></tr>
 <tr>
 <td>External File Name </td><td>This is the name of the external file being referenced.<br  />
- This field exists if bit 0 of <em>flags</em> is set.   </td></tr>
+ This field exists if bit 0 of <em>flags</em> is set.  </td></tr>
+<tr>
+<td>Size of Dataspace Selection </td><td>This is the size of the Dataspace Selection Information.<br  />
+ This field exists if the <em>Reference Type</em> is <a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>.   </td></tr>
+<tr>
+<td>Rank of Dataspace Selection </td><td><p class="starttd">This is the number of dimensions in the dataspace.<br  />
+ This field exists if the <em>Reference Type</em> is <a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>.  </p>
+<p class="endtd"></p>
+</td></tr>
 <tr>
 <td>Dataspace Selection Information </td><td>See <a class="el" href="_f_m_t4.html#FMT4DataspaceSEL">Dataspace Selection</a>.<br  />
  This field exists if the <em>Reference Type</em> is <a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>.  </td></tr>
@@ -8158,8 +8199,62 @@ Attribute Name <em>(variable size)</em><br  />
 <td>Attribute Name </td><td>This is the name of the attribute being referenced.<br  />
  This field exists if the <em>Reference Type</em> is <a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056eae63b3cfa3688767f46335fad6db981a5">H5R_ATTR</a>.  </td></tr>
 </table>
+<p><br  />
+ Depending on the <em>reference type</em> and the <em>flags</em> fields in the Reference Header, the Reference Block is stored using one of two methods: </p><ul>
+<li>
+Direct method <br  />
+The Reference Header and Reference Block are stored together directly as the dataset's raw data. This method is used by: <ul>
+<li>
+Object Reference (H5R_OBJECT2) without reference to an external file </li>
+</ul>
+</li>
+<li>
+<p class="startli">Indirect method <br  />
+The Reference Header, the size of the blob, and the Global Heap ID are stored as the dataset's raw data. The blob size gives the size of the Reference Block stored in the global heap, and the <a class="el" href="_f_m_t4.html#FMT4GlobalHeapID">Global Heap ID</a> is used to locate it. This method is used by: </p><ul>
+<li>
+Object Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea58376ddd57d594982e0034a3ca2e5bad">H5R_OBJECT2</a>) (with reference to an external file) </li>
+<li>
+Dataset Region Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056ea2099d2dee8001ab3ce2e7041af5c93d6">H5R_DATASET_REGION2</a>) (with/without reference to an external file) </li>
+<li>
+Attribute Reference (<a class="el" href="_h5_rpublic_8h.html#a7d148ddc165e65b01efabfd738ac056eae63b3cfa3688767f46335fad6db981a5">H5R_ATTR</a>) (with/without reference to an external file) </li>
+</ul>
+<p>The layout for this method after the Reference Header is as follows:</p>
+<table class="doxtable">
+<caption><b>Layout: Indirect Method</b></caption>
+<tr>
+<th width="25%">byte </th><th width="25%">byte </th><th width="25%">byte </th><th>byte  </th></tr>
+<tr align="center">
+<td colspan="4">Blob Size  </td></tr>
+<tr align="center">
+<td colspan="4"><br  />
+Collection Address<sup>O</sup><br  />
+<br  />
+  </td></tr>
+<tr align="center">
+<td colspan="4"><p class="starttd">Object Index </p>
+<p class="endtd"></p>
+</td></tr>
+</table>
+<ul>
+<li>Items marked with an &lsquo;O&rsquo; in the above table are of the size specified in &ldquo;<a class="el" href="_f_m_t4.html#FMT4SizeOfOffsetsV0">Size of Offsets</a>&rdquo; field in the superblock.</li>
+</ul>
+<p><br  />
+ </p><table class="doxtable">
+<caption><b>Fields: Indirect Method</b></caption>
+<tr>
+<th width="30%">Field Name </th><th>Description  </th></tr>
+<tr>
+<td>Blob Size </td><td>This is the size of the Reference Block stored in the global heap.  </td></tr>
+<tr>
+<td>Collection Address </td><td>See <a class="el" href="_f_m_t4.html#FMT4GlobalHeapID">Global Heap ID</a>.  </td></tr>
+<tr>
+<td>Object Index </td><td>See <a class="el" href="_f_m_t4.html#FMT4GlobalHeapID">Global Heap ID</a>.  </td></tr>
+</table>
+<p class="endli"></p>
+</li>
+</ul>
 <h1><a class="anchor" id="subsec_fmt4_appendixd_encodedp"></a>
-VIII.C. Reference Encoding (Backward Compatibility)</h1>
+VIII.D. Reference Encoding (Backward Compatibility)</h1>
 <p>The two references described below are maintained to preserve compatibility with previous versions of the library.<br  />
  For the following reference type, the reference encoding is stored as the dataset's raw data in the file: </p><ul>
 <li>

@@ -173,5 +173,6 @@ var searchData=
   ['1g_20free_20space_20index_170',['III.G. Disk Format: Level 1G - Free-space Index',['../_f_m_t2.html#subsec_fmt2_infra_freespaceindex',1,'']]],
   ['1h_20free_20space_20index_171',['1h free space index',['../_f_m_t4.html#subsec_fmt4_infra_freespaceindex',1,'III.H. Disk Format: Level 1H - Free-space Index'],['../_f_m_t3.html#subsec_fmt3_infra_freespaceindex',1,'III.H. Disk Format: Level 1H - Free-space Index']]],
   ['1h_20shared_20object_20header_20message_20table_172',['III.H. Disk Format: Level 1H - Shared Object Header Message Table',['../_f_m_t2.html#subsec_fmt2_infra_sohm',1,'']]],
-  ['1i_20shared_20object_20header_20message_20table_173',['1i shared object header message table',['../_f_m_t4.html#subsec_fmt4_infra_sohm',1,'III.I. Disk Format: Level 1I - Shared Object Header Message Table'],['../_f_m_t3.html#subsec_fmt3_infra_sohm',1,'III.I. Disk Format: Level 1I - Shared Object Header Message Table']]]
+  ['1i_20shared_20object_20header_20message_20sohm_20master_20table_173',['III.I. Disk Format: Level 1I - Shared Object Header Message (SOHM) Master Table',['../_f_m_t4.html#subsec_fmt4_infra_sohm',1,'']]],
+  ['1i_20shared_20object_20header_20message_20table_174',['III.I. Disk Format: Level 1I - Shared Object Header Message Table',['../_f_m_t3.html#subsec_fmt3_infra_sohm',1,'']]]
 ];

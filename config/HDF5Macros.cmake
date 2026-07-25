@@ -48,9 +48,16 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype libpackage)
 
     # Only set macOS-specific linker flags if not using flang
     if (CMAKE_C_OSX_CURRENT_VERSION_FLAG AND NOT CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang")
-      set_property(TARGET ${libtarget} APPEND PROPERTY
-          LINK_FLAGS "${CMAKE_C_OSX_CURRENT_VERSION_FLAG}${PACKAGE_CURRENT} ${CMAKE_C_OSX_COMPATIBILITY_VERSION_FLAG}${PACKAGE_COMPATIBILITY}"
-      )
+      # LINK_FLAGS is a string property, so it must be appended with
+      # APPEND_STRING. A plain APPEND turns it into a ";"-separated list, which
+      # the generated link command passes to the shell verbatim and breaks the
+      # build with "-current_version: command not found".
+      get_property (_h5_link_flags TARGET ${libtarget} PROPERTY LINK_FLAGS)
+      set (_h5_macho_flags "${CMAKE_C_OSX_CURRENT_VERSION_FLAG}${PACKAGE_CURRENT} ${CMAKE_C_OSX_COMPATIBILITY_VERSION_FLAG}${PACKAGE_COMPATIBILITY}")
+      # Guard against the macro being invoked more than once for a target
+      if (NOT _h5_link_flags MATCHES "${CMAKE_C_OSX_CURRENT_VERSION_FLAG}${PACKAGE_CURRENT}")
+        set_property (TARGET ${libtarget} APPEND_STRING PROPERTY LINK_FLAGS " ${_h5_macho_flags}")
+      endif ()
     endif ()
   endif ()
   HDF_SET_LIB_OPTIONS (${libtarget} ${LIB_OUT_NAME} ${libtype})

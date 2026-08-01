@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Install CMake and Ninja
-        uses: lukka/get-cmake@f5b8fbb4d77cec1acc5a5f9f0df4beffaf5d98d9 # latest
+        uses: lukka/get-cmake@4a7d025fc60f00db0c7b44ebf783d19b52444830 # latest
         with:
           cmakeVersion: latestrc
       - name: Install LLVM and Clang
@@ -20,12 +20,12 @@ jobs:
         with:
           version: "17"
       - name: Install Intel OneAPI
-        uses: awvwgk/setup-fortran@2a1b9c55897d827a9dfeb114408f3615e53b2b72 # main
+        uses: awvwgk/setup-fortran@195bac823dc6e05bb7c706311ad4540ffc34d5b9 # main
         with:
           compiler: intel
           version: '2024.1'
       - name: Checkout HDF5
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
       - name: Set oneAPI
         shell: cmd
         run: |

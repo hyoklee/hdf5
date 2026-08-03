@@ -378,8 +378,7 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
         if (H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed");
         if (H5D__efl_check_policy(dset, efl->slot[u].name) < 0)
-            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL,
-                        "external raw data file blocked by access policy");
+            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "external raw data file blocked by access policy");
         if (H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name");
         if ((fd = HDopen(full_name, O_RDONLY)) < 0)
@@ -495,8 +494,7 @@ H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t siz
         if (H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed");
         if (H5D__efl_check_policy(dset, efl->slot[u].name) < 0)
-            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL,
-                        "external raw data file blocked by access policy");
+            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "external raw data file blocked by access policy");
         if (H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name");
         if ((fd = HDopen(full_name, O_CREAT | O_RDWR, H5_POSIX_CREATE_MODE_URWGROR)) < 0) {

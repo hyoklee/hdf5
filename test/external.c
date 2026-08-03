@@ -1248,6 +1248,235 @@ error:
 } /* end test_path_relative_cwd() */
 
 /*-------------------------------------------------------------------------
+ * Function:    test_efile_flags
+ *
+ * Purpose:     Tests the external raw data file access policy set with
+ *              H5Pset_efile_flags(). Verifies the property round-trips, that
+ *              unknown flag bits are rejected, and that a dataset opened with
+ *              a restrictive policy refuses to read an external file whose
+ *              name is absolute or contains a ".." component, while the
+ *              default policy still reads it.
+ *
+ * Return:      Success:    0
+ *              Failure:    1
+ *
+ *-------------------------------------------------------------------------
+ */
+static int
+test_efile_flags(hid_t fapl)
+{
+    hid_t    file  = H5I_INVALID_HID; /* file to write to                     */
+    hid_t    dcpl  = H5I_INVALID_HID; /* dataset creation properties          */
+    hid_t    dapl  = H5I_INVALID_HID; /* dataset access properties            */
+    hid_t    space = H5I_INVALID_HID; /* data space                           */
+    hid_t    dset  = H5I_INVALID_HID; /* dataset                              */
+    size_t   i     = 0;               /* miscellaneous counter                */
+    char     cwdpath[1024];           /* working directory                    */
+    char     filename[1088];          /* file name                            */
+    int      part[PART_SIZE];         /* raw data buffer (partial)            */
+    int      whole[TOTAL_SIZE];       /* raw data buffer (total)              */
+    hsize_t  cur_size;                /* current data space size              */
+    unsigned flags;                   /* external file policy flags           */
+    herr_t   status;                  /* generic return value                 */
+
+    TESTING("external file access policy flags");
+
+    if (HDsetenv("HDF5_EXTFILE_PREFIX", "", 1) < 0)
+        TEST_ERROR;
+
+    /* --- Property list round-trip and validation --- */
+    if ((dapl = H5Pcreate(H5P_DATASET_ACCESS)) < 0)
+        FAIL_STACK_ERROR;
+
+    /* Default policy must be "allow all" (0) */
+    flags = 0xdeadbeef;
+    if (H5Pget_efile_flags(dapl, &flags) < 0)
+        FAIL_STACK_ERROR;
+    if (flags != H5D_EFILE_ALLOW_ALL)
+        FAIL_PUTS_ERROR("default external file policy was not H5D_EFILE_ALLOW_ALL");
+
+    /* Set and read back a policy */
+    if (H5Pset_efile_flags(dapl, H5D_EFILE_REJECT_ABSOLUTE | H5D_EFILE_REJECT_TRAVERSAL) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Pget_efile_flags(dapl, &flags) < 0)
+        FAIL_STACK_ERROR;
+    if (flags != (unsigned)(H5D_EFILE_REJECT_ABSOLUTE | H5D_EFILE_REJECT_TRAVERSAL))
+        FAIL_PUTS_ERROR("external file policy did not round-trip");
+
+    /* Unknown flag bits must be rejected */
+    H5E_BEGIN_TRY
+    {
+        status = H5Pset_efile_flags(dapl, 0x8000u);
+    }
+    H5E_END_TRY
+    if (status >= 0)
+        FAIL_PUTS_ERROR("H5Pset_efile_flags() accepted an unknown flag bit");
+
+    if (H5Pclose(dapl) < 0)
+        FAIL_STACK_ERROR;
+    dapl = H5I_INVALID_HID;
+
+    /* --- Absolute path enforcement --- */
+
+    /* Reset the raw data files that hold the external data */
+    if (reset_raw_data_files(false) < 0)
+        TEST_ERROR;
+
+    h5_fixname(EXT_FNAME[6], fapl, filename, sizeof(filename));
+    if ((file = H5Fcreate(filename, H5F_ACC_TRUNC, H5P_DEFAULT, fapl)) < 0)
+        FAIL_STACK_ERROR;
+
+    /* Create a dataset whose external files are named with absolute paths,
+     * mirroring test_path_absolute().
+     */
+    if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) < 0)
+        FAIL_STACK_ERROR;
+    if (NULL == HDgetcwd(cwdpath, sizeof(cwdpath)))
+        TEST_ERROR;
+    for (i = 0; i < N_EXT_FILES; i++) {
+        snprintf(filename, sizeof(filename), "%s%sextern_%zur.raw", cwdpath, H5_DIR_SEPS, i + 1);
+        if (H5Pset_external(dcpl, filename, (HDoff_t)(i * GARBAGE_PER_FILE), (hsize_t)sizeof(part)) < 0)
+            FAIL_STACK_ERROR;
+    }
+
+    cur_size = TOTAL_SIZE;
+    if ((space = H5Screate_simple(1, &cur_size, NULL)) < 0)
+        FAIL_STACK_ERROR;
+    if ((dset = H5Dcreate2(file, "dset_abs", H5T_NATIVE_INT, space, H5P_DEFAULT, dcpl, H5P_DEFAULT)) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+
+    /* Opening with H5D_EFILE_REJECT_ABSOLUTE must make the read fail */
+    if ((dapl = H5Pcreate(H5P_DATASET_ACCESS)) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Pset_efile_flags(dapl, H5D_EFILE_REJECT_ABSOLUTE) < 0)
+        FAIL_STACK_ERROR;
+    if ((dset = H5Dopen2(file, "dset_abs", dapl)) < 0)
+        FAIL_STACK_ERROR;
+    memset(whole, 0, sizeof(whole));
+    H5E_BEGIN_TRY
+    {
+        status = H5Dread(dset, H5T_NATIVE_INT, space, space, H5P_DEFAULT, whole);
+    }
+    H5E_END_TRY
+    if (status >= 0)
+        FAIL_PUTS_ERROR("read of an absolute external file was not blocked by policy");
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+    if (H5Pclose(dapl) < 0)
+        FAIL_STACK_ERROR;
+    dapl = H5I_INVALID_HID;
+
+    /* With the default policy the same read must succeed */
+    if ((dset = H5Dopen2(file, "dset_abs", H5P_DEFAULT)) < 0)
+        FAIL_STACK_ERROR;
+    memset(whole, 0, sizeof(whole));
+    if (H5Dread(dset, H5T_NATIVE_INT, space, space, H5P_DEFAULT, whole) < 0)
+        FAIL_STACK_ERROR;
+    for (i = 0; i < TOTAL_SIZE; i++)
+        if (whole[i] != (signed)i)
+            FAIL_PUTS_ERROR("Incorrect value(s) read from absolute external file.");
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+    if (H5Pclose(dcpl) < 0)
+        FAIL_STACK_ERROR;
+    dcpl = H5I_INVALID_HID;
+    if (H5Sclose(space) < 0)
+        FAIL_STACK_ERROR;
+    space = H5I_INVALID_HID;
+
+    /* --- Traversal (\"..\") enforcement --- */
+
+    /* Make sure the intermediate directory exists so the "../" resolves */
+    if (HDmkdir("extern_dir", (mode_t)0755) < 0 && errno != EEXIST)
+        TEST_ERROR;
+
+    if ((dcpl = H5Pcreate(H5P_DATASET_CREATE)) < 0)
+        FAIL_STACK_ERROR;
+    /* "extern_dir/../extern_trav.raw" resolves to "./extern_trav.raw" */
+    if (H5Pset_external(dcpl, "extern_dir/../extern_trav.raw", (HDoff_t)0, (hsize_t)sizeof(whole)) < 0)
+        FAIL_STACK_ERROR;
+
+    cur_size = TOTAL_SIZE;
+    if ((space = H5Screate_simple(1, &cur_size, NULL)) < 0)
+        FAIL_STACK_ERROR;
+    if ((dset = H5Dcreate2(file, "dset_trav", H5T_NATIVE_INT, space, H5P_DEFAULT, dcpl, H5P_DEFAULT)) < 0)
+        FAIL_STACK_ERROR;
+
+    /* Write so the external raw file is created and populated */
+    for (i = 0; i < TOTAL_SIZE; i++)
+        whole[i] = (int)i;
+    if (H5Dwrite(dset, H5T_NATIVE_INT, space, space, H5P_DEFAULT, whole) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+
+    /* H5D_EFILE_REJECT_TRAVERSAL must block the read */
+    if ((dapl = H5Pcreate(H5P_DATASET_ACCESS)) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Pset_efile_flags(dapl, H5D_EFILE_REJECT_TRAVERSAL) < 0)
+        FAIL_STACK_ERROR;
+    if ((dset = H5Dopen2(file, "dset_trav", dapl)) < 0)
+        FAIL_STACK_ERROR;
+    memset(whole, 0, sizeof(whole));
+    H5E_BEGIN_TRY
+    {
+        status = H5Dread(dset, H5T_NATIVE_INT, space, space, H5P_DEFAULT, whole);
+    }
+    H5E_END_TRY
+    if (status >= 0)
+        FAIL_PUTS_ERROR("read of a '..'-containing external file was not blocked by policy");
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+    if (H5Pclose(dapl) < 0)
+        FAIL_STACK_ERROR;
+    dapl = H5I_INVALID_HID;
+
+    /* Default policy reads it back correctly */
+    if ((dset = H5Dopen2(file, "dset_trav", H5P_DEFAULT)) < 0)
+        FAIL_STACK_ERROR;
+    memset(whole, 0, sizeof(whole));
+    if (H5Dread(dset, H5T_NATIVE_INT, space, space, H5P_DEFAULT, whole) < 0)
+        FAIL_STACK_ERROR;
+    for (i = 0; i < TOTAL_SIZE; i++)
+        if (whole[i] != (signed)i)
+            FAIL_PUTS_ERROR("Incorrect value(s) read from '..'-containing external file.");
+    if (H5Dclose(dset) < 0)
+        FAIL_STACK_ERROR;
+    dset = H5I_INVALID_HID;
+
+    if (H5Pclose(dcpl) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Sclose(space) < 0)
+        FAIL_STACK_ERROR;
+    if (H5Fclose(file) < 0)
+        FAIL_STACK_ERROR;
+
+    HDremove("extern_trav.raw");
+
+    PASSED();
+    return 0;
+
+error:
+    H5E_BEGIN_TRY
+    {
+        H5Dclose(dset);
+        H5Pclose(dapl);
+        H5Pclose(dcpl);
+        H5Sclose(space);
+        H5Fclose(file);
+    }
+    H5E_END_TRY
+    return 1;
+} /* end test_efile_flags() */
+
+/*-------------------------------------------------------------------------
  * Function:    test_h5d_get_access_plist
  *
  * Purpose:     Ensure that H5Dget_access_plist returns correct values.
@@ -1427,6 +1656,7 @@ main(void)
         nerrors += test_path_absolute(current_fapl_id);
         nerrors += test_path_relative(current_fapl_id);
         nerrors += test_path_relative_cwd(current_fapl_id);
+        nerrors += test_efile_flags(current_fapl_id);
 
         /* Verify symbol table messages are cached */
         nerrors += (h5_verify_cached_stabs(EXT_FNAME, current_fapl_id) < 0 ? 1 : 0);

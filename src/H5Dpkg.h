@@ -604,6 +604,7 @@ struct H5D_shared_t {
 
     H5D_append_flush_t append_flush;   /* Append flush property information */
     char              *extfile_prefix; /* expanded external file prefix */
+    unsigned           extfile_flags;  /* external file access policy flags (H5D_EFILE_*) */
     char              *vds_prefix;     /* expanded vds prefix */
 };
 

@@ -166,6 +166,42 @@ done:
 
 /*
  * Class:     hdf_hdf5lib_H5
+ * Method:    H5Pset_efile_flags
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL
+Java_hdf_hdf5lib_H5_H5Pset_1efile_1flags(JNIEnv *env, jclass clss, jlong dapl_id, jint flags)
+{
+    UNUSED(clss);
+
+    if (H5Pset_efile_flags((hid_t)dapl_id, (unsigned)flags) < 0)
+        H5_LIBRARY_ERROR(ENVONLY);
+
+done:
+    return;
+} /* end Java_hdf_hdf5lib_H5_H5Pset_1efile_1flags */
+
+/*
+ * Class:     hdf_hdf5lib_H5
+ * Method:    H5Pget_efile_flags
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL
+Java_hdf_hdf5lib_H5_H5Pget_1efile_1flags(JNIEnv *env, jclass clss, jlong dapl_id)
+{
+    unsigned flags = 0;
+
+    UNUSED(clss);
+
+    if (H5Pget_efile_flags((hid_t)dapl_id, &flags) < 0)
+        H5_LIBRARY_ERROR(ENVONLY);
+
+done:
+    return (jint)flags;
+} /* end Java_hdf_hdf5lib_H5_H5Pget_1efile_1flags */
+
+/*
+ * Class:     hdf_hdf5lib_H5
  * Method:    H5Pset_append_flush
  * Signature: (JI[JLjava/lang/Object;Ljava/lang/Object;)V
  */

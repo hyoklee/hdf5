@@ -84,6 +84,7 @@ static herr_t H5D__build_file_prefix(const H5D_t *dset, H5F_prefix_open_t prefix
 static herr_t H5D__open_oid(H5D_t *dataset, hid_t dapl_id);
 static herr_t H5D__init_storage(H5D_t *dset, bool full_overwrite, hsize_t old_dim[]);
 static herr_t H5D__append_flush_setup(H5D_t *dset, hid_t dapl_id);
+static herr_t H5D__efile_flags_setup(H5D_t *dset, hid_t dapl_id);
 static herr_t H5D__close_cb(void *dset_vol_obj, void **request);
 static herr_t H5D__use_minimized_dset_headers(H5F_t *file, bool *minimize);
 static herr_t H5D__prepare_minimized_oh(H5F_t *file, H5D_t *dset, H5O_loc_t *oloc);
@@ -146,6 +147,11 @@ static bool H5D_top_package_initialize_s = false;
  * HDF5_EXTFILE_PREFIX and HDF5_VDS_PREFIX */
 static const char *H5D_prefix_ext_env = NULL;
 static const char *H5D_prefix_vds_env = NULL;
+
+/* External raw data file access policy flags requested globally through the
+ * HDF5_EFILE_FLAGS environment variable. OR'd into every dataset's policy so a
+ * site can harden tools whose source it does not control. */
+static unsigned H5D_efile_flags_env = H5D_EFILE_ALLOW_ALL;
 
 /*-------------------------------------------------------------------------
  * Function: H5D_init
@@ -228,6 +234,18 @@ H5D__init_package(void)
     /* Retrieve the prefixes of VDS and external file from the environment variable */
     H5D_prefix_vds_env = getenv("HDF5_VDS_PREFIX");
     H5D_prefix_ext_env = getenv("HDF5_EXTFILE_PREFIX");
+
+    /* Retrieve any external file access policy requested through the environment.
+     * Unknown bits are masked off so a stray value can't have surprising effects. */
+    {
+        const char *env_efile_flags = getenv("HDF5_EFILE_FLAGS");
+
+        if (env_efile_flags && *env_efile_flags != '\0') {
+            unsigned long env_val = strtoul(env_efile_flags, NULL, 0);
+
+            H5D_efile_flags_env = (unsigned)(env_val & (unsigned long)H5D_EFILE_FLAGS_ALL);
+        }
+    }
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -1368,6 +1386,10 @@ H5D__create(H5F_t *file, hid_t type_id, const H5S_t *space, hid_t dcpl_id, hid_t
     if (H5D__build_file_prefix(new_dset, H5F_PREFIX_EFILE, &new_dset->shared->extfile_prefix) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, NULL, "unable to initialize external file prefix");
 
+    /* Set the external file access policy flags */
+    if (H5D__efile_flags_setup(new_dset, new_dset->shared->dapl_id) < 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, NULL, "unable to initialize external file policy flags");
+
     /* Set the VDS file prefix */
     if (H5D__build_file_prefix(new_dset, H5F_PREFIX_VDS, &new_dset->shared->vds_prefix) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, NULL, "unable to initialize VDS prefix");
@@ -1564,6 +1586,10 @@ H5D_open(const H5G_loc_t *loc, hid_t dapl_id)
         /* Prevent string from being freed during done: */
         extfile_prefix = NULL;
 
+        /* Set the external file access policy flags */
+        if (H5D__efile_flags_setup(dataset, dapl_id) < 0)
+            HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, NULL, "unable to initialize external file policy flags");
+
         /* Set the vds file prefix */
         dataset->shared->vds_prefix = vds_prefix;
         /* Prevent string from being freed during done: */
@@ -1707,6 +1733,52 @@ H5D__append_flush_setup(H5D_t *dset, hid_t dapl_id)
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5D__append_flush_setup() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5D__efile_flags_setup
+ *
+ * Purpose:     Resolve the external raw data file access policy flags for a
+ *              dataset from its access property list, OR'd with any policy
+ *              requested globally through the HDF5_EFILE_FLAGS environment
+ *              variable, and store the result in the shared dataset info.
+ *
+ *              These flags restrict which external raw data files the dataset
+ *              is permitted to open when its raw data is stored outside the
+ *              HDF5 file via the External File List (see H5Pset_efile_flags()).
+ *
+ * Return:      SUCCEED/FAIL
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5D__efile_flags_setup(H5D_t *dset, hid_t dapl_id)
+{
+    unsigned flags     = H5D_EFILE_ALLOW_ALL; /* Policy from the property list */
+    herr_t   ret_value = SUCCEED;             /* Return value */
+
+    FUNC_ENTER_PACKAGE
+
+    /* Check args */
+    assert(dset);
+    assert(dset->shared);
+
+    /* Get the policy from the DAPL, if non-default */
+    if (dapl_id != H5P_DATASET_ACCESS_DEFAULT) {
+        H5P_genplist_t *dapl; /* Data access property list object pointer */
+
+        if (NULL == (dapl = (H5P_genplist_t *)H5I_object(dapl_id)))
+            HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for dapl ID");
+
+        if (H5P_exist_plist(dapl, H5D_ACS_EFILE_FLAGS_NAME) > 0)
+            if (H5P_get(dapl, H5D_ACS_EFILE_FLAGS_NAME, &flags) < 0)
+                HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get external file policy flags");
+    }
+
+    /* The environment can only tighten (OR into) the property-list policy */
+    dset->shared->extfile_flags = flags | H5D_efile_flags_env;
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* H5D__efile_flags_setup() */
 
 /*-------------------------------------------------------------------------
  * Function: H5D__open_oid

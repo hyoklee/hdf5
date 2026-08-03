@@ -10702,6 +10702,43 @@ public class H5 implements java.io.Serializable {
     /**
      * @ingroup JH5P
      *
+     * H5Pget_efile_flags retrieves the external raw data file access policy flags.
+     *
+     * @param dapl_id
+     *            IN: Dataset access property list identifier
+     *
+     * @return the external file access policy flags (a bitwise combination of
+     *         HDF5Constants.H5D_EFILE_* values; H5D_EFILE_ALLOW_ALL means no restriction)
+     *
+     * @exception HDF5LibraryException
+     *            Error from the HDF5 Library.
+     *
+     **/
+    public synchronized static native int H5Pget_efile_flags(long dapl_id) throws HDF5LibraryException;
+
+    /**
+     * @ingroup JH5P
+     *
+     * H5Pset_efile_flags restricts which external raw data files a dataset opened with
+     * this access property list may open. This is a defense against untrusted HDF5 files
+     * whose datasets use the External File List to point raw data at arbitrary local paths.
+     *
+     * @param dapl_id
+     *            IN: Dataset access property list identifier
+     * @param flags
+     *            IN: Bitwise combination of HDF5Constants.H5D_EFILE_* policy flags, or
+     *                HDF5Constants.H5D_EFILE_ALLOW_ALL for no restriction
+     *
+     * @exception HDF5LibraryException
+     *            Error from the HDF5 Library.
+     *
+     **/
+    public synchronized static native void H5Pset_efile_flags(long dapl_id, int flags)
+        throws HDF5LibraryException;
+
+    /**
+     * @ingroup JH5P
+     *
      * H5Pget_virtual_spatial_tree accesses the flag for whether to use/not use a spatial tree
      * during mapping operations on a Virtual Dataset. The default value is true.
      *

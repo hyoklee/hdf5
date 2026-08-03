@@ -51,6 +51,20 @@ JNIEXPORT jstring JNICALL Java_hdf_hdf5lib_H5_H5Pget_1efile_1prefix(JNIEnv *, jc
 
 /*
  * Class:     hdf_hdf5lib_H5
+ * Method:    H5Pset_efile_flags
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_hdf_hdf5lib_H5_H5Pset_1efile_1flags(JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     hdf_hdf5lib_H5
+ * Method:    H5Pget_efile_flags
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_hdf_hdf5lib_H5_H5Pget_1efile_1flags(JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     hdf_hdf5lib_H5
  * Method:    H5Pset_append_flush
  * Signature: (JI[JLjava/lang/Object;Ljava/lang/Object;)V
  */

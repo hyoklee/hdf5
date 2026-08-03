@@ -67,6 +67,7 @@ static ssize_t H5D__efl_writevv(const H5D_io_info_t *io_info, const H5D_dset_io_
                                 size_t mem_len_arr[], hsize_t mem_offset_arr[]);
 
 /* Helper routines */
+static herr_t H5D__efl_check_policy(const H5D_t *dset, const char *name);
 static herr_t H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size, uint8_t *buf);
 static herr_t H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size,
                              const uint8_t *buf);
@@ -265,6 +266,67 @@ H5D__efl_io_init(H5D_io_info_t *io_info, H5D_dset_io_info_t *dinfo)
 } /* end H5D__efl_io_init() */
 
 /*-------------------------------------------------------------------------
+ * Function:    H5D__efl_check_policy
+ *
+ * Purpose:     Enforce the dataset's external raw data file access policy
+ *              (see H5Pset_efile_flags()) against a single external file name
+ *              before it is opened. Depending on the policy bits set, rejects
+ *              absolute paths and/or names containing a ".." path component.
+ *
+ *              This is a defense for applications that open untrusted HDF5
+ *              files: without a policy, a dataset's External File List can
+ *              name an arbitrary local path (e.g. "/proc/self/environ") and
+ *              have the library disclose or overwrite its contents.
+ *
+ * Return:      SUCCEED (allowed) / FAIL (blocked by policy)
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5D__efl_check_policy(const H5D_t *dset, const char *name)
+{
+    unsigned flags;               /* External file access policy flags */
+    herr_t   ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_PACKAGE
+
+    assert(dset && dset->shared);
+    assert(name);
+
+    flags = dset->shared->extfile_flags;
+
+    /* Fast path: no policy in effect preserves the historical behavior */
+    if (flags != H5D_EFILE_ALLOW_ALL) {
+        if (flags & H5D_EFILE_REJECT_ABSOLUTE)
+            if (H5_CHECK_ABSOLUTE(name) || H5_CHECK_ABS_PATH(name) || H5_CHECK_ABS_DRIVE(name))
+                HGOTO_ERROR(H5E_EFL, H5E_BADVALUE, FAIL,
+                            "external raw data file name is absolute; blocked by access policy");
+
+        if (flags & H5D_EFILE_REJECT_TRAVERSAL) {
+            const char *p = name;
+
+            /* Reject only a ".." that forms a whole path component, so that
+             * innocuous names like "foo..bar" are not falsely blocked.
+             */
+            while (*p) {
+                if (p[0] == '.' && p[1] == '.' && (p[2] == '\0' || p[2] == '/' || p[2] == '\\'))
+                    HGOTO_ERROR(H5E_EFL, H5E_BADVALUE, FAIL,
+                                "external raw data file name contains '..'; blocked by access policy");
+
+                /* Advance past this component and any following delimiters */
+                while (*p && *p != '/' && *p != '\\')
+                    p++;
+                while (*p == '/' || *p == '\\')
+                    p++;
+            }
+        }
+    }
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5D__efl_check_policy() */
+
+/*-------------------------------------------------------------------------
  * Function:    H5D__efl_read
  *
  * Purpose:     Reads data from an external file list.  It is an error to
@@ -315,6 +377,9 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "read past logical end of file");
         if (H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed");
+        if (H5D__efl_check_policy(dset, efl->slot[u].name) < 0)
+            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL,
+                        "external raw data file blocked by access policy");
         if (H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name");
         if ((fd = HDopen(full_name, O_RDONLY)) < 0)
@@ -429,6 +494,9 @@ H5D__efl_write(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t siz
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "write past logical end of file");
         if (H5F_OVERFLOW_HSIZET2OFFT((hsize_t)efl->slot[u].offset + skip))
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed");
+        if (H5D__efl_check_policy(dset, efl->slot[u].name) < 0)
+            HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL,
+                        "external raw data file blocked by access policy");
         if (H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name");
         if ((fd = HDopen(full_name, O_CREAT | O_RDWR, H5_POSIX_CREATE_MODE_URWGROR)) < 0) {

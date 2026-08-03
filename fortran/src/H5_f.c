@@ -500,6 +500,10 @@ h5init_flags_c(int_f *h5d_flags, size_t_f *h5d_size_flags, int_f *h5e_flags, hid
     h5d_flags[58] = (int_f)H5D_VECTOR_IO;
     h5d_flags[59] = (int_f)H5D_SELECTION_IO;
 
+    h5d_flags[60] = (int_f)H5D_EFILE_ALLOW_ALL;
+    h5d_flags[61] = (int_f)H5D_EFILE_REJECT_ABSOLUTE;
+    h5d_flags[62] = (int_f)H5D_EFILE_REJECT_TRAVERSAL;
+
     /*
      *  H5E flags
      */

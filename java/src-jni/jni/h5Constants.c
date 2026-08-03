@@ -301,6 +301,21 @@ Java_hdf_hdf5lib_HDF5Constants_H5D_1CHUNK_1DONT_1FILTER_1PARTIAL_1CHUNKS(JNIEnv 
 {
     return H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS;
 }
+JNIEXPORT jint JNICALL
+Java_hdf_hdf5lib_HDF5Constants_H5D_1EFILE_1ALLOW_1ALL(JNIEnv *env, jclass cls)
+{
+    return H5D_EFILE_ALLOW_ALL;
+}
+JNIEXPORT jint JNICALL
+Java_hdf_hdf5lib_HDF5Constants_H5D_1EFILE_1REJECT_1ABSOLUTE(JNIEnv *env, jclass cls)
+{
+    return H5D_EFILE_REJECT_ABSOLUTE;
+}
+JNIEXPORT jint JNICALL
+Java_hdf_hdf5lib_HDF5Constants_H5D_1EFILE_1REJECT_1TRAVERSAL(JNIEnv *env, jclass cls)
+{
+    return H5D_EFILE_REJECT_TRAVERSAL;
+}
 
 JNIEXPORT jlong JNICALL
 Java_hdf_hdf5lib_HDF5Constants_H5E_1ALIGNMENT(JNIEnv *env, jclass cls)

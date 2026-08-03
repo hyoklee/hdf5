@@ -4368,6 +4368,76 @@ SUBROUTINE h5pset_attr_phase_change_f(ocpl_id, max_compact, min_dense, hdferr)
 !>
 !! \ingroup FH5P
 !!
+!! \brief Restricts which external raw data files a dataset opened with this
+!!        access property list may open.
+!!
+!! \param dapl_id Dataset access property list identifier.
+!! \param flags   Bitwise combination of external file policy flags
+!!                (\li H5D_EFILE_REJECT_ABSOLUTE_F \li H5D_EFILE_REJECT_TRAVERSAL_F),
+!!                or H5D_EFILE_ALLOW_ALL_F for no restriction.
+!! \param hdferr  \fortran_error
+!!
+!! See C API: @ref H5Pset_efile_flags()
+!!
+  SUBROUTINE h5pset_efile_flags_f(dapl_id, flags, hdferr)
+
+    IMPLICIT NONE
+
+    INTEGER(HID_T), INTENT(IN) :: dapl_id
+    INTEGER, INTENT(IN)        :: flags
+    INTEGER, INTENT(OUT)       :: hdferr
+
+    INTERFACE
+       INTEGER(C_INT) FUNCTION H5Pset_efile_flags(dapl_id, flags) BIND(C, NAME='H5Pset_efile_flags')
+         IMPORT :: HID_T, C_INT
+         IMPLICIT NONE
+         INTEGER(HID_T), VALUE :: dapl_id
+         INTEGER(C_INT), VALUE :: flags
+       END FUNCTION H5Pset_efile_flags
+    END INTERFACE
+
+    hdferr = INT(H5Pset_efile_flags(dapl_id, INT(flags, C_INT)))
+
+  END SUBROUTINE h5pset_efile_flags_f
+
+!>
+!! \ingroup FH5P
+!!
+!! \brief Retrieves the external raw data file access policy flags.
+!!
+!! \param dapl_id Dataset access property list identifier.
+!! \param flags   The external file access policy flags.
+!! \param hdferr  \fortran_error
+!!
+!! See C API: @ref H5Pget_efile_flags()
+!!
+  SUBROUTINE h5pget_efile_flags_f(dapl_id, flags, hdferr)
+
+    IMPLICIT NONE
+
+    INTEGER(HID_T), INTENT(IN) :: dapl_id
+    INTEGER, INTENT(OUT)       :: flags
+    INTEGER, INTENT(OUT)       :: hdferr
+
+    INTEGER(C_INT) :: c_flags
+
+    INTERFACE
+       INTEGER(C_INT) FUNCTION H5Pget_efile_flags(dapl_id, flags) BIND(C, NAME='H5Pget_efile_flags')
+         IMPORT :: HID_T, C_INT
+         IMPLICIT NONE
+         INTEGER(HID_T), VALUE :: dapl_id
+         INTEGER(C_INT)        :: flags
+       END FUNCTION H5Pget_efile_flags
+    END INTERFACE
+
+    hdferr = INT(H5Pget_efile_flags(dapl_id, c_flags))
+    flags = INT(c_flags)
+
+  END SUBROUTINE h5pget_efile_flags_f
+
+!>
+!! \ingroup FH5P
+!!
 !! \brief Retrieves the append flush property values from the dataset access property list.
 !!
 !! \param dapl_id  Dataset access property list identifier.

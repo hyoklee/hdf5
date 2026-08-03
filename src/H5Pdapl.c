@@ -97,6 +97,12 @@
 #define H5D_ACS_EFILE_PREFIX_CMP   H5P__dapl_efile_pref_cmp
 #define H5D_ACS_EFILE_PREFIX_CLOSE H5P__dapl_efile_pref_close
 
+/* Definitions for external file access policy flags */
+#define H5D_ACS_EFILE_FLAGS_SIZE sizeof(unsigned)
+#define H5D_ACS_EFILE_FLAGS_DEF  H5D_EFILE_ALLOW_ALL /* default: no restriction (legacy behavior) */
+#define H5D_ACS_EFILE_FLAGS_ENC  H5P__encode_unsigned
+#define H5D_ACS_EFILE_FLAGS_DEC  H5P__decode_unsigned
+
 /* Definitions for use of VDS mapping spatial tree */
 #define H5D_ACS_USE_TREE_SIZE sizeof(bool)
 #define H5D_ACS_USE_TREE_DEF  true
@@ -182,6 +188,8 @@ static const char *H5D_def_efile_prefix_g =
     H5D_ACS_EFILE_PREFIX_DEF;                                     /* Default external file prefix string */
 static const char *H5D_def_vds_prefix_g = H5D_ACS_VDS_PREFIX_DEF; /* Default vds prefix string */
 static const bool  H5D_def_tree_g = H5D_ACS_USE_TREE_DEF; /* Default use of spatial tree for VDS mappings */
+static const unsigned H5D_def_efile_flags_g =
+    H5D_ACS_EFILE_FLAGS_DEF; /* Default external file access policy flags */
 
 /*-------------------------------------------------------------------------
  * Function:    H5P__dacc_reg_prop
@@ -257,6 +265,12 @@ H5P__dacc_reg_prop(H5P_genclass_t *pclass)
     /* Register the spatial tree use property */
     if (H5P__register_real(pclass, H5D_ACS_USE_TREE_NAME, H5D_ACS_USE_TREE_SIZE, &H5D_def_tree_g, NULL, NULL,
                            NULL, H5D_ACS_USE_TREE_ENC, H5D_ACS_USE_TREE_DEC, NULL, NULL, NULL, NULL) < 0)
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
+
+    /* Register property for external file access policy flags */
+    if (H5P__register_real(pclass, H5D_ACS_EFILE_FLAGS_NAME, H5D_ACS_EFILE_FLAGS_SIZE, &H5D_def_efile_flags_g,
+                           NULL, NULL, NULL, H5D_ACS_EFILE_FLAGS_ENC, H5D_ACS_EFILE_FLAGS_DEC, NULL, NULL,
+                           NULL, NULL) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class");
 
 done:
@@ -1467,6 +1481,74 @@ H5Pget_efile_prefix(hid_t plist_id, char *prefix /*out*/, size_t size)
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Pget_efile_prefix() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5Pset_efile_flags
+ *
+ * Purpose:     Set the policy flags that restrict which external raw data
+ *              files a dataset opened with this access property list is
+ *              permitted to open.
+ *
+ *              This is a defense against untrusted HDF5 files that use the
+ *              External File List feature to point a dataset's raw data at
+ *              an arbitrary local path. See H5Pset_efile_flags() in the
+ *              public header for details.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Pset_efile_flags(hid_t plist_id, unsigned flags)
+{
+    H5P_genplist_t *plist;               /* Property list pointer */
+    herr_t          ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_API(FAIL)
+
+    /* Reject unknown flag bits so callers find typos early */
+    if (flags & ~((unsigned)H5D_EFILE_FLAGS_ALL))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "unknown external file policy flag(s) set");
+
+    /* Get the plist structure */
+    if (NULL == (plist = H5P_object_verify(plist_id, H5P_DATASET_ACCESS, false)))
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
+
+    /* Set the flags */
+    if (H5P_set(plist, H5D_ACS_EFILE_FLAGS_NAME, &flags) < 0)
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set external file policy flags");
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Pset_efile_flags() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5Pget_efile_flags
+ *
+ * Purpose:     Retrieve the external raw data file access policy flags.
+ *
+ * Return:      Non-negative on success/Negative on failure
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Pget_efile_flags(hid_t plist_id, unsigned *flags /*out*/)
+{
+    H5P_genplist_t *plist;               /* Property list pointer */
+    herr_t          ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_API(FAIL)
+
+    /* Get the plist structure */
+    if (NULL == (plist = H5P_object_verify(plist_id, H5P_DATASET_ACCESS, true)))
+        HGOTO_ERROR(H5E_ID, H5E_BADID, FAIL, "can't find object for ID");
+
+    /* Get the current flags */
+    if (flags)
+        if (H5P_get(plist, H5D_ACS_EFILE_FLAGS_NAME, flags) < 0)
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get external file policy flags");
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Pget_efile_flags() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5Pset_virtual_prefix

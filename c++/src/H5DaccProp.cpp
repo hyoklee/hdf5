@@ -153,4 +153,47 @@ DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double 
     }
 }
 
+//--------------------------------------------------------------------------
+// Function:    DSetAccPropList::setEfileFlags
+///\brief       Restricts which external raw data files a dataset opened with
+///             this property list may open.
+///\param       flags - IN: Bitwise combination of external file policy flags
+///             (H5D_EFILE_REJECT_ABSOLUTE, H5D_EFILE_REJECT_TRAVERSAL), or
+///             H5D_EFILE_ALLOW_ALL for no restriction
+///\exception   H5::PropListIException
+///\par Description
+///             This is a defense against untrusted HDF5 files whose datasets
+///             use the External File List to point raw data at arbitrary local
+///             paths.  For information, please refer to the H5Pset_efile_flags
+///             API in the HDF5 C Reference Manual.
+//--------------------------------------------------------------------------
+void
+DSetAccPropList::setEfileFlags(unsigned flags) const
+{
+    herr_t ret_value = H5Pset_efile_flags(id, flags);
+    if (ret_value < 0) {
+        throw PropListIException("DSetAccPropList::setEfileFlags", "H5Pset_efile_flags failed");
+    }
+}
+
+//--------------------------------------------------------------------------
+// Function:    DSetAccPropList::getEfileFlags
+///\brief       Retrieves the external raw data file access policy flags.
+///\return      The external file access policy flags
+///\exception   H5::PropListIException
+///\par Description
+///             For information, please refer to the H5Pget_efile_flags API in
+///             the HDF5 C Reference Manual.
+//--------------------------------------------------------------------------
+unsigned
+DSetAccPropList::getEfileFlags() const
+{
+    unsigned flags     = 0;
+    herr_t   ret_value = H5Pget_efile_flags(id, &flags);
+    if (ret_value < 0) {
+        throw PropListIException("DSetAccPropList::getEfileFlags", "H5Pget_efile_flags failed");
+    }
+    return flags;
+}
+
 } // namespace H5

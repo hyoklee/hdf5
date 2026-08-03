@@ -180,6 +180,12 @@ public class HDF5Constants {
     public static final int H5D_VDS_LAST_AVAILABLE = H5D_VDS_LAST_AVAILABLE();
     /** */
     public static final int H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS = H5D_CHUNK_DONT_FILTER_PARTIAL_CHUNKS();
+    /** External file access policy - follow any external file path (default) */
+    public static final int H5D_EFILE_ALLOW_ALL = H5D_EFILE_ALLOW_ALL();
+    /** External file access policy - reject absolute external file names */
+    public static final int H5D_EFILE_REJECT_ABSOLUTE = H5D_EFILE_REJECT_ABSOLUTE();
+    /** External file access policy - reject external file names containing ".." */
+    public static final int H5D_EFILE_REJECT_TRAVERSAL = H5D_EFILE_REJECT_TRAVERSAL();
 
     /** Different kinds of error information - H5E_type_t */
     public static final int H5E_MAJOR = H5E_MAJOR();

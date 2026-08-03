@@ -556,6 +556,30 @@ typedef enum H5D_selection_io_mode_t {
 #define H5D_VECTOR_IO    (0x0002u) /**< Vector I/O was performed */
 #define H5D_SELECTION_IO (0x0004u) /**< Selection I/O was performed */
 
+/**
+ * \defgroup H5D_EFILE_FLAGS External raw data file access policy flags
+ *
+ * Flags for H5Pset_efile_flags() that restrict which external raw data files
+ * (created via H5Pset_external()) a dataset is permitted to open. These are a
+ * defense for applications that open \b untrusted HDF5 files: the External File
+ * List (EFL) feature lets a dataset declare that its raw data lives at an
+ * arbitrary local path, so a malicious file can name e.g. \c /etc/passwd or
+ * \c /proc/self/environ and have the library disclose its contents on read.
+ *
+ * The default is #H5D_EFILE_ALLOW_ALL, which preserves the historical behavior
+ * of following whatever path the file specifies.
+ * \{
+ */
+/** Follow any external file path the dataset specifies (default, legacy behavior) */
+#define H5D_EFILE_ALLOW_ALL (0x0000u)
+/** Reject external file names that are absolute (e.g. "/etc/passwd", "C:\\x", "\\x") */
+#define H5D_EFILE_REJECT_ABSOLUTE (0x0001u)
+/** Reject external file names containing a ".." path component */
+#define H5D_EFILE_REJECT_TRAVERSAL (0x0002u)
+/** Mask of all defined external file policy flags */
+#define H5D_EFILE_FLAGS_ALL (H5D_EFILE_REJECT_ABSOLUTE | H5D_EFILE_REJECT_TRAVERSAL)
+/** \} */
+
 /********************/
 /* Public Variables */
 /********************/
@@ -7406,6 +7430,27 @@ H5_DLL ssize_t H5Pget_efile_prefix(hid_t dapl_id, char *prefix /*out*/, size_t s
 /**
  * \ingroup DAPL
  *
+ * \brief Retrieves the external raw data file access policy flags
+ *
+ * \dapl_id
+ * \param[out] flags Bitwise combination of external file policy flags
+ *             (see \ref H5D_EFILE_FLAGS). #H5D_EFILE_ALLOW_ALL (0) means no
+ *             restriction.
+ *
+ * \return \herr_t
+ *
+ * \details H5Pget_efile_flags() retrieves the policy set with
+ *          H5Pset_efile_flags() that governs which external raw data files
+ *          a dataset opened with this access property list is permitted to
+ *          read or write.
+ *
+ * \since 2.3.0
+ *
+ */
+H5_DLL herr_t H5Pget_efile_flags(hid_t dapl_id, unsigned *flags /*out*/);
+/**
+ * \ingroup DAPL
+ *
  * \brief Retrieves prefix applied to VDS source file paths
  *
  * \dapl_id
@@ -7748,6 +7793,48 @@ H5_DLL herr_t H5Pset_chunk_cache(hid_t dapl_id, size_t rdcc_nslots, size_t rdcc_
  *
  */
 H5_DLL herr_t H5Pset_efile_prefix(hid_t dapl_id, const char *prefix);
+/**
+ * \ingroup DAPL
+ *
+ * \brief Restricts which external raw data files a dataset may open
+ *
+ * \dapl_id
+ * \param[in] flags Bitwise combination of external file policy flags
+ *            (see \ref H5D_EFILE_FLAGS), or #H5D_EFILE_ALLOW_ALL for no
+ *            restriction.
+ *
+ * \return \herr_t
+ *
+ * \details H5Pset_efile_flags() restricts which external raw data files a
+ *          dataset opened with the access property list \p dapl_id is allowed
+ *          to open when its raw data is stored outside the HDF5 file via the
+ *          External File List (see H5Pset_external()).
+ *
+ *          This is intended for applications that open \b untrusted HDF5
+ *          files. Because the EFL feature lets a dataset name an arbitrary
+ *          local path for its raw data, a malicious file can cause the library
+ *          to read from sensitive locations (for example \c /proc/self/environ)
+ *          purely by having the dataset read. Setting #H5D_EFILE_REJECT_ABSOLUTE
+ *          blocks absolute paths, and #H5D_EFILE_REJECT_TRAVERSAL blocks names
+ *          containing a ".." component; combined with
+ *          H5Pset_efile_prefix() set to "${ORIGIN}", external files are then
+ *          confined to the directory subtree of the HDF5 file itself.
+ *
+ *          The policy may also be turned on globally, without changing any
+ *          property list, via the \c HDF5_EFILE_FLAGS environment variable
+ *          (an integer whose bits are OR'd into every dataset's policy). This
+ *          lets a site harden tools whose source it does not control.
+ *
+ *          The default policy is #H5D_EFILE_ALLOW_ALL, which preserves the
+ *          historical behavior of following any path the file specifies.
+ *
+ * \note The policy is captured when the dataset is opened; changing \p flags
+ *       afterward does not affect datasets that are already open.
+ *
+ * \since 2.3.0
+ *
+ */
+H5_DLL herr_t H5Pset_efile_flags(hid_t dapl_id, unsigned flags);
 /**
  * \ingroup DAPL
  *

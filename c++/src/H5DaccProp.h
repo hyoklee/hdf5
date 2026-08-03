@@ -35,6 +35,12 @@ class H5CPP_DLL DSetAccPropList : public LinkAccPropList {
     // Retrieves the raw data chunk cache parameters.
     void getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double &rdcc_w0) const;
 
+    // Sets the external raw data file access policy flags.
+    void setEfileFlags(unsigned flags) const;
+
+    // Retrieves the external raw data file access policy flags.
+    unsigned getEfileFlags() const;
+
     ///\brief Returns this class name.
     virtual H5std_string
     fromClass() const override

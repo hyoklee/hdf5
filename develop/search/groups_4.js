@@ -6,5 +6,6 @@ var searchData=
   ['event_20set_20h5es_20interface_3',['event set h5es interface',['../group___f_h5_e_s.html',1,'Fortran Event Set (H5ES) Interface'],['../group___j_h5_e_s.html',1,'Java Event Set (H5ES) Interface']]],
   ['event_20set_20interface_20h5es_4',['Event Set Interface (H5ES)',['../group___h5_e_s.html',1,'']]],
   ['exception_20interface_5',['exception interface',['../group___j_e_r_r.html',1,'HDF5 Library Exception Interface'],['../group___j_e_r_r_j_a_v_a.html',1,'HDF5 Library Java Exception Interface'],['../group___j_e_r_r_l_i_b.html',1,'HDF5 Library JNI Exception Interface']]],
-  ['extensions_6',['Extensions',['../group___h5_l_r.html',1,'']]]
+  ['extensions_6',['Extensions',['../group___h5_l_r.html',1,'']]],
+  ['external_20raw_20data_20file_20access_20policy_20flags_7',['External raw data file access policy flags',['../group___h5_d___e_f_i_l_e___f_l_a_g_s.html',1,'']]]
 ];

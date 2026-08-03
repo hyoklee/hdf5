@@ -4232,11 +4232,25 @@
       <arglist>(size_t &amp;rdcc_nslots, size_t &amp;rdcc_nbytes, double &amp;rdcc_w0) const</arglist>
     </member>
     <member kind="function">
+      <type>unsigned</type>
+      <name>getEfileFlags</name>
+      <anchorfile>class_h5_1_1_d_set_acc_prop_list.html</anchorfile>
+      <anchor>a0d5ac027b19e05bcab1a68442dda5ef9</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>setChunkCache</name>
       <anchorfile>class_h5_1_1_d_set_acc_prop_list.html</anchorfile>
       <anchor>ac7e329f4e5dde49e8648014ff639a140</anchor>
       <arglist>(size_t rdcc_nslots, size_t rdcc_nbytes, double rdcc_w0) const</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setEfileFlags</name>
+      <anchorfile>class_h5_1_1_d_set_acc_prop_list.html</anchorfile>
+      <anchor>ab1022f5f4d3104776d9c1ab642904e1a</anchor>
+      <arglist>(unsigned flags) const</arglist>
     </member>
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
@@ -8008,6 +8022,13 @@
       <arglist>(long plist)</arglist>
     </member>
     <member kind="function" static="yes">
+      <type>static synchronized native int</type>
+      <name>H5Pget_efile_flags</name>
+      <anchorfile>group___j_h5_p.html</anchorfile>
+      <anchor>ga7ba92e8a7e998f8ab090d83759e5474a</anchor>
+      <arglist>(long dapl_id)</arglist>
+    </member>
+    <member kind="function" static="yes">
       <type>static synchronized native String</type>
       <name>H5Pget_efile_prefix</name>
       <anchorfile>group___j_h5_p.html</anchorfile>
@@ -8692,6 +8713,13 @@
       <anchorfile>group___j_h5_p.html</anchorfile>
       <anchor>ga149e8ba52a4be0f509240a59666bf6c0</anchor>
       <arglist>(long plist, int check)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static synchronized native void</type>
+      <name>H5Pset_efile_flags</name>
+      <anchorfile>group___j_h5_p.html</anchorfile>
+      <anchor>ga8ce89629f6248a85a30177f6748a3fca</anchor>
+      <arglist>(long dapl_id, int flags)</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static synchronized native void</type>
@@ -25241,6 +25269,27 @@
     </member>
     <member kind="variable" static="yes">
       <type>static final int</type>
+      <name>H5D_EFILE_ALLOW_ALL</name>
+      <anchorfile>classhdf_1_1hdf5lib_1_1_h_d_f5_constants.html</anchorfile>
+      <anchor>a848410f3322a59ba33cc963a54060269</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static final int</type>
+      <name>H5D_EFILE_REJECT_ABSOLUTE</name>
+      <anchorfile>classhdf_1_1hdf5lib_1_1_h_d_f5_constants.html</anchorfile>
+      <anchor>ab333f987de4c4961101246e89f654756</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static final int</type>
+      <name>H5D_EFILE_REJECT_TRAVERSAL</name>
+      <anchorfile>classhdf_1_1hdf5lib_1_1_h_d_f5_constants.html</anchorfile>
+      <anchor>aa8e8eac11ba973983fc171977e7cbe40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static final int</type>
       <name>H5D_FILL_TIME_ALLOC</name>
       <anchorfile>classhdf_1_1hdf5lib_1_1_h_d_f5_constants.html</anchorfile>
       <anchor>a741cacab227bb7e92f7d6edc04231fb1</anchor>
@@ -35963,6 +36012,27 @@
     </member>
     <member kind="variable">
       <type>integer</type>
+      <name>h5d_efile_allow_all_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>ga0f7a925b83509aead100d07a5440e5dd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
+      <name>h5d_efile_reject_absolute_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>ga25e6bdbff38a54f34f3defa600cc9d30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
+      <name>h5d_efile_reject_traversal_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>gae0c27309dd80e3a5c58b5c81041307e7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
       <name>h5d_fill_time_alloc_f</name>
       <anchorfile>group___f_h5_d.html</anchorfile>
       <anchor>gad4c9e8419c6bf31072b227a18c5c5787</anchor>
@@ -42297,6 +42367,13 @@
     </member>
     <member kind="function">
       <type>subroutine</type>
+      <name>h5pget_efile_flags_f</name>
+      <anchorfile>group___f_h5_p.html</anchorfile>
+      <anchor>ga90ab427a4650ed0a7bcb2463989f8353</anchor>
+      <arglist>(dapl_id, flags, hdferr)</arglist>
+    </member>
+    <member kind="function">
+      <type>subroutine</type>
       <name>h5pget_est_link_info_f</name>
       <anchorfile>group___f_h5_p.html</anchorfile>
       <anchor>gac1c28ede7450679e5a324fbcacfe09d4</anchor>
@@ -42910,6 +42987,13 @@
       <anchorfile>group___f_h5_p.html</anchorfile>
       <anchor>ga11b11d5ba52a53f04cf8e0f532ce6b86</anchor>
       <arglist>(prp_id, flag, hdferr)</arglist>
+    </member>
+    <member kind="function">
+      <type>subroutine</type>
+      <name>h5pset_efile_flags_f</name>
+      <anchorfile>group___f_h5_p.html</anchorfile>
+      <anchor>ga2331e6272203f48bb0df2e2e377ac6ed</anchor>
+      <arglist>(dapl_id, flags, hdferr)</arglist>
     </member>
     <member kind="function">
       <type>subroutine</type>
@@ -46243,6 +46327,13 @@
       <arglist>(hid_t dapl_id, size_t *rdcc_nslots, size_t *rdcc_nbytes, double *rdcc_w0)</arglist>
     </member>
     <member kind="function">
+      <type>herr_t</type>
+      <name>H5Pget_efile_flags</name>
+      <anchorfile>group___d_a_p_l.html</anchorfile>
+      <anchor>ga6a768789d320af47c6d31d50830bb503</anchor>
+      <arglist>(hid_t dapl_id, unsigned *flags)</arglist>
+    </member>
+    <member kind="function">
       <type>ssize_t</type>
       <name>H5Pget_efile_prefix</name>
       <anchorfile>group___d_a_p_l.html</anchorfile>
@@ -46283,6 +46374,13 @@
       <anchorfile>group___d_a_p_l.html</anchorfile>
       <anchor>ga104d00442c31714ee073dee518f661f1</anchor>
       <arglist>(hid_t dapl_id, size_t rdcc_nslots, size_t rdcc_nbytes, double rdcc_w0)</arglist>
+    </member>
+    <member kind="function">
+      <type>herr_t</type>
+      <name>H5Pset_efile_flags</name>
+      <anchorfile>group___d_a_p_l.html</anchorfile>
+      <anchor>ga3efd1f2a35185225194fe9946f7ba0bf</anchor>
+      <arglist>(hid_t dapl_id, unsigned flags)</arglist>
     </member>
     <member kind="function">
       <type>herr_t</type>
@@ -48219,6 +48317,39 @@
       <anchorfile>group___h5_l_r.html</anchorfile>
       <anchor>ga291c97f18425bb1136f1eab304fb0722</anchor>
       <arglist>(const char *file, const char *path, const hsize_t *block_coord, hid_t mem_type, void *buf)</arglist>
+    </member>
+  </compound>
+  <compound kind="group">
+    <name>H5D_EFILE_FLAGS</name>
+    <title>External raw data file access policy flags</title>
+    <filename>group___h5_d___e_f_i_l_e___f_l_a_g_s.html</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>H5D_EFILE_ALLOW_ALL</name>
+      <anchorfile>group___h5_d___e_f_i_l_e___f_l_a_g_s.html</anchorfile>
+      <anchor>ga89b879c287d405c0a0b8d9336867a14c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>H5D_EFILE_FLAGS_ALL</name>
+      <anchorfile>group___h5_d___e_f_i_l_e___f_l_a_g_s.html</anchorfile>
+      <anchor>ga43b43242e148e2cda0b9e667465f3ac6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>H5D_EFILE_REJECT_ABSOLUTE</name>
+      <anchorfile>group___h5_d___e_f_i_l_e___f_l_a_g_s.html</anchorfile>
+      <anchor>ga0e8bed88c8c50d68ea52bbd31a00996f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>H5D_EFILE_REJECT_TRAVERSAL</name>
+      <anchorfile>group___h5_d___e_f_i_l_e___f_l_a_g_s.html</anchorfile>
+      <anchor>ga72eb93c93b717ae8dfb8aea261c6ecc5</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -50163,6 +50294,27 @@
       <name>h5global::h5d_contiguous_f</name>
       <anchorfile>group___f_h5_d.html</anchorfile>
       <anchor>ga48b41ac37182b9f4bc26f7dbe5a28086</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
+      <name>h5global::h5d_efile_allow_all_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>ga0f7a925b83509aead100d07a5440e5dd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
+      <name>h5global::h5d_efile_reject_absolute_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>ga25e6bdbff38a54f34f3defa600cc9d30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>integer</type>
+      <name>h5global::h5d_efile_reject_traversal_f</name>
+      <anchorfile>group___f_h5_d.html</anchorfile>
+      <anchor>gae0c27309dd80e3a5c58b5c81041307e7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -54821,6 +54973,13 @@
     </member>
     <member kind="function">
       <type>subroutine</type>
+      <name>h5p::h5pget_efile_flags_f</name>
+      <anchorfile>group___f_h5_p.html</anchorfile>
+      <anchor>ga90ab427a4650ed0a7bcb2463989f8353</anchor>
+      <arglist>(dapl_id, flags, hdferr)</arglist>
+    </member>
+    <member kind="function">
+      <type>subroutine</type>
       <name>h5p::h5pget_est_link_info_f</name>
       <anchorfile>group___f_h5_p.html</anchorfile>
       <anchor>gac1c28ede7450679e5a324fbcacfe09d4</anchor>
@@ -55434,6 +55593,13 @@
       <anchorfile>group___f_h5_p.html</anchorfile>
       <anchor>ga11b11d5ba52a53f04cf8e0f532ce6b86</anchor>
       <arglist>(prp_id, flag, hdferr)</arglist>
+    </member>
+    <member kind="function">
+      <type>subroutine</type>
+      <name>h5p::h5pset_efile_flags_f</name>
+      <anchorfile>group___f_h5_p.html</anchorfile>
+      <anchor>ga2331e6272203f48bb0df2e2e377ac6ed</anchor>
+      <arglist>(dapl_id, flags, hdferr)</arglist>
     </member>
     <member kind="function">
       <type>subroutine</type>
@@ -61462,6 +61628,13 @@
       <arglist>(long plist)</arglist>
     </member>
     <member kind="function" static="yes">
+      <type>static synchronized native int</type>
+      <name>hdf.hdf5lib.H5.H5Pget_efile_flags</name>
+      <anchorfile>group___j_h5_p.html</anchorfile>
+      <anchor>ga7ba92e8a7e998f8ab090d83759e5474a</anchor>
+      <arglist>(long dapl_id)</arglist>
+    </member>
+    <member kind="function" static="yes">
       <type>static synchronized native String</type>
       <name>hdf.hdf5lib.H5.H5Pget_efile_prefix</name>
       <anchorfile>group___j_h5_p.html</anchorfile>
@@ -62083,6 +62256,13 @@
       <anchorfile>group___j_h5_p.html</anchorfile>
       <anchor>ga149e8ba52a4be0f509240a59666bf6c0</anchor>
       <arglist>(long plist, int check)</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static synchronized native void</type>
+      <name>hdf.hdf5lib.H5.H5Pset_efile_flags</name>
+      <anchorfile>group___j_h5_p.html</anchorfile>
+      <anchor>ga8ce89629f6248a85a30177f6748a3fca</anchor>
+      <arglist>(long dapl_id, int flags)</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static synchronized native void</type>

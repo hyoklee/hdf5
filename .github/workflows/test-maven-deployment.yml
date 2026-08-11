@@ -29,16 +29,23 @@ jobs:
   generate-test-artifacts:
     name: Generate Test Artifacts
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Display test configuration
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
           echo "=== Maven Deployment Test Configuration ==="
           echo "Test Mode: ${{ inputs.test_mode }}"
           echo "Target Repository: ${{ inputs.target_repository }}"
-          echo "GitHub Actor: ${{ github.actor }}"
+          echo "GitHub Actor: $GITHUB_ACTOR"
           echo "Repository: ${{ github.repository }}"
           echo "Expected packages URL: https://github.com/${{ github.repository }}/packages"
           echo ""
@@ -149,6 +156,9 @@ jobs:
     needs: test-maven-deployment
     if: ${{ always() && inputs.test_mode == 'live-deployment' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Validate deployment results
         run: |

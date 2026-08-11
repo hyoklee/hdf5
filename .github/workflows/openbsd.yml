@@ -51,9 +51,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Build and test on OpenBSD
-        uses: vmactions/openbsd-vm@23b3fb94fbb4729a51b1c937f609483e759c8f28
+        uses: vmactions/openbsd-vm@c941015845c0f0c429676840963dc63b226d4f69
         with:
           release: ${{ matrix.openbsd-version }}
           usesh: true

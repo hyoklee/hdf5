@@ -592,6 +592,20 @@ H5DSattach_scale(hid_t did, hid_t dsid, unsigned int idx)
                     H5Dclose(tmp_id);
                     goto out;
                 }
+                /* The error path above closed this; the success path did not,
+                 * so every reference already in REFERENCE_LIST leaked a dataset
+                 * ID (and, through it, kept the file open). H5DSdetach_scale's
+                 * identical loop has always had this close.
+                 *
+                 * Invisible with the native VOL, which takes the `else` branch:
+                 * H5DSwith_new_ref() sets is_new_ref = (config_flag || !native),
+                 * so only a pass-through VOL connector reaches this code. There
+                 * the leak surfaces as a later H5Fcreate(H5F_ACC_TRUNC) on the
+                 * same file failing with "unable to truncate a file which is
+                 * already open" -- an error with nothing in it to suggest a
+                 * dimension scale. */
+                if (H5Dclose(tmp_id) < 0)
+                    goto out;
             }
             else {
                 dsbuf_w[j] = dsbuf[j];

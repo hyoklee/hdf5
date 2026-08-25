@@ -61,8 +61,6 @@ permissions:
 env:
   CMAKE_GENERATOR: Ninja
 
-permissions: read-all
-
 jobs:
   setup-matrix:
     runs-on: ubuntu-latest

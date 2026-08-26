@@ -1021,16 +1021,20 @@ ADD_H5_TEST (tdset-2 RESULT_CODE 1 H5ERRREF "h5dump error: unable to get link in
 # test for displaying attributes
 ADD_H5_TEST (tattr-1 RESULT_CODE 0 --enable-error-stack TARGET_FILE tattr.h5)
 # test for displaying the selected attributes of string type and scalar space
-block (SCOPE_FOR POLICIES)
-  if (POLICY CMP0219)
-    cmake_policy (SET CMP0219 NEW)
-    set (_H5DUMP_ATTR1_PATH /\\/attr1)
-  else ()
-    set (_H5DUMP_ATTR1_PATH /\\\\/attr1)
-  endif ()
-  ADD_H5_TEST (tattr-2 RESULT_CODE 0 --enable-error-stack -a ${_H5DUMP_ATTR1_PATH} --attribute /attr4 --attribute=/attr5 TARGET_FILE tattr.h5)
-  ADD_H5_TEST (tattr-2-N RESULT_CODE 0 --enable-error-stack  TARGET_FILE tattr.h5 ANY_PATHS ${_H5DUMP_ATTR1_PATH} /attr4 /attr5)
-endblock ()
+# NOTE: block()/endblock() is not used here because it requires CMake 3.25 or
+#       later and some platforms (e.g. Solaris) still ship an older CMake.
+#       cmake_policy (PUSH/POP) gives the same policy scoping back to CMake 2.6.
+cmake_policy (PUSH)
+if (POLICY CMP0219)
+  cmake_policy (SET CMP0219 NEW)
+  set (_H5DUMP_ATTR1_PATH /\\/attr1)
+else ()
+  set (_H5DUMP_ATTR1_PATH /\\\\/attr1)
+endif ()
+ADD_H5_TEST (tattr-2 RESULT_CODE 0 --enable-error-stack -a ${_H5DUMP_ATTR1_PATH} --attribute /attr4 --attribute=/attr5 TARGET_FILE tattr.h5)
+ADD_H5_TEST (tattr-2-N RESULT_CODE 0 --enable-error-stack  TARGET_FILE tattr.h5 ANY_PATHS ${_H5DUMP_ATTR1_PATH} /attr4 /attr5)
+unset (_H5DUMP_ATTR1_PATH)
+cmake_policy (POP)
 # test for header and error messages
 ADD_H5_TEST (tattr-3 RESULT_CODE 1 H5ERRREF "h5dump error: unable to open attribute \"attr\"" --enable-error-stack --header -a /attr2 --attribute=/attr TARGET_FILE tattr.h5)
 # test for displaying at least 9 attributes on root from a be machine

@@ -36,7 +36,7 @@ jobs:
       if: matrix.os == 'macos-latest'
 
     - name: Install gfortran
-      uses: awvwgk/setup-fortran@195bac823dc6e05bb7c706311ad4540ffc34d5b9 # v1
+      uses: awvwgk/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
 
     - name: Get Sources
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install Fortran
-      uses: fortran-lang/setup-fortran@195bac823dc6e05bb7c706311ad4540ffc34d5b9 # v1
+      uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
       with:
         compiler: gcc
         version: 13

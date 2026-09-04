@@ -1613,7 +1613,15 @@ H5A__dense_build_table_cb(const H5A_t *attr, void *_udata)
     /* check arguments */
     assert(attr);
     assert(atable);
-    assert(atable->num_attrs < atable->max_attrs);
+
+    /* max_attrs comes from the name index's stored record count, which is
+     * attacker-controlled metadata, while this callback is driven by the tree
+     * walk.  A count below the tree's real size makes the walk overrun the
+     * table, so this bound must hold in a Release build.
+     */
+    if (atable->num_attrs >= atable->max_attrs)
+        HGOTO_ERROR(H5E_ATTR, H5E_OVERFLOW, H5_ITER_ERROR,
+                    "dense attribute index yields more attributes than its record count declares");
 
     /* Allocate attribute for entry in the table */
     if (NULL == (atable->attrs[atable->num_attrs] = H5FL_CALLOC(H5A_t)))
@@ -1649,6 +1657,7 @@ H5A__dense_build_table(H5F_t *f, const H5O_ainfo_t *ainfo, H5_index_t idx_type, 
                        H5A_attr_table_t *atable)
 {
     H5B2_t *bt2_name = NULL;     /* v2 B-tree handle for name index */
+    haddr_t eoa;                 /* End of allocated space in the file */
     hsize_t nrec;                /* # of records in v2 B-tree */
     herr_t  ret_value = SUCCEED; /* Return value */
 
@@ -1674,8 +1683,11 @@ H5A__dense_build_table(H5F_t *f, const H5O_ainfo_t *ainfo, H5_index_t idx_type, 
     if (nrec > 0) {
         H5A_attr_iter_op_t attr_op; /* Attribute operator */
 
-        /* Check for overflow on the downcast */
-        H5_CHECK_OVERFLOW(nrec, /* From: */ hsize_t, /* To: */ size_t);
+        /* Reject counts that cannot be represented by the file or allocation. */
+        if (HADDR_UNDEF == (eoa = H5F_get_eoa(f, H5FD_MEM_DEFAULT)))
+            HGOTO_ERROR(H5E_ATTR, H5E_CANTGET, FAIL, "unable to determine file size");
+        if (nrec > eoa || nrec > (hsize_t)(SIZE_MAX / sizeof(*atable->attrs)))
+            HGOTO_ERROR(H5E_ATTR, H5E_OVERFLOW, FAIL, "invalid dense attribute index record count");
 
         /* Allocate the table to store the attributes */
         if (NULL == (atable->attrs = (H5A_t **)H5FL_SEQ_CALLOC(H5A_t_ptr, (size_t)nrec)))
@@ -1691,6 +1703,15 @@ H5A__dense_build_table(H5F_t *f, const H5O_ainfo_t *ainfo, H5_index_t idx_type, 
         if (H5A__dense_iterate(f, (hid_t)0, ainfo, H5_INDEX_NAME, H5_ITER_NATIVE, (hsize_t)0, NULL, &attr_op,
                                atable) < 0)
             HGOTO_ERROR(H5E_ATTR, H5E_CANTINIT, FAIL, "error building attribute table");
+
+        /* The walk must have filled the table exactly.  A stored record count
+         * above the tree's real size would otherwise silently return a
+         * truncated attribute list; the fill count is the only thing that can
+         * falsify the stored one.
+         */
+        if (atable->num_attrs != atable->max_attrs)
+            HGOTO_ERROR(H5E_ATTR, H5E_BADVALUE, FAIL,
+                        "dense attribute index record count does not match the attributes found");
 
         /* Sort attribute table in correct iteration order */
         if (H5A__attr_sort_table(atable, idx_type, order) < 0)
@@ -1960,8 +1981,8 @@ H5A__attr_release_table(H5A_attr_table_t *atable)
     /* Sanity check */
     assert(atable);
 
-    /* Release attribute info, if any. */
-    if (atable->num_attrs > 0) {
+    /* Release attribute info and its table, if allocated. */
+    if (atable->attrs) {
         size_t u; /* Local index variable */
 
         /* Free attribute message information */
@@ -1972,8 +1993,6 @@ H5A__attr_release_table(H5A_attr_table_t *atable)
         /* Release array */
         atable->attrs = (H5A_t **)H5FL_SEQ_FREE(H5A_t_ptr, atable->attrs);
     } /* end if */
-    else
-        assert(atable->attrs == NULL);
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

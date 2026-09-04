@@ -58,82 +58,123 @@ jobs:
           # lualatex (running as runner) searches the user tree; admin-installed
           # packages are not visible to it, so we pre-install here to prevent
           # auto-install calls during compilation (which trigger the update-check nag).
-          mpm --install xkeyval
-          mpm --install adjustbox
-          mpm --install luaotfload
-          mpm --install lualibs
-          mpm --install courier
-          mpm --install wasy
-          mpm --install latex-tools
-          mpm --install infwarerr
-          mpm --install float
-          mpm --install xcolor
-          mpm --install graphics-cfg
-          mpm --install graphics-def
-          mpm --install graphics
-          mpm --install colortbl
-          mpm --install multirow
-          mpm --install hanging
-          mpm --install iftex
-          mpm --install fancyvrb
-          mpm --install ltablex
-          mpm --install caption
-          mpm --install fancyhdr
-          mpm --install geometry
-          mpm --install hyperref
-          mpm --install lmodern
-          mpm --install makeidx
-          mpm --install needspace
-          mpm --install setspace
-          mpm --install stmaryrd
-          mpm --install tocloft
-          mpm --install wasysym
-          mpm --install url
-          mpm --install etoolbox
-          mpm --install amsmath
-          mpm --install oberdiek
+          # mpm exits 0 even when a download stalls ("Sorry, but: Timeout was
+          # reached"), so a failed install is silent here and only surfaces much
+          # later as lualatex aborting in the preamble when it tries to
+          # auto-install the missing package. Record what timed out and retry.
+          MIKTEX_FAILED=""
+          mpm_install() {
+            local out
+            out=$(mpm --install "$1" 2>&1) || true
+            printf '%s\n' "$out"
+            case "$out" in
+              *"Timeout was reached"*|*"resolve host"*|*"Connection refused"*)
+                MIKTEX_FAILED="$MIKTEX_FAILED $1" ;;
+            esac
+          }
+          mpm_install xkeyval
+          mpm_install adjustbox
+          mpm_install luaotfload
+          mpm_install lualibs
+          mpm_install courier
+          mpm_install wasy
+          mpm_install latex-tools
+          mpm_install infwarerr
+          mpm_install float
+          mpm_install xcolor
+          mpm_install graphics-cfg
+          mpm_install graphics-def
+          mpm_install graphics
+          mpm_install colortbl
+          mpm_install multirow
+          mpm_install hanging
+          mpm_install iftex
+          mpm_install fancyvrb
+          mpm_install ltablex
+          mpm_install caption
+          mpm_install fancyhdr
+          mpm_install geometry
+          mpm_install hyperref
+          mpm_install lmodern
+          mpm_install makeidx
+          mpm_install needspace
+          mpm_install setspace
+          mpm_install stmaryrd
+          mpm_install tocloft
+          mpm_install wasysym
+          mpm_install url
+          mpm_install etoolbox
+          mpm_install amsmath
+          mpm_install oberdiek
           # Adjustbox dependencies observed being auto-installed during lualatex
-          mpm --install collectbox
-          mpm --install ifoddpage
-          mpm --install varwidth
-          mpm --install stackengine
-          mpm --install listofitems
-          mpm --install amsfonts
-          mpm --install enumitem
+          mpm_install collectbox
+          mpm_install ifoddpage
+          mpm_install varwidth
+          mpm_install stackengine
+          mpm_install listofitems
+          mpm_install amsfonts
+          mpm_install enumitem
           # LaTeX3 backend and standard packages observed being auto-installed
-          mpm --install l3backend
-          mpm --install l3backend-dev
-          mpm --install l3kernel
-          mpm --install l3packages
-          mpm --install mptopdf
-          mpm --install epstopdf-pkg
-          mpm --install miktex-latex
+          mpm_install l3backend
+          mpm_install l3backend-dev
+          mpm_install l3kernel
+          mpm_install l3packages
+          mpm_install mptopdf
+          mpm_install epstopdf-pkg
+          mpm_install miktex-latex
           # More packages observed being auto-installed during lualatex compilation
-          mpm --install alphalph
-          mpm --install bigintcalc
-          mpm --install bitset
-          mpm --install changepage
-          mpm --install etoc
-          mpm --install gettitlestring
-          mpm --install helvetic
-          mpm --install hycolor
-          mpm --install intcalc
-          mpm --install kvdefinekeys
-          mpm --install kvoptions
-          mpm --install kvsetkeys
-          mpm --install ltxcmds
-          mpm --install natbib
-          mpm --install newunicodechar
-          mpm --install pdfescape
-          mpm --install pdftexcmds
-          mpm --install psnfss
-          mpm --install refcount
-          mpm --install rerunfilecheck
-          mpm --install stringenc
-          mpm --install ulem
-          mpm --install uniquecounter
+          mpm_install alphalph
+          mpm_install bigintcalc
+          mpm_install bitset
+          mpm_install changepage
+          mpm_install etoc
+          mpm_install gettitlestring
+          mpm_install helvetic
+          mpm_install hycolor
+          mpm_install intcalc
+          mpm_install kvdefinekeys
+          mpm_install kvoptions
+          mpm_install kvsetkeys
+          mpm_install ltxcmds
+          mpm_install natbib
+          mpm_install newunicodechar
+          mpm_install pdfescape
+          mpm_install pdftexcmds
+          mpm_install psnfss
+          mpm_install refcount
+          mpm_install rerunfilecheck
+          mpm_install stringenc
+          mpm_install ulem
+          mpm_install uniquecounter
+          # Retry whatever timed out. A transient mirror stall must not be
+          # allowed to leave a package missing.
+          for attempt in 1 2 3; do
+            [ -n "$MIKTEX_FAILED" ] || break
+            echo "::warning::MiKTeX install timed out for:$MIKTEX_FAILED (retry $attempt)"
+            MIKTEX_RETRY="$MIKTEX_FAILED"
+            MIKTEX_FAILED=""
+            sleep 15
+            for pkg in $MIKTEX_RETRY; do mpm_install "$pkg"; done
+          done
+          if [ -n "$MIKTEX_FAILED" ]; then
+            echo "::error::MiKTeX packages could not be installed:$MIKTEX_FAILED"
+            exit 1
+          fi
           # Update user FNDB after all user-level package installations
           initexmf --update-fndb
+          # mpm can report success without the file landing in a tree lualatex
+          # searches, so confirm the styles the doxygen preamble loads are
+          # actually resolvable before spending ten minutes on the build.
+          MIKTEX_MISSING=""
+          for sty in geometry.sty ltablex.sty hyperref.sty adjustbox.sty \
+                     enumitem.sty expl3.sty refcount.sty hycolor.sty \
+                     bigintcalc.sty; do
+            kpsewhich "$sty" >/dev/null 2>&1 || MIKTEX_MISSING="$MIKTEX_MISSING $sty"
+          done
+          if [ -n "$MIKTEX_MISSING" ]; then
+            echo "::error::MiKTeX styles missing after install:$MIKTEX_MISSING"
+            exit 1
+          fi
           # Set LastUserUpdateCheck to 24 hours in the future so that any
           # remaining auto-installs during lualatex cannot set a newer
           # LastUserUpdateDb and trigger the "not checked for updates" nag.
@@ -176,7 +217,17 @@ jobs:
           echo "=== insert@pcolumn in array.sty ===" && grep -n "insert@pcolumn" $(kpsewhich array.sty) 2>/dev/null || echo "not found"	  
           # Use lualatex: dynamic memory allocation avoids the fixed 5MB limit
           # of pdflatex which is insufficient for this 4000+ page document.
-          make LATEX_CMD=lualatex  || (echo "=== refman.log (last 200 lines) ===" && tail -200 refman.log 2>/dev/null; echo "=== MiKTeX lualatex.log ===" && cat ~/.miktex/texmfs/data/miktex/log/lualatex.log; exit 1)	  
+          # The diagnostics below used to live in a `|| ( ... )` subshell, where
+          # `set -e` aborted at the first missing file: when lualatex dies before
+          # writing refman.log, `tail` failed and MiKTeX's own log - the only
+          # place the real error appears - was never printed.
+          if ! make LATEX_CMD=lualatex; then
+            echo "=== refman.log (last 200 lines) ==="
+            tail -200 refman.log 2>/dev/null || echo "(refman.log was not written)"
+            echo "=== MiKTeX lualatex.log ==="
+            cat ~/.miktex/texmfs/data/miktex/log/lualatex.log 2>/dev/null || echo "(no MiKTeX lualatex.log)"
+            exit 1
+          fi
 
       - name: Upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

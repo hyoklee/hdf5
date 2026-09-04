@@ -54,127 +54,150 @@ jobs:
           initexmf --mklinks --force
           miktex packages update-package-database || true
           miktex packages update || true
-          # Install all packages required for doxygen lualatex to the USER tree.
-          # lualatex (running as runner) searches the user tree; admin-installed
-          # packages are not visible to it, so we pre-install here to prevent
-          # auto-install calls during compilation (which trigger the update-check nag).
-          # mpm exits 0 even when a download stalls ("Sorry, but: Timeout was
-          # reached"), so a failed install is silent here and only surfaces much
-          # later as lualatex aborting in the preamble when it tries to
-          # auto-install the missing package. Record what timed out and retry.
-          MIKTEX_FAILED=""
-          mpm_install() {
-            local out
-            out=$(mpm --install "$1" 2>&1) || true
-            printf '%s\n' "$out"
-            case "$out" in
-              *"Timeout was reached"*|*"resolve host"*|*"Connection refused"*)
-                MIKTEX_FAILED="$MIKTEX_FAILED $1" ;;
-            esac
+
+          # Install every package the doxygen lualatex run needs into the USER
+          # tree. lualatex (running as runner) searches the user tree; packages
+          # installed by the admin steps above are not visible to it, so
+          # pre-installing here prevents auto-install calls during compilation
+          # (which trigger the update-check nag).
+          #
+          # mpm exits 0 even when a mirror stalls mid-download, and it does not
+          # reliably print a recognizable error either: an install that silently
+          # did nothing used to be recorded as successful and only surfaced
+          # later, as a missing .sty. So do not trust mpm's output at all -
+          # verify each install by asking kpsewhich for a file the package must
+          # provide, and drive the retries off that.
+          #
+          # Second column is the file to probe for, or "-" for the few packages
+          # that ship no file under a stable, greppable name (their absence
+          # shows up via the packages that depend on them).
+          MIKTEX_PACKAGES="
+          xkeyval xkeyval.sty
+          adjustbox adjustbox.sty
+          luaotfload luaotfload.sty
+          lualibs lualibs.lua
+          courier -
+          wasy wasy10.tfm
+          latex-tools array.sty
+          infwarerr infwarerr.sty
+          float float.sty
+          xcolor xcolor.sty
+          graphics-cfg graphics.cfg
+          graphics-def -
+          graphics graphicx.sty
+          colortbl colortbl.sty
+          multirow multirow.sty
+          hanging hanging.sty
+          iftex iftex.sty
+          fancyvrb fancyvrb.sty
+          ltablex ltablex.sty
+          caption caption.sty
+          fancyhdr fancyhdr.sty
+          geometry geometry.sty
+          hyperref hyperref.sty
+          lm lmodern.sty
+          ltxbase makeidx.sty
+          needspace needspace.sty
+          setspace setspace.sty
+          stmaryrd stmaryrd.sty
+          tocloft tocloft.sty
+          wasysym wasysym.sty
+          url url.sty
+          etoolbox etoolbox.sty
+          amsmath amsmath.sty
+          oberdiek -
+          collectbox collectbox.sty
+          ifoddpage ifoddpage.sty
+          varwidth varwidth.sty
+          stackengine stackengine.sty
+          listofitems listofitems.sty
+          amsfonts amsfonts.sty
+          enumitem enumitem.sty
+          l3kernel expl3.sty
+          l3packages xparse.sty
+          mptopdf -
+          epstopdf-pkg epstopdf-base.sty
+          miktex-latex -
+          alphalph alphalph.sty
+          bigintcalc bigintcalc.sty
+          bitset bitset.sty
+          changepage changepage.sty
+          etoc etoc.sty
+          gettitlestring gettitlestring.sty
+          helvetic -
+          hycolor hycolor.sty
+          intcalc intcalc.sty
+          kvdefinekeys kvdefinekeys.sty
+          kvoptions kvoptions.sty
+          kvsetkeys kvsetkeys.sty
+          ltxcmds ltxcmds.sty
+          natbib natbib.sty
+          newunicodechar newunicodechar.sty
+          pdfescape pdfescape.sty
+          pdftexcmds pdftexcmds.sty
+          psnfss helvet.sty
+          refcount refcount.sty
+          rerunfilecheck rerunfilecheck.sty
+          stringenc stringenc.sty
+          ulem ulem.sty
+          uniquecounter uniquecounter.sty
+          "
+
+          # Every odd field of a "pkg file pkg file ..." list, for log messages.
+          pkg_names() {
+            echo "$1" | awk '{ for (i = 1; i <= NF; i += 2) printf " %s", $i }'
           }
-          mpm_install xkeyval
-          mpm_install adjustbox
-          mpm_install luaotfload
-          mpm_install lualibs
-          mpm_install courier
-          mpm_install wasy
-          mpm_install latex-tools
-          mpm_install infwarerr
-          mpm_install float
-          mpm_install xcolor
-          mpm_install graphics-cfg
-          mpm_install graphics-def
-          mpm_install graphics
-          mpm_install colortbl
-          mpm_install multirow
-          mpm_install hanging
-          mpm_install iftex
-          mpm_install fancyvrb
-          mpm_install ltablex
-          mpm_install caption
-          mpm_install fancyhdr
-          mpm_install geometry
-          mpm_install hyperref
-          mpm_install lmodern
-          mpm_install makeidx
-          mpm_install needspace
-          mpm_install setspace
-          mpm_install stmaryrd
-          mpm_install tocloft
-          mpm_install wasysym
-          mpm_install url
-          mpm_install etoolbox
-          mpm_install amsmath
-          mpm_install oberdiek
-          # Adjustbox dependencies observed being auto-installed during lualatex
-          mpm_install collectbox
-          mpm_install ifoddpage
-          mpm_install varwidth
-          mpm_install stackengine
-          mpm_install listofitems
-          mpm_install amsfonts
-          mpm_install enumitem
-          # LaTeX3 backend and standard packages observed being auto-installed
-          mpm_install l3backend
-          mpm_install l3backend-dev
-          mpm_install l3kernel
-          mpm_install l3packages
-          mpm_install mptopdf
-          mpm_install epstopdf-pkg
-          mpm_install miktex-latex
-          # More packages observed being auto-installed during lualatex compilation
-          mpm_install alphalph
-          mpm_install bigintcalc
-          mpm_install bitset
-          mpm_install changepage
-          mpm_install etoc
-          mpm_install gettitlestring
-          mpm_install helvetic
-          mpm_install hycolor
-          mpm_install intcalc
-          mpm_install kvdefinekeys
-          mpm_install kvoptions
-          mpm_install kvsetkeys
-          mpm_install ltxcmds
-          mpm_install natbib
-          mpm_install newunicodechar
-          mpm_install pdfescape
-          mpm_install pdftexcmds
-          mpm_install psnfss
-          mpm_install refcount
-          mpm_install rerunfilecheck
-          mpm_install stringenc
-          mpm_install ulem
-          mpm_install uniquecounter
-          # Retry whatever timed out. A transient mirror stall must not be
-          # allowed to leave a package missing.
+
+          # Installs the packages named in MIKTEX_MISSING ("pkg file pkg file
+          # ...") and leaves in it the pairs whose file kpsewhich still cannot
+          # resolve. Communicating through the variable rather than stdout keeps
+          # mpm's own (very chatty) output out of the result.
+          install_packages() {
+            local pkg file still_missing=""
+            set -- $MIKTEX_MISSING
+            while [ "$#" -ge 2 ]; do
+              pkg=$1
+              file=$2
+              shift 2
+              if [ "$file" != "-" ] && kpsewhich "$file" >/dev/null 2>&1; then
+                continue
+              fi
+              mpm --install "$pkg" 2>&1 | sed "s/^/[$pkg] /" || true
+              [ "$file" != "-" ] || continue
+              if ! kpsewhich "$file" >/dev/null 2>&1; then
+                # A newly unpacked package may not be in the file name database
+                # yet; rebuild it before concluding the install did not land.
+                initexmf --update-fndb >/dev/null 2>&1 || true
+                kpsewhich "$file" >/dev/null 2>&1 || still_missing="$still_missing $pkg $file"
+              fi
+            done
+            MIKTEX_MISSING="$still_missing"
+          }
+
+          MIKTEX_MISSING="$MIKTEX_PACKAGES"
+          install_packages
           for attempt in 1 2 3; do
-            [ -n "$MIKTEX_FAILED" ] || break
-            echo "::warning::MiKTeX install timed out for:$MIKTEX_FAILED (retry $attempt)"
-            MIKTEX_RETRY="$MIKTEX_FAILED"
-            MIKTEX_FAILED=""
+            [ -n "$MIKTEX_MISSING" ] || break
+            echo "::warning::MiKTeX packages missing after install:$(pkg_names "$MIKTEX_MISSING") (retry $attempt)"
+            # Retrying against the mirror that just stalled changes nothing,
+            # which is why previous runs failed the same packages three times
+            # in a row. Pick a different repository before each retry.
+            MIKTEX_REPO=$(mpm --pick-repository-url 2>/dev/null | tr -d '\r' | grep '^http' | tail -1)
+            if [ -n "$MIKTEX_REPO" ]; then
+              echo "Switching MiKTeX repository to $MIKTEX_REPO"
+              mpm --set-repository="$MIKTEX_REPO" || true
+              miktex packages update-package-database || true
+            fi
             sleep 15
-            for pkg in $MIKTEX_RETRY; do mpm_install "$pkg"; done
-          done
-          if [ -n "$MIKTEX_FAILED" ]; then
-            echo "::error::MiKTeX packages could not be installed:$MIKTEX_FAILED"
-            exit 1
-          fi
-          # Update user FNDB after all user-level package installations
-          initexmf --update-fndb
-          # mpm can report success without the file landing in a tree lualatex
-          # searches, so confirm the styles the doxygen preamble loads are
-          # actually resolvable before spending ten minutes on the build.
-          MIKTEX_MISSING=""
-          for sty in geometry.sty ltablex.sty hyperref.sty adjustbox.sty \
-                     enumitem.sty expl3.sty refcount.sty hycolor.sty \
-                     bigintcalc.sty; do
-            kpsewhich "$sty" >/dev/null 2>&1 || MIKTEX_MISSING="$MIKTEX_MISSING $sty"
+            install_packages
           done
           if [ -n "$MIKTEX_MISSING" ]; then
-            echo "::error::MiKTeX styles missing after install:$MIKTEX_MISSING"
+            echo "::error::MiKTeX packages could not be installed:$(pkg_names "$MIKTEX_MISSING")"
             exit 1
           fi
+
+          # Update user FNDB after all user-level package installations
+          initexmf --update-fndb
           # Set LastUserUpdateCheck to 24 hours in the future so that any
           # remaining auto-installs during lualatex cannot set a newer
           # LastUserUpdateDb and trigger the "not checked for updates" nag.
@@ -214,9 +237,7 @@ jobs:
           # of pdflatex which is insufficient for this 4000+ page document.
           echo "=== array.sty version ===" && grep "ProvidesPackage\|fileversion\|filedate" $(kpsewhich array.sty) 2>/dev/null | head -5 || true
           echo "=== longtable.sty version ===" && grep "ProvidesPackage\|fileversion\|filedate" $(kpsewhich longtable.sty) 2>/dev/null | head -5 || true
-          echo "=== insert@pcolumn in array.sty ===" && grep -n "insert@pcolumn" $(kpsewhich array.sty) 2>/dev/null || echo "not found"	  
-          # Use lualatex: dynamic memory allocation avoids the fixed 5MB limit
-          # of pdflatex which is insufficient for this 4000+ page document.
+          echo "=== insert@pcolumn in array.sty ===" && grep -n "insert@pcolumn" $(kpsewhich array.sty) 2>/dev/null || echo "not found"
           # The diagnostics below used to live in a `|| ( ... )` subshell, where
           # `set -e` aborted at the first missing file: when lualatex dies before
           # writing refman.log, `tail` failed and MiKTeX's own log - the only

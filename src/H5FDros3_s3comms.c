@@ -767,6 +767,30 @@ H5FD__s3comms_s3r_open(const char *url, const H5FD_ros3_fapl_t *fa, const char *
     client_config.region           = region_cursor;
     client_config.signing_config   = &aws_params->signing_config;
 
+    /* B3: tune the CRT S3 client for many concurrent small range reads. The
+     * defaults are conservative; raising the throughput target and allowing more
+     * active connections lets the chunk GETs issued through read_vector actually
+     * run in parallel instead of trickling out a few at a time. Overridable via
+     * environment for experimentation. */
+    {
+        const char *env_gbps = getenv("HDF5_ROS3_THROUGHPUT_GBPS");
+        const char *env_conn = getenv("HDF5_ROS3_MAX_CONNECTIONS");
+        const char *env_part = getenv("HDF5_ROS3_PART_SIZE_MB");
+        double      gbps      = env_gbps ? atof(env_gbps) : 25.0;
+        uint32_t    max_conn  = (uint32_t)(env_conn ? atoi(env_conn) : 64);
+        uint64_t    part_mb   = (uint64_t)(env_part ? atoi(env_part) : 2);
+
+        if (gbps > 0.0)
+            client_config.throughput_target_gbps = gbps;
+        if (max_conn > 0)
+            client_config.max_active_connections_override = max_conn;
+        /* Smaller part size => the CRT splits each GET into more parts that are
+         * fetched concurrently, which helps variables stored as one large
+         * chunk (where read_vector alone only issues a single request). */
+        if (part_mb > 0)
+            client_config.part_size = part_mb * (uint64_t)1024 * (uint64_t)1024;
+    }
+
     client = aws_s3_client_new(aws_params->allocator, &client_config);
     if (!client)
         HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, NULL, "couldn't initialize AWS client: %s",
@@ -1058,6 +1082,162 @@ done:
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__s3comms_s3r_read() */
+
+/* Wait state + predicate for H5FD__s3comms_s3r_read_vector(): the wait returns
+ * once the first `count` requests have all set their `finished` flag. */
+typedef struct H5FD__s3comms_readv_wait_t {
+    H5FD__s3comms_read_params_t *params;
+    uint32_t                     count;
+} H5FD__s3comms_readv_wait_t;
+
+static bool
+H5FD__s3comms_s3r_readv_finish_pred(void *user_data)
+{
+    H5FD__s3comms_readv_wait_t *w = (H5FD__s3comms_readv_wait_t *)user_data;
+    for (uint32_t i = 0; i < w->count; i++)
+        if (!w->params[i].request.finished)
+            return false;
+    return true;
+}
+
+/*----------------------------------------------------------------------------
+ * Function:    H5FD__s3comms_s3r_read_vector
+ *
+ * Purpose:     Read `count` byte ranges concurrently. Each range is dispatched
+ *              as its own GetObject meta-request to the AWS CRT S3 client (which
+ *              services them in parallel on its own event-loop threads); the
+ *              call then blocks until all of them have finished. This replaces
+ *              the one-blocking-request-at-a-time behavior of s3r_read for
+ *              callers (e.g. the VFD read_vector callback) that have many
+ *              independent ranges to fetch.
+ *
+ * Return:      Non-negative on success / Negative on failure
+ *----------------------------------------------------------------------------
+ */
+herr_t
+H5FD__s3comms_s3r_read_vector(s3r_t *handle, uint32_t count, haddr_t *offsets, size_t *lens, void **dests,
+                              size_t *dest_sizes)
+{
+    H5FD__s3comms_aws_params_t  *aws_params  = NULL;
+    H5FD__s3comms_read_params_t *read_params = NULL;
+    struct aws_http_message    **messages    = NULL;
+    struct aws_s3_meta_request **requests    = NULL;
+    H5FD__s3comms_readv_wait_t   wait_state   = {0};
+    uint32_t                     ndispatched  = 0;
+    bool                         locked       = false;
+    herr_t                       ret_value    = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
+
+    if (!handle || !handle->purl || !handle->priv_data)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid handle");
+    if (count == 0)
+        HGOTO_DONE(SUCCEED);
+
+    aws_params = (H5FD__s3comms_aws_params_t *)handle->priv_data;
+
+    if (NULL == (read_params = (H5FD__s3comms_read_params_t *)calloc(count, sizeof(*read_params))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate read params");
+    if (NULL == (messages = (struct aws_http_message **)calloc(count, sizeof(*messages))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate message array");
+    if (NULL == (requests = (struct aws_s3_meta_request **)calloc(count, sizeof(*requests))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate request array");
+
+    for (uint32_t i = 0; i < count; i++)
+        if ((offsets[i] >= handle->filesize) || (offsets[i] + lens[i] > handle->filesize))
+            HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "read past EOF in vector element %u", i);
+
+    /* Build and dispatch every request without blocking. On a build/dispatch
+     * failure we stop dispatching but still fall through to wait for whatever
+     * was already dispatched, so no in-flight callback references freed memory. */
+    for (uint32_t i = 0; i < count; i++) {
+        struct aws_s3_meta_request_options opts = {0};
+
+        if (H5FD__s3comms_format_http_request_message(aws_params, "GET", handle->purl->bucket_name,
+                                                      handle->purl->key, &messages[i]) < 0 ||
+            H5FD__s3comms_format_host_header(
+                aws_params, messages[i], handle->purl->bucket_name,
+                (handle->alternate_purl ? handle->alternate_purl->host : handle->purl->host),
+                (handle->alternate_purl ? handle->alternate_purl->port : handle->purl->port)) < 0 ||
+            H5FD__s3comms_format_user_agent_header(messages[i]) < 0 ||
+            H5FD__s3comms_format_range_header(messages[i], offsets[i], lens[i]) < 0) {
+            ret_value = FAIL;
+            break;
+        }
+
+        read_params[i].request.status   = SUCCEED;
+        read_params[i].request.finished = false;
+        read_params[i].request.mutex    = &aws_params->req_mutex; /* shared */
+        read_params[i].request.cvar     = &aws_params->req_cvar;  /* shared */
+        read_params[i].read_buf         = dests[i];
+        read_params[i].read_buf_size    = dest_sizes[i];
+        read_params[i].read_offset      = offsets[i];
+
+        opts.type            = AWS_S3_META_REQUEST_TYPE_GET_OBJECT;
+        opts.signing_config  = NULL;
+        opts.message         = messages[i];
+        opts.body_callback   = H5FD__s3comms_s3r_read_cb;
+        opts.finish_callback = H5FD__s3comms_s3r_req_finish_cb;
+        opts.user_data       = &read_params[i];
+        if (handle->alternate_purl)
+            opts.endpoint = &aws_params->alt_parsed_uri;
+
+        requests[i] = aws_s3_client_make_meta_request(aws_params->client, &opts);
+        if (!requests[i]) {
+            ret_value = FAIL;
+            break;
+        }
+        ndispatched++;
+    }
+
+    /* Wait for all successfully dispatched requests to finish before touching
+     * read_params again (their callbacks write into it). */
+    if (ndispatched > 0) {
+        wait_state.params = read_params;
+        wait_state.count  = ndispatched;
+
+        if (AWS_OP_SUCCESS != aws_mutex_lock(&aws_params->req_mutex))
+            HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "couldn't lock mutex: %s",
+                        aws_error_str(aws_last_error()));
+        locked = true;
+        if (AWS_OP_SUCCESS != aws_condition_variable_wait_pred(&aws_params->req_cvar, &aws_params->req_mutex,
+                                                               H5FD__s3comms_s3r_readv_finish_pred,
+                                                               &wait_state))
+            HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "couldn't wait on condition variable: %s",
+                        aws_error_str(aws_last_error()));
+        if (AWS_OP_SUCCESS != aws_mutex_unlock(&aws_params->req_mutex))
+            HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "couldn't unlock mutex: %s",
+                        aws_error_str(aws_last_error()));
+        locked = false;
+    }
+
+    if (ret_value == SUCCEED)
+        for (uint32_t i = 0; i < count; i++)
+            if (read_params[i].request.status != SUCCEED) {
+                const char *msg = read_params[i].request.err_msg ? read_params[i].request.err_msg
+                                                                 : "internal error during request setup";
+                HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "error reading s3 object (element %u): %s", i, msg);
+            }
+
+done:
+    if (locked)
+        aws_mutex_unlock(&aws_params->req_mutex);
+    if (messages) {
+        for (uint32_t i = 0; i < count; i++)
+            if (messages[i])
+                aws_http_message_release(messages[i]);
+        free(messages);
+    }
+    if (requests) {
+        for (uint32_t i = 0; i < count; i++)
+            if (requests[i])
+                aws_s3_meta_request_release(requests[i]);
+        free(requests);
+    }
+    free(read_params);
+
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FD__s3comms_s3r_read_vector() */
 
 /*----------------------------------------------------------------------------
  * Function:    H5FD__s3comms_s3r_read_cb

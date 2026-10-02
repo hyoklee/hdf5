@@ -216,6 +216,13 @@ H5_DLL herr_t H5FD__s3comms_s3r_close(s3r_t *handle);
 H5_DLL size_t H5FD__s3comms_s3r_get_filesize(s3r_t *handle);
 H5_DLL herr_t H5FD__s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest, size_t dest_size);
 
+/* Concurrent multi-range read: issues `count` GET requests through the AWS CRT
+ * S3 client and waits for all of them, so the ranges are fetched in parallel
+ * instead of one blocking request at a time. Element i reads `lens[i]` bytes at
+ * `offsets[i]` into `dests[i]` (capacity `dest_sizes[i]`). */
+H5_DLL herr_t H5FD__s3comms_s3r_read_vector(s3r_t *handle, uint32_t count, haddr_t *offsets, size_t *lens,
+                                            void **dests, size_t *dest_sizes);
+
 #ifdef __cplusplus
 }
 #endif

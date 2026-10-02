@@ -2174,6 +2174,12 @@
     <filename>_h5_t_smodule_8h.html</filename>
   </compound>
   <compound kind="file">
+    <name>H5TSpublic.h</name>
+    <path>src/</path>
+    <filename>_h5_t_spublic_8h.html</filename>
+    <includes id="_h5public_8h" name="H5public.h" local="yes" import="no" module="no" objc="no">H5public.h</includes>
+  </compound>
+  <compound kind="file">
     <name>H5version.h</name>
     <path>src/</path>
     <filename>_h5version_8h.html</filename>
@@ -46716,6 +46722,13 @@
     </member>
     <member kind="function">
       <type>herr_t</type>
+      <name>H5Pget_io_threads</name>
+      <anchorfile>group___d_x_p_l.html</anchorfile>
+      <anchor>ga1fcf8cc91370586ea0a949fd4117b988</anchor>
+      <arglist>(hid_t plist_id, bool *io_threads_enabled)</arglist>
+    </member>
+    <member kind="function">
+      <type>herr_t</type>
       <name>H5Pget_modify_write_buf</name>
       <anchorfile>group___d_x_p_l.html</anchorfile>
       <anchor>ga417d80e0d7fc4eba52c8f1c4713a0c7b</anchor>
@@ -46860,6 +46873,13 @@
       <anchorfile>group___d_x_p_l.html</anchorfile>
       <anchor>gad8c1582c86e3316c70b0658b3b8e2071</anchor>
       <arglist>(hid_t plist_id, size_t size)</arglist>
+    </member>
+    <member kind="function">
+      <type>herr_t</type>
+      <name>H5Pset_io_threads</name>
+      <anchorfile>group___d_x_p_l.html</anchorfile>
+      <anchor>ga137c71367b2b24d05c4820b99708f4d0</anchor>
+      <arglist>(hid_t plist_id, bool io_threads_enabled)</arglist>
     </member>
     <member kind="function">
       <type>herr_t</type>
@@ -65052,6 +65072,18 @@
       <anchorfile>group___s_z_i_p.html</anchorfile>
       <anchor>gaedfb471b9bda9e249867b39c7924beab</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="group">
+    <name>H5TS</name>
+    <title>Thread Safety (H5TS)</title>
+    <filename>group___h5_t_s.html</filename>
+    <member kind="function">
+      <type>herr_t</type>
+      <name>H5TSset_internal_threads</name>
+      <anchorfile>group___h5_t_s.html</anchorfile>
+      <anchor>ga820be65780a76c15f23a17252c237d09</anchor>
+      <arglist>(unsigned num_threads)</arglist>
     </member>
   </compound>
   <compound kind="group">

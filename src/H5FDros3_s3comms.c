@@ -796,9 +796,9 @@ H5FD__s3comms_s3r_open(const char *url, const H5FD_ros3_fapl_t *fa, const char *
         const char *env_gbps = getenv("HDF5_ROS3_THROUGHPUT_GBPS");
         const char *env_conn = getenv("HDF5_ROS3_MAX_CONNECTIONS");
         const char *env_part = getenv("HDF5_ROS3_PART_SIZE_MB");
-        double      gbps      = env_gbps ? atof(env_gbps) : 25.0;
-        uint32_t    max_conn  = (uint32_t)(env_conn ? atoi(env_conn) : 64);
-        uint64_t    part_mb   = (uint64_t)(env_part ? atoi(env_part) : 2);
+        double      gbps     = env_gbps ? atof(env_gbps) : 25.0;
+        uint32_t    max_conn = (uint32_t)(env_conn ? atoi(env_conn) : 64);
+        uint64_t    part_mb  = (uint64_t)(env_part ? atoi(env_part) : 2);
 
         if (gbps > 0.0)
             client_config.throughput_target_gbps = gbps;
@@ -1142,10 +1142,10 @@ H5FD__s3comms_s3r_read_vector(s3r_t *handle, uint32_t count, haddr_t *offsets, s
     H5FD__s3comms_read_params_t *read_params = NULL;
     struct aws_http_message    **messages    = NULL;
     struct aws_s3_meta_request **requests    = NULL;
-    H5FD__s3comms_readv_wait_t   wait_state   = {0};
-    uint32_t                     ndispatched  = 0;
-    bool                         locked       = false;
-    herr_t                       ret_value    = SUCCEED;
+    H5FD__s3comms_readv_wait_t   wait_state  = {0};
+    uint32_t                     ndispatched = 0;
+    bool                         locked      = false;
+    herr_t                       ret_value   = SUCCEED;
 
     FUNC_ENTER_PACKAGE
 

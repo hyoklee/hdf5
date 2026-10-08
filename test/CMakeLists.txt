@@ -487,6 +487,7 @@ set (H5_TESTS
     external_env
     efc
     links
+    table_counts
     unlink
     twriteorder
     big

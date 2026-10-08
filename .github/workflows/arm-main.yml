@@ -36,16 +36,19 @@ jobs:
   build_and_test_win:
     name: "Windows MSVC-${{ inputs.build_mode }}-${{ inputs.thread_safety }}-${{ inputs.concurrent }}"
     runs-on: windows-11-arm
-    if: ${{ inputs.build_mode != 'Debug' }}
+    # TEMPORARILY DISABLED: Visual Studio 18 2026 bug causes this job to fail on ARM64.
+    # Restore the original condition below once a fixed VS release is on the windows-11-arm runner.
+    #if: ${{ inputs.build_mode != 'Debug' }}
+    if: false
     steps:
       - name: Get Sources
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Doxygen
         uses: ./.github/actions/setup-doxygen
 
       - name: Install CMake
-        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # latest
+        uses: lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb # latest
         with:
           cmakeVersion: ${{ inputs.cmake_version }}
           ninjaVersion: latest
@@ -57,7 +60,7 @@ jobs:
           cmake --version
 
       - name: Set up JDK 21
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -74,7 +77,7 @@ jobs:
           mkdir "${{ runner.workspace }}/build"
           cd "${{ runner.workspace }}/build"
           cmake -C $GITHUB_WORKSPACE/config/cmake/cacheinit.cmake \
-            -G "Visual Studio 17 2022" -A ARM64 \
+            -G "Visual Studio 18 2026" -A ARM64 \
             --log-level=VERBOSE \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
             -DHDF5_ENABLE_DOXY_WARNINGS:BOOL=ON \
@@ -96,7 +99,7 @@ jobs:
           mkdir "${{ runner.workspace }}/build"
           cd "${{ runner.workspace }}/build"
           cmake -C $GITHUB_WORKSPACE/config/cmake/cacheinit.cmake \
-            -G "Visual Studio 17 2022" -A ARM64 \
+            -G "Visual Studio 18 2026" -A ARM64 \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
             -DHDF5_ENABLE_THREADSAFE:BOOL=ON \
             -DHDF5_ENABLE_CONCURRENCY:BOOL=OFF \
@@ -120,7 +123,7 @@ jobs:
           mkdir "${{ runner.workspace }}/build"
           cd "${{ runner.workspace }}/build"
           cmake -C $GITHUB_WORKSPACE/config/cmake/cacheinit.cmake \
-            -G "Visual Studio 17 2022" -A ARM64 \
+            -G "Visual Studio 18 2026" -A ARM64 \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_mode }} \
             -DHDF5_ENABLE_ALL_WARNINGS=ON \
             -DHDF5_ENABLE_THREADSAFE:BOOL=OFF \
@@ -160,7 +163,7 @@ jobs:
       - name: Save published binary (Windows)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v5
         with:
-              name: zip-vs2022_cl-${{ inputs.build_mode }}-${{ inputs.save_binary }}-binary
+              name: zip-vs2026_cl-${{ inputs.build_mode }}-${{ inputs.save_binary }}-binary
               path: ${{ runner.workspace }}/build/HDF5-*-winarm64.zip
               if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
         if:  ${{ (inputs.thread_safety != 'TS') && (inputs.concurrent != 'CC') && ( inputs.save_binary != 'skip') }}
@@ -171,7 +174,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Get Sources
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Doxygen
         uses: ./.github/actions/setup-doxygen
@@ -280,13 +283,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Get Sources
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Doxygen
         uses: ./.github/actions/setup-doxygen
 
       - name: Install CMake
-        uses: lukka/get-cmake@591817e96fcad43505fb4eae36172462abb3a42e # latest
+        uses: lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb # latest
         with:
             cmakeVersion: ${{ inputs.cmake_version }}
             ninjaVersion: latest
@@ -396,7 +399,7 @@ jobs:
       - name: Save published binary (Mac_latest)
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v5
         with:
-              name: tgz-macos14_clang-${{ inputs.build_mode }}-${{ inputs.save_binary }}-binary
+              name: tgz-macos15_clang-${{ inputs.build_mode }}-${{ inputs.save_binary }}-binary
               path: ${{ runner.workspace }}/build/HDF5-*-Darwin.tar.gz
               if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
         if: ${{ (inputs.thread_safety != 'TS') && (inputs.concurrent != 'CC') && ( inputs.save_binary != 'skip') }}

@@ -46,6 +46,14 @@
 #include <aws/http/request_response.h>
 #include <aws/sdkutils/aws_profile.h>
 
+#if defined(H5_HAVE_WINDOWS) && defined(H5_HAVE_RTLDLLSHUTDOWNINPROGRESS)
+/* Prototype for RtlDllShutdownInProgress has to be declared - see
+ * https://learn.microsoft.com/en-us/windows/win32/devnotes/rtldllshutdowninprogress.
+ */
+#include <windows.h>
+BOOLEAN NTAPI RtlDllShutdownInProgress(VOID);
+#endif
+
 /****************/
 /* Local Macros */
 /****************/
@@ -279,19 +287,23 @@ H5FD__s3comms_init(void)
      */
     H5FD_ros3_aws_allocator_g = aws_default_allocator();
 
-    /* The interface may be re-initialized after H5close(), but the aws-c-s3
-     * library is only cleaned up at process exit, so initialize it and register
-     * the atexit() handler only once.
+    /* The interface may be re-initialized after H5close(), but on non-Windows
+     * platforms the aws-c-s3 library is only cleaned up at process exit, so
+     * initialize it and register the atexit() handler only once.
      *
-     * Work around issue where aws-c-s3 library doesn't shut down cleanly when
-     * called from HDF5's default atexit() handler.
+     * On non-Windows platforms, work around issue where aws-c-s3 library
+     * doesn't shut down cleanly when called from HDF5's default atexit()
+     * handler. On Windows platforms, this cleanup is performed during VFD
+     * termination.
      */
     if (!H5FD_ros3_aws_lib_init_g) {
         aws_s3_library_init(H5FD_ros3_aws_allocator_g);
 
+#ifndef H5_HAVE_WINDOWS
         if (0 != atexit(H5FD__s3comms_term_func))
             HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL,
                         "couldn't register function for cleaning up aws-c-s3 library");
+#endif
 
         H5FD_ros3_aws_lib_init_g = true;
     }
@@ -384,7 +396,20 @@ H5FD__s3comms_term_func(void)
     H5FD__s3comms_release_resources();
 
     if (H5FD_ros3_aws_lib_init_g) {
+#ifndef H5_HAVE_WINDOWS
         aws_s3_library_clean_up();
+#elif defined(H5_HAVE_RTLDLLSHUTDOWNINPROGRESS)
+        /* On Windows, the loader lock can be held if the library is terminating
+         * as a result of the process terminating. In this case, calling the
+         * aws-c-s3 library cleanup routine might cause a deadlock when trying to
+         * cleanup threads. If DLL shutdown is in progress, just skip cleanup for
+         * now until a better solution is available. Ideally, calling H5close()
+         * would be a requirement so that aws-c-s3 cleanup can be properly handled
+         * at that time rather than during process termination.
+         */
+        if (!RtlDllShutdownInProgress())
+            aws_s3_library_clean_up();
+#endif
 
         /* Clean up logger interface after being sure everything else
          * has finished cleaning up
@@ -439,6 +464,12 @@ H5FD__s3comms_term(void)
 
     FUNC_ENTER_PACKAGE_NOERR
 
+#ifdef H5_HAVE_WINDOWS
+    /* On Windows platforms, no atexit() handler is registered, so the
+     * aws-c-s3 library is fully cleaned up here.
+     */
+    H5FD__s3comms_term_func();
+#else
     /* Release the event loop group and host resolver when the library is
      * closed explicitly (H5close()). Their threads are "managed" aws-c-common
      * threads, so another aws-c-* user in the process that calls
@@ -446,9 +477,11 @@ H5FD__s3comms_term(void)
      * SDK's Aws::ShutdownAPI()) would otherwise block forever waiting for them.
      *
      * aws_s3_library_clean_up() also joins all managed threads, including ones
-     * owned by those other users, so it is left to the atexit() handler above.
+     * owned by those other users, so on non-Windows platforms it is left to the
+     * atexit() handler above to work around cleanup ordering issues.
      */
     H5FD__s3comms_release_resources();
+#endif
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__s3comms_term() */

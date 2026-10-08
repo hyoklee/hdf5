@@ -1,4 +1,4 @@
-v2.2.0 --- January X , 2026
+v2.3.0 --- July X , 2026
 
 # 🔺 HDF5 Changelog
 All notable changes to this project will be documented in this file. This document describes the differences between this release and the previous
@@ -22,12 +22,7 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 * [Platforms Tested](CHANGELOG.md#%EF%B8%8F-platforms-tested)
 * [Known Problems](CHANGELOG.md#-known-problems)
 
-# 🔆 Executive Summary: HDF5 Version 2.2.0
-
-> [!IMPORTANT]
->
-> - The format of the GitHub tag for HDF5 releases has been changed to Major.Minor.Patch, consistent with the versioning policy change to follow the Semantic Versioning Specification described in this [Wiki page](https://github.com/HDFGroup/hdf5/wiki/HDF5-Version-Numbers-and-Branch-Strategy).  The previous tag format hdf5_Major_Minor_Patch that was created in addition for the 2.0.0 and 2.1.0 releases will not be continued.
-> - An RPM package is not provided for this release of HDF5 as an issue with the package was found during testing. The HDF Group is investigating alternative packaging methods for future releases.
+# 🔆 Executive Summary: HDF5 Version 2.3.0
 
 
 ## Performance Enhancements:
@@ -38,11 +33,8 @@ For releases prior to version 2.0.0, please see the release.txt file and for mor
 
 ## Enhanced Features:
 
-- Made several improvements to the CMake logic for handling filter libraries
 
 ## Java Enhancements:
-
-- Java dependency JAR paths are now configurable CMake cache variables, allowing system-provided JARs to be used in place of the bundled copies.
 
 
 ## Acknowledgements:
@@ -51,63 +43,64 @@ We would like to thank the many HDF5 community members who contributed to this r
 
 # ⚠️ Breaking Changes
 
+- When a `find_package (HDF5 ...)` call within a CMake project uses HDF5's `hdf5-config.cmake`
+  configuration file (a Config mode search), requesting both "shared" and "static" components
+  simultaneously will now fail. Only one of the "shared" or "static" components should be requested
+  when locating HDF5. Consequently, the `HDF5_LIB_TYPE` CMake variable set by the configuration file
+  will only be set to one of "shared" or "static", depending on the requested library type, rather
+  than potentially being a list of both. For the time being, both sets of HDF5's "-shared" and
+  "-static" CMake targets will continue to be available after the `find_package (HDF5 ...)` call,
+  regardless of which library type was requested.
+
+- When a `find_package (HDF5 ...)` call within a CMake project uses HDF5's `hdf5-config.cmake`
+  configuration file (a Config mode search), the consuming project may now be required to have
+  one or more CMake languages enabled, depending on the specific COMPONENTS requested. HDF5's
+  configuration file previously enabled these languages automatically with calls to
+  `enable_language()`, but these calls were removed in favor of checking the enabled languages
+  and issuing an error if required languages aren't enabled.
+
 # 🪦 Deprecations
 
-- The CMake variable `ZLIB_GIT_BRANCH` has been deprecated in favor of `ZLIB_GIT_TAG`
-- The CMake variable `ZLIBNG_GIT_BRANCH` has been deprecated in favor of `ZLIBNG_GIT_TAG`
-- The CMake variable `LIBAEC_GIT_BRANCH` has been deprecated in favor of `LIBAEC_GIT_TAG`
-- The CMake variable `PLUGIN_GIT_BRANCH` has been deprecated in favor of `HDF5_FILTER_PLUGINS_GIT_TAG`
-- The CMake variable `PLUGIN_GIT_URL` has been deprecated in favor of `HDF5_FILTER_PLUGINS_GIT_URL`
-- The CMake variable `PLUGIN_TGZ_NAME` has been deprecated in favor of `HDF5_FILTER_PLUGINS_TGZ_NAME`
-- The CMake variable `PLUGIN_TGZ_ORIGPATH` has been deprecated in favor of `HDF5_FILTER_PLUGINS_TGZ_ORIGPATH`
-- The CMake variable `PLUGIN_PACKAGE_NAME` has been deprecated in favor of `HDF5_FILTER_PLUGINS_PACKAGE_NAME`
 
 # 🚀 New Features & Improvements
 
 ## Configuration
 
-### Consolidated documentation under docs/ directory
+### Various improvements in installed CMake package configuration file
 
-   User-facing guides (installation, build instructions, platform-specific docs) and
-   Doxygen API documentation have been consolidated under a new top-level `docs/`
-   directory. All internal references (CMakeLists.txt, README.md, workflow files,
-   Doxygen sources, scripts, etc.) have been updated accordingly.
-
-### Updated external building of zlib, zlib-ng and libaec to not use a patching process
-
-   When building these libraries from external sources while building HDF5, the library previously used a patching process to adapt the libraries to its own build process. The sources for these libraries are no longer patched and build directly from the sources of the latest upstream releases (currently, zlib 1.3.2, zlib-ng 2.3.3 and libaec 1.1.6). This also fixed an issue with the build of zlib-ng failing due to updates that were made since the last version that HDF5 was patching the sources for.
-
-   Fixes GitHub issue #6204
-
-### Fixed an issue where CMake-built installations of zlib libraries couldn't be located on a system
-
-   An incorrect package name was being supplied to CMake's find_package() function when attempting to locate zlib libraries on the system in Config mode. The package name has been corrected and CMake-built zlib libraries can now be located.
-
-### Fixed an issue where static zlib libraries couldn't be found on the system
-
-   The value of the HDF5 CMake variable `HDF5_USE_ZLIB_STATIC` was previously used incorrectly when locating zlib libraries on the system with CMake's find_package() function, causing it to have no effect. This has been fixed and static zlib libraries can now be located.
-
-### Added a CMake module to locate zlib-ng for zlib support
-
-   A new `FindZLIBNG.cmake` CMake module has been added. This module is intended to locate zlib-ng on the system for zlib support in HDF5 when zlib-ng was built with Autotools instead of CMake. When zlib-ng support is enabled in HDF5 with the `HDF5_ENABLE_ZLIB_SUPPORT` and `HDF5_USE_ZLIB_NG` options, this module will first check for an existing CMake-built zlib-ng and use that if it's available. Otherwise, the module will heuristically search for zlib-ng on the system. If necessary, the module can be hinted toward a particular zlib-ng installation by setting the CMake variable `ZLIBNG_ROOT` to point to a directory.
-
-### Added a CMake module to locate libaec for SZIP support
-
-   A new `Findlibaec.cmake` CMake module has been added. This module is intended to locate libaec on the system for SZIP support in HDF5 when libaec was built with Autotools instead of CMake. When SZIP support is enabled in HDF5 with the `HDF5_ENABLE_SZIP_SUPPORT` option, this module will first check for an existing CMake-built libaec and use that if it's available. Otherwise, the module will heuristically search for libaec on the system. If necessary, the module can be hinted toward a particular libaec installation by setting the CMake variable `libaec_ROOT` to point to a directory. If it is known that a CMake-built libaec installation exists on the system in a non-standard location, the CMake variable `libaec_DIR` can instead be set to a directory containing a `libaec-config.cmake` file to cause the module to prefer that libaec installation.
+   - Fixed `find_dependency()` calls so that `PRIVATE`-linked libraries are only propagated as
+     transitive link requirements for static library targets (Fixes GitHub issue #6347)
+   - Added missing `find_dependency()` calls for some `PRIVATE`-linked libraries
+   - Fixed an issue where `find_package()` for parallel-enabled HDF5 installations may fail when
+     trying to locate MPI Fortran support, even if HDF5 Fortran support isn't requested (Fixes
+     GitHub issue #6366)
+   - Fixed an issue where the `HDF5_LIB_TYPE` CMake variable would be undefined if some HDF5
+     components were requested in a `find_package()` call, but "shared" or "static" was not requested
+   - Removed a call to `enable_language()` in favor of checking the currently enabled CMake languages
+     and failing if a required language isn't enabled
+   - Added a CMake variable for the enabled/disabled status of the "digitally signed plugins"
+     feature
+   - Fixed the CMake variable for the enabled/disabled status of the `HDF5_DIMENSION_SCALES_NEW_REF`
+     option
+   - Reduced the scope of some temporary variables and modifications so they don't propagate to
+     consuming CMake projects
 
 ## Library
 
-### Added optional digital signature verification for dynamically loaded plugins
+### Added support for internally concurrent multithreaded reads of chunked datasets
 
-   When built with `-DHDF5_REQUIRE_SIGNED_PLUGINS=ON` and OpenSSL, HDF5 will cryptographically verify each plugin before loading it. Plugins are signed with the new `h5sign` tool, which appends an RSA signature and a compact footer to the plugin binary. Verification uses a keystore directory of trusted public keys, configurable at compile time (`-DHDF5_PLUGIN_KEYSTORE_DIR=<path>`) or at runtime via the `HDF5_PLUGIN_KEYSTORE` environment variable. Individual signatures can be revoked without removing the entire public key by listing their SHA-256 hashes in a `revoked_signatures.txt` file in the keystore directory. Supported algorithms include SHA-256, SHA-384, and SHA-512 with both PKCS#1 v1.5 and PSS padding. See `docs/PLUGIN_SIGNATURE_README.md` for details.
+   Added 3 new functions to support this: H5TSset_internal_threads(),
+   H5Pset_io_threads(), and H5Pget_io_threads().
 
-### Improve performance of H5Ovisit() with deeply nested group structures
-
-   `H5Ovisit()` would previously internally traverse each object's path name from the iteration root group in order to retrieve information about that object, causing severe performance degradation with a deeply nested group structure. Modified the algorithm to instead retrieve information directly from the object. To get this benefit, users should use `H5Ovisit3()`, or use `H5Ovisit2()` with neither `H5O_INFO_HDR` nor `H5O_INFO_META_SIZE` selected in the `fields` parameter. Performance of `H5Ocopy()`, `H5Iget_name()`, and external links with a callback set should also improve in similar situations.
-
-### Versioned API functions now default to earliest version for older API settings
-
-   When a global API compatibility version is set (e.g., `H5_USE_16_API`), functions introduced after that version previously defaulted to their latest version, which could break applications. For example, an application using `H5_USE_16_API` that called `H5Sencode()` (introduced in 1.8, versioned in 1.12) would get `H5Sencode2()` instead of `H5Sencode1()`, potentially causing compilation or runtime failures. Versioned functions now default to their earliest (version 1) variant when the configured API level predates the function's introduction, providing maximum compatibility. See issue [#6278](https://github.com/HDFGroup/hdf5/issues/6278).
+   This feature internally parallelizes read operations on chunked datasets.
+   H5TSset_internal_threads() is used to enable the feature globally, while
+   H5Pset_io_threads() can be used to disable the feature on a per-operation
+   basis. These functions are only available when the library is configured with
+   HDF5_ENABLE_CONCURRENCY=ON. When performing an internally threaded read, the
+   library will concurrently read from disk, unfilter, and scatter to memory all
+   chunks in a read operation on a chunked dataset. Currently each of these
+   sub-operations is serialized (protected by a mutex), so there is not yet
+   likely to be any performance improvement.
 
 ## Parallel Library
 
@@ -117,19 +110,7 @@ We would like to thank the many HDF5 community members who contributed to this r
 
 ## Java Library
 
-### Java dependency JAR paths are now user-configurable
-
-   The CMake variables `HDF5_JAVA_LOGGING_JAR`, `HDF5_JAVA_LOGGING_NOP_JAR`, `HDF5_JAVA_LOGGING_SIMPLE_JAR`, `HDF5_JAVA_JUNIT_JAR`, and `HDF5_JAVA_HAMCREST_JAR` are now CMake cache variables with the bundled JARs as defaults. Users can override these at configure time to use system-provided JARs. See `INSTALL_CMake_options.md` for details.
-
 ## Tools
-
-### Default low and high library version bounds in `h5repack` now use the HDF5 library's default
-
-The `h5repack` tool now obtains its default low and high library version bounds from the HDF5 library's default (`H5P_FILE_ACCESS_DEFAULT`). To revert to the previous behavior, apply the `--low=0` command option.
-
-### Added `h5sign` tool for signing plugins with RSA digital signatures
-
-   The `h5sign` command-line tool signs HDF5 plugin shared libraries by appending an RSA signature and a 14-byte footer. It supports SHA-256, SHA-384, SHA-512, and their PSS variants, and accepts passphrase-protected private keys. Use `-f` / `--force` to strip an existing signature before re-signing. The tool is built automatically when `HDF5_REQUIRE_SIGNED_PLUGINS` is enabled.
 
 ## High-Level APIs
 
@@ -144,139 +125,246 @@ The `h5repack` tool now obtains its default low and high library version bounds 
 
 ## Library
 
-### HTTP 403 errors in the ROS3 VFD for object keys with special characters
+### Fixed a deadlock in the ROS3 VFD on Windows
 
-   The ROS3 VFD did not URI-encode the S3 object key when building the HTTP request path, so keys containing characters that AWS Signature Version 4 requires to be percent-encoded — such as the '=' in Hive-style `key=value` partition prefixes, '+', or spaces — produced a signed request whose signature did not match S3's server-side recomputation. S3 rejects such requests with `SignatureDoesNotMatch`, which surfaces as an HTTP 403 error (indistinguishable from a permissions error on a HEAD request), even though tools like the AWS CLI could access the same object. The object key is now percent-encoded exactly once when the request path is built, matching the behavior of other S3 clients. Note that URLs must now be passed to the ROS3 VFD with their object keys unencoded; a key that was pre-encoded as a workaround for this issue will now be double-encoded and fail to resolve.
+   When an HDF5 application running on Windows and using the ROS3 VFD exited normally,
+   a deadlock would occur when the VFD called the aws-c-s3 library's cleanup function
+   during process shutdown. This was due to the aws-c-s3 library attempting to join
+   threads while the Windows loader lock was held. As a temporary workaround for Windows
+   builds of the library, the aws-c-s3 cleanup logic has been moved to the VFD's
+   termination callback (other platforms still use an atexit() handler) and will be
+   skipped if the VFD determines that the process is being shutdown. Due to the current
+   architecture of the library, the aws-c-s3 library's resources can only be properly
+   cleaned up if the HDF5 application makes sure to call H5close() before exiting.
+   Otherwise, memory leaks and other resource cleanup issues may be observed.
 
-### Fixed file descriptor leaks in stdio VFD error paths
+   Fixes GitHub issue #6560
 
-   Fixed multiple resource leaks in the H5FDstdio driver where file descriptors were not properly closed on error paths. The error handling code was incorrectly attempting to close a local variable instead of the file pointer stored in the file structure, leading to file descriptor leaks. This issue affected 5 error paths in `H5FD_stdio_open()` and could cause file descriptor exhaustion in long-running applications.
+### Fixed the page buffer's minimum metadata threshold failure to protect B-tree, local heap and object header metadata pages
 
-### Added defensive NULL pointer checks in native VOL connector
+The page buffer charges every page it holds to either `raw_count` or `meta_count`, counting `H5F_MEM_PAGE_DRAW` and `H5F_MEM_PAGE_GHEAP` pages as raw data and every other page as metadata. The minimum metadata reservation set by `H5Pset_page_buffer_size()` was not written as the complement of that test: it compared the page's type for equality with `H5F_MEM_PAGE_META`, which is an alias for `H5F_MEM_PAGE_SUPER`. A page entry's type is copied verbatim from the memory type of the access that brought the page into the buffer, so B-tree, local heap and object header pages carried other values and were evicted by raw data regardless of `min_meta_perc`, while still counting toward the threshold the reservation was measured against. In practice the reservation protected only the superblock and driver information pages. The classification is now made in one place, `H5MF_mem_page_type_is_raw()`, alongside its `H5F_mem_t` counterpart `H5MF_mem_type_is_raw()`, and both the page counts and the two reservations use it, so the metadata reservation protects the same population that `meta_count` measures.
 
-   Added assertion checks for NULL pointer parameters in `H5VL_native_get_file_struct()` to catch programming errors earlier and improve code robustness.
+Fixes GitHub issue #6679.
 
-### Added checks for data filter behavior
+### Fixed the page buffer corrupting its page counts when a global heap page is freed
 
-   The library now verifies that the returned data size from a data filter's filter callback function can fit inside the returned data buffer size. The library also checks that, when data is filtered then unfiltered (filtered in reverse), the returned data size is exactly the same as the original data size.
+`H5PB_remove_entry()` is documented as never being given a raw data page, and it decremented `meta_count` unconditionally on that basis. Its only caller, `H5MF__sect_small_merge()`, excluded `H5FD_MEM_DRAW` but not `H5FD_MEM_GHEAP`, so a freed global heap page could reach it. Such a page is charged to `raw_count` rather than `meta_count` by `H5PB__insert_entry()`, because `H5MF__alloc_pagefs()` passes the allocation type to `H5PB_add_new_page()`, and `H5PB_write()` reuses that entry without changing its type. Removing such a page therefore left `raw_count` too high and decremented `meta_count` for a page it had never counted. Both counts govern the minimum metadata and minimum raw data page protection, and because they are unsigned, `meta_count` could wrap and leave those reservations wrong for the remaining life of the file. The caller now excludes the global heap along with raw data, `H5PB_remove_entry()` asserts that the page it was given is metadata rather than silently accounting for a raw one, and every page count decrement in the page buffer asserts the count it is releasing is non-zero.
 
-### Fixed bugs with chunk buffer handling
+### Fixed a heap buffer overflow when decoding object header messages
 
-   Fixed a bug in the deflate filter that caused it to report the wrong buffer size. Fixed a bug in the chunk copy code that could cause a background buffer overflow. Fixed a bug in the chunk copy code that could cause a double free if the filter realloced the data buffer.
+   The size stored in an object header message header was checked against the chunk before the rest of that message header was decoded, allowing a message body to start up to four bytes further into the chunk than the check accounted for. A corrupted or fuzzed file could declare a size that passed the check and still extended past the end of the chunk image, and the message's decode callback was then handed a buffer end outside the allocation. `H5O__chunk_deserialize()` now checks the message size once the whole message header has been decoded.
 
-### Fixed checking of data alignment requirements in direct I/O VFD
+   Fixes GitHub issue #6401
 
-   The direct I/O VFD attempts to determine data alignment requirements for a file on file open to try and avoid extra work when data alignment isn't required. Depending on the file access flags used when opening a file, the VFD could incorrectly determine these requirements for either writes or reads, eventually leading to a possible EINVAL return value on write or read. This has been fixed by separately determining the requirements for writes and reads and being more conservative about trying to avoid data alignment requirements.
+### Fixed memory leaks and ID reference count issues when pushing an error to an error stack that is full
 
-### Fixed integer overflow in array datatype element count computation
+   When an error is pushed to an error stack, the library may make a copy of the file
+   and function strings to ensure that they exist for the same duration as the error
+   stack entry. When an error stack is full, the library simply makes any further pushes
+   no-ops, but previously gave no information to calling code that this happened. This
+   caused calling code to assume that the duplicated strings were owned by an error stack
+   entry that was never pushed, leaking the duplicated strings. Additionally, IDs
+   associated with the error stack entry were left with incremented reference counts,
+   resulting in an infinite loop while closing the library.
 
-   Fixed a bug in H5O__dtype_decode_helper() where the loop computing the total number of elements in an array datatype had no per-step overflow check. On 64-bit systems, large dimension sizes could cause the element count to wrap around, bypassing the post-loop overflow check and producing silently incorrect results in downstream type conversion and size calculations.
+### Library shutdown no longer aborts on a detected infinite loop
 
-### Fixed an issue with chunked datasets using the wrong index type with parallel HDF5
+   When the library detects that it cannot make progress closing itself (an "infinite loop closing library"), it no longer calls `abort()`. The abort behaved inconsistently, only firing when automatic error message display was enabled. Additionally, terminating the entire host process on a shutdown-time condition is undesirable for applications that embed HDF5. The library now reports the condition (when error display is enabled) and returns without aborting.
 
-   Fixed a bug in parallel HDF5 that would cause chunked datasets with fixed dimensions and without filters applied to use the "none" index type instead of the "fixed array" index type.
+   Fixes GitHub issue #6531
 
-### Fixed an issue with decoding metadata cache image superblock extension messages
+### Fixed a crash when reading a chunked dataset whose chunk rank does not match the dataspace rank
 
-   Fixed a bug where loading of a metadata cache image superblock extension message would fail when the image had an undefined address and size of 0.
+   The chunk layout's stored dimensionality was validated against the dataspace rank at creation time, but not at open time, so a file whose stored chunk rank disagreed with its dataspace rank was not caught. The resulting inconsistent selection ranks during chunk I/O caused a divide-by-zero in the hyperslab iterator. The chunk dimensionality is now also validated on open, and such a dataset is rejected with an error instead of crashing.
 
-### Fixed an issue with an incorrect file format validation check when decoding metadata cache entries
+   Fixes GitHub issue #6491
 
-   Fixed a bug where a flag in H5Cimage.c wasn't getting set correctly for release builds of HDF5, leading to incorrect error checking when reconstructing metadata cache entries.
+   Fixes CVE-2026-19025
+
+### Fixed a crash when reading a dataset with a malformed fill value
+
+   An old-style (either version 1 or version 2) fill value message that is marked "defined" but encodes a negative size leaves the fill value with a negative size and no datatype; `H5Pget_fill_value()` then passed that NULL datatype to `H5T_path_find()` and dereferenced it. `H5P_get_fill_value()` now rejects a fill value that has no datatype and returns an error, so the dataset itself remains readable while the corrupt fill value is reported cleanly.
+
+   Fixes GitHub issue #6487
+
+   Fixes CVE-2026-19024
+   
+### Fixed a crash when unprotecting a local heap with no cached prefix or data block
+
+   `H5HL_protect()` pins one metadata cache entry for a local heap -- either the prefix when the heap is a single cache object, or the data block otherwise -- and `H5HL_unprotect()` unpins it again. The cache unlinks that entry from the heap when it destroys it, so a damaged file could reach `H5HL_unprotect()` with nothing to unpin, which triggered an assertion failure in debug builds and a NULL pointer dereference otherwise. `H5HL_unprotect()` now reports an error instead, and does so before decrementing the heap's protect count so that a rejected call leaves the heap unchanged rather than half unprotected with its cache entry still pinned.
+
+### Fixed crashes when reading datasets with malformed N-Bit or Fletcher32 filter metadata
+
+   Reading a dataset from a corrupted or maliciously crafted file could crash the library in the N-Bit and Fletcher32 filter decode paths. The N-Bit filter dereferenced its client-data parameter array before validating it, crashing when the array was empty or NULL, and walked the compressed chunk during decompression without bounding the input against the chunk size, causing out-of-bounds reads. It also indexed that parameter array at offsets taken from the datatype description held in the array itself, without bounding those offsets against the number of parameters supplied, so a parameter list stopping short of the datatype it described was read past its end. The Fletcher32 filter subtracted the 4-byte checksum length from the chunk size without checking that the chunk was at least that large, underflowing the length passed to the checksum routine. These filters now validate their parameters and buffer sizes and fail with an error instead of crashing.
+
+   Fixes GitHub issues #6488, #6489, #6490, and #6492
+
+   Fixes CVE-2026-19026, CVE-2026-19027, and CVE-2026-19028
 
 ## Java Library
 
+### Fixed datatype ID leaks when reading or writing nested datatypes through the JNI
+
+   The object-tree read and write helpers in the JNI derived a base datatype from the memory type with `H5Tget_super()` for the variable-length, array and complex classes, but never closed it. Because an `hid_t` is not reclaimed when a native method returns, every read or write of such data leaked at least one datatype ID for the lifetime of the process, and a nested type leaked one per level. The helpers now close the derived type on both the success and error paths.
+
+   Fixes GitHub issue #6592
+
 ## Configuration
+
+### Fixed version handling in installed CMake package version configuration file
+
+   The installed CMake package version configuration file for the library previously used `SameMinorVersion` for the version compatibility logic, causing a `find_package(HDF5 X.Y.Z)` call to fail unless the version of a located HDF5 installation matched both `X` and `Y` of the version number exactly (i.e., releases with a greater minor version number weren't considered backward compatible). This reflected the version compatibility of HDF5 releases prior to version 2.0.0, but doesn't reflect the version compatibility of HDF5 version 2.0.0+ releases. The version compatibility logic now uses `SameMajorVersion`, so a `find_package(HDF5 X.Y.Z)` call will accept all versions of HDF5 where the major version matches `X` (i.e., only releases with a greater major version number will be rejected as not backward compatible).
+
+### Fixed the C++ examples failing to compile when built standalone
+
+  The standalone examples build used C++98, but `H5public.h` includes
+  `<cinttypes>`, which requires C++11. This affected any C++ translation unit
+  including `hdf5.h`, and did not match the HDF5 C++ library itself, which is
+  built as C++11. The C++ examples did not compile, against either static or
+  shared HDF5. The examples are now built as C++11.
+
+  Only the standalone build was affected. Examples built as part of the HDF5
+  build inherit the library's own C++ standard.
+
+### Fixed the examples skipping the HL, Fortran and C++ programs in some configurations
+
+  When built standalone against an installed HDF5, the examples chose between
+  the shared and static HL, Fortran and C++ libraries using `BUILD_SHARED_LIBS`,
+  while the C library used `H5EXAMPLE_USE_SHARED_LIBS`. Since
+  `H5EXAMPLE_USE_SHARED_LIBS` determines which component is requested from
+  `find_package`, and therefore which `HDF5_<linkage>_<lang>_FOUND` variables
+  exist, `BUILD_SHARED_LIBS` could not select a linkage on its own. With
+  `H5EXAMPLE_USE_SHARED_LIBS` on and `BUILD_SHARED_LIBS` unset, those examples
+  were disabled with a "libs not found" message even though the libraries were
+  installed and had been found. The selection now uses
+  `H5EXAMPLE_USE_SHARED_LIBS`, matching the C library.
+
+  Builds driven through `CTestScript.cmake` were not affected, since its cache
+  file forces `BUILD_SHARED_LIBS` on. This affected cases where the examples
+  were built directly without that cache file.
+
+### Fixed the Fortran and C++ information reported in the build settings
+
+The "Shared/Static Fortran Library" and "Shared/Static C++ Library" lines in `libhdf5.settings` and in the build settings string compiled into the library reused the C library values, so they reported `YES` even when `HDF5_BUILD_FORTRAN` or `HDF5_BUILD_CPP_LIB` was off. These lines now report `NO` unless that language's library is built. The "Fortran Compiler", "Module Directory" and "C++ Compiler" lines are now also left empty when that language's library is not built.
+
+Fixes #5723.
 
 ## Tools
 
-### Fixed h5repack silently dropping a declared cd_nelmts for user-defined filters
+### Fixed an issue with quoting of data values in h5ls and h5dump when displaying as ASCII characters
 
-   `h5repack -f UD=<filtn>,<flag>,<cd_nelmts>` with no values following `cd_nelmts` silently
-   treated the declared count as 0 instead of validating it, because the trailing token (with
-   no comma after it) was never committed to `cd_nelmts` inside the parser. `parse_filter()` now
-   commits the trailing token to whichever UD field is still pending, so a declared, unfulfilled
-   `cd_nelmts` is correctly rejected with "incorrect number of compression parameters" instead of
-   being silently coerced to 0.
+   When using the `-s` (h5ls) or `-r` (h5dump) option to display 1-byte integer datasets and
+   attributes as ASCII characters, a closing double-quote character for data values was dropped
+   in some cases. This double-quote character has been restored and similar formatting issues
+   have been fixed for cases where elements wrap to new lines according to the particular tool's
+   column limit setting.
+
+### Fixed a crash in h5dump binary output of variable-length string datasets
+
+   Dumping a variable-length string dataset with more than one element to native binary (`h5dump -b`) could crash. `render_bin_output()` reused a single variable as both the per-element stride and the length of the current string, so after the first element the stride was corrupted and subsequent elements were read from misaligned addresses, dereferencing a garbage pointer. The two uses are now kept separate and variable-length string datasets can be binary dumped safely.
+
+   Fixes GitHub issue #6486
+
+   Fixes CVE-2026-19023
 
 ## Performance
 
 ## Fortran API
 
+### h5open_f now re-initializes the Fortran interface after h5close_f
+
+   An h5open_f / h5close_f / h5open_f sequence could leave the Fortran interface
+   uninitialized. The second h5open_f reported success, but the predefined type
+   handles were left holding identifiers that h5close_f had released, so later calls
+   failed. Whether this happened depended on the Fortran compiler.
+
+   Fixes GitHub issue #6642
+
+### h5fget_obj_ids_f no longer returns the Fortran interface's own identifiers
+
+   h5fget_obj_count_f excludes the objects h5open_f opens to represent the predefined
+   types, but h5fget_obj_ids_f returned them, so the two disagreed about the same query
+   and an application walking the list found datatypes it never opened. Both now report
+   only what the application has open, matching the C API.
+
+   Fixes GitHub issue #6648
+
+### h5fget_obj_count_f and h5fget_obj_ids_f document their object type argument
+
+   Both listed the object types as alternatives without mentioning that they may be
+   combined with IOR(), which the C API supports and both have always passed through.
+
+### h5fget_obj_count_f no longer returns negative counts
+
+   With the Fortran interface open, counting a single object type across all files
+   subtracted the objects opened by h5open_f, so queries for files, groups, and
+   datasets returned a negative count and reported success. A negative count is now
+   reported as an error.
+
 ## High-Level Library
 
-### Fixed critical buffer overflow vulnerability in H5TBget_field_info() (CWE-120)
+### Fixed leaked identifiers in H5DSattach_scale()
 
-   `H5TBget_field_info()` copied field names into caller-provided buffers using unbounded `strcpy()`,
-   allowing a malicious HDF5 file with overly long field names to overflow those buffers. The copy
-   now uses bounds-checked `memcpy()`: names shorter than `HLTB_MAX_FIELD_LEN` (255) are copied
-   exactly (preserving backward compatibility); names at or above that limit are safely truncated to
-   254 characters plus a NUL terminator.
+   When attaching a dimension scale that already had one or more datasets
+   attached to it, `H5DSattach_scale()` rewrote the scale's `REFERENCE_LIST`
+   attribute without releasing everything it had acquired to do so. It reopened
+   each reference in the existing list with `H5Ropen_object()` but only closed
+   the resulting identifier on the error path, and it destroyed neither the
+   references it read from the old attribute nor the one it appended to the new
+   one -- the buffer being written was reclaimed with the old, one element
+   shorter, dataspace. Every one of those kept the file open, so a later
+   `H5Fcreate()` with `H5F_ACC_TRUNC` on the same file failed with "unable to
+   truncate a file which is already open", an error with nothing in it to point
+   back at a dimension scale.
 
-### Made HLTB_MAX_FIELD_LEN public
-
-   `HLTB_MAX_FIELD_LEN` (255) has been moved from the private header `H5TBprivate.h` to the public
-   header `H5TBpublic.h`. Applications can now use this constant to correctly size their
-   `field_names[]` buffers when calling `H5TBget_field_info()`.
-
-### Fixed memory leaks and improved safety in H5LT functions
-
-   - Fixed memory leak in `H5LTtext_to_dtype()` by adding NULL check after `strdup()` call
-   - Added defensive NULL checks and pointer nullification after `free()` calls to prevent use-after-free bugs
-   - Improved documentation for `realloc_and_append()` internal function with detailed parameter contracts and preconditions
-
-### Eliminated code duplication in H5LT datatype conversion
-
-   Refactored `H5LT_dtype_to_text()` by extracting common super-type handling logic into a new helper function `H5LT_append_dtype_super_text()`. This eliminates approximately 80 lines of duplicated code that was previously repeated across 4 datatype cases (ENUM, VLEN, ARRAY, COMPLEX), improving maintainability and reducing the risk of inconsistent behavior.
-
-### Fixed H5TBread_fields_name/H5TBwrite_fields_name matching the wrong field when one field name is a prefix of another
-
-   H5TB_find_field() used strncmp() limited to strlen(field) when comparing the last entry of the supplied comma-separated field list against a table member name. This matched any user-supplied name whose leading characters equaled an existing field name (for example, requesting "PressureExtra" on a table containing "Pressure" would silently operate on the "Pressure" field). The comparison has been changed to strcmp() so full names must match exactly. In addition, H5TBwrite_fields_name() now returns an error when none of the requested field names are found (previously it silently performed a no-op write), matching the existing behavior of H5TBread_fields_name().
-
-   Fixes GitHub issue #5633
-
-### Fixed prefix-based false matches when checking "CLASS" attribute strings in the High-Level API
-
-   `H5DSis_scale()`, `H5DS_is_reserved()`, `H5IMis_image()`, and `H5IMis_palette()` all compared a
-   dataset's "CLASS" attribute against an expected class name using
-   `strncmp(buf, CLASS, MIN(strlen(CLASS), strlen(buf)))`. Because the comparison was limited to the
-   shorter of the two strings, any non-empty value whose leading characters matched the expected class
-   name was accepted — for example, a CLASS of `"IMAGE_EXTRA"` was treated as an IMAGE dataset, and
-   `"DIMENSION_S"` (null-padded to 16 bytes) was treated as a DIMENSION_SCALE. (`H5DSis_scale()` already
-   required the attribute datatype to be exactly 16 bytes, which incidentally prevented false matches
-   against shorter class names such as `"IMAGE"` or `"PALETTE"`; the other three functions had no such
-   guard and were directly exposed.) These
-   comparisons now use `strcmp()` so only an exact class name is accepted.
-
-   Additional fixes applied to all four routines:
-
-   - **VLEN-string CLASS attributes are now handled correctly.** Previously, reading a VLEN-typed
-     attribute into a fixed `char *` buffer would overwrite it with a heap-allocated `char *` pointer
-     rather than the string content, which is undefined behaviour and could corrupt memory or produce
-     garbage comparison results.
-     All four routines now read VLEN CLASS attributes properly (via `H5Treclaim`) and compare the
-     string content: `H5DSis_scale()`, `H5IMis_image()`, and `H5IMis_palette()` return 1 when the
-     value matches exactly, and `H5DS_is_reserved()` correctly identifies reserved class names stored
-     as VLEN strings.
-   - **NUL-termination hardening.** The read buffer is now allocated one byte larger than the stored
-     attribute size, and a NUL terminator is explicitly written after the attribute data. This protects
-     `strcmp` from over-reading files where the CLASS attribute was written without strictly honouring
-     `H5T_STR_NULLTERM`.
-   - **Resource leak fix in `H5IMis_image()` and `H5IMis_palette()`.** The `out:` error-handling block
-     previously closed only the dataset ID, leaving the attribute ID (`aid`) and attribute datatype ID
-     (`atid`) open on every error path. Both IDs are now properly closed on error.
-
-   Related to GitHub issue #5633
+   The identifier is now closed on the success path as well, and both reference
+   buffers are reclaimed, matching the equivalent code in
+   `H5DSdetach_scale()`. This code is only reached when `H5DSwith_new_ref()`
+   selects the new-style reference path, which happens when the object's
+   terminal VOL connector is not the native one -- a pass-through connector
+   stacked over the native connector does not qualify -- or when the library is
+   built with `H5_DIMENSION_SCALES_WITH_NEW_REF`; the old-style reference
+   path opens nothing.
 
 ## Fortran High-Level APIs
 
 ## Documentation
+
+### Clarified that direct chunk writes must supply an entire chunk
+
+   The documentation for `H5Dwrite_chunk()` and `H5DOwrite_chunk()` did not state that the
+   buffer must encode an entire chunk. Before filtering, a chunk always holds every element
+   covered by the chunk dimensions, including the elements of a partial edge chunk that lie
+   outside the dataspace. A precompressed chunk must therefore be the compressed form of the
+   full chunk, not only of the elements inside the dataspace. Since HDF5 2.2.0, the library
+   checks that a filtered chunk unfilters to exactly the full chunk size, so a filtered chunk
+   written without its edge padding can no longer be read with `H5Dread()`. The documentation
+   and the file format specification now state this requirement explicitly.
 
 ## F90 APIs
 
 ## C++ APIs
 
 ## Testing
+
+### Fortran test programs no longer exit successfully after a fatal error
+
+   The Fortran tests ended unrecoverable failures with STOP, which exits with a
+   success status, so a run that aborted part way through was reported as passing.
+
+### New test for the object count and identifier list
+
+   The Fortran tests had no coverage of h5fget_obj_ids_f over all files, and none that
+   compared it against h5fget_obj_count_f. A new test opens objects of several types
+   and checks that the two agree, that object types combined with IOR() count as the
+   sum of their parts, and that a buffer shorter than the number of open objects is
+   filled with the application's own.
+
+### The h5open/h5close test checks that the interface re-initializes
+
+   Its object counts were taken while the Fortran interface was closed, where no such
+   call is permitted. They now run after the interface has been reopened, and confirm
+   that the predefined types are usable again.
 
 # ✨ Support for new platforms and languages
 

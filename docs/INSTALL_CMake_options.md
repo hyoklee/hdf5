@@ -58,7 +58,7 @@ These options concern the general build process of the main HDF5 libraries, util
 | `BUILD_STATIC_EXECS` | `BOOL` | `OFF` | If `ON`, builds statically-linked executables. **NOTE:** The `BUILD_STATIC_EXECS` option is only valid on some UNIX operating systems. It adds the `-static` flag to `CMAKE_EXE_LINKER_FLAGS`. This flag is not available on Windows and some modern Linux systems will ignore the flag. |
 | `HDF5_DEFAULT_API_VERSION` | `STRING` | `v200` | Specifies the default HDF5 API version to use when compiling HDF5 libraries. Valid values are `v200` (2.x API), `v114` (1.14.x API), `v112` (1.12.x API), `v110` (1.10.x API), `v18` (1.8.x API) and `v16` (1.6.x API). See [API Compatibility Macros](https://support.hdfgroup.org/documentation/hdf5/latest/api-compat-macros.html#title5) for more information on this option. |
 | `HDF5_ALLOW_UNSUPPORTED` | `BOOL` | `OFF` | If `ON`, allows configuring and building HDF5 with unsupported combinations of features. Otherwise, causes a configuration error if an unsupported combination is enabled. See [Unsupported option combinations](#unsupported_combos) for a list of unsupported combinations. |
-| `HDF5_ENABLE_CONCURRENCY` | `BOOL` | `OFF` | If `ON`, enables building of a multi-thread concurrent HDF5 library. Requires C11 threads, Win32 threads or Pthreads. Requires shared HDF5 libraries on Windows. **NOTE:** Currently non-functional and experimental. |
+| `HDF5_ENABLE_CONCURRENCY` | `BOOL` | `OFF` | If `ON`, enables building of a multi-thread concurrent HDF5 library. Requires C11 threads, Win32 threads or Pthreads. Requires shared HDF5 libraries on Windows. **NOTE:** Currently only used to enable internal multithreading where the library spawns its own threads and internally parallelizes a single operation. Does not yet allow multiple concurrent application threads inside the library. |
 | `HDF5_ENABLE_THREADSAFE` | `BOOL` | `OFF` | If `ON`, enables building of a thread-safe HDF5 library. Requires C11 threads, Win32 threads or Pthreads. Requires shared HDF5 libraries on Windows. |
 | `HDF5_ENABLE_NONSTANDARD_FEATURES` | `BOOL` | `ON` | If `ON`, enables non-standard programming language features. If `OFF`, disables all non-standard programming language features. Each feature has its own separate option. |
 | `HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16` | `BOOL` | `ON` (if `_Float16` type is supported) | If `ON`, enables building of support for the `_Float16` 16-bit floating-point datatype. |
@@ -88,13 +88,13 @@ These options control how HDF5 gets installed. Options dealing with paths are ge
 
 | CMake option | Type | Default | Description |
 |:-------------|:-----|:--------|:------------|
-| `HDF5_USE_GNU_DIRS` | `BOOL` | `OFF` | If `ON`, uses the GNU Coding Standard CMake install directory variables when setting up for installing the HDF5 library. See [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html) for more information. |
+| `HDF5_USE_GNU_DIRS` | `BOOL` | Varies by platform | If `ON`, uses the GNU Coding Standard CMake install directory variables when setting up for installing the HDF5 library. See [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html) for more information. |
 | `HDF5_INSTALL_BIN_DIR` | `STRING` | `bin` | Specifies the directory to install executables in. |
 | `HDF5_INSTALL_LIB_DIR` | `STRING` | `lib` | Specifies the directory to install libraries in. |
 | `HDF5_INSTALL_JNI_LIB_DIR` | `STRING` | `lib` | Specifies the directory to install Java JNI libraries in. |
 | `HDF5_INSTALL_INCLUDE_DIR` | `STRING` | `include` | Specifies the directory to install header files in. |
 | `HDF5_INSTALL_MODULE_DIR` | `STRING` | `mod` (`HDF5_USE_GNU_DIRS=OFF`) <br /> `HDF5_INSTALL_INCLUDE_DIR/mod` (`HDF5_USE_GNU_DIRS=ON`) | Specifies the directory to install Fortran .mod files in. |
-| `HDF5_INSTALL_CMAKE_DIR` | `STRING` | `cmake` (`HDF5_USE_GNU_DIRS=OFF`) <br /> `HDF5_INSTALL_LIB_DIR/cmake` (`HDF5_USE_GNU_DIRS=ON`) | Specifies the directory to install CMake files in. |
+| `HDF5_INSTALL_CMAKE_DIR` | `STRING` | `cmake` (`HDF5_USE_GNU_DIRS=OFF`) <br /> `HDF5_INSTALL_LIB_DIR/cmake/hdf5` (`HDF5_USE_GNU_DIRS=ON`) | Specifies the directory to install CMake files in. |
 | `HDF5_INSTALL_DATA_DIR` | `STRING` | `.` (for `MSVC` and `HDF5_USE_GNU_DIRS=OFF`) <br /> `share` (`HDF5_USE_GNU_DIRS=ON`) | Specifies the directory to install miscellaneous data files in. |
 | `HDF5_INSTALL_DOC_DIR` | `STRING` | `HDF5_INSTALL_DATA_DIR` (`HDF5_USE_GNU_DIRS=OFF`) <br /> `HDF5_INSTALL_DATA_DIR/doc/hdf5` (`HDF5_USE_GNU_DIRS=ON`) | Specifies the directory to install documentation files in. |
 | `HDF5_BUILD_WITH_INSTALL_NAME` | `BOOL` | `OFF` | **MacOS only** If `ON`, builds shared library CMake targets with the "install_name" field set to the installation path. See the related CMake property [INSTALL_NAME_DIR](https://cmake.org/cmake/help/latest/prop_tgt/INSTALL_NAME_DIR.html#prop_tgt:INSTALL_NAME_DIR). |
@@ -315,7 +315,7 @@ These are options which can be set for controlling how the HDF5 example programs
 | `H5EXAMPLE_USE_110_API` | `BOOL` | `OFF` | If `ON`, compile the HDF5 library examples programs using the HDF5 1.10 API. |
 | `H5EXAMPLE_USE_18_API` | `BOOL` | `OFF` | If `ON`, compile the HDF5 library examples programs using the HDF5 1.8 API. |
 | `H5EXAMPLE_USE_16_API` | `BOOL` | `OFF` | If `ON`, compile the HDF5 library examples programs using the HDF5 1.6 API. |
-| `H5EXAMPLE_USE_GNU_DIRS` | `BOOL` | `OFF` | If `ON`, uses the GNU Coding Standard CMake install directory variables when setting up for installing the HDF5 library example programs. See [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html) for more information. |
+| `H5EXAMPLE_USE_GNU_DIRS` | `BOOL` | Varies by platform | If `ON`, uses the GNU Coding Standard CMake install directory variables when setting up for installing the HDF5 library example programs. See [GNUInstallDirs](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html) for more information. |
 | `H5EXAMPLE_DISABLE_COMPILER_WARNINGS` | `BOOL` | `OFF` | If `ON`, disables most or all compiler warnings when building the HDF5 library example programs. |
 | `H5EXAMPLE_BUILD_FRAMEWORKS` | `BOOL` | `OFF` | If `ON`, the HDF5 library example programs will be built as a framework bundle when built on MacOS. |
 

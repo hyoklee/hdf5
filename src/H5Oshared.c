@@ -345,7 +345,9 @@ H5O__shared_decode(H5F_t *f, H5O_t *open_oh, unsigned *ioflags, size_t buf_size,
          * Otherwise, it is a named datatype, so copy an H5O_loc_t.
          */
         if (sh_mesg.type == H5O_SHARE_TYPE_SOHM) {
-            assert(version >= H5O_SHARED_VERSION_3);
+            if (version < H5O_SHARED_VERSION_3)
+                HGOTO_ERROR(H5E_OHDR, H5E_VERSION, NULL,
+                            "shared message in heap requires message version >= 3");
             if (H5_IS_BUFFER_OVERFLOW(buf, sizeof(sh_mesg.u.heap_id), buf_end))
                 HGOTO_ERROR(H5E_OHDR, H5E_OVERFLOW, NULL, "ran off end of input buffer while decoding");
             H5MM_memcpy(&sh_mesg.u.heap_id, buf, sizeof(sh_mesg.u.heap_id));

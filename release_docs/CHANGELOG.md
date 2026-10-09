@@ -145,6 +145,21 @@ We would like to thank the many HDF5 community members who contributed to this r
 
 ## Library
 
+### Fixed assertion failures and undefined behavior when opening malformed files
+
+   Several malformed files triggered assertion failures in debug builds, or undefined behavior, while being opened or closed:
+
+   - `H5O__dtype_encode_helper()` passed a NULL value array to `memcpy()` when encoding an enumeration datatype with no members. The values are now only copied when there are members.
+   - `H5O__cache_deserialize()` freed a partially decoded object header without forcing the free, so messages dirtied during the decode triggered an assertion in `H5O__free()`.
+   - `H5C__load_entry()` did not check that the size of a metadata cache entry read from the file was within `H5C_MAX_ENTRY_SIZE`. It now fails with an error instead of asserting later in `H5C_protect()`.
+   - `H5O__shared_decode()` asserted that a shared message stored in the shared object header message heap had message version 3 or later. It now fails with a version error.
+   - A local heap with a zero-length data block was loaded as if it had a separate data block. It is now treated like the empty heap `H5HL_create()` makes.
+   - `H5F_addr_decode_len()` checked the wrong byte when an address was wider than `haddr_t`. Such addresses are now decoded as `HADDR_UNDEF`.
+   - `H5F__dest()` asserted that the metadata cache was clean even when no flush was requested, e.g. after a failed open, or when the flush failed.
+   - `H5HL_protect()` asserted that the local heap address was defined, although `H5G__stab_valid()` calls it to check whether the address in a symbol table message is valid. It now fails with an error.
+
+   Fixes GitHub issues #6621, #6623, #6624, #6625, #6626, #6627, #6628 and #6629. #6622 was already fixed.
+
 ### Fixed crashes when using variable-length data after closing another handle of the same dataset
 
    A dataset's datatype is shared by all open handles of the dataset, and its variable-length types refer to the file of the handle that opened the dataset first. After that file handle was closed, other handles of the same dataset, e.g. from opening the same file twice, still converted variable-length data with the closed file, which crashed in `H5F_addr_decode()`. `H5T_patch_vlen_file()` repaired the file only for a variable-length type at the top level of the datatype, and only when reading or writing data, but not for variable-length types nested in compound or array types, or when converting a variable-length fill value in `H5Dget_create_plist()` or while initializing storage, e.g. in `H5Dset_extent()`. Opening a netCDF-4 file with string variables calls `H5Dget_create_plist()`, so this crashed netCDF-C and netCDF4-python when a file was opened again after closing one of several handles to it. `H5T_patch_vlen_file()` now repairs nested variable-length types as well, and is also called before converting fill values.

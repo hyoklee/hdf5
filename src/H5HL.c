@@ -308,7 +308,8 @@ H5HL_protect(H5F_t *f, haddr_t addr, unsigned flags)
 
     /* Check arguments */
     assert(f);
-    assert(H5_addr_defined(addr));
+    if (!H5_addr_defined(addr))
+        HGOTO_ERROR(H5E_HEAP, H5E_BADVALUE, NULL, "undefined local heap address");
 
     /* Only the H5AC__READ_ONLY_FLAG may appear in flags */
     assert((flags & (unsigned)(~H5AC__READ_ONLY_FLAG)) == 0);

@@ -1046,6 +1046,10 @@ H5C__load_entry(H5F_t *f,
         HGOTO_ERROR(H5E_CACHE, H5E_CANTGET, NULL, "can't retrieve image size");
     assert(len > 0);
 
+    /* Verify that the length isn't too large (the size may come from the file) */
+    if (len > H5C_MAX_ENTRY_SIZE)
+        HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, NULL, "image size exceeds maximum cache entry size");
+
     /* Check for possible speculative read off the end of the file */
     if (type->flags & H5C__CLASS_SPECULATIVE_LOAD_FLAG)
         if (H5C__verify_len_eoa(f, type, addr, &len, false) < 0)
@@ -1150,6 +1154,11 @@ H5C__load_entry(H5F_t *f,
                     /* Verify that the length isn't 0  */
                     if (actual_len == 0)
                         HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, NULL, "actual_len is a bad value");
+
+                    /* Verify that the length isn't too large */
+                    if (actual_len > H5C_MAX_ENTRY_SIZE)
+                        HGOTO_ERROR(H5E_CACHE, H5E_BADVALUE, NULL,
+                                    "actual_len exceeds maximum cache entry size");
 
                     /* Expand buffer to new size */
                     if (NULL == (new_image = H5MM_realloc(image, actual_len + H5C_IMAGE_EXTRA_SPACE)))

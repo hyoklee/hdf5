@@ -463,6 +463,9 @@ H5HL__cache_prefix_deserialize(const void *_image, size_t len, void *_udata, boo
              */
             heap->single_cache_obj = false;
     }
+    else
+        /* No data block, so there is nothing to load separately */
+        heap->single_cache_obj = true;
 
     /* Set return value */
     ret_value = prfx;

@@ -1365,10 +1365,12 @@ H5O__dtype_encode_helper(uint8_t **pp, const H5T_t *dt)
                 } /* end for */
             }     /* end for */
 
-            /* Values */
-            H5MM_memcpy(*pp, dt->shared->u.enumer.value,
-                        dt->shared->u.enumer.nmembs * dt->shared->parent->shared->size);
-            *pp += dt->shared->u.enumer.nmembs * dt->shared->parent->shared->size;
+            /* Values (the value array may be NULL for an enum with no members) */
+            if (dt->shared->u.enumer.nmembs > 0) {
+                H5MM_memcpy(*pp, dt->shared->u.enumer.value,
+                            dt->shared->u.enumer.nmembs * dt->shared->parent->shared->size);
+                *pp += dt->shared->u.enumer.nmembs * dt->shared->parent->shared->size;
+            }
             break;
 
         case H5T_VLEN: /* Variable length datatypes...  */

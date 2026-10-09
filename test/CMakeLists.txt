@@ -464,6 +464,7 @@ set (H5_TESTS
     testhdf5 # multiple source
     cache_tagging
     lheap
+    malformed
     ohdr
     stab
     gheap

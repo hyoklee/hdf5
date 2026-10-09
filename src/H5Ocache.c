@@ -312,9 +312,11 @@ H5O__cache_deserialize(const void *image, size_t len, void *_udata, bool *dirty)
     ret_value = oh;
 
 done:
-    /* Release the [possibly partially initialized] object header on errors */
+    /* Release the [possibly partially initialized] object header on errors.
+     * Force the free, since messages may have been dirtied by a partial decode.
+     */
     if (!ret_value && oh)
-        if (H5O__free(oh, false) < 0)
+        if (H5O__free(oh, true) < 0)
             HDONE_ERROR(H5E_OHDR, H5E_CANTRELEASE, NULL, "unable to destroy object header data");
 
     FUNC_LEAVE_NOAPI(ret_value)

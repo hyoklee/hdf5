@@ -1447,9 +1447,11 @@ H5F__dest(H5F_t *f, bool flush, bool free_on_failure)
          * should be clean at this point, with the possible exception of the
          * the superblock and superblock extension.
          *
-         * Verify this.
+         * Verify this, unless no flush was requested (e.g. when cleaning up
+         * after a failed open) or an earlier step failed (e.g. a flush of a
+         * corrupted file).
          */
-        assert(H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
+        assert(!flush || ret_value < 0 || H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
 
         /* Release the external file cache */
         if (f->shared->efc) {
@@ -1465,7 +1467,7 @@ H5F__dest(H5F_t *f, bool flush, bool free_on_failure)
          *
          * Verify this.
          */
-        assert(H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
+        assert(!flush || ret_value < 0 || H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
 
         /* Release objects that depend on the superblock being initialized */
         if (f->shared->sblock) {
@@ -1493,7 +1495,7 @@ H5F__dest(H5F_t *f, bool flush, bool free_on_failure)
                 /* at this point, only the superblock and superblock
                  * extension should be dirty.
                  */
-                assert(H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
+                assert(!flush || ret_value < 0 || H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
 
                 /* Flush the file again (if requested), as shutting down the
                  * free space manager may dirty some data structures again.
@@ -1527,7 +1529,7 @@ H5F__dest(H5F_t *f, bool flush, bool free_on_failure)
                     /* at this point, only the superblock and superblock
                      * extension should be dirty.
                      */
-                    assert(H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
+                    assert(!flush || ret_value < 0 || H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
                 } /* end if */
             }     /* end if */
 
@@ -1551,7 +1553,7 @@ H5F__dest(H5F_t *f, bool flush, bool free_on_failure)
          *
          * Verify this.
          */
-        assert(H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
+        assert(!flush || ret_value < 0 || H5AC_cache_is_clean(f, H5AC_RING_MDFSM));
 
         /* Remove shared file struct from list of open files */
         if (H5F__sfile_remove(f->shared) < 0)
@@ -3007,8 +3009,9 @@ H5F_addr_encode(const H5F_t *f, uint8_t **pp /*in,out*/, haddr_t addr)
 void
 H5F_addr_decode_len(size_t addr_len, const uint8_t **pp /*in,out*/, haddr_t *addr_p /*out*/)
 {
-    bool     all_zero = true; /* True if address was all zeroes */
-    unsigned u;               /* Local index variable */
+    bool     all_zero = true;  /* True if address was all zeroes */
+    bool     overflow = false; /* True if address doesn't fit in a haddr_t */
+    unsigned u;                /* Local index variable */
 
     /* Use FUNC_ENTER_NOAPI_NOINIT_NOERR here to avoid performance issues */
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -3040,14 +3043,15 @@ H5F_addr_decode_len(size_t addr_len, const uint8_t **pp /*in,out*/, haddr_t *add
             /* Merge into already decoded bytes */
             *addr_p |= tmp;
         } /* end if */
-        else if (!all_zero)
-            assert(0 == **pp); /*overflow */
-    }                          /* end for */
+        else if (c != 0)
+            overflow = true;
+    } /* end for */
 
     /* If 'all_zero' is still true, the address was entirely composed of '0xff'
      *  bytes, which is the encoded form of 'HADDR_UNDEF', so set the destination
-     *  to that value */
-    if (all_zero)
+     *  to that value.  An address that can't be represented in a haddr_t is
+     *  also treated as undefined. */
+    if (all_zero || overflow)
         *addr_p = HADDR_UNDEF;
 
     FUNC_LEAVE_NOAPI_VOID

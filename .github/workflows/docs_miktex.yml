@@ -213,7 +213,7 @@ jobs:
               break
             fi
             echo "::warning::Building lualatex format failed (attempt $attempt)"
-            for log in ~/.miktex/texmfs/data/miktex/log/*.log; do
+            for log in ~/.miktex/texmfs/data/miktex/log/*.log ~/.miktex/texmfs/data/miktex/log/*.out; do
               [ -f "$log" ] || continue
               echo "=== $log (last 60 lines) ==="
               tail -60 "$log"

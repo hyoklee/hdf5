@@ -27,6 +27,13 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      # MiKTeX tools (miktex-makefmt, kpsewhich, ...) can try to bring up a Qt
+      # dialog, e.g. for the "not checked for updates" nag. With no display
+      # Qt aborts the whole process ("could not load the Qt platform plugin
+      # xcb"), which made format builds fail intermittently. Let Qt start
+      # without one.
+      QT_QPA_PLATFORM: offscreen
     steps:
       - name: Get Sources
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6

@@ -198,6 +198,38 @@ jobs:
 
           # Update user FNDB after all user-level package installations
           initexmf --update-fndb
+
+          # Build the lualatex format now rather than leaving it to the first
+          # lualatex run. When it is built implicitly, a failure is reported
+          # only as "The memory dump file could not be found" and the format
+          # build's own output is lost. Building it here shows that output and
+          # lets a failure caused by a stalled auto-install be retried against
+          # another repository.
+          fmt_ok=0
+          for attempt in 1 2 3; do
+            initexmf --dump=lualatex --verbose 2>&1 | tail -100 || true
+            if [ -n "$(find ~/.miktex/texmfs -name lualatex.fmt 2>/dev/null)" ]; then
+              fmt_ok=1
+              break
+            fi
+            echo "::warning::Building lualatex format failed (attempt $attempt)"
+            for log in ~/.miktex/texmfs/data/miktex/log/*.log; do
+              [ -f "$log" ] || continue
+              echo "=== $log (last 60 lines) ==="
+              tail -60 "$log"
+            done
+            MIKTEX_REPO=$(mpm --pick-repository-url 2>/dev/null | tr -d '\r' | grep '^http' | tail -1)
+            if [ -n "$MIKTEX_REPO" ]; then
+              echo "Switching MiKTeX repository to $MIKTEX_REPO"
+              mpm --set-repository="$MIKTEX_REPO" || true
+              miktex packages update-package-database || true
+            fi
+            sleep 15
+          done
+          if [ "$fmt_ok" != 1 ]; then
+            echo "::error::Could not build the lualatex format"
+            exit 1
+          fi
           # Set LastUserUpdateCheck to 24 hours in the future so that any
           # remaining auto-installs during lualatex cannot set a newer
           # LastUserUpdateDb and trigger the "not checked for updates" nag.

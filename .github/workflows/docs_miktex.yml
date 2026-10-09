@@ -27,13 +27,9 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    env:
-      # MiKTeX tools (miktex-makefmt, kpsewhich, ...) can try to bring up a Qt
-      # dialog, e.g. for the "not checked for updates" nag. With no display
-      # Qt aborts the whole process ("could not load the Qt platform plugin
-      # xcb"), which made format builds fail intermittently. Let Qt start
-      # without one.
-      QT_QPA_PLATFORM: offscreen
+    # A MiKTeX tool waiting on a dialog nobody can answer would otherwise hold
+    # the runner for the full 6 hour limit.
+    timeout-minutes: 120
     steps:
       - name: Get Sources
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
@@ -57,6 +53,11 @@ jobs:
           # User-level MiKTeX setup: lualatex runs as runner (non-admin).
           # miktexsetup finish may timeout connecting to the MiKTeX API; allow failure.
           miktexsetup finish || true
+          # Install missing packages without asking. The admin setting above
+          # does not apply to the user setup, where the default is to ask -
+          # and on a runner with no display the Qt "install package?" dialog
+          # aborts the tool that wanted the file (kpsewhich, miktex-makefmt).
+          initexmf --set-config-value "[MPM]AutoInstall=1"
           initexmf --update-fndb
           initexmf --mklinks --force
           miktex packages update-package-database || true
@@ -214,7 +215,7 @@ jobs:
           # another repository.
           fmt_ok=0
           for attempt in 1 2 3; do
-            initexmf --dump=lualatex --verbose 2>&1 | tail -100 || true
+            timeout 900 initexmf --dump=lualatex --verbose 2>&1 | tail -100 || true
             if [ -n "$(find ~/.miktex/texmfs -name lualatex.fmt 2>/dev/null)" ]; then
               fmt_ok=1
               break

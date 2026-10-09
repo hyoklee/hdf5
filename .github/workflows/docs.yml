@@ -72,6 +72,8 @@ jobs:
           path: ${{ runner.workspace }}/hdf5/build/hdf5lib_docs/latex/refman.pdf
 
       - name: Deploy Develop
+        # Pull requests get a read-only token and must not publish to gh-pages
+        if: github.event_name != 'pull_request'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
           publish_dir: /home/runner/work/hdf5/hdf5/build/hdf5lib_docs/html

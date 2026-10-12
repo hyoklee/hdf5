@@ -280,6 +280,12 @@
 /* Define to 1 if you have the `strdup' function. */
 #cmakedefine H5_HAVE_STRDUP @H5_HAVE_STRDUP@
 
+/* Define to 1 if you have the `strlcat' function. */
+#cmakedefine H5_HAVE_STRLCAT @H5_HAVE_STRLCAT@
+
+/* Define to 1 if you have the `strlcpy' function. */
+#cmakedefine H5_HAVE_STRLCPY @H5_HAVE_STRLCPY@
+
 /* Define if struct text_info is defined */
 #cmakedefine H5_HAVE_STRUCT_TEXT_INFO @H5_HAVE_STRUCT_TEXT_INFO@
 

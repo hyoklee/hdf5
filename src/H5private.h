@@ -153,8 +153,9 @@
 
 #endif /*H5_HAVE_WIN32_API*/
 
-/* strlcpy/strlcat are not available on Windows; provide portable implementations */
-#ifdef H5_HAVE_WIN32_API
+/* strlcpy/strlcat are not available on Windows or on glibc before 2.38;
+ * provide portable implementations when the C library lacks them */
+#ifndef H5_HAVE_STRLCPY
 static inline size_t
 strlcpy(char *dst, const char *src, size_t dsize)
 {
@@ -166,7 +167,9 @@ strlcpy(char *dst, const char *src, size_t dsize)
     }
     return srclen;
 }
+#endif /* H5_HAVE_STRLCPY */
 
+#ifndef H5_HAVE_STRLCAT
 static inline size_t
 strlcat(char *dst, const char *src, size_t dsize)
 {
@@ -179,7 +182,7 @@ strlcat(char *dst, const char *src, size_t dsize)
     }
     return dstlen + srclen;
 }
-#endif /* H5_HAVE_WIN32_API */
+#endif /* H5_HAVE_STRLCAT */
 
 /* Macros for suppressing warnings */
 #include "H5warnings.h"

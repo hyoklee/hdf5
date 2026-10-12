@@ -1236,6 +1236,8 @@ parse_command_line(int argc, const char *const *argv)
     struct options *cl_opts;
 
     cl_opts = (struct options *)malloc(sizeof(struct options));
+    if (!cl_opts)
+        return NULL;
 
     cl_opts->output_file   = NULL;
     cl_opts->io_types      = 0; /* will set default after parsing options */

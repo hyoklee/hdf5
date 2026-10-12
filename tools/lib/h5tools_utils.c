@@ -542,10 +542,18 @@ init_table(hid_t fid, table_t **tbl)
 {
     table_t *table = (table_t *)malloc(sizeof(table_t));
 
+    *tbl = NULL;
+    if (!table)
+        return;
+
     table->fid   = fid;
     table->size  = 20;
     table->nobjs = 0;
     table->objs  = (obj_t *)malloc(table->size * sizeof(obj_t));
+    if (!table->objs) {
+        free(table);
+        return;
+    }
 
     *tbl = table;
 }
@@ -563,6 +571,9 @@ void
 free_table(table_t *table)
 {
     unsigned u; /* Local index value */
+
+    if (!table)
+        return;
 
     /* Free the names for the objects in the table */
     for (u = 0; u < table->nobjs; u++)
@@ -739,6 +750,8 @@ init_objs(hid_t fid, find_objs_t *info, table_t **group_table, table_t **dset_ta
     init_table(fid, group_table);
     init_table(fid, dset_table);
     init_table(fid, type_table);
+    if (!*group_table || !*dset_table || !*type_table)
+        H5TOOLS_GOTO_ERROR(FAIL, "table allocation failed");
 
     /* Init the find_objs_t */
     info->fid         = fid;

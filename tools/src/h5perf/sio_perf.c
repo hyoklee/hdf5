@@ -798,6 +798,8 @@ parse_command_line(int argc, const char *const *argv)
     int             i, default_rank, actual_rank, ranks[4];
 
     cl_opts = (struct options *)malloc(sizeof(struct options));
+    if (!cl_opts)
+        return NULL;
 
     cl_opts->page_buffer_size = 0;
     cl_opts->page_size        = 0;

@@ -70,8 +70,8 @@ diff_dataset(hid_t file1_id, hid_t file2_id, const char *obj1_name, const char *
      *-------------------------------------------------------------------------
      */
     H5TOOLS_DEBUG("h5tools_canreadf then diff_datasetid");
-    if ((status = h5tools_canreadf((opts->mode_verbose ? obj1_name : NULL), dcpl1) == 1) &&
-        (status = h5tools_canreadf((opts->mode_verbose ? obj2_name : NULL), dcpl2) == 1))
+    if ((status = h5tools_canreadf((opts->mode_verbose ? obj1_name : NULL), dcpl1)) == 1 &&
+        (status = h5tools_canreadf((opts->mode_verbose ? obj2_name : NULL), dcpl2)) == 1)
         nfound = diff_datasetid(did1, did2, obj1_name, obj2_name, &diff_opts);
     else if (status < 0) {
         H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "h5tools_canreadf failed");

@@ -703,6 +703,8 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
      */
     trav_info_init(fname1, file1_id, &info1_obj);
     trav_info_init(fname2, file2_id, &info2_obj);
+    if (!info1_obj || !info2_obj)
+        H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "trav_info_init failed");
 
     H5TOOLS_DEBUG("trav_info_init initialized");
     /* if any object is specified */
@@ -973,6 +975,8 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
          * traverse group1
          */
         trav_info_init(fname1, file1_id, &info1_grp);
+        if (!info1_grp)
+            H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "trav_info_init failed");
         /* optional data pass — opts valid for trav_info_t lifetime */
         info1_grp->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 
@@ -987,6 +991,8 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
          * traverse group2
          */
         trav_info_init(fname2, file2_id, &info2_grp);
+        if (!info2_grp)
+            H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "trav_info_init failed");
         /* optional data pass — opts valid for trav_info_t lifetime */
         info2_grp->opts = (diff_opt_t *)opts; // codeql[cpp/stack-address-escape]
 

@@ -597,6 +597,10 @@ trav_info_init(const char *filename, hid_t fileid, trav_info_t **_info)
 {
     trav_info_t *info = (trav_info_t *)malloc(sizeof(trav_info_t));
 
+    *_info = NULL;
+    if (!info)
+        return;
+
     /* Init info structure */
     info->nused = info->nalloc = 0;
     info->paths                = NULL;

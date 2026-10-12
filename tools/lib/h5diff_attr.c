@@ -44,6 +44,10 @@ table_attrs_init(table_attrs_t **tbl)
 {
     table_attrs_t *table_attrs = (table_attrs_t *)malloc(sizeof(table_attrs_t));
 
+    *tbl = NULL;
+    if (!table_attrs)
+        return;
+
     table_attrs->size         = 0;
     table_attrs->nattrs       = 0;
     table_attrs->nattrs_only1 = 0;

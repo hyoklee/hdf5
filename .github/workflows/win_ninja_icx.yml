@@ -25,13 +25,15 @@ jobs:
           compiler: intel
           version: '2024.1'
       - name: Checkout HDF5
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set oneAPI
-        shell: cmd
+        shell: pwsh
         run: |
-          "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
+          & "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
       - name: Configure & Build & Test
-        shell: cmd
+        shell: pwsh
         run: |
           cd hdf5
           mkdir build

@@ -15,12 +15,13 @@ jobs:
       uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
       with:
         compiler: gcc
-        version: 13	
+        version: 13
     - name: Checkout Spack
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         repository: hyoklee/spack
         path: ./spack
+        persist-credentials: false
 
     - name: Run a multi-line script
       run: |

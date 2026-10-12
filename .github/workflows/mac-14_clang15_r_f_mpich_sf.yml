@@ -39,15 +39,17 @@ jobs:
       uses: awvwgk/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
 
     - name: Get Sources
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
 
     - name: Configure
       if: matrix.generator != 'autogen'
       run: |
         export CC=$(brew --prefix llvm@15)/bin/clang
         echo $CC
-        mkdir "${{ runner.workspace }}/build"
-        cd "${{ runner.workspace }}/build"
+        mkdir "${RUNNER_WORKSPACE}/build"
+        cd "${RUNNER_WORKSPACE}/build"
         cmake ${{ matrix.generator }} \
         -DBUILD_SHARED_LIBS=ON \
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
@@ -63,6 +65,8 @@ jobs:
         -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
         -DMPIEXEC_MAX_NUMPROCS:STRING=3 \
         $GITHUB_WORKSPACE
+      env:
+        RUNNER_WORKSPACE: ${{ runner.workspace }}
 
     - name: Build
       run: cmake --build . --config ${{ matrix.build_type }}

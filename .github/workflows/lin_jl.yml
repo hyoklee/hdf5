@@ -12,9 +12,10 @@ jobs:
     name: lin jl
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: hdf5
+          persist-credentials: false
       - name: Install HDF5
         run: |
           cd hdf5
@@ -29,10 +30,11 @@ jobs:
         with:
           version: '1.6'
           arch: 'x64'
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: JuliaIO/HDF5.jl
           path: .
+          persist-credentials: false
 
       - name: Generate LocalPreferences
         run: |

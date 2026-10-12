@@ -32,7 +32,9 @@ jobs:
 
     steps:
     - name: Get Sources
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
 
     - name: Install Dependencies (macOS)
       run: brew install mpich ninja
@@ -73,9 +75,9 @@ jobs:
         export CC="$(which clang)"
         echo $CC
         echo $FC
-        rm -rf "${{ runner.workspace }}/hdf5/build"
-        mkdir "${{ runner.workspace }}/hdf5/build"
-        cd "${{ runner.workspace }}/hdf5/build"
+        rm -rf "${RUNNER_WORKSPACE}/hdf5/build"
+        mkdir "${RUNNER_WORKSPACE}/hdf5/build"
+        cd "${RUNNER_WORKSPACE}/hdf5/build"
         cmake ${{ matrix.generator }} \
         -DCMAKE_BUILD_TYPE=Debug \
         -DBUILD_SHARED_LIBS=ON \
@@ -96,6 +98,8 @@ jobs:
         ..
         ninja
         ninja test
+      env:
+        RUNNER_WORKSPACE: ${{ runner.workspace }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

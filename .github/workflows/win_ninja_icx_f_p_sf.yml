@@ -23,13 +23,15 @@ jobs:
         with:
           mpi: intelmpi
       - name: checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: vars
-        shell: cmd
+        shell: pwsh
         run: |
-          "C:\Program Files (x86)\Intel\oneAPI\mpi\latest\env\vars.bat"
+          & "C:\Program Files (x86)\Intel\oneAPI\mpi\latest\env\vars.bat"
       - name: ctest
-        shell: cmd
+        shell: pwsh
         run: |
           cd hdf5
           mkdir build

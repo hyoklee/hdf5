@@ -15,11 +15,13 @@ jobs:
     - name: install
       run: brew install ninja openmpi
     - name: get
-      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: configure
       run: |
-        mkdir "${{ runner.workspace }}/build"
-        cd "${{ runner.workspace }}/build"
+        mkdir "${RUNNER_WORKSPACE}/build"
+        cd "${RUNNER_WORKSPACE}/build"
         cmake \
         -GXcode \
         -DCMAKE_SYSTEM_NAME=iOS \
@@ -86,6 +88,8 @@ jobs:
         -DZLIB_USE_EXTERNAL:BOOL=OFF \
         $GITHUB_WORKSPACE
       shell: bash
+      env:
+        RUNNER_WORKSPACE: ${{ runner.workspace }}
 
     - name: build
       run: cmake --build .

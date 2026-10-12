@@ -15,16 +15,18 @@ jobs:
           brew update
           brew install autoconf automake flang libtool llvm
       - name: checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: HDFGroup/hdf5
+          persist-credentials: false
       - name: Get OpenMPI source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: 'open-mpi/ompi'
           path: 'ompi'
           ref: 'v5.0.9'
           submodules: recursive
+          persist-credentials: false
       - name: mpi
         run: |
           cmake --version

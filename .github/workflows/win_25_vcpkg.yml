@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: windows-2025
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: libaec
         run: |
           vcpkg install libaec
@@ -28,7 +30,7 @@ jobs:
           # ctest -D Experimental -C Release
           ctest -T Build
           ctest -C Release -T Test
-        shell: cmd
+        shell: pwsh
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

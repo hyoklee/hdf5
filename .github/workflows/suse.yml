@@ -9,10 +9,12 @@ permissions: read-all
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: "opensuse/tumbleweed"
+    container: "opensuse/tumbleweed:latest@sha256:cf3c3245b02c66676bc3700319c326ba8f66a6d169484eeb88b2a6bf546dd63a"
     steps:
       - name: checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: install
         run: |
           zypper up -y

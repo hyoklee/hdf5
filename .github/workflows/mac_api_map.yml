@@ -34,12 +34,14 @@ jobs:
           ninjaVersion: latest
 
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Configure CMake
         run: |
-          mkdir "${{ runner.workspace }}/build"
-          cd "${{ runner.workspace }}/build"
+          mkdir "${RUNNER_WORKSPACE}/build"
+          cd "${RUNNER_WORKSPACE}/build"
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DHDF5_DEFAULT_API_VERSION:STRING=v18 \
@@ -54,6 +56,8 @@ jobs:
             -DLIBAEC_USE_LOCALCONTENT:BOOL=OFF \
             $GITHUB_WORKSPACE
         shell: bash
+        env:
+          RUNNER_WORKSPACE: ${{ runner.workspace }}
 
       - name: Build
         run: cmake --build . --config Release
@@ -79,12 +83,14 @@ jobs:
           ninjaVersion: latest
 
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Configure CMake
         run: |
-          mkdir "${{ runner.workspace }}/build"
-          cd "${{ runner.workspace }}/build"
+          mkdir "${RUNNER_WORKSPACE}/build"
+          cd "${RUNNER_WORKSPACE}/build"
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DHDF5_DEFAULT_API_VERSION:STRING=v112 \
@@ -99,6 +105,8 @@ jobs:
             -DLIBAEC_USE_LOCALCONTENT:BOOL=OFF \
             $GITHUB_WORKSPACE
         shell: bash
+        env:
+          RUNNER_WORKSPACE: ${{ runner.workspace }}
 
       - name: Build
         run: cmake --build . --config Release
@@ -124,12 +132,14 @@ jobs:
           ninjaVersion: latest
 
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Configure CMake
         run: |
-          mkdir "${{ runner.workspace }}/build"
-          cd "${{ runner.workspace }}/build"
+          mkdir "${RUNNER_WORKSPACE}/build"
+          cd "${RUNNER_WORKSPACE}/build"
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DHDF5_ENABLE_MAP_API:BOOL=ON \
@@ -144,6 +154,8 @@ jobs:
             -DLIBAEC_USE_LOCALCONTENT:BOOL=OFF \
             $GITHUB_WORKSPACE
         shell: bash
+        env:
+          RUNNER_WORKSPACE: ${{ runner.workspace }}
 
       - name: Build
         run: cmake --build . --config Release

@@ -14,10 +14,12 @@ jobs:
 
     steps:
       - name: Get Sources
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Run
-        uses: uraimo/run-on-arch-action@fd7aa8593480287702b446a273a68f788a9bad3a # v3
+        uses: uraimo/run-on-arch-action@fa1f3e7de95534497266c7265950b5188355fbfb # v3.2.1
         id: runcmd
         with:
           arch: ppc64le
@@ -41,7 +43,9 @@ jobs:
       - name: Get the output
         # Echo the `uname` output parameter from the `runcmd` step
         run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+          echo "The uname output was ${STEPS_RUNCMD_OUTPUTS_UNAME}"
+        env:
+          STEPS_RUNCMD_OUTPUTS_UNAME: ${{ steps.runcmd.outputs.uname }}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}

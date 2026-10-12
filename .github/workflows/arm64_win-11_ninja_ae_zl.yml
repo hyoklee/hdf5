@@ -13,15 +13,17 @@ jobs:
     runs-on: windows-11-arm
     steps:
       - name: h5
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: setup-msvc
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
         with:
           arch: arm64
       - name: test
-        shell: cmd
+        shell: pwsh
         run: |
-          SET CL=/Gy
+          $env:CL = "/Gy"
           vcpkg install libaec
           vcpkg install zlib
           vcpkg integrate install

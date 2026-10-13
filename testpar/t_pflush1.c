@@ -117,6 +117,16 @@ main(int argc, char *argv[])
     MPI_Comm_size(comm, &mpi_size);
     MPI_Comm_rank(comm, &mpi_rank);
 
+    /* This test simulates a crash by calling _exit() with files still open,
+     * so the library's atexit cleanup must not run. On POSIX, _exit() skips
+     * it anyway. On Windows, _exit() calls ExitProcess(), which still runs
+     * each DLL's atexit table on DLL_PROCESS_DETACH after terminating every
+     * other thread, so H5_term_library() would try to close the open files
+     * through the MPI-IO VFD (collective MPI calls, and MPI_Finalize()) with
+     * MPI's progress thread already dead, and the test would spin forever.
+     */
+    H5dont_atexit();
+
     if (mpi_rank == 0)
         TESTING("H5Fflush (part1)");
 

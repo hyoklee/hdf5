@@ -990,7 +990,8 @@ test_vl_closed_handle(void)
     const char     *fill        = "fill";
     char           *rfill       = NULL;
     char           *rdata[4]    = {NULL, NULL, NULL, NULL};
-    vl_closed_rec_t wrec        = {1, "x"};
+    char            wstr[]      = "x";
+    vl_closed_rec_t wrec        = {1, wstr};
     vl_closed_rec_t rrec        = {0, NULL};
     hsize_t         dims[1]     = {2};
     hsize_t         maxdims[1]  = {H5S_UNLIMITED};

@@ -1479,7 +1479,19 @@ ADD_H5_TEST (err_attr_dspace RESULT_CODE 1 H5ERRREF "error getting attribute inf
 # 80-bit platform and a 128-bit platform (arm64, s390x, ...) produce identical
 # output. A higher precision (e.g. %.35Lg) diverges past ~19 digits between
 # 80-bit and 128-bit long double and cannot match a single expected file.
-if (H5_SIZEOF_LONG_DOUBLE GREATER H5_SIZEOF_DOUBLE)
+# Also skip IBM "double-double" long double (LDBL_MANT_DIG == 106, e.g. ppc64
+# big-endian Linux): the library cannot describe that format exactly, so the
+# conversion from the file's IEEE 128-bit value loses precision (see the
+# matching LDBL_MANT_DIG != 106 guard in test/dsets.c).
+include (CheckCSourceCompiles)
+check_c_source_compiles ("
+#include <float.h>
+#if LDBL_MANT_DIG == 106
+#error IBM double-double long double
+#endif
+int main(void) { return 0; }
+" H5_LDOUBLE_IS_NOT_IBM_DOUBLE_DOUBLE)
+if (H5_SIZEOF_LONG_DOUBLE GREATER H5_SIZEOF_DOUBLE AND H5_LDOUBLE_IS_NOT_IBM_DOUBLE_DOUBLE)
   ADD_H5_TEST (t128bit_float RESULT_CODE 0 -L %.18Lg TARGET_FILE t128bit_float.h5)
 endif ()
 

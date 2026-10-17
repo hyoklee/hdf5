@@ -16,6 +16,13 @@ set (CTEST_CUSTOM_MAXIMUM_FAILED_TEST_OUTPUT_SIZE 50000)
 # WARNING!  This could be a lot of output and could overwhelm CDash and the
 # MySQL DB so this might not be a good idea!
 
+# Report a Ninja build step failure (e.g. a post-link command that fails
+# without printing "error:") as a build error instead of a silent stop
+set (CTEST_CUSTOM_ERROR_MATCH
+    ${CTEST_CUSTOM_ERROR_MATCH}
+    "^FAILED: "
+)
+
 set (CTEST_CUSTOM_WARNING_EXCEPTION
     ${CTEST_CUSTOM_WARNING_EXCEPTION}
     "note.*expected.*void.*but argument is of type.*volatile"

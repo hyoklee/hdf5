@@ -24952,6 +24952,73 @@
       <arglist></arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>H5Z_class3_t</name>
+    <filename>struct_h5_z__class3__t.html</filename>
+    <member kind="variable">
+      <type>H5Z_can_apply_func_t</type>
+      <name>can_apply</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a10d4a5417743a68aafc95160c5152601</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned</type>
+      <name>decoder_present</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>af3f8cbfa487cb4c06ad2210d0b81a271</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned</type>
+      <name>encoder_present</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a1622cd6083cfb9a6c4efb5d5bf67b143</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>uint64_t</type>
+      <name>feature_flags</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>aaccbcc3ce862dbe5af189ee0c3e345b1</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>H5Z_func_t</type>
+      <name>filter</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a995507f1980f1e7f971fda7c362a213b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>H5Z_filter_t</type>
+      <name>id</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a6f3027958c7ad4552356a1e47e4db2ce</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>const char *</type>
+      <name>name</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a8f8f80d37794cde9472343e4487ba3eb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>H5Z_set_local_func_t</type>
+      <name>set_local</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>a5d89ab9372734010a5c500ea3e694a03</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>version</name>
+      <anchorfile>struct_h5_z__class3__t.html</anchorfile>
+      <anchor>aad880fc4455c253781e8968f2239d56f</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>hdf::hdf5lib::exceptions::HDF5AttributeException</name>
     <filename>classhdf_1_1hdf5lib_1_1exceptions_1_1_h_d_f5_attribute_exception.html</filename>

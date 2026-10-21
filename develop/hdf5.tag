@@ -32250,6 +32250,13 @@
     </member>
     <member kind="variable">
       <type>bool</type>
+      <name>low_bound_set</name>
+      <anchorfile>structpack__opt__t.html</anchorfile>
+      <anchor>a776b195804ed9ab21e5be63858f0fad6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>bool</type>
       <name>merge</name>
       <anchorfile>structpack__opt__t.html</anchorfile>
       <anchor>ad04e424d7e7b8ed1d45bea51cad304e6</anchor>

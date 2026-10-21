@@ -351,6 +351,7 @@ typedef struct {
     int            use_native;                       /* use a native type in write */
     bool           latest;                           /* pack file with the latest file format */
     H5F_libver_t   low_bound;                        /* The file's low bound as in H5Fset_libver_bounds() */
+    bool           low_bound_set;                    /* true if low_bound was explicitly requested */
     H5F_libver_t   high_bound;                       /* The file's high bound as in H5Fset_libver_bounds() */
     hid_t          fin_fapl;                         /* FAPL to use for opening the input file */
     hid_t          fout_fapl;                        /* FAPL to use for opening/creating the output file */

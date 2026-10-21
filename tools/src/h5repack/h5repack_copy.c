@@ -124,8 +124,9 @@ copy_objects(const char *fnamein, const char *fnameout, pack_opt_t *options)
      * promotion the output would be created with H5F_LIBVER_EARLIEST, yielding
      * version-1 object headers that cannot store attributes larger than
      * H5O_MESG_MAX_SIZE (64 KiB), causing copy_attr() to fail on files that
-     * contain large attributes such as ISO-19139 XML metadata. */
-    {
+     * contain large attributes such as ISO-19139 XML metadata.
+     * An explicitly requested low bound is honored as-is. */
+    if (!options->low_bound_set) {
         H5F_info2_t finfo;
         if (H5Fget_info2(fidin, &finfo) < 0)
             H5TOOLS_GOTO_ERROR((-1), "H5Fget_info2 failed to get source file info");

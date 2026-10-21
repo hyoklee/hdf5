@@ -89,8 +89,8 @@ static void   H5Z__scaleoffset_compress(unsigned char *data, unsigned d_nelmts, 
                                         size_t buffer_size, parms_atomic p);
 
 /* This message derives from H5Z */
-H5Z_class2_t H5Z_SCALEOFFSET[1] = {{
-    H5Z_CLASS_T_VERS,           /* H5Z_class_t version */
+H5Z_class3_t H5Z_SCALEOFFSET[1] = {{
+    H5Z_CLASS_T_VERS_3,         /* H5Z_class_t version */
     H5Z_FILTER_SCALEOFFSET,     /* Filter id number        */
     1,                          /* Assume encoder present: check before registering */
     1,                          /* decoder_present flag (set to true) */
@@ -98,6 +98,8 @@ H5Z_class2_t H5Z_SCALEOFFSET[1] = {{
     H5Z__can_apply_scaleoffset, /* The "can apply" callback     */
     H5Z__set_local_scaleoffset, /* The "set local" callback     */
     H5Z__filter_scaleoffset,    /* The actual filter function    */
+    H5Z_FEAT_FILTER_THREADSAFE |
+        H5Z_FEAT_FILTER_NO_H5_CALLS, /* Feature flags - thread-safe and does not *re*-enter the HDF5 API */
 }};
 
 /* Local macros */
@@ -1235,8 +1237,21 @@ H5Z__filter_scaleoffset(unsigned flags, size_t cd_nelmts, const unsigned cd_valu
         assert(minbits <= p.size * 8);
         p.minbits = minbits;
 
+        /* the valid compressed data must at least cover the parameter header */
+        if (nbytes < buf_offset)
+            HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, 0, "chunk does not cover the scale-offset parameter header");
+
+        /* guard against overflow when computing the output buffer size */
+        if (p.size != 0 && d_nelmts > SIZE_MAX / p.size)
+            HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, 0, "invalid number of data elements");
+
         /* calculate size of output buffer after decompression */
         size_out = d_nelmts * (size_t)p.size;
+
+        /* check before allocating so a malformed chunk cannot force a large
+           allocation first. */
+        if (minbits == p.size * 8 && size_out > nbytes - buf_offset)
+            HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, 0, "scale-offset decompressed size exceeds chunk data");
 
         /* allocate memory space for decompressed buffer */
         if (NULL == (outbuf = (unsigned char *)H5MM_malloc(size_out)))
@@ -1263,7 +1278,7 @@ H5Z__filter_scaleoffset(unsigned flags, size_t cd_nelmts, const unsigned cd_valu
         /* decompress the buffer if minbits not equal to zero */
         if (minbits != 0) {
             if (H5Z__scaleoffset_decompress(outbuf, d_nelmts, (unsigned char *)(*buf) + buf_offset,
-                                            *buf_size - buf_offset, p))
+                                            nbytes - buf_offset, p))
                 HGOTO_ERROR(H5E_PLINE, H5E_BADVALUE, 0, "Scaleoffset decompression failed");
         }
         else {

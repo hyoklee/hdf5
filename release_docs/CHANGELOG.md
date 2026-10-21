@@ -59,12 +59,36 @@ We would like to thank the many HDF5 community members who contributed to this r
   `enable_language()`, but these calls were removed in favor of checking the enabled languages
   and issuing an error if required languages aren't enabled.
 
+- The static HDF5 library now uses the threads library in default builds wherever a threading
+  package is available. Previously, it was only used in builds with thread-safety, concurrency,
+  or the Subfiling VFD. Projects that link the static library without CMake or pkg-config must
+  include the threads link flag (usually `-pthread`) on systems where the thread functions aren't
+  part of the C library, (e.g. Linux with glibc < 2.34). HDF5's pkg-config file already listed this
+  flag, but default builds did not require it until now. The flag is supplied by
+  `pkg-config --static --libs hdf5`.
+
 # 🪦 Deprecations
 
 
 # 🚀 New Features & Improvements
 
 ## Configuration
+
+### Built the library's internal thread pool by default
+
+   The internal thread pool lets the library parallelize the internals of a
+   single API call using its own worker threads. It adds no application
+   threads, so it is not a build-time choice exposed through CMake. It is built
+   in wherever a threading package is available, except in a static library on
+   Windows.
+
+   Note that nothing in the library is threaded until the application enables it via
+   H5TSset_internal_threads().
+
+   Linking the static library now requires the threads library on some systems; see
+   Breaking Changes.
+
+   The internal thread pool can now be used with the high-level, Fortran, Java and C++ interfaces.
 
 ### Various improvements in installed CMake package configuration file
 
@@ -107,6 +131,21 @@ We would like to thank the many HDF5 community members who contributed to this r
 
    When a global API compatibility version is set (e.g., `H5_USE_16_API`), functions introduced after that version previously defaulted to their latest version, which could break applications. For example, an application using `H5_USE_16_API` that called `H5Sencode()` (introduced in 1.8, versioned in 1.12) would get `H5Sencode2()` instead of `H5Sencode1()`, potentially causing compilation or runtime failures. Versioned functions now default to their earliest (version 1) variant when the configured API level predates the function's introduction, providing maximum compatibility. See issue [#6278](https://github.com/HDFGroup/hdf5/issues/6278).
 
+### Added new VFD feature flag
+
+   Added a new Virtual File Driver (VFD) feature flag,
+   H5FD_FEAT_READWRITE_NO_H5_CALLS. This flag should be set when the read and
+   write callbacks do not make any HDF5 calls except for H5OPEN.
+
+### Added new version of H5Z_class_t, H5Z_class3_t, to include feature flags
+
+   Added a new version of the H5Z_class_t struct, H5Z_class3_t. This version has
+   a new field, feature_flags, which indicates to the library which features the
+   plugin supports. The currently supported flags are
+   H5Z_FEAT_FILTER_THREADSAFE, which should be set when the filter callback is
+   threadsafe, and H5Z_FEAT_FILTER_NO_H5_CALLS, which should be set when the
+   filter makes no HDF5 calls except for H5OPEN.
+
 ### Added support for internally concurrent multithreaded reads of chunked datasets
 
    Added 3 new functions to support this: H5TSset_internal_threads(),
@@ -115,12 +154,13 @@ We would like to thank the many HDF5 community members who contributed to this r
    This feature internally parallelizes read operations on chunked datasets.
    H5TSset_internal_threads() is used to enable the feature globally, while
    H5Pset_io_threads() can be used to disable the feature on a per-operation
-   basis. These functions are only available when the library is configured with
-   HDF5_ENABLE_CONCURRENCY=ON. When performing an internally threaded read, the
-   library will concurrently read from disk, unfilter, and scatter to memory all
-   chunks in a read operation on a chunked dataset. Currently each of these
-   sub-operations is serialized (protected by a mutex), so there is not yet
-   likely to be any performance improvement.
+   basis. These functions are only available when the library is built with a
+   threading package; see the Configuration section above. When performing an
+   internally threaded read, the library will, when possible, concurrently read
+   from disk, unfilter, and scatter to memory all chunks in a read operation on
+   a chunked dataset. Currently only the filter operations are executed
+   concurrently, the others are serialized.
+
 
 ## Parallel Library
 
@@ -177,6 +217,15 @@ We would like to thank the many HDF5 community members who contributed to this r
    exit. aws_s3_library_clean_up() still runs from the atexit() handler, as it also
    joins threads owned by other aws-c-* users, and the ROS3 VFD can be used again after
    H5close().
+
+### Fixed a heap buffer over-read in scale-offset decode
+
+   The scale-offset filter's decode path used the size computed from the user's filter
+   parameters for the decompressed output without checking it against the actual
+   compressed chunk. This caused a heap out-of-bound read when encountered a malformed
+   file. The issue is now fixed with bound guards.
+
+   Fixes CVE-2026-19029
 
 ### Fixed a deadlock in the ROS3 VFD on Windows
 
@@ -248,6 +297,10 @@ Fixes GitHub issue #6679.
 
    Fixes GitHub issue #6531
 
+### Added pre-allocation validation for metadata cache entry image sizes
+
+   Metadata cache entries with non-speculative load sizes are now checked against the file's end-of-allocation address before allocating the on-disk image buffer. Object header continuation messages also validate their decoded address and size fields before queuing continuation chunks. SWMR readers skip the end-of-allocation checks for both speculative and non-speculative metadata loads because their local end-of-allocation address may lag behind the writer.
+
 ### Fixed a crash when reading a chunked dataset whose chunk rank does not match the dataspace rank
 
    The chunk layout's stored dimensionality was validated against the dataspace rank at creation time, but not at open time, so a file whose stored chunk rank disagreed with its dataspace rank was not caught. The resulting inconsistent selection ranks during chunk I/O caused a divide-by-zero in the hyperslab iterator. The chunk dimensionality is now also validated on open, and such a dataset is rejected with an error instead of crashing.
@@ -255,6 +308,12 @@ Fixes GitHub issue #6679.
    Fixes GitHub issue #6491
 
    Fixes CVE-2026-19025
+
+### Fixed silent truncation of filtered chunk sizes with a small file "size of sizes"
+
+   For all chunk index types in version-5 chunk layout messages, and for the single chunk index in any version of the chunk layout message, the on-disk size of a filtered chunk is encoded in a fixed-width field equal to the file's "size of sizes" (set via `H5Pset_sizes()`). The encode check assumed this field was always 8 bytes, so when the size of sizes was set to 2 or 4 an oversized chunk had its encoded size silently truncated (e.g., 160000 encoded in 2 bytes became 160000 & 0xFFFF = 28928), silently corrupting the chunk. The library now verifies that a filtered chunk's size fits in the file's size of sizes and reports an error at write time instead.
+
+   Fixes GitHub issue #6023
 
 ### Fixed a crash when reading a dataset with a malformed fill value
 

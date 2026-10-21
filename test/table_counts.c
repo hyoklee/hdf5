@@ -24,6 +24,8 @@
 
 #define NRECORDS 40
 
+static const char *FILENAME[] = {"table_counts", NULL};
+
 static herr_t
 check_link(const H5O_link_t *lnk, void *op_data)
 {
@@ -42,7 +44,7 @@ check_link(const H5O_link_t *lnk, void *op_data)
  * from the object header, without relying on a particular disk encoding.
  */
 static int
-test_table_counts(bool attributes, bool dense)
+test_table_counts(hid_t fapl, bool attributes, bool dense)
 {
     hid_t            file = H5I_INVALID_HID, group = H5I_INVALID_HID;
     hid_t            gcpl = H5I_INVALID_HID, space = H5I_INVALID_HID, attr = H5I_INVALID_HID;
@@ -59,6 +61,7 @@ test_table_counts(bool attributes, bool dense)
     unsigned         saved_node_count = 0;
     const hsize_t    counts[]         = {
         0, 1, NRECORDS - 1, NRECORDS, NRECORDS + 1, (hsize_t)0x3ffffffd, (hsize_t)0x3fffffff, HSIZET_MAX};
+    char     filename[1024];
     char     name[32];
     herr_t   status;
     unsigned seen;
@@ -67,7 +70,8 @@ test_table_counts(bool attributes, bool dense)
             : dense    ? "dense link tables with fabricated counts"
                        : "compact link tables with fabricated counts");
 
-    if ((file = H5Fcreate("table_counts.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT)) < 0)
+    h5_fixname(FILENAME[0], fapl, filename, sizeof(filename));
+    if ((file = H5Fcreate(filename, H5F_ACC_TRUNC, H5P_DEFAULT, fapl)) < 0)
         TEST_ERROR;
     if ((gcpl = H5Pcreate(H5P_GROUP_CREATE)) < 0)
         TEST_ERROR;
@@ -219,15 +223,21 @@ error:
 int
 main(void)
 {
-    int nerrors = 0;
+    hid_t fapl    = H5I_INVALID_HID;
+    int   nerrors = 0;
 
     h5_test_init();
-    nerrors += test_table_counts(false, false);
-    nerrors += test_table_counts(false, true);
-    nerrors += test_table_counts(true, true);
-    if (nerrors)
+    if ((fapl = h5_fileaccess()) < 0)
         return EXIT_FAILURE;
-    if (remove("table_counts.h5") < 0)
+    nerrors += test_table_counts(fapl, false, false);
+    nerrors += test_table_counts(fapl, false, true);
+    nerrors += test_table_counts(fapl, true, true);
+    if (nerrors) {
+        H5Pclose(fapl);
+        return EXIT_FAILURE;
+    }
+    h5_delete_test_file(FILENAME[0], fapl);
+    if (H5Pclose(fapl) < 0)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }

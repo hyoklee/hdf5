@@ -633,7 +633,8 @@ parse_command_line(int argc, const char *const *argv, pack_opt_t *options)
                     ret_value = -1;
                     goto done;
                 }
-                options->low_bound = bound;
+                options->low_bound     = bound;
+                options->low_bound_set = true;
                 break;
 
             case 'k':

@@ -1568,8 +1568,9 @@ main(void)
              * just record the output file size. */
             if (h5repack_init(&pack_options, 0, false) < 0)
                 GOERROR;
-            pack_options.low_bound  = lb;
-            pack_options.high_bound = H5F_LIBVER_LATEST;
+            pack_options.low_bound     = lb;
+            pack_options.low_bound_set = true;
+            pack_options.high_bound    = H5F_LIBVER_LATEST;
             if (h5repack(H5REPACK_FNAME4, H5REPACK_FNAME4OUT, &pack_options) < 0)
                 GOERROR;
             memset(&file_stat, 0, sizeof(h5_stat_t));
@@ -1583,6 +1584,7 @@ main(void)
             if (h5repack_init(&pack_options, 0, false) < 0)
                 GOERROR;
             pack_options.low_bound       = lb;
+            pack_options.low_bound_set   = true;
             pack_options.high_bound      = H5F_LIBVER_LATEST;
             pack_options.meta_block_size = 8192;
             if (h5repack(H5REPACK_FNAME4, H5REPACK_FNAME4OUT, &pack_options) < 0)

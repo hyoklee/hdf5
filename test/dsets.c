@@ -20560,7 +20560,7 @@ filter_non_threadsafe(unsigned int H5_ATTR_UNUSED flags, size_t H5_ATTR_UNUSED c
     /* Flip every bit, just to do something to maximize the chance concurrent threads will run afoul of the
      * non_threadsafe_threads_in_flight check */
     for (size_t i = 0; i < nbytes; i++)
-        ((uint8_t *)*buf)[i] = ~((uint8_t *)*buf)[i];
+        ((uint8_t *)*buf)[i] = (uint8_t) ~((uint8_t *)*buf)[i];
 
     /* Yield priority, to increase the chance another thread takes over at this point */
     H5TS_thread_yield();

@@ -38,6 +38,10 @@ set (CTEST_CUSTOM_WARNING_EXCEPTION
     "config.cmake.xlatefile.c"
     "warning.*unknown pragma"
     "warning.*unrecognized .pragma"
+    # OpenBSD's linker warns on every reference to these libc functions,
+    # whether or not the call is safe (e.g., seeded rand() in tests)
+    "warning: [a-z]+\\(\\) is (often|almost always) misused"
+    "warning: [a-z]+\\(\\) may return deterministic values"
 #    "note: expanded from macro"
     # HDDFFV-11074
     "This directive is not standard"

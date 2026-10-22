@@ -221,11 +221,11 @@ We would like to thank the many HDF5 community members who contributed to this r
 ### Stopped exporting the built-in filter class structs
 
    The class structs of the built-in filters (H5Z_DEFLATE, H5Z_SHUFFLE, H5Z_FLETCHER32,
-   H5Z_NBIT, H5Z_SCALEOFFSET and H5Z_SZIP) were exported from the shared library. Filter
-   plugins built from a copy of HDF5's filter source, such as netCDF-C's deflate, shuffle
+   H5Z_NBIT, H5Z_SCALEOFFSET, and H5Z_SZIP) were exported from the shared library. Filter
+   plugins built from a copy of HDF5's filter source, such as netCDF-C's deflate, shuffle,
    and fletcher32 plugins, define globals with the same names, and on ELF platforms the
-   plugin's references to its own struct bound to the library's copy instead. The structs
-   are now static to their source files, so a plugin always uses its own.
+   plugin's references to its own struct were resolved to the library's copy instead. The
+   structs are now static to their source files, so a plugin always uses its own.
 
 ### Fixed out-of-bounds reads when a filtered chunk is shorter than its filter header
 
@@ -321,6 +321,12 @@ Fixes GitHub issue #6679.
    Fixes GitHub issue #6491
 
    Fixes CVE-2026-19025
+
+### Fixed signed integer overflow in the scale-offset filter for full-range data
+
+   When a signed-integer dataset filtered with scale-offset contained values spanning the full range of the datatype, the filter's calculation of the difference between the maximum and minimum values would overflow, resulting in undefined behavior. The difference is now computed in the unsigned domain, producing the correct result without triggering an overflow.
+
+   Fixes GitHub issue #5861
 
 ### Fixed silent truncation of filtered chunk sizes with a small file "size of sizes"
 

@@ -3665,6 +3665,7 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     H5CX_node_t   api_ctx = {{0}, NULL};                   /* API context node to push */
     H5D_storage_t cpt_store;                               /* Chunk storage information as compact dataset */
     bool          cpt_dirty;                 /* Temporary placeholder for compact storage "dirty" flag */
+    herr_t        read_ret;                  /* Return value from the chunk read callback */
     bool          mutex_held      = false;   /* Whether we hold the internal mutex */
     bool          cond_mutex_held = false;   /* Whether we hold the condition variable mutex */
     bool          api_ctx_pushed  = false;   /* Whether API context pushed */
@@ -3765,7 +3766,7 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     /* Set up the storage buffer information for this chunk */
     cpt_store.compact.buf                       = threaded_chunk_info->chunk;
     cpt_store.compact.dirty                     = &cpt_dirty;
-    threaded_chunk_info->chk_dset_io_info.store = &cpt_store;
+    threaded_chunk_info->chk_dset_io_info.store = &cpt_store; // codeql[cpp/stack-address-escape]
 
     /* Lock internal mutex */
     if (H5_UNLIKELY(H5TS_internal_lock() < 0))
@@ -3774,9 +3775,13 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
 
     /* Scatter data from chunk buffer to application buffer. Even though this is protected by a mutex it must
      * still not interfere with the threads in H5Z_pipeline() */
-    if (H5_UNLIKELY((threaded_chunk_info->threaded_io_info->dset_info->io_ops.single_read)(
-                        &threaded_chunk_info->threaded_io_info->cpt_io_info,
-                        &threaded_chunk_info->chk_dset_io_info) < 0))
+    read_ret = (threaded_chunk_info->threaded_io_info->dset_info->io_ops.single_read)(
+        &threaded_chunk_info->threaded_io_info->cpt_io_info, &threaded_chunk_info->chk_dset_io_info);
+
+    /* Don't leave a pointer to the local cpt_store behind */
+    threaded_chunk_info->chk_dset_io_info.store = NULL;
+
+    if (H5_UNLIKELY(read_ret < 0))
         HGOTO_ERROR(H5E_DATASET, H5E_READERROR, FAIL, "chunked read failed");
 
     /* Unlock internal mutex */

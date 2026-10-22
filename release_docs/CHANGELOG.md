@@ -371,6 +371,19 @@ Fixes GitHub issue #6679.
 
    Fixes GitHub issue #6725
 
+### Fixed intermittent "another process has locked a portion of the file" failures with the MPI-IO VFD on Windows
+
+   ROMIO, the MPI-IO layer used by Intel MPI and MS-MPI on Windows, performs
+   non-contiguous writes with data sieving: it reads a region of the file into a
+   buffer, modifies it and writes it back while holding a byte-range lock on the
+   region. On NTFS those locks are mandatory, so a contiguous write from another
+   rank into the same region failed with `ERROR_LOCK_VIOLATION` and the surviving
+   ranks then hung in the collective operation. This was seen intermittently in
+   collective writes to filtered chunked datasets, where ROMIO may fall back to
+   independent strided writes. The MPI-IO VFD now sets the `romio_ds_write` hint to
+   `disable` when it opens a file on Windows, unless the application has set that
+   hint itself.
+
 ## Java Library
 
 ### Fixed datatype ID leaks when reading or writing nested datatypes through the JNI

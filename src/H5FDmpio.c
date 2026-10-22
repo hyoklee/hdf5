@@ -106,6 +106,9 @@ static herr_t H5FD__mpio_write_selection(H5FD_t *_file, H5FD_mem_t type, hid_t H
 static herr_t H5FD__mpio_flush(H5FD_t *_file, hid_t dxpl_id, bool closing);
 static herr_t H5FD__mpio_truncate(H5FD_t *_file, hid_t dxpl_id, bool closing);
 static herr_t H5FD__mpio_delete(const char *filename, hid_t fapl_id);
+#ifdef H5_HAVE_WIN32_API
+static herr_t H5FD__mpio_set_win32_hints(MPI_Info *info);
+#endif
 static herr_t H5FD__mpio_ctl(H5FD_t *_file, uint64_t op_code, uint64_t flags, const void *input,
                              void **output);
 
@@ -861,6 +864,58 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD_get_mpio_atomicity() */
 
+#ifdef H5_HAVE_WIN32_API
+/*-------------------------------------------------------------------------
+ * Function:    H5FD__mpio_set_win32_hints
+ *
+ * Purpose:     Adds the MPI-IO hints needed for correct operation on
+ *              Windows to INFO, creating the info object if necessary.
+ *              Hints that the application has already set are left alone.
+ *
+ *              ROMIO's data sieving write path (used for independent
+ *              non-contiguous writes, including collective writes that
+ *              ROMIO decides not to aggregate) takes byte-range locks on
+ *              the sieve region while it reads, modifies and writes it
+ *              back. On NTFS those locks are mandatory, so a contiguous
+ *              write from another rank into that region fails with
+ *              ERROR_LOCK_VIOLATION ("The process cannot access the file
+ *              because another process has locked a portion of the
+ *              file"). Data sieving is therefore disabled for writes.
+ *
+ * Return:      SUCCEED/FAIL
+ *
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5FD__mpio_set_win32_hints(MPI_Info *info)
+{
+    char   value[MPI_MAX_INFO_VAL + 1];
+    int    flag      = 0;
+    int    mpi_code  = MPI_SUCCESS;
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
+
+    assert(info);
+
+    if (MPI_INFO_NULL == *info) {
+        if (MPI_SUCCESS != (mpi_code = MPI_Info_create(info)))
+            HMPI_GOTO_ERROR(FAIL, "MPI_Info_create failed", mpi_code)
+    }
+    else {
+        if (MPI_SUCCESS != (mpi_code = MPI_Info_get(*info, "romio_ds_write", MPI_MAX_INFO_VAL, value, &flag)))
+            HMPI_GOTO_ERROR(FAIL, "MPI_Info_get failed", mpi_code)
+    }
+
+    if (!flag)
+        if (MPI_SUCCESS != (mpi_code = MPI_Info_set(*info, "romio_ds_write", "disable")))
+            HMPI_GOTO_ERROR(FAIL, "MPI_Info_set failed", mpi_code)
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FD__mpio_set_win32_hints() */
+#endif /* H5_HAVE_WIN32_API */
+
 /*-------------------------------------------------------------------------
  * Function:    H5FD__mpio_open
  *
@@ -950,6 +1005,13 @@ H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t H5_ATTR
         if (flag)
             H5FD__mpio_parse_debug_str(debug_str);
     } /* end if */
+#endif
+
+#ifdef H5_HAVE_WIN32_API
+    /* The info object is the driver's own copy (freed when the file is
+     * closed), so hints can be added to it without affecting the caller's */
+    if (H5FD__mpio_set_win32_hints(&info) < 0)
+        HGOTO_ERROR(H5E_VFL, H5E_CANTSET, NULL, "can't set MPI-IO hints for Windows");
 #endif
 
     if (MPI_SUCCESS != (mpi_code = MPI_File_open(comm, name, mpi_amode, info, &fh)))

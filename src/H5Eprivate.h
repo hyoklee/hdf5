@@ -167,7 +167,7 @@
          */                                                                                                  \
         HDONE_ERROR(majorcode, minorcode, retcode,                                                           \
                     "%s, errno = %d, error message = '%s', Win32 GetLastError() = %" PRIu32 "", str,         \
-                    myerrno, strerror(myerrno), win_error);                                                  \
+                    myerrno, strerror(myerrno), (uint32_t)win_error);                                                  \
     }
 #define HSYS_GOTO_ERROR(majorcode, minorcode, retcode, str)                                                  \
     {                                                                                                        \
@@ -178,7 +178,7 @@
          */                                                                                                  \
         HGOTO_ERROR(majorcode, minorcode, retcode,                                                           \
                     "%s, errno = %d, error message = '%s', Win32 GetLastError() = %" PRIu32 "", str,         \
-                    myerrno, strerror(myerrno), win_error);                                                  \
+                    myerrno, strerror(myerrno), (uint32_t)win_error);                                                  \
     }
 #endif /* H5_HAVE_WIN32_API */
 

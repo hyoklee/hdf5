@@ -625,8 +625,8 @@ H5FD__ros3_fapl_free(void *_fa)
 herr_t
 H5Pget_fapl_ros3_token(hid_t fapl_id, size_t size, char *token_dst /*out*/)
 {
-    H5P_genplist_t *plist = NULL;
-    char           *token_src;
+    H5P_genplist_t *plist     = NULL;
+    char           *token_src = NULL;
     htri_t          token_exists;
     size_t          tokenlen  = 0;
     herr_t          ret_value = SUCCEED;
@@ -649,12 +649,14 @@ H5Pget_fapl_ros3_token(hid_t fapl_id, size_t size, char *token_dst /*out*/)
             HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "unable to get token value");
     }
 
-    /* Copy the token data out */
-    tokenlen = strlen(token_src);
-    if (size <= tokenlen) {
-        tokenlen = size - 1;
+    /* Copy the token data out (an empty string if no token was set) */
+    if (token_src) {
+        tokenlen = strlen(token_src);
+        if (size <= tokenlen) {
+            tokenlen = size - 1;
+        }
+        H5MM_memcpy(token_dst, token_src, sizeof(char) * tokenlen);
     }
-    H5MM_memcpy(token_dst, token_src, sizeof(char) * tokenlen);
     token_dst[tokenlen] = '\0';
 
 done:

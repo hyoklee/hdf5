@@ -45,6 +45,8 @@ MODULE TH5_MISC
     INTEGER :: x
     DOUBLE PRECISION :: y
     CHARACTER(KIND=C_CHAR) :: z
+    ! Pad to a multiple of 8 bytes so arrays of this type keep their fields aligned
+    CHARACTER(KIND=C_CHAR), DIMENSION(7) :: pad
   END TYPE comp_datatype
 
   PUBLIC :: H5_SIZEOF
@@ -58,9 +60,9 @@ MODULE TH5_MISC
 CONTAINS
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: write_test_header
-!DEC$endif
+#endif
   SUBROUTINE write_test_header(title_header)
 
     ! Writes the test header
@@ -119,9 +121,9 @@ CONTAINS
    END SUBROUTINE write_test_header
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: write_test_footer
-!DEC$endif
+#endif
    SUBROUTINE write_test_footer()
 
      ! Writes the test footer
@@ -138,9 +140,9 @@ CONTAINS
    END SUBROUTINE write_test_footer
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: write_test_status
-!DEC$endif
+#endif
   SUBROUTINE write_test_status( test_result, test_title, total_error)
 
     ! Writes the results of the tests
@@ -177,9 +179,9 @@ CONTAINS
 
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: check
-!DEC$endif
+#endif
   SUBROUTINE check(string,error,total_error)
     CHARACTER(LEN=*) :: string
     INTEGER :: error, total_error
@@ -208,13 +210,13 @@ CONTAINS
   SUBROUTINE h5_fixname_f(base_name, full_name, fapl, hdferr)
 !
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_fixname_f
-!DEC$endif
+#endif
     USE H5GLOBAL
     IMPLICIT NONE
     CHARACTER(LEN=*), INTENT(IN) :: base_name   ! base name
-    CHARACTER(LEN=*), INTENT(IN) :: full_name   ! full name
+    CHARACTER(LEN=*), INTENT(INOUT) :: full_name   ! full name
     INTEGER, INTENT(OUT) :: hdferr         ! Error code
     INTEGER(HID_T), INTENT(IN) :: fapl ! file access property list
 
@@ -224,17 +226,14 @@ CONTAINS
 
     INTERFACE
        INTEGER FUNCTION h5_fixname_c(base_name, base_namelen, fapl, &
-            full_name, full_namelen)
+            full_name, full_namelen) BIND(C,NAME='h5_fixname_c')
          USE H5GLOBAL
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_FIXNAME_C':: h5_fixname_c
-         !DEC$ ENDIF
-         !DEC$ATTRIBUTES reference :: base_name
-         !DEC$ATTRIBUTES reference :: full_name
-         CHARACTER(LEN=*), INTENT(IN) :: base_name
+         USE, INTRINSIC :: ISO_C_BINDING, ONLY : C_CHAR
+         IMPLICIT NONE
+         CHARACTER(KIND=C_CHAR), DIMENSION(*), INTENT(IN) :: base_name
          INTEGER(SIZE_T) :: base_namelen
          INTEGER(HID_T), INTENT(IN) :: fapl
-         CHARACTER(LEN=*), INTENT(IN) :: full_name
+         CHARACTER(KIND=C_CHAR), DIMENSION(*), INTENT(INOUT) :: full_name
          INTEGER(SIZE_T) :: full_namelen
        END FUNCTION h5_fixname_c
     END INTERFACE
@@ -263,9 +262,9 @@ CONTAINS
   SUBROUTINE h5_cleanup_f(base_name, fapl, hdferr)
 !
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_cleanup_f
-!DEC$endif
+#endif
     USE H5GLOBAL
     IMPLICIT NONE
     CHARACTER(LEN=*), INTENT(IN) :: base_name   ! base name
@@ -275,13 +274,11 @@ CONTAINS
     INTEGER(SIZE_T) :: base_namelen ! Length of the base name character string
 
     INTERFACE
-       INTEGER FUNCTION h5_cleanup_c(base_name, base_namelen, fapl)
+       INTEGER FUNCTION h5_cleanup_c(base_name, base_namelen, fapl) BIND(C,NAME='h5_cleanup_c')
          USE H5GLOBAL
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_CLEANUP_C':: h5_cleanup_c
-         !DEC$ ENDIF
-         !DEC$ATTRIBUTES reference :: base_name
-         CHARACTER(LEN=*), INTENT(IN) :: base_name
+         USE, INTRINSIC :: ISO_C_BINDING, ONLY : C_CHAR
+         IMPLICIT NONE
+         CHARACTER(KIND=C_CHAR), DIMENSION(*), INTENT(IN) :: base_name
          INTEGER(SIZE_T) :: base_namelen
          INTEGER(HID_T), INTENT(IN) :: fapl
        END FUNCTION h5_cleanup_c
@@ -310,17 +307,15 @@ CONTAINS
   SUBROUTINE h5_exit_f(status)
 !
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_exit_f
-!DEC$endif
+#endif
     IMPLICIT NONE
     INTEGER, INTENT(IN) :: status         ! Return code
 
     INTERFACE
-       SUBROUTINE h5_exit_c(status)
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_EXIT_C':: h5_exit_c
-         !DEC$ ENDIF
+       SUBROUTINE h5_exit_c(status) BIND(C,NAME='h5_exit_c')
+         IMPLICIT NONE
          INTEGER, INTENT(IN) :: status
        END SUBROUTINE h5_exit_c
     END INTERFACE
@@ -343,19 +338,17 @@ CONTAINS
   SUBROUTINE h5_env_nocleanup_f(HDF5_NOCLEANUP)
 !
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_env_nocleanup_f
-!DEC$endif
+#endif
     IMPLICIT NONE
     LOGICAL, INTENT(OUT) :: HDF5_NOCLEANUP ! Return code
     INTEGER :: status
 
     INTERFACE
-       SUBROUTINE h5_env_nocleanup_c(status)
-         !DEC$ IF DEFINED(HDF5F90_WINDOWS)
-         !DEC$ ATTRIBUTES C,reference,decorate,alias:'H5_ENV_NOCLEANUP_C':: h5_env_nocleanup_c
-         !DEC$ ENDIF
-         INTEGER :: status
+       SUBROUTINE h5_env_nocleanup_c(status) BIND(C,NAME='h5_env_nocleanup_c')
+         IMPLICIT NONE
+         INTEGER, INTENT(OUT) :: status
        END SUBROUTINE h5_env_nocleanup_c
     END INTERFACE
 
@@ -390,9 +383,9 @@ CONTAINS
 ! ---------------------------------------------------------------------------------------------------
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_sizeof_cmpd
-!DEC$endif
+#endif
   INTEGER(C_SIZE_T) FUNCTION H5_SIZEOF_CMPD(a)
     IMPLICIT NONE
     TYPE(comp_datatype), INTENT(in) :: a
@@ -406,9 +399,9 @@ CONTAINS
   END FUNCTION H5_SIZEOF_CMPD
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_sizeof_chr
-!DEC$endif
+#endif
   INTEGER(C_SIZE_T) FUNCTION H5_SIZEOF_CHR(a)
     IMPLICIT NONE
     CHARACTER(LEN=1), INTENT(in) :: a
@@ -422,9 +415,9 @@ CONTAINS
   END FUNCTION H5_SIZEOF_CHR
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_sizeof_i
-!DEC$endif
+#endif
   INTEGER(C_SIZE_T) FUNCTION H5_SIZEOF_I(a)
     IMPLICIT NONE
     INTEGER, INTENT(in):: a
@@ -439,9 +432,9 @@ CONTAINS
 
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_sizeof_sp
-!DEC$endif
+#endif
   INTEGER(C_SIZE_T) FUNCTION H5_SIZEOF_SP(a)
     IMPLICIT NONE
     REAL(sp), INTENT(in):: a
@@ -455,9 +448,9 @@ CONTAINS
   END FUNCTION H5_SIZEOF_SP
 
 !This definition is needed for Windows DLLs
-!DEC$if defined(BUILD_HDF5_TEST_DLL)
+#ifdef BUILD_HDF5_TEST_DLL
 !DEC$attributes dllexport :: h5_sizeof_dp
-!DEC$endif
+#endif
   INTEGER(C_SIZE_T) FUNCTION H5_SIZEOF_DP(a)
     IMPLICIT NONE
     REAL(dp), INTENT(in):: a

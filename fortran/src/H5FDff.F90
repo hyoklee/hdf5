@@ -58,9 +58,10 @@ MODULE H5FD
   END INTERFACE
 #endif
 
+#ifdef H5_HAVE_SUBFILING_VFD
+
 CONTAINS
 
-#ifdef H5_HAVE_SUBFILING_VFD
 !>
 !! \ingroup FH5VFD
 !!

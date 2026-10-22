@@ -995,6 +995,9 @@ extern size_t input_len;
 #line 966 "hl/src//H5LTanalyze.c"
 #line 967 "hl/src//H5LTanalyze.c"
 
+#define YY_NO_INPUT 1
+#define YY_NO_UNPUT 1
+
 #define INITIAL 0
 
 #ifndef YY_EXTRA_TYPE

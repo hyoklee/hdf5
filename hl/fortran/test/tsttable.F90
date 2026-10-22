@@ -559,7 +559,7 @@ SUBROUTINE test_table2()
 
   TYPE particle_t
      SEQUENCE
-     CHARACTER(LEN=11) :: name
+     CHARACTER(LEN=12) :: name ! 12 (not 11) so the following fields are naturally aligned
      INTEGER(KIND=i8) :: lati
      INTEGER(KIND=i16) :: long
      REAL(KIND=sp) :: pressure
@@ -650,7 +650,7 @@ SUBROUTINE test_table2()
 
   ! Initialize field_type
   CALL H5Tcopy_f(H5T_FORTRAN_S1, string_type, errcode)
-  CALL H5Tset_size_f(string_type, INT(11,size_t), errcode)
+  CALL H5Tset_size_f(string_type, INT(LEN(dst_buf(1)%name),size_t), errcode)
 
   field_type(1:5) = (/ &
        string_type,&

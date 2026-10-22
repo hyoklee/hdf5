@@ -24,7 +24,13 @@ message (VERBOSE "Warnings Configuration: C default: ${CMAKE_C_FLAGS}")
 # future
 if (MSVC)
   add_definitions (-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
-  set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stack:10000000")
+  if (CMAKE_C_COMPILER_ID MATCHES "Intel")
+    # The Intel compiler drivers (icx/ifx) link executables themselves and
+    # warn about link.exe options they don't recognize, so forward the option
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /Qoption,link,/STACK:10000000")
+  else ()
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stack:10000000")
+  endif ()
 endif ()
 
 

@@ -36,7 +36,7 @@
  * Returns:     0 on success, -1 on failure
  *---------------------------------------------------------------------------*/
 int_f
-nh5_fixname_c(_fcd base_name, size_t_f *base_namelen, hid_t_f *fapl, _fcd full_name, size_t_f *full_namelen)
+h5_fixname_c(_fcd base_name, size_t_f *base_namelen, hid_t_f *fapl, _fcd full_name, size_t_f *full_namelen)
 {
     char *c_base_name = NULL;
     char *c_full_name = NULL;
@@ -75,7 +75,7 @@ done:
  * Returns:     0 on success, -1 on failure
  *---------------------------------------------------------------------------*/
 int_f
-nh5_cleanup_c(_fcd base_name, size_t_f *base_namelen, hid_t_f *fapl)
+h5_cleanup_c(_fcd base_name, size_t_f *base_namelen, hid_t_f *fapl)
 {
     char  filename[1024];
     int   ret_value = -1;
@@ -122,7 +122,7 @@ DONE:
  * Returns:     none
  *---------------------------------------------------------------------------*/
 void
-nh5_exit_c(int_f *status)
+h5_exit_c(int_f *status)
 {
     exit((int)*status);
 } /* h5_exit_c */
@@ -136,7 +136,7 @@ nh5_exit_c(int_f *status)
  * Returns:     none
  *---------------------------------------------------------------------------*/
 void
-nh5_env_nocleanup_c(int_f *status)
+h5_env_nocleanup_c(int_f *status)
 {
     *status = (int_f)0;
     if (getenv(HDF5_NOCLEANUP))

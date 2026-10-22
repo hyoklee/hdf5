@@ -5861,7 +5861,7 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
         else if (LDBL_COMPLEX == src_type) {
             H5_ldouble_complex ldc;
             memcpy(&ldc, &saved[j * src_size], sizeof(H5_ldouble_complex));
-            printf(" %29.20Le%+.20Lei\n", creall(ldc), cimagl(ldc));
+            printf(" %29.20Le%+.20Lei\n", (long double)creall(ldc), (long double)cimagl(ldc));
         }
 #endif
         else
@@ -5922,7 +5922,7 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
         else if (LDBL_COMPLEX == dst_type) {
             H5_ldouble_complex ldc;
             memcpy(&ldc, &buf[j * dst_size], sizeof(H5_ldouble_complex));
-            printf(" %29.20Le%+.20Lei\n", creall(ldc), cimagl(ldc));
+            printf(" %29.20Le%+.20Lei\n", (long double)creall(ldc), (long double)cimagl(ldc));
         }
 #endif
         else
@@ -5961,7 +5961,8 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
         else if (DBL_COMPLEX == dst_type)
             printf(" %29.20e%+.20ei\n", creal(hw_double_complex), cimag(hw_double_complex));
         else if (LDBL_COMPLEX == dst_type)
-            printf(" %29.20Le%+.20Lei\n", creall(hw_ldouble_complex), cimagl(hw_ldouble_complex));
+            printf(" %29.20Le%+.20Lei\n", (long double)creall(hw_ldouble_complex),
+                   (long double)cimagl(hw_ldouble_complex));
 #endif
         else
             goto error;
@@ -9258,7 +9259,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
             case LDBL_COMPLEX: {
                 H5_ldouble_complex ldc;
                 memcpy(&ldc, saved + j * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-                printf(" %29Lf%+Lfi\n", creall(ldc), cimagl(ldc));
+                printf(" %29Lf%+Lfi\n", (long double)creall(ldc), (long double)cimagl(ldc));
                 break;
             }
 #else
@@ -9396,7 +9397,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
             case LDBL_COMPLEX: {
                 H5_ldouble_complex ldc;
                 memcpy(&ldc, buf + j * sizeof(H5_ldouble_complex), sizeof(H5_ldouble_complex));
-                printf(" %29Lf%+Lfi\n", creall(ldc), cimagl(ldc));
+                printf(" %29Lf%+Lfi\n", (long double)creall(ldc), (long double)cimagl(ldc));
                 break;
             }
 #else
@@ -9485,8 +9486,8 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
                        cimag(*((H5_double_complex *)((void *)hw))));
                 break;
             case LDBL_COMPLEX:
-                printf(" %29Lf%+Lfi\n", creall(*((H5_ldouble_complex *)((void *)hw))),
-                       cimagl(*((H5_ldouble_complex *)((void *)hw))));
+                printf(" %29Lf%+Lfi\n", (long double)creall(*((H5_ldouble_complex *)((void *)hw))),
+                       (long double)cimagl(*((H5_ldouble_complex *)((void *)hw))));
                 break;
 #else
             case FLT_COMPLEX:

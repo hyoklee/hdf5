@@ -301,6 +301,7 @@ END SUBROUTINE test_array_compound_atomic
        INTEGER :: i
        REAL, DIMENSION(1:ARRAY2_DIM1) :: f
        CHARACTER(LEN=2), DIMENSION(1:ARRAY2_DIM1) :: c
+       CHARACTER(LEN=2) :: pad ! Pad to a multiple of 4 bytes so arrays of this type keep their fields aligned
     END TYPE st_t_struct
     !  Information to write
     TYPE(st_t_struct), DIMENSION(1:SPACE1_DIM1,1:ARRAY1_DIM1), TARGET :: wdata

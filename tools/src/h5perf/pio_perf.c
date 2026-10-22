@@ -342,11 +342,11 @@ run_test_loop(struct options *opts)
                 if (parms.dim2d) {
                     parms.num_bytes = squareo(opts->num_bpp * parms.num_procs);
                     if (parms.interleaved)
-                        output_report("Transfer Buffer Size: %ldx%ld bytes, File size: %.2f MB\n", buf_size,
+                        output_report("Transfer Buffer Size: %zux%zu bytes, File size: %.2f MB\n", buf_size,
                                       opts->blk_size,
                                       ((double)parms.num_dsets * (double)parms.num_bytes) / ONE_MB);
                     else
-                        output_report("Transfer Buffer Size: %ldx%ld bytes, File size: %.2f MB\n",
+                        output_report("Transfer Buffer Size: %zux%zu bytes, File size: %.2f MB\n",
                                       opts->blk_size, buf_size,
                                       ((double)parms.num_dsets * (double)parms.num_bytes) / ONE_MB);
 
@@ -358,7 +358,7 @@ run_test_loop(struct options *opts)
                 }
                 else {
                     parms.num_bytes = (off_t)opts->num_bpp * parms.num_procs;
-                    output_report("Transfer Buffer Size: %ld bytes, File size: %.2f MB\n", buf_size,
+                    output_report("Transfer Buffer Size: %zu bytes, File size: %.2f MB\n", buf_size,
                                   ((double)parms.num_dsets * (double)parms.num_bytes) / ONE_MB);
 
                     print_indent(1);

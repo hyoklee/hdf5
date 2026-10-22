@@ -50,6 +50,11 @@ extern size_t input_len;
 
 %}
 
+/* The scanner never calls input() or unput(), so don't generate them
+ * (they would otherwise be flagged as unused functions)
+ */
+%option noinput nounput
+
 %%
 
 H5T_STD_I8BE     {return hid(H5T_STD_I8BE_TOKEN);}

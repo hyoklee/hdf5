@@ -16089,7 +16089,7 @@ test_select_deserialize_invalid(void)
     }
     H5E_END_TRY
     VERIFY(ret, FAIL, "H5S_SELECT_DESERIALIZE");
-    VERIFY(space, NULL, "H5S_SELECT_DESERIALIZE");
+    CHECK_PTR_NULL(space, "H5S_SELECT_DESERIALIZE");
 
     /* A point selection with a rank larger than H5S_MAX_RANK is rejected */
     w = point_bad_rank;
@@ -16105,7 +16105,7 @@ test_select_deserialize_invalid(void)
     }
     H5E_END_TRY
     VERIFY(ret, FAIL, "H5S_SELECT_DESERIALIZE");
-    VERIFY(space, NULL, "H5S_SELECT_DESERIALIZE");
+    CHECK_PTR_NULL(space, "H5S_SELECT_DESERIALIZE");
 
     r = short_selection_type;
     H5E_BEGIN_TRY
@@ -16114,7 +16114,7 @@ test_select_deserialize_invalid(void)
     }
     H5E_END_TRY
     VERIFY(ret, FAIL, "H5S_SELECT_DESERIALIZE");
-    VERIFY(space, NULL, "H5S_SELECT_DESERIALIZE");
+    CHECK_PTR_NULL(space, "H5S_SELECT_DESERIALIZE");
 
     /* A buffer holding only a valid selection type with no type-specific
        payload passes the outer size check but is rejected by the concrete
@@ -16129,7 +16129,7 @@ test_select_deserialize_invalid(void)
     }
     H5E_END_TRY
     VERIFY(ret, FAIL, "H5S_SELECT_DESERIALIZE");
-    VERIFY(space, NULL, "H5S_SELECT_DESERIALIZE");
+    CHECK_PTR_NULL(space, "H5S_SELECT_DESERIALIZE");
 
     w = none_selection;
     UINT32ENCODE(w, (uint32_t)H5S_SEL_NONE);

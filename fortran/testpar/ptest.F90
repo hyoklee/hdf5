@@ -13,10 +13,15 @@
 !
 ! main program for parallel HDF5 Fortran tests
 !
+#include <H5config_f.inc>
 
 PROGRAM parallel_test
   USE HDF5
+#ifdef H5_HAVE_MPI_F08
+  USE MPI_F08
+#else
   USE MPI
+#endif
   USE TH5_MISC
 
   IMPLICIT NONE
@@ -35,7 +40,11 @@ PROGRAM parallel_test
   ! use chunking
   LOGICAL, DIMENSION(1:2) :: do_chunk = (/.FALSE.,.TRUE./)
   CHARACTER(LEN=10), DIMENSION(1:2) :: chr_chunk =(/"contiguous", "chunk     "/)
+#ifdef H5_HAVE_MPI_F08
+  TYPE(MPI_DATATYPE) :: mpi_int_type
+#else
   INTEGER(KIND=MPI_INTEGER_KIND) :: mpi_int_type
+#endif
 
   INTERFACE
 

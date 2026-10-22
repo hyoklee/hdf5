@@ -440,9 +440,9 @@ PROGRAM H5_buildiface
      DO j = 1, 8
 
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5awrite_rkind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5awrite_rkind_'//TRIM(ADJUSTL(chr2))&
@@ -466,9 +466,9 @@ PROGRAM H5_buildiface
      DO j = 1, 8
 
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5awrite_ikind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5awrite_ikind_'//TRIM(ADJUSTL(chr2))&
@@ -489,9 +489,9 @@ PROGRAM H5_buildiface
   DO j = 2, 8
 
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5awrite_ckind_rank'//chr_rank(j)
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5awrite_ckind_rank'//chr_rank(j)//'(attr_id, memtype_id, buf, dims, hdferr)'
@@ -547,9 +547,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5aread_rkind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5aread_rkind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(attr_id, memtype_id, buf, dims, hdferr)'
@@ -571,9 +571,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5aread_ikind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5aread_ikind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(attr_id, memtype_id, buf, dims, hdferr)'
@@ -592,9 +592,9 @@ PROGRAM H5_buildiface
   ENDDO
   DO j = 2, 8
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5aread_ckind_rank'//chr_rank(j)
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5aread_ckind_rank'//chr_rank(j)//'(attr_id, memtype_id, buf, dims, hdferr)'
      WRITE(11,'(A)') '    IMPLICIT NONE'
@@ -652,9 +652,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dread_rkind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5dread_rkind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
@@ -691,9 +691,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dread_ikind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5dread_ikind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
@@ -726,9 +726,9 @@ PROGRAM H5_buildiface
   ENDDO
   DO j = 2, 8
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dread_ckind_rank'//chr_rank(j)
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5dread_ckind_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
      WRITE(11,'(A)') '       mem_space_id, file_space_id, xfer_prp)'
@@ -764,9 +764,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dwrite_rkind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5dwrite_rkind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
@@ -802,9 +802,9 @@ PROGRAM H5_buildiface
      WRITE(chr2,'(I2)') k
      DO j = 1, 8
 ! DLL definitions for windows
-        WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+        WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
         WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dwrite_ikind_'//TRIM(ADJUSTL(chr2))//'_rank'//chr_rank(j)
-        WRITE(11,'(A)') '!DEC$endif'
+        WRITE(11,'(A)') '#endif'
 ! Subroutine API
         WRITE(11,'(A)') '  SUBROUTINE h5dwrite_ikind_'//TRIM(ADJUSTL(chr2))&
              &//'_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
@@ -836,9 +836,9 @@ PROGRAM H5_buildiface
   ENDDO
   DO j = 2, 8
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5dwrite_ckind_rank'//chr_rank(j)
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5dwrite_ckind_rank'//chr_rank(j)//'(dset_id, mem_type_id, buf, dims, hdferr, &'
      WRITE(11,'(A)') '       mem_space_id, file_space_id, xfer_prp)'
@@ -876,9 +876,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pset_fill_value_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5pset_fill_value_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(prp_id, type_id, fillvalue, hdferr)'
@@ -898,9 +898,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pget_fill_value_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5pget_fill_value_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(prp_id, type_id, fillvalue, hdferr)'
@@ -920,9 +920,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pset_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5pset_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(prp_id, name, value, hdferr)'
@@ -945,9 +945,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pget_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5pget_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(prp_id, name, value, hdferr)'
@@ -969,9 +969,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pregister_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') 'SUBROUTINE h5pregister_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(class, name, size, value, hdferr)'
@@ -994,9 +994,9 @@ PROGRAM H5_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: h5pinsert_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE h5pinsert_kind_'//TRIM(ADJUSTL(chr2))&
           &//'(plist, name, size, value, hdferr)'

@@ -385,12 +385,14 @@ static size_t filter_bad_buf_size(unsigned int flags, size_t cd_nelmts, const un
                                   size_t nbytes, size_t *buf_size, void **buf);
 static size_t filter_error_msg(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_values,
                                size_t nbytes, size_t *buf_size, void **buf);
+#ifdef H5_HAVE_THREADS
 static size_t filter_threads_required(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_values,
                                       size_t nbytes, size_t *buf_size, void **buf);
 static size_t filter_non_threadsafe(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_values,
                                     size_t nbytes, size_t *buf_size, void **buf);
 static size_t filter_reenter_h5(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_values,
                                 size_t nbytes, size_t *buf_size, void **buf);
+#endif /* H5_HAVE_THREADS */
 
 static herr_t dsets_h5zregister_direct(const H5Z_class3_t *filter);
 static herr_t dsets_h5zunregister_direct(H5Z_filter_t id);

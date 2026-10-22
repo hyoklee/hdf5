@@ -99,7 +99,7 @@ check_fortran_source_compiles (${ISO_C_BINDING_CODE} ${HDF_PREFIX}_FORTRAN_HAVE_
 #-----------------------------------------------------------------------------
 if (CMAKE_Fortran_COMPILER MATCHES ifx)
     if (WIN32 AND NOT MINGW)
-        set (CMAKE_Fortran_FLAGS_DEBUG "/debug:full /dbglibs " CACHE STRING "flags" FORCE)
+        set (CMAKE_Fortran_FLAGS_DEBUG "/Od /debug:full /dbglibs " CACHE STRING "flags" FORCE)
         set (CMAKE_EXE_LINKER_FLAGS_DEBUG "/DEBUG" CACHE STRING "flags" FORCE)
     endif ()
 endif ()

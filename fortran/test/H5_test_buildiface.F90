@@ -128,9 +128,9 @@ PROGRAM H5_test_buildiface
      k = ikind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: verify_integer_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE verify_integer_kind_'//TRIM(ADJUSTL(chr2))//'(string,value,correct_value,total_error,chck_eq)'
@@ -163,9 +163,9 @@ PROGRAM H5_test_buildiface
      k = rkind(i)
      WRITE(chr2,'(I2)') k
 ! DLL definitions for windows
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: verify_real_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
      WRITE(11,'(A)') '  SUBROUTINE verify_real_kind_'//TRIM(ADJUSTL(chr2))//'(string,value,correct_value,total_error,chck_eq)'
@@ -226,9 +226,9 @@ PROGRAM H5_test_buildiface
 !
 !       Reference: [1] Paul van Delst,  paul.vandelst@ssec.wisc.edu
 
-     WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+     WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
      WRITE(11,'(A)') '!DEC$attributes dllexport :: real_eq_kind_'//TRIM(ADJUSTL(chr2))
-     WRITE(11,'(A)') '!DEC$endif'
+     WRITE(11,'(A)') '#endif'
      WRITE(11,'(A)') '  LOGICAL FUNCTION real_eq_kind_'//TRIM(ADJUSTL(chr2))//'(a,b,ulp)'
      WRITE(11,'(A)') '    IMPLICIT NONE'
      WRITE(11,'(A)') '    REAL(KIND='//TRIM(ADJUSTL(chr2))//'), INTENT (in):: a,b'
@@ -245,15 +245,15 @@ PROGRAM H5_test_buildiface
 ! ***************************
 
 ! DLL definitions for windows
-  WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+  WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
   WRITE(11,'(A)') '!DEC$attributes dllexport :: verify_character'
-  WRITE(11,'(A)') '!DEC$endif'
+  WRITE(11,'(A)') '#endif'
 
 ! Subroutine API
   WRITE(11,'(A)') '  SUBROUTINE verify_character(string,value,correct_value,total_error,chck_eq)'
   WRITE(11,'(A)') '    IMPLICIT NONE'
-  WRITE(11,'(A)') '    CHARACTER*(*) :: string'
-  WRITE(11,'(A)') '    CHARACTER*(*) :: value, correct_value'
+  WRITE(11,'(A)') '    CHARACTER(LEN=*) :: string'
+  WRITE(11,'(A)') '    CHARACTER(LEN=*) :: value, correct_value'
   WRITE(11,'(A)') '    INTEGER :: total_error'
   WRITE(11,'(A)') '    LOGICAL, OPTIONAL :: chck_eq'
   WRITE(11,'(A)') '    LOGICAL :: chck_eq_opt'
@@ -277,9 +277,9 @@ PROGRAM H5_test_buildiface
 ! ***************************
 
 ! DLL definitions for windows
-  WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+  WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
   WRITE(11,'(A)') '!DEC$attributes dllexport :: verify_logical'
-  WRITE(11,'(A)') '!DEC$endif'
+  WRITE(11,'(A)') '#endif'
 ! Subroutine API
   WRITE(11,'(A)') '  SUBROUTINE verify_logical(string,value,correct_value,total_error,chck_eq)'
   WRITE(11,'(A)') '    IMPLICIT NONE'
@@ -305,9 +305,9 @@ PROGRAM H5_test_buildiface
 
 #ifdef H5_FORTRAN_C_BOOL_IS_UNIQUE
 ! DLL definitions for windows
-  WRITE(11,'(A)') '!DEC$if defined(BUILD_HDF5_TEST_DLL)'
+  WRITE(11,'(A)') '#ifdef BUILD_HDF5_TEST_DLL'
   WRITE(11,'(A)') '!DEC$attributes dllexport :: verify_c_bool'
-  WRITE(11,'(A)') '!DEC$endif'
+  WRITE(11,'(A)') '#endif'
 ! Subroutine API
   WRITE(11,'(A)') '  SUBROUTINE verify_c_bool(string,value,correct_value,total_error,chck_eq)'
   WRITE(11,'(A)') '    IMPLICIT NONE'

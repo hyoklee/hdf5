@@ -3764,9 +3764,11 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
         HGOTO_DONE(ret_value);
 
     /* Set up the storage buffer information for this chunk */
-    cpt_store.compact.buf                       = threaded_chunk_info->chunk;
-    cpt_store.compact.dirty                     = &cpt_dirty;
-    threaded_chunk_info->chk_dset_io_info.store = &cpt_store; // codeql[cpp/stack-address-escape]
+    if (NULL == (cpt_store = (H5D_storage_t *)H5MM_malloc(sizeof(*cpt_store))))
+        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "can't allocate chunk storage info");
+    cpt_store->compact.buf                       = threaded_chunk_info->chunk;
+    cpt_store->compact.dirty                     = &cpt_dirty;
+    threaded_chunk_info->chk_dset_io_info.store = cpt_store;
 
     /* Lock internal mutex */
     if (H5_UNLIKELY(H5TS_internal_lock() < 0))
@@ -3778,8 +3780,9 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     read_ret = (threaded_chunk_info->threaded_io_info->dset_info->io_ops.single_read)(
         &threaded_chunk_info->threaded_io_info->cpt_io_info, &threaded_chunk_info->chk_dset_io_info);
 
-    /* Don't leave a pointer to the local cpt_store behind */
+    /* Don't leave a pointer behind */
     threaded_chunk_info->chk_dset_io_info.store = NULL;
+    cpt_store                                   = (H5D_storage_t *)H5MM_xfree(cpt_store);
 
     if (H5_UNLIKELY(read_ret < 0))
         HGOTO_ERROR(H5E_DATASET, H5E_READERROR, FAIL, "chunked read failed");

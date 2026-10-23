@@ -95,11 +95,10 @@ set (ISO_C_BINDING_CODE
 check_fortran_source_compiles (${ISO_C_BINDING_CODE} ${HDF_PREFIX}_FORTRAN_HAVE_ISO_C_BINDING SRC_EXT f90)
 
 #-----------------------------------------------------------------------------
-# Adds debug flags for Intel Fortran on Windows
+# Debug flags for Intel Fortran (ifx) on Windows come from CMake's
+# Windows-IntelLLVM-Fortran platform module (/Od /debug:full /dbglibs for the
+# compiler, /Qoption,link,/debug for the linker). This file used to force
+# CMAKE_EXE_LINKER_FLAGS_DEBUG to a bare "/DEBUG", which the icx and ifx
+# drivers consume instead of forwarding to link.exe, so no executable in a
+# Debug build received a PDB file.
 #-----------------------------------------------------------------------------
-if (CMAKE_Fortran_COMPILER MATCHES ifx)
-    if (WIN32 AND NOT MINGW)
-        set (CMAKE_Fortran_FLAGS_DEBUG "/Od /debug:full /dbglibs " CACHE STRING "flags" FORCE)
-        set (CMAKE_EXE_LINKER_FLAGS_DEBUG "/DEBUG" CACHE STRING "flags" FORCE)
-    endif ()
-endif ()

@@ -394,6 +394,16 @@ Fixes GitHub issue #6679.
 
 ## Configuration
 
+### Fixed Debug builds with the Intel Fortran compiler on Windows producing no PDB files
+
+   When the Fortran compiler was ifx on Windows, the build forced
+   `CMAKE_EXE_LINKER_FLAGS_DEBUG` to a bare `/DEBUG`. The icx and ifx drivers
+   consume that option themselves instead of forwarding it to link.exe, so no
+   executable in a Debug build received a program database (PDB) file and
+   debuggers could not resolve any symbols. The override has been removed so
+   that CMake's own Intel platform defaults apply, which pass `/debug` to the
+   linker through `/Qoption,link,`.
+
 ### Fixed version handling in installed CMake package version configuration file
 
    The installed CMake package version configuration file for the library previously used `SameMinorVersion` for the version compatibility logic, causing a `find_package(HDF5 X.Y.Z)` call to fail unless the version of a located HDF5 installation matched both `X` and `Y` of the version number exactly (i.e., releases with a greater minor version number weren't considered backward compatible). This reflected the version compatibility of HDF5 releases prior to version 2.0.0, but doesn't reflect the version compatibility of HDF5 version 2.0.0+ releases. The version compatibility logic now uses `SameMajorVersion`, so a `find_package(HDF5 X.Y.Z)` call will accept all versions of HDF5 where the major version matches `X` (i.e., only releases with a greater major version number will be rejected as not backward compatible).

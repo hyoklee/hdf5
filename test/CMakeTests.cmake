@@ -500,6 +500,7 @@ set_tests_properties (H5TEST-cache_image PROPERTIES
     FIXTURES_REQUIRED clear_cache_image
     ENVIRONMENT "srcdir=${HDF5_TEST_BINARY_DIR}/H5TEST"
     WORKING_DIRECTORY ${HDF5_TEST_BINARY_DIR}/H5TEST
+    TIMEOUT ${CTEST_VERY_LONG_TIMEOUT}
 )
 if ("H5TEST-cache_image" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
   set_tests_properties (H5TEST-cache_image PROPERTIES DISABLED true)

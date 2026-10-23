@@ -3618,6 +3618,14 @@ test_select_hyper_checker_board_dr(hid_t dset_type, hid_t xfer_plist)
 
     for (large_rank = 1; large_rank <= max_rank; large_rank++) {
         for (small_rank = 1; small_rank < large_rank; small_rank++) {
+            /* The 1-D slices through the largest cube take most of this
+             * test's run time, which runs past the CTest timeout on a slow
+             * machine such as an emulated one, so skip them at the
+             * smoke-test TestExpress level
+             */
+            if (large_rank == max_rank && small_rank == 1 && GetTestExpress() >= H5_TEST_EXPRESS_SMOKE_TEST)
+                continue;
+
             chunk_edge_size = 0;
             test_select_hyper_checker_board_dr__run_test(test_num, cube_buf, zero_buf, edge_size,
                                                          checker_edge_size, chunk_edge_size, small_rank,

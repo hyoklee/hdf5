@@ -81,6 +81,13 @@ static unsigned evict_on_close_test(bool single_file_vfd);
 #define DSET_SIZE     (40 * CHUNK_SIZE)
 #define MAX_NUM_DSETS 256
 
+/* Number of datasets smoke checks 4 and 6 create, one per file open and
+ * close cycle. main() scales this down for the quicker TestExpress levels:
+ * with the full count the test can run past the CTest timeout on a slow
+ * machine such as an emulated one.
+ */
+static int max_num_dsets_g = MAX_NUM_DSETS;
+
 static void
 create_datasets(hid_t file_id, int min_dset, int max_dset)
 {
@@ -4207,7 +4214,7 @@ cache_image_smoke_check_4(bool single_file_vfd)
     if (show_progress)
         fprintf(stdout, "%s: cp = %d, pass = %d.\n", fcn_name, cp++, pass);
 
-    while ((pass) && (max_dset < MAX_NUM_DSETS)) {
+    while ((pass) && (max_dset < max_num_dsets_g)) {
 
         /* 4) Open the file.
          *
@@ -4512,8 +4519,19 @@ cache_image_smoke_check_5(bool single_file_vfd)
     int         i;
     int         min_group = 0;
     int         max_group = 0;
+    int         num_groups;
 
     TESTING("metadata cache image smoke check 5");
+
+    /* Creating and validating the zoos takes nearly all of this check's
+     * run time, so scale their number down for the quicker TestExpress
+     * levels
+     */
+    num_groups = MAX_NUM_GROUPS;
+    if (h5_get_testexpress() >= H5_TEST_EXPRESS_SMOKE_TEST)
+        num_groups = 8;
+    else if (h5_get_testexpress() == H5_TEST_EXPRESS_QUICK)
+        num_groups = 16;
 
     /* Check for VFD that is a single file */
     if (!single_file_vfd) {
@@ -4627,7 +4645,7 @@ cache_image_smoke_check_5(bool single_file_vfd)
     if (show_progress)
         fprintf(stdout, "%s: cp = %d, pass = %d.\n", fcn_name, cp++, pass);
 
-    while ((pass) && (max_group < MAX_NUM_GROUPS)) {
+    while ((pass) && (max_group < num_groups)) {
 
         /* 5) Open the file.
          *
@@ -5093,7 +5111,7 @@ cache_image_smoke_check_6(bool single_file_vfd)
     if (show_progress)
         fprintf(stdout, "%s: cp = %d, pass = %d.\n", fcn_name, cp++, pass);
 
-    while ((pass) && (max_dset < MAX_NUM_DSETS)) {
+    while ((pass) && (max_dset < max_num_dsets_g)) {
 
         /* 4) Open the file.
          *
@@ -7769,6 +7787,12 @@ main(void)
     H5open();
 
     express_test = h5_get_testexpress();
+
+    /* Scale the amount of work down for the quicker TestExpress levels */
+    if (express_test >= H5_TEST_EXPRESS_SMOKE_TEST)
+        max_num_dsets_g = 16;
+    else if (express_test == H5_TEST_EXPRESS_QUICK)
+        max_num_dsets_g = 64;
 
     printf("=========================================\n");
     printf("Cache image tests\n");

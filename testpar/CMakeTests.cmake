@@ -143,6 +143,11 @@ foreach (h5_testp ${H5P_TESTS})
   set (last_test "MPI_TEST_${h5_testp}")
 endforeach ()
 
+# t_cache_image creates and verifies hundreds of chunked datasets with
+# collective I/O and can run past the default timeout on a slow machine or
+# with many ranks, especially at the full and exhaustive TestExpress levels.
+set_tests_properties (MPI_TEST_t_cache_image PROPERTIES TIMEOUT ${CTEST_VERY_LONG_TIMEOUT})
+
 # The t_pflush1 test is hard-coded to fail.
 set_tests_properties (MPI_TEST_t_pflush1 PROPERTIES WILL_FAIL "true")
 #set_property (TEST MPI_TEST_t_pflush1 PROPERTY PASS_REGULAR_EXPRESSION "PASSED")

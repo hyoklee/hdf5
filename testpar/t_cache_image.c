@@ -64,6 +64,15 @@ static unsigned verify_cache_image_RW(int file_name_id, int md_write_strat, int 
 
 static bool smoke_check_1(MPI_Comm mpi_comm, MPI_Info mpi_info, int mpi_rank, int mpi_size);
 
+/* Number of datasets created in each constructed test file and in the
+ * smoke check. main() scales these down for the quicker TestExpress
+ * levels: with the full counts the test issues several hundred thousand
+ * collective I/O calls and can exceed the CTest timeout on a slow machine
+ * or when run with many ranks.
+ */
+static int max_num_dsets_g = MAX_NUM_DSETS;
+static int par_num_dsets_g = PAR_NUM_DSETS;
+
 /****************************************************************************/
 /***************************** Utility Functions ****************************/
 /****************************************************************************/
@@ -224,7 +233,7 @@ construct_test_file(int test_file_index)
     if (show_progress)
         fprintf(stdout, "%s: cp = %d, pass = %d.\n", fcn_name, cp++, pass);
 
-    while ((pass) && (max_dset < MAX_NUM_DSETS)) {
+    while ((pass) && (max_dset < max_num_dsets_g)) {
 
         /* 4) Open the file.
          *
@@ -2008,7 +2017,7 @@ serial_insert_cache_image(int file_name_idx, int mpi_size)
     bool        show_progress = false;
     int         cp            = 0;
     int         i;
-    int         num_dsets  = PAR_NUM_DSETS;
+    int         num_dsets  = par_num_dsets_g;
     hid_t       file_id    = H5I_INVALID_HID;
     H5F_t      *file_ptr   = NULL;
     H5C_t      *cache_ptr  = NULL;
@@ -2674,7 +2683,7 @@ verify_cache_image_RO(int file_name_id, int md_write_strat, int mpi_rank)
 
     if (pass) {
 
-        verify_data_sets(file_id, 0, MAX_NUM_DSETS - 1);
+        verify_data_sets(file_id, 0, max_num_dsets_g - 1);
     }
 
     /* Verify that only process 0 reads the cache image. */
@@ -2758,7 +2767,7 @@ verify_cache_image_RO(int file_name_id, int md_write_strat, int mpi_rank)
 
     if (pass) {
 
-        verify_data_sets(file_id, 0, MAX_NUM_DSETS - 1);
+        verify_data_sets(file_id, 0, max_num_dsets_g - 1);
     }
 
 #if H5C_COLLECT_CACHE_STATS
@@ -2938,7 +2947,7 @@ verify_cache_image_RW(int file_name_id, int md_write_strat, int mpi_rank)
      */
     if (pass) {
 
-        verify_data_sets(file_id, 0, MAX_NUM_DSETS - 1);
+        verify_data_sets(file_id, 0, max_num_dsets_g - 1);
     }
 
     /* Verify that only process 0 reads the cache image. */
@@ -3022,7 +3031,7 @@ verify_cache_image_RW(int file_name_id, int md_write_strat, int mpi_rank)
 
     if (pass) {
 
-        verify_data_sets(file_id, 0, MAX_NUM_DSETS - 1);
+        verify_data_sets(file_id, 0, max_num_dsets_g - 1);
     }
 
 #if H5C_COLLECT_CACHE_STATS
@@ -3118,7 +3127,7 @@ smoke_check_1(MPI_Comm mpi_comm, MPI_Info mpi_info, int mpi_rank, int mpi_size)
     H5C_t         *cache_ptr     = NULL;
     int            cp            = 0;
     int            i;
-    int            num_dsets       = PAR_NUM_DSETS;
+    int            num_dsets       = par_num_dsets_g;
     int            test_file_index = 2;
     h5_stat_size_t file_size;
 
@@ -3514,6 +3523,7 @@ main(int argc, char **argv)
     MPI_Info info  = MPI_INFO_NULL;
     int      mpi_size;
     int      mpi_rank;
+    int      express_level;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
@@ -3529,10 +3539,23 @@ main(int argc, char **argv)
 
     H5open();
 
+    /* Scale the amount of work down for the quicker TestExpress levels */
+    express_level = h5_get_testexpress();
+    if (express_level >= H5_TEST_EXPRESS_SMOKE_TEST) {
+        max_num_dsets_g = 16;
+        par_num_dsets_g = 4;
+    }
+    else if (express_level == H5_TEST_EXPRESS_QUICK) {
+        max_num_dsets_g = 64;
+        par_num_dsets_g = 8;
+    }
+
     if (mpi_rank == 0) {
         printf("===================================\n");
         printf("Parallel metadata cache image tests\n");
         printf("        mpi_size     = %d\n", mpi_size);
+        printf("        TestExpress  = %d (%d datasets per test file, %d in smoke check)\n", express_level,
+               max_num_dsets_g, par_num_dsets_g);
         printf("===================================\n");
     }
 

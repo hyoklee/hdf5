@@ -327,6 +327,8 @@ typedef struct H5D_threaded_chunk_info_t {
     void              *chunk;              /* Chunk buffer */
     hsize_t            src_accessed_bytes; /* Number of bytes accessed in the chunk */
     H5D_dset_io_info_t chk_dset_io_info;   /* Temporary dataset I/O info for individual chunk I/O */
+    H5D_storage_t      cpt_store;          /* Chunk storage information as compact dataset */
+    bool               cpt_dirty;          /* Placeholder for compact storage "dirty" flag */
 } H5D_threaded_chunk_info_t;
 
 /* Dataset-global information about an internally concurrent operation */
@@ -3661,16 +3663,14 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
 {
     H5D_threaded_chunk_info_t *threaded_chunk_info =
         (H5D_threaded_chunk_info_t *)_threaded_chunk_info; /* Threaded info for this chunk */
-    size_t        buf_alloc;                               /* Size to allocate for chunk buffer */
-    H5CX_node_t   api_ctx = {{0}, NULL};                   /* API context node to push */
-    H5D_storage_t cpt_store;                               /* Chunk storage information as compact dataset */
-    bool          cpt_dirty;                 /* Temporary placeholder for compact storage "dirty" flag */
-    herr_t        read_ret;                  /* Return value from the chunk read callback */
-    bool          mutex_held      = false;   /* Whether we hold the internal mutex */
-    bool          cond_mutex_held = false;   /* Whether we hold the condition variable mutex */
-    bool          api_ctx_pushed  = false;   /* Whether API context pushed */
-    herr_t        ret_value       = SUCCEED; /* "Return value" for error macros (actual return value is always
-                                                (H5TS_thread_ret_t)0) */
+    size_t      buf_alloc;                                 /* Size to allocate for chunk buffer */
+    H5CX_node_t api_ctx = {{0}, NULL};                     /* API context node to push */
+    herr_t      read_ret;                                  /* Return value from the chunk read callback */
+    bool        mutex_held      = false;                   /* Whether we hold the internal mutex */
+    bool        cond_mutex_held = false;                   /* Whether we hold the condition variable mutex */
+    bool        api_ctx_pushed  = false;                   /* Whether API context pushed */
+    herr_t      ret_value       = SUCCEED; /* "Return value" for error macros (actual return value is always
+                                              (H5TS_thread_ret_t)0) */
 
     assert(threaded_chunk_info);
     assert(threaded_chunk_info->threaded_io_info);
@@ -3763,10 +3763,12 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     if (H5_UNLIKELY(ret_value < 0))
         HGOTO_DONE(ret_value);
 
-    /* Set up the storage buffer information for this chunk */
-    cpt_store.compact.buf                       = threaded_chunk_info->chunk;
-    cpt_store.compact.dirty                     = &cpt_dirty;
-    threaded_chunk_info->chk_dset_io_info.store = &cpt_store; // codeql[cpp/stack-address-escape]
+    /* Set up the storage buffer information for this chunk. The storage
+     * struct and dirty flag live in the heap-allocated per-chunk info so no
+     * pointer to this thread's stack is stored in the shared I/O info. */
+    threaded_chunk_info->cpt_store.compact.buf   = threaded_chunk_info->chunk;
+    threaded_chunk_info->cpt_store.compact.dirty = &threaded_chunk_info->cpt_dirty;
+    threaded_chunk_info->chk_dset_io_info.store  = &threaded_chunk_info->cpt_store;
 
     /* Lock internal mutex */
     if (H5_UNLIKELY(H5TS_internal_lock() < 0))
@@ -3778,7 +3780,7 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     read_ret = (threaded_chunk_info->threaded_io_info->dset_info->io_ops.single_read)(
         &threaded_chunk_info->threaded_io_info->cpt_io_info, &threaded_chunk_info->chk_dset_io_info);
 
-    /* Don't leave a pointer to the local cpt_store behind */
+    /* The storage info is only valid for the duration of the read */
     threaded_chunk_info->chk_dset_io_info.store = NULL;
 
     if (H5_UNLIKELY(read_ret < 0))

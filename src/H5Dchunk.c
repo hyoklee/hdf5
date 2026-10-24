@@ -327,6 +327,8 @@ typedef struct H5D_threaded_chunk_info_t {
     void              *chunk;              /* Chunk buffer */
     hsize_t            src_accessed_bytes; /* Number of bytes accessed in the chunk */
     H5D_dset_io_info_t chk_dset_io_info;   /* Temporary dataset I/O info for individual chunk I/O */
+    H5D_storage_t      cpt_store;          /* Chunk storage information as compact dataset */
+    bool               cpt_dirty;          /* Placeholder for compact storage "dirty" flag */
 } H5D_threaded_chunk_info_t;
 
 /* Dataset-global information about an internally concurrent operation */
@@ -3663,8 +3665,6 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
         (H5D_threaded_chunk_info_t *)_threaded_chunk_info; /* Threaded info for this chunk */
     size_t        buf_alloc;                               /* Size to allocate for chunk buffer */
     H5CX_node_t   api_ctx = {{0}, NULL};                   /* API context node to push */
-    H5D_storage_t cpt_store;                               /* Chunk storage information as compact dataset */
-    bool          cpt_dirty;                 /* Temporary placeholder for compact storage "dirty" flag */
     herr_t        read_ret;                  /* Return value from the chunk read callback */
     bool          mutex_held      = false;   /* Whether we hold the internal mutex */
     bool          cond_mutex_held = false;   /* Whether we hold the condition variable mutex */
@@ -3763,12 +3763,12 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     if (H5_UNLIKELY(ret_value < 0))
         HGOTO_DONE(ret_value);
 
-    /* Set up the storage buffer information for this chunk */
-    if (NULL == (cpt_store = (H5D_storage_t *)H5MM_malloc(sizeof(*cpt_store))))
-        HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "can't allocate chunk storage info");
-    cpt_store->compact.buf                      = threaded_chunk_info->chunk;
-    cpt_store->compact.dirty                    = &cpt_dirty;
-    threaded_chunk_info->chk_dset_io_info.store = cpt_store;
+    /* Set up the storage buffer information for this chunk. The storage
+     * struct and dirty flag live in the heap-allocated per-chunk info so no
+     * pointer to this thread's stack is stored in the shared I/O info. */
+    threaded_chunk_info->cpt_store.compact.buf   = threaded_chunk_info->chunk;
+    threaded_chunk_info->cpt_store.compact.dirty = &threaded_chunk_info->cpt_dirty;
+    threaded_chunk_info->chk_dset_io_info.store  = &threaded_chunk_info->cpt_store;
 
     /* Lock internal mutex */
     if (H5_UNLIKELY(H5TS_internal_lock() < 0))
@@ -3780,9 +3780,8 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     read_ret = (threaded_chunk_info->threaded_io_info->dset_info->io_ops.single_read)(
         &threaded_chunk_info->threaded_io_info->cpt_io_info, &threaded_chunk_info->chk_dset_io_info);
 
-    /* Don't leave a pointer behind */
+    /* The storage info is only valid for the duration of the read */
     threaded_chunk_info->chk_dset_io_info.store = NULL;
-    cpt_store                                   = (H5D_storage_t *)H5MM_xfree(cpt_store);
 
     if (H5_UNLIKELY(read_ret < 0))
         HGOTO_ERROR(H5E_DATASET, H5E_READERROR, FAIL, "chunked read failed");

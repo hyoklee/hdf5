@@ -3663,14 +3663,14 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
 {
     H5D_threaded_chunk_info_t *threaded_chunk_info =
         (H5D_threaded_chunk_info_t *)_threaded_chunk_info; /* Threaded info for this chunk */
-    size_t        buf_alloc;                               /* Size to allocate for chunk buffer */
-    H5CX_node_t   api_ctx = {{0}, NULL};                   /* API context node to push */
-    herr_t        read_ret;                  /* Return value from the chunk read callback */
-    bool          mutex_held      = false;   /* Whether we hold the internal mutex */
-    bool          cond_mutex_held = false;   /* Whether we hold the condition variable mutex */
-    bool          api_ctx_pushed  = false;   /* Whether API context pushed */
-    herr_t        ret_value       = SUCCEED; /* "Return value" for error macros (actual return value is always
-                                                (H5TS_thread_ret_t)0) */
+    size_t      buf_alloc;                                 /* Size to allocate for chunk buffer */
+    H5CX_node_t api_ctx = {{0}, NULL};                     /* API context node to push */
+    herr_t      read_ret;                                  /* Return value from the chunk read callback */
+    bool        mutex_held      = false;                   /* Whether we hold the internal mutex */
+    bool        cond_mutex_held = false;                   /* Whether we hold the condition variable mutex */
+    bool        api_ctx_pushed  = false;                   /* Whether API context pushed */
+    herr_t      ret_value       = SUCCEED; /* "Return value" for error macros (actual return value is always
+                                              (H5TS_thread_ret_t)0) */
 
     assert(threaded_chunk_info);
     assert(threaded_chunk_info->threaded_io_info);

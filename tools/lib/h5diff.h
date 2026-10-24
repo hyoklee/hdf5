@@ -112,7 +112,6 @@ H5TOOLS_DLL hsize_t diff(hid_t file1_id, const char *path1, hid_t file2_id, cons
 
 #ifdef H5_HAVE_PARALLEL
 H5TOOLS_DLL void phdiff_dismiss_workers(void);
-H5TOOLS_DLL void print_manager_output(void);
 #endif
 
 #ifdef __cplusplus

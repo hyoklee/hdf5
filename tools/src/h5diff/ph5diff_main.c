@@ -21,6 +21,7 @@
 #define PROGRAMNAME "h5diff"
 
 static void ph5diff_worker(int);
+static void print_manager_output(void);
 
 /*-------------------------------------------------------------------------
  * Function: main
@@ -250,7 +251,7 @@ ph5diff_worker(int nID)
  *
  *-------------------------------------------------------------------------
  */
-void
+static void
 print_manager_output(void)
 {
     /* If there was something we buffered, let's print it now */

@@ -3766,8 +3766,8 @@ H5D__chunk_thread_read(void *_threaded_chunk_info)
     /* Set up the storage buffer information for this chunk */
     if (NULL == (cpt_store = (H5D_storage_t *)H5MM_malloc(sizeof(*cpt_store))))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "can't allocate chunk storage info");
-    cpt_store->compact.buf                       = threaded_chunk_info->chunk;
-    cpt_store->compact.dirty                     = &cpt_dirty;
+    cpt_store->compact.buf                      = threaded_chunk_info->chunk;
+    cpt_store->compact.dirty                    = &cpt_dirty;
     threaded_chunk_info->chk_dset_io_info.store = cpt_store;
 
     /* Lock internal mutex */

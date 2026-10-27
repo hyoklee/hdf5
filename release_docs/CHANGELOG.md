@@ -131,6 +131,12 @@ We would like to thank the many HDF5 community members who contributed to this r
 
    When a global API compatibility version is set (e.g., `H5_USE_16_API`), functions introduced after that version previously defaulted to their latest version, which could break applications. For example, an application using `H5_USE_16_API` that called `H5Sencode()` (introduced in 1.8, versioned in 1.12) would get `H5Sencode2()` instead of `H5Sencode1()`, potentially causing compilation or runtime failures. Versioned functions now default to their earliest (version 1) variant when the configured API level predates the function's introduction, providing maximum compatibility. See issue [#6278](https://github.com/HDFGroup/hdf5/issues/6278).
 
+### Removed API lock for memory management wrappers
+
+   The HDF5 library no longer acquires the global thread lock when entering
+   H5allocate_memory(), H5resize_memory(), and H5free_memory(). This allows
+   multiple threads to access these functions concurrently.
+
 ### Added new VFD feature flag
 
    Added a new Virtual File Driver (VFD) feature flag,
@@ -144,7 +150,8 @@ We would like to thank the many HDF5 community members who contributed to this r
    plugin supports. The currently supported flags are
    H5Z_FEAT_FILTER_THREADSAFE, which should be set when the filter callback is
    threadsafe, and H5Z_FEAT_FILTER_NO_H5_CALLS, which should be set when the
-   filter makes no HDF5 calls except for H5OPEN.
+   filter makes no HDF5 calls except for H5OPEN, H5allocate_memory(),
+   H5resize_memory(), and H5free_memory().
 
 ### Added support for internally concurrent multithreaded reads of chunked datasets
 
@@ -191,14 +198,13 @@ We would like to thank the many HDF5 community members who contributed to this r
 
    - `H5O__dtype_encode_helper()` passed a NULL value array to `memcpy()` when encoding an enumeration datatype with no members. The values are now only copied when there are members.
    - `H5O__cache_deserialize()` freed a partially decoded object header without forcing the free, so messages dirtied during the decode triggered an assertion in `H5O__free()`.
-   - `H5C__load_entry()` did not check that the size of a metadata cache entry read from the file was within `H5C_MAX_ENTRY_SIZE`. It now fails with an error instead of asserting later in `H5C_protect()`.
    - `H5O__shared_decode()` asserted that a shared message stored in the shared object header message heap had message version 3 or later. It now fails with a version error.
    - A local heap with a zero-length data block was loaded as if it had a separate data block. It is now treated like the empty heap `H5HL_create()` makes.
    - `H5F_addr_decode_len()` checked the wrong byte when an address was wider than `haddr_t`. Such addresses are now decoded as `HADDR_UNDEF`.
    - `H5F__dest()` asserted that the metadata cache was clean even when no flush was requested, e.g. after a failed open, or when the flush failed.
    - `H5HL_protect()` asserted that the local heap address was defined, although `H5G__stab_valid()` calls it to check whether the address in a symbol table message is valid. It now fails with an error.
 
-   Fixes GitHub issues #6621, #6623, #6624, #6625, #6626, #6627, #6628 and #6629. #6622 was already fixed.
+   Fixes GitHub issues #6621, #6623, #6625, #6626, #6627, #6628 and #6629. #6622 was already fixed, and #6624 is addressed by the removal of `H5C_MAX_ENTRY_SIZE` described below.
 
 ### Fixed crashes when using variable-length data after closing another handle of the same dataset
 
@@ -217,6 +223,19 @@ We would like to thank the many HDF5 community members who contributed to this r
    exit. aws_s3_library_clean_up() still runs from the atexit() handler, as it also
    joins threads owned by other aws-c-* users, and the ROS3 VFD can be used again after
    H5close().
+
+### Removed max cache entry size assertion
+
+   Removed H5C_MAX_ENTRY_SIZE which caused an assertion to fail if a metadata cache entry
+   was larger than 32 MiB. This was meant to detect corruption, not actually impose a
+   limit on the maximum size of a metadata cache entry. This can cause assertion failures
+   in legitimate use cases. While we could simply increase the size, there are already
+   checks for a cache entry that is too big to fit in the file, and an assertion is
+   inappropriate to check for file corruption, so this check has been removed.
+
+### Fixed H5Pmodify_filter() writing past the filter pipeline for a filter not in it
+
+   `H5Pmodify_filter()` returned success when the requested filter was not in the pipeline, and wrote the new flags and client data into the slot one past the last used entry. When the pipeline already held `H5Z_MAX_NFILTERS` filters, that write went past the end of the filter array, and client data longer than `H5Z_COMMON_CD_VALUES` leaked its allocation. `H5Pmodify_filter()` now fails with "filter not in pipeline" in this case.
 
 ### Stopped exporting the built-in filter class structs
 

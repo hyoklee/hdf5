@@ -2,6 +2,13 @@ name: hdf5 dev CMake CI
 
 # Triggers the workflow on a call from another workflow
 on:
+  workflow_dispatch:
+    inputs:
+      build_mode:
+        description: "release vs. debug build"
+        required: true
+        default: "Release"
+        type: string
   workflow_call:
     inputs:
       build_mode:

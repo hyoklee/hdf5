@@ -87,14 +87,17 @@ const int transformData[ROWS][COLS] = {{36, 31, 25, 19, 13, 7, 1, 5, 11, 16, 22,
         PASSED();                                                                                            \
     } while (0)
 
+/* Compare in double: with long double TYPE, where long double is a software
+ * type (e.g. 128-bit on sparc64), the unrolled loops otherwise need a stack
+ * slot for every library call and main() outgrows -Wframe-larger-than */
 #define COMPARE(TYPE, VAR1, VAR2, TOL)                                                                       \
     do {                                                                                                     \
         size_t i, j;                                                                                         \
                                                                                                              \
         for (i = 0; i < ROWS; i++)                                                                           \
             for (j = 0; j < COLS; j++) {                                                                     \
-                if (!(((VAR1)[i][j] <= ((TYPE)(VAR2)[i][j] + (TOL))) &&                                      \
-                      ((VAR1)[i][j] >= ((TYPE)(VAR2)[i][j] - (TOL))))) {                                     \
+                if (!(((double)(VAR1)[i][j] <= (double)((TYPE)(VAR2)[i][j]) + (double)(TOL)) &&              \
+                      ((double)(VAR1)[i][j] >= (double)((TYPE)(VAR2)[i][j]) - (double)(TOL)))) {             \
                     H5_FAILED();                                                                             \
                     fprintf(stderr, "    ERROR: Conversion failed to match computed data\n");                \
                     goto error;                                                                              \

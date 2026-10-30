@@ -1,4 +1,4 @@
-name: arm64 zl
+name: arm64 sz zl
 
 on:
   push:
@@ -37,13 +37,15 @@ jobs:
         shell: cpa.sh {0}
         run: |
           sudo pkg_add cmake
+          sudo pkg_add libaec
           mkdir build
           cd build
           cmake \
-          -DBUILDNAME:STRING="hk/zl" \
+          -DBUILDNAME:STRING="hk/sz/zl" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
           -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+          -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
           -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
           -DSITE:STRING="obsd-8.0.arm64" \
           ..

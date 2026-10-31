@@ -1154,6 +1154,11 @@
     <filename>rm-template_8dox.html</filename>
   </compound>
   <compound kind="file">
+    <name>ROS3.dox</name>
+    <path>docs/doxygen/dox/</path>
+    <filename>_r_o_s3_8dox.html</filename>
+  </compound>
+  <compound kind="file">
     <name>Specifications.dox</name>
     <path>docs/doxygen/dox/</path>
     <filename>_specifications_8dox.html</filename>
@@ -67137,6 +67142,18 @@
     <name>RMT</name>
     <title>Reference Manual (RM) Page Template</title>
     <filename>_r_m_t.html</filename>
+  </compound>
+  <compound kind="page">
+    <name>ros3_vfd</name>
+    <title>Configuring the Read-Only S3 (ROS3) VFD</title>
+    <filename>ros3_vfd.html</filename>
+    <docanchor file="ros3_vfd.html" title="Introduction">sec_ros3_intro</docanchor>
+    <docanchor file="ros3_vfd.html" title="AWS Region">sec_ros3_region</docanchor>
+    <docanchor file="ros3_vfd.html" title="Credentials">sec_ros3_credentials</docanchor>
+    <docanchor file="ros3_vfd.html" title="Endpoint URL">sec_ros3_endpoint</docanchor>
+    <docanchor file="ros3_vfd.html" title="Request Addressing Style">sec_ros3_addressing</docanchor>
+    <docanchor file="ros3_vfd.html" title="Debugging Output">sec_ros3_debug</docanchor>
+    <docanchor file="ros3_vfd.html" title="Building">sec_ros3_build</docanchor>
   </compound>
   <compound kind="page">
     <name>SPEC</name>

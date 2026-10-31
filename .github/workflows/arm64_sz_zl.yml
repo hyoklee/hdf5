@@ -1,0 +1,52 @@
+name: arm64 sz zl
+
+on:
+  push:
+    branches: develop-
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os.name }} ${{ matrix.os.architecture }} ${{ matrix.os.version }} on ${{ matrix.os.host }}
+    runs-on: ${{ matrix.os.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: openbsd
+            architecture: arm64
+            version: '8.0'
+            host: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: ${{ matrix.os.name }}
+        uses: cross-platform-actions/action@v1.7.0
+        with:
+          operating_system: ${{ matrix.os.name }}
+          architecture: ${{ matrix.os.architecture }}
+          version: '${{ matrix.os.version }}'
+          shell: bash
+
+      - name: Build and test
+        shell: cpa.sh {0}
+        run: |
+          sudo pkg_add cmake
+          sudo pkg_add libaec
+          mkdir build
+          cd build
+          cmake \
+          -DBUILDNAME:STRING="hk/sz/zl" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
+          -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
+          -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
+          -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
+          -DSITE:STRING="obsd-8.0.arm64" \
+          ..
+          ctest -D Experimental

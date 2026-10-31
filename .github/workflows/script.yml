@@ -312,7 +312,7 @@ jobs:
 
       # symlinks the compiler executables to a common location 
       - name: Setup GNU Fortran
-        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
+        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1.10.0
         id: setup-fortran
         with:
           compiler: gcc
@@ -495,7 +495,7 @@ jobs:
         run: choco install ninja
 
       - name: add oneAPI to env
-        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
+        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1.10.0
         id: setup-fortran
         with:
           compiler: intel
@@ -620,7 +620,7 @@ jobs:
           sudo apt-get install ninja-build graphviz curl
 
       - name: add oneAPI to env
-        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1
+        uses: fortran-lang/setup-fortran@be037f0a45b1160f139d4ccd0b96f9e9bfd6a682 # v1.10.0
         id: setup-fortran
         with:
           compiler: intel

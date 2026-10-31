@@ -33,7 +33,6 @@ jobs:
     runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
     env:
       BUILD_MODE: ${{ inputs.build_mode }}
-      BUILD_DIR: ${{ runner.workspace }}/build
     steps:
       - name: Install CMake Dependencies (Linux)
         run: |
@@ -66,6 +65,8 @@ jobs:
 
       # CMAKE CONFIGURE
       - name: CMake Configure
+        env:
+          BUILD_DIR: ${{ runner.workspace }}/build
         run: |
            mkdir "$BUILD_DIR"
            cd "$BUILD_DIR"
@@ -111,6 +112,8 @@ jobs:
         working-directory: ${{ runner.workspace }}/build
 
       - name: List files in the space
+        env:
+          BUILD_DIR: ${{ runner.workspace }}/build
         run: |
                ls -l "$BUILD_DIR"
 

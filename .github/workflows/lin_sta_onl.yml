@@ -35,7 +35,7 @@ jobs:
           echo "FC=gfortran-12" >> $GITHUB_ENV
 
       - name: Install CMake
-        uses: lukka/get-cmake@fffaaafeea488556c2c12dad60690008bc1caacb # latest
+        uses: lukka/get-cmake@f86dd60acae0d132056913e248bdabf0e0580b7a # latest
         with:
           cmakeVersion: latest
           ninjaVersion: latest

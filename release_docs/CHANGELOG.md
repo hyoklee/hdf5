@@ -67,7 +67,17 @@ We would like to thank the many HDF5 community members who contributed to this r
   flag, but default builds did not require it until now. The flag is supplied by
   `pkg-config --static --libs hdf5`.
 
+### The installed CMake package now prefers the shared libraries when no linkage is requested
+
+   A `find_package(HDF5 NAMES hdf5 CONFIG)` call that requests neither the `static` nor the `shared` component previously resolved to the static libraries of an installation providing both, and only fell back to shared when no static libraries were installed. That preference is now reversed: shared is used when available, with static as the fallback. Setting `HDF5_USE_STATIC_LIBRARIES` before the call now selects the static libraries, matching the behavior of CMake's `FindHDF5` module.
+
+   The preference decides which `HDF5_<lang>_<LINKAGE>_LIBRARY` variables and Fortran module directory the call sets, as well as the linkage the new `hdf5::` targets refer to, so a project that relied on the previous default and did not request a linkage will now link the shared libraries. Such a project should request the `static` component explicitly or set `HDF5_USE_STATIC_LIBRARIES`. Calls that already request a `static` or `shared` component are unaffected.
+
 # 🪦 Deprecations
+
+### Deprecated the linkage-qualified CMake target names
+
+   The `hdf5-shared` / `hdf5-static` targets, their `_hl`, `_cpp`, `_hl_cpp`, `_fortran` and `_hl_fortran` counterparts, and the `HDF5_<lang>_<LINKAGE>_LIBRARY` variables are deprecated in favor of the stable `hdf5::` target names described under Configuration below. They will be removed in a future major release, so new projects should link `hdf5::hdf5` and friends, and existing projects should migrate to the new names when convenient. See `docs/USING_HDF5_CMake.md` for the mapping from old names to new ones.
 
 
 # 🚀 New Features & Improvements
@@ -138,6 +148,10 @@ We would like to thank the many HDF5 community members who contributed to this r
      option
    - Reduced the scope of some temporary variables and modifications so they don't propagate to
      consuming CMake projects
+
+### Added stable, linkage-agnostic CMake target names to the installed package
+
+   Downstream projects can now link `hdf5::hdf5`, `hdf5::hdf5_hl`, `hdf5::hdf5_cpp`, `hdf5::hdf5_hl_cpp`, `hdf5::hdf5_fortran` and `hdf5::hdf5_hl_fortran` instead of the linkage-qualified `hdf5-shared` and `hdf5-static` targets, along with `hdf5::<tool>` for each installed tool. The names do not encode whether the library is static or shared, so the same project file works against a static installation, a shared one, or one providing both. These are the names CMake's own `FindHDF5` module provides, so a project using them no longer needs different code depending on whether HDF5 was located through `FindHDF5` or through HDF5's `hdf5-config.cmake`. The targets refer to whichever linkage `find_package()` resolved (see Breaking Changes). The existing `hdf5-shared` / `hdf5-static` targets and the `HDF5_<lang>_<LINKAGE>_LIBRARY` variables are otherwise unchanged, and the public names are aliases onto those same targets, so a project naming both on its link line still gets a single library.
 
 ## Library
 
@@ -450,9 +464,8 @@ Fixes GitHub issue #6679.
 
    Reading a dataset from a corrupted or maliciously crafted file could crash the library in the N-Bit and Fletcher32 filter decode paths. The N-Bit filter dereferenced its client-data parameter array before validating it, crashing when the array was empty or NULL, and walked the compressed chunk during decompression without bounding the input against the chunk size, causing out-of-bounds reads. It also indexed that parameter array at offsets taken from the datatype description held in the array itself, without bounding those offsets against the number of parameters supplied, so a parameter list stopping short of the datatype it described was read past its end. The Fletcher32 filter subtracted the 4-byte checksum length from the chunk size without checking that the chunk was at least that large, underflowing the length passed to the checksum routine. These filters now validate their parameters and buffer sizes and fail with an error instead of crashing.
 
-   Fixes GitHub issues #6488, #6489, #6490, and #6492
-
-   Fixes CVE-2026-19026, CVE-2026-19027, and CVE-2026-19028
+   Fixes GitHub issues #6489 and #6492 (CVE-2026-19026 and CVE-2026-19027)
+   Fixes GitHub issues #6488 and #6490 (CVE-2026-19028)
 
 ### Fixed a stack overflow when iterating a corrupted B-tree
 
@@ -485,6 +498,17 @@ Fixes GitHub issue #6679.
    hint itself.
 
 ## Java Library
+
+### Fixed a build ordering issue when the `HDF5_ENABLE_MAVEN_DEPLOY` option is enabled
+
+   With the `HDF5_ENABLE_MAVEN_DEPLOY` option enabled, the Java test programs under
+   `java/src-jni/test` previously had an incorrect dependency tree that could result
+   in build failures. The test programs would get built before the platform-specific
+   JAR file created for Maven was copied to the more generic "jarhdf5-<version>.jar"
+   name which the test programs depended on. Building of those test programs is now
+   deferred until the copying step has completed.
+
+   Fixes GitHub issue #6748
 
 ### Fixed datatype ID leaks when reading or writing nested datatypes through the JNI
 
@@ -562,6 +586,14 @@ The "Shared/Static Fortran Library" and "Shared/Static C++ Library" lines in `li
 Fixes #5723.
 
 ## Tools
+
+### Fixed a double free in h5repack
+
+   The tool h5repack produced a double free crash on a malicious HDF5 file in copy_refs_attr()
+   while duplicating reference-valued attributes.  Some cleanup was done to remove the
+   double free and memory leaks.
+
+   Fixes CVE-2026-102935
 
 ### Fixed an issue with quoting of data values in h5ls and h5dump when displaying as ASCII characters
 

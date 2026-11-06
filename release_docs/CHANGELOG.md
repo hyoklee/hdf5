@@ -345,6 +345,8 @@ We would like to thank the many HDF5 community members who contributed to this r
 
    The scaleoffset and szip filters each store a fixed-size header in front of the chunk data: a 21-byte parameter block for scaleoffset and a 4-byte uncompressed-length header for szip. On read, each one subtracted that fixed size from the chunk length without first checking that the chunk was at least that long. A truncated or corrupted chunk record made the subtraction wrap around, so both filters read far past the end of the chunk buffer. Its bounds checks also measured the chunk buffer's allocated size, which the library deliberately sizes to hold the larger unfiltered chunk, so a truncated chunk could still decompress out of the uninitialized remainder of that allocation. Both filters now reject any chunk shorter than their own header, and scaleoffset validates every read against the number of bytes actually stored for the chunk rather than the size of the buffer holding them. The fletcher32 filter now also rejects a chunk that holds only its 4-byte checksum and no data, which previously reached the checksum routine with a length of zero.
 
+   Fixes CVE-2026-120754 and CVE-2026-120755
+
 ### Fixed a heap buffer over-read in scale-offset decode
 
    The scale-offset filter's decode path used the size computed from the user's filter
@@ -378,6 +380,8 @@ We would like to thank the many HDF5 community members who contributed to this r
    buffer. `H5L__extern_traverse()` now validates the buffer against its stored size before
    parsing, the same way `H5Lunpack_elink_val()` does.
 
+   Fixes CVE-2026-120757
+
 ### Fixed a buffer overflow when decoding a chunked layout from an encoded property list
 
    The dataset creation property list decoder read the number of chunk dimensions from an
@@ -401,7 +405,7 @@ Fixes GitHub issue #6679.
 
    The size stored in an object header message header was checked against the chunk before the rest of that message header was decoded, allowing a message body to start up to four bytes further into the chunk than the check accounted for. A corrupted or fuzzed file could declare a size that passed the check and still extended past the end of the chunk image, and the message's decode callback was then handed a buffer end outside the allocation. `H5O__chunk_deserialize()` now checks the message size once the whole message header has been decoded.
 
-   Fixes GitHub issue #6401
+   Fixes GitHub issue #6401 (CVE-2026-120756)
 
 ### Fixed a heap buffer overflow when reading a corrupted version 2 B-tree node
 
@@ -460,18 +464,21 @@ Fixes GitHub issue #6679.
 
    `H5HL_protect()` pins one metadata cache entry for a local heap -- either the prefix when the heap is a single cache object, or the data block otherwise -- and `H5HL_unprotect()` unpins it again. The cache unlinks that entry from the heap when it destroys it, so a damaged file could reach `H5HL_unprotect()` with nothing to unpin, which triggered an assertion failure in debug builds and a NULL pointer dereference otherwise. `H5HL_unprotect()` now reports an error instead, and does so before decrementing the heap's protect count so that a rejected call leaves the heap unchanged rather than half unprotected with its cache entry still pinned.
 
+   Fixes CVE-2026-120758
+
 ### Fixed crashes when reading datasets with malformed N-Bit or Fletcher32 filter metadata
 
    Reading a dataset from a corrupted or maliciously crafted file could crash the library in the N-Bit and Fletcher32 filter decode paths. The N-Bit filter dereferenced its client-data parameter array before validating it, crashing when the array was empty or NULL, and walked the compressed chunk during decompression without bounding the input against the chunk size, causing out-of-bounds reads. It also indexed that parameter array at offsets taken from the datatype description held in the array itself, without bounding those offsets against the number of parameters supplied, so a parameter list stopping short of the datatype it described was read past its end. The Fletcher32 filter subtracted the 4-byte checksum length from the chunk size without checking that the chunk was at least that large, underflowing the length passed to the checksum routine. These filters now validate their parameters and buffer sizes and fail with an error instead of crashing.
 
    Fixes GitHub issues #6489 and #6492 (CVE-2026-19026 and CVE-2026-19027)
+   
    Fixes GitHub issues #6488 and #6490 (CVE-2026-19028)
 
 ### Fixed a stack overflow when iterating a corrupted B-tree
 
    `H5B__iterate_helper()` now verifies that a B-tree node it has just protected has the level the traversal expects, when the expected level is known. The equivalent check in `H5B__cache_deserialize()` only runs when a node is first loaded into the metadata cache, so a corrupted B-tree whose child pointer revisits a node that is already cached (for example, a node that points to itself) could bypass that check and recurse without bound until the stack was exhausted. Such a file is now rejected with an error instead of crashing. This was observed through `H5Gget_info()`.
 
-   Fixes GitHub issue #6403
+   Fixes GitHub issue #6403 (CVE-2026-120689)
 
 ### Fixed conversion of small negative floating-point values to signed integers
 

@@ -1,6 +1,7 @@
 name: riscv64 lin
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop-

@@ -24,7 +24,7 @@ jobs:
   build:
     name: Build hdfeos5
     runs-on: ubuntu-latest
-    if: "github.repository_owner == 'HDFGroup'"
+    if: github.repository_owner == 'HDFGroup' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Install System dependencies
         run: |

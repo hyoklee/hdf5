@@ -2671,6 +2671,18 @@ H5FD__subfiling_get_iovec_sizes(subfiling_context_t *sf_context, size_t in_count
         int64_t cur_max_num_subfiles;
         size_t  cur_iovec_depth;
 
+        /*
+         * Check that the unsigned file offset and I/O size fit in the signed
+         * 64-bit values used below before converting them. Checking the
+         * converted values for a negative result instead relies on
+         * implementation-defined conversion behavior and can never trigger in
+         * debug builds, where the checked assignment asserts the range first.
+         */
+        if (file_offsets[io_idx] > (haddr_t)INT64_MAX)
+            HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL,
+                        "file offset of %" PRIuHADDR " at index %zu too large; wrapped around",
+                        file_offsets[io_idx], io_idx);
+
         H5_CHECKED_ASSIGN(cur_file_offset, int64_t, file_offsets[io_idx], haddr_t);
 
         if (!extend_sizes) {
@@ -2680,15 +2692,11 @@ H5FD__subfiling_get_iovec_sizes(subfiling_context_t *sf_context, size_t in_count
                 io_size = io_sizes[io_idx];
         }
 
-        H5_CHECKED_ASSIGN(data_size, int64_t, io_size, size_t);
-
-        if (cur_file_offset < 0)
-            HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL,
-                        "file offset of %" PRIuHADDR " at index %zu too large; wrapped around",
-                        file_offsets[io_idx], io_idx);
-        if (data_size < 0)
+        if ((uint64_t)io_size > (uint64_t)INT64_MAX)
             HGOTO_ERROR(H5E_VFL, H5E_BADVALUE, FAIL, "I/O size of %zu at index %zu too large; wrapped around",
                         io_size, io_idx);
+
+        H5_CHECKED_ASSIGN(data_size, int64_t, io_size, size_t);
 
         /*
          * Calculate the following from the starting file offset:

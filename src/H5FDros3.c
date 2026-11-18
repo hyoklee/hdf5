@@ -243,6 +243,8 @@ static haddr_t H5FD__ros3_get_eof(const H5FD_t *_file, H5FD_mem_t type);
 static herr_t  H5FD__ros3_get_handle(H5FD_t *_file, hid_t fapl, void **file_handle);
 static herr_t  H5FD__ros3_read(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id, haddr_t addr, size_t size,
                                void *buf);
+static herr_t  H5FD__ros3_read_vector(H5FD_t *_file, hid_t dxpl_id, uint32_t count, H5FD_mem_t types[],
+                                      haddr_t addrs[], size_t sizes[], void *bufs[]);
 static herr_t  H5FD__ros3_write(H5FD_t *_file, H5FD_mem_t type, hid_t fapl_id, haddr_t addr, size_t size,
                                 const void *buf);
 static herr_t  H5FD__ros3_truncate(H5FD_t *_file, hid_t dxpl_id, bool closing);
@@ -300,7 +302,7 @@ static const H5FD_class_t H5FD_ros3_g = {
     H5FD__ros3_get_handle,    /* get_handle           */
     H5FD__ros3_read,          /* read                 */
     H5FD__ros3_write,         /* write                */
-    NULL,                     /* read_vector          */
+    H5FD__ros3_read_vector,   /* read_vector          */
     NULL,                     /* write_vector         */
     NULL,                     /* read_selection       */
     NULL,                     /* write_selection      */
@@ -2019,6 +2021,115 @@ H5FD__ros3_block_cache_make_space(H5FD_ros3_t *file)
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5FD__ros3_block_cache_make_space() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5FD__ros3_read_vector
+ *
+ * Purpose:     Read COUNT independent byte ranges. Ranges that fall entirely
+ *              within a single block already present in the I/O block cache
+ *              are served locally; the rest are handed to
+ *              H5FD__s3comms_s3r_read_vector(), which fetches them
+ *              concurrently through the AWS CRT S3 client instead of one
+ *              blocking request at a time. This is the key to overlapping the
+ *              many small chunk reads of a chunked dataset over the network.
+ *              Ranges fetched this way bypass the block cache.
+ *
+ * Return:      SUCCEED/FAIL
+ *-------------------------------------------------------------------------
+ */
+static herr_t
+H5FD__ros3_read_vector(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, uint32_t count,
+                       H5FD_mem_t H5_ATTR_UNUSED types[], haddr_t addrs[], size_t sizes[], void *bufs[])
+{
+    H5FD_ros3_t *file      = (H5FD_ros3_t *)_file;
+    haddr_t     *r_offsets = NULL;
+    size_t      *r_lens    = NULL;
+    void       **r_bufs    = NULL;
+    uint32_t     nremote   = 0;
+    size_t       filesize  = 0;
+    size_t       cur_size  = 0;
+    herr_t       ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
+
+    assert(file);
+    assert(file->s3r_handle);
+    assert((count == 0) || (sizes != NULL));
+    assert((count == 0) || (addrs != NULL));
+    assert((count == 0) || (bufs != NULL));
+
+    if (count == 0)
+        HGOTO_DONE(SUCCEED);
+
+    filesize = H5FD__s3comms_s3r_get_filesize(file->s3r_handle);
+
+    /* Make sure the superblock block is cached, as H5FD__ros3_read() does */
+    if (!file->block_cache.disabled && !file->block_cache.hash_table) {
+        if (H5FD__ros3_init_block_cache(file) < 0)
+            HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "unable to initialize I/O block cache");
+        assert(file->block_cache.hash_table);
+    }
+
+    if (NULL == (r_offsets = (haddr_t *)malloc((size_t)count * sizeof(haddr_t))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate offsets");
+    if (NULL == (r_lens = (size_t *)malloc((size_t)count * sizeof(size_t))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate lengths");
+    if (NULL == (r_bufs = (void **)malloc((size_t)count * sizeof(void *))))
+        HGOTO_ERROR(H5E_VFL, H5E_CANTALLOC, FAIL, "can't allocate buffers");
+
+    for (uint32_t i = 0; i < count; i++) {
+        H5FD_ros_block_hash_t *io_block = NULL;
+        haddr_t                addr     = addrs[i];
+        size_t                 size;
+
+        /* Vector I/O size-inheritance convention: sizes[i]==0 (for i>0) means
+         * "same size as the previous element". sizes[0] is guaranteed non-zero. */
+        size     = (i > 0 && sizes[i] == 0) ? cur_size : sizes[i];
+        cur_size = size;
+
+        if ((addr > filesize) || ((addr + size) > filesize))
+            HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "range exceeds file address");
+
+        /* Look for a cached block containing the entire range */
+        if (!file->block_cache.disabled && size > 0) {
+            size_t  block_size = file->block_cache.block_size;
+            haddr_t block_addr = (addr / block_size) * block_size;
+
+            if (((addr + size - 1) / block_size) * block_size == block_addr)
+                HASH_FIND(hh, file->block_cache.hash_table, &block_addr, sizeof(haddr_t), io_block);
+        }
+
+        if (io_block) {
+            /* Served from the block cache; no network I/O. */
+            memcpy(bufs[i], io_block->buf + (addr - io_block->addr), size);
+
+            /* Promote the block in the LRU eviction list under the same
+             * conditions as H5FD__ros3_read()
+             */
+            if (!file->pub.paged_aggr && (io_block->addr != 0 || !file->block_cache.lock_superblock) &&
+                file->block_cache.LRU_head != io_block) {
+                ROS3_BLOCK_CACHE_LRU_REMOVE(file, io_block);
+                ROS3_BLOCK_CACHE_LRU_INSERT(file, io_block);
+            }
+        }
+        else {
+            r_offsets[nremote] = addr;
+            r_lens[nremote]    = size;
+            r_bufs[nremote]    = bufs[i];
+            nremote++;
+        }
+    }
+
+    if (nremote > 0)
+        if (H5FD__s3comms_s3r_read_vector(file->s3r_handle, nremote, r_offsets, r_lens, r_bufs, r_lens) < 0)
+            HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "unable to execute concurrent vector read");
+
+done:
+    free(r_offsets);
+    free(r_lens);
+    free(r_bufs);
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FD__ros3_read_vector() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FD__ros3_write

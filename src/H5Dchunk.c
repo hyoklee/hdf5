@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -702,8 +701,11 @@ H5D__chunk_set_info_real(H5O_layout_chunk_t *layout, unsigned ndims, const hsize
 
     /* Sanity checks */
     HDassert(layout);
-    HDassert(ndims > 0);
     HDassert(curr_dims);
+
+    /* Can happen when corrupt files are parsed */
+    if (ndims == 0)
+        HGOTO_ERROR(H5E_DATASET, H5E_BADVALUE, FAIL, "number of dimensions cannot be zero")
 
     /* Compute the # of chunks in dataset dimensions */
     for (u = 0, layout->nchunks = 1, layout->max_nchunks = 1; u < ndims; u++) {
@@ -916,6 +918,7 @@ H5D__chunk_init(H5F_t *f, const H5D_t *const dset, hid_t dapl_id)
     H5D_rdcc_t        *rdcc = &(dset->shared->cache.chunk); /* Convenience pointer to dataset's chunk cache */
     H5P_genplist_t    *dapl;                                /* Data access property list object pointer */
     H5O_storage_chunk_t *sc        = &(dset->shared->layout.storage.u.chunk);
+    hbool_t              idx_init  = FALSE;
     herr_t               ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -991,12 +994,21 @@ H5D__chunk_init(H5F_t *f, const H5D_t *const dset, hid_t dapl_id)
     /* Allocate any indexing structures */
     if (sc->ops->init && (sc->ops->init)(&idx_info, dset->shared->space, dset->oloc.addr) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "can't initialize indexing information")
+    idx_init = TRUE;
 
     /* Set the number of chunks in dataset, etc. */
     if (H5D__chunk_set_info(dset) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to set # of chunks for dataset")
 
 done:
+    if (FAIL == ret_value) {
+        if (rdcc->slot)
+            rdcc->slot = H5FL_SEQ_FREE(H5D_rdcc_ent_ptr_t, rdcc->slot);
+
+        if (idx_init && sc->ops->dest && (sc->ops->dest)(&idx_info) < 0)
+            HDONE_ERROR(H5E_DATASET, H5E_CANTFREE, FAIL, "unable to release chunk index info");
+    }
+
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5D__chunk_init() */
 
@@ -5048,8 +5060,10 @@ H5D__chunk_collective_fill(const H5D_t *dset, H5D_chunk_coll_fill_info_t *chunk_
             HDqsort(chunk_fill_info->chunk_info, chunk_fill_info->num_chunks,
                     sizeof(struct chunk_coll_fill_info), H5D__chunk_cmp_coll_fill_info);
 
-        /* Allocate buffer for block lengths if necessary */
+            /* Allocate buffer for block lengths if necessary */
+#if MPI_VERSION >= 3
         if (!all_same_block_len)
+#endif
             if (NULL == (block_lens = (int *)H5MM_malloc((size_t)(blocks + 1) * sizeof(int))))
                 HGOTO_ERROR(H5E_DATASET, H5E_CANTALLOC, FAIL, "couldn't allocate chunk lengths buffer")
 
@@ -5058,8 +5072,9 @@ H5D__chunk_collective_fill(const H5D_t *dset, H5D_chunk_coll_fill_info_t *chunk_
 
             /* store the chunk address as an MPI_Aint */
             chunk_disp_array[i] = (MPI_Aint)(chunk_fill_info->chunk_info[idx].addr);
-
+#if MPI_VERSION >= 3
             if (!all_same_block_len)
+#endif
                 H5_CHECKED_ASSIGN(block_lens[i], int, chunk_fill_info->chunk_info[idx].chunk_size, size_t);
 
             if (chunk_fill_info->chunk_info[idx].unfiltered_partial_chunk) {
@@ -5075,8 +5090,9 @@ H5D__chunk_collective_fill(const H5D_t *dset, H5D_chunk_coll_fill_info_t *chunk_
         if (leftover && leftover > mpi_rank) {
             chunk_disp_array[blocks] =
                 (MPI_Aint)chunk_fill_info->chunk_info[(blocks * mpi_size) + mpi_rank].addr;
-
+#if MPI_VERSION >= 3
             if (!all_same_block_len)
+#endif
                 H5_CHECKED_ASSIGN(block_lens[blocks], int,
                                   chunk_fill_info->chunk_info[(blocks * mpi_size) + mpi_rank].chunk_size,
                                   size_t);
@@ -5094,11 +5110,16 @@ H5D__chunk_collective_fill(const H5D_t *dset, H5D_chunk_coll_fill_info_t *chunk_
             int block_len;
 
             H5_CHECKED_ASSIGN(block_len, int, chunk_fill_info->chunk_info[0].chunk_size, size_t);
-
+#if MPI_VERSION >= 3
             mpi_code =
                 MPI_Type_create_hindexed_block(blocks, block_len, chunk_disp_array, MPI_BYTE, &file_type);
             if (mpi_code != MPI_SUCCESS)
                 HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed_block failed", mpi_code)
+#else
+            mpi_code = MPI_Type_create_hindexed(blocks, block_lens, chunk_disp_array, MPI_BYTE, &file_type);
+            if (mpi_code != MPI_SUCCESS)
+                HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed failed", mpi_code)
+#endif
 
             if (partial_chunk_fill_buf) {
                 /*
@@ -5107,10 +5128,16 @@ H5D__chunk_collective_fill(const H5D_t *dset, H5D_chunk_coll_fill_info_t *chunk_
                  * need to be written to using the unfiltered fill buffer. Use an hindexed
                  * block type rather than an hvector.
                  */
+#if MPI_VERSION >= 3
                 mpi_code =
                     MPI_Type_create_hindexed_block(blocks, block_len, block_disps, MPI_BYTE, &mem_type);
                 if (mpi_code != MPI_SUCCESS)
                     HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed_block failed", mpi_code)
+#else
+                mpi_code = MPI_Type_create_hindexed(blocks, block_lens, block_disps, MPI_BYTE, &mem_type);
+                if (mpi_code != MPI_SUCCESS)
+                    HMPI_GOTO_ERROR(FAIL, "MPI_Type_create_hindexed failed", mpi_code)
+#endif
             }
             else {
                 mpi_code = MPI_Type_create_hvector(blocks, block_len, 0, MPI_BYTE, &mem_type);
@@ -7688,8 +7715,8 @@ H5D__chunk_iter_cb(const H5D_chunk_rec_t *chunk_rec, void *udata)
     FUNC_ENTER_PACKAGE_NOERR
 
     /* Check for callback failure and pass along return value */
-    if ((ret_value = (data->op)(offset, chunk_rec->filter_mask, chunk_rec->chunk_addr, chunk_rec->nbytes,
-                                data->op_data)) < 0)
+    if ((ret_value = (data->op)(offset, (unsigned)chunk_rec->filter_mask, chunk_rec->chunk_addr,
+                                (hsize_t)chunk_rec->nbytes, data->op_data)) < 0)
         HERROR(H5E_DATASET, H5E_CANTNEXT, "iteration operator failed");
 
     FUNC_LEAVE_NOAPI(ret_value)

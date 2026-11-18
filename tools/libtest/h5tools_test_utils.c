@@ -721,8 +721,8 @@ test_populate_ros3_fa(void)
      * yields default fapl
      */
     {
-        const char *values[] = {"somewhere over the rainbow not too high "
-                                "there is another rainbow bounding some darkened sky",
+        const char *values[] = {("somewhere over the rainbow not too high "
+                                 "there is another rainbow bounding some darkened sky"),
                                 "y", "z", ""};
 
         memset(fa, 0, sizeof(*fa));

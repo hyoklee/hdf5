@@ -1021,7 +1021,7 @@ H5FD__s3comms_s3r_read(s3r_t *handle, haddr_t offset, size_t len, void *dest, si
         }
         else {
             fprintf(stderr, " -- GET: Bytes %" PRIuHADDR " - %" PRIuHADDR ", Request Size: %zu\n", offset,
-                    handle->filesize - 1, handle->filesize - offset);
+                    (haddr_t)(handle->filesize - 1), (size_t)(handle->filesize - offset));
         }
 
         fflush(stderr);

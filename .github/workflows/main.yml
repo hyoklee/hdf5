@@ -39,11 +39,11 @@ jobs:
             ts: OFF
             hl: ON
             parallel: OFF
-            toolchain: "config/toolchain/GCC.cmake"
+            toolchain: "config/toolchain/gcc.cmake"
             generator: "-G Ninja"
           - name: "macOS Latest Clang"
             artifact: "macOS.tar.xz"
-            os: macos-latest
+            os: macos-11
             build_type: "Release"
             cpp: ON
             fortran: OFF
@@ -61,7 +61,7 @@ jobs:
             ts: OFF
             hl: ON
             parallel: OFF
-            toolchain: "config/toolchain/GCC.cmake"
+            toolchain: "config/toolchain/gcc.cmake"
             generator: "-G Ninja"
           - name: "Ubuntu Autotools GCC"
             artifact: "LinuxA.tar.xz"
@@ -95,11 +95,11 @@ jobs:
             ts: ON
             hl: OFF
             parallel: OFF
-            toolchain: "config/toolchain/GCC.cmake"
+            toolchain: "config/toolchain/gcc.cmake"
             generator: "-G Ninja"
           - name: "macOS TS Clang"
             artifact: "macOSTS.tar.xz"
-            os: macos-latest
+            os: macos-11
             build_type: "Release"
             cpp: OFF
             fortran: OFF
@@ -117,7 +117,7 @@ jobs:
             ts: ON
             hl: OFF
             parallel: OFF
-            toolchain: "config/toolchain/GCC.cmake"
+            toolchain: "config/toolchain/gcc.cmake"
             generator: "-G Ninja"
           - name: "TS Autotools GCC"
             artifact: "LinuxATS.tar.xz"
@@ -137,7 +137,7 @@ jobs:
 #            cpp: OFF
 #            fortran: OFF
 #            parallel: ON
-#            toolchain: "config/toolchain/GCC.cmake"
+#            toolchain: "config/toolchain/gcc.cmake"
 #            generator: "-G Ninja"
 
     name: ${{ matrix.name }}
@@ -158,7 +158,7 @@ jobs:
       if: matrix.os == 'windows-latest'
     - name: Install Dependencies (macOS)
       run: brew install ninja
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-11'
     - name: Set environment for MSVC (Windows)
       if:  matrix.os == 'windows-latest'
       run: |

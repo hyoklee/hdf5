@@ -51,7 +51,7 @@
 
 /* Data exchange structure to use when building table of compact attributes for an object */
 typedef struct {
-    H5F_t *           f;             /* Pointer to file that fractal heap is in */
+    H5F_t            *f;             /* Pointer to file that fractal heap is in */
     hid_t             dxpl_id;       /* DXPL for operation                */
     H5A_attr_table_t *atable;        /* Pointer to attribute table to build */
     size_t            curr_attr;     /* Current attribute to operate on */
@@ -67,12 +67,12 @@ typedef struct {
 /* Data exchange structure to use when copying an attribute from _SRC to _DST */
 typedef struct {
     const H5O_ainfo_t *ainfo;          /* dense information    */
-    H5F_t *            file;           /* file                 */
-    hbool_t *          recompute_size; /* Flag to indicate if size changed */
-    H5O_copy_t *       cpy_info;       /* Information on copying options   */
+    H5F_t             *file;           /* file                 */
+    hbool_t           *recompute_size; /* Flag to indicate if size changed */
+    H5O_copy_t        *cpy_info;       /* Information on copying options   */
     hid_t              dxpl_id;        /* DXPL for operation               */
-    const H5O_loc_t *  oloc_src;
-    H5O_loc_t *        oloc_dst;
+    const H5O_loc_t   *oloc_src;
+    H5O_loc_t         *oloc_dst;
 } H5A_dense_file_cp_ud_t;
 
 /********************/
@@ -131,11 +131,11 @@ H5A_t *
 H5A_create(const H5G_loc_t *loc, const char *name, const H5T_t *type, const H5S_t *space, hid_t acpl_id,
            hid_t dxpl_id)
 {
-    H5A_t *  attr = NULL;      /* Attribute created */
+    H5A_t   *attr = NULL;      /* Attribute created */
     hssize_t snelmts;          /* elements in attribute */
     size_t   nelmts;           /* elements in attribute */
     htri_t   tri_ret;          /* htri_t return value */
-    H5A_t *  ret_value = NULL; /* Return value */
+    H5A_t   *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -353,8 +353,8 @@ H5A_open_by_idx(const H5G_loc_t *loc, const char *obj_name, H5_index_t idx_type,
     H5G_name_t obj_path;          /* Opened object group hier. path */
     H5O_loc_t  obj_oloc;          /* Opened object object location */
     hbool_t    loc_found = FALSE; /* Entry at 'obj_name' found */
-    H5A_t *    attr      = NULL;  /* Attribute from object header */
-    H5A_t *    ret_value = NULL;  /* Return value */
+    H5A_t     *attr      = NULL;  /* Attribute from object header */
+    H5A_t     *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -416,8 +416,8 @@ H5A_open_by_name(const H5G_loc_t *loc, const char *obj_name, const char *attr_na
     H5G_name_t obj_path;          /* Opened object group hier. path */
     H5O_loc_t  obj_oloc;          /* Opened object object location */
     hbool_t    loc_found = FALSE; /* Entry at 'obj_name' found */
-    H5A_t *    attr      = NULL;  /* Attribute from object header */
-    H5A_t *    ret_value = NULL;  /* Return value */
+    H5A_t     *attr      = NULL;  /* Attribute from object header */
+    H5A_t     *ret_value = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -479,9 +479,8 @@ done:
 herr_t
 H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id)
 {
-    uint8_t *   tconv_buf   = NULL;       /* datatype conv buffer */
-    hbool_t     tconv_owned = FALSE;      /* Whether the datatype conv buffer is owned by attribute */
-    uint8_t *   bkg_buf     = NULL;       /* temp conversion buffer */
+    uint8_t    *tconv_buf = NULL;         /* datatype conv buffer */
+    uint8_t    *bkg_buf   = NULL;         /* temp conversion buffer */
     hssize_t    snelmts;                  /* elements in attribute */
     size_t      nelmts;                   /* elements in attribute */
     H5T_path_t *tpath  = NULL;            /* conversion information*/
@@ -496,6 +495,10 @@ H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id)
     HDassert(attr);
     HDassert(mem_type);
     HDassert(buf);
+
+    /* Patch the top level file pointer in attr->shared->dt->shared->u.vlen.f if needed */
+    if (H5T_patch_vlen_file(attr->shared->dt, attr->oloc.file) < 0)
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTINIT, FAIL, "can't patch VL datatype file pointer")
 
     /* Get # of elements for attribute's dataspace */
     if ((snelmts = H5S_GET_EXTENT_NPOINTS(attr->shared->ds)) < 0)
@@ -515,6 +518,8 @@ H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id)
 
         /* Check for type conversion required */
         if (!H5T_path_noop(tpath)) {
+            H5T_bkg_t need_bkg; /* Background buffer type */
+
             if ((src_id = H5I_register(H5I_DATATYPE, H5T_copy(mem_type, H5T_COPY_ALL), FALSE)) < 0 ||
                 (dst_id = H5I_register(H5I_DATATYPE, H5T_copy(attr->shared->dt, H5T_COPY_ALL), FALSE)) < 0)
                 HGOTO_ERROR(H5E_ATTR, H5E_CANTREGISTER, FAIL, "unable to register types for conversion")
@@ -523,11 +528,32 @@ H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id)
             buf_size = nelmts * MAX(src_type_size, dst_type_size);
             if (NULL == (tconv_buf = H5FL_BLK_MALLOC(attr_buf, buf_size)))
                 HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, FAIL, "memory allocation failed")
-            if (NULL == (bkg_buf = H5FL_BLK_CALLOC(attr_buf, buf_size)))
-                HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, FAIL, "memory allocation failed")
 
             /* Copy the user's data into the buffer for conversion */
             HDmemcpy(tconv_buf, buf, (src_type_size * nelmts));
+
+            /* Check if we need a background buffer */
+            if (H5T_detect_class(attr->shared->dt, H5T_VLEN, FALSE))
+                need_bkg = H5T_BKG_YES;
+            else
+                need_bkg = H5T_path_bkg(tpath);
+
+            if (need_bkg) {
+                /* Use the existing attribute data buffer, if present, as the background buffer,
+                 * otherwise allocate one.  Note we don't need to track which one it is since both
+                 * use the "attr_buf" free list block. */
+                if (attr->shared->data) {
+                    bkg_buf            = attr->shared->data;
+                    attr->shared->data = NULL;
+
+                    /* Clear background buffer if it's not supposed to be initialized with file
+                     * contents */
+                    if (need_bkg == H5T_BKG_TEMP)
+                        HDmemset(bkg_buf, 0, dst_type_size * nelmts);
+                }
+                else if (NULL == (bkg_buf = H5FL_BLK_CALLOC(attr_buf, buf_size)))
+                    HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, FAIL, "memory allocation failed")
+            }
 
             /* Perform datatype conversion */
             if (H5T_convert(tpath, src_id, dst_id, nelmts, (size_t)0, (size_t)0, tconv_buf, bkg_buf,
@@ -540,7 +566,7 @@ H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id)
 
             /* Set the pointer to the attribute data to the converted information */
             attr->shared->data = tconv_buf;
-            tconv_owned        = TRUE;
+            tconv_buf          = NULL;
         } /* end if */
         /* No type conversion necessary */
         else {
@@ -566,7 +592,7 @@ done:
         HDONE_ERROR(H5E_ATTR, H5E_CANTDEC, FAIL, "unable to close temporary object")
     if (dst_id >= 0 && H5I_dec_ref(dst_id) < 0)
         HDONE_ERROR(H5E_ATTR, H5E_CANTDEC, FAIL, "unable to close temporary object")
-    if (tconv_buf && !tconv_owned)
+    if (tconv_buf)
         tconv_buf = H5FL_BLK_FREE(attr_buf, tconv_buf);
     if (bkg_buf)
         bkg_buf = H5FL_BLK_FREE(attr_buf, bkg_buf);
@@ -593,8 +619,8 @@ done:
 herr_t
 H5A_read(const H5A_t *attr, const H5T_t *mem_type, void *buf, hid_t dxpl_id)
 {
-    uint8_t *   tconv_buf = NULL;         /* datatype conv buffer*/
-    uint8_t *   bkg_buf   = NULL;         /* background buffer */
+    uint8_t    *tconv_buf = NULL;         /* datatype conv buffer*/
+    uint8_t    *bkg_buf   = NULL;         /* background buffer */
     hssize_t    snelmts;                  /* elements in attribute */
     size_t      nelmts;                   /* elements in attribute*/
     H5T_path_t *tpath  = NULL;            /* type conversion info	*/
@@ -636,6 +662,8 @@ H5A_read(const H5A_t *attr, const H5T_t *mem_type, void *buf, hid_t dxpl_id)
 
             /* Check for type conversion required */
             if (!H5T_path_noop(tpath)) {
+                H5T_bkg_t need_bkg; /* Background buffer type */
+
                 if ((src_id = H5I_register(H5I_DATATYPE, H5T_copy(attr->shared->dt, H5T_COPY_ALL), FALSE)) <
                         0 ||
                     (dst_id = H5I_register(H5I_DATATYPE, H5T_copy(mem_type, H5T_COPY_ALL), FALSE)) < 0)
@@ -645,11 +673,24 @@ H5A_read(const H5A_t *attr, const H5T_t *mem_type, void *buf, hid_t dxpl_id)
                 buf_size = nelmts * MAX(src_type_size, dst_type_size);
                 if (NULL == (tconv_buf = H5FL_BLK_MALLOC(attr_buf, buf_size)))
                     HGOTO_ERROR(H5E_ATTR, H5E_NOSPACE, FAIL, "memory allocation failed")
-                if (NULL == (bkg_buf = H5FL_BLK_CALLOC(attr_buf, buf_size)))
-                    HGOTO_ERROR(H5E_ATTR, H5E_NOSPACE, FAIL, "memory allocation failed")
 
                 /* Copy the attribute data into the buffer for conversion */
                 HDmemcpy(tconv_buf, attr->shared->data, (src_type_size * nelmts));
+
+                /* Check if we need a background buffer */
+                need_bkg = H5T_path_bkg(tpath);
+
+                if (need_bkg) {
+                    /* Allocate background buffer */
+                    if (NULL == (bkg_buf = H5FL_BLK_CALLOC(attr_buf, buf_size)))
+                        HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, FAIL, "memory allocation failed")
+
+                    /* Copy the application buffer into the background buffer if necessary */
+                    if (need_bkg == H5T_BKG_YES) {
+                        HDassert(buf_size >= (dst_type_size * nelmts));
+                        HDmemcpy(bkg_buf, buf, dst_type_size * nelmts);
+                    }
+                }
 
                 /* Perform datatype conversion.  */
                 if (H5T_convert(tpath, src_id, dst_id, nelmts, (size_t)0, (size_t)0, tconv_buf, bkg_buf,
@@ -705,7 +746,7 @@ H5A_get_space(H5A_t *attr)
 
     /* Copy the attribute's dataspace */
     if (NULL == (ret_value = H5S_copy(attr->shared->ds, FALSE, TRUE)))
-        HGOTO_ERROR(H5E_ATTR, H5E_CANTINIT, H5I_INVALID_HID, "unable to copy dataspace")
+        HGOTO_ERROR(H5E_ATTR, H5E_CANTINIT, NULL, "unable to copy dataspace")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
@@ -901,9 +942,9 @@ H5A_get_info(const H5A_t *attr, H5A_info_t *ainfo)
 H5A_t *
 H5A_copy(H5A_t *_new_attr, const H5A_t *old_attr)
 {
-    H5A_t * new_attr       = NULL;
+    H5A_t  *new_attr       = NULL;
     hbool_t allocated_attr = FALSE; /* Whether the attribute was allocated */
-    H5A_t * ret_value      = NULL;  /* Return value */
+    H5A_t  *ret_value      = NULL;  /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -1270,12 +1311,13 @@ H5A_compact_build_table(H5F_t *f, hid_t dxpl_id, H5O_t *oh, H5_index_t idx_type,
     atable->nattrs = 0;
 
     /* Set up user data for iteration */
-    udata.f             = f;
-    udata.dxpl_id       = dxpl_id;
-    udata.atable        = atable;
-    udata.curr_attr     = 0;
-    udata.bogus_crt_idx = (hbool_t)(
-        (oh->version == H5O_VERSION_1 || !(oh->flags & H5O_HDR_ATTR_CRT_ORDER_TRACKED)) ? TRUE : FALSE);
+    udata.f         = f;
+    udata.dxpl_id   = dxpl_id;
+    udata.atable    = atable;
+    udata.curr_attr = 0;
+    udata.bogus_crt_idx =
+        (hbool_t)((oh->version == H5O_VERSION_1 || !(oh->flags & H5O_HDR_ATTR_CRT_ORDER_TRACKED)) ? TRUE
+                                                                                                  : FALSE);
 
     /* Iterate over existing attributes, checking for attribute with same name */
     op.op_type  = H5O_MESG_OP_LIB;
@@ -1957,11 +1999,11 @@ H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t *recompute_si
         /* Check if we need to convert data */
         if (H5T_detect_class(attr_src->shared->dt, H5T_VLEN, FALSE) > 0) {
             H5T_path_t *tpath_src_mem, *tpath_mem_dst; /* Datatype conversion paths */
-            H5T_t *     dt_mem;                        /* Memory datatype */
+            H5T_t      *dt_mem;                        /* Memory datatype */
             size_t      src_dt_size;                   /* Source datatype size */
             size_t      tmp_dt_size;                   /* Temp. datatype size */
             size_t      max_dt_size;                   /* Max atatype size */
-            H5S_t *     buf_space;                     /* Dataspace describing buffer */
+            H5S_t      *buf_space;                     /* Dataspace describing buffer */
             hsize_t     buf_dim;                       /* Dimension for buffer */
             size_t      nelmts;                        /* Number of elements in buffer */
             size_t      buf_size;                      /* Size of copy buffer */
@@ -2034,7 +2076,7 @@ H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t *recompute_si
             /* Allocate background memory */
             if (H5T_path_bkg(tpath_src_mem) || H5T_path_bkg(tpath_mem_dst)) {
                 if (NULL == (bkg_buf = H5FL_BLK_CALLOC(attr_buf, buf_size)))
-                    HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, FAIL, "memory allocation failed")
+                    HGOTO_ERROR(H5E_ATTR, H5E_CANTALLOC, NULL, "memory allocation failed")
             }
 
             /* Convert from source file to memory */
@@ -2224,7 +2266,7 @@ static herr_t
 H5A_dense_post_copy_file_cb(const H5A_t *attr_src, void *_udata)
 {
     H5A_dense_file_cp_ud_t *udata     = (H5A_dense_file_cp_ud_t *)_udata;
-    H5A_t *                 attr_dst  = NULL;
+    H5A_t                  *attr_dst  = NULL;
     herr_t                  ret_value = H5_ITER_CONT; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT

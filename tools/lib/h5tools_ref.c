@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -34,7 +33,7 @@
 
 typedef struct {
     haddr_t objno; /* Object ID (i.e. address) */
-    char *  path;  /* Object path */
+    char   *path;  /* Object path */
 } ref_path_node_t;
 
 static H5SL_t *ref_path_table = NULL; /* the "table" (implemented with a skip list) */
@@ -152,7 +151,7 @@ term_ref_path_table(void)
  * Purpose:     Looks up a table entry given a path name.
  *              Used during construction of the table.
  *
- * Return:      The table entre (pte) or NULL if not in the
+ * Return:      The table entry or NULL if not in the
  *              table.
  *
  * Programmer:  REMcG

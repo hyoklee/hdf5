@@ -9,7 +9,6 @@
 ! COPYRIGHT
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 !   Copyright by The HDF Group.                                               *
-!   Copyright by the Board of Trustees of the University of Illinois.         *
 !   All rights reserved.                                                      *
 !                                                                             *
 !   This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -160,7 +159,7 @@ SUBROUTINE test_genprop_basic_class(total_error)
   CALL verify("H5Pequal_f", flag, .TRUE., total_error)
 
 
-  !  Make certain false postives aren't being returned
+  !  Make certain false positives aren't being returned
   CALL H5Pequal_f(cid2, H5P_FILE_CREATE_F, flag, error)
   CALL check("H5Pequal_f", error, total_error)
   CALL verify("H5Pequal_f", flag, .FALSE., total_error)

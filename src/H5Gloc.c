@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -90,7 +89,7 @@ typedef struct {
 /* User data for getting an object's comment in a group */
 typedef struct {
     /* downward */
-    char * comment; /* Object comment buffer */
+    char  *comment; /* Object comment buffer */
     size_t bufsize; /* Size of object comment buffer */
 
     /* upward */

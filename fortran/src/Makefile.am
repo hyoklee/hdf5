@@ -1,6 +1,5 @@
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -22,7 +21,7 @@ include $(top_srcdir)/config/lt_vers.am
 # Include src directory in both Fortran and C flags (C compiler is used
 # for linking).
 AM_CPPFLAGS+=-I$(top_srcdir)/src
-AM_FCFLAGS+=-I$(top_srcdir)/src -I$(top_srcdir)/fortran/src
+AM_FCFLAGS+=-I$(top_srcdir)/src -I$(top_srcdir)/fortran/src $(F9XMODFLAG)$(fmoddir)
 
 AM_FCLIBS=$(LIBHDF5)
 
@@ -41,8 +40,8 @@ else
 endif
 
 # Source files for the library.
-libhdf5_fortran_la_SOURCES=H5f90global.F90 \
-          H5fortran_types.F90 H5_ff.F90 H5Aff.F90 H5Dff.F90 H5Eff.F90    \
+libhdf5_fortran_la_SOURCES=H5fortran_types.F90 H5f90global.F90 \
+          H5_ff.F90 H5Aff.F90 H5Dff.F90 H5Eff.F90 \
           H5Fff.F90 H5Gff.F90 H5Iff.F90 H5Lff.F90 H5Off.F90 H5Pff.F90 H5Rff.F90 H5Sff.F90    \
           H5Tff.F90 H5Zff.F90 H5_gen.F90 H5fortkit.F90 \
           H5f90kit.c H5_f.c H5Af.c H5Df.c H5Ef.c H5Ff.c H5Gf.c           \
@@ -72,15 +71,15 @@ clean-local:
 
 install-data-local:
 	@if test -n "$(F9XMODEXT)" && test "X$(F9XMODEXT)" != "Xo"; then \
-	  $(CP) $(top_builddir)/$(subdir)/*.$(F9XMODEXT) $(DESTDIR)$(includedir)/. ; \
+	  $(CP) $(top_builddir)/$(subdir)/*.$(F9XMODEXT) $(DESTDIR)$(fmoddir)/. ; \
 	fi
 	$(CP) $(top_builddir)/$(subdir)/H5f90i_gen.h $(DESTDIR)$(includedir)/.
 	$(CP) $(top_srcdir)/fortran/src/H5f90i.h $(DESTDIR)$(includedir)/.
 
 uninstall-local:
 	@if test -n "$(F9XMODEXT)" -a "X$(F9XMODEXT)" != "Xo"; then      \
-	  if test -f "$(includedir)/hdf5.$(F9XMODEXT)" -o -f "$(includedir)/HDF5.$(F9XMODEXT)"; then \
-	    set -x; $(RM) $(DESTDIR)$(includedir)/*.$(F9XMODEXT);                 \
+	  if test -f "$(fmoddir)/hdf5.$(F9XMODEXT)" -o -f "$(fmoddir)/HDF5.$(F9XMODEXT)"; then \
+	    set -x; $(RM) $(DESTDIR)$(fmoddir)/*.$(F9XMODEXT);                 \
 	  fi;                                                           \
 	fi;								\
 	$(RM) $(DESTDIR)$(bindir)/$(H5FC_NAME)

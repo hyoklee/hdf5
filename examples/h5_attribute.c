@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -192,7 +191,7 @@ main(void)
     ret = H5Oget_info2(dataset, &oinfo, H5O_INFO_ALL);
     for (i = 0; i < (unsigned)oinfo.num_attrs; i++) {
         attr       = H5Aopen_by_idx(dataset, ".", H5_INDEX_CRT_ORDER, H5_ITER_INC, (hsize_t)i, H5P_DEFAULT,
-                              H5P_DEFAULT);
+                                    H5P_DEFAULT);
         atype      = H5Aget_type(attr);
         type_class = H5Tget_class(atype);
         if (type_class == H5T_STRING) {
@@ -232,7 +231,7 @@ attr_info(hid_t loc_id, const char *name, const H5A_info_t *ainfo, void *opdata)
     herr_t  ret;
     int     i;
     size_t  npoints;     /* Number of elements in the array attribute. */
-    float * float_array; /* Pointer to the array attribute. */
+    float  *float_array; /* Pointer to the array attribute. */
 
     /* avoid warnings */
     (void)opdata;

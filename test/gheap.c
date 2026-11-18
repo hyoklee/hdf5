@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -68,7 +67,7 @@ static int
 test_1(hid_t fapl)
 {
     hid_t   file = H5I_INVALID_HID;
-    H5F_t * f    = NULL;
+    H5F_t  *f    = NULL;
     H5HG_t *obj  = NULL;
     uint8_t out[GHEAP_TEST_NOBJS];
     uint8_t in[GHEAP_TEST_NOBJS];
@@ -177,7 +176,7 @@ static int
 test_2(hid_t fapl)
 {
     hid_t   file = H5I_INVALID_HID;
-    H5F_t * f    = NULL;
+    H5F_t  *f    = NULL;
     H5HG_t *obj  = NULL;
     uint8_t out[GHEAP_TEST_NOBJS];
     uint8_t in[GHEAP_TEST_NOBJS];
@@ -277,7 +276,7 @@ static int
 test_3(hid_t fapl)
 {
     hid_t   file = H5I_INVALID_HID;
-    H5F_t * f    = NULL;
+    H5F_t  *f    = NULL;
     H5HG_t *obj  = NULL;
     uint8_t out[GHEAP_TEST_NOBJS];
     size_t  u;
@@ -352,7 +351,7 @@ error:
  * Function:    test_4
  *
  * Purpose:     Tests the H5HG_remove() feature by writing lots of objects
- *              and occassionally removing some.  When we're done they're all
+ *              and occasionally removing some.  When we're done they're all
  *              removed.
  *
  * Return:      Success:    0
@@ -368,7 +367,7 @@ static int
 test_4(hid_t fapl)
 {
     hid_t   file = H5I_INVALID_HID;
-    H5F_t * f    = NULL;
+    H5F_t  *f    = NULL;
     H5HG_t *obj  = NULL;
     uint8_t out[GHEAP_TEST_NOBJS];
     size_t  u;
@@ -465,9 +464,9 @@ static int
 test_ooo_indices(hid_t fapl)
 {
     hid_t    file = H5I_INVALID_HID;
-    H5F_t *  f    = NULL;
+    H5F_t   *f    = NULL;
     unsigned i, j;
-    H5HG_t * obj = NULL;
+    H5HG_t  *obj = NULL;
     herr_t   status;
     int      nerrors = 0;
     char     filename[1024];

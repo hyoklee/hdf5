@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -27,7 +26,7 @@
 #define FP_EPSILON 0.000001F
 
 /*
- * Offset from alinged memory returned by malloc().  This can be used to test
+ * Offset from aligned memory returned by malloc().  This can be used to test
  * that type conversions handle non-aligned buffers correctly.
  */
 #define ALIGNMENT 1
@@ -225,7 +224,7 @@ static int without_hardware_g = 0;
         /*The number of values if multiplied by 10 for each step.*/                                          \
         num_norm = (SRC_MAX_10_EXP - SRC_MIN_10_EXP);                                                        \
         /*Reduce the number of values by 2^factor. MULTIPLY=10^(2^factor). Using this algorithm              \
-         *instead of arithmatic operation to avoid any conversion*/                                          \
+         *instead of arithmetic operation to avoid any conversion*/                                          \
         num_norm >>= factor;                                                                                 \
                                                                                                              \
         /*Total number of values*/                                                                           \
@@ -644,7 +643,7 @@ test_particular_fp_integer(void)
     float          src_f = (float)INT_MAX;
     int            dst_i;
     int            fill_value = 13;
-    int            endian; /*endianess            */
+    int            endian; /*endianness            */
     unsigned int   fails_this_test = 0;
     size_t         j;
 
@@ -821,8 +820,8 @@ test_derived_flt(void)
     size_t         spos, epos, esize, mpos, msize, size;
     size_t         src_size, dst_size;
     unsigned char *buf = NULL, *saved_buf = NULL;
-    int *          aligned = NULL;
-    int            endian; /*endianess            */
+    int           *aligned = NULL;
+    int            endian; /*endianness            */
     size_t         nelmts          = NTESTELEM;
     unsigned int   fails_this_test = 0;
     const size_t   max_fails       = 40; /*max number of failures*/
@@ -1271,7 +1270,7 @@ test_derived_integer(void)
     char           filename[1024];
     size_t         src_size, dst_size;
     unsigned char *buf = NULL, *saved_buf = NULL;
-    int            endian; /*endianess            */
+    int            endian; /*endianness            */
     size_t         nelmts          = NTESTELEM;
     unsigned int   fails_this_test = 0;
     const size_t   max_fails       = 40; /*max number of failures*/
@@ -1593,21 +1592,21 @@ test_conv_int_1(const char *name, hid_t src, hid_t dst)
     size_t             fails_this_test;      /*fails for this test    */
     char               str[256];             /*hello string        */
     dtype_t            src_type, dst_type;   /*data types        */
-    const char *       src_type_name = NULL; /*source type name    */
-    const char *       dst_type_name = NULL; /*destination type name    */
-    int                endian;               /*machine endianess    */
+    const char        *src_type_name = NULL; /*source type name    */
+    const char        *dst_type_name = NULL; /*destination type name    */
+    int                endian;               /*machine endianness    */
     size_t             src_size, dst_size;   /*type sizes        */
-    unsigned char *    buf   = NULL;         /*buffer for conversion    */
-    unsigned char *    saved = NULL;         /*original values    */
+    unsigned char     *buf   = NULL;         /*buffer for conversion    */
+    unsigned char     *saved = NULL;         /*original values    */
     size_t             j, k;                 /*counters        */
-    unsigned char *    hw = NULL;            /*hardware conv result    */
+    unsigned char     *hw = NULL;            /*hardware conv result    */
     unsigned char      src_bits[32];         /*src value in LE order    */
     unsigned char      dst_bits[32];         /*dest value in LE order*/
     size_t             src_nbits;            /*source length in bits    */
     size_t             dst_nbits;            /*dst length in bits    */
     H5T_sign_t         src_sign;             /*source sign type      */
     H5T_sign_t         dst_sign;             /*dst sign type         */
-    void *             aligned = NULL;       /*aligned temp buffer    */
+    void              *aligned = NULL;       /*aligned temp buffer    */
     signed char        hw_char;
     unsigned char      hw_uchar;
     short              hw_short;
@@ -2818,13 +2817,13 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
     const size_t   max_fails       = 8;  /*max number of failures*/
     size_t         fails_all_tests = 0;  /*number of failures    */
     size_t         fails_this_test;      /*fails for this test    */
-    const char *   src_type_name = NULL; /*source type name    */
-    const char *   dst_type_name = NULL; /*destination type name    */
+    const char    *src_type_name = NULL; /*source type name    */
+    const char    *dst_type_name = NULL; /*destination type name    */
     size_t         src_size, dst_size;   /*type sizes        */
     unsigned char *buf   = NULL;         /*buffer for conversion    */
     unsigned char *saved = NULL;         /*original values    */
     char           str[256];             /*hello string        */
-    void *         aligned = NULL;       /*aligned buffer    */
+    void          *aligned = NULL;       /*aligned buffer    */
     float          hw_f;                 /*hardware-converted     */
     double         hw_d;                 /*hardware-converted    */
 #if H5_SIZEOF_LONG_DOUBLE != H5_SIZEOF_DOUBLE
@@ -2835,8 +2834,8 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
     int            overflow = 0; /*overflow occurred    */
     int            uflow    = 0; /*underflow debug counters*/
     size_t         j, k;         /*counters        */
-    int            sendian;      /* source type endianess */
-    int            dendian;      /* Destination type endianess */
+    int            sendian;      /* source type endianness */
+    int            dendian;      /* Destination type endianness */
     size_t         dst_ebias;    /* Destination type's exponent bias */
     size_t         src_epos;     /* Source type's exponent position */
     size_t         src_esize;    /* Source type's exponent size */
@@ -2852,7 +2851,7 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
     int   status;    /*child exit status    */
 
     /*
-     * Some systems generage SIGFPE during floating point overflow and we
+     * Some systems generate SIGFPE during floating point overflow and we
      * cannot assume that we can continue from such a signal.  Therefore, we
      * fork here and let the child run the test and return the number of
      * failures with the exit status.
@@ -3153,7 +3152,7 @@ test_conv_flt_1(const char *name, int run_test, hid_t src, hid_t dst)
 
         /*
          * Assume same if both results are NaN.  There are many NaN bit
-         * patterns and the software doesn't attemt to emulate the
+         * patterns and the software doesn't attempt to emulate the
          * hardware in this regard.  Instead, software uses a single bit
          * pattern for NaN by setting the significand to all ones.
          */
@@ -3421,7 +3420,7 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
     hid_t                  dxpl_id;        /*dataset transfer property list*/
     int                    fill_value = 9; /*fill value for conversion exception*/
     H5T_conv_except_func_t op;             /*returned callback function for conversion exception*/
-    void *                 user_data;      /*returned pointer to user data passed in to the callback*/
+    void                  *user_data;      /*returned pointer to user data passed in to the callback*/
     hbool_t                except_set      = FALSE; /*whether user's exception handling is set*/
     size_t                 nelmts          = 0;     /*num values per test    */
     const size_t           max_fails       = 40;    /*max number of failures*/
@@ -3430,20 +3429,20 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
     char                   str[256];                /*hello string        */
     dtype_t                src_type;                /*data types        */
     dtype_t                dst_type;                /*data types        */
-    const char *           src_type_name = NULL;    /*source type name    */
-    const char *           dst_type_name = NULL;    /*destination type name    */
-    int                    sendian;                 /*source endianess    */
-    int                    dendian;                 /*destination endianess    */
+    const char            *src_type_name = NULL;    /*source type name    */
+    const char            *dst_type_name = NULL;    /*destination type name    */
+    int                    sendian;                 /*source endianness    */
+    int                    dendian;                 /*destination endianness    */
     size_t                 src_size, dst_size;      /*type sizes        */
-    unsigned char *        buf   = NULL;            /*buffer for conversion    */
-    unsigned char *        saved = NULL;            /*original values    */
+    unsigned char         *buf   = NULL;            /*buffer for conversion    */
+    unsigned char         *saved = NULL;            /*original values    */
     size_t                 j, k;                    /*counters        */
-    unsigned char *        hw = NULL;               /*hardware conv result    */
+    unsigned char         *hw = NULL;               /*hardware conv result    */
     unsigned char          src_bits[32];            /*src value in LE order    */
     unsigned char          dst_bits[32];            /*dest value in LE order*/
     size_t                 src_nbits;               /*source length in bits    */
     size_t                 dst_nbits;               /*dst length in bits    */
-    void *                 aligned    = NULL;       /*aligned temp buffer    */
+    void                  *aligned    = NULL;       /*aligned temp buffer    */
     float                  hw_float   = 0;
     double                 hw_double  = 0;
     long double            hw_ldouble = 0;
@@ -3682,8 +3681,8 @@ test_conv_int_fp(const char *name, int run_test, hid_t src, hid_t dst)
     }
 
     /* Allocate and initialize the source buffer through macro INIT_INTEGER if the source is integer,
-     * INIT_FP_NORM if floating-point.  The BUF will be used for the conversion while the SAVED buffer will be
-     * used for the comparison later.
+     * INIT_FP_NORM if floating-point.  The BUF will be used for the conversion while the SAVED buffer
+     * will be used for the comparison later.
      */
     if (src_type == INT_SCHAR) {
         INIT_INTEGER(signed char, SCHAR_MAX, SCHAR_MIN, src_size, dst_size, src_nbits, buf, saved, nelmts);

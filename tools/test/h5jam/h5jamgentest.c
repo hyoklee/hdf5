@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -363,10 +362,10 @@ error:
 static herr_t
 create_textfile(const char *name, size_t size)
 {
-    char * buf = NULL;
+    char  *buf = NULL;
     int    fd  = -1;
     size_t i;
-    char * bp = NULL;
+    char  *bp = NULL;
 
     if ((fd = HDcreat(name, 0777)) < 0)
         goto error;

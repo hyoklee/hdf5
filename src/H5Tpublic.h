@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -178,7 +177,7 @@ typedef struct H5T_cdata_t {
     H5T_cmd_t command;  /**< what should the conversion function do?    */
     H5T_bkg_t need_bkg; /**< is the background buffer needed?	     */
     hbool_t   recalc;   /**< recalculate private data		     */
-    void *    priv;     /**< private data				     */
+    void     *priv;     /**< private data				     */
 } H5T_cdata_t;
 //! <!-- [H5T_cdata_t_snip] -->
 
@@ -237,7 +236,7 @@ typedef enum H5T_conv_ret_t {
  */
 typedef struct {
     size_t len; /**< Length of VL data (in base type units) */
-    void * p;   /**< Pointer to VL data */
+    void  *p;   /**< Pointer to VL data */
 } hvl_t;
 
 /* Variable Length String information */
@@ -1081,7 +1080,7 @@ H5_DLLVAR hid_t H5T_NATIVE_UINT_FAST64_g;
  *          When creating a fixed-length string datatype, \p size will
  *          be the length of the string in bytes. The length of the
  *          string in characters will depend on i the encoding used; see
- *          H5Pset_char_encoding().
+ *          #H5Pset_char_encoding.
  *
  *          ENUMs created with this function have a signed native integer
  *          base datatype.  Use H5Tenum_create() if a different integer base
@@ -2307,7 +2306,7 @@ H5_DLL htri_t H5Tis_variable_str(hid_t type_id);
  *
  *          \li #H5T_NATIVE_FLOAT
  *          \li #H5T_NATIVE_DOUBLE
- *          \li #H5T_NATIVE_LDOUBLE
+ *          \li H5T_NATIVE_LDOUBLE
  *
  *          \li #H5T_NATIVE_B8
  *          \li #H5T_NATIVE_B16

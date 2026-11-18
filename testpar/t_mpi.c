@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -199,7 +198,7 @@ test_mpio_gb_file(char *filename)
     int        writerrs; /* write errors */
     int        nerrs;
     int        ntimes; /* how many times */
-    char *     buf = NULL;
+    char      *buf = NULL;
     char       expected;
     MPI_Offset size;
     MPI_Offset mpi_off;
@@ -225,7 +224,7 @@ test_mpio_gb_file(char *filename)
      * sizes.
      */
     if (MAINPROCESS) { /* only process 0 needs to check it*/
-        HDprintf("MPI_Offset is %s %d bytes integeral type\n", is_signed ? "signed" : "unsigned",
+        HDprintf("MPI_Offset is %s %d bytes integral type\n", is_signed ? "signed" : "unsigned",
                  (int)sizeof(MPI_Offset));
         if (sizeof_mpi_offset <= 4 && is_signed) {
             HDprintf("Skipped 2GB range test "
@@ -410,7 +409,7 @@ finish:
  * MPI-IO Test: One writes, Many reads.
  * Verify if only one process writes some data and then all other
  * processes can read them back correctly. This tests if the
- * underlaying parallel I/O and file system supports parallel I/O
+ * underlying parallel I/O and file system supports parallel I/O
  * correctly.
  *
  * Algorithm: Only one process (e.g., process 0) writes some data.
@@ -1096,7 +1095,7 @@ main(int argc, char **argv)
     H5Pset_fapl_mpio(fapl, MPI_COMM_WORLD, MPI_INFO_NULL);
 
     /* set alarm. */
-    ALARM_ON;
+    TestAlarmOn();
 
     /*=======================================
      * MPIO 1 write Many read test
@@ -1205,7 +1204,7 @@ finish:
     }
 
     /* turn off alarm */
-    ALARM_OFF;
+    TestAlarmOff();
 
     h5_clean_files(FILENAME, fapl);
     H5close();

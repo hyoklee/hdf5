@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -83,7 +82,7 @@ static int maxbits = XV_BITS;         /* user settable max # bits/code */
 static int maxcode;                   /* maximum code, given n_bits */
 static int maxmaxcode = 1 << XV_BITS; /* NEVER generate this */
 
-static count_int *     htab;
+static count_int      *htab;
 static unsigned short *codetab;
 
 #define HashTabOf(i) htab[i]

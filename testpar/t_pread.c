@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -68,7 +67,7 @@ static char *test_argv0 = NULL;
  *              more or less in half. Each sub group will operate
  *              collectively on their assigned file.  This split into
  *              subgroups validates that parallel groups can successfully
- *              open and read data independantly from the other parallel
+ *              open and read data independently from the other parallel
  *              operations taking place.
  *
  * Return:      Success: 0
@@ -110,7 +109,7 @@ generate_test_file(MPI_Comm comm, int mpi_rank, int group_id)
     hid_t       dcpl_id    = H5P_DEFAULT;
     hsize_t     chunk[1];
     float       nextValue;
-    float *     data_slice = NULL;
+    float      *data_slice = NULL;
 
     pass = true;
 
@@ -132,7 +131,7 @@ generate_test_file(MPI_Comm comm, int mpi_rank, int group_id)
     }
 
     /* Setup the file names
-     * The test specfic filenames are stored as consecutive
+     * The test specific filenames are stored as consecutive
      * array entries in the global 'FILENAMES' array above.
      * Here, we simply decide on the starting index for
      * file construction.  The reading portion of the test
@@ -514,7 +513,7 @@ test_parallel_read(MPI_Comm comm, int mpi_rank, int mpi_size, int group_id)
     hsize_t     count   = COUNT;
     hsize_t     dims[1] = {0};
     float       nextValue;
-    float *     data_slice = NULL;
+    float      *data_slice = NULL;
 
     pass = TRUE;
 
@@ -1043,11 +1042,11 @@ test_parallel_read(MPI_Comm comm, int mpi_rank, int mpi_size, int group_id)
  * Purpose:     To implement a parallel test which validates whether the
  *              new superblock lookup functionality is working correctly.
  *
- *              The test consists of creating two seperate HDF datasets
+ *              The test consists of creating two separate HDF datasets
  *              in which random text is inserted at the start of each
  *              file using the 'j5jam' application.  This forces the
  *              HDF5 file superblock to a non-zero offset.
- *              Having created the two independant files, we create two
+ *              Having created the two independent files, we create two
  *              non-overlapping MPI groups, each of which is then tasked
  *              with the opening and validation of the data contained
  *              therein.
@@ -1152,7 +1151,7 @@ main(int argc, char **argv)
         goto finish;
     }
 
-    /* Now read the generated test file (stil using MPI_COMM_WORLD) */
+    /* Now read the generated test file (still using MPI_COMM_WORLD) */
     nerrs += test_parallel_read(MPI_COMM_WORLD, mpi_rank, mpi_size, which_group);
 
     if (nerrs > 0) {

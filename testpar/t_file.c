@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -127,8 +126,8 @@ test_page_buffer_access(void)
     size_t      page_count = 0;
     int         i, num_elements = 200;
     haddr_t     raw_addr, meta_addr;
-    int *       data;
-    H5F_t *     f = NULL;
+    int        *data;
+    H5F_t      *f = NULL;
     herr_t      ret; /* generic return value */
     const char *filename;
     hbool_t     api_ctx_pushed = FALSE; /* Whether API context pushed */
@@ -182,7 +181,7 @@ test_page_buffer_access(void)
 
     data = (int *)HDmalloc(sizeof(int) * (size_t)num_elements);
 
-    /* intialize all the elements to have a value of -1 */
+    /* initialize all the elements to have a value of -1 */
     for (i = 0; i < num_elements; i++)
         data[i] = -1;
 
@@ -448,13 +447,13 @@ create_file(const char *filename, hid_t fcpl, hid_t fapl, int metadata_write_str
     hsize_t             count[RANK];
     hsize_t             stride[RANK];
     hsize_t             block[RANK];
-    DATATYPE *          data_array = NULL;
+    DATATYPE           *data_array = NULL;
     hsize_t             dims[RANK], i;
     hsize_t             num_elements;
     int                 k;
     char                dset_name[10];
-    H5F_t *             f         = NULL;
-    H5C_t *             cache_ptr = NULL;
+    H5F_t              *f         = NULL;
+    H5C_t              *cache_ptr = NULL;
     H5AC_cache_config_t config;
     hbool_t             api_ctx_pushed = FALSE; /* Whether API context pushed */
     herr_t              ret;
@@ -601,7 +600,7 @@ open_file(const char *filename, hid_t fapl, int metadata_write_strategy, hsize_t
 {
     hid_t               file_id, dset_id, grp_id, grp_id2;
     hid_t               sid, mem_dataspace;
-    DATATYPE *          data_array = NULL;
+    DATATYPE           *data_array = NULL;
     hsize_t             dims[RANK];
     hsize_t             start[RANK];
     hsize_t             count[RANK];
@@ -610,8 +609,8 @@ open_file(const char *filename, hid_t fapl, int metadata_write_strategy, hsize_t
     int                 i, k, ndims;
     hsize_t             num_elements;
     char                dset_name[10];
-    H5F_t *             f         = NULL;
-    H5C_t *             cache_ptr = NULL;
+    H5F_t              *f         = NULL;
+    H5C_t              *cache_ptr = NULL;
     H5AC_cache_config_t config;
     hbool_t             api_ctx_pushed = FALSE; /* Whether API context pushed */
     herr_t              ret;
@@ -874,3 +873,54 @@ test_file_properties(void)
     ret = H5Pclose(fapl_id);
     VRFY((ret >= 0), "H5Pclose succeeded");
 } /* end test_file_properties() */
+
+/*
+ * Tests for an assertion failure during file close that used
+ * to occur when the library fails to create a file in parallel
+ * due to an invalid library version bounds setting
+ */
+void
+test_invalid_libver_bounds_file_close_assert(void)
+{
+    const char *filename = NULL;
+    MPI_Comm    comm     = MPI_COMM_WORLD;
+    MPI_Info    info     = MPI_INFO_NULL;
+    herr_t      ret;
+    hid_t       fid     = H5I_INVALID_HID;
+    hid_t       fapl_id = H5I_INVALID_HID;
+    hid_t       fcpl_id = H5I_INVALID_HID;
+
+    filename = (const char *)GetTestParameters();
+
+    /* set up MPI parameters */
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+
+    /* setup file access plist */
+    fapl_id = H5Pcreate(H5P_FILE_ACCESS);
+    VRFY((fapl_id != H5I_INVALID_HID), "H5Pcreate");
+    ret = H5Pset_fapl_mpio(fapl_id, comm, info);
+    VRFY((SUCCEED == ret), "H5Pset_fapl_mpio");
+    ret = H5Pset_libver_bounds(fapl_id, H5F_LIBVER_EARLIEST, H5F_LIBVER_V18);
+    VRFY((SUCCEED == ret), "H5Pset_libver_bounds");
+
+    /* setup file creation plist */
+    fcpl_id = H5Pcreate(H5P_FILE_CREATE);
+    VRFY((fcpl_id != H5I_INVALID_HID), "H5Pcreate");
+
+    ret = H5Pset_file_space_strategy(fcpl_id, H5F_FSPACE_STRATEGY_PAGE, TRUE, 1);
+    VRFY((SUCCEED == ret), "H5Pset_file_space_strategy");
+
+    /* create the file */
+    H5E_BEGIN_TRY
+    {
+        fid = H5Fcreate(filename, H5F_ACC_TRUNC, fcpl_id, fapl_id);
+    }
+    H5E_END_TRY
+    VRFY((fid == H5I_INVALID_HID), "H5Fcreate");
+
+    ret = H5Pclose(fapl_id);
+    VRFY((SUCCEED == ret), "H5Pclose");
+    ret = H5Pclose(fcpl_id);
+    VRFY((SUCCEED == ret), "H5Pclose");
+}

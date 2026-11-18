@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -599,7 +598,7 @@ error:
  *-------------------------------------------------------------------------
  */
 #pragma pack() // default alignment
-const char *  ABHI_PT("/abhiTest");
+const char   *ABHI_PT("/abhiTest");
 const hsize_t NUM_PACKETS   = 5;
 const int     STRING_LENGTH = 19; // including terminating NULL
 int

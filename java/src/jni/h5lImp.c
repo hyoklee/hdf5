@@ -277,7 +277,7 @@ done:
 JNIEXPORT jobject JNICALL
 Java_hdf_hdf5lib_H5_H5Lget_1info(JNIEnv *env, jclass clss, jlong loc_id, jstring name, jlong access_id)
 {
-    H5L_info_t  infobuf;
+    H5L_info_t  infobuf  = {H5L_TYPE_ERROR, FALSE, -1, H5T_CSET_ERROR, {0}};
     const char *linkName = NULL;
     jvalue      args[5];
     herr_t      status  = FAIL;
@@ -317,7 +317,7 @@ JNIEXPORT jobject JNICALL
 Java_hdf_hdf5lib_H5_H5Lget_1info_1by_1idx(JNIEnv *env, jclass clss, jlong loc_id, jstring name,
                                           jint index_field, jint order, jlong link_n, jlong access_id)
 {
-    H5L_info_t  infobuf;
+    H5L_info_t  infobuf   = {H5L_TYPE_ERROR, FALSE, -1, H5T_CSET_ERROR, {0}};
     const char *groupName = NULL;
     jvalue      args[5];
     herr_t      status  = FAIL;
@@ -362,7 +362,7 @@ Java_hdf_hdf5lib_H5_H5Lget_1name_1by_1idx(JNIEnv *env, jclass clss, jlong loc_id
     const char *groupName   = NULL;
     jstring     str         = NULL;
     ssize_t     status_size = -1;
-    char *      linkName    = NULL;
+    char       *linkName    = NULL;
 
     UNUSED(clss);
 
@@ -408,13 +408,13 @@ JNIEXPORT jint JNICALL
 Java_hdf_hdf5lib_H5_H5Lget_1value(JNIEnv *env, jclass clss, jlong loc_id, jstring name,
                                   jobjectArray link_value, jlong access_id)
 {
-    H5L_info_t  infobuf;
+    H5L_info_t  infobuf   = {H5L_TYPE_ERROR, FALSE, -1, H5T_CSET_ERROR, {0}};
     const char *file_name = NULL;
     const char *obj_name  = NULL;
     const char *linkName  = NULL;
     jstring     str;
     herr_t      status;
-    char *      linkValue = NULL;
+    char       *linkValue = NULL;
 
     UNUSED(clss);
 
@@ -498,13 +498,13 @@ Java_hdf_hdf5lib_H5_H5Lget_1value_1by_1idx(JNIEnv *env, jclass clss, jlong loc_i
                                            jint index_field, jint order, jlong link_n,
                                            jobjectArray link_value, jlong access_id)
 {
-    H5L_info_t  infobuf;
+    H5L_info_t  infobuf   = {H5L_TYPE_ERROR, FALSE, -1, H5T_CSET_ERROR, {0}};
     const char *file_name = NULL;
     const char *obj_name  = NULL;
     const char *grpName   = NULL;
     jstring     str;
     herr_t      status;
-    void *      linkValue = NULL;
+    void       *linkValue = NULL;
 
     UNUSED(clss);
 
@@ -625,10 +625,10 @@ H5L_iterate_cb(hid_t g_id, const char *name, const H5L_info_t *info, void *cb_da
     jobject     cb_info_t      = NULL;
     jobject     visit_callback = wrapper->visit_callback;
     jstring     str;
-    JNIEnv *    cbenv = NULL;
+    JNIEnv     *cbenv = NULL;
     jclass      cbcls;
     jvalue      args[5];
-    void *      op_data = (void *)wrapper->op_data;
+    void       *op_data = (void *)wrapper->op_data;
     jint        status  = -1;
 
     if (JVMPTR->AttachCurrentThread(JVMPAR, (void **)&cbenv, NULL) < 0) {

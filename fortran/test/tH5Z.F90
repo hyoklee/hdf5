@@ -9,7 +9,6 @@
 ! COPYRIGHT
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 !   Copyright by The HDF Group.                                               *
-!   Copyright by the Board of Trustees of the University of Illinois.         *
 !   All rights reserved.                                                      *
 !                                                                             *
 !   This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -374,7 +373,7 @@ CONTAINS
           do i = 1, N
               do j = 1, M
                   IF (data_out(i,j) .NE. dset_data(i, j)) THEN
-                      write(*, *) "dataset test error occured"
+                      write(*, *) "dataset test error occurred"
                       write(*,*) "data read is not the same as the data written"
                       num_errors = num_errors + 1
                       IF (num_errors .GE. 512) THEN

@@ -1,6 +1,5 @@
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -23,7 +22,7 @@ AM_CPPFLAGS+=-I$(top_srcdir)/src -I$(top_srcdir)/test -I$(top_srcdir)/tools/lib
 
 # bin_PROGRAMS will be installed.
 if BUILD_PARALLEL_CONDITIONAL
-    bin_PROGRAMS=h5perf_serial perf h5perf
+    bin_PROGRAMS=h5perf_serial h5perf
 else
     bin_PROGRAMS=h5perf_serial
 endif
@@ -47,7 +46,7 @@ endif
 # List them in the order they should be run.
 # Parallel test programs.
 if BUILD_PARALLEL_CONDITIONAL
-    TEST_PROG_PARA=h5perf perf
+    TEST_PROG_PARA=h5perf
 endif
 
 h5perf_SOURCES=pio_perf.c pio_engine.c
@@ -58,6 +57,5 @@ h5perf_serial_SOURCES=sio_perf.c sio_engine.c
 LDADD=$(LIBHDF5)
 h5perf_LDADD=$(LIBH5TOOLS) $(LIBHDF5)
 h5perf_serial_LDADD=$(LIBH5TOOLS) $(LIBHDF5)
-perf_LDADD=$(LIBHDF5)
 
 include $(top_srcdir)/config/conclude.am

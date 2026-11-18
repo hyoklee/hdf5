@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -54,7 +53,7 @@
 /* Struct used with test_array_bkg() test */
 typedef struct {
     int    nsubfields;
-    char * name[NMAX];
+    char  *name[NMAX];
     size_t offset[NMAX];
     hid_t  datatype[NMAX];
 
@@ -579,7 +578,7 @@ test_array_compound_atomic(void)
     int     ndims;                /* Array rank for reading       */
     hsize_t rdims1[H5S_MAX_RANK]; /* Array dimensions for reading */
     int     nmemb;                /* Number of compound members   */
-    char *  mname;                /* Name of compound field       */
+    char   *mname;                /* Name of compound field       */
     size_t  off;                  /* Offset of compound field     */
     hid_t   mtid;                 /* Datatype ID for field        */
     int     i, j;                 /* counting variables           */
@@ -791,7 +790,7 @@ test_array_compound_array(void)
     int         ndims;                /* Array rank for reading       */
     hsize_t     rdims1[H5S_MAX_RANK]; /* Array dimensions for reading */
     int         nmemb;                /* Number of compound members   */
-    char *      mname;                /* Name of compound field       */
+    char       *mname;                /* Name of compound field       */
     size_t      off;                  /* Offset of compound field     */
     hid_t       mtid;                 /* Datatype ID for field        */
     H5T_class_t mclass;               /* Datatype class for field     */
@@ -1046,7 +1045,7 @@ test_array_compound_array(void)
 void *
 test_array_alloc_custom(size_t size, void *info)
 {
-    void *  ret_value = NULL;           /* Pointer to return            */
+    void   *ret_value = NULL;           /* Pointer to return            */
     size_t *mem_used  = (size_t *)info; /* Pointer to the memory used   */
     size_t  extra;                      /* Extra space needed           */
 
@@ -1082,7 +1081,7 @@ void
 test_array_free_custom(void *_mem, void *info)
 {
     unsigned char *mem      = NULL;           /* Pointer to mem to be freed   */
-    size_t *       mem_used = (size_t *)info; /* Pointer to the memory used   */
+    size_t        *mem_used = (size_t *)info; /* Pointer to the memory used   */
     size_t         extra;                     /* Extra space needed           */
 
     /*
@@ -1915,7 +1914,7 @@ test_compat(void)
     hsize_t     rdims1[H5S_MAX_RANK]; /* Array dimensions for reading     */
     H5T_class_t mclass;               /* Datatype class for VL            */
     int         nmemb;                /* Number of compound members       */
-    char *      mname;                /* Name of compound field           */
+    char       *mname;                /* Name of compound field           */
     size_t      off;                  /* Offset of compound field         */
     hid_t       mtid;                 /* Datatype ID for field            */
     int         i;                    /* Index variables                  */

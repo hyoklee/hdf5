@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -1626,7 +1625,7 @@ H5Location::getObjinfo(const H5std_string &name, hbool_t follow_link, H5G_stat_t
 // Function:    H5Location::getObjinfo
 ///\brief       This is an overloaded member function, provided for convenience.
 ///             It differs from the above functions in that it doesn't have
-///             the paramemter \a follow_link.
+///             the parameter \a follow_link.
 // Nov, 2005
 //--------------------------------------------------------------------------
 void
@@ -1698,7 +1697,7 @@ H5std_string
 H5Location::getLinkval(const char *name, size_t size) const
 {
     H5L_info_t   linkinfo;
-    char *       value_C; // value in C string
+    char        *value_C; // value in C string
     size_t       val_size = size;
     H5std_string value;
     herr_t       ret_value;

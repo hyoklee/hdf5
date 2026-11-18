@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright by the Board of Trustees of the University of Illinois.         *
+ * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -89,7 +89,7 @@ main(void)
     unsigned nerrors        = 0;     /* track errors */
     hbool_t  api_ctx_pushed = FALSE; /* Whether API context pushed */
     hid_t    fid            = -1;
-    H5F_t *  f              = NULL; /* File for all tests */
+    H5F_t   *f              = NULL; /* File for all tests */
 
     /* Test Setup */
     HDputs("Testing the metadata accumulator");
@@ -1340,7 +1340,7 @@ test_accum_adjust(H5F_t *f)
     /* ==> Accumulator will try to resize, but see that it's getting too big */
     /* ==> Size of new block is less than than half maximum size of accumulator */
     /* ==> New block being appended to accumulator */
-    /* ==> We can slide the dirty region down, to accomodate the request */
+    /* ==> We can slide the dirty region down, to accommodate the request */
     /* ==> Max Buffer Size - (dirty offset + adjust size) >= 2 * size) */
     /* ==> Need to adjust location of accumulator while appending */
     /* ==> Accumulator will need to be reallocated */
@@ -1386,7 +1386,7 @@ test_accum_adjust(H5F_t *f)
     /* ==> Accumulator will try to resize, but see that it's getting too big */
     /* ==> Size of new block is less than than half maximum size of accumulator */
     /* ==> New block being appended to accumulator */
-    /* ==> We can slide the dirty region down, to accomodate the request */
+    /* ==> We can slide the dirty region down, to accommodate the request */
     /* ==> Max Buffer Size - (dirty offset + adjust size) < 2 * size) */
     /* ==> Need to adjust location of accumulator while appending */
     if (accum_write((1024 * 1024) - 5, 10, wbuf) < 0)
@@ -1934,8 +1934,8 @@ test_random_write(H5F_t *f)
 {
     uint8_t *wbuf, *rbuf; /* Buffers for reading & writing */
     unsigned seed = 0;    /* Random # seed */
-    size_t * off;         /* Offset of buffer segments to write */
-    size_t * len;         /* Size of buffer segments to write */
+    size_t  *off;         /* Offset of buffer segments to write */
+    size_t  *len;         /* Size of buffer segments to write */
     size_t   cur_off;     /* Current offset */
     size_t   nsegments;   /* Number of segments to write */
     size_t   swap;        /* Position to swap with */
@@ -2088,12 +2088,12 @@ test_swmr_write_big(hbool_t newest_format)
 
     hid_t    fid   = -1;                 /* File ID */
     hid_t    fapl  = -1;                 /* File access property list */
-    H5F_t *  rf    = NULL;               /* File pointer */
+    H5F_t   *rf    = NULL;               /* File pointer */
     uint8_t *wbuf2 = NULL, *rbuf = NULL; /* Buffers for reading & writing */
     uint8_t  wbuf[1024];                 /* Buffer for reading & writing */
     unsigned u;                          /* Local index variable */
     hbool_t  process_success = FALSE;
-    char *   driver          = NULL;  /* VFD string (from env variable) */
+    char    *driver          = NULL;  /* VFD string (from env variable) */
     hbool_t  api_ctx_pushed  = FALSE; /* Whether API context pushed */
 
     if (newest_format)

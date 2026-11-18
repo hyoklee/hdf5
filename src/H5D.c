@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -94,7 +93,7 @@ H5Dcreate2(hid_t loc_id, const char *name, hid_t type_id, hid_t space_id, hid_t 
            hid_t dapl_id)
 {
     H5G_loc_t    loc;                         /* Object location to insert dataset into */
-    H5D_t *      dset = NULL;                 /* New dataset's info */
+    H5D_t       *dset = NULL;                 /* New dataset's info */
     const H5S_t *space;                       /* Dataspace for dataset */
     hid_t        ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -188,7 +187,7 @@ hid_t
 H5Dcreate_anon(hid_t loc_id, hid_t type_id, hid_t space_id, hid_t dcpl_id, hid_t dapl_id)
 {
     H5G_loc_t    loc;                         /* Object location to insert dataset into */
-    H5D_t *      dset = NULL;                 /* New dataset's info */
+    H5D_t       *dset = NULL;                 /* New dataset's info */
     const H5S_t *space;                       /* Dataspace for dataset */
     hid_t        ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -260,7 +259,7 @@ done:
 hid_t
 H5Dopen2(hid_t loc_id, const char *name, hid_t dapl_id)
 {
-    H5D_t *   dset = NULL;
+    H5D_t    *dset = NULL;
     H5G_loc_t loc;                         /* Object location of group */
     hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -535,7 +534,7 @@ done:
 hsize_t
 H5Dget_storage_size(hid_t dset_id)
 {
-    H5D_t * dset;          /* Dataset to query */
+    H5D_t  *dset;          /* Dataset to query */
     hsize_t ret_value = 0; /* Return value                 */
 
     FUNC_ENTER_API(0)
@@ -567,7 +566,7 @@ done:
 haddr_t
 H5Dget_offset(hid_t dset_id)
 {
-    H5D_t * dset;                    /* Dataset to query */
+    H5D_t  *dset;                    /* Dataset to query */
     haddr_t ret_value = HADDR_UNDEF; /* Return value                 */
 
     FUNC_ENTER_API(HADDR_UNDEF)
@@ -646,8 +645,8 @@ done:
 herr_t
 H5Diterate(void *buf, hid_t type_id, hid_t space_id, H5D_operator_t op, void *operator_data)
 {
-    H5T_t *           type;      /* Datatype */
-    H5S_t *           space;     /* Dataspace for iteration */
+    H5T_t            *type;      /* Datatype */
+    H5S_t            *space;     /* Dataspace for iteration */
     H5S_sel_iter_op_t dset_op;   /* Operator for iteration */
     herr_t            ret_value; /* Return value */
 
@@ -754,12 +753,12 @@ herr_t
 H5Dvlen_get_buf_size(hid_t dataset_id, hid_t type_id, hid_t space_id, hsize_t *size)
 {
     H5D_vlen_bufsize_t vlen_bufsize = {0, 0, 0, 0, 0, 0};
-    H5D_t *            dset;          /* Dataset for operation */
-    H5S_t *            fspace = NULL; /* Dataset's dataspace */
-    H5S_t *            mspace = NULL; /* Memory dataspace */
+    H5D_t             *dset;          /* Dataset for operation */
+    H5S_t             *fspace = NULL; /* Dataset's dataspace */
+    H5S_t             *mspace = NULL; /* Memory dataspace */
     char               bogus;         /* bogus value to pass to H5Diterate() */
-    H5S_t *            space;         /* Dataspace for iteration */
-    H5T_t *            type;          /* Datatype */
+    H5S_t             *space;         /* Dataspace for iteration */
+    H5T_t             *type;          /* Datatype */
     H5S_sel_iter_op_t  dset_op;       /* Operator for iteration */
     herr_t             ret_value;     /* Return value */
 
@@ -1102,7 +1101,7 @@ done:
 herr_t
 H5Dget_num_chunks(hid_t dset_id, hid_t fspace_id, hsize_t *nchunks)
 {
-    H5D_t *      dset = NULL;
+    H5D_t       *dset = NULL;
     const H5S_t *space; /* Dataspace for dataset */
     herr_t       ret_value = SUCCEED;
 
@@ -1154,7 +1153,7 @@ herr_t
 H5Dget_chunk_info(hid_t dset_id, hid_t fspace_id, hsize_t chk_index, hsize_t *offset, unsigned *filter_mask,
                   haddr_t *addr, hsize_t *size)
 {
-    H5D_t *      dset = NULL;
+    H5D_t       *dset = NULL;
     const H5S_t *space; /* Dataspace for dataset */
     herr_t       ret_value = SUCCEED;
 
@@ -1230,3 +1229,57 @@ H5Dget_chunk_info_by_coord(hid_t dset_id, const hsize_t *offset, unsigned *filte
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Dget_chunk_info_by_coord() */
+
+/*-------------------------------------------------------------------------
+ * Function:    H5Dchunk_iter
+ *
+ * Purpose:     Iterates over all chunks in dataset with given callback and user data.
+ *
+ * Parameters:
+ *              hid_t dset_id;          IN: Chunked dataset ID
+ *              hid_t dxpl_id;          IN: Dataset transfer property list ID
+ *              H5D_chunk_iter_op_t cb  IN: User callback function, called for every chunk.
+ *              void *op_data           IN/OUT: Optional user data passed on to user callback.
+ *
+ * Return:      Non-negative on success, negative on failure
+ *
+ * Programmer:  Gaute Hope
+ *              August 2020
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5Dchunk_iter(hid_t dset_id, hid_t dxpl_id, H5D_chunk_iter_op_t op, void *op_data)
+{
+    H5D_t *dset      = NULL;
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_API(FAIL)
+    H5TRACE4("e", "iix*x", dset_id, dxpl_id, op, op_data);
+
+    /* Check arguments */
+    if (NULL == (dset = (H5D_t *)H5I_object_verify(dset_id, H5I_DATASET)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "invalid dataset identifier")
+    if (NULL == op)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid callback to chunk iteration")
+
+    /* Get the default dataset transfer property list if the user didn't provide one */
+    if (H5P_DEFAULT == dxpl_id)
+        dxpl_id = H5P_DATASET_XFER_DEFAULT;
+    else if (TRUE != H5P_isa_class(dxpl_id, H5P_DATASET_XFER))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "dxpl_id is not a dataset transfer property list ID")
+
+    /* Sanity check */
+    HDassert(dset->shared);
+
+    /* Make sure the dataset is chunked */
+    if (H5D_CHUNKED != dset->shared->layout.type)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a chunked dataset")
+
+    /* Call private function */
+    if ((ret_value = H5D__chunk_iter(dset, op, op_data)) < 0)
+        HERROR(H5E_DATASET, H5E_BADITER, "error iterating over dataset chunks");
+
+done:
+    FUNC_LEAVE_API(ret_value)
+} /* end H5Dchunk_iter() */

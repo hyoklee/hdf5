@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -265,9 +264,9 @@ done:
 H5FA_dblock_t *
 H5FA__dblock_protect(H5FA_hdr_t *hdr, haddr_t dblk_addr, unsigned flags)
 {
-    H5FA_dblock_t *        dblock = NULL; /* Fixed array data block */
+    H5FA_dblock_t         *dblock = NULL; /* Fixed array data block */
     H5FA_dblock_cache_ud_t udata;         /* Information needed for loading data block */
-    H5FA_dblock_t *        ret_value = NULL;
+    H5FA_dblock_t         *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 

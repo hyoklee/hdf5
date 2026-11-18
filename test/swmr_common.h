@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -40,7 +39,7 @@
 
 /* Information about a symbol/dataset */
 typedef struct {
-    char *  name;     /* Dataset name for symbol */
+    char   *name;     /* Dataset name for symbol */
     hid_t   dsid;     /* Dataset ID for symbol */
     hsize_t nrecords; /* Number of records for the symbol */
 } symbol_info_t;

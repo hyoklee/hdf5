@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -636,7 +635,7 @@ size1_helper(hid_t file, const char *filename, hid_t fapl_id, hbool_t test_file_
     if (GetTestExpress() > 1)
         test_file_closing = FALSE;
 
-    /* Intialize wdata */
+    /* Initialize wdata */
     HDmemset(&wdata, 0, sizeof(wdata));
     wdata.i1 = 11;
     HDstrcpy(wdata.str, "string");
@@ -649,7 +648,7 @@ size1_helper(hid_t file, const char *filename, hid_t fapl_id, hbool_t test_file_
     wdata.i8 = 88;
     wdata.f1 = 0.0F;
 
-    /* Intialize rdata */
+    /* Initialize rdata */
     HDmemset(&rdata, 0, sizeof(rdata));
 
     dtype1_id = make_dtype_1();
@@ -762,7 +761,7 @@ error:
  * Function: getsize_testsize1
  *
  * Purpose: Creates a test file, populates it, and returns its file size.
- *          Oject header information from the "first" dataset in the file
+ *          Object header information from the "first" dataset in the file
  *          is stored in pointer `oinfo`.
  *
  * Programmer: Jacob Smith
@@ -1551,7 +1550,7 @@ size2_dump_struct(const char *name, size2_helper_struct *sizes)
 /*-------------------------------------------------------------------------
  * Function:    size2_helper
  *
- * Purpose:     A helper functon for test_sohm_size2.
+ * Purpose:     A helper function for test_sohm_size2.
  *
  *              Creates a file using the given fcpl, then creates lots
  *              of different kinds of messages within the file and
@@ -1931,7 +1930,7 @@ size2_helper(hid_t fcpl_id, int test_file_closing, size2_helper_struct *ret_size
 /*-------------------------------------------------------------------------
  * Function:    size2_verify
  *
- * Purpose:     A helper functon to verify the file created by size2_helper.
+ * Purpose:     A helper function to verify the file created by size2_helper.
  *
  *              Runs various tests (not exhaustive) to ensure that the
  *              file FILENAME actually has the structure that size2_helper
@@ -3689,7 +3688,7 @@ test_sohm_external_dtype(void)
         int a;
         int b;
     } s1_t;
-    s1_t *      s_ptr, *orig;
+    s1_t       *s_ptr, *orig;
     hid_t       fcpl, file1, file2;
     hid_t       dataset1, dataset2;
     hid_t       s1_tid, dset1_tid, dset2_tid, space;

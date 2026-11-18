@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -198,7 +197,7 @@ test_table(hid_t fid, int do_write)
     hid_t      fid2;
     hsize_t    chunk_size   = 10;
     int        compress     = 0;
-    int *      fill         = NULL;
+    int       *fill         = NULL;
     particle_t fill1[1]     = {{"no data", -1, -99.0, -99.0, -1}};
     int        fill1_new[1] = {-100};
     hsize_t    position;
@@ -1464,7 +1463,7 @@ test_table(hid_t fid, int do_write)
 
     HL_TESTING2("getting field info");
 
-    /* alocate */
+    /* allocate */
     names_out = (char **)HDmalloc(sizeof(char *) * (size_t)NFIELDS);
     for (i = 0; i < NFIELDS; i++) {
         names_out[i] = (char *)HDmalloc(sizeof(char) * 255);

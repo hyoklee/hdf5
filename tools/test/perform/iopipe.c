@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -95,7 +94,6 @@ print_stats(const char *prefix,
 static void
 synchronize(void)
 {
-#ifdef H5_HAVE_SYSTEM
 #if defined(H5_HAVE_WIN32_API) && !defined(__CYGWIN__)
     _flushall();
 #else
@@ -106,7 +104,6 @@ synchronize(void)
 
     status = HDsystem("df >/dev/null");
     HDassert(status >= 0);
-#endif
 #endif
 }
 

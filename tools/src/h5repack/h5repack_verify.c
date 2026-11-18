@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -46,7 +45,7 @@ h5repack_verify(const char *in_fname, const char *out_fname, pack_opt_t *options
     hid_t                 tid    = H5I_INVALID_HID; /* type ID */
     int                   ok     = 1;               /* step results */
     unsigned int          i;
-    trav_table_t *        travt    = NULL;
+    trav_table_t         *travt    = NULL;
     hid_t                 fcpl_in  = H5I_INVALID_HID;  /* file creation property for input file */
     hid_t                 fcpl_out = H5I_INVALID_HID;  /* file creation property for output file */
     H5F_fspace_strategy_t in_strategy, out_strategy;   /* file space handling strategy for in/output file */
@@ -60,7 +59,7 @@ h5repack_verify(const char *in_fname, const char *out_fname, pack_opt_t *options
         H5TOOLS_GOTO_ERROR((-1), "H5Fopen failed on <%s>", out_fname);
 
     for (i = 0; i < options->op_tbl->nelems; i++) {
-        char *       name = options->op_tbl->objs[i].path;
+        char        *name = options->op_tbl->objs[i].path;
         pack_info_t *obj  = &options->op_tbl->objs[i];
 
         /*-------------------------------------------------------------------------

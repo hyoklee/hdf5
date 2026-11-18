@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -466,7 +465,7 @@ test_h5o_refcount(void)
     CHECK(ret, FAIL, "H5Oget_info_by_name");
     VERIFY(oinfo.rc, 1, "reference count in H5Oget_info_by_name");
 
-    /* Increment the reference counts and then close the file to make sure the increment is permanant */
+    /* Increment the reference counts and then close the file to make sure the increment is permanent */
     ret = H5Oincr_refcount(grp);
     CHECK(ret, FAIL, "H5Oincr_refcount");
     ret = H5Oincr_refcount(dtype);
@@ -784,8 +783,8 @@ test_h5o_link(void)
     hsize_t      dims[2]  = {TEST6_DIM1, TEST6_DIM2};
     htri_t       committed; /* Whether the named datatype is committed */
     H5F_libver_t low, high; /* File format bounds */
-    int *        wdata;
-    int *        rdata;
+    int         *wdata;
+    int         *rdata;
     int          i, n;
     herr_t       ret; /* Value returned from API calls */
 

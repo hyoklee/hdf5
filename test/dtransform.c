@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -858,7 +857,7 @@ test_getset(const hid_t dxpl_id_c_to_f)
     float       windchillFfloatread[ROWS][COLS];
     const char *simple     = "(4/2) * ( (2 + 4)/(5 - 2.5))"; /* this equals 4.8 */
     const char *c_to_f     = "(9/5.0)*x + 32";
-    char *      ptrgetTest = NULL;
+    char       *ptrgetTest = NULL;
 
     TESTING("H5Pget_data_transform")
 
@@ -920,7 +919,7 @@ test_set(void)
     hid_t       dxpl_id = -1;
     H5E_auto2_t func;
     const char *str        = "(9/5.0)*x + 32";
-    char *      ptrgetTest = NULL;
+    char       *ptrgetTest = NULL;
 
     TESTING("H5Pget_data_transform (get before set)")
 

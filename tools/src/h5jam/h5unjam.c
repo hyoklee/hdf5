@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -35,7 +34,7 @@ char *ub_file     = NULL;
  * parameters. The long-named ones can be partially spelled. When
  * adding more, make sure that they don't clash with each other.
  */
-static const char *        s_opts   = "hu:i:o:d:V";
+static const char         *s_opts   = "hu:i:o:d:V";
 static struct long_options l_opts[] = {{"help", no_arg, 'h'},   {"i", require_arg, 'i'},
                                        {"u", require_arg, 'u'}, {"o", require_arg, 'o'},
                                        {"delete", no_arg, 'd'}, {NULL, 0, '\0'}};

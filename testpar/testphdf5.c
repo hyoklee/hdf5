@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,7 +42,7 @@ int dxfer_coll_type = DXFER_COLLECTIVE_IO;
 #define NFILENAME    2
 #define PARATESTFILE filenames[0]
 const char *FILENAME[NFILENAME] = {"ParaTest", NULL};
-char *      filenames[NFILENAME];
+char       *filenames[NFILENAME];
 hid_t       fapl; /* file access property list */
 
 #ifdef USE_PAUSE
@@ -358,6 +357,9 @@ main(int argc, char **argv)
 
     AddTest("props", test_file_properties, NULL, "Coll Metadata file property settings", PARATESTFILE);
 
+    AddTest("invlibverassert", test_invalid_libver_bounds_file_close_assert, NULL,
+            "Invalid libver bounds assertion failure", PARATESTFILE);
+
     AddTest("idsetw", dataset_writeInd, NULL, "dataset independent write", PARATESTFILE);
     AddTest("idsetr", dataset_readInd, NULL, "dataset independent read", PARATESTFILE);
 
@@ -372,6 +374,8 @@ main(int argc, char **argv)
     AddTest("selnone", none_selection_chunk, NULL, "chunked dataset with none-selection", PARATESTFILE);
     AddTest("calloc", test_chunk_alloc, NULL, "parallel extend Chunked allocation on serial file",
             PARATESTFILE);
+    AddTest("chkallocser2par", test_chunk_alloc_incr_ser_to_par, NULL,
+            "chunk allocation from serial to parallel file access", PARATESTFILE);
     AddTest("fltread", test_filter_read, NULL, "parallel read of dataset written serially with filters",
             PARATESTFILE);
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -602,7 +601,7 @@ static unsigned
 test_create(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t H5_ATTR_UNUSED *tparam)
 {
     hid_t   file    = -1;          /* File ID */
-    H5F_t * f       = NULL;        /* Internal file object pointer */
+    H5F_t  *f       = NULL;        /* Internal file object pointer */
     H5EA_t *ea      = NULL;        /* Extensible array wrapper */
     haddr_t ea_addr = HADDR_UNDEF; /* Array address in file */
 
@@ -847,7 +846,7 @@ static unsigned
 test_reopen(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam)
 {
     hid_t   file    = -1;          /* File ID */
-    H5F_t * f       = NULL;        /* Internal file object pointer */
+    H5F_t  *f       = NULL;        /* Internal file object pointer */
     H5EA_t *ea      = NULL;        /* Extensible array wrapper */
     haddr_t ea_addr = HADDR_UNDEF; /* Array address in file */
 
@@ -919,8 +918,8 @@ test_open_twice(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam)
 {
     hid_t   file    = -1;          /* File ID */
     hid_t   file2   = -1;          /* File ID */
-    H5F_t * f       = NULL;        /* Internal file object pointer */
-    H5F_t * f2      = NULL;        /* Internal file object pointer */
+    H5F_t  *f       = NULL;        /* Internal file object pointer */
+    H5F_t  *f2      = NULL;        /* Internal file object pointer */
     H5EA_t *ea      = NULL;        /* Extensible array wrapper */
     H5EA_t *ea2     = NULL;        /* Extensible array wrapper */
     haddr_t ea_addr = HADDR_UNDEF; /* Array address in file */
@@ -1032,8 +1031,8 @@ test_open_twice_diff(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tpa
     hid_t   file2   = -1;                      /* File ID */
     hid_t   file0   = -1;                      /* File ID */
     hid_t   file00  = -1;                      /* File ID */
-    H5F_t * f       = NULL;                    /* Internal file object pointer */
-    H5F_t * f2      = NULL;                    /* Internal file object pointer */
+    H5F_t  *f       = NULL;                    /* Internal file object pointer */
+    H5F_t  *f2      = NULL;                    /* Internal file object pointer */
     H5EA_t *ea      = NULL;                    /* Extensible array wrapper */
     H5EA_t *ea2     = NULL;                    /* Extensible array wrapper */
     haddr_t ea_addr = HADDR_UNDEF;             /* Array address in file */
@@ -1168,9 +1167,9 @@ static unsigned
 test_delete_open(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam)
 {
     hid_t          file    = -1;          /* File ID */
-    H5F_t *        f       = NULL;        /* Internal file object pointer */
-    H5EA_t *       ea      = NULL;        /* Extensible array wrapper */
-    H5EA_t *       ea2     = NULL;        /* Extensible array wrapper */
+    H5F_t         *f       = NULL;        /* Internal file object pointer */
+    H5EA_t        *ea      = NULL;        /* Extensible array wrapper */
+    H5EA_t        *ea2     = NULL;        /* Extensible array wrapper */
     haddr_t        ea_addr = HADDR_UNDEF; /* Array address in file */
     h5_stat_size_t file_size;             /* File size, after deleting array */
 
@@ -1283,7 +1282,7 @@ typedef struct eiter_fw_t {
 /*-------------------------------------------------------------------------
  * Function:    eiter_fw_init
  *
- * Purpose:    Initialize element interator (forward iteration)
+ * Purpose:    Initialize element iterator (forward iteration)
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
@@ -1427,7 +1426,7 @@ eiter_fw_state(void *in_eiter, const H5EA_create_t *cparam, const earray_test_pa
 /*-------------------------------------------------------------------------
  * Function:    eiter_fw_term
  *
- * Purpose:    Shut down element interator (forward iteration)
+ * Purpose:    Shut down element iterator (forward iteration)
  *
  * Return:    Success:    0
  *        Failure:    -1
@@ -1471,7 +1470,7 @@ typedef struct eiter_rv_t {
 /*-------------------------------------------------------------------------
  * Function:    eiter_rv_init
  *
- * Purpose:    Initialize element interator (reverse iteration)
+ * Purpose:    Initialize element iterator (reverse iteration)
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
@@ -1652,7 +1651,7 @@ eiter_rv_state(void *in_eiter, const H5EA_create_t *cparam, const earray_test_pa
 /*-------------------------------------------------------------------------
  * Function:    eiter_rv_term
  *
- * Purpose:    Shut down element interator (reverse iteration)
+ * Purpose:    Shut down element iterator (reverse iteration)
  *
  * Return:    Success:    0
  *        Failure:    -1
@@ -1693,7 +1692,7 @@ typedef struct eiter_rnd_t {
 /*-------------------------------------------------------------------------
  * Function:    eiter_rnd_init
  *
- * Purpose:    Initialize element interator (random iteration)
+ * Purpose:    Initialize element iterator (random iteration)
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
@@ -1802,7 +1801,7 @@ eiter_rnd_max(const void *in_eiter)
 /*-------------------------------------------------------------------------
  * Function:    eiter_rnd_term
  *
- * Purpose:    Shut down element interator (random iteration)
+ * Purpose:    Shut down element iterator (random iteration)
  *
  * Return:    Success:    0
  *        Failure:    -1
@@ -1842,7 +1841,7 @@ static const earray_iter_t ea_iter_rnd = {
 /*-------------------------------------------------------------------------
  * Function:    eiter_rnd2_init
  *
- * Purpose:    Initialize element interator (random #2 iteration)
+ * Purpose:    Initialize element iterator (random #2 iteration)
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
@@ -1925,7 +1924,7 @@ typedef struct eiter_cyc_t {
 /*-------------------------------------------------------------------------
  * Function:    eiter_cyc_init
  *
- * Purpose:    Initialize element interator (cyclic iteration)
+ * Purpose:    Initialize element iterator (cyclic iteration)
  *
  * Return:    Success:    Pointer to iteration status object
  *        Failure:    NULL
@@ -2018,7 +2017,7 @@ eiter_cyc_max(const void *in_eiter)
 /*-------------------------------------------------------------------------
  * Function:    eiter_cyc_term
  *
- * Purpose:    Shut down element interator (cyclic iteration)
+ * Purpose:    Shut down element iterator (cyclic iteration)
  *
  * Return:    Success:    0
  *        Failure:    -1
@@ -2069,9 +2068,9 @@ test_set_elmts(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam, h
                const char *test_str)
 {
     hid_t          file = -1;             /* File ID */
-    H5F_t *        f    = NULL;           /* Internal file object pointer */
-    H5EA_t *       ea   = NULL;           /* Extensible array wrapper */
-    void *         eiter_info;            /* Extensible array iterator info */
+    H5F_t         *f    = NULL;           /* Internal file object pointer */
+    H5EA_t        *ea   = NULL;           /* Extensible array wrapper */
+    void          *eiter_info;            /* Extensible array iterator info */
     earray_state_t state;                 /* State of extensible array */
     uint64_t       welmt;                 /* Element to write */
     uint64_t       relmt;                 /* Element to read */
@@ -2247,8 +2246,8 @@ test_skip_elmts(hid_t fapl, H5EA_create_t *cparam, earray_test_param_t *tparam, 
                 const char *test_str)
 {
     hid_t          file = -1;             /* File ID */
-    H5F_t *        f    = NULL;           /* Internal file object pointer */
-    H5EA_t *       ea   = NULL;           /* Extensible array wrapper */
+    H5F_t         *f    = NULL;           /* Internal file object pointer */
+    H5EA_t        *ea   = NULL;           /* Extensible array wrapper */
     earray_state_t state;                 /* State of extensible array */
     uint64_t       welmt;                 /* Element to write */
     uint64_t       relmt;                 /* Element to read */

@@ -5,7 +5,6 @@
  * COPYRIGHT
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -48,7 +47,7 @@ int_f
 h5rcreate_region_c(int_f *ref, hid_t_f *loc_id, _fcd name, int_f *namelen, hid_t_f *space_id)
 /******/
 {
-    char *          c_name = NULL;
+    char           *c_name = NULL;
     hdset_reg_ref_t ref_c;
     int_f           ret_value = 0;
 
@@ -311,7 +310,7 @@ h5rget_name_ptr_c(hid_t_f *loc_id, int_f *ref_type, void *ref, _fcd name, size_t
     int_f   ret_value = -1;
     ssize_t c_size;
     size_t  c_bufsize;
-    char *  c_buf = NULL; /* Buffer to hold C string */
+    char   *c_buf = NULL; /* Buffer to hold C string */
 
     c_bufsize = (size_t)*name_len + 1;
     /*

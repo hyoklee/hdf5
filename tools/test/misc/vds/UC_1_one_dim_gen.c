@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -62,7 +61,7 @@ main(void)
     hsize_t start[RANK];   /* starting point for hyperslab             */
     hsize_t map_start = 0; /* starting point in the VDS map            */
 
-    int *   buffer   = NULL; /* data buffer                              */
+    int    *buffer   = NULL; /* data buffer                              */
     hsize_t count    = 0;    /* number of elements in a plane            */
     int     n_planes = -1;   /* number of planes to write                */
     int     value    = -1;   /* value written to datasets                */

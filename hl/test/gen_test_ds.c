@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -252,7 +251,7 @@ test_cmp_scalename(hid_t fid, hid_t did, const char *name, const char *scalename
     herr_t  ret_value = FAIL;
     hid_t   dsid      = -1;
     ssize_t name_len;
-    char *  name_out = NULL;
+    char   *name_out = NULL;
 
     if ((dsid = H5Dopen2(fid, name, H5P_DEFAULT)) >= 0) {
         if (H5DSis_attached(did, dsid, idx) == 1) {

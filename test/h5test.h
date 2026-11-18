@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -162,12 +161,8 @@ H5TEST_DLLVAR MPI_Info h5_io_info_g; /* MPI INFO object for IO */
         goto error;                                                                                          \
     }
 
-/*
- * Alarm definitions to wait up (terminate) a test that runs too long.
- */
+/* Number of seconds to wait before killing a test (requires alarm(2)) */
 #define H5_ALARM_SEC 1200 /* default is 20 minutes */
-#define ALARM_ON     TestAlarmOn()
-#define ALARM_OFF    HDalarm(0)
 
 /* Flags for h5_fileaccess_flags() */
 #define H5_FILEACCESS_VFD 0x01
@@ -246,9 +241,9 @@ extern "C" {
 /* Generally useful testing routines */
 H5TEST_DLL void        h5_clean_files(const char *base_name[], hid_t fapl);
 H5TEST_DLL int         h5_cleanup(const char *base_name[], hid_t fapl);
-H5TEST_DLL char *      h5_fixname(const char *base_name, hid_t fapl, char *fullname, size_t size);
-H5TEST_DLL char *      h5_fixname_no_suffix(const char *base_name, hid_t fapl, char *fullname, size_t size);
-H5TEST_DLL char *      h5_fixname_printf(const char *base_name, hid_t fapl, char *fullname, size_t size);
+H5TEST_DLL char       *h5_fixname(const char *base_name, hid_t fapl, char *fullname, size_t size);
+H5TEST_DLL char       *h5_fixname_no_suffix(const char *base_name, hid_t fapl, char *fullname, size_t size);
+H5TEST_DLL char       *h5_fixname_printf(const char *base_name, hid_t fapl, char *fullname, size_t size);
 H5TEST_DLL hid_t       h5_fileaccess(void);
 H5TEST_DLL hid_t       h5_fileaccess_flags(unsigned flags);
 H5TEST_DLL void        h5_no_hwconv(void);
@@ -260,11 +255,11 @@ H5TEST_DLL h5_stat_size_t h5_get_file_size(const char *filename, hid_t fapl);
 H5TEST_DLL int            print_func(const char *format, ...);
 H5TEST_DLL int            h5_make_local_copy(const char *origfilename, const char *local_copy_name);
 H5TEST_DLL herr_t         h5_verify_cached_stabs(const char *base_name[], hid_t fapl);
-H5TEST_DLL H5FD_class_t *h5_get_dummy_vfd_class(void);
-H5TEST_DLL const char *  h5_get_version_string(H5F_libver_t libver);
-H5TEST_DLL int           h5_compare_file_bytes(char *fname1, char *fname2);
-H5TEST_DLL int           h5_duplicate_file_by_bytes(const char *orig, const char *dest);
-H5TEST_DLL herr_t        h5_check_if_file_locking_enabled(hbool_t *are_enabled);
+H5TEST_DLL H5FD_class_t  *h5_get_dummy_vfd_class(void);
+H5TEST_DLL const char    *h5_get_version_string(H5F_libver_t libver);
+H5TEST_DLL int            h5_compare_file_bytes(char *fname1, char *fname2);
+H5TEST_DLL int            h5_duplicate_file_by_bytes(const char *orig, const char *dest);
+H5TEST_DLL herr_t         h5_check_if_file_locking_enabled(hbool_t *are_enabled);
 
 /* Functions that will replace components of a FAPL */
 H5TEST_DLL herr_t h5_get_vfd_fapl(hid_t fapl_id);

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -78,7 +77,7 @@
 hid_t
 H5Fget_create_plist(hid_t file_id)
 {
-    H5F_t *         file;                        /* File info */
+    H5F_t          *file;                        /* File info */
     H5P_genplist_t *plist;                       /* Property list */
     hid_t           ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -149,7 +148,7 @@ done:
 ssize_t
 H5Fget_obj_count(hid_t file_id, unsigned types)
 {
-    H5F_t * f         = NULL; /* File to query */
+    H5F_t  *f         = NULL; /* File to query */
     size_t  obj_count = 0;    /* Number of opened objects */
     ssize_t ret_value = 0;    /* Return value */
 
@@ -185,7 +184,7 @@ done:
 ssize_t
 H5Fget_obj_ids(hid_t file_id, unsigned types, size_t max_objs, hid_t *oid_list)
 {
-    H5F_t * f            = NULL; /* File to query */
+    H5F_t  *f            = NULL; /* File to query */
     size_t  obj_id_count = 0;    /* Number of open objects */
     ssize_t ret_value    = 0;    /* Return value */
 
@@ -439,7 +438,7 @@ done:
 herr_t
 H5Fflush(hid_t object_id, H5F_scope_t scope)
 {
-    H5F_t *    f         = NULL;    /* File to flush */
+    H5F_t     *f         = NULL;    /* File to flush */
     H5O_loc_t *oloc      = NULL;    /* Object location for ID */
     herr_t     ret_value = SUCCEED; /* Return value     */
 
@@ -531,7 +530,7 @@ H5Fflush(hid_t object_id, H5F_scope_t scope)
         else
             /* Call the flush routine, for this file */
             if (H5F__flush(f) < 0)
-            HGOTO_ERROR(H5E_FILE, H5E_CANTFLUSH, FAIL, "unable to flush file's cached information")
+                HGOTO_ERROR(H5E_FILE, H5E_CANTFLUSH, FAIL, "unable to flush file's cached information")
     } /* end if */
 
 done:
@@ -617,7 +616,7 @@ H5Freopen(hid_t file_id)
 
 done:
     if (ret_value < 0 && new_file)
-        if (H5F__dest(new_file, FALSE) < 0)
+        if (H5F__dest(new_file, FALSE, TRUE) < 0)
             HDONE_ERROR(H5E_FILE, H5E_CANTCLOSEFILE, H5I_INVALID_HID, "can't close file")
 
     FUNC_LEAVE_API(ret_value)
@@ -685,7 +684,7 @@ done:
 hssize_t
 H5Fget_freespace(hid_t file_id)
 {
-    H5F_t *  file;      /* File object for file ID */
+    H5F_t   *file;      /* File object for file ID */
     hsize_t  tot_space; /* Amount of free space in the file */
     hssize_t ret_value; /* Return value */
 
@@ -720,7 +719,7 @@ done:
 herr_t
 H5Fget_filesize(hid_t file_id, hsize_t *size)
 {
-    H5F_t * file;                /* File object for file ID */
+    H5F_t  *file;                /* File object for file ID */
     haddr_t max_eof_eoa;         /* Maximum of the EOA & EOF */
     haddr_t base_addr;           /* Base address for the file */
     herr_t  ret_value = SUCCEED; /* Return value */
@@ -786,7 +785,7 @@ done:
 ssize_t
 H5Fget_file_image(hid_t file_id, void *buf_ptr, size_t buf_len)
 {
-    H5F_t * file;      /* File object for file ID */
+    H5F_t  *file;      /* File object for file ID */
     ssize_t ret_value; /* Return value             */
 
     FUNC_ENTER_API((-1))
@@ -926,7 +925,7 @@ herr_t
 H5Fget_mdc_size(hid_t file_id, size_t *max_size_ptr, size_t *min_clean_size_ptr, size_t *cur_size_ptr,
                 int *cur_num_entries_ptr)
 {
-    H5F_t *  file; /* File object for file ID */
+    H5F_t   *file; /* File object for file ID */
     uint32_t cur_num_entries;
     herr_t   ret_value = SUCCEED; /* Return value */
 
@@ -1007,7 +1006,7 @@ done:
 ssize_t
 H5Fget_name(hid_t obj_id, char *name /*out*/, size_t size)
 {
-    H5F_t * f; /* Top file in mount hierarchy */
+    H5F_t  *f; /* Top file in mount hierarchy */
     size_t  len;
     ssize_t ret_value = -1; /* Return value */
 
@@ -1148,7 +1147,7 @@ done:
 ssize_t
 H5Fget_free_sections(hid_t file_id, H5F_mem_t type, size_t nsects, H5F_sect_info_t *sect_info /*out*/)
 {
-    H5F_t * file;           /* Top file in mount hierarchy */
+    H5F_t  *file;           /* Top file in mount hierarchy */
     ssize_t ret_value = -1; /* Return value */
 
     FUNC_ENTER_API((-1))
@@ -1524,7 +1523,7 @@ done:
 herr_t
 H5Fget_eoa(hid_t file_id, haddr_t *eoa)
 {
-    H5F_t * file;                /* File object for file ID */
+    H5F_t  *file;                /* File object for file ID */
     haddr_t rel_eoa;             /* Relative address of EOA */
     herr_t  ret_value = SUCCEED; /* Return value */
 
@@ -1563,7 +1562,7 @@ done:
 herr_t
 H5Fincrement_filesize(hid_t file_id, hsize_t increment)
 {
-    H5F_t * file;                /* File object for file ID */
+    H5F_t  *file;                /* File object for file ID */
     haddr_t max_eof_eoa;         /* Maximum of the relative EOA & EOF */
     herr_t  ret_value = SUCCEED; /* Return value */
 

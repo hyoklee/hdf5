@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,7 +42,7 @@
  * that disk space is allocated only when the contents are actually written.
  * E.g., If one creates a new file, seeks forward 10 million bytes, writes
  * 1 bytes and closes the file, then a sparse file, will show file size of
- * 10 million bytes but actaully uses only couple disk blocks, much smaller
+ * 10 million bytes but actually uses only couple disk blocks, much smaller
  * than the formal file size.)
  *
  * One more consideration is that we want to distinguish an HDF5 library
@@ -70,7 +69,7 @@
 #endif
 
 /* Define Small, Large, Extra Large, Huge File which
- * corrspond to less than 2GB, 2GB, 4GB, and tens of GB file size.
+ * correspond to less than 2GB, 2GB, 4GB, and tens of GB file size.
  * NO_FILE stands for "no file" to be tested.
  */
 typedef enum fsizes_t { SFILE, LFILE, XLFILE, HUGEFILE, NO_FILE } fsizes_t;
@@ -347,9 +346,9 @@ writer(char *filename, hid_t fapl, fsizes_t testsize, int wrt_n)
     hsize_t hs_start[1];
     hsize_t hs_size[1];
     hid_t   file = -1, space1 = -1, space2 = -1, mem_space = -1, d1 = -1, d2 = -1;
-    int *   buf = (int *)HDmalloc(sizeof(int) * WRT_SIZE);
+    int    *buf = (int *)HDmalloc(sizeof(int) * WRT_SIZE);
     int     i, j;
-    FILE *  out = HDfopen(DNAME, "w");
+    FILE   *out = HDfopen(DNAME, "w");
     hid_t   dcpl;
 
     switch (testsize) {
@@ -493,12 +492,12 @@ error:
 static int
 reader(char *filename, hid_t fapl)
 {
-    FILE *  script = NULL;
+    FILE   *script = NULL;
     hid_t   file = -1, mspace = -1, fspace = -1, d2 = -1;
     char    ln[128], *s;
     hsize_t hs_offset[1];
     hsize_t hs_size[1] = {WRT_SIZE};
-    int *   buf        = (int *)HDmalloc(sizeof(int) * WRT_SIZE);
+    int    *buf        = (int *)HDmalloc(sizeof(int) * WRT_SIZE);
     int     i, j, zero, wrong, nerrors = 0;
 
     /* Open script file */
@@ -607,9 +606,9 @@ usage(void)
               "\t-fsize\tChange family size default to <fsize> where <fsize> is\n"
               "\t\ta positive float point number.  Default value is %" PRIuHSIZE ".\n"
               "Examples:\n"
-              "\tbig -fsize 2.1e9 \t# test with file size just under 2GB\n"
-              "\tbig -fsize 2.2e9 \t# test with file size just above 2GB\n"
-              "\tBe sure the file system can support the file size requested\n",
+              "\t big -fsize 2.1e9 \t# test with file size just under 2GB\n"
+              "\t big -fsize 2.2e9 \t# test with file size just above 2GB\n"
+              "\t Be sure the file system can support the file size requested\n",
               (hsize_t)FAMILY_SIZE);
 }
 

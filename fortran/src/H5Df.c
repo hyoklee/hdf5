@@ -5,7 +5,6 @@
  * COPYRIGHT
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -532,7 +531,7 @@ h5dvlen_get_max_len_c(hid_t_f *dset_id, hid_t_f *type_id, hid_t_f *space_id, siz
     hid_t    c_dset_id;
     hid_t    c_type_id;
     hid_t    c_space_id;
-    hvl_t *  c_buf;
+    hvl_t   *c_buf;
     int      i;
     hssize_t num_elem;
     herr_t   status;
@@ -605,7 +604,7 @@ h5dwrite_vl_integer_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space
     int_f *tmp;
     size_t max_len;
 
-    hvl_t * c_buf;
+    hvl_t  *c_buf;
     hsize_t i;
     hsize_t num_elem;
 
@@ -681,7 +680,7 @@ h5dread_vl_integer_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space_
     herr_t status;
     size_t max_len;
 
-    hvl_t *  c_buf;
+    hvl_t   *c_buf;
     hsize_t  i;
     hssize_t num_elem;
 
@@ -753,10 +752,10 @@ h5dwrite_vl_string_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space_
     hid_t  c_file_space_id;
     hid_t  c_xfer_prp;
     herr_t status;
-    char * tmp, *tmp_p;
+    char  *tmp, *tmp_p;
     size_t max_len;
 
-    char ** c_buf;
+    char  **c_buf;
     hsize_t i;
     hsize_t num_elem;
 
@@ -844,10 +843,10 @@ h5dread_vl_string_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space_i
     hid_t  c_file_space_id;
     hid_t  c_xfer_prp;
     herr_t status;
-    char * tmp, *tmp_p;
+    char  *tmp, *tmp_p;
     size_t max_len;
 
-    char ** c_buf;
+    char  **c_buf;
     hsize_t i;
     hsize_t num_elem;
 
@@ -935,7 +934,7 @@ h5dwrite_vl_real_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space_id
     real_f *tmp;
     size_t  max_len;
 
-    hvl_t * c_buf;
+    hvl_t  *c_buf;
     hsize_t i;
     hsize_t num_elem;
 
@@ -1011,7 +1010,7 @@ h5dread_vl_real_c(hid_t_f *dset_id, hid_t_f *mem_type_id, hid_t_f *mem_space_id,
     herr_t status;
     size_t max_len;
 
-    hvl_t *  c_buf;
+    hvl_t   *c_buf;
     hsize_t  i;
     hssize_t num_elem;
 

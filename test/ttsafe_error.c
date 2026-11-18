@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -57,7 +56,7 @@ H5TS_mutex_simple_t error_mutex_g;
 /* Prototypes */
 static herr_t error_callback(hid_t, void *);
 static herr_t walk_error_callback(unsigned, const H5E_error2_t *, void *);
-static void * tts_error_thread(void *);
+static void  *tts_error_thread(void *);
 
 void
 tts_error(void)
@@ -114,7 +113,7 @@ tts_error(void)
         H5TS_wait_for_thread(threads[i]);
 
     if (error_flag_g) {
-        TestErrPrintf("At least one thread reported a value that was different from the exected value\n");
+        TestErrPrintf("At least one thread reported a value that was different from the expected value\n");
         HDprintf("(Update this test if the error stack changed!)\n");
     }
 
@@ -146,7 +145,7 @@ tts_error_thread(void H5_ATTR_UNUSED *arg)
     hid_t       dataset   = H5I_INVALID_HID;
     hsize_t     dimsf[1]; /* dataset dimensions */
     H5E_auto2_t old_error_cb;
-    void *      old_error_client_data;
+    void       *old_error_client_data;
     int         value;
     herr_t      status;
 

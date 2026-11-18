@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -67,7 +66,7 @@ file_image_daisy_chain_test(void)
     int        i;
     int        space_ndims;
     MPI_Status rcvstat;
-    int *      vector_ptr = NULL;
+    int       *vector_ptr = NULL;
     hid_t      fapl_id    = -1;
     hid_t      file_id; /* file IDs */
     hid_t      dset_id      = -1;
@@ -75,7 +74,7 @@ file_image_daisy_chain_test(void)
     hid_t      space_id     = -1;
     herr_t     err;
     hsize_t    dims[1];
-    void *     image_ptr = NULL;
+    void      *image_ptr = NULL;
     ssize_t    bytes_read;
     ssize_t    image_len;
     hbool_t    vector_ok = TRUE;

@@ -5,7 +5,6 @@
  * COPYRIGHT
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -160,7 +159,7 @@ int_f
 h5eget_major_c(int_f *error_no, _fcd name, size_t_f *namelen)
 /******/
 {
-    char * c_name    = NULL;
+    char  *c_name    = NULL;
     size_t c_namelen = (size_t)*namelen;
     int_f  ret_value = 0;
 
@@ -208,7 +207,7 @@ int_f
 h5eget_minor_c(int_f *error_no, _fcd name, size_t_f *namelen)
 /******/
 {
-    char * c_name    = NULL;
+    char  *c_name    = NULL;
     size_t c_namelen = (size_t)*namelen;
     int_f  ret_value = 0;
 

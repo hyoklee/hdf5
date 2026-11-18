@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -713,7 +712,7 @@ test_compound(char *filename, hid_t fapl)
     /*
      *######################################################################
      * Step 12: Write an array into the middle third of the dataset
-     * initializeing only members `b' and `d' to -1.
+     * initializing only members `b' and `d' to -1.
      */
     TESTING("hyperslab part initialized write");
 
@@ -1713,7 +1712,7 @@ static unsigned
 test_pack_ooo(void)
 {
     hid_t    cmpd, sub_cmpd;          /* Datatype IDs */
-    H5T_t *  dt;                      /* Datatype pointer */
+    H5T_t   *dt;                      /* Datatype pointer */
     unsigned order[PACK_NMEMBS];      /* Order of insertion */
     unsigned free_order[PACK_NMEMBS]; /* Index of remaining free slots in order */
     unsigned num_free;                /* Number of free slots in order */

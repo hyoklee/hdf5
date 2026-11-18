@@ -30,8 +30,14 @@ package hdf.hdf5lib;
  * link value (the name of the pointed-to object with the null terminator);
  * otherwise linklen will be zero. Other fields may be added to this structure
  * in the future.
+ *
+ * @deprecated  Not for public use. It is not used by the library.
+ *    This class assumes that an object can contain four values which uniquely identify an
+ *    object among those HDF5 files which are open. This is no longer valid in future
+ *    HDF5 releases.
  */
 
+@Deprecated
 public class HDF5GroupInfo {
     long[] fileno;
     long[] objno;

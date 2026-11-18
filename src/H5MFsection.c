@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -408,7 +407,7 @@ H5MF__sect_simple_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect
                         void H5_ATTR_UNUSED *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -448,7 +447,7 @@ static htri_t
 H5MF__sect_simple_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
 {
     const H5MF_free_section_t *sect  = (const H5MF_free_section_t *)_sect; /* File free section */
-    H5MF_sect_ud_t *           udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
+    H5MF_sect_ud_t            *udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
     haddr_t                    eoa;              /* End of address space in the file */
     haddr_t                    end;              /* End of section to extend */
     htri_t                     ret_value = FAIL; /* Return value */
@@ -554,7 +553,7 @@ static herr_t
 H5MF__sect_simple_shrink(H5FS_section_info_t **_sect, void *_udata)
 {
     H5MF_free_section_t **sect      = (H5MF_free_section_t **)_sect; /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     herr_t                ret_value = SUCCEED;                       /* Return value */
 
     FUNC_ENTER_STATIC
@@ -620,7 +619,7 @@ static herr_t
 H5MF__sect_small_add(H5FS_section_info_t **_sect, unsigned *flags, void *_udata)
 {
     H5MF_free_section_t **sect  = (H5MF_free_section_t **)_sect; /* Fractal heap free section */
-    H5MF_sect_ud_t *      udata = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     haddr_t               sect_end;
     hsize_t               rem, prem;
     herr_t                ret_value = SUCCEED; /* Return value */
@@ -685,7 +684,7 @@ H5MF__sect_small_can_merge(const H5FS_section_info_t *_sect1, const H5FS_section
 {
     const H5MF_free_section_t *sect1     = (const H5MF_free_section_t *)_sect1; /* File free section */
     const H5MF_free_section_t *sect2     = (const H5MF_free_section_t *)_sect2; /* File free section */
-    H5MF_sect_ud_t *           udata     = (H5MF_sect_ud_t *)_udata;            /* User data for callback */
+    H5MF_sect_ud_t            *udata     = (H5MF_sect_ud_t *)_udata;            /* User data for callback */
     htri_t                     ret_value = FALSE;                               /* Return value */
 
     FUNC_ENTER_STATIC_NOERR
@@ -731,8 +730,8 @@ static herr_t
 H5MF__sect_small_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect2, void *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;       /* User data for callback */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;       /* User data for callback */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -833,7 +832,7 @@ static herr_t
 H5MF__sect_large_merge(H5FS_section_info_t **_sect1, H5FS_section_info_t *_sect2, void H5_ATTR_UNUSED *_udata)
 {
     H5MF_free_section_t **sect1     = (H5MF_free_section_t **)_sect1; /* File free section */
-    H5MF_free_section_t * sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
+    H5MF_free_section_t  *sect2     = (H5MF_free_section_t *)_sect2;  /* File free section */
     herr_t                ret_value = SUCCEED;                        /* Return value */
 
     FUNC_ENTER_STATIC
@@ -872,7 +871,7 @@ static htri_t
 H5MF__sect_large_can_shrink(const H5FS_section_info_t *_sect, void *_udata)
 {
     const H5MF_free_section_t *sect  = (const H5MF_free_section_t *)_sect; /* File free section */
-    H5MF_sect_ud_t *           udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
+    H5MF_sect_ud_t            *udata = (H5MF_sect_ud_t *)_udata;           /* User data for callback */
     haddr_t                    eoa;               /* End of address space in the file */
     haddr_t                    end;               /* End of section to extend */
     htri_t                     ret_value = FALSE; /* Return value */
@@ -926,7 +925,7 @@ static herr_t
 H5MF__sect_large_shrink(H5FS_section_info_t **_sect, void *_udata)
 {
     H5MF_free_section_t **sect      = (H5MF_free_section_t **)_sect; /* File free section */
-    H5MF_sect_ud_t *      udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
+    H5MF_sect_ud_t       *udata     = (H5MF_sect_ud_t *)_udata;      /* User data for callback */
     hsize_t               frag_size = 0;                             /* Fragment size */
     herr_t                ret_value = SUCCEED;                       /* Return value */
 

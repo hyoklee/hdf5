@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -133,12 +132,12 @@ typedef struct _GifCommentExtension {
 **           extension.
 */
 typedef struct _GifToMem {
-    GIFHEAD *           GifHeader;
-    GIFIMAGEDESC **     GifImageDesc;
+    GIFHEAD            *GifHeader;
+    GIFIMAGEDESC      **GifImageDesc;
     GIFGRAPHICCONTROL **GifGraphicControlExtension;
-    GIFPLAINTEXT **     GifPlainTextExtension;
-    GIFAPPLICATION **   GifApplicationExtension;
-    GIFCOMMENT **       GifCommentExtension;
+    GIFPLAINTEXT      **GifPlainTextExtension;
+    GIFAPPLICATION    **GifApplicationExtension;
+    GIFCOMMENT        **GifCommentExtension;
 } GIFTOMEM;
 
 /*

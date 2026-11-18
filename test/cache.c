@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -259,7 +258,7 @@ smoke_check_1(int express_test, unsigned paged)
     int32_t lag              = 10;
     int32_t max_index        = (10 * 1024) - 1;
     int     mile_stone       = 1;
-    H5F_t * file_ptr         = NULL;
+    H5F_t  *file_ptr         = NULL;
 
     if (paged)
         TESTING("smoke check #1P -- all clean, ins, dest, ren, 4/2 MB cache")
@@ -457,7 +456,7 @@ smoke_check_2(int express_test, unsigned paged)
     int32_t max_index        = (10 * 1024) - 1;
     int32_t lag              = 10;
     int     mile_stone       = 1;
-    H5F_t * file_ptr         = NULL;
+    H5F_t  *file_ptr         = NULL;
 
     if (paged)
         TESTING("smoke check #2P -- ~1/2 dirty, ins, dest, ren, 4/2 MB cache")
@@ -654,7 +653,7 @@ smoke_check_3(int express_test, unsigned paged)
     int32_t max_index        = (10 * 1024) - 1;
     int32_t lag              = 10;
     int     mile_stone       = 1;
-    H5F_t * file_ptr         = NULL;
+    H5F_t  *file_ptr         = NULL;
 
     if (paged)
         TESTING("smoke check #3P -- all clean, ins, dest, ren, 2/1 KB cache")
@@ -852,7 +851,7 @@ smoke_check_4(int express_test, unsigned paged)
     int32_t max_index        = (10 * 1024) - 1;
     int32_t lag              = 10;
     int     mile_stone       = 1;
-    H5F_t * file_ptr         = NULL;
+    H5F_t  *file_ptr         = NULL;
 
     if (paged)
         TESTING("smoke check #4P -- ~1/2 dirty, ins, dest, ren, 2/1 KB cache")
@@ -1049,8 +1048,8 @@ smoke_check_5(int express_test, unsigned paged)
     hbool_t             display_stats    = FALSE;
     int32_t             max_index        = 1024;
     int                 mile_stone       = 1;
-    H5F_t *             file_ptr         = NULL;
-    H5C_t *             cache_ptr        = NULL;
+    H5F_t              *file_ptr         = NULL;
+    H5C_t              *cache_ptr        = NULL;
     H5C_auto_size_ctl_t auto_size_ctl    = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
 #if 1
@@ -1281,8 +1280,8 @@ smoke_check_6(int express_test, unsigned paged)
     hbool_t             display_stats    = FALSE;
     int                 mile_stone       = 1;
     int32_t             max_index        = 1024;
-    H5F_t *             file_ptr         = NULL;
-    H5C_t *             cache_ptr        = NULL;
+    H5F_t              *file_ptr         = NULL;
+    H5C_t              *cache_ptr        = NULL;
     H5C_auto_size_ctl_t auto_size_ctl    = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
 #if 1
@@ -1513,8 +1512,8 @@ smoke_check_7(int express_test, unsigned paged)
     hbool_t             display_stats    = FALSE;
     int                 mile_stone       = 1;
     int32_t             max_index        = 1024;
-    H5F_t *             file_ptr         = NULL;
-    H5C_t *             cache_ptr        = NULL;
+    H5F_t              *file_ptr         = NULL;
+    H5C_t              *cache_ptr        = NULL;
     H5C_auto_size_ctl_t auto_size_ctl    = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
 #if 1
@@ -1746,8 +1745,8 @@ smoke_check_8(int express_test, unsigned paged)
     hbool_t             display_stats    = FALSE;
     int                 mile_stone       = 1;
     int32_t             max_index        = 1024;
-    H5F_t *             file_ptr         = NULL;
-    H5C_t *             cache_ptr        = NULL;
+    H5F_t              *file_ptr         = NULL;
+    H5C_t              *cache_ptr        = NULL;
     H5C_auto_size_ctl_t auto_size_ctl    = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
 #if 1
@@ -1989,8 +1988,8 @@ smoke_check_9(int express_test, unsigned paged)
     int32_t max_index              = (10 * 1024) - 1;
     int32_t lag                    = 10;
     int     mile_stone             = 1;
-    H5F_t * file_ptr               = NULL;
-    H5C_t * cache_ptr              = NULL;
+    H5F_t  *file_ptr               = NULL;
+    H5C_t  *cache_ptr              = NULL;
 
     if (paged)
         TESTING("smoke check #9P -- all clean, ins, dest, ren, 4/2 MB, corked")
@@ -2300,8 +2299,8 @@ smoke_check_10(int express_test, unsigned paged)
     int32_t max_index              = (10 * 1024) - 1;
     int32_t lag                    = 10;
     int     mile_stone             = 1;
-    H5F_t * file_ptr               = NULL;
-    H5C_t * cache_ptr              = NULL;
+    H5F_t  *file_ptr               = NULL;
+    H5C_t  *cache_ptr              = NULL;
 
     if (paged)
         TESTING("smoke check #10P -- ~1/2 dirty, ins, dest, ren, 4/2 MB, corked")
@@ -2606,7 +2605,7 @@ write_permitted_check(int
     int32_t max_index     = (10 * 1024) - 1;
     int32_t lag           = 10;
     int     mile_stone    = 1;
-    H5F_t * file_ptr      = NULL;
+    H5F_t  *file_ptr      = NULL;
 
 #endif /* H5C_MAINTAIN_CLEAN_AND_DIRTY_LRU_LISTS */
 
@@ -2789,8 +2788,8 @@ write_permitted_check(int
  *              Test the behaviour with different flags.
  *
  *              This test was added primarily to test basic insert
- *              pinned entry functionallity, but I through in explicit
- *              tests for other functionallity that is tested implicitly
+ *              pinned entry functionality, but I through in explicit
+ *              tests for other functionality that is tested implicitly
  *              elsewhere.
  *
  * Return:      void
@@ -2818,10 +2817,10 @@ check_insert_entry(unsigned paged)
     hbool_t                   is_protected;
     hbool_t                   is_pinned;
     size_t                    entry_size;
-    H5F_t *                   file_ptr  = NULL;
-    H5C_t *                   cache_ptr = NULL;
-    test_entry_t *            base_addr;
-    test_entry_t *            entry_ptr;
+    H5F_t                    *file_ptr  = NULL;
+    H5C_t                    *cache_ptr = NULL;
+    test_entry_t             *base_addr;
+    test_entry_t             *entry_ptr;
     struct H5C_cache_entry_t *search_ptr;
 
     if (paged)
@@ -2908,7 +2907,7 @@ check_insert_entry(unsigned paged)
             }
         }
 
-        /* Thats all we can get from H5C_get_entry_status().
+        /* That's all we can get from H5C_get_entry_status().
          * Now start looking at the cache data structures directly.
          */
 
@@ -4453,7 +4452,7 @@ static void
 check_flush_cache__multi_entry_test(H5F_t *file_ptr, int test_num, unsigned int flush_flags,
                                     unsigned int spec_size, struct flush_cache_test_spec spec[])
 {
-    H5C_t *       cache_ptr = file_ptr->shared->cache;
+    H5C_t        *cache_ptr = file_ptr->shared->cache;
     static char   msg[128];
     unsigned      u;
     size_t        total_entry_size = 0;
@@ -4638,7 +4637,7 @@ static void
 check_flush_cache__pe_multi_entry_test(H5F_t *file_ptr, int test_num, unsigned int flush_flags,
                                        unsigned int spec_size, struct pe_flush_cache_test_spec spec[])
 {
-    H5C_t *       cache_ptr = file_ptr->shared->cache;
+    H5C_t        *cache_ptr = file_ptr->shared->cache;
     static char   msg[128];
     unsigned      u;
     int           j;
@@ -4832,8 +4831,8 @@ check_flush_cache__flush_ops(H5F_t *file_ptr)
     const int                        max_num_spec  = 10;
     const int                        max_num_check = 4;
     struct fo_flush_cache_test_spec *spec          = NULL;
-    struct fo_flush_entry_check *    checks        = NULL;
-    H5C_t *                          cache_ptr     = file_ptr->shared->cache;
+    struct fo_flush_entry_check     *checks        = NULL;
+    H5C_t                           *cache_ptr     = file_ptr->shared->cache;
 
     if (cache_ptr == NULL) {
 
@@ -5186,7 +5185,7 @@ check_flush_cache__flush_ops(H5F_t *file_ptr)
          *
          * 10/8/07 -- JRM
          * Added a resize operation to this test to satisfy the new
-         * requiremnt that any resize of an entry on flush will always
+         * requirement that any resize of an entry on flush will always
          * be accompanied by a resize.  Note that as a result, this
          * test becomes redundant with later tests.
          */
@@ -5283,7 +5282,7 @@ check_flush_cache__flush_ops(H5F_t *file_ptr)
          *
          * 10/8/07 -- JRM
          * Added a resize operation to this test to satisfy the new
-         * requiremnt that any resize of an entry on flush will always
+         * requirement that any resize of an entry on flush will always
          * be accompanied by a resize.  Note that as a result, this
          * test becomes redundant with later tests.
          */
@@ -8206,7 +8205,7 @@ check_flush_cache__flush_op_test(H5F_t *file_ptr, int test_num, unsigned int flu
                                  unsigned expected_index_len, size_t expected_index_size, int check_size,
                                  struct fo_flush_entry_check check[])
 {
-    H5C_t *       cache_ptr = file_ptr->shared->cache;
+    H5C_t        *cache_ptr = file_ptr->shared->cache;
     static char   msg[128];
     int           i;
     int           j;
@@ -8598,7 +8597,7 @@ static void
 check_flush_cache__flush_op_eviction_test(H5F_t *file_ptr)
 {
     struct expected_entry_status *expected  = NULL;
-    H5C_t *                       cache_ptr = file_ptr->shared->cache;
+    H5C_t                        *cache_ptr = file_ptr->shared->cache;
     int                           i;
     const int                     num_variable_entries = 10;
     const int                     num_monster_entries  = 31;
@@ -8892,7 +8891,7 @@ check_flush_cache__flush_op_eviction_test(H5F_t *file_ptr)
          *
          * (VET, 9)    Y    10 KB    N    N    -    dirty (VET, 8)
          *
-         * Recall that in this test bed, flush operations are excuted the
+         * Recall that in this test bed, flush operations are executed the
          * first time the associated entry is flushed, and are then
          * deleted.
          */
@@ -9445,7 +9444,7 @@ check_flush_cache__flush_op_eviction_test(H5F_t *file_ptr)
          * returns to the serialize function for (VET, 9).
          *
          * When the serialize function for (VET, 9) is done with (VET, 8), it
-         * calls H5C_unprotect(VET, 8), which markes (VET, 8) as dirty and
+         * calls H5C_unprotect(VET, 8), which marks (VET, 8) as dirty and
          * unprotected, and places it at the head of the LRU.
          *
          * (VET, 0) is the next item on the LRU -- it is clean and is therefore
@@ -9846,7 +9845,7 @@ check_flush_cache__flush_op_eviction_test(H5F_t *file_ptr)
  *         Added tests for pinned entries.
  *
  *         JRM -- 5/17/06
- *         Complete reqrite of pinned entry tests to accomodate
+ *         Complete rewrite of pinned entry tests to accommodate
  *         the new H5C_mark_entry_dirty() call.
  *
  *-------------------------------------------------------------------------
@@ -11050,7 +11049,7 @@ check_flush_cache__single_entry_test(H5F_t *file_ptr, int test_num, int entry_ty
                                      hbool_t expected_deserialized, hbool_t expected_serialized,
                                      hbool_t expected_destroyed)
 {
-    H5C_t *       cache_ptr = file_ptr->shared->cache;
+    H5C_t        *cache_ptr = file_ptr->shared->cache;
     static char   msg[128];
     test_entry_t *base_addr;
     test_entry_t *entry_ptr = NULL;
@@ -11198,7 +11197,7 @@ check_flush_cache__pinned_single_entry_test(H5F_t *file_ptr, int test_num, int e
                                             unsigned int flush_flags, hbool_t expected_serialized,
                                             hbool_t expected_destroyed)
 {
-    H5C_t *       cache_ptr = file_ptr->shared->cache;
+    H5C_t        *cache_ptr = file_ptr->shared->cache;
     static char   msg[128];
     hbool_t       expected_deserialized = TRUE;
     test_entry_t *base_addr;
@@ -11362,7 +11361,7 @@ check_get_entry_status(unsigned paged)
     hbool_t       is_protected;
     hbool_t       is_pinned;
     size_t        entry_size;
-    H5F_t *       file_ptr  = NULL;
+    H5F_t        *file_ptr  = NULL;
     test_entry_t *base_addr = NULL;
     test_entry_t *entry_ptr = NULL;
 
@@ -11583,7 +11582,7 @@ check_expunge_entry(unsigned paged)
     hbool_t       is_protected;
     hbool_t       is_pinned;
     size_t        entry_size;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *base_addr;
     test_entry_t *entry_ptr;
 
@@ -11842,7 +11841,7 @@ check_expunge_entry(unsigned paged)
  * Function:    check_multiple_read_protect()
  *
  * Purpose:    Verify that multiple, simultaneous read protects of a
- *         single entry perform as expectd.
+ *         single entry perform as expected.
  *
  * Return:    void
  *
@@ -12188,7 +12187,7 @@ check_multiple_read_protect(unsigned paged)
         if (pass && (entry_ptr->header.is_pinned)) {
 
             pass         = FALSE;
-            failure_mssg = "enty (0,4) still pinned.\n";
+            failure_mssg = "entry (0,4) still pinned.\n";
         }
 
         unprotect_entry(file_ptr, 0, 4, /* (0,4) unprotect */
@@ -12248,7 +12247,7 @@ static unsigned
 check_move_entry(unsigned paged)
 {
     unsigned                    u;
-    H5F_t *                     file_ptr      = NULL;
+    H5F_t                      *file_ptr      = NULL;
     struct move_entry_test_spec test_specs[4] = {
         {/* int     entry_type      = */ PICO_ENTRY_TYPE,
          /* int     entry_index     = */ 10,
@@ -12349,11 +12348,11 @@ check_move_entry(unsigned paged)
 static void
 check_move_entry__run_test(H5F_t *file_ptr, unsigned test_num, struct move_entry_test_spec *spec_ptr)
 {
-    H5C_t *            cache_ptr = file_ptr->shared->cache;
+    H5C_t             *cache_ptr = file_ptr->shared->cache;
     static char        msg[128];
     unsigned int       flags = H5C__NO_FLAGS_SET;
-    test_entry_t *     base_addr;
-    test_entry_t *     entry_ptr = NULL;
+    test_entry_t      *base_addr;
+    test_entry_t      *entry_ptr = NULL;
     H5C_cache_entry_t *test_ptr  = NULL;
 
     if (cache_ptr == NULL) {
@@ -12505,7 +12504,7 @@ check_pin_protected_entry(unsigned paged)
 {
     static char   msg[128];
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *base_addr;
     test_entry_t *entry_ptr;
 
@@ -12618,8 +12617,8 @@ check_resize_entry(unsigned paged)
     hbool_t       is_pinned;
     size_t        entry_size;
     size_t        reported_entry_size;
-    H5F_t *       file_ptr  = NULL;
-    H5C_t *       cache_ptr = NULL;
+    H5F_t        *file_ptr  = NULL;
+    H5C_t        *cache_ptr = NULL;
     test_entry_t *base_addr;
     test_entry_t *entry_ptr = NULL;
 
@@ -13485,8 +13484,8 @@ check_evictions_enabled(unsigned paged)
     hbool_t       in_cache;
     int           i;
     int           mile_stone = 1;
-    H5F_t *       file_ptr   = NULL;
-    H5C_t *       cache_ptr  = NULL;
+    H5F_t        *file_ptr   = NULL;
+    H5C_t        *cache_ptr  = NULL;
     test_entry_t *base_addr  = NULL;
     test_entry_t *entry_ptr;
 
@@ -14391,7 +14390,7 @@ check_destroy_protected_err(unsigned paged)
  * Function:    check_duplicate_insert_err()
  *
  * Purpose:    Verify that an attempt to insert and entry that is
- *        alread in the cache will generate an error.
+ *        already in the cache will generate an error.
  *
  * Return:    void
  *
@@ -14407,7 +14406,7 @@ static unsigned
 check_duplicate_insert_err(unsigned paged)
 {
     herr_t        result   = -1;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *base_addr;
     test_entry_t *entry_ptr;
 
@@ -14491,7 +14490,7 @@ static unsigned
 check_double_pin_err(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -14580,7 +14579,7 @@ static unsigned
 check_double_unpin_err(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -14678,7 +14677,7 @@ static unsigned
 check_pin_entry_errs(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -14785,8 +14784,8 @@ check_pin_entry_errs(unsigned paged)
 static unsigned
 check_double_protect_err(unsigned paged)
 {
-    H5F_t *            file_ptr = NULL;
-    test_entry_t *     entry_ptr;
+    H5F_t             *file_ptr = NULL;
+    test_entry_t      *entry_ptr;
     H5C_cache_entry_t *cache_entry_ptr;
 
     if (paged)
@@ -14868,7 +14867,7 @@ static unsigned
 check_double_unprotect_err(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -14949,7 +14948,7 @@ static unsigned
 check_mark_entry_dirty_errs(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -15032,7 +15031,7 @@ static unsigned
 check_expunge_entry_errs(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -15144,8 +15143,8 @@ static unsigned
 check_move_entry_errs(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr  = NULL;
-    H5C_t *       cache_ptr = NULL;
+    H5F_t        *file_ptr  = NULL;
+    H5C_t        *cache_ptr = NULL;
     test_entry_t *entry_ptr = NULL;
     test_entry_t *entry_0_0_ptr;
     test_entry_t *entry_0_1_ptr;
@@ -15261,7 +15260,7 @@ static unsigned
 check_resize_entry_errs(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -15362,7 +15361,7 @@ static unsigned
 check_unprotect_ro_dirty_err(unsigned paged)
 {
     herr_t        result;
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
 
     if (paged)
@@ -15486,9 +15485,9 @@ check_unprotect_ro_dirty_err(unsigned paged)
 static unsigned
 check_protect_ro_rw_err(unsigned paged)
 {
-    H5F_t *       file_ptr = NULL;
+    H5F_t        *file_ptr = NULL;
     test_entry_t *entry_ptr;
-    void *        thing_ptr = NULL;
+    void         *thing_ptr = NULL;
 
     if (paged)
         TESTING("protect a read only entry rw error (paged aggregation)")
@@ -15567,10 +15566,10 @@ check_protect_ro_rw_err(unsigned paged)
 static unsigned
 check_protect_retries(unsigned paged)
 {
-    H5F_t *            file_ptr        = NULL;
-    H5C_t *            cache_ptr       = NULL;
-    test_entry_t *     base_addr       = NULL;
-    test_entry_t *     entry_ptr       = NULL;
+    H5F_t             *file_ptr        = NULL;
+    H5C_t             *cache_ptr       = NULL;
+    test_entry_t      *base_addr       = NULL;
+    test_entry_t      *entry_ptr       = NULL;
     H5C_cache_entry_t *cache_entry_ptr = NULL;
     int32_t            type;
     int32_t            idx;
@@ -15704,8 +15703,8 @@ check_check_evictions_enabled_err(unsigned paged)
 {
     herr_t  result;
     hbool_t evictions_enabled;
-    H5F_t * file_ptr  = NULL;
-    H5C_t * cache_ptr = NULL;
+    H5F_t  *file_ptr  = NULL;
+    H5C_t  *cache_ptr = NULL;
 
     if (paged)
         TESTING("get/set evictions enabled errors (paged aggregation)")
@@ -15857,8 +15856,8 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     herr_t              result;
     int32_t             i;
     int32_t             checkpoint    = 0;
-    H5F_t *             file_ptr      = NULL;
-    H5C_t *             cache_ptr     = NULL;
+    H5F_t              *file_ptr      = NULL;
+    H5C_t              *cache_ptr     = NULL;
     H5C_auto_size_ctl_t auto_size_ctl = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
         /* H5C_auto_resize_report_fcn rpt_fcn = */ test_rpt_fcn,
@@ -16947,7 +16946,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* eigth epoch -- force the hit rate to 100% again -- should be steady
+    /* eight epoch -- force the hit rate to 100% again -- should be steady
      * state.
      */
     if (pass) {
@@ -17043,7 +17042,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    if (pass) { /* twelth epoch -- at minimum size so no more ageouts */
+    if (pass) { /* twelfth epoch -- at minimum size so no more ageouts */
         rpt_fcn_called = FALSE;
         i              = 0;
         while (pass && (i < 1000)) {
@@ -17324,7 +17323,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* eigth epoch -- still 100% hit rate
+    /* eighth epoch -- still 100% hit rate
      */
     if (pass) {
 
@@ -17427,7 +17426,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* twelth epoch -- force the hit rate to 100% again -- should be steady
+    /* twelfth epoch -- force the hit rate to 100% again -- should be steady
      * state.
      */
     if (pass) {
@@ -17803,7 +17802,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* eigth epoch -- force the hit rate to 100% again -- should be steady
+    /* eighth epoch -- force the hit rate to 100% again -- should be steady
      * state.
      */
     if (pass) {
@@ -17903,7 +17902,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    if (pass) { /* twelth epoch -- at minimum size so no more ageouts */
+    if (pass) { /* twelfth epoch -- at minimum size so no more ageouts */
 
         rpt_fcn_called = FALSE;
         i              = 0;
@@ -18554,7 +18553,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* twelth  epoch -- hit rate 1.0 -- decrease as before.
+    /* twelfth  epoch -- hit rate 1.0 -- decrease as before.
      */
     if (pass) {
 
@@ -19567,7 +19566,7 @@ check_auto_cache_resize(hbool_t cork_ageout, unsigned paged)
     if (show_progress)
         HDfprintf(stderr, "check point %d\n", checkpoint++);
 
-    /* protect and unprotect two more large entries -- shouldnt trigger a
+    /* protect and unprotect two more large entries -- shouldn't trigger a
      * flash cache size increase.
      */
     if (pass) {
@@ -19712,8 +19711,8 @@ check_auto_cache_resize_disable(unsigned paged)
     herr_t              result;
     int32_t             i;
     int32_t             checkpoint    = 0;
-    H5F_t *             file_ptr      = NULL;
-    H5C_t *             cache_ptr     = NULL;
+    H5F_t              *file_ptr      = NULL;
+    H5C_t              *cache_ptr     = NULL;
     H5C_auto_size_ctl_t auto_size_ctl = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
         /* H5C_auto_resize_report_fcn rpt_fcn = */ test_rpt_fcn,
@@ -22127,7 +22126,7 @@ check_auto_cache_resize_disable(unsigned paged)
      * mode (add space), which is triggered whenever the size of a newly
      * loaded or inserted entry, or the delta between old and new entry
      * sizes exceeds some fraction of the current maximum cache size, and
-     * the cache doesn't have enough free space to accomodate the new/
+     * the cache doesn't have enough free space to accommodate the new/
      * resize entry without performing evictions.  The range of permissible
      * values for the flash_threshold (0.1 to 1.0 as of this writing), and
      * for the flash_multiple (0.1 to 10.0) do not permit the facility to
@@ -22136,7 +22135,7 @@ check_auto_cache_resize_disable(unsigned paged)
      * current max_cache_size equal to max_size.
      *
      * We have already tested the latter in check_auto_cache_resize(), so
-     * we need only thest the former here.  Do this by disabling flash
+     * we need only test the former here.  Do this by disabling flash
      * cache size increments via the flash_incr_mode, and then creating
      * situations that would trigger flash cache size increases were that
      * code enabled.
@@ -22311,8 +22310,8 @@ check_auto_cache_resize_epoch_markers(unsigned paged)
     int32_t             i;
     int32_t             j;
     int32_t             checkpoint    = 0;
-    H5F_t *             file_ptr      = NULL;
-    H5C_t *             cache_ptr     = NULL;
+    H5F_t              *file_ptr      = NULL;
+    H5C_t              *cache_ptr     = NULL;
     H5C_auto_size_ctl_t auto_size_ctl = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
         /* H5C_auto_resize_report_fcn rpt_fcn = */ test_rpt_fcn,
@@ -22999,8 +22998,8 @@ static unsigned
 check_auto_cache_resize_input_errs(unsigned paged)
 {
     herr_t              result;
-    H5F_t *             file_ptr          = NULL;
-    H5C_t *             cache_ptr         = NULL;
+    H5F_t              *file_ptr          = NULL;
+    H5C_t              *cache_ptr         = NULL;
     H5C_auto_size_ctl_t ref_auto_size_ctl = {
         /* int32_t     version                = */ H5C__CURR_AUTO_SIZE_CTL_VER,
         /* H5C_auto_resize_report_fcn rpt_fcn = */ test_rpt_fcn,
@@ -25209,7 +25208,7 @@ check_auto_cache_resize_input_errs(unsigned paged)
 /*-------------------------------------------------------------------------
  * Function:    check_auto_cache_resize_aux_fcns()
  *
- * Purpose:    Verify that the auxilary functions associated with
+ * Purpose:    Verify that the auxiliary functions associated with
  *        the automatic cache resize capability are operating
  *        correctly.  These functions are:
  *
@@ -25232,8 +25231,8 @@ check_auto_cache_resize_aux_fcns(unsigned paged)
 {
     herr_t              result;
     int32_t             i;
-    H5F_t *             file_ptr  = NULL;
-    H5C_t *             cache_ptr = NULL;
+    H5F_t              *file_ptr  = NULL;
+    H5C_t              *cache_ptr = NULL;
     double              hit_rate;
     size_t              max_size;
     size_t              min_clean_size;
@@ -25286,13 +25285,13 @@ check_auto_cache_resize_aux_fcns(unsigned paged)
     };
 
     if (paged)
-        TESTING("automatic cache resize auxilary functions (paged aggregation)")
+        TESTING("automatic cache resize auxiliary functions (paged aggregation)")
     else
-        TESTING("automatic cache resize auxilary functions")
+        TESTING("automatic cache resize auxiliary functions")
 
     pass = TRUE;
 
-    /* allocate a cache, and then test the various auxilary functions.
+    /* allocate a cache, and then test the various auxiliary functions.
      */
 
     if (pass) {
@@ -25735,8 +25734,8 @@ check_metadata_blizzard_absence(hbool_t fill_via_insertion, unsigned paged)
     struct expected_entry_status *expected      = NULL;
     int                           entry_type    = HUGE_ENTRY_TYPE;
     size_t                        entry_size    = HUGE_ENTRY_SIZE; /* 16 KB */
-    H5F_t *                       file_ptr      = NULL;
-    H5C_t *                       cache_ptr     = NULL;
+    H5F_t                        *file_ptr      = NULL;
+    H5C_t                        *cache_ptr     = NULL;
     hbool_t                       show_progress = FALSE;
     int32_t                       checkpoint    = 0;
     int32_t                       entry_idx     = 0;
@@ -25814,7 +25813,7 @@ check_metadata_blizzard_absence(hbool_t fill_via_insertion, unsigned paged)
         if (file_ptr == NULL) {
 
             pass         = FALSE;
-            failure_mssg = "bad return from cache intialization.\n";
+            failure_mssg = "bad return from cache initialization.\n";
         }
         else
             cache_ptr = file_ptr->shared->cache;
@@ -26033,7 +26032,7 @@ check_metadata_blizzard_absence(hbool_t fill_via_insertion, unsigned paged)
                                 H5C__DIRTIED_FLAG); /* unsigned int flags */
             }
 
-            /* Expected staus is that after each insertion, the entry
+            /* Expected status is that after each insertion, the entry
              * inserted 26 insertions ago has been flushed, and the
              * entry currently getting inserted is now in the cache and
              * dirty.
@@ -26452,8 +26451,8 @@ check_metadata_blizzard_absence(hbool_t fill_via_insertion, unsigned paged)
 static unsigned
 check_flush_deps(unsigned paged)
 {
-    H5F_t *       file_ptr  = NULL;        /* File for this test */
-    H5C_t *       cache_ptr = NULL;        /* Metadata cache for this test */
+    H5F_t        *file_ptr  = NULL;        /* File for this test */
+    H5C_t        *cache_ptr = NULL;        /* Metadata cache for this test */
     test_entry_t *base_addr;               /* Base address of entries for test */
     int      entry_type = PICO_ENTRY_TYPE; /* Use very small entry size (size of entries doesn't matter) */
     unsigned u;                            /* Local index variable */
@@ -28375,7 +28374,7 @@ done:
 static unsigned
 check_flush_deps_err(unsigned paged)
 {
-    H5F_t *  file_ptr   = NULL;            /* File for this test */
+    H5F_t   *file_ptr   = NULL;            /* File for this test */
     int      entry_type = PICO_ENTRY_TYPE; /* Use very small entry size (size of entries doesn't matter) */
     unsigned test_count;                   /* Test iteration variable */
 
@@ -28440,7 +28439,7 @@ check_flush_deps_err(unsigned paged)
                 result =
                     H5C_destroy_flush_dependency(&((entries[entry_type])[0]), &((entries[entry_type])[1]));
                 if (result != FAIL)
-                    CACHE_ERROR("Destroying [non-existant] dependency when parent isn't protected")
+                    CACHE_ERROR("Destroying [non-existent] dependency when parent isn't protected")
                 break;
 
             /* Verify that parent entry has flush dependency */
@@ -28650,8 +28649,8 @@ done:
 static unsigned
 check_flush_deps_order(unsigned paged)
 {
-    H5F_t *  file_ptr   = NULL;            /* File for this test */
-    H5C_t *  cache_ptr  = NULL;            /* Metadata cache for this test */
+    H5F_t   *file_ptr   = NULL;            /* File for this test */
+    H5C_t   *cache_ptr  = NULL;            /* Metadata cache for this test */
     int      entry_type = PICO_ENTRY_TYPE; /* Use very small entry size (size of entries doesn't matter) */
     unsigned u;                            /* Local index variable */
     unsigned flush_order;                  /* Index for tracking flush order */
@@ -31379,8 +31378,8 @@ done:
 static unsigned
 check_notify_cb(unsigned paged)
 {
-    H5F_t *       file_ptr  = NULL;     /* File for this test */
-    H5C_t *       cache_ptr = NULL;     /* Metadata cache for this test */
+    H5F_t        *file_ptr  = NULL;     /* File for this test */
+    H5C_t        *cache_ptr = NULL;     /* Metadata cache for this test */
     test_entry_t *base_addr;            /* Base address of entries for test */
     test_entry_t *entry_ptr;            /* Cache entry to examine/manipulate */
     int entry_type = NOTIFY_ENTRY_TYPE; /* Use entry w/notify callback (size of entries doesn't matter) */
@@ -31597,11 +31596,11 @@ static unsigned
 check_metadata_cork(hbool_t fill_via_insertion, unsigned paged)
 {
     struct expected_entry_status *expected      = NULL;
-    const char *                  fcn_name      = "check_metadata_cork";
+    const char                   *fcn_name      = "check_metadata_cork";
     int                           entry_type    = HUGE_ENTRY_TYPE;
     size_t                        entry_size    = HUGE_ENTRY_SIZE; /* 16 KB */
-    H5F_t *                       file_ptr      = NULL;
-    H5C_t *                       cache_ptr     = NULL;
+    H5F_t                        *file_ptr      = NULL;
+    H5C_t                        *cache_ptr     = NULL;
     hbool_t                       show_progress = FALSE;
     int32_t                       checkpoint    = 0;
     int32_t                       entry_idx     = 0;
@@ -31671,7 +31670,7 @@ check_metadata_cork(hbool_t fill_via_insertion, unsigned paged)
         if (file_ptr == NULL) {
 
             pass         = FALSE;
-            failure_mssg = "bad return from cache intialization.\n";
+            failure_mssg = "bad return from cache initialization.\n";
         }
         else
             cache_ptr = file_ptr->shared->cache;
@@ -32183,7 +32182,7 @@ check_metadata_cork(hbool_t fill_via_insertion, unsigned paged)
  *        an entry that is no longer in the cache, and which may have
  *        been deleted.
  *
- *        This function contans tests for correct handling on this
+ *        This function contains tests for correct handling on this
  *        situation.
  *
  *              Do nothing if pass is FALSE on entry.
@@ -32305,7 +32304,7 @@ static void
 cedds__expunge_dirty_entry_in_flush_test(H5F_t *file_ptr)
 {
     struct expected_entry_status *expected  = NULL;
-    H5C_t *                       cache_ptr = file_ptr->shared->cache;
+    H5C_t                        *cache_ptr = file_ptr->shared->cache;
     int                           i;
 
     expected = HDmalloc(36 * sizeof(struct expected_entry_status));
@@ -32440,7 +32439,7 @@ cedds__expunge_dirty_entry_in_flush_test(H5F_t *file_ptr)
          *
          * (HET, 3)    Y    16 KB    Y       N          -      -
          *
-         * Recall that in this test bed, flush operations are excuted the
+         * Recall that in this test bed, flush operations are executed the
          * first time the associated entry is flushed, and are then
          * deleted.
          */
@@ -32545,7 +32544,7 @@ static void
 cedds__H5C_make_space_in_cache(H5F_t *file_ptr)
 {
     struct expected_entry_status *expected  = NULL;
-    H5C_t *                       cache_ptr = file_ptr->shared->cache;
+    H5C_t                        *cache_ptr = file_ptr->shared->cache;
     int                           i;
     const int                     num_huge_entries    = 4;
     const int                     num_monster_entries = 32;
@@ -32694,7 +32693,7 @@ cedds__H5C_make_space_in_cache(H5F_t *file_ptr)
          *
          * (HET, 3)    Y    16 KB    N    N    -    -
          *
-         * Recall that in this test bed, flush operations are excuted the
+         * Recall that in this test bed, flush operations are executed the
          * first time the associated entry is flushed, and are then
          * deleted.
          */
@@ -32907,7 +32906,7 @@ static void
 cedds__H5C__autoadjust__ageout__evict_aged_out_entries(H5F_t *file_ptr)
 {
     struct expected_entry_status *expected  = NULL;
-    H5C_t *                       cache_ptr = file_ptr->shared->cache;
+    H5C_t                        *cache_ptr = file_ptr->shared->cache;
     int                           i;
     herr_t                        result;
     H5C_auto_size_ctl_t           saved_auto_size_ctl;
@@ -33112,7 +33111,7 @@ cedds__H5C__autoadjust__ageout__evict_aged_out_entries(H5F_t *file_ptr)
          *
          * (MET, 1-31)    Y    64 KB    N    N    -    -
          *
-         * Recall that in this test bed, flush operations are excuted the
+         * Recall that in this test bed, flush operations are executed the
          * first time the associated entry is flushed, and are then
          * deleted.
          */
@@ -33366,12 +33365,12 @@ cedds__H5C__autoadjust__ageout__evict_aged_out_entries(H5F_t *file_ptr)
 static void
 cedds__H5C_flush_invalidate_cache__bucket_scan(H5F_t *file_ptr)
 {
-    H5C_t *                   cache_ptr = file_ptr->shared->cache;
+    H5C_t                    *cache_ptr = file_ptr->shared->cache;
     int                       i;
     int                       expected_hash_bucket = 0;
     haddr_t                   entry_addr;
-    test_entry_t *            entry_ptr;
-    test_entry_t *            base_addr = NULL;
+    test_entry_t             *entry_ptr;
+    test_entry_t             *base_addr = NULL;
     struct H5C_cache_entry_t *scan_ptr;
     /* clang-format off */
     struct expected_entry_status expected[5] =
@@ -33479,7 +33478,7 @@ cedds__H5C_flush_invalidate_cache__bucket_scan(H5F_t *file_ptr)
 
     if (pass) {
 
-        /* load the entry that will have a flush dependencey with (MET, 0),
+        /* load the entry that will have a flush dependency with (MET, 0),
          * thus preventing it from being flushed on the first pass through
          * the skip list.
          */
@@ -34178,9 +34177,9 @@ setup_cache(size_t max_cache_size, size_t min_clean_size, unsigned paged)
     hbool_t verbose       = TRUE;
     int     mile_stone    = 1;
     hid_t   fid           = -1;
-    H5F_t * file_ptr      = NULL;
-    H5C_t * cache_ptr     = NULL;
-    H5F_t * ret_val       = NULL;
+    H5F_t  *file_ptr      = NULL;
+    H5C_t  *cache_ptr     = NULL;
+    H5F_t  *ret_val       = NULL;
     haddr_t actual_base_addr;
     hid_t   fapl_id = H5P_DEFAULT;
     hid_t   fcpl_id = H5P_DEFAULT;

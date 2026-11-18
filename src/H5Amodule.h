@@ -364,7 +364,7 @@
  * will be ignored by HDF5.
  *
  * The use of ASCII or UTF-8 characters is determined by the character encoding property. See
- * #H5Pset_char_encoding in the \ref RM.
+ * #H5Pset_char_encoding in the \ref RM.
  *
  * <h4>No Special I/O or Storage</h4>
  *
@@ -375,7 +375,7 @@
  *
  * Previous Chapter \ref sec_dataspace - Next Chapter \ref sec_error
  *
- * \defgroup H5A H5A Attributes
+ * \defgroup H5A Attributes (H5A)
  *
  * An HDF5 attribute is a small metadata object describing the nature and/or intended usage of a primary data
  * object. A primary data object may be a dataset, group, or committed datatype.

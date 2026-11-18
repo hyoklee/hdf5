@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -342,7 +341,7 @@ static int
 iter_cb(const void *_record, void *_op_data)
 {
     const hsize_t *record = (const hsize_t *)_record;
-    hsize_t *      idx    = (hsize_t *)_op_data;
+    hsize_t       *idx    = (hsize_t *)_op_data;
 
     if (*record != *idx)
         return (H5_ITER_ERROR);
@@ -368,7 +367,7 @@ static int
 iter_rec_cb(const void *_record, void *_op_data)
 {
     const H5B2_test_rec_t *record = (const H5B2_test_rec_t *)_record;
-    H5B2_test_rec_t *      idx    = (H5B2_test_rec_t *)_op_data;
+    H5B2_test_rec_t       *idx    = (H5B2_test_rec_t *)_op_data;
 
     if (record->key != idx->key)
         return (H5_ITER_ERROR);
@@ -397,7 +396,7 @@ static int
 find_cb(const void *_record, void *_op_data)
 {
     const hsize_t *record = (const hsize_t *)_record;
-    hsize_t *      search = (hsize_t *)_op_data;
+    hsize_t       *search = (hsize_t *)_op_data;
 
     if (*record != *search)
         return (FALSE);
@@ -422,7 +421,7 @@ static int
 find_rec_cb(const void *_record, void *_op_data)
 {
     const H5B2_test_rec_t *record = (const H5B2_test_rec_t *)_record;
-    H5B2_test_rec_t *      search = (H5B2_test_rec_t *)_op_data;
+    H5B2_test_rec_t       *search = (H5B2_test_rec_t *)_op_data;
 
     if (record->key != search->key)
         return (FALSE);
@@ -450,7 +449,7 @@ static int
 find_dec_cb(const void *_record, void *_op_data)
 {
     const hsize_t *record = (const hsize_t *)_record;
-    hsize_t *      search = (hsize_t *)_op_data;
+    hsize_t       *search = (hsize_t *)_op_data;
 
     if (*record != (INSERT_MANY - (*search + 1)))
         return (-1);
@@ -475,7 +474,7 @@ static int
 index_rec_cb(const void *_record, void *_op_data)
 {
     const H5B2_test_rec_t *record = (const H5B2_test_rec_t *)_record;
-    H5B2_test_rec_t *      search = (H5B2_test_rec_t *)_op_data;
+    H5B2_test_rec_t       *search = (H5B2_test_rec_t *)_op_data;
 
     HDassert(record);
     HDassert(search);
@@ -503,7 +502,7 @@ static int
 neighbor_cb(const void *_record, void *_op_data)
 {
     const hsize_t *record = (const hsize_t *)_record;
-    hsize_t *      search = (hsize_t *)_op_data;
+    hsize_t       *search = (hsize_t *)_op_data;
 
     *search = *record;
 
@@ -602,7 +601,7 @@ static int
 remove_cb(const void *_record, void *_op_data)
 {
     const hsize_t *record  = (const hsize_t *)_record;
-    hsize_t *      rrecord = (hsize_t *)_op_data;
+    hsize_t       *rrecord = (hsize_t *)_op_data;
 
     *rrecord = *record;
 
@@ -626,7 +625,7 @@ static unsigned
 test_insert_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t   file = -1;   /* File ID */
-    H5F_t * f    = NULL; /* Internal file object pointer */
+    H5F_t  *f    = NULL; /* Internal file object pointer */
     H5B2_t *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t bt2_addr;    /* Address of B-tree created */
     hsize_t record;      /* Record to insert into tree */
@@ -696,7 +695,7 @@ test_insert_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_insert(bt2, &record) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in B-tree with 1 record */
+    /* Attempt to find non-existent record in B-tree with 1 record */
     /* (Should not be found, but not fail) */
     idx = 41;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != FALSE)
@@ -707,7 +706,7 @@ test_insert_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_find(bt2, &idx, NULL, NULL) != FALSE)
         TEST_ERROR
 
-    /* Attempt to find existant record in B-tree with 1 record */
+    /* Attempt to find existent record in B-tree with 1 record */
     idx = 42;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         TEST_ERROR
@@ -716,7 +715,7 @@ test_insert_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_find(bt2, &idx, NULL, NULL) != TRUE)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with 1 record */
+    /* Attempt to index non-existent record in B-tree with 1 record */
     idx = 0;
     H5E_BEGIN_TRY
     {
@@ -764,18 +763,18 @@ test_insert_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_insert(bt2, &record) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in level-0 B-tree with several records */
+    /* Attempt to find non-existent record in level-0 B-tree with several records */
     /* (Should not be found, but not fail) */
     idx = 41;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != FALSE)
         TEST_ERROR
 
-    /* Attempt to find existant record in level-0 B-tree with several record */
+    /* Attempt to find existent record in level-0 B-tree with several record */
     idx = 56;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with several records */
+    /* Attempt to index non-existent record in B-tree with several records */
     idx = 0;
     H5E_BEGIN_TRY
     {
@@ -845,8 +844,8 @@ static unsigned
 test_insert_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     hsize_t     idx;         /* Index within B-tree, for iterator */
@@ -935,23 +934,23 @@ test_insert_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_p
     if (idx != (INSERT_SPLIT_ROOT_NREC + 2))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-1 B-tree */
+    /* Attempt to find non-existent record in level-1 B-tree */
     /* (Should not be found, but not fail) */
     idx = INSERT_SPLIT_ROOT_NREC + 10;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != FALSE)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-1 B-tree */
+    /* Attempt to find existent record in root of level-1 B-tree */
     idx = 33;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         FAIL_STACK_ERROR
 
-    /* Attempt to find existant record in leaf of level-1 B-tree */
+    /* Attempt to find existent record in leaf of level-1 B-tree */
     idx = 56;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         FAIL_STACK_ERROR
 
-    /* Attempt to index non-existant record in level-1 B-tree */
+    /* Attempt to index non-existent record in level-1 B-tree */
     idx = 0;
     H5E_BEGIN_TRY
     {
@@ -1021,8 +1020,8 @@ static unsigned
 test_insert_level1_2leaf_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -1174,8 +1173,8 @@ static unsigned
 test_insert_level1_side_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -1335,8 +1334,8 @@ static unsigned
 test_insert_level1_3leaf_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -1477,8 +1476,8 @@ static unsigned
 test_insert_level1_middle_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -1595,8 +1594,8 @@ static unsigned
 test_insert_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -1671,13 +1670,13 @@ test_insert_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (idx != ((INSERT_SPLIT_ROOT_NREC * 29) + 5))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-2 B-tree */
+    /* Attempt to find non-existent record in level-2 B-tree */
     /* (Should not be found, but not fail) */
     idx = INSERT_SPLIT_ROOT_NREC * 30;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != FALSE)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-2 B-tree */
+    /* Attempt to find existent record in root of level-2 B-tree */
     idx = 948;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         FAIL_STACK_ERROR
@@ -1687,7 +1686,7 @@ test_insert_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)2) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in internal node of level-2 B-tree */
+    /* Attempt to find existent record in internal node of level-2 B-tree */
     idx = 505;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         FAIL_STACK_ERROR
@@ -1697,7 +1696,7 @@ test_insert_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)1) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in leaf of level-2 B-tree */
+    /* Attempt to find existent record in leaf of level-2 B-tree */
     idx = 555;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
         FAIL_STACK_ERROR
@@ -1707,7 +1706,7 @@ test_insert_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)0) < 0)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in level-2 B-tree */
+    /* Attempt to index non-existent record in level-2 B-tree */
     idx = 0;
     H5E_BEGIN_TRY
     {
@@ -1777,8 +1776,8 @@ static unsigned
 test_insert_level2_leaf_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2005,8 +2004,8 @@ static unsigned
 test_insert_level2_leaf_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2239,8 +2238,8 @@ test_insert_level2_2internal_redistrib(hid_t fapl, const H5B2_create_t *cparam,
                                        const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2410,8 +2409,8 @@ static unsigned
 test_insert_level2_2internal_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2589,8 +2588,8 @@ test_insert_level2_3internal_redistrib(hid_t fapl, const H5B2_create_t *cparam,
                                        const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2766,8 +2765,8 @@ static unsigned
 test_insert_level2_3internal_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t     bt2_addr;    /* Address of B-tree created */
     hsize_t     record;      /* Record to insert into tree */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -2945,13 +2944,13 @@ test_insert_lots(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t
 {
     hid_t       file = -1;      /* File ID */
     char        filename[1024]; /* Filename to use */
-    H5F_t *     f   = NULL;     /* Internal file object pointer */
-    H5B2_t *    bt2 = NULL;     /* v2 B-tree wrapper */
+    H5F_t      *f   = NULL;     /* Internal file object pointer */
+    H5B2_t     *bt2 = NULL;     /* v2 B-tree wrapper */
     haddr_t     bt2_addr;       /* Address of B-tree created */
     hsize_t     record;         /* Record to insert into tree */
     hsize_t     idx;            /* Index within B-tree, for iterator */
     time_t      curr_time;      /* Current time, for seeding random number generator */
-    hsize_t *   records;        /* Record #'s for random insertion */
+    hsize_t    *records;        /* Record #'s for random insertion */
     unsigned    u;              /* Local index variable */
     unsigned    swap_idx;       /* Location to swap with when shuffling */
     hsize_t     temp_rec;       /* Temporary record */
@@ -3060,7 +3059,7 @@ HDfprintf(stderr,"curr_time=%lu\n",(unsigned long)curr_time);
     if (idx != INSERT_MANY)
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-4 B-tree */
+    /* Attempt to find non-existent record in level-4 B-tree */
     /* (Should not be found, but not fail) */
     idx = INSERT_MANY * 2;
     if (H5B2_find(bt2, &idx, find_cb, &idx) != FALSE)
@@ -3071,12 +3070,12 @@ HDfprintf(stderr,"curr_time=%lu\n",(unsigned long)curr_time);
         /* Pick random record */
         idx = (hsize_t)(HDrandom() % INSERT_MANY);
 
-        /* Attempt to find existant record in root of level-4 B-tree */
+        /* Attempt to find existent record in root of level-4 B-tree */
         if (H5B2_find(bt2, &idx, find_cb, &idx) != TRUE)
             FAIL_STACK_ERROR
     } /* end for */
 
-    /* Attempt to index non-existant record in level-4 B-tree, in increasing & decreasing order */
+    /* Attempt to index non-existent record in level-4 B-tree, in increasing & decreasing order */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_MANY * 3), find_cb, NULL);
@@ -3099,12 +3098,12 @@ HDfprintf(stderr,"curr_time=%lu\n",(unsigned long)curr_time);
         /* Pick random record */
         idx = (hsize_t)(HDrandom() % INSERT_MANY);
 
-        /* Attempt to find existant record in root of level-4 B-tree */
+        /* Attempt to find existent record in root of level-4 B-tree */
         /* (in increasing order) */
         if (H5B2_index(bt2, H5_ITER_INC, idx, find_cb, &idx) < 0)
             FAIL_STACK_ERROR
 
-        /* Attempt to find existant record in root of level-4 B-tree */
+        /* Attempt to find existent record in root of level-4 B-tree */
         /* (in decreasing order) */
         if (H5B2_index(bt2, H5_ITER_DEC, idx, find_dec_cb, &idx) < 0)
             FAIL_STACK_ERROR
@@ -3180,8 +3179,8 @@ static unsigned
 test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_test_rec_t modify;      /* Modified value */
@@ -3210,7 +3209,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_update(bt2, &record, no_modify_cb, NULL) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in B-tree with 1 record */
+    /* Attempt to find non-existent record in B-tree with 1 record */
     /* (Should not be found, but not fail) */
     find.key = 10;
     find.val = (hsize_t)-1;
@@ -3226,7 +3225,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in B-tree with 1 record */
+    /* Attempt to find existent record in B-tree with 1 record */
     find.key = 42;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
         FAIL_STACK_ERROR
@@ -3240,7 +3239,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with 1 record */
+    /* Attempt to index non-existent record in B-tree with 1 record */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)1, index_rec_cb, NULL);
@@ -3275,7 +3274,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_update(bt2, &modify, modify_rec_cb, &modify) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in B-tree with 1 record */
+    /* Attempt to find non-existent record in B-tree with 1 record */
     /* (Should not be found, but not fail) */
     find.key = 10;
     find.val = (hsize_t)-1;
@@ -3305,7 +3304,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with 1 record */
+    /* Attempt to index non-existent record in B-tree with 1 record */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)1, index_rec_cb, NULL);
@@ -3360,7 +3359,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_update(bt2, &record, no_modify_cb, NULL) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in level-0 B-tree with several records */
+    /* Attempt to find non-existent record in level-0 B-tree with several records */
     /* (Should not be found, but not fail) */
     find.key = 10;
     find.val = (hsize_t)-1;
@@ -3369,14 +3368,14 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in level-0 B-tree with several records */
+    /* Attempt to find existent record in level-0 B-tree with several records */
     find.key = 56;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
         TEST_ERROR
     if (find.val != 12)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with several records */
+    /* Attempt to index non-existent record in B-tree with several records */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)4, index_rec_cb, NULL);
@@ -3448,7 +3447,7 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (H5B2_update(bt2, &record, modify_rec_cb, &modify) < 0)
         FAIL_STACK_ERROR
 
-    /* Attempt to find non-existant record in level-0 B-tree with several records */
+    /* Attempt to find non-existent record in level-0 B-tree with several records */
     /* (Should not be found, but not fail) */
     find.key = 41;
     find.val = (hsize_t)-1;
@@ -3457,14 +3456,14 @@ test_update_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in level-0 B-tree with several record */
+    /* Attempt to find existent record in level-0 B-tree with several record */
     find.key = 56;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
         TEST_ERROR
     if (find.val != 22)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in B-tree with several records */
+    /* Attempt to index non-existent record in B-tree with several records */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)4, index_rec_cb, NULL);
@@ -3553,8 +3552,8 @@ static unsigned
 test_update_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_test_rec_t modify;      /* Modified value */
@@ -3692,7 +3691,7 @@ test_update_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_p
     if (idx.key != (INSERT_SPLIT_ROOT_NREC_REC + 2))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-1 B-tree */
+    /* Attempt to find non-existent record in level-1 B-tree */
     /* (Should not be found, but not fail) */
     find.key = 800;
     find.val = (hsize_t)-1;
@@ -3701,7 +3700,7 @@ test_update_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_p
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-1 B-tree */
+    /* Attempt to find existent record in root of level-1 B-tree */
     find.key = 33;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -3711,7 +3710,7 @@ test_update_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_p
     if (find.val != 67)
         TEST_ERROR
 
-    /* Attempt to find existant record in leaf of level-1 B-tree */
+    /* Attempt to find existent record in leaf of level-1 B-tree */
     find.key = 56;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -3721,7 +3720,7 @@ test_update_split_root(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_p
     if (find.val != 113)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in level-1 B-tree */
+    /* Attempt to index non-existent record in level-1 B-tree */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_SPLIT_ROOT_NREC_REC + 2), index_rec_cb, NULL);
@@ -3805,8 +3804,8 @@ static unsigned
 test_update_level1_2leaf_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_stat_t     bt2_stat;    /* Statistics about B-tree created */
@@ -3962,8 +3961,8 @@ static unsigned
 test_update_level1_side_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_stat_t     bt2_stat;    /* Statistics about B-tree created */
@@ -4127,8 +4126,8 @@ static unsigned
 test_update_level1_3leaf_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_test_rec_t idx;         /* Index within B-tree, for iterator */
@@ -4273,8 +4272,8 @@ static unsigned
 test_update_level1_middle_split(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_stat_t     bt2_stat;    /* Statistics about B-tree created */
@@ -4394,8 +4393,8 @@ static unsigned
 test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t           file = -1;   /* File ID */
-    H5F_t *         f    = NULL; /* Internal file object pointer */
-    H5B2_t *        bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t          *f    = NULL; /* Internal file object pointer */
+    H5B2_t         *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t         bt2_addr;    /* Address of B-tree created */
     H5B2_test_rec_t record;      /* Record to insert into tree */
     H5B2_test_rec_t find;        /* Record to find */
@@ -4478,7 +4477,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (idx.key != ((INSERT_SPLIT_ROOT_NREC_REC * 41) + 4))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-2 B-tree */
+    /* Attempt to find non-existent record in level-2 B-tree */
     /* (Should not be found, but not fail) */
     find.key = INSERT_SPLIT_ROOT_NREC_REC * 42;
     find.val = (hsize_t)-1;
@@ -4487,7 +4486,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-2 B-tree */
+    /* Attempt to find existent record in root of level-2 B-tree */
     find.key = 1347;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4500,7 +4499,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)2) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in internal node of level-2 B-tree */
+    /* Attempt to find existent record in internal node of level-2 B-tree */
     find.key = 513;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4513,7 +4512,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)1) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in leaf of level-2 B-tree */
+    /* Attempt to find existent record in leaf of level-2 B-tree */
     find.key = 555;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4526,7 +4525,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)0) < 0)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in level-2 B-tree */
+    /* Attempt to index non-existent record in level-2 B-tree */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_SPLIT_ROOT_NREC_REC * 42), index_rec_cb, NULL);
@@ -4643,7 +4642,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (idx.key != ((INSERT_SPLIT_ROOT_NREC_REC * 41) + 4))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-2 B-tree */
+    /* Attempt to find non-existent record in level-2 B-tree */
     /* (Should not be found, but not fail) */
     find.key = INSERT_SPLIT_ROOT_NREC_REC * 42;
     find.val = (hsize_t)-1;
@@ -4652,7 +4651,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-2 B-tree */
+    /* Attempt to find existent record in root of level-2 B-tree */
     find.key = 1344;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4665,7 +4664,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)2) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in internal node of level-2 B-tree */
+    /* Attempt to find existent record in internal node of level-2 B-tree */
     find.key = 512;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4678,7 +4677,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)1) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in leaf of level-2 B-tree */
+    /* Attempt to find existent record in leaf of level-2 B-tree */
     find.key = 555;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4691,7 +4690,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)0) < 0)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in level-2 B-tree */
+    /* Attempt to index non-existent record in level-2 B-tree */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_SPLIT_ROOT_NREC_REC * 42), index_rec_cb, NULL);
@@ -4818,7 +4817,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (idx.key != ((INSERT_SPLIT_ROOT_NREC_REC * 41) + 6))
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-2 B-tree */
+    /* Attempt to find non-existent record in level-2 B-tree */
     /* (Should not be found, but not fail) */
     find.key = INSERT_SPLIT_ROOT_NREC_REC * 42;
     find.val = (hsize_t)-1;
@@ -4827,7 +4826,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (find.val != (hsize_t)-1)
         TEST_ERROR
 
-    /* Attempt to find existant record in root of level-2 B-tree */
+    /* Attempt to find existent record in root of level-2 B-tree */
     find.key = 1345;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4840,7 +4839,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)2) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in internal node of level-2 B-tree */
+    /* Attempt to find existent record in internal node of level-2 B-tree */
     find.key = 513;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4853,7 +4852,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)1) < 0)
         TEST_ERROR
 
-    /* Attempt to find existant record in leaf of level-2 B-tree */
+    /* Attempt to find existent record in leaf of level-2 B-tree */
     find.key = 555;
     find.val = (hsize_t)-1;
     if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
@@ -4866,7 +4865,7 @@ test_update_make_level2(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_
     if (check_node_depth(bt2, &record, (unsigned)0) < 0)
         TEST_ERROR
 
-    /* Attempt to index non-existant record in level-2 B-tree */
+    /* Attempt to index non-existent record in level-2 B-tree */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_SPLIT_ROOT_NREC_REC * 42), index_rec_cb, NULL);
@@ -4948,8 +4947,8 @@ static unsigned
 test_update_lots(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t            file = -1;   /* File ID */
-    H5F_t *          f    = NULL; /* Internal file object pointer */
-    H5B2_t *         bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t           *f    = NULL; /* Internal file object pointer */
+    H5B2_t          *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t          bt2_addr;    /* Address of B-tree created */
     time_t           curr_time;   /* Current time, for seeding random number generator */
     H5B2_test_rec_t *records;     /* Record #'s for random insertion */
@@ -5051,7 +5050,7 @@ HDfprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
     if (iter.key != INSERT_MANY_REC)
         TEST_ERROR
 
-    /* Attempt to find non-existant record in level-4 B-tree */
+    /* Attempt to find non-existent record in level-4 B-tree */
     /* (Should not be found, but not fail) */
     find.key = INSERT_MANY_REC * 2;
     find.val = (hsize_t)-1;
@@ -5066,14 +5065,14 @@ HDfprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
         find.key = (hsize_t)(HDrandom() % INSERT_MANY_REC);
         find.val = (hsize_t)-1;
 
-        /* Attempt to find existant record in level-4 B-tree */
+        /* Attempt to find existent record in level-4 B-tree */
         if (H5B2_find(bt2, &find, find_rec_cb, &find) != TRUE)
             FAIL_STACK_ERROR
         if (find.val != (find.key * 2))
             TEST_ERROR
     } /* end for */
 
-    /* Attempt to index non-existant record in level-4 B-tree, in increasing & decreasing order */
+    /* Attempt to index non-existent record in level-4 B-tree, in increasing & decreasing order */
     H5E_BEGIN_TRY
     {
         ret = H5B2_index(bt2, H5_ITER_INC, (hsize_t)(INSERT_MANY_REC * 3), find_rec_cb, NULL);
@@ -5102,7 +5101,7 @@ HDfprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
         find.key = (hsize_t)-1;
         find.val = (hsize_t)-1;
 
-        /* Attempt to find existant record in level-4 B-tree */
+        /* Attempt to find existent record in level-4 B-tree */
         /* (in increasing order) */
         if (H5B2_index(bt2, H5_ITER_INC, idx, index_rec_cb, &find) < 0)
             FAIL_STACK_ERROR
@@ -5115,7 +5114,7 @@ HDfprintf(stderr, "curr_time = %lu\n", (unsigned long)curr_time);
         find.key = (hsize_t)-1;
         find.val = (hsize_t)-1;
 
-        /* Attempt to find existant record in level-4 B-tree */
+        /* Attempt to find existent record in level-4 B-tree */
         /* (in decreasing order) */
         if (H5B2_index(bt2, H5_ITER_DEC, idx, index_rec_cb, &find) < 0)
             FAIL_STACK_ERROR
@@ -5193,7 +5192,7 @@ static unsigned
 test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t   file = -1;   /* File ID */
-    H5F_t * f    = NULL; /* Internal file object pointer */
+    H5F_t  *f    = NULL; /* Internal file object pointer */
     H5B2_t *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t bt2_addr;    /* Address of B-tree created */
     hsize_t record;      /* Record to insert into tree */
@@ -5234,7 +5233,7 @@ test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
 
     PASSED();
 
-    TESTING("B-tree remove: non-existant record from 1 record B-tree");
+    TESTING("B-tree remove: non-existent record from 1 record B-tree");
 
     /* Check for closing & re-opening the B-tree */
     if (reopen_btree(f, &bt2, bt2_addr, tparam) < 0)
@@ -5261,7 +5260,7 @@ test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     if (!H5F_addr_defined(root_addr))
         TEST_ERROR
 
-    /* Attempt to remove a non-existant record from a B-tree with 1 record */
+    /* Attempt to remove a non-existent record from a B-tree with 1 record */
     record = 0;
     H5E_BEGIN_TRY
     {
@@ -5275,7 +5274,7 @@ test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     PASSED();
 
     /* Attempt to remove a record from a B-tree with 1 record */
-    TESTING("B-tree remove: existant record from 1 record B-tree");
+    TESTING("B-tree remove: existent record from 1 record B-tree");
 
     /* Check for closing & re-opening the B-tree */
     if (reopen_btree(f, &bt2, bt2_addr, tparam) < 0)
@@ -5339,8 +5338,8 @@ test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
 
     PASSED();
 
-    /* Attempt to remove a non-existant record from a level-0 B-tree with mult. record */
-    TESTING("B-tree remove: non-existant record from level-0 B-tree");
+    /* Attempt to remove a non-existent record from a level-0 B-tree with mult. record */
+    TESTING("B-tree remove: non-existent record from level-0 B-tree");
 
     /* Check for closing & re-opening the B-tree */
     if (reopen_btree(f, &bt2, bt2_addr, tparam) < 0)
@@ -5359,7 +5358,7 @@ test_remove_basic(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_
     PASSED();
 
     /* Attempt to remove a record from a level-0 B-tree with mult. record */
-    TESTING("B-tree remove: mult. existant records from level-0 B-tree");
+    TESTING("B-tree remove: mult. existent records from level-0 B-tree");
 
     /* Check for closing & re-opening the B-tree */
     if (reopen_btree(f, &bt2, bt2_addr, tparam) < 0)
@@ -5506,8 +5505,8 @@ static unsigned
 test_remove_level1_noredistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t    file = -1;   /* File ID */
-    H5F_t *  f    = NULL; /* Internal file object pointer */
-    H5B2_t * bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t   *f    = NULL; /* Internal file object pointer */
+    H5B2_t  *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t  bt2_addr;    /* Address of B-tree created */
     hsize_t  record;      /* Record to insert into tree */
     hsize_t  rrecord;     /* Record to remove from tree */
@@ -5517,7 +5516,7 @@ test_remove_level1_noredistrib(hid_t fapl, const H5B2_create_t *cparam, const bt
     herr_t   ret;         /* Generic error return value */
 
     /* B-tree record removal tests */
-    TESTING("B-tree remove: non-existant record from level-1 B-tree");
+    TESTING("B-tree remove: non-existent record from level-1 B-tree");
 
     /* Create the file for the test */
     if (create_file(&file, &f, fapl) < 0)
@@ -5550,7 +5549,7 @@ test_remove_level1_noredistrib(hid_t fapl, const H5B2_create_t *cparam, const bt
     if (!H5F_addr_defined(root_addr))
         TEST_ERROR
 
-    /* Attempt to remove a non-existant record from a B-tree with 1 record */
+    /* Attempt to remove a non-existent record from a B-tree with 1 record */
     record = (INSERT_SPLIT_ROOT_NREC * 2) + 1;
     H5E_BEGIN_TRY
     {
@@ -5730,8 +5729,8 @@ static unsigned
 test_remove_level1_redistrib(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t    file = -1;   /* File ID */
-    H5F_t *  f    = NULL; /* Internal file object pointer */
-    H5B2_t * bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t   *f    = NULL; /* Internal file object pointer */
+    H5B2_t  *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t  bt2_addr;    /* Address of B-tree created */
     hsize_t  record;      /* Record to insert into tree */
     hsize_t  rrecord;     /* Record to remove from tree */
@@ -5926,8 +5925,8 @@ static unsigned
 test_remove_level1_2leaf_merge(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6104,8 +6103,8 @@ static unsigned
 test_remove_level1_3leaf_merge(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6229,8 +6228,8 @@ static unsigned
 test_remove_level1_promote(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6456,8 +6455,8 @@ test_remove_level1_promote_2leaf_redistrib(hid_t fapl, const H5B2_create_t *cpar
                                            const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6604,8 +6603,8 @@ test_remove_level1_promote_3leaf_redistrib(hid_t fapl, const H5B2_create_t *cpar
                                            const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6752,8 +6751,8 @@ test_remove_level1_promote_2leaf_merge(hid_t fapl, const H5B2_create_t *cparam,
                                        const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -6897,8 +6896,8 @@ test_remove_level1_promote_3leaf_merge(hid_t fapl, const H5B2_create_t *cparam,
                                        const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7041,8 +7040,8 @@ static unsigned
 test_remove_level1_collapse(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7179,8 +7178,8 @@ static unsigned
 test_remove_level2_promote(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7465,8 +7464,8 @@ test_remove_level2_promote_2internal_redistrib(hid_t fapl, const H5B2_create_t *
                                                const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7616,8 +7615,8 @@ test_remove_level2_promote_3internal_redistrib(hid_t fapl, const H5B2_create_t *
                                                const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7767,8 +7766,8 @@ test_remove_level2_promote_2internal_merge(hid_t fapl, const H5B2_create_t *cpar
                                            const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -7919,8 +7918,8 @@ test_remove_level2_promote_3internal_merge(hid_t fapl, const H5B2_create_t *cpar
                                            const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -8071,8 +8070,8 @@ test_remove_level2_2internal_merge_left(hid_t fapl, const H5B2_create_t *cparam,
                                         const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -8197,8 +8196,8 @@ test_remove_level2_2internal_merge_right(hid_t fapl, const H5B2_create_t *cparam
                                          const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -8322,8 +8321,8 @@ static unsigned
 test_remove_level2_3internal_merge(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -8448,8 +8447,8 @@ static unsigned
 test_remove_level2_collapse_right(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               rrecord;     /* Record to remove from tree */
@@ -8574,8 +8573,8 @@ gen_l4_btree2(const char *filename, hid_t fapl, const H5B2_create_t *cparam, had
               const hsize_t *records)
 {
     hid_t       file = -1;   /* File ID */
-    H5F_t *     f    = NULL; /* Internal file object pointer */
-    H5B2_t *    bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t      *f    = NULL; /* Internal file object pointer */
+    H5B2_t     *bt2  = NULL; /* v2 B-tree wrapper */
     hsize_t     record;      /* Record to insert into tree */
     unsigned    u;           /* Local index variable */
     H5B2_stat_t bt2_stat;    /* Statistics about B-tree created */
@@ -8652,17 +8651,17 @@ test_remove_lots(const char *env_h5_drvr, hid_t fapl, const H5B2_create_t *cpara
 {
     hid_t     file = -1;        /* File ID */
     char      filename[1024];   /* Filename to use */
-    H5F_t *   f  = NULL;        /* Internal file object pointer */
+    H5F_t    *f  = NULL;        /* Internal file object pointer */
     int       fd = -1;          /* File descriptor */
     h5_stat_t sb;               /* Stat buffer for file */
-    void *    file_data = NULL; /* Copy of file data */
-    H5B2_t *  bt2       = NULL; /* v2 B-tree wrapper */
+    void     *file_data = NULL; /* Copy of file data */
+    H5B2_t   *bt2       = NULL; /* v2 B-tree wrapper */
     haddr_t   bt2_addr;         /* Address of B-tree created */
     hsize_t   record;           /* Record to insert into tree */
     hsize_t   rrecord;          /* Record to remove from tree */
     haddr_t   root_addr;        /* Address of root of B-tree created */
     time_t    curr_time;        /* Current time, for seeding random number generator */
-    hsize_t * records;          /* Record #'s for random insertion */
+    hsize_t  *records;          /* Record #'s for random insertion */
     unsigned  u;                /* Local index variable */
     unsigned  rem_idx;          /* Location to remove */
     hsize_t   nrec;             /* Number of records in B-tree */
@@ -9094,12 +9093,12 @@ static unsigned
 test_find_neighbor(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               search;      /* Search value */
-    hsize_t *             records;     /* Record #'s for random insertion */
+    hsize_t              *records;     /* Record #'s for random insertion */
     unsigned              u;           /* Local index variable */
     H5B2_node_info_test_t ninfo;       /* B-tree node info */
     herr_t                ret;         /* Generic error return value */
@@ -9320,10 +9319,10 @@ test_delete(hid_t fapl, const H5B2_create_t *cparam)
 {
     hid_t          file = -1;      /* File ID */
     char           filename[1024]; /* Filename to use */
-    H5F_t *        f = NULL;       /* Internal file object pointer */
+    H5F_t         *f = NULL;       /* Internal file object pointer */
     h5_stat_size_t empty_size;     /* Size of an empty file */
     h5_stat_size_t file_size;      /* Size of each file created */
-    H5B2_t *       bt2 = NULL;     /* v2 B-tree wrapper */
+    H5B2_t        *bt2 = NULL;     /* v2 B-tree wrapper */
     haddr_t        bt2_addr;       /* Address of B-tree created */
     hsize_t        record;         /* Record to insert into tree */
     H5B2_stat_t    bt2_stat;       /* Statistics about B-tree created */
@@ -9591,8 +9590,8 @@ static unsigned
 test_modify(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tparam)
 {
     hid_t                 file = -1;   /* File ID */
-    H5F_t *               f    = NULL; /* Internal file object pointer */
-    H5B2_t *              bt2  = NULL; /* v2 B-tree wrapper */
+    H5F_t                *f    = NULL; /* Internal file object pointer */
+    H5B2_t               *bt2  = NULL; /* v2 B-tree wrapper */
     haddr_t               bt2_addr;    /* Address of B-tree created */
     hsize_t               record;      /* Record to insert into tree */
     hsize_t               modify;      /* Modified value */
@@ -9605,7 +9604,7 @@ test_modify(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tpa
     /*
      * Test modifying records
      */
-    TESTING("B-tree modify: attempt to modify non-existant record");
+    TESTING("B-tree modify: attempt to modify non-existent record");
 
     /* Create the file for the test */
     if (create_file(&file, &f, fapl) < 0)
@@ -9628,7 +9627,7 @@ test_modify(hid_t fapl, const H5B2_create_t *cparam, const bt2_test_param_t *tpa
     if (bt2_stat.depth != 2)
         TEST_ERROR
 
-    /* Attempt to modify a non-existant record */
+    /* Attempt to modify a non-existent record */
     record = 3;
     modify = 4;
     H5E_BEGIN_TRY
@@ -9832,8 +9831,8 @@ test_open_twice_diff(hid_t fapl, const H5B2_create_t *cparam)
     hid_t   file2  = -1;        /* File ID */
     hid_t   file0  = -1;        /* File ID */
     hid_t   file00 = -1;        /* File ID */
-    H5F_t * f      = NULL;      /* Internal file object pointer */
-    H5F_t * f2     = NULL;      /* Internal file object pointer */
+    H5F_t  *f      = NULL;      /* Internal file object pointer */
+    H5F_t  *f2     = NULL;      /* Internal file object pointer */
     H5B2_t *bt2    = NULL;      /* v2 B-tree wrapper */
     H5B2_t *bt2_2  = NULL;      /* Second v2 B-tree wrapper */
     haddr_t bt2_addr;           /* Address of B-tree created */
@@ -9971,7 +9970,7 @@ main(void)
     unsigned         nerrors = 0;     /* Cumulative error count */
     unsigned         reopen;          /* Whether to reopen B-tree during tests */
     int              ExpressMode;
-    const char *     envval         = NULL;
+    const char      *envval         = NULL;
     hbool_t          api_ctx_pushed = FALSE; /* Whether API context pushed */
 
     envval = HDgetenv("HDF5_DRIVER");

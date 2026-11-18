@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -19,7 +18,7 @@
 #define PROGRAMNAME "h5dump"
 
 static const char *driver_name_g = NULL; /* The driver to open the file with. */
-const char *       outfname_g    = NULL;
+const char        *outfname_g    = NULL;
 static hbool_t     doxml_g       = FALSE;
 static hbool_t     useschema_g   = TRUE;
 static const char *xml_dtd_uri_g = NULL;
@@ -66,7 +65,7 @@ static void init_prefix(char **prfx, size_t prfx_len);
 /* a structure for handling the order command-line parameters come in */
 struct handler_t {
     void (*func)(hid_t, const char *, void *, int, const char *);
-    char *           obj;
+    char            *obj;
     struct subset_t *subset_info;
 };
 
@@ -77,7 +76,7 @@ struct handler_t {
  */
 /* The following initialization makes use of C language concatenating */
 /* "xxx" "yyy" into "xxxyyy". */
-static const char *        s_opts   = "a:b*c:d:ef:g:hik:l:m:n*o*pq:rs:t:uvw:xyz:A*BCD:E*F:G:HM:N:O*RS:VX:";
+static const char         *s_opts   = "a:b*c:d:ef:g:hik:l:m:n*o*pq:rs:t:uvw:xyz:A*BCD:E*F:G:HM:N:O*RS:VX:";
 static struct long_options l_opts[] = {{"attribute", require_arg, 'a'},
                                        {"binary", optional_arg, 'b'},
                                        {"count", require_arg, 'c'},
@@ -525,114 +524,6 @@ set_sort_order(const char *form)
 }
 
 /*-------------------------------------------------------------------------
- * Function:    parse_hsize_list
- *
- * Purpose:     Parse a list of comma or space separated integers and return
- *              them in a list. The string being passed into this function
- *              should be at the start of the list you want to parse. You are
- *              responsible for freeing the array returned from here.
- *
- *              Lists in the so-called "terse" syntax are separated by
- *              semicolons (;). The lists themselves can be separated by
- *              either commas (,) or white spaces.
- *
- * Return:      <none>
- *-------------------------------------------------------------------------
- */
-static void
-parse_hsize_list(const char *h_list, subset_d *d)
-{
-    hsize_t *    p_list;
-    const char * ptr;
-    unsigned int size_count = 0;
-    unsigned int i          = 0;
-    unsigned int last_digit = 0;
-
-    if (!h_list || !*h_list || *h_list == ';')
-        return;
-
-    /* count how many integers do we have */
-    for (ptr = h_list; ptr && *ptr && *ptr != ';' && *ptr != ']'; ptr++)
-        if (HDisdigit(*ptr)) {
-            if (!last_digit)
-                /* the last read character wasn't a digit */
-                size_count++;
-
-            last_digit = 1;
-        }
-        else
-            last_digit = 0;
-
-    if (size_count == 0)
-        /* there aren't any integers to read */
-        return;
-
-    /* allocate an array for the integers in the list */
-    p_list = (hsize_t *)HDcalloc(size_count, sizeof(hsize_t));
-
-    for (ptr = h_list; i < size_count && ptr && *ptr && *ptr != ';' && *ptr != ']'; ptr++)
-        if (HDisdigit(*ptr)) {
-            /* we should have an integer now */
-            p_list[i++] = (hsize_t)HDstrtoull(ptr, NULL, 0);
-
-            while (HDisdigit(*ptr))
-                /* scroll to end of integer */
-                ptr++;
-        }
-    d->data = p_list;
-    d->len  = size_count;
-}
-
-/*-------------------------------------------------------------------------
- * Function:    parse_subset_params
- *
- * Purpose:     Parse the so-called "terse" syntax for specifying subsetting parameters.
- *
- * Return:      Success:    struct subset_t object
- *              Failure:    NULL
- *-------------------------------------------------------------------------
- */
-static struct subset_t *
-parse_subset_params(const char *dset)
-{
-    struct subset_t *s = NULL;
-    char *           brace;
-
-    if (!dump_opts.disable_compact_subset && ((brace = HDstrrchr(dset, '[')) != NULL)) {
-        *brace++ = '\0';
-
-        s = (struct subset_t *)HDcalloc(1, sizeof(struct subset_t));
-        parse_hsize_list(brace, &s->start);
-
-        while (*brace && *brace != ';')
-            brace++;
-
-        if (*brace)
-            brace++;
-
-        parse_hsize_list(brace, &s->stride);
-
-        while (*brace && *brace != ';')
-            brace++;
-
-        if (*brace)
-            brace++;
-
-        parse_hsize_list(brace, &s->count);
-
-        while (*brace && *brace != ';')
-            brace++;
-
-        if (*brace)
-            brace++;
-
-        parse_hsize_list(brace, &s->block);
-    }
-
-    return s;
-}
-
-/*-------------------------------------------------------------------------
  * Function:    parse_mask_list
  *
  * Purpose:     Parse a list of comma or space separated integers and fill
@@ -651,7 +542,7 @@ parse_mask_list(const char *h_list)
     int                slength_value;
     unsigned           length_value;
     unsigned long long temp_mask;
-    const char *       ptr = NULL;
+    const char        *ptr = NULL;
 
     /* sanity check */
     if (h_list) {
@@ -917,10 +808,11 @@ parse_start:
 
                 for (i = 0; i < argc; i++)
                     if (!hand[i].func) {
-                        hand[i].func        = handle_datasets;
-                        hand[i].obj         = HDstrdup(opt_arg);
-                        hand[i].subset_info = parse_subset_params(hand[i].obj);
-                        last_dset           = &hand[i];
+                        hand[i].func = handle_datasets;
+                        hand[i].obj  = HDstrdup(opt_arg);
+                        if (!dump_opts.disable_compact_subset)
+                            hand[i].subset_info = parse_subset_params(hand[i].obj);
+                        last_dset = &hand[i];
                         break;
                     }
 
@@ -1278,7 +1170,7 @@ main(int argc, char *argv[])
     struct handler_t *hand = NULL;
     int               i;
     unsigned          u;
-    char *            fname = NULL;
+    char             *fname = NULL;
 
     h5tools_setprogname(PROGRAMNAME);
     h5tools_setstatus(EXIT_SUCCESS);

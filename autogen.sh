@@ -1,10 +1,10 @@
 #!/bin/sh
 #
-# Copyright by The HDF Group.                                              
-# All rights reserved.                                                     
-#                                                                          
-# This file is part of HDF5. The full HDF5 copyright notice, including     
-# terms governing use, modification, and redistribution, is contained in   
+# Copyright by The HDF Group.
+# All rights reserved.
+#
+# This file is part of HDF5.  The full HDF5 copyright notice, including
+# terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
 # distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
@@ -236,7 +236,10 @@ ${automake_cmd} || exit 1
 echo
 
 # AUTOCONF
-autoconf_cmd="${HDF5_AUTOCONF} --force"
+# The "obsolete" warnings category flags our Java macros as obsolete.
+# Since there is no clear way to upgrade them (Java support in the Autotools
+# is not great) and they work well enough for now, we suppress those warnings.
+autoconf_cmd="${HDF5_AUTOCONF} --force --warnings=no-obsolete"
 echo "${autoconf_cmd}"
 if [ "$verbose" = true ] ; then
     ${HDF5_AUTOCONF} --version

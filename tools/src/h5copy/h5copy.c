@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -19,7 +18,7 @@
 #define PROGRAMNAME "h5copy"
 
 /* command-line options: short and long-named parameters */
-static const char *        s_opts    = "d:f:hi:o:ps:vVE*";
+static const char         *s_opts    = "d:f:hi:o:ps:vVE*";
 static struct long_options l_opts[]  = {{"destination", require_arg, 'd'},
                                        {"flag", require_arg, 'f'},
                                        {"help", no_arg, 'h'},
@@ -31,11 +30,11 @@ static struct long_options l_opts[]  = {{"destination", require_arg, 'd'},
                                        {"version", no_arg, 'V'},
                                        {"enable-error-stack", optional_arg, 'E'},
                                        {NULL, 0, '\0'}};
-char *                     fname_src = NULL;
-char *                     fname_dst = NULL;
-char *                     oname_src = NULL;
-char *                     oname_dst = NULL;
-char *                     str_flag  = NULL;
+char                      *fname_src = NULL;
+char                      *fname_dst = NULL;
+char                      *oname_src = NULL;
+char                      *oname_dst = NULL;
+char                      *str_flag  = NULL;
 
 /*-------------------------------------------------------------------------
  * Function:    leave
@@ -46,8 +45,6 @@ char *                     str_flag  = NULL;
  *
  * Programmer:  Quincey Koziol
  *              Saturday, 31. January 2004
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -77,8 +74,6 @@ leave(int ret)
  * Return: void
  *
  * Programmer: Pedro Vicente Nunes, 7/8/2006
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */
@@ -160,8 +155,6 @@ usage(void)
  *
  * Programmer: Pedro Vicente Nunes, 7/8/2006
  *
- * Modifications:
- *
  *-------------------------------------------------------------------------
  */
 
@@ -207,8 +200,6 @@ parse_flag(const char *s_flag, unsigned *flag)
  * Purpose: main program
  *
  * Programmer: Pedro Vicente Nunes
- *
- * Modifications:
  *
  *-------------------------------------------------------------------------
  */

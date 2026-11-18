@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -433,7 +432,7 @@ static const hbool_t H5F_def_null_fsm_addr_g =
 
 static const hbool_t H5F_def_use_mdc_logging_g =
     H5F_ACS_USE_MDC_LOGGING_DEF; /* Default metadata cache logging flag */
-static const char *  H5F_def_mdc_log_location_g = H5F_ACS_MDC_LOG_LOCATION_DEF; /* Default mdc log location */
+static const char   *H5F_def_mdc_log_location_g = H5F_ACS_MDC_LOG_LOCATION_DEF; /* Default mdc log location */
 static const hbool_t H5F_def_start_mdc_log_on_access_g =
     H5F_ACS_START_MDC_LOG_ON_ACCESS_DEF; /* Default mdc log start on access flag */
 static const hbool_t H5F_def_evict_on_close_flag_g =
@@ -450,7 +449,7 @@ static const size_t   H5F_def_page_buf_size_g = H5F_ACS_PAGE_BUFFER_SIZE_DEF; /*
 static const unsigned H5F_def_page_buf_min_meta_perc_g =
     H5F_ACS_PAGE_BUFFER_MIN_META_PERC_DEF; /* Default page buffer minimum metadata size */
 static const unsigned H5F_def_page_buf_min_raw_perc_g =
-    H5F_ACS_PAGE_BUFFER_MIN_RAW_PERC_DEF; /* Default page buffer mininum raw data size */
+    H5F_ACS_PAGE_BUFFER_MIN_RAW_PERC_DEF; /* Default page buffer minimum raw data size */
 static const hbool_t H5F_def_use_file_locking_g =
     H5F_ACS_USE_FILE_LOCKING_DEF; /* Default use file locking flag */
 static const hbool_t H5F_def_ignore_disabled_file_locks_g =
@@ -841,7 +840,7 @@ done:
  *
  * Purpose:    Set the file driver (DRIVER_ID) for a file access
  *        property list (PLIST_ID) and supply an optional
- *        struct containing the driver-specific properites
+ *        struct containing the driver-specific properties
  *        (DRIVER_INFO).  The driver properties will be copied into the
  *        property list and the reference count on the driver will be
  *        incremented, allowing the caller to close the driver ID but
@@ -888,7 +887,7 @@ done:
  *
  * Purpose:    Set the file driver (DRIVER_ID) for a file access
  *        property list (PLIST_ID) and supply an optional
- *        struct containing the driver-specific properites
+ *        struct containing the driver-specific properties
  *        (DRIVER_INFO).  The driver properties will be copied into the
  *        property list and the reference count on the driver will be
  *        incremented, allowing the caller to close the driver ID but
@@ -1072,7 +1071,7 @@ const void *
 H5Pget_driver_info(hid_t plist_id)
 {
     H5P_genplist_t *plist     = NULL; /* Property list pointer            */
-    const void *    ret_value = NULL; /* Return value                     */
+    const void     *ret_value = NULL; /* Return value                     */
 
     FUNC_ENTER_API(NULL)
     H5TRACE1("*x", "i", plist_id);
@@ -1095,7 +1094,7 @@ done:
  *
  * Note:        This is an "in-place" copy, since this routine gets called
  *              after the top-level copy has been performed and this routine
- *        finishes the "deep" part of the copy.
+ *              finishes the "deep" part of the copy.
  *
  * Return:      Success:        Non-negative
  *              Failure:        Negative
@@ -1124,7 +1123,7 @@ H5P__file_driver_copy(void *value)
             /* Copy driver info, if it exists */
             if (info->driver_info) {
                 H5FD_class_t *driver; /* Pointer to driver */
-                void *        new_pl; /* Copy of driver info */
+                void         *new_pl; /* Copy of driver info */
 
                 /* Retrieve the driver for the ID */
                 if (NULL == (driver = (H5FD_class_t *)H5I_object(info->driver_id)))
@@ -2299,7 +2298,7 @@ done:
  *
  *      Currently, the only two valid combinations for this routine are:
  *      LOW = H5F_FORMAT_EARLIEST and HIGH = H5F_FORMAT_LATEST (the default
- *      setting, which creates objects with the ealiest version possible for
+ *      setting, which creates objects with the earliest version possible for
  *      each object, but no upper limit on the version allowed to be created if
  *      a newer version of an object's format is required to support a feature
  *      requested with an HDF5 library API routine), and LOW = H5F_FORMAT_LATEST
@@ -2315,7 +2314,7 @@ done:
  * Note: Eventually we want to add more values to the H5F_libver_t
  *      enumerated type that indicate library release values where the file
  *      format was changed (like "H5F_FORMAT_1_2_0" for the file format changes
- *      in the 1.2.x release branch and possily even "H5F_FORMAT_1_4_2" for
+ *      in the 1.2.x release branch and possibly even "H5F_FORMAT_1_4_2" for
  *      a change mid-way through the 1.4.x release branch, etc).
  *
  *      Adding more values will allow applications to make settings like the
@@ -2538,14 +2537,14 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5Pset_file_image(hid_t fapl_id, void *buf_ptr, size_t buf_len)
 {
-    H5P_genplist_t *       fapl;                /* Property list pointer */
+    H5P_genplist_t        *fapl;                /* Property list pointer */
     H5FD_file_image_info_t image_info;          /* File image info */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
@@ -2635,14 +2634,14 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5Pget_file_image(hid_t fapl_id, void **buf_ptr_ptr, size_t *buf_len_ptr)
 {
-    H5P_genplist_t *       fapl;                /* Property list pointer */
+    H5P_genplist_t        *fapl;                /* Property list pointer */
     H5FD_file_image_info_t image_info;          /* File image info */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
@@ -2710,14 +2709,14 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5Pset_file_image_callbacks(hid_t fapl_id, H5FD_file_image_callbacks_t *callbacks_ptr)
 {
-    H5P_genplist_t *       fapl;                /* Property list pointer */
+    H5P_genplist_t        *fapl;                /* Property list pointer */
     H5FD_file_image_info_t info;                /* File image info */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
@@ -2764,7 +2763,7 @@ H5Pset_file_image_callbacks(hid_t fapl_id, H5FD_file_image_callbacks_t *callback
         HDassert(callbacks_ptr->udata_copy);
         HDassert(callbacks_ptr->udata_free);
         if ((info.callbacks.udata = callbacks_ptr->udata_copy(callbacks_ptr->udata)) == NULL)
-            HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't copy the suppplied udata")
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't copy the supplied udata")
     } /* end if */
 
     /* Set values */
@@ -2776,7 +2775,7 @@ done:
 } /* end H5Pset_file_image_callbacks() */
 
 /*-------------------------------------------------------------------------
- * Function: H5Pget_file_image_callbacks
+ * Function:    H5Pget_file_image_callbacks
  *
  * Purpose:     Sets the callbacks for file images. Some file drivers allow
  *              the use of user-defined callbacks for allocating, freeing and
@@ -2786,14 +2785,14 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5Pget_file_image_callbacks(hid_t fapl_id, H5FD_file_image_callbacks_t *callbacks_ptr)
 {
-    H5P_genplist_t *       fapl;                /* Property list pointer */
+    H5P_genplist_t        *fapl;                /* Property list pointer */
     H5FD_file_image_info_t info;                /* File image info */
     herr_t                 ret_value = SUCCEED; /* Return value */
 
@@ -3081,7 +3080,7 @@ static herr_t
 H5P__facc_cache_image_config_dec(const void **_pp, void *_value)
 {
     H5AC_cache_image_config_t *config = (H5AC_cache_image_config_t *)_value;
-    const uint8_t **           pp     = (const uint8_t **)_pp;
+    const uint8_t            **pp     = (const uint8_t **)_pp;
     unsigned                   enc_size;
     herr_t                     ret_value = SUCCEED; /* Return value */
 
@@ -3188,7 +3187,7 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -3218,7 +3217,7 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -3317,7 +3316,7 @@ done:
  * Return:      Non-negative on success/Negative on failure
  *
  * Programmer:  Jacob Gruber
- *              Thurday, August 11, 2011
+ *              Thursday, August 11, 2011
  *
  *-------------------------------------------------------------------------
  */
@@ -3669,7 +3668,7 @@ static herr_t
 H5P__facc_cache_config_dec(const void **_pp, void *_value)
 {
     H5AC_cache_config_t *config = (H5AC_cache_config_t *)_value;
-    const uint8_t **     pp     = (const uint8_t **)_pp;
+    const uint8_t      **pp     = (const uint8_t **)_pp;
     unsigned             enc_size;
     uint64_t             enc_value;
     herr_t               ret_value = SUCCEED; /* Return value */
@@ -3841,7 +3840,7 @@ static herr_t
 H5P__facc_fclose_degree_dec(const void **_pp, void *_value)
 {
     H5F_close_degree_t *fclose_degree = (H5F_close_degree_t *)_value; /* File close degree */
-    const uint8_t **    pp            = (const uint8_t **)_pp;
+    const uint8_t     **pp            = (const uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -3875,7 +3874,7 @@ static herr_t
 H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size)
 {
     const H5FD_mem_t *type = (const H5FD_mem_t *)value; /* Create local alias for values */
-    uint8_t **        pp   = (uint8_t **)_pp;
+    uint8_t         **pp   = (uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -3911,7 +3910,7 @@ H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__facc_multi_type_dec(const void **_pp, void *_value)
 {
-    H5FD_mem_t *    type = (H5FD_mem_t *)_value; /* File close degree */
+    H5FD_mem_t     *type = (H5FD_mem_t *)_value; /* File close degree */
     const uint8_t **pp   = (const uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
@@ -3945,7 +3944,7 @@ static herr_t
 H5P__facc_libver_type_enc(const void *value, void **_pp, size_t *size)
 {
     const H5F_libver_t *type = (const H5F_libver_t *)value; /* Create local alias for values */
-    uint8_t **          pp   = (uint8_t **)_pp;
+    uint8_t           **pp   = (uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -3980,7 +3979,7 @@ H5P__facc_libver_type_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P__facc_libver_type_dec(const void **_pp, void *_value)
 {
-    H5F_libver_t *  type = (H5F_libver_t *)_value;
+    H5F_libver_t   *type = (H5F_libver_t *)_value;
     const uint8_t **pp   = (const uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
@@ -4175,7 +4174,7 @@ done:
 herr_t
 H5Pset_object_flush_cb(hid_t plist_id, H5F_flush_cb_t func, void *udata)
 {
-    H5P_genplist_t *   plist; /* Property list pointer */
+    H5P_genplist_t    *plist; /* Property list pointer */
     H5F_object_flush_t flush_info;
     herr_t             ret_value = SUCCEED; /* return value */
 
@@ -4218,7 +4217,7 @@ done:
 herr_t
 H5Pget_object_flush_cb(hid_t plist_id, H5F_flush_cb_t *func, void **udata)
 {
-    H5P_genplist_t *   plist; /* Property list pointer */
+    H5P_genplist_t    *plist; /* Property list pointer */
     H5F_object_flush_t flush_info;
     herr_t             ret_value = SUCCEED; /* return value */
 
@@ -4256,7 +4255,7 @@ herr_t
 H5Pset_mdc_log_options(hid_t plist_id, hbool_t is_enabled, const char *location, hbool_t start_on_access)
 {
     H5P_genplist_t *plist;               /* Property list pointer */
-    char *          new_location;        /* Working location pointer */
+    char           *new_location;        /* Working location pointer */
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -4302,7 +4301,7 @@ H5Pget_mdc_log_options(hid_t plist_id, hbool_t *is_enabled, char *location, size
                        hbool_t *start_on_access)
 {
     H5P_genplist_t *plist;                  /* Property list pointer */
-    char *          location_ptr = NULL;    /* Pointer to location string */
+    char           *location_ptr = NULL;    /* Pointer to location string */
     herr_t          ret_value    = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -4357,7 +4356,7 @@ static herr_t
 H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size)
 {
     const char *log_location = *(const char *const *)value;
-    uint8_t **  pp           = (uint8_t **)_pp;
+    uint8_t   **pp           = (uint8_t **)_pp;
     size_t      len          = 0;
     uint64_t    enc_value;
     unsigned    enc_size;
@@ -4408,7 +4407,7 @@ H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size)
 static herr_t
 H5P_facc_mdc_log_location_dec(const void **_pp, void *_value)
 {
-    char **         log_location = (char **)_value;
+    char          **log_location = (char **)_value;
     const uint8_t **pp           = (const uint8_t **)_pp;
     size_t          len;
     uint64_t        enc_value; /* Decoded property value */
@@ -4741,7 +4740,7 @@ herr_t
 H5P__encode_coll_md_read_flag_t(const void *value, void **_pp, size_t *size)
 {
     const H5P_coll_md_read_flag_t *coll_md_read_flag = (const H5P_coll_md_read_flag_t *)value;
-    uint8_t **                     pp                = (uint8_t **)_pp;
+    uint8_t                      **pp                = (uint8_t **)_pp;
 
     FUNC_ENTER_PACKAGE_NOERR
 
@@ -4778,7 +4777,7 @@ herr_t
 H5P__decode_coll_md_read_flag_t(const void **_pp, void *_value)
 {
     H5P_coll_md_read_flag_t *coll_md_read_flag = (H5P_coll_md_read_flag_t *)_value; /* File close degree */
-    const uint8_t **         pp                = (const uint8_t **)_pp;
+    const uint8_t          **pp                = (const uint8_t **)_pp;
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -4817,7 +4816,7 @@ H5P__decode_coll_md_read_flag_t(const void **_pp, void *_value)
 herr_t
 H5Pset_all_coll_metadata_ops(hid_t plist_id, hbool_t is_collective)
 {
-    H5P_genplist_t *        plist;               /* Property list pointer */
+    H5P_genplist_t         *plist;               /* Property list pointer */
     H5P_coll_md_read_flag_t coll_meta_read;      /* Property value */
     herr_t                  ret_value = SUCCEED; /* return value */
 

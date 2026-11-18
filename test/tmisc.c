@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -330,6 +329,11 @@ typedef struct {
 #define MISC35_SPACE_DIM3 13
 #define MISC35_NPOINTS    10
 
+/* Definitions for misc. test #36 */
+/* The test file is formerly named h5_nrefs_POC.
+   See https://nvd.nist.gov/vuln/detail/CVE-2020-10812 */
+#define CVE_2020_10812_FILENAME "cve_2020_10812.h5"
+
 /****************************************************************
 **
 **  test_misc1(): test unlinking a dataset from a group and immediately
@@ -443,8 +447,8 @@ test_misc2_write_attribute(void)
     hid_t        type;
     herr_t       ret;
     misc2_struct data, data_check;
-    char *       string_att1 = HDstrdup("string attribute in file one");
-    char *       string_att2 = HDstrdup("string attribute in file two");
+    char        *string_att1 = HDstrdup("string attribute in file one");
+    char        *string_att2 = HDstrdup("string attribute in file two");
 
     type = misc2_create_type();
 
@@ -1248,8 +1252,8 @@ test_misc8(void)
     hsize_t dims[MISC8_RANK]       = {MISC8_DIM0, MISC8_DIM1};
     hsize_t chunk_dims[MISC8_RANK] = {MISC8_CHUNK_DIM0, MISC8_CHUNK_DIM1};
     hsize_t storage_size; /* Number of bytes of raw data storage used */
-    int *   wdata;        /* Data to write */
-    int *   tdata;        /* Temporary pointer to data write */
+    int    *wdata;        /* Data to write */
+    int    *tdata;        /* Temporary pointer to data write */
 #ifdef VERIFY_DATA
     int *rdata;                 /* Data to read */
     int *tdata2;                /* Temporary pointer to data to read */
@@ -1280,7 +1284,7 @@ test_misc8(void)
         for (v = 0; v < MISC8_DIM1; v++)
             *tdata++ = (int)(((u * MISC8_DIM1) + v) % 13);
 
-    /* Create a file acccess property list */
+    /* Create a file access property list */
     fapl = H5Pcreate(H5P_FILE_ACCESS);
     CHECK(fapl, FAIL, "H5Pcreate");
 
@@ -2016,7 +2020,7 @@ test_misc12(void)
         "bien germina ya! Ceso la horrible noche, La libertad sublime",
         "derrama las auroras de su invencible luz.", "La humanidad entera, que entre cadenas gime, comprende",
         "las palabras del que murio en la cruz."};
-    char *  rdata[MISC12_SPACE1_DIM1 + MISC12_APPEND_SIZE]; /* Information read in */
+    char   *rdata[MISC12_SPACE1_DIM1 + MISC12_APPEND_SIZE]; /* Information read in */
     hid_t   fid1;
     hid_t   dataset;
     hid_t   sid1, space, memspace;
@@ -2299,10 +2303,10 @@ misc13_create_hdf_file(const char *name, const unsigned *data)
 static void
 misc13_insert_user_block(const char *old_name, const char *new_name, const char *str, size_t size)
 {
-    FILE * new_fp     = NULL; /* Pointers to new & old files */
-    FILE * old_fp     = NULL;
-    void * user_block = NULL; /* Pointer to user block to write to file */
-    void * copy_buf   = NULL; /* Pointer to buffer for copying data */
+    FILE  *new_fp     = NULL; /* Pointers to new & old files */
+    FILE  *old_fp     = NULL;
+    void  *user_block = NULL; /* Pointer to user block to write to file */
+    void  *copy_buf   = NULL; /* Pointer to buffer for copying data */
     size_t written;           /* Amount of data written to new file */
     size_t read_in;           /* Amount of data read in from old file */
     int    ret;               /* Generic status value */
@@ -3745,7 +3749,7 @@ static void
 test_misc21(void)
 {
     hid_t   fid, sid, dcpl, dsid;
-    char *  buf;
+    char   *buf;
     hsize_t dims[2]       = {MISC21_SPACE_DIM0, MISC21_SPACE_DIM1},
             chunk_size[2] = {MISC21_CHUNK_DIM0, MISC21_CHUNK_DIM1};
     herr_t ret; /* Generic return value */
@@ -3802,7 +3806,7 @@ test_misc21(void)
 
 /****************************************************************
 **
-**  test_misc22(): Test SZIP bits-per-pixel paramter.
+**  test_misc22(): Test SZIP bits-per-pixel parameter.
 **                      This should be set according to the datatype.
 **                      Tests for precision and offset combo's.
 **
@@ -3811,7 +3815,7 @@ static void
 test_misc22(void)
 {
     hid_t   fid, sid, dcpl, dsid, dcpl2;
-    char *  buf;
+    char   *buf;
     hsize_t dims[2]       = {MISC22_SPACE_DIM0, MISC22_SPACE_DIM1},
             chunk_size[2] = {MISC22_CHUNK_DIM0, MISC22_CHUNK_DIM1};
     herr_t ret; /* Generic return value */
@@ -3828,7 +3832,7 @@ test_misc22(void)
     unsigned int flags;
     size_t       cd_nelmts = 32;
     unsigned int cd_values[32];
-    unsigned     correct;
+    size_t       correct;
 
     if (h5_szip_can_encode() != 1)
         return;
@@ -3922,7 +3926,7 @@ test_misc22(void)
                                            NULL);
                 CHECK(ret, FAIL, "H5Pget_filter_by_id2");
 
-                VERIFY(cd_values[2], correct, "SZIP filter returned value for precision");
+                VERIFY(cd_values[2], (unsigned)correct, "SZIP filter returned value for precision");
 
                 ret = H5Dclose(dsid);
                 CHECK(ret, FAIL, "H5Dclose");
@@ -5543,8 +5547,8 @@ test_misc31(void)
 static void
 test_misc32(void)
 {
-    void * buffer;
-    void * resized;
+    void  *buffer;
+    void  *resized;
     size_t size;
 
     /* Output message about test being performed */
@@ -5663,8 +5667,8 @@ test_misc33(void)
 static void
 test_misc34(void)
 {
-    void * mem = NULL; /* allocated buffer     */
-    char * dup = NULL; /* 'duplicated' string  */
+    void  *mem = NULL; /* allocated buffer     */
+    char  *dup = NULL; /* 'duplicated' string  */
     size_t sz  = 0;    /* buffer size          */
 
     /* Output message about test being performed */
@@ -5757,7 +5761,7 @@ test_misc35(void)
     ret = H5get_free_list_sizes(&reg_size_start, &arr_size_start, &blk_size_start, &fac_size_start);
     CHECK(ret, FAIL, "H5get_free_list_sizes");
 
-#if !defined H5_USING_MEMCHECKER
+#if !defined H5_NO_FREE_LISTS && !defined H5_USING_MEMCHECKER
     /* All the free list values should be >0 */
     CHECK(reg_size_start, 0, "H5get_free_list_sizes");
     CHECK(arr_size_start, 0, "H5get_free_list_sizes");
@@ -5817,6 +5821,39 @@ test_misc35(void)
 
 /****************************************************************
 **
+**  test_misc36():
+**      Test for seg fault issue when closing the provided test file
+**      which has an illegal file size in its cache image.
+**      See HDFFV-11052/CVE-2020-10812 for details.
+**
+****************************************************************/
+static void
+test_misc36(void)
+{
+    const char *fname;
+    hid_t       fid;
+    herr_t      ret;
+
+    /* Output message about test being performed */
+    MESSAGE(5, ("Fix for HDFFV-11052/CVE-2020-10812"));
+
+    fname = H5_get_srcdir_filename(CVE_2020_10812_FILENAME);
+    fid   = H5Fopen(fname, H5F_ACC_RDONLY, H5P_DEFAULT);
+    CHECK(fid, FAIL, "H5Fopen");
+
+    /* This should fail due to the illegal file size.
+       It should fail gracefully and not seg fault */
+    H5E_BEGIN_TRY
+    {
+        ret = H5Fclose(fid);
+    }
+    H5E_END_TRY;
+    VERIFY(ret, FAIL, "H5Fclose");
+
+} /* end test_misc36() */
+
+/****************************************************************
+**
 **  test_misc(): Main misc. test routine.
 **
 ****************************************************************/
@@ -5866,6 +5903,7 @@ test_misc(void)
     test_misc33();  /* Test to verify that H5HL_offset_into() returns error if offset exceeds heap block */
     test_misc34();  /* Test behavior of 0 and NULL in H5MM API calls */
     test_misc35();  /* Test behavior of free-list & allocation statistics API calls */
+    test_misc36();  /* Test for seg fault failure at file close */
 
 } /* test_misc() */
 

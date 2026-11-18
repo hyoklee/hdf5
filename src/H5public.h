@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -78,22 +77,53 @@
 extern "C" {
 #endif
 
-/* Macros for enabling/disabling particular GCC warnings */
-/* (see the following web-sites for more info:
+/* Macros for enabling/disabling particular GCC / clang warnings
+ *
+ * These are duplicated in H5FDmulti.c (we don't want to put them in the
+ * public header and the multi VFD can't use private headers). If you make
+ * changes here, be sure to update those as well.
+ *
+ * (see the following web-sites for more info:
  *      http://www.dbp-consulting.com/tutorials/SuppressingGCCWarnings.html
  *      http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas
  */
-/* These pragmas are only implemented usefully in gcc 4.6+ */
-#if ((__GNUC__ * 100) + __GNUC_MINOR__) >= 406
-#define H5_GCC_DIAG_JOINSTR(x, y) x y
-#define H5_GCC_DIAG_DO_PRAGMA(x)  _Pragma(#x)
-#define H5_GCC_DIAG_PRAGMA(x)     H5_GCC_DIAG_DO_PRAGMA(GCC diagnostic x)
+#define H5_DIAG_JOINSTR(x, y) x y
+#define H5_DIAG_DO_PRAGMA(x)  _Pragma(#x)
+#define H5_DIAG_PRAGMA(x)     H5_DIAG_DO_PRAGMA(GCC diagnostic x)
 
-#define H5_GCC_DIAG_OFF(x) H5_GCC_DIAG_PRAGMA(push) H5_GCC_DIAG_PRAGMA(ignored H5_GCC_DIAG_JOINSTR("-W", x))
-#define H5_GCC_DIAG_ON(x)  H5_GCC_DIAG_PRAGMA(pop)
+#define H5_DIAG_OFF(x) H5_DIAG_PRAGMA(push) H5_DIAG_PRAGMA(ignored H5_DIAG_JOINSTR("-W", x))
+#define H5_DIAG_ON(x)  H5_DIAG_PRAGMA(pop)
+
+/* Macros for enabling/disabling particular GCC-only warnings.
+ * These pragmas are only implemented usefully in gcc 4.6+
+ */
+#if (((__GNUC__ * 100) + __GNUC_MINOR__) >= 406)
+#define H5_GCC_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_GCC_DIAG_ON(x)  H5_DIAG_ON(x)
 #else
 #define H5_GCC_DIAG_OFF(x)
 #define H5_GCC_DIAG_ON(x)
+#endif
+
+/* Macros for enabling/disabling particular clang-only warnings.
+ */
+#if defined(__clang__)
+#define H5_CLANG_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_CLANG_DIAG_ON(x)  H5_DIAG_ON(x)
+#else
+#define H5_CLANG_DIAG_OFF(x)
+#define H5_CLANG_DIAG_ON(x)
+#endif
+
+/* Macros for enabling/disabling particular GCC / clang warnings.
+ * These macros should be used for warnings supported by both gcc and clang.
+ */
+#if (((__GNUC__ * 100) + __GNUC_MINOR__) >= 406) || defined(__clang__)
+#define H5_GCC_CLANG_DIAG_OFF(x) H5_DIAG_OFF(x)
+#define H5_GCC_CLANG_DIAG_ON(x)  H5_DIAG_ON(x)
+#else
+#define H5_GCC_CLANG_DIAG_OFF(x)
+#define H5_GCC_CLANG_DIAG_ON(x)
 #endif
 
 /* Version numbers */
@@ -108,7 +138,7 @@ extern "C" {
 /**
  * For tweaks, bug-fixes, or development
  */
-#define H5_VERS_RELEASE 10
+#define H5_VERS_RELEASE 12
 /**
  * For pre-releases like \c snap0. Empty string for official releases.
  */
@@ -116,7 +146,7 @@ extern "C" {
 /**
  * Full version string
  */
-#define H5_VERS_INFO "HDF5 library version: 1.10.10-1"
+#define H5_VERS_INFO "HDF5 library version: 1.10.12-1"
 
 #define H5check() H5check_version(H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE)
 
@@ -674,7 +704,7 @@ H5_DLL herr_t H5get_libversion(unsigned *majnum, unsigned *minnum, unsigned *rel
  *          currently linked. If this check fails, H5check_version() causes the
  *          application to abort (by means of a standard C abort() call) and
  *          prints information that is usually useful for debugging. This
- *          precaution is is taken to avoid the risks of data corruption or
+ *          precaution is taken to avoid the risks of data corruption or
  *          segmentation faults.
  *
  *          The most common cause of this failure is that an application was

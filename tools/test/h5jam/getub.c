@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -21,7 +20,7 @@ void parse_command_line(int argc, const char *const *argv);
 #define PROGRAM_NAME "getub"
 char *nbytes = NULL;
 
-static const char *        s_opts   = "c:";                     /* add more later ? */
+static const char         *s_opts   = "c:";                     /* add more later ? */
 static struct long_options l_opts[] = {{"c", require_arg, 'c'}, /* input file */
                                        {NULL, 0, '\0'}};
 
@@ -81,9 +80,9 @@ main(int argc, char *argv[])
 {
     int      fd = H5I_INVALID_HID;
     unsigned size;
-    char *   filename = NULL;
+    char    *filename = NULL;
     long     res;
-    char *   buf = NULL;
+    char    *buf = NULL;
 
     h5tools_setprogname(PROGRAM_NAME);
     h5tools_setstatus(EXIT_SUCCESS);

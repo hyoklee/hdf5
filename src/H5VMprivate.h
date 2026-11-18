@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -435,7 +434,7 @@ static const unsigned MultiplyDeBruijnBitPosition[32] = {0,  1,  28, 2,  29, 14,
  * Return:      log2(n) (always - no failure condition)
  *
  * Programmer:  Quincey Koziol
- *              Monday, Febraury 27, 2006
+ *              Monday, February 27, 2006
  *
  *-------------------------------------------------------------------------
  */

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -89,13 +88,13 @@ test_compound_2()
         int e, d, c[4], b, a;
     } dst_typ_t;
 
-    src_typ_t *    s_ptr;
-    dst_typ_t *    d_ptr;
+    src_typ_t     *s_ptr;
+    dst_typ_t     *d_ptr;
     const int      nelmts = NTESTELEM;
     const hsize_t  four   = 4;
     int            i;
     unsigned char *buf = NULL, *orig = NULL, *bkg = NULL;
-    ArrayType *    array_dt = NULL;
+    ArrayType     *array_dt = NULL;
 
     // Output message about test being performed
     SUBTEST("Compound Element Reordering");
@@ -203,13 +202,13 @@ test_compound_3()
         int a, c[4], e;
     } dst_typ_t;
 
-    src_typ_t *    s_ptr;
-    dst_typ_t *    d_ptr;
+    src_typ_t     *s_ptr;
+    dst_typ_t     *d_ptr;
     int            i;
     const int      nelmts = NTESTELEM;
     const hsize_t  four   = 4;
     unsigned char *buf = NULL, *orig = NULL, *bkg = NULL;
-    ArrayType *    array_dt = NULL;
+    ArrayType     *array_dt = NULL;
 
     // Output message about test being performed
     SUBTEST("Compound Datatype Subset Conversions");
@@ -319,13 +318,13 @@ test_compound_4()
         int   e;
     } dst_typ_t;
 
-    src_typ_t *    s_ptr;
-    dst_typ_t *    d_ptr;
+    src_typ_t     *s_ptr;
+    dst_typ_t     *d_ptr;
     int            i;
     const int      nelmts = NTESTELEM;
     const hsize_t  four   = 4;
     unsigned char *buf = NULL, *orig = NULL, *bkg = NULL;
-    ArrayType *    array_dt = NULL;
+    ArrayType     *array_dt = NULL;
 
     // Output message about test being performed
     SUBTEST("Compound Element Shrinking & Reordering");
@@ -443,8 +442,8 @@ test_compound_5()
     hsize_t    dims[1] = {4};
     src_typ_t  src[2]  = {{"one", 102, {104, 105, 106, 107}}, {"two", 202, {204, 205, 206, 207}}};
     dst_typ_t *dst;
-    void *     buf      = HDcalloc(2, sizeof(dst_typ_t));
-    void *     bkg      = HDcalloc(2, sizeof(dst_typ_t));
+    void      *buf      = HDcalloc(2, sizeof(dst_typ_t));
+    void      *bkg      = HDcalloc(2, sizeof(dst_typ_t));
     ArrayType *array_dt = NULL;
 
     // Output message about test being performed
@@ -534,8 +533,8 @@ test_compound_6()
         long d;
     } dst_typ_t;
 
-    src_typ_t *    s_ptr;
-    dst_typ_t *    d_ptr;
+    src_typ_t     *s_ptr;
+    dst_typ_t     *d_ptr;
     int            i;
     const int      nelmts = NTESTELEM;
     unsigned char *buf = NULL, *orig = NULL, *bkg = NULL;

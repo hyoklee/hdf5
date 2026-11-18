@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -219,7 +218,7 @@ test_simple(void)
      *-------------------------------------------------------------------------
      */
 
-    HL_TESTING2("pallete functions");
+    HL_TESTING2("palette functions");
 
     if (H5IMget_npalettes(fid, IMAGE1_NAME, &npals) < 0)
         goto out;
@@ -422,7 +421,7 @@ test_data(void)
 
     /*-------------------------------------------------------------------------
      * palette #4. blue-red
-     * make a palette whith blue to red colors
+     * make a palette with blue to red colors
      *-------------------------------------------------------------------------
      */
     for (i = 0, n = 0; i < 256 * 3; i += 3, n++) {
@@ -519,11 +518,11 @@ test_generate(void)
 {
     hid_t       fid;
     hsize_t     pal_dims[2] = {256, 3};
-    float *     data        = NULL;
+    float      *data        = NULL;
     int         imax, jmax, kmax;
     int         n_elements;
     float       valex, xmin, xmax, value;
-    FILE *      f         = NULL;
+    FILE       *f         = NULL;
     const char *data_file = H5_get_srcdir_filename(DATA_FILE4);
     int         i;
     int         retval = FAIL;
@@ -757,13 +756,13 @@ out:
 
 static int
 read_data(const char *fname, /*IN*/
-          hsize_t *   width, /*OUT*/
-          hsize_t *   height /*OUT*/)
+          hsize_t    *width, /*OUT*/
+          hsize_t    *height /*OUT*/)
 {
     int         i, n;
     int         color_planes;
     char        str[20];
-    FILE *      f = NULL;
+    FILE       *f = NULL;
     int         w, h;
     int         n_elements;
     const char *data_file = H5_get_srcdir_filename(fname);
@@ -876,14 +875,14 @@ out:
 static int
 read_palette(const char *fname, rgb_t *palette, size_t palette_size)
 {
-    FILE *       file;
+    FILE        *file;
     char         buffer[80];
     unsigned     u;
     unsigned int red;
     unsigned int green;
     unsigned int blue;
     unsigned     nentries;
-    const char * data_file = H5_get_srcdir_filename(fname);
+    const char  *data_file = H5_get_srcdir_filename(fname);
 
     /* ensure the given palette is valid */
     if (!palette)

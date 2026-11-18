@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -89,7 +88,7 @@ main(void)
     if (ret < 0)
         printf("field 1 insert<0!\n");
 
-    /* Creat the array datatype */
+    /* Create the array datatype */
     arr_type = H5Tarray_create2(H5T_NATIVE_FLOAT, ARRAY1_RANK, tdims1);
     if (arr_type < 0)
         printf("arr_type<0!\n");
@@ -104,7 +103,7 @@ main(void)
     if (ret < 0)
         printf("field 3 array close<0!\n");
 
-    /* Creat the array datatype */
+    /* Create the array datatype */
     arr_type = H5Tarray_create2(H5T_NATIVE_LONG, ARRAY1_RANK, tdims1);
     if (arr_type < 0)
         printf("arr_type<0!\n");

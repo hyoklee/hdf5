@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -216,13 +215,13 @@ test_mf_eoa(const char *env_h5_drvr, hid_t fapl)
     hid_t          file     = -1;            /* File ID */
     hid_t          fapl_new = -1;            /* copy of fapl */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FD_mem_t     type;
     haddr_t        addr1, addr2;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MM_alloc() of file allocation");
 
@@ -364,13 +363,13 @@ test_mf_eoa_shrink(const char *env_h5_drvr, hid_t fapl)
     hid_t          file     = -1;                /* File ID */
     hid_t          fapl_new = -1;                /* copy of fapl */
     char           filename[FILENAME_LEN];       /* Filename to use */
-    H5F_t *        f         = NULL;             /* Internal file object pointer */
+    H5F_t         *f         = NULL;             /* Internal file object pointer */
     h5_stat_size_t file_size = 0, new_file_size; /* file size */
     H5FD_mem_t     type;
     haddr_t        addr    = 0;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_try_shrink() of file allocation: test 1");
 
@@ -650,14 +649,14 @@ test_mf_eoa_extend(const char *env_h5_drvr, hid_t fapl)
     hid_t          file     = -1;            /* File ID */
     hid_t          fapl_new = -1;            /* copy of fapl */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* File size */
     H5FD_mem_t     type;
     haddr_t        addr;
     htri_t         was_extended;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_try_extend() of file allocation: test 1");
 
@@ -874,7 +873,7 @@ test_mf_tmp(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
     if (HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0 &&
         HDstrcmp(env_h5_drvr, "family") != 0) {
         char           filename[FILENAME_LEN];   /* Filename to use */
-        H5F_t *        f = NULL;                 /* Internal file object pointer */
+        H5F_t         *f = NULL;                 /* Internal file object pointer */
         h5_stat_size_t file_size, new_file_size; /* file size */
         haddr_t        maxaddr;                  /* File's max. address */
         haddr_t        tmp_addr;                 /* Temporary space file address */
@@ -1058,7 +1057,7 @@ test_mf_fs_start(hid_t fapl)
     hid_t          file     = -1;            /* File ID */
     hid_t          fapl_new = -1;            /* copy of fapl */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FS_stat_t    state;
 
@@ -1169,7 +1168,7 @@ test_mf_fs_alloc_free(hid_t fapl)
     hid_t                file     = -1;            /* File ID */
     hid_t                fapl_new = -1;            /* copy of fapl */
     char                 filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *              f = NULL;                 /* Internal file object pointer */
+    H5F_t               *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t       file_size, new_file_size; /* file size */
     H5MF_free_section_t *sect_node = NULL;
     haddr_t              addr;
@@ -1498,7 +1497,7 @@ test_mf_fs_extend(hid_t fapl)
     hid_t                file     = -1;            /* File ID */
     hid_t                fapl_new = -1;            /* copy of fapl */
     char                 filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *              f = NULL;                 /* Internal file object pointer */
+    H5F_t               *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t       file_size, new_file_size; /* file size */
     H5MF_free_section_t *sect_node1 = NULL, *sect_node2 = NULL;
     haddr_t              addr;
@@ -1933,7 +1932,7 @@ test_mf_fs_extend(hid_t fapl)
     if (check_stats(f, f->shared->fs_man[H5FD_MEM_SUPER], &state))
         TEST_ERROR
 
-    /* Remove section A from free-space manger */
+    /* Remove section A from free-space manager */
     if (H5MF__find_sect(f, H5FD_MEM_SUPER, (hsize_t)(TBLOCK_SIZE30 - 10), f->shared->fs_man[H5FD_MEM_SUPER],
                         &tmp) != TRUE)
         TEST_ERROR
@@ -2005,13 +2004,13 @@ test_mf_fs_absorb(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t                file = -1;              /* File ID */
     char                 filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *              f = NULL;               /* Internal file object pointer */
+    H5F_t               *f = NULL;               /* Internal file object pointer */
     haddr_t              addr, saddr;
     haddr_t              tmp;
     haddr_t              ma_addr   = HADDR_UNDEF;
     hsize_t              ma_size   = 0;
     H5MF_free_section_t *sect_node = NULL;
-    hbool_t              contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t              contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("A free-space section absorbs an aggregator: test 1");
 
@@ -2180,14 +2179,14 @@ test_mf_aggr_alloc1(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     hid_t          fcpl;                     /* File creation property list */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FD_mem_t     type;
     haddr_t        addr1, addr2;
     haddr_t        ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 1");
 
@@ -2332,13 +2331,13 @@ test_mf_aggr_alloc2(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FD_mem_t     type;
     haddr_t        addr1, addr2, addr3;
     haddr_t        ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 2");
 
@@ -2488,7 +2487,7 @@ test_mf_aggr_alloc3(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3, addr4, saddr1;
@@ -2496,7 +2495,7 @@ test_mf_aggr_alloc3(const char *env_h5_drvr, hid_t fapl)
     hsize_t        ma_size = 0, new_ma_size = 0;
     haddr_t        sdata_addr = HADDR_UNDEF;
     hsize_t        sdata_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator: test 3");
 
@@ -2658,13 +2657,13 @@ test_mf_aggr_alloc4(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* File size */
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, saddr1, saddr2, saddr3;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF, sdata_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0, sdata_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 4");
 
@@ -2807,13 +2806,13 @@ test_mf_aggr_alloc5(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* File size */
     H5FD_mem_t     type;
     haddr_t        addr1, addr2, addr3;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 5");
 
@@ -2944,14 +2943,14 @@ test_mf_aggr_alloc6(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;                /* File ID */
     char           filename[FILENAME_LEN];   /* Filename to use */
-    H5F_t *        f = NULL;                 /* Internal file object pointer */
+    H5F_t         *f = NULL;                 /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size; /* file size */
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3, saddr1;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF, sdata_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0, sdata_size = 0;
     H5FS_stat_t    state;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 6");
 
@@ -3118,14 +3117,14 @@ test_mf_aggr_alloc7(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t empty_size, file_size;
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3, saddr1, saddr2, saddr3;
     haddr_t        ma_addr = HADDR_UNDEF, sdata_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, sdata_size = 0;
     H5FS_stat_t    state;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_alloc() of meta/sdata aggregator:test 7");
 
@@ -3289,14 +3288,14 @@ test_mf_aggr_extend(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f          = NULL;      /* Internal file object pointer */
+    H5F_t         *f          = NULL;      /* Internal file object pointer */
     h5_stat_size_t empty_size = 0, file_size;
     H5FD_mem_t     type, stype;
     haddr_t        new_addr, addr, saddr;
     haddr_t        ma_addr = HADDR_UNDEF, new_ma_addr = HADDR_UNDEF, sdata_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0, sdata_size = 0;
     htri_t         was_extended;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_try_extend() of meta/sdata aggregator: test 1");
 
@@ -3586,7 +3585,7 @@ test_mf_aggr_absorb(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f          = NULL;      /* Internal file object pointer */
+    H5F_t         *f          = NULL;      /* Internal file object pointer */
     h5_stat_size_t empty_size = 0, file_size;
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3, saddr1;
@@ -3594,7 +3593,7 @@ test_mf_aggr_absorb(const char *env_h5_drvr, hid_t fapl)
     haddr_t        new_sdata_addr = HADDR_UNDEF;
     hsize_t        ma_size = 0, new_ma_size = 0;
     hsize_t        sdata_size = 0, new_sdata_size = 0;
-    hbool_t        contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     TESTING("H5MF_try_shrink() of meta/sdata aggregator: test 1");
 
@@ -3837,7 +3836,7 @@ test_mf_align_eoa(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
     hid_t          file  = -1; /* File ID */
     hid_t          fapl1 = -1;
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size, new_file_size;
     H5FD_mem_t     type;
     haddr_t        addr1, addr2;
@@ -4128,7 +4127,7 @@ test_mf_align_fs(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
     hid_t                file = -1;              /* File ID */
     char                 filename[FILENAME_LEN]; /* Filename to use */
     h5_stat_size_t       file_size;
-    H5F_t *              f         = NULL; /* Internal file object pointer */
+    H5F_t               *f         = NULL; /* Internal file object pointer */
     H5MF_free_section_t *sect_node = NULL;
     haddr_t              addr;
     H5FS_stat_t          state;
@@ -4487,7 +4486,7 @@ test_mf_align_alloc1(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;              /* File size */
 
     H5FD_mem_t  type;
@@ -4750,7 +4749,7 @@ test_mf_align_alloc2(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;              /* File size */
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3, saddr1;
@@ -5094,7 +5093,7 @@ test_mf_align_alloc3(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, addr3;
@@ -5408,7 +5407,7 @@ test_mf_align_alloc4(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;
     H5FD_mem_t     type;
     haddr_t        addr1, addr2, addr3;
@@ -5625,7 +5624,7 @@ test_mf_align_alloc5(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2, saddr1;
@@ -5837,7 +5836,7 @@ error:
  *
  * Alignment = 4096     aggr->alloc_size = 2048
  *
- *    Allocate first block (30) from meta_aggr: (meta_aggr is emtpy)
+ *    Allocate first block (30) from meta_aggr: (meta_aggr is empty)
  *        request-size is > meta_aggr->size and < meta_aggr->alloc_size
  *    Result:
  *        A block of meta_aggr->alloc_size is allocated from file allocation
@@ -5895,7 +5894,7 @@ test_mf_align_alloc6(const char *env_h5_drvr, hid_t fapl, hid_t new_fapl)
 {
     hid_t          file = -1;              /* File ID */
     char           filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *        f = NULL;               /* Internal file object pointer */
+    H5F_t         *f = NULL;               /* Internal file object pointer */
     h5_stat_size_t file_size;
     H5FD_mem_t     type, stype;
     haddr_t        addr1, addr2;
@@ -6105,7 +6104,7 @@ test_mf_bug1(const char *env_h5_drvr, hid_t fapl)
     hid_t      file        = -1;       /* File ID */
     hid_t      copied_fapl = -1;       /* FAPL to use for this test */
     char       filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *    f = NULL;               /* Internal file object pointer */
+    H5F_t     *f = NULL;               /* Internal file object pointer */
     H5FD_mem_t type;
     haddr_t    addr1, addr2;
     hsize_t    block_size;
@@ -6157,7 +6156,7 @@ test_mf_bug1(const char *env_h5_drvr, hid_t fapl)
         else {
             H5FD_mem_t memb_map[H5FD_MEM_NTYPES];
             hid_t      memb_fapl_arr[H5FD_MEM_NTYPES];
-            char *     memb_name[H5FD_MEM_NTYPES];
+            char      *memb_name[H5FD_MEM_NTYPES];
             haddr_t    memb_addr[H5FD_MEM_NTYPES];
             hbool_t    relax;
             H5FD_mem_t mt;
@@ -6279,7 +6278,7 @@ test_mf_fs_persist_split(void)
     hid_t       fcpl = -1;                      /* File creation property list ID */
     hid_t       fapl = -1;                      /* File access property list ID */
     char        filename[FILENAME_LEN];         /* Filename to use */
-    H5F_t *     f = NULL;                       /* Internal file object pointer */
+    H5F_t      *f = NULL;                       /* Internal file object pointer */
     H5FD_mem_t  type, stype, btype;             /* File allocation type */
     H5FS_stat_t fs_stat;                        /* Information for free-space manager */
     haddr_t     addr1, addr2, addr3, addr4;     /* File address for H5FD_MEM_SUPER */
@@ -6594,7 +6593,7 @@ test_mf_fs_persist_multi(void)
     hid_t                fcpl = -1;                      /* File creation property list ID */
     hid_t                fapl = -1;                      /* File access property list ID */
     char                 filename[FILENAME_LEN];         /* Filename to use */
-    H5F_t *              f = NULL;                       /* Internal file object pointer */
+    H5F_t               *f = NULL;                       /* Internal file object pointer */
     H5FD_mem_t           type, stype, btype, gtype;      /* File allocation type */
     H5FS_stat_t          fs_stat;                        /* Information for free-space manager */
     haddr_t              addr1, addr2, addr3, addr4;     /* File allocation type */
@@ -6607,7 +6606,7 @@ test_mf_fs_persist_multi(void)
     H5FD_mem_t           memb_map[H5FD_MEM_NTYPES];      /* Memory usage map */
     hid_t                memb_fapl[H5FD_MEM_NTYPES];     /* Member access properties */
     char                 sv[H5FD_MEM_NTYPES][64];        /* Name generators */
-    const char *         memb_name[H5FD_MEM_NTYPES];     /* Name generators */
+    const char          *memb_name[H5FD_MEM_NTYPES];     /* Name generators */
     haddr_t              memb_addr[H5FD_MEM_NTYPES];     /* Member starting address */
 
     TESTING("File's free-space managers are persistent for multi-file");
@@ -6916,7 +6915,7 @@ test_mf_fs_persist(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
     hid_t       fcpl  = -1;                               /* File creation property list ID */
     hid_t       fapl2 = -1;                               /* File access property list ID */
     char        filename[FILENAME_LEN];                   /* Filename to use */
-    H5F_t *     f = NULL;                                 /* Internal file object pointer */
+    H5F_t      *f = NULL;                                 /* Internal file object pointer */
     H5FD_mem_t  type;                                     /* File allocation type */
     H5FD_mem_t  tt;                                       /* File allocation type */
     H5FS_stat_t fs_stat;                                  /* Information for free-space manager */
@@ -7099,7 +7098,7 @@ test_mf_fs_gone(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
     hid_t       fcpl  = -1;                 /* File creation property list */
     hid_t       fapl2 = -1;                 /* File access property list */
     char        filename[FILENAME_LEN];     /* Filename to use */
-    H5F_t *     f = NULL;                   /* Internal file object pointer */
+    H5F_t      *f = NULL;                   /* Internal file object pointer */
     H5FD_mem_t  type;                       /* File allocation type */
     H5FS_stat_t fs_stat;                    /* Information for free-space manager */
     haddr_t     addr1, addr2, addr3, addr4; /* File address for H5FD_MEM_SUPER */
@@ -7113,7 +7112,7 @@ test_mf_fs_gone(const char *env_h5_drvr, hid_t fapl, hbool_t new_format)
     else
         TESTING("File's free-space is going away with old library format")
 
-    /* Current VFD that does not support contigous address space */
+    /* Current VFD that does not support contiguous address space */
     contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     if (contig_addr_vfd) {
@@ -7300,7 +7299,7 @@ test_mf_strat_thres_persist(const char *env_h5_drvr, hid_t fapl, hbool_t new_for
     hid_t                 fcpl  = -1;                               /* File creation property list template */
     hid_t                 fapl2 = -1;                               /* File access property list template */
     char                  filename[FILENAME_LEN];                   /* Filename to use */
-    H5F_t *               f = NULL;                                 /* Internal file object pointer */
+    H5F_t                *f = NULL;                                 /* Internal file object pointer */
     H5FD_mem_t            type;                                     /* File allocation type */
     H5FD_mem_t            tt;                                       /* File allocation type */
     haddr_t               addr1, addr2, addr3, addr4, addr5, addr6; /* File address for H5FD_MEM_SUPER */
@@ -7314,7 +7313,7 @@ test_mf_strat_thres_persist(const char *env_h5_drvr, hid_t fapl, hbool_t new_for
     else
         TESTING("File space strategy/persisting/threshold with old library format")
 
-    /* Current VFD that does not support contigous address space */
+    /* Current VFD that does not support contiguous address space */
     contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     /* Set the filename to use for this test (dependent on fapl) */
@@ -7469,7 +7468,7 @@ test_mf_strat_thres_gone(const char *env_h5_drvr, hid_t fapl, hbool_t new_format
     hid_t                 fcpl  = -1;                               /* File creation property list template */
     hid_t                 fapl2 = -1;                               /* File access property list template */
     char                  filename[FILENAME_LEN];                   /* Filename to use */
-    H5F_t *               f = NULL;                                 /* Internal file object pointer */
+    H5F_t                *f = NULL;                                 /* Internal file object pointer */
     H5FD_mem_t            type;                                     /* File allocation type */
     H5FD_mem_t            tt;                                       /* File allocation type */
     haddr_t               addr1, addr2, addr3, addr4, addr5, addr6; /* File address for H5FD_MEM_SUPER */
@@ -7484,7 +7483,7 @@ test_mf_strat_thres_gone(const char *env_h5_drvr, hid_t fapl, hbool_t new_format
     else
         TESTING("File space merge/shrink for section size < threshold with old library format")
 
-    /* Current VFD that does not support contigous address space */
+    /* Current VFD that does not support contiguous address space */
     contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     /* Set the filename to use for this test (dependent on fapl) */
@@ -7672,7 +7671,7 @@ test_dichotomy(hid_t fapl)
 {
     hid_t      file = -1;              /* File ID */
     char       filename[FILENAME_LEN]; /* Filename to use */
-    H5F_t *    f = NULL;               /* Internal file object pointer */
+    H5F_t     *f = NULL;               /* Internal file object pointer */
     H5FD_mem_t type, stype;
     haddr_t    addr1, addr3, saddr1, saddr2;
 
@@ -7748,7 +7747,7 @@ set_multi_split(hid_t fapl, hsize_t pagesize, hbool_t is_multi_or_split)
 {
     H5FD_mem_t memb_map[H5FD_MEM_NTYPES];
     hid_t      memb_fapl_arr[H5FD_MEM_NTYPES];
-    char *     memb_name[H5FD_MEM_NTYPES];
+    char      *memb_name[H5FD_MEM_NTYPES];
     haddr_t    memb_addr[H5FD_MEM_NTYPES];
     hbool_t    relax;
     H5FD_mem_t mt;
@@ -7807,7 +7806,7 @@ test_page_alloc_xfree(const char *env_h5_drvr, hid_t fapl)
     hid_t    fid      = -1;   /* File ID */
     hid_t    fcpl     = -1;   /* File creation property list */
     hid_t    fapl_new = -1;   /* File access property list ID */
-    H5F_t *  f        = NULL; /* Internal file object pointer */
+    H5F_t   *f        = NULL; /* Internal file object pointer */
     haddr_t  addr2, addr3;    /* Addresses for small metadata blocks */
     haddr_t  saddr1;          /* Addresses for small raw data blocks */
     haddr_t  gaddr1;          /* Addresses for large data blocks */
@@ -8041,11 +8040,11 @@ test_page_try_shrink(const char *env_h5_drvr, hid_t fapl)
 
     hid_t          fid  = -1;              /* File ID */
     hid_t          fcpl = -1;              /* File creation property list */
-    H5F_t *        f    = NULL;            /* Internal file object pointer */
+    H5F_t         *f    = NULL;            /* Internal file object pointer */
     haddr_t        addr1;                  /* Address for small metadata block */
     haddr_t        saddr1;                 /* Address for small raw data block */
     haddr_t        gaddr1;                 /* Address for large data block */
-    hbool_t        contig_addr_vfd;        /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd;        /* Whether VFD used has a contiguous address space */
     htri_t         status;                 /* status from shrinking */
     h5_stat_size_t file_size;              /* File size */
     char           filename[FILENAME_LEN]; /* Filename to use */
@@ -8172,10 +8171,10 @@ test_page_small_try_extend(const char *env_h5_drvr, hid_t fapl)
 
     hid_t   fid  = -1;              /* File ID */
     hid_t   fcpl = -1;              /* File creation property list */
-    H5F_t * f    = NULL;            /* Internal file object pointer */
+    H5F_t  *f    = NULL;            /* Internal file object pointer */
     haddr_t addr1, addr2, addr3;    /* Addresses for small metadata blocks */
     haddr_t saddr1;                 /* Address for small raw data block */
-    hbool_t contig_addr_vfd;        /* Whether VFD used has a contigous address space */
+    hbool_t contig_addr_vfd;        /* Whether VFD used has a contiguous address space */
     htri_t  was_extended;           /* Whether the block can be extended or not */
     char    filename[FILENAME_LEN]; /* Filename to use */
 
@@ -8352,9 +8351,9 @@ test_page_large_try_extend(const char *env_h5_drvr, hid_t fapl)
 
     hid_t   fid  = -1;                      /* File ID */
     hid_t   fcpl = -1;                      /* File creation property list */
-    H5F_t * f    = NULL;                    /* Internal file object pointer */
+    H5F_t  *f    = NULL;                    /* Internal file object pointer */
     haddr_t gaddr1, gaddr2, gaddr3, gaddr4; /* Addresses for large data blocks */
-    hbool_t contig_addr_vfd;                /* Whether VFD used has a contigous address space */
+    hbool_t contig_addr_vfd;                /* Whether VFD used has a contiguous address space */
     htri_t  was_extended;                   /* Whether the block can be extended or not */
     char    filename[FILENAME_LEN];         /* Filename to use */
 
@@ -8515,9 +8514,9 @@ test_page_large(const char *env_h5_drvr, hid_t fapl)
 
     hid_t          fid  = -1;                      /* File ID */
     hid_t          fcpl = -1;                      /* File creation property list ID */
-    H5F_t *        f    = NULL;                    /* Internal file object pointer */
+    H5F_t         *f    = NULL;                    /* Internal file object pointer */
     haddr_t        gaddr1, gaddr2, gaddr3, gaddr4; /* Addresses for blocks */
-    hbool_t        contig_addr_vfd;                /* Whether VFD used has a contigous address space */
+    hbool_t        contig_addr_vfd;                /* Whether VFD used has a contiguous address space */
     H5FS_stat_t    fs_stat;                        /* Information for free-space manager */
     h5_stat_size_t file_size;                      /* File size */
     char           filename[FILENAME_LEN];         /* Filename to use */
@@ -8669,7 +8668,7 @@ test_page_small(const char *env_h5_drvr, hid_t fapl)
 {
     hid_t       fid  = -1;                  /* File ID */
     hid_t       fcpl = -1;                  /* File creation property list */
-    H5F_t *     f    = NULL;                /* Internal file object pointer */
+    H5F_t      *f    = NULL;                /* Internal file object pointer */
     haddr_t     addr2, addr3, addr4, addr5; /* Addresses for blocks */
     haddr_t     addr9, addr10, addr11;      /* Address for small metadata blocks */
     haddr_t     saddr1, saddr2;             /* Addresses for small raw data blocks */
@@ -8844,7 +8843,7 @@ test_page_alignment(const char *env_h5_drvr, hid_t fapl)
     hid_t   fcpl     = -1;          /* File creation property list ID */
     hid_t   fcpl2    = -1;          /* File creation property list ID */
     hid_t   fapl_new = -1;          /* File access property list ID */
-    H5F_t * f        = NULL;        /* Internal file object pointer */
+    H5F_t  *f        = NULL;        /* Internal file object pointer */
     haddr_t addr1, addr2;           /* Addresses for small metadata blocks */
     haddr_t saddr1, saddr2;         /* Addresses for small raw data blocks */
     haddr_t gaddr1, gaddr2;         /* Addresses for blocks */
@@ -8884,7 +8883,7 @@ test_page_alignment(const char *env_h5_drvr, hid_t fapl)
             hid_t      memb_fapl;
             H5FD_mem_t memb_map[H5FD_MEM_NTYPES];
             hid_t      memb_fapl_arr[H5FD_MEM_NTYPES];
-            char *     memb_name[H5FD_MEM_NTYPES];
+            char      *memb_name[H5FD_MEM_NTYPES];
             haddr_t    memb_addr[H5FD_MEM_NTYPES];
             hbool_t    relax;
             H5FD_mem_t mt;

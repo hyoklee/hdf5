@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -47,9 +46,9 @@
 
 /* User data for skip list iterator callback for iterating over section size nodes */
 typedef struct {
-    H5FS_t *        fspace;  /* Free space manager info */
+    H5FS_t         *fspace;  /* Free space manager info */
     H5FS_operator_t op;      /* Operator for the iteration */
-    void *          op_data; /* Information to pass to the operator */
+    void           *op_data; /* Information to pass to the operator */
 } H5FS_iter_ud_t;
 
 /********************/
@@ -735,7 +734,7 @@ done:
 static herr_t
 H5FS__sect_unlink_size(H5FS_sinfo_t *sinfo, const H5FS_section_class_t *cls, H5FS_section_info_t *sect)
 {
-    H5FS_node_t *        fspace_node;         /* Free list size node */
+    H5FS_node_t         *fspace_node;         /* Free list size node */
     H5FS_section_info_t *tmp_sect_node;       /* Temporary section node */
     unsigned             bin;                 /* Bin to put the free space section in */
     herr_t               ret_value = SUCCEED; /* Return value */
@@ -1124,7 +1123,7 @@ H5FS__sect_merge(H5FS_t *fspace, H5FS_section_info_t **sect, void *op_data)
         do {
             H5SL_node_t *less_sect_node;             /* Skip list node for section less than new section */
             H5SL_node_t *greater_sect_node = NULL;   /* Skip list node for section greater than new section */
-            H5FS_section_info_t * tmp_sect;          /* Temporary free space section */
+            H5FS_section_info_t  *tmp_sect;          /* Temporary free space section */
             H5FS_section_class_t *tmp_sect_cls;      /* Temporary section's class */
             hbool_t greater_sect_node_valid = FALSE; /* Indicate if 'greater than' section node is valid */
 
@@ -1597,7 +1596,7 @@ H5FS__sect_find_node(H5FS_t *fspace, hsize_t request, H5FS_section_info_t **node
     unsigned     bin;               /* Bin to put the free space section in */
     htri_t       ret_value = FALSE; /* Return value */
 
-    H5SL_node_t *               curr_size_node = NULL;
+    H5SL_node_t                *curr_size_node = NULL;
     const H5FS_section_class_t *cls; /* Class of section */
     hsize_t                     alignment;
 
@@ -1804,7 +1803,7 @@ static herr_t
 H5FS_iterate_sect_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
     H5FS_section_info_t *sect_info = (H5FS_section_info_t *)_item; /* Free space section to work on */
-    H5FS_iter_ud_t *     udata     = (H5FS_iter_ud_t *)_udata;     /* Callback info */
+    H5FS_iter_ud_t      *udata     = (H5FS_iter_ud_t *)_udata;     /* Callback info */
     herr_t               ret_value = SUCCEED;                      /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
@@ -1838,7 +1837,7 @@ done:
 static herr_t
 H5FS_iterate_node_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
-    H5FS_node_t *   fspace_node = (H5FS_node_t *)_item;     /* Free space size node to work on */
+    H5FS_node_t    *fspace_node = (H5FS_node_t *)_item;     /* Free space size node to work on */
     H5FS_iter_ud_t *udata       = (H5FS_iter_ud_t *)_udata; /* Callback info */
     herr_t          ret_value   = SUCCEED;                  /* Return value */
 
@@ -2050,11 +2049,11 @@ H5FS_sect_change_class(H5F_t *f, H5FS_t *fspace, H5FS_section_info_t *sect, uint
         } /* end else */
     }     /* end if */
 
-    /* Check if the section's class change will affect the mergable list */
+    /* Check if the section's class change will affect the mergeable list */
     if ((old_cls->flags & H5FS_CLS_SEPAR_OBJ) != (new_cls->flags & H5FS_CLS_SEPAR_OBJ)) {
-        hbool_t to_mergable; /* Flag if the section is changing to a mergable section */
+        hbool_t to_mergable; /* Flag if the section is changing to a mergeable section */
 
-        /* Determine if this section is becoming mergable or is becoming separate */
+        /* Determine if this section is becoming mergeable or is becoming separate */
         if (old_cls->flags & H5FS_CLS_SEPAR_OBJ)
             to_mergable = TRUE;
         else
@@ -2169,7 +2168,7 @@ H5FS__sect_assert(const H5FS_t *fspace)
                     size_ghost_count  = 0;
                     while (curr_sect_node != NULL) {
                         H5FS_section_class_t *cls;  /* Class of section */
-                        H5FS_section_info_t * sect; /* Section */
+                        H5FS_section_info_t  *sect; /* Section */
 
                         /* Get section node & it's class */
                         sect = (H5FS_section_info_t *)H5SL_item(curr_sect_node);
@@ -2276,7 +2275,7 @@ H5FS_sect_try_shrink_eoa(H5F_t *f, H5FS_t *fspace, void *op_data)
 
         /* Check for last node in the merge list */
         if (NULL != (last_node = H5SL_last(fspace->sinfo->merge_list))) {
-            H5FS_section_info_t * tmp_sect;     /* Temporary free space section */
+            H5FS_section_info_t  *tmp_sect;     /* Temporary free space section */
             H5FS_section_class_t *tmp_sect_cls; /* Temporary section's class */
 
             /* Get the pointer to the last section, from the last node */
@@ -2390,7 +2389,7 @@ done:
  *		next file open, we will read the self referential free space
  *		managers, float them and reduce the EOA to its value prior
  *		to allocation of file space for the self referential free
- *              space managers on the preceeding file close.  This EOA value
+ *              space managers on the preceding file close.  This EOA value
  *		is stored in the free space manager superblock extension
  *		message.
  *

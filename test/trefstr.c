@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -291,7 +290,7 @@ static void
 test_refstr_own(void)
 {
     H5RS_str_t *rs;  /* Ref-counted string created */
-    char *      s;   /* Pointer to string to transfer */
+    char       *s;   /* Pointer to string to transfer */
     const char *t;   /* Temporary pointers to string */
     int         cmp; /* Comparison value */
     herr_t      ret; /* Generic return value */

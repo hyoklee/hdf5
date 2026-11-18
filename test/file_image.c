@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -85,10 +84,10 @@ test_properties(void)
 {
     hid_t  fapl_1 = -1;
     hid_t  fapl_2 = -1;
-    char * buffer = 0;
+    char  *buffer = 0;
     int    count  = 10;
-    void * temp   = 0;
-    char * temp2  = 0;
+    void  *temp   = 0;
+    char  *temp2  = 0;
     int    i;
     size_t size;
     size_t temp_size;
@@ -145,7 +144,7 @@ test_properties(void)
 
     /* Check that sizes are the same, and that the buffers are identical but separate */
     VERIFY(temp_size == size, "Sizes of buffers don't match");
-    VERIFY(temp2 != NULL, "Recieved buffer not set");
+    VERIFY(temp2 != NULL, "Received buffer not set");
     VERIFY(temp2 != buffer, "Retrieved buffer is the same as original");
     VERIFY(temp2 != temp, "Retrieved buffer is the same as previously retrieved buffer");
     VERIFY(0 == HDmemcmp(temp2, buffer, size), "Buffers contain different data");
@@ -260,7 +259,7 @@ free_cb(void *ptr, H5FD_file_image_op_t op, void *udata)
  * Function:    udata_copy_cb
  *
  * Purpose:     This function allows calls to the udata_copy callback to be tracked.
- *              No copying actualy takes place; it is easier to deal with only one
+ *              No copying actually takes place; it is easier to deal with only one
  *              instance of the udata.
  *
  * Returns:     A pointer to the same udata that was passed in.
@@ -339,9 +338,9 @@ test_callbacks(void)
     H5FD_file_image_callbacks_t callbacks;
     hid_t                       fapl_1;
     hid_t                       fapl_2;
-    udata_t *                   udata      = NULL;
-    char *                      file_image = NULL;
-    char *                      temp_file_image;
+    udata_t                    *udata      = NULL;
+    char                       *file_image = NULL;
+    char                       *temp_file_image;
     int                         count = 10;
     int                         i;
     size_t                      size;
@@ -556,11 +555,11 @@ test_core(void)
     hid_t                       file;
     hid_t                       dset;
     hid_t                       space;
-    udata_t *                   udata;
-    unsigned char *             file_image;
+    udata_t                    *udata;
+    unsigned char              *file_image;
     char                        filename[1024];
     char                        copied_filename[1024];
-    const char *                tmp = NULL;
+    const char                 *tmp = NULL;
     size_t                      size;
     hsize_t                     dims[2];
     int                         fd;
@@ -610,7 +609,7 @@ test_core(void)
     VERIFY((udata->used_callbacks == MALLOC) || (udata->used_callbacks == (MALLOC | UDATA_COPY | UDATA_FREE)),
            "opening a core file used the wrong callbacks");
     VERIFY(udata->malloc_src == H5FD_FILE_IMAGE_OP_FILE_OPEN,
-           "Malloc callback came from wrong sourc in core open");
+           "Malloc callback came from wrong source in core open");
 
     /* Close file */
     reset_udata(udata);
@@ -618,7 +617,7 @@ test_core(void)
     VERIFY(ret >= 0, "H5Fclose failed");
     VERIFY(udata->used_callbacks == FREE, "Closing a core file used the wrong callbacks");
     VERIFY(udata->free_src == H5FD_FILE_IMAGE_OP_FILE_CLOSE,
-           "Free callback came from wrong sourc in core close");
+           "Free callback came from wrong source in core close");
 
     /* Reopen file */
     file = H5Fopen(copied_filename, H5F_ACC_RDWR, fapl);
@@ -654,7 +653,7 @@ test_core(void)
     VERIFY(ret >= 0, "H5Fclose failed");
     VERIFY(udata->used_callbacks == (FREE), "Closing a core file used the wrong callbacks");
     VERIFY(udata->free_src == H5FD_FILE_IMAGE_OP_FILE_CLOSE,
-           "Free callback came from wrong sourc in core close");
+           "Free callback came from wrong source in core close");
 
     /* Create file image buffer */
     fd = HDopen(copied_filename, O_RDONLY);
@@ -717,9 +716,9 @@ static int
 test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl, hbool_t user)
 {
     char      file_name[1024] = "\0";
-    void *    insertion_ptr   = NULL;
-    void *    image_ptr       = NULL;
-    void *    file_image_ptr  = NULL;
+    void     *insertion_ptr   = NULL;
+    void     *image_ptr       = NULL;
+    void     *file_image_ptr  = NULL;
     hbool_t   is_family_file  = FALSE;
     hbool_t   identical;
     int       data[100];
@@ -954,7 +953,7 @@ test_get_file_image(const char *test_banner, const int file_name_num, hid_t fapl
     err = H5Fclose(core_file_id);
     VERIFY(err == SUCCEED, "H5Fclose(core_file_id) failed.");
 
-    /* dicard core fapl */
+    /* discard core fapl */
     err = H5Pclose(core_fapl_id);
     VERIFY(err == SUCCEED, "H5Pclose(core_fapl_id) failed.");
 
@@ -996,7 +995,7 @@ test_get_file_image_error_rejection(void)
 {
     const char *memb_name[H5FD_MEM_NTYPES];
     char        file_name[1024] = "\0";
-    void *      image_ptr       = NULL;
+    void       *image_ptr       = NULL;
     int         data[100];
     int         i;
     hid_t       fapl_id  = -1;
@@ -1078,7 +1077,7 @@ test_get_file_image_error_rejection(void)
     VERIFY(bytes_read < 0, "H5Fget_file_image(2 -- test 1) succeeded.");
 
     /* Call H5Fget_file_image() with good buffer and buffer size,
-     * but non-existant file_id.  Should fail.
+     * but non-existent file_id.  Should fail.
      */
     H5E_BEGIN_TRY
     {

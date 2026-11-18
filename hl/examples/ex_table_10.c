@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -60,7 +59,7 @@ main(void)
     hid_t       file_id;
     hsize_t     chunk_size = 10;
     int         compress   = 0;
-    int *       fill_data  = NULL;
+    int        *fill_data  = NULL;
     hsize_t     nfields_out;
     hsize_t     nrecords_out;
     int         i;

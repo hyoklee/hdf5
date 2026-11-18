@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -419,7 +418,7 @@ static unsigned
 test_create(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t H5_ATTR_UNUSED *tparam)
 {
     hid_t   file    = -1;          /* File ID */
-    H5F_t * f       = NULL;        /* Internal file object pointer */
+    H5F_t  *f       = NULL;        /* Internal file object pointer */
     H5FA_t *fa      = NULL;        /* Fixed array wrapper */
     haddr_t fa_addr = HADDR_UNDEF; /* Array address in file */
 
@@ -547,7 +546,7 @@ static unsigned
 test_reopen(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam)
 {
     hid_t   file    = -1;          /* File ID */
-    H5F_t * f       = NULL;        /* Internal file object pointer */
+    H5F_t  *f       = NULL;        /* Internal file object pointer */
     H5FA_t *fa      = NULL;        /* Fixed array wrapper */
     haddr_t fa_addr = HADDR_UNDEF; /* Array address in file */
 
@@ -616,8 +615,8 @@ test_open_twice(hid_t fapl_id, H5FA_create_t *cparam, farray_test_param_t *tpara
 {
     hid_t   fid     = H5I_INVALID_HID; /* File ID                      */
     hid_t   fid2    = H5I_INVALID_HID; /* File ID                      */
-    H5F_t * f       = NULL;            /* Internal file object pointer */
-    H5F_t * f2      = NULL;            /* Internal file object pointer */
+    H5F_t  *f       = NULL;            /* Internal file object pointer */
+    H5F_t  *f2      = NULL;            /* Internal file object pointer */
     H5FA_t *fa      = NULL;            /* Fixed array wrapper          */
     H5FA_t *fa2     = NULL;            /* Fixed array wrapper          */
     haddr_t fa_addr = HADDR_UNDEF;     /* Array address in file        */
@@ -727,8 +726,8 @@ test_open_twice_diff(hid_t fapl_id, H5FA_create_t *cparam, farray_test_param_t *
     hid_t   fid2    = H5I_INVALID_HID;         /* File ID                      */
     hid_t   fid0    = H5I_INVALID_HID;         /* File ID                      */
     hid_t   fid00   = H5I_INVALID_HID;         /* File ID                      */
-    H5F_t * f       = NULL;                    /* Internal file object pointer */
-    H5F_t * f2      = NULL;                    /* Internal file object pointer */
+    H5F_t  *f       = NULL;                    /* Internal file object pointer */
+    H5F_t  *f2      = NULL;                    /* Internal file object pointer */
     H5FA_t *fa      = NULL;                    /* Fixed array wrapper          */
     H5FA_t *fa2     = NULL;                    /* Fixed array wrapper          */
     haddr_t fa_addr = HADDR_UNDEF;             /* Array address in file        */
@@ -854,9 +853,9 @@ static unsigned
 test_delete_open(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam)
 {
     hid_t          file    = -1;          /* File ID */
-    H5F_t *        f       = NULL;        /* Internal file object pointer */
-    H5FA_t *       fa      = NULL;        /* Fixed array wrapper */
-    H5FA_t *       fa2     = NULL;        /* Fixed array wrapper */
+    H5F_t         *f       = NULL;        /* Internal file object pointer */
+    H5FA_t        *fa      = NULL;        /* Fixed array wrapper */
+    H5FA_t        *fa2     = NULL;        /* Fixed array wrapper */
     haddr_t        fa_addr = HADDR_UNDEF; /* Array address in file */
     h5_stat_size_t file_size;             /* File size, after deleting array */
 
@@ -968,7 +967,7 @@ typedef struct fiter_fw_t {
 /*-------------------------------------------------------------------------
  * Function:	fiter_fw_init
  *
- * Purpose:	Initialize element interator (forward iteration)
+ * Purpose:	Initialize element iterator (forward iteration)
  *
  * Return:	Success:	Pointer to iteration status object
  *		Failure:	NULL
@@ -1020,7 +1019,7 @@ fiter_fw_next(void *_fiter)
 /*-------------------------------------------------------------------------
  * Function:	fiter_term
  *
- * Purpose:	Shut down element interator (simple iterators)
+ * Purpose:	Shut down element iterator (simple iterators)
  *
  * Return:	Success:	0
  *		Failure:	-1
@@ -1054,7 +1053,7 @@ typedef struct fiter_rv_t {
 /*-------------------------------------------------------------------------
  * Function:	fiter_rv_init
  *
- * Purpose:	Initialize element interator (reverse iteration)
+ * Purpose:	Initialize element iterator (reverse iteration)
  *
  * Return:	Success:	Pointer to iteration status object
  *		Failure:	NULL
@@ -1119,7 +1118,7 @@ typedef struct fiter_rnd_t {
 /*-------------------------------------------------------------------------
  * Function:	fiter_rnd_init
  *
- * Purpose:	Initialize element interator (random iteration)
+ * Purpose:	Initialize element iterator (random iteration)
  *
  * Return:	Success:	Pointer to iteration status object
  *		Failure:	NULL
@@ -1192,7 +1191,7 @@ fiter_rnd_next(void *_fiter)
 /*-------------------------------------------------------------------------
  * Function:	fiter_rnd_term
  *
- * Purpose:	Shut down element interator (random iteration)
+ * Purpose:	Shut down element iterator (random iteration)
  *
  * Return:	Success:	0
  *		Failure:	-1
@@ -1234,7 +1233,7 @@ typedef struct fiter_cyc_t {
 /*-------------------------------------------------------------------------
  * Function:	fiter_cyc_init
  *
- * Purpose:	Initialize element interator (cyclic iteration)
+ * Purpose:	Initialize element iterator (cyclic iteration)
  *
  * Return:	Success:	Pointer to iteration status object
  *		Failure:	NULL
@@ -1344,9 +1343,9 @@ test_set_elmts(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam, h
                const char *test_str)
 {
     hid_t          file = -1;             /* File ID */
-    H5F_t *        f    = NULL;           /* Internal file object pointer */
-    H5FA_t *       fa   = NULL;           /* Fixed array wrapper */
-    void *         fiter_info;            /* Fixed array iterator info */
+    H5F_t         *f    = NULL;           /* Internal file object pointer */
+    H5FA_t        *fa   = NULL;           /* Fixed array wrapper */
+    void          *fiter_info;            /* Fixed array iterator info */
     farray_state_t state;                 /* State of fixed array */
     uint64_t       welmt;                 /* Element to write */
     uint64_t       relmt;                 /* Element to read */
@@ -1502,8 +1501,8 @@ test_skip_elmts(hid_t fapl, H5FA_create_t *cparam, farray_test_param_t *tparam, 
                 hbool_t check_rest, const char *test_str)
 {
     hid_t          file = -1;             /* File ID */
-    H5F_t *        f    = NULL;           /* Internal file object pointer */
-    H5FA_t *       fa   = NULL;           /* Extensible array wrapper */
+    H5F_t         *f    = NULL;           /* Internal file object pointer */
+    H5FA_t        *fa   = NULL;           /* Extensible array wrapper */
     farray_state_t state;                 /* State of extensible array */
     uint64_t       welmt;                 /* Element to write */
     uint64_t       relmt;                 /* Element to read */

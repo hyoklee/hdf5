@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -38,7 +37,7 @@ static hsize_t bigio_count = H5_MAX_MPI_COUNT;
 /*-------------------------------------------------------------------------
  * Function:  H5_mpi_set_bigio_count
  *
- * Purpose:   Allow us to programatically change the switch point
+ * Purpose:   Allow us to programmatically change the switch point
  *            when we utilize derived datatypes.  This is of
  *            particular interest for allowing nightly testing
  *
@@ -341,9 +340,9 @@ herr_t
 H5_mpi_info_cmp(MPI_Info info1, MPI_Info info2, int *result)
 {
     hbool_t same      = FALSE;
-    char *  key       = NULL;
-    char *  value1    = NULL;
-    char *  value2    = NULL;
+    char   *key       = NULL;
+    char   *value1    = NULL;
+    char   *value2    = NULL;
     herr_t  ret_value = SUCCEED;
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -627,7 +626,7 @@ H5_mpio_gatherv_alloc(void *send_buf, int send_count, MPI_Datatype send_type, co
                       MPI_Comm comm, int mpi_rank, int mpi_size, void **out_buf, size_t *out_buf_num_entries)
 {
     size_t recv_buf_num_entries = 0;
-    void * recv_buf             = NULL;
+    void  *recv_buf             = NULL;
 #if MPI_VERSION >= 3
     MPI_Count type_lb;
     MPI_Count type_extent;
@@ -720,7 +719,7 @@ H5_mpio_gatherv_alloc_simple(void *send_buf, int send_count, MPI_Datatype send_t
                              hbool_t allgather, int root, MPI_Comm comm, int mpi_rank, int mpi_size,
                              void **out_buf, size_t *out_buf_num_entries)
 {
-    int *  recv_counts_disps_array = NULL;
+    int   *recv_counts_disps_array = NULL;
     int    mpi_code;
     herr_t ret_value = SUCCEED;
 
@@ -760,7 +759,7 @@ H5_mpio_gatherv_alloc_simple(void *send_buf, int send_count, MPI_Datatype send_t
     /* Set the displacements into the receive buffer for the gather operation */
     if (allgather || (mpi_rank == root)) {
         size_t i;
-        int *  displacements_ptr;
+        int   *displacements_ptr;
 
         displacements_ptr = &recv_counts_disps_array[mpi_size];
 

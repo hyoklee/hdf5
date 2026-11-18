@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -104,9 +103,15 @@ H5Z__init_package(void)
         HGOTO_ERROR(H5E_PLINE, H5E_CANTINIT, FAIL, "unable to register deflate filter")
 #endif /* H5_HAVE_FILTER_DEFLATE */
 #ifdef H5_HAVE_FILTER_SZIP
-    H5Z_SZIP->encoder_present = SZ_encoder_enabled();
-    if (H5Z_register(H5Z_SZIP) < 0)
-        HGOTO_ERROR(H5E_PLINE, H5E_CANTINIT, FAIL, "unable to register szip filter")
+    {
+        int encoder_enabled = SZ_encoder_enabled();
+        if (encoder_enabled < 0)
+            HGOTO_ERROR(H5E_PLINE, H5E_CANTINIT, FAIL, "check for szip encoder failed")
+
+        H5Z_SZIP->encoder_present = (unsigned)encoder_enabled;
+        if (H5Z_register(H5Z_SZIP) < 0)
+            HGOTO_ERROR(H5E_PLINE, H5E_CANTINIT, FAIL, "unable to register szip filter")
+    }
 #endif /* H5_HAVE_FILTER_SZIP */
 
 done:
@@ -827,7 +832,7 @@ H5Z__prepare_prelude_callback_dcpl(hid_t dcpl_id, hid_t type_id, H5Z_prelude_typ
             /* Check if the chunks have filters */
             if (dcpl_pline.nused > 0) {
                 hsize_t chunk_dims[H5O_LAYOUT_NDIMS]; /* Size of chunk dimensions */
-                H5S_t * space;                        /* Dataspace describing chunk */
+                H5S_t  *space;                        /* Dataspace describing chunk */
                 size_t  u;                            /* Local index variable */
 
                 /* Create a dataspace for a chunk & set the extent */
@@ -1293,7 +1298,7 @@ H5Z_pipeline(const H5O_pline_t *pline, unsigned flags, unsigned *filter_mask /*i
     int           fclass_idx;    /* Index of filter class in global table */
     H5Z_class2_t *fclass = NULL; /* Filter class pointer */
 #ifdef H5Z_DEBUG
-    H5Z_stats_t * fstats = NULL; /* Filter stats pointer */
+    H5Z_stats_t  *fstats = NULL; /* Filter stats pointer */
     H5_timer_t    timer;         /* Timer for filter operations */
     H5_timevals_t times;         /* Elapsed time for each operation */
 #endif
@@ -1496,7 +1501,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function: H5Z_filter_in_pline
  *
- * Purpose:  Check wheter a filter is in the filter pipeline using the
+ * Purpose:  Check whether a filter is in the filter pipeline using the
  *           filter ID.  This function is very similar to H5Z_filter_info
  *
  * Return:   TRUE   - found filter

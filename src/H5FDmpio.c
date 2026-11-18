@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -73,10 +72,10 @@ typedef struct H5FD_mpio_t {
 
 /* Callbacks */
 static herr_t   H5FD__mpio_term(void);
-static void *   H5FD__mpio_fapl_get(H5FD_t *_file);
-static void *   H5FD__mpio_fapl_copy(const void *_old_fa);
+static void    *H5FD__mpio_fapl_get(H5FD_t *_file);
+static void    *H5FD__mpio_fapl_copy(const void *_old_fa);
 static herr_t   H5FD__mpio_fapl_free(void *_fa);
-static H5FD_t * H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
+static H5FD_t  *H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t maxaddr);
 static herr_t   H5FD__mpio_close(H5FD_t *_file);
 static herr_t   H5FD__mpio_query(const H5FD_t *_f1, unsigned long *flags);
 static haddr_t  H5FD__mpio_get_eoa(const H5FD_t *_file, H5FD_mem_t type);
@@ -369,7 +368,7 @@ herr_t
 H5Pset_fapl_mpio(hid_t fapl_id, MPI_Comm comm, MPI_Info info)
 {
     H5FD_mpio_fapl_t fa;
-    H5P_genplist_t * plist; /* Property list pointer */
+    H5P_genplist_t  *plist; /* Property list pointer */
     herr_t           ret_value;
 
     FUNC_ENTER_API(FAIL)
@@ -420,7 +419,7 @@ done:
 herr_t
 H5Pget_fapl_mpio(hid_t fapl_id, MPI_Comm *comm /*out*/, MPI_Info *info /*out*/)
 {
-    H5P_genplist_t *        plist; /* Property list pointer */
+    H5P_genplist_t         *plist; /* Property list pointer */
     const H5FD_mpio_fapl_t *fa;    /* MPIO fapl info */
     MPI_Comm                comm_tmp    = MPI_COMM_NULL;
     hbool_t                 comm_copied = FALSE; /* MPI Comm has been duplicated */
@@ -737,9 +736,9 @@ done:
 static void *
 H5FD__mpio_fapl_get(H5FD_t *_file)
 {
-    H5FD_mpio_t *     file      = (H5FD_mpio_t *)_file;
+    H5FD_mpio_t      *file      = (H5FD_mpio_t *)_file;
     H5FD_mpio_fapl_t *fa        = NULL;
-    void *            ret_value = NULL; /* Return value */
+    void             *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -777,9 +776,9 @@ done:
 static void *
 H5FD__mpio_fapl_copy(const void *_old_fa)
 {
-    void *                  ret_value = NULL;
+    void                   *ret_value = NULL;
     const H5FD_mpio_fapl_t *old_fa    = (const H5FD_mpio_fapl_t *)_old_fa;
-    H5FD_mpio_fapl_t *      new_fa    = NULL;
+    H5FD_mpio_fapl_t       *new_fa    = NULL;
 #ifdef H5FDmpio_DEBUG
     hbool_t H5FD_mpio_debug_t_flag = H5FD_mpio_debug_flags_s[(int)'t'];
 #endif
@@ -970,8 +969,8 @@ H5FD__mpio_open(const char *name, unsigned flags, hid_t fapl_id, haddr_t H5_ATTR
 {
     const H5FD_mpio_fapl_t *fa = NULL;
     H5FD_mpio_fapl_t        _fa;
-    H5FD_mpio_t *           file = NULL;          /* VFD File struct for new file */
-    H5P_genplist_t *        plist;                /* Property list pointer */
+    H5FD_mpio_t            *file = NULL;          /* VFD File struct for new file */
+    H5P_genplist_t         *plist;                /* Property list pointer */
     MPI_Comm                comm = MPI_COMM_NULL; /* MPI Communicator, from plist */
     MPI_Info                info = MPI_INFO_NULL; /* MPI Info, from plist */
     MPI_File                fh;                   /* MPI file handle */
@@ -1840,11 +1839,11 @@ done:
  *              easy for us to track the current EOF by extracting it from
  *              write calls.
  *
- *              Instead, we first check to see if the eoa has changed since
+ *              Instead, we first check to see if the EOA has changed since
  *              the last call to this function.  If it has, we call
  *              MPI_File_get_size() to determine the current EOF, and
  *              only call MPI_File_set_size() if this value disagrees
- *              with the current eoa.
+ *              with the current EOA.
  *
  * Return:      SUCCEED/FAIL
  *
@@ -1884,7 +1883,7 @@ H5FD__mpio_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_ATTR
          * call.
          *
          * In practice, most (all?) truncate calls will come after a barrier
-         * and with no interviening writes to the file (with the possible
+         * and with no intervening writes to the file (with the possible
          * exception of sueprblock / superblock extension message updates).
          *
          * Check the "MPI file closing" flag in the API context to determine
@@ -1911,7 +1910,7 @@ H5FD__mpio_truncate(H5FD_t *_file, hid_t H5_ATTR_UNUSED dxpl_id, hbool_t H5_ATTR
         if (H5FD_mpi_haddr_to_MPIOff(file->eoa, &needed_eof) < 0)
             HGOTO_ERROR(H5E_INTERNAL, H5E_BADRANGE, FAIL, "cannot convert from haddr_t to MPI_Offset")
 
-        /* eoa != eof.  Set eof to eoa */
+        /* EOA != EOF.  Set EOF to EOA */
         if (size != needed_eof) {
             /* Extend the file's size */
             if (MPI_SUCCESS != (mpi_code = MPI_File_set_size(file->f, needed_eof)))

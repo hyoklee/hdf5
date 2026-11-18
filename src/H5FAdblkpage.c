@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -216,9 +215,9 @@ done:
 H5FA_dblk_page_t *
 H5FA__dblk_page_protect(H5FA_hdr_t *hdr, haddr_t dblk_page_addr, size_t dblk_page_nelmts, unsigned flags)
 {
-    H5FA_dblk_page_t *        dblk_page = NULL; /* Fixed array data block page */
+    H5FA_dblk_page_t         *dblk_page = NULL; /* Fixed array data block page */
     H5FA_dblk_page_cache_ud_t udata;            /* Information needed for loading data block page */
-    H5FA_dblk_page_t *        ret_value = NULL;
+    H5FA_dblk_page_t         *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 

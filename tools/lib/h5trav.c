@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -21,7 +20,7 @@
  */
 typedef struct trav_addr_path_t {
     haddr_t addr;
-    char *  path;
+    char   *path;
 } trav_addr_path_t;
 
 typedef struct trav_addr_t {
@@ -33,14 +32,14 @@ typedef struct trav_addr_t {
 typedef struct {
     h5trav_obj_func_t visit_obj; /* Callback for visiting objects */
     h5trav_lnk_func_t visit_lnk; /* Callback for visiting links */
-    void *            udata;     /* User data to pass to callbacks */
+    void             *udata;     /* User data to pass to callbacks */
 } trav_visitor_t;
 
 typedef struct {
-    trav_addr_t *         seen;          /* List of addresses seen already */
+    trav_addr_t          *seen;          /* List of addresses seen already */
     const trav_visitor_t *visitor;       /* Information for visiting each link/object */
     hbool_t               is_absolute;   /* Whether the traversal has absolute paths */
-    const char *          base_grp_name; /* Name of the group that serves as the base
+    const char           *base_grp_name; /* Name of the group that serves as the base
                                           * for iteration */
     unsigned fields;                     /* Fields needed in H5O_info_t struct */
 } trav_ud_traverse_t;
@@ -169,9 +168,9 @@ static herr_t
 traverse_cb(hid_t loc_id, const char *path, const H5L_info_t *linfo, void *_udata)
 {
     trav_ud_traverse_t *udata    = (trav_ud_traverse_t *)_udata; /* User data */
-    char *              new_name = NULL;
-    const char *        full_name;
-    const char *        already_visited = NULL; /* Whether the link/object was already visited */
+    char               *new_name = NULL;
+    const char         *full_name;
+    const char         *already_visited = NULL; /* Whether the link/object was already visited */
 
     /* Create the full path name for the link */
     if (udata->is_absolute) {
@@ -528,7 +527,7 @@ trav_info_free(trav_info_t *info)
 /*-------------------------------------------------------------------------
  * Function: trav_table_visit_obj
  *
- * Purpose: Callback for visiting object, with 'table' sructure
+ * Purpose: Callback for visiting object, with 'table' structure
  *
  * Return:   0 on success,
  *          -1 on failure
@@ -553,7 +552,7 @@ trav_table_visit_obj(const char *path, const H5O_info_t *oinfo, const char *alre
 /*-------------------------------------------------------------------------
  * Function: trav_table_visit_lnk
  *
- * Purpose:  Callback for visiting link, with 'table' sructure
+ * Purpose:  Callback for visiting link, with 'table' structure
  *
  * Return:   0 on success,
  *          -1 on failure
@@ -696,7 +695,7 @@ trav_table_addlink(trav_table_t *table, haddr_t objno, const char *path)
                 if (table->objs[i].nlinks == (unsigned)table->objs[i].sizelinks) {
                     table->objs[i].sizelinks = MAX(1, table->objs[i].sizelinks * 2);
                     table->objs[i].links     = (trav_link_t *)HDrealloc(
-                        table->objs[i].links, table->objs[i].sizelinks * sizeof(trav_link_t));
+                            table->objs[i].links, table->objs[i].sizelinks * sizeof(trav_link_t));
                 } /* end if */
 
                 /* insert it */
@@ -802,7 +801,7 @@ trav_attr(hid_t
           const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *ainfo, void *_op_data)
 {
     trav_path_op_data_t *op_data = (trav_path_op_data_t *)_op_data;
-    const char *         buf     = op_data->path;
+    const char          *buf     = op_data->path;
 
     if ((strlen(buf) == 1) && (*buf == '/'))
         HDprintf(" %-10s %s%s", "attribute", buf, attr_name);
@@ -951,7 +950,7 @@ trav_print_visit_lnk(const char *path, const H5L_info_t *linfo, void *udata)
 
         case H5L_TYPE_EXTERNAL:
             if (linfo->u.val_size > 0) {
-                char *      targbuf  = NULL;
+                char       *targbuf  = NULL;
                 const char *filename = NULL;
                 const char *objname  = NULL;
 
@@ -1109,7 +1108,7 @@ symlink_is_visited(symlink_trav_t *visited, H5L_type_t type, const char *file, c
     /* Look for symlink */
     for (u = 0; u < visited->nused; u++) {
         /* Check for symlink values already in array */
-        /* check type and path pair to distingush between symbolic links */
+        /* check type and path pair to distinguish between symbolic links */
         if ((visited->objs[u].type == type) && !HDstrcmp(visited->objs[u].path, path)) {
             /* if external link, file need to be matched as well */
             if (visited->objs[u].type == H5L_TYPE_EXTERNAL)

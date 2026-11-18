@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -187,7 +186,7 @@ generate_name(char *name_buf, unsigned level, unsigned count)
 /*-------------------------------------------------------------------------
  * Function:    generate_symbols
  *
- * Purpose:     Initializes the global dataset infomration arrays.
+ * Purpose:     Initializes the global dataset information arrays.
  *
  * Parameters:  N/A
  *

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -103,7 +102,7 @@ hid_t
 H5Dcreate1(hid_t loc_id, const char *name, hid_t type_id, hid_t space_id, hid_t dcpl_id)
 {
     H5G_loc_t    loc;                         /* Object location to insert dataset into */
-    H5D_t *      dset = NULL;                 /* New dataset's info */
+    H5D_t       *dset = NULL;                 /* New dataset's info */
     const H5S_t *space;                       /* Dataspace for dataset */
     hid_t        dapl_id   = H5P_DEFAULT;     /* DAPL used by library */
     hid_t        ret_value = H5I_INVALID_HID; /* Return value */
@@ -168,7 +167,7 @@ done:
 hid_t
 H5Dopen1(hid_t loc_id, const char *name)
 {
-    H5D_t *   dset = NULL;
+    H5D_t    *dset = NULL;
     H5G_loc_t loc;                         /* Object location of group */
     hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
@@ -218,7 +217,7 @@ done:
 herr_t
 H5Dextend(hid_t dset_id, const hsize_t size[])
 {
-    H5D_t *  dset;                    /* Pointer to dataset to modify */
+    H5D_t   *dset;                    /* Pointer to dataset to modify */
     hsize_t  dset_dims[H5S_MAX_RANK]; /* Current dataset dimensions */
     unsigned u;                       /* Local index variable */
     herr_t   ret_value = SUCCEED;     /* Return value */

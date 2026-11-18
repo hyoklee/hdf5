@@ -467,7 +467,7 @@ dataset_big_write(void)
     hsize_t     start[RANK];               /* for hyperslab setting */
     hsize_t     count[RANK], stride[RANK]; /* for hyperslab setting */
     hsize_t     block[RANK];               /* for hyperslab setting */
-    hsize_t *   coords = NULL;
+    hsize_t    *coords = NULL;
     herr_t      ret;     /* Generic return value */
     hid_t       fid;     /* HDF5 file ID */
     hid_t       acc_tpl; /* File access templates */
@@ -776,7 +776,7 @@ dataset_big_read(void)
     hsize_t     count[RANK], stride[RANK]; /* for hyperslab setting */
     hsize_t     block[RANK];               /* for hyperslab setting */
     size_t      num_points;
-    hsize_t *   coords = NULL;
+    hsize_t    *coords = NULL;
     herr_t      ret; /* Generic return value */
 
     /* allocate memory for data buffer */
@@ -1170,7 +1170,7 @@ create_faccess_plist(MPI_Comm comm, MPI_Info info, int l_facc_type)
  */
 
 /* ------------------------------------------------------------------------
- *  Descriptions for the selection: One big singluar selection inside one chunk
+ *  Descriptions for the selection: One big singular selection inside one chunk
  *  Two dimensions,
  *
  *  dim1       = space_dim1(5760)*mpi_size
@@ -1274,7 +1274,7 @@ coll_chunk2(void)
  */
 
 /* ------------------------------------------------------------------------
- *  Descriptions for the selection: one singular selection accross many chunks
+ *  Descriptions for the selection: one singular selection across many chunks
  *  Two dimensions, Num of chunks = 2* mpi_size
  *
  *  dim1       = space_dim1*mpi_size
@@ -1338,8 +1338,8 @@ coll_chunktest(const char *filename, int chunk_factor, int select_factor, int ap
     hid_t acc_plist, xfer_plist, crp_plist;
 
     hsize_t dims[RANK], chunk_dims[RANK];
-    int *   data_array1  = NULL;
-    int *   data_origin1 = NULL;
+    int    *data_array1  = NULL;
+    int    *data_origin1 = NULL;
 
     hsize_t start[RANK], count[RANK], stride[RANK], block[RANK];
 
@@ -1828,10 +1828,10 @@ main(int argc, char **argv)
     /* Set the bigio processing limit to be 'newsize' bytes */
     hsize_t oldsize = H5_mpi_set_bigio_count(newsize);
 
-    /* Having set the bigio handling to a size that is managable,
+    /* Having set the bigio handling to a size that is manageable,
      * we'll set our 'bigcount' variable to be 2X that limit so
      * that we try to ensure that our bigio handling is actually
-     * envoked and tested.
+     * invoked and tested.
      */
     if (newsize != oldsize)
         bigcount = newsize * 2;
@@ -1849,7 +1849,7 @@ main(int argc, char **argv)
         HDprintf("Failed to turn off atexit processing. Continue.\n");
 
     /* set alarm. */
-    ALARM_ON;
+    TestAlarmOn();
 
     ExpressMode = do_express_test(mpi_rank_g);
 
@@ -1872,7 +1872,7 @@ main(int argc, char **argv)
     }
 
     /* turn off alarm */
-    ALARM_OFF;
+    TestAlarmOff();
 
     if (mpi_rank_g == 0)
         HDremove(FILENAME[0]);

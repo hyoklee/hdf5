@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -74,7 +73,7 @@ const char *FILENAME[] = {"filepaged", NULL};
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -90,7 +89,7 @@ create_file(char *filename, hid_t fcpl, hid_t fapl)
     hid_t   grp_id    = -1;
     hid_t   filespace = -1;
     hsize_t dimsf[2]  = {NX, NY}; /* dataset dimensions */
-    int *   data      = NULL;     /* pointer to data buffer to write */
+    int    *data      = NULL;     /* pointer to data buffer to write */
     hid_t   dcpl      = -1;
     int     i;
     int     num_elements;
@@ -214,7 +213,7 @@ error:
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -228,7 +227,7 @@ open_file(char *filename, hid_t fapl, hsize_t page_size, size_t page_buffer_size
     hid_t  file_id = -1;
     hid_t  dset_id = -1;
     hid_t  grp_id  = -1;
-    int *  data    = NULL; /* pointer to data buffer to write */
+    int   *data    = NULL; /* pointer to data buffer to write */
     int    i;
     int    j;
     int    num_elements;
@@ -311,7 +310,7 @@ set_multi_split(const char *env_h5_drvr, hid_t fapl, hsize_t pagesize)
     hbool_t    multi = FALSE;
     H5FD_mem_t memb_map[H5FD_MEM_NTYPES];
     hid_t      memb_fapl_arr[H5FD_MEM_NTYPES];
-    char *     memb_name[H5FD_MEM_NTYPES];
+    char      *memb_name[H5FD_MEM_NTYPES];
     haddr_t    memb_addr[H5FD_MEM_NTYPES];
     hbool_t    relax;
     H5FD_mem_t mt;
@@ -369,12 +368,12 @@ error:
  *              1) verifying that API errors are caught.
  *
  *              2) verifying that the page buffer behaves more or less
- *                 as advertized.
+ *                 as advertised.
  *
  *              Any data mis-matches or unexpected failures or successes
  *              reported by the HDF5 library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -548,7 +547,7 @@ error:
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -580,8 +579,8 @@ test_raw_data_handling(hid_t orig_fapl, const char *env_h5_drvr)
     size_t  page_count = 0;
     int     i, num_elements = 2000;
     haddr_t addr = HADDR_UNDEF;
-    int *   data = NULL;
-    H5F_t * f    = NULL;
+    int    *data = NULL;
+    H5F_t  *f    = NULL;
 
     TESTING("Raw Data Handling");
 
@@ -826,7 +825,7 @@ error:
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -860,8 +859,8 @@ test_lru_processing(hid_t orig_fapl, const char *env_h5_drvr)
     int     num_elements = 2000;
     haddr_t addr         = HADDR_UNDEF;
     haddr_t search_addr  = HADDR_UNDEF;
-    int *   data         = NULL;
-    H5F_t * f            = NULL;
+    int    *data         = NULL;
+    H5F_t  *f            = NULL;
 
     TESTING("LRU Processing");
 
@@ -1080,7 +1079,7 @@ error:
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -1117,8 +1116,8 @@ test_min_threshold(hid_t orig_fapl, const char *env_h5_drvr)
     H5PB_t *page_buf;
     haddr_t meta_addr = HADDR_UNDEF;
     haddr_t raw_addr  = HADDR_UNDEF;
-    int *   data      = NULL;
-    H5F_t * f         = NULL;
+    int    *data      = NULL;
+    H5F_t  *f         = NULL;
 
     TESTING("Minimum Metadata threshold Processing");
     HDprintf("\n");
@@ -1501,7 +1500,7 @@ test_min_threshold(hid_t orig_fapl, const char *env_h5_drvr)
     if (f->shared->page_buf->raw_count != 2)
         TEST_ERROR;
 
-    /* adding more meta entires should replace meta entries since raw data
+    /* adding more meta entries should replace meta entries since raw data
      * is at its minimum
      */
     if (H5F_block_write(f, H5FD_MEM_SUPER, meta_addr + (sizeof(int) * 600), sizeof(int) * 100, data) < 0)
@@ -1516,7 +1515,7 @@ test_min_threshold(hid_t orig_fapl, const char *env_h5_drvr)
     if (f->shared->page_buf->raw_count != 2)
         TEST_ERROR;
 
-    /* bring existing raw entires up the LRU */
+    /* bring existing raw entries up the LRU */
     if (H5F_block_read(f, H5FD_MEM_DRAW, raw_addr + (sizeof(int) * 750), sizeof(int) * 100, data) < 0)
         FAIL_STACK_ERROR;
 
@@ -1532,7 +1531,7 @@ test_min_threshold(hid_t orig_fapl, const char *env_h5_drvr)
     if (f->shared->page_buf->raw_count != 3)
         TEST_ERROR;
 
-    /* adding 2 meta entries should replace 2 entires at the bottom of the LRU */
+    /* adding 2 meta entries should replace 2 entries at the bottom of the LRU */
     if (H5F_block_read(f, H5FD_MEM_SUPER, meta_addr + (sizeof(int) * 98), sizeof(int) * 100, data) < 0)
         FAIL_STACK_ERROR;
 
@@ -1715,7 +1714,7 @@ error:
  *              Any data mis-matches or failures reported by the HDF5
  *              library result in test failure.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown
@@ -1749,8 +1748,8 @@ test_stats_collection(hid_t orig_fapl, const char *env_h5_drvr)
     size_t  base_meta_cnt = 0;
     haddr_t meta_addr     = HADDR_UNDEF;
     haddr_t raw_addr      = HADDR_UNDEF;
-    int *   data          = NULL;
-    H5F_t * f             = NULL;
+    int    *data          = NULL;
+    H5F_t  *f             = NULL;
 
     TESTING("Statistics Collection");
 
@@ -2018,7 +2017,7 @@ error:
  *              At present, page buffering should be disabled in parallel
  *              builds.  Verify this.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  John Mainzer
@@ -2133,7 +2132,7 @@ error:
  *
  * Purpose:     Main function for the page buffer tests.
  *
- * Return:      0 if test is sucessful
+ * Return:      0 if test is successful
  *              1 if test fails
  *
  * Programmer:  unknown

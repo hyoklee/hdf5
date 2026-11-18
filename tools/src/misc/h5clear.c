@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -34,7 +33,7 @@
 /* Default increment is 1 megabytes for the --increment option */
 #define DEFAULT_INCREMENT (1024 * 1024)
 
-static char *  fname_g            = NULL;
+static char   *fname_g            = NULL;
 static hbool_t clear_status_flags = FALSE;
 static hbool_t remove_cache_image = FALSE;
 static hbool_t print_filesize     = FALSE;
@@ -44,7 +43,7 @@ static hsize_t increment          = DEFAULT_INCREMENT;
 /*
  * Command-line options: only publicize long options
  */
-static const char *        s_opts   = "hVsmzi*";
+static const char         *s_opts   = "hVsmzi*";
 static struct long_options l_opts[] = {
     {"help", no_arg, 'h'},  {"version", no_arg, 'V'},  {"status", no_arg, 's'},
     {"image", no_arg, 'm'}, {"filesize", no_arg, 'z'}, {"increment", optional_arg, 'i'},
@@ -226,7 +225,7 @@ leave(int ret)
 int
 main(int argc, char *argv[])
 {
-    char *   fname = NULL;            /* File name */
+    char    *fname = NULL;            /* File name */
     hid_t    fapl  = H5I_INVALID_HID; /* File access property list */
     hid_t    fid   = H5I_INVALID_HID; /* File ID */
     haddr_t  image_addr;

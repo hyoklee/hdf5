@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -17,7 +16,7 @@
  *
  * Test the element coordinates for dataspace selection.  For
  * chunked dataset, when the hyperslab selection of some
- * dimensions is full, the library optimize it by "flattenning"
+ * dimensions is full, the library optimize it by "flattening"
  * the fully selected dimensions.  This program tests if the
  * coordinates of selected elements are correctly calculated.
  *

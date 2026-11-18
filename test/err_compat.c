@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -35,8 +34,8 @@ const char *FILENAME[] = {"errors_compat", NULL};
 
 int **ipoints2      = NULL;
 int **icheck2       = NULL;
-int * ipoints2_data = NULL;
-int * icheck2_data  = NULL;
+int  *ipoints2_data = NULL;
+int  *icheck2_data  = NULL;
 
 #define DSET_NAME "a_dataset"
 
@@ -115,9 +114,9 @@ error:
 herr_t
 custom_print_cb1(int n, H5E_error1_t *err_desc, void *client_data)
 {
-    FILE *    stream = (FILE *)client_data;
-    char *    maj    = NULL;
-    char *    min    = NULL;
+    FILE     *stream = (FILE *)client_data;
+    char     *maj    = NULL;
+    char     *min    = NULL;
     const int indent = 4;
 
     if (NULL == (min = H5Eget_minor(err_desc->min_num)))
@@ -162,9 +161,9 @@ error:
 herr_t
 custom_print_cb2(int n, H5E_error2_t *err_desc, void *client_data)
 {
-    FILE *    stream = (FILE *)client_data;
-    char *    maj    = NULL;
-    char *    min    = NULL;
+    FILE     *stream = (FILE *)client_data;
+    char     *maj    = NULL;
+    char     *min    = NULL;
     const int indent = 4;
 
     if (NULL == (min = H5Eget_minor(err_desc->min_num)))
@@ -213,7 +212,7 @@ test_error_compat(void)
     hsize_t     dims[2];
     H5E_auto1_t old_func1;
     H5E_auto2_t old_func2;
-    void *      old_data = NULL;
+    void       *old_data = NULL;
     herr_t      ret;
 
     TESTING("error API H5Eset/get_auto");

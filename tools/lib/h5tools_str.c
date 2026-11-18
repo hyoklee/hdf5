@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -44,7 +43,7 @@ typedef struct H5LD_memb_t {
 /* Variable length string datatype */
 #define STR_INIT_LEN 4096 /*initial length            */
 
-static char *  h5tools_escape(char *s, size_t size);
+static char   *h5tools_escape(char *s, size_t size);
 static hbool_t h5tools_str_is_zero(const void *_mem, size_t size);
 static void    h5tools_print_char(h5tools_str_t *str, const h5tool_format_t *info, char ch);
 void           h5tools_str_indent(h5tools_str_t *str, const h5tool_format_t *info, h5tools_context_t *ctx);
@@ -648,15 +647,15 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
 {
     size_t         nsize, offset, size = 0, nelmts, start;
     H5T_sign_t     nsign;
-    char *         name   = NULL;
+    char          *name   = NULL;
     unsigned char *ucp_vp = (unsigned char *)vp;
-    char *         cp_vp  = (char *)vp;
+    char          *cp_vp  = (char *)vp;
     hid_t          memb   = H5I_INVALID_HID;
     hid_t          obj    = H5I_INVALID_HID;
     static char    fmt_llong[8], fmt_ullong[8];
     H5T_str_t      pad;
     H5T_class_t    type_class;
-    char *         ret_value = NULL;
+    char          *ret_value = NULL;
 
     H5TOOLS_START_DEBUG(" ");
     /* Build default formats for long long types */
@@ -729,7 +728,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
             case H5T_STRING: {
                 unsigned int i;
                 char         quote = '\0';
-                char *       s;
+                char        *s;
 
                 H5TOOLS_DEBUG("H5T_STRING");
                 quote = '\0';
@@ -1074,7 +1073,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                         /* if (H5Tequal(type, H5T_STD_REF_DSETREG)) */
                         H5TOOLS_DEBUG("H5T_REFERENCE:H5T_STD_REF_DSETREG");
                         h5tools_str_append(str, H5_TOOLS_DATASET);
-                        h5tools_str_sprint_reference(str, container, vp);
+                        h5tools_str_sprint_reference(str, container, H5R_DATASET_REGION, vp);
                     }
                     else if (nsize == H5R_OBJ_REF_BUF_SIZE) {
                         /* if (H5Tequal(type, H5T_STD_REF_OBJ)) */
@@ -1115,7 +1114,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                         else
                             h5tools_str_append(str, info->obj_format, oi.fileno, oi.addr);
 
-                        h5tools_str_sprint_reference(str, container, vp);
+                        h5tools_str_sprint_reference(str, container, H5R_OBJECT, vp);
                     } /* end else if (H5Tequal(type, H5T_STD_REF_OBJ)) */
                 }
                 break;
@@ -1265,7 +1264,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
  *-------------------------------------------------------------------------
  */
 void
-h5tools_str_sprint_reference(h5tools_str_t *str, hid_t container, void *vp)
+h5tools_str_sprint_reference(h5tools_str_t *str, hid_t container, H5R_type_t ref_type, void *vp)
 {
     hid_t       obj    = H5I_INVALID_HID;
     hid_t       region = H5I_INVALID_HID;
@@ -1275,18 +1274,20 @@ h5tools_str_sprint_reference(h5tools_str_t *str, hid_t container, void *vp)
     H5TOOLS_START_DEBUG(" ");
 
     h5tools_str_append(str, " \"");
-    obj = H5Rdereference2(container, H5P_DEFAULT, H5R_DATASET_REGION, vp);
-    if (obj >= 0) {
-        region = H5Rget_region(container, H5R_DATASET_REGION, vp);
-        if (region >= 0) {
-            H5Rget_name(obj, H5R_DATASET_REGION, vp, (char *)ref_name, 1024);
-            h5tools_str_append(str, "%s", ref_name);
+    if (ref_type == H5R_DATASET_REGION) {
+        obj = H5Rdereference2(container, H5P_DEFAULT, ref_type, vp);
+        if (obj >= 0) {
+            region = H5Rget_region(container, ref_type, vp);
+            if (region >= 0) {
+                H5Rget_name(obj, ref_type, vp, (char *)ref_name, 1024);
+                h5tools_str_append(str, "%s", ref_name);
 
-            H5Sclose(region);
-        } /* end if (region >= 0) */
-        H5Dclose(obj);
-    } /* end if (obj >= 0) */
-    else {
+                H5Sclose(region);
+            } /* end if (region >= 0) */
+            H5Dclose(obj);
+        } /* end if (obj >= 0) */
+    }
+    else if (ref_type == H5R_OBJECT) {
         /* Print name */
         path = lookup_ref_path(*(haddr_t *)vp);
         if (path) {
@@ -1318,7 +1319,7 @@ static char *
 h5tools_escape(char *s /*in,out*/, size_t size)
 {
     register size_t i;
-    const char *    escape;
+    const char     *escape;
     char            octal[8];
     size_t          n = HDstrlen(s);
 

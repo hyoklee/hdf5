@@ -128,7 +128,7 @@
  * a property lists class for each of the following situations.
  *
  * <table>
- *     <caption align=top>Property list classes in HDF5</caption>
+ * <caption align=top id="table_plist">Property list classes in HDF5</caption>
  * <tr><th>Property List Class</th><th></th><th>For further discussion</th></tr>
  * <tr valign="top">
  *   <td>
@@ -323,7 +323,7 @@
  * property list classes, in gray above, are not user-accessible. The red empty set symbol indicates
  * that the \ref FMPL (FMPL) is an empty class; that is, it has no set table
  * properties. For more information, see \ref FileMountProps "File Mount Properties". Abbreviations
- * used in this figure are defined in the preceding table, “Property list classes in HDF5”.
+ * used in this figure are defined in the preceding table, \ref table_plist "Property list classes in HDF5".
  *
  * \subsubsection subsubsec_plist_lists Property Lists
  *
@@ -601,7 +601,7 @@
  * The new dataset creation property list’s identifier is returned in dcplA_id and the property list is
  * initialized with default dataset creation property values.
  *
- * A list of valid classes appears in the table "Property list classes in HDF5".
+ * A list of valid classes appears in the table \ref table_plist "Property list classes in HDF5".
  *
  * \code
  *     dcplB_id = H5Pcopy (dcplA_id);
@@ -789,9 +789,9 @@
  * <li>\ref subsec_file_property_lists</li>
  * <li>\ref subsubsec_file_examples_props</li>
  * <li>\ref subsubsec_file_examples_access</li>
- * <li>"File creation property list functions (H5P)"</li>
- * <li>"File access property list functions (H5P)"</li>
- * <li>"File driver functions (H5P)"</li></ul>
+ * <li>\ref dcpl_table_tag "Dataset creation property list functions (H5P)"</li>
+ * <li>\ref fapl_table_tag "File access property list functions (H5P)"</li>
+ * <li>\ref fd_pl_table_tag "File driver property list functions (H5P)"</li></ul>
  * \li In the \ref sec_attribute chapter, see "Attribute creation property list functions (H5P)".
  * \li In the \ref sec_group chapter, see "Group creation property list functions (H5P)".
  * \li Property lists are discussed throughout \ref sec_dataset.
@@ -799,16 +799,16 @@
  * All property list functions are described in the \ref H5P section of the
  * \ref RM. The function index at the top of the page provides a categorized listing
  * grouped by property list class. Those classes are listed below:
- * \li File creation properties
- * \li File access properties
- * \li Group creation properties
- * \li Dataset creation properties
- * \li Dataset access properties
- * \li Dataset transfer properties
- * \li Link creation properties
- * \li Link access properties
- * \li Object creation properties
- * \li Object copy properties
+ * \li \ref FCPL
+ * \li \ref FAPL
+ * \li \ref GCPL
+ * \li \ref DCPL
+ * \li \ref DAPL
+ * \li \ref DXPL
+ * \li \ref LCPL
+ * \li \ref LAPL
+ * \li \ref OCPL
+ * \li \ref OCPYPL
  *
  * Additional categories not related to the class structure are as follows:
  * \li General property list operations
@@ -882,7 +882,7 @@
  *
  * Previous Chapter \ref sec_error - Next Chapter \ref sec_addition
  *
- * \defgroup H5P H5P Properties and Property Lists
+ * \defgroup H5P Property Lists (H5P)
  *
  * Use the functions in this module to manage HDF5 property lists and property
  * list classes. HDF5 property lists are the main vehicle to configure the
@@ -894,25 +894,49 @@
  * or writing data. Property lists can be modified by adding or changing
  * properties. Property lists are deleted by closing the associated handles.
  *
- * <table>
- * <tr><th>Create</th><th>Read</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c create
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c read
- *   </td>
- * <tr><th>Update</th><th>Delete</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c update
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c delete
- *   </td>
- * </tr>
- * </table>
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox plcr_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox plcra_table
+ *
+ * \ref PLCR / \ref OCPL / \ref GCPL
+ * \snippet{doc} tables/propertyLists.dox fcpl_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox fapl_table
+ * \snippet{doc} tables/propertyLists.dox fd_pl_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox lapl_table
+ *
+ * \ref PLCR / \ref OCPL
+ * \snippet{doc} tables/propertyLists.dox dcpl_table
+ *
+ * \ref PLCR / \ref LAPL
+ * \snippet{doc} tables/propertyLists.dox dapl_table
+ *
+ * \ref PLCR / \ref OCPL
+ * \snippet{doc} tables/propertyLists.dox gcpl_table
+ *
+ * \ref PLCR / \ref LAPL
+ * \snippet{doc} tables/propertyLists.dox gapl_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox ocpl_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox ocpypl_table
+ *
+ * \ref PLCR
+ * \snippet{doc} tables/propertyLists.dox strcpl_table
+ *
+ * \ref PLCR / \ref STRCPL
+ * \snippet{doc} tables/propertyLists.dox lcpl_table
+ *
+ * \ref PLCR / \ref STRCPL
+ * \snippet{doc} tables/propertyLists.dox acpl_table
+ *
  *
  * \defgroup STRCPL String Creation Properties
  * \ingroup H5P
@@ -922,12 +946,14 @@
  * The second creation property applies to links only, and advises the library
  * to automatically create missing intermediate groups when creating new objects.
  *
+ * \snippet{doc} tables/propertyLists.dox strcpl_table
+ *
  * \defgroup LCPL Link Creation Properties
  * \ingroup STRCPL
- * The first creation property, the choice of a character encoding, applies to
- * both attributes and links.
- * The second creation property applies to links only, and advises the library
+ * This creation property applies to links only, and advises the library
  * to automatically create missing intermediate groups when creating new objects.
+ *
+ * \snippet{doc} tables/propertyLists.dox lcpl_table
  *
  * @see STRCPL
  *
@@ -935,10 +961,14 @@
  * \ingroup STRCPL
  * The creation property, the choice of a character encoding, applies to attributes.
  *
+ * \snippet{doc} tables/propertyLists.dox acpl_table
+ *
  * @see STRCPL
  *
  * \defgroup LAPL Link Access Properties
  * \ingroup H5P
+ *
+ * \snippet{doc} tables/propertyLists.dox lapl_table
  *
  * \defgroup DAPL Dataset Access Properties
  * \ingroup LAPL
@@ -949,6 +979,8 @@
  * are \Emph{not} persisted with datasets, and can be adjusted at runtime before
  * a dataset is created or opened.
  *
+ * \snippet{doc} tables/propertyLists.dox dapl_table
+ *
  * \defgroup DCPL Dataset Creation Properties
  * \ingroup OCPL
  * Use dataset creation properties to control aspects of dataset creation such
@@ -957,12 +989,16 @@
  * stored with the dataset, and cannot be changed once a dataset has been
  * created.
  *
+ * \snippet{doc} tables/propertyLists.dox dcpl_table
+ *
  * \defgroup DXPL Dataset Transfer Properties
  * \ingroup H5P
  * Use dataset transfer properties to customize certain aspects of reading
  * and writing datasets such as transformations, MPI-IO I/O mode, error
  * detection, etc. These properties are \Emph{not} persisted with datasets,
  * and can be adjusted at runtime before a dataset is read or written.
+ *
+ * \snippet{doc} tables/propertyLists.dox dxpl_table
  *
  * \defgroup FAPL File Access Properties
  * \ingroup H5P
@@ -972,6 +1008,9 @@
  * file locking, etc. These properties are \Emph{not} persisted with files, and
  * can be adjusted at runtime before a file is created or opened.
  *
+ * \snippet{doc} tables/propertyLists.dox fapl_table
+ * \snippet{doc} tables/propertyLists.dox fd_pl_table
+ *
  * \defgroup FCPL File Creation Properties
  * \ingroup GCPL
  * Use file creation properties to control aspects of file creation such
@@ -980,10 +1019,13 @@
  * stored with the file, and cannot be changed once a file has been
  * created.
  *
- * \defgroup GAPL General Access Properties
+ * \snippet{doc} tables/propertyLists.dox fcpl_table
+ *
+ * \defgroup GAPL Group Access Properties
  * \ingroup LAPL
- * The functions in this section can be applied to different kinds of property
- * lists.
+ * The functions in this section can be applied to group property lists.
+ *
+ * \snippet{doc} tables/propertyLists.dox gapl_table
  *
  * \defgroup GCPL Group Creation Properties
  * \ingroup OCPL
@@ -993,79 +1035,46 @@
  * stored with the group, and cannot be changed once a group has been
  * created.
  *
+ * \snippet{doc} tables/propertyLists.dox gcpl_table
+ *
  * \defgroup PLCR Property List Class Root
  * \ingroup H5P
- *
  * Use the functions in this module to manage HDF5 property lists.
  *
- * <table>
- * <tr><th>Create</th><th>Read</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c create
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c read
- *   </td>
- * <tr><th>Update</th><th>Delete</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c update
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c delete
- *   </td>
- * </tr>
- * </table>
+ * \snippet{doc} tables/propertyLists.dox plcr_table
  *
  * \defgroup PLCRA Property List Class Root (Advanced)
  * \ingroup H5P
- *
  * You can create and customize user-defined property list classes using the
  * functions described below. Arbitrary user-defined properties can also
  * be inserted into existing property lists as so-called temporary properties.
  *
- * <table>
- * <tr><th>Create</th><th>Read</th></tr>
- *
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c create_class
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c read_class
- *   </td>
- * <tr><th>Update</th><th>Delete</th></tr>
- * <tr valign="top">
- *   <td>
- *   \snippet{lineno} H5P_examples.c update_class
- *   </td>
- *   <td>
- *   \snippet{lineno} H5P_examples.c delete_class
- *   </td>
- * </tr>
- * </table>
+ * \snippet{doc} tables/propertyLists.dox plcra_table
  *
  * \defgroup OCPL Object Creation Properties
  * \ingroup H5P
  *
+ * \snippet{doc} tables/propertyLists.dox ocpl_table
+ *
  * \defgroup OCPYPL Object Copy Properties
  * \ingroup H5P
  *
+ * \snippet{doc} tables/propertyLists.dox ocpypl_table
+ *
  * \defgroup FMPL File Mount Properties
  * \ingroup H5P
- *
  * Empty property class.
+ *
  *
  * \defgroup TCPL Datatype Creation Properties
  * \ingroup OCPL
- *
  * TCPL isn't supported yet.
+ *
  *
  * \defgroup TAPL Datatype Access Properties
  * \ingroup LAPL
- *
  * TAPL isn't supported yet.
+ *
  *
  *
  */

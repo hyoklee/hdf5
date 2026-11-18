@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -117,8 +116,14 @@ H5HF_op_write(const void *obj, size_t obj_len, void *op_data)
 {
     FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    /* Perform "write", using memcpy() */
-    H5MM_memcpy((void *)obj, op_data, obj_len); /* Casting away const OK -QAK */
+    /* Perform "write", using memcpy()
+     *
+     * We cast away const here because no obj pointer that was originally
+     * const should ever arrive here.
+     */
+    H5_GCC_CLANG_DIAG_OFF("cast-qual")
+    H5MM_memcpy((void *)obj, op_data, obj_len);
+    H5_GCC_CLANG_DIAG_ON("cast-qual")
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5HF_op_write() */
@@ -139,10 +144,10 @@ H5HF_op_write(const void *obj, size_t obj_len, void *op_data)
 H5HF_t *
 H5HF_create(H5F_t *f, const H5HF_create_t *cparam)
 {
-    H5HF_t *    fh  = NULL;       /* Pointer to new fractal heap */
+    H5HF_t     *fh  = NULL;       /* Pointer to new fractal heap */
     H5HF_hdr_t *hdr = NULL;       /* The fractal heap header information */
     haddr_t     fh_addr;          /* Heap header address */
-    H5HF_t *    ret_value = NULL; /* Return value */
+    H5HF_t     *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -205,9 +210,9 @@ done:
 H5HF_t *
 H5HF_open(H5F_t *f, haddr_t fh_addr)
 {
-    H5HF_t *    fh        = NULL; /* Pointer to new fractal heap */
+    H5HF_t     *fh        = NULL; /* Pointer to new fractal heap */
     H5HF_hdr_t *hdr       = NULL; /* The fractal heap header information */
-    H5HF_t *    ret_value = NULL; /* Return value */
+    H5HF_t     *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI(NULL)
 
@@ -350,10 +355,15 @@ H5HF_insert(H5HF_t *fh, size_t size, const void *obj, void *id /*out*/)
 
     /* Check for 'huge' object */
     if (size > hdr->max_man_size) {
-        /* Store 'huge' object in heap */
-        /* (Casting away const OK - QAK) */
+        /* Store 'huge' object in heap
+         *
+         * Although not ideal, we can quiet the const warning here because no
+         * obj pointer that was originally const should ever arrive here.
+         */
+        H5_GCC_CLANG_DIAG_OFF("cast-qual")
         if (H5HF__huge_insert(hdr, size, (void *)obj, id) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTINSERT, FAIL, "can't store 'huge' object in fractal heap")
+        H5_GCC_CLANG_DIAG_ON("cast-qual")
     } /* end if */
     /* Check for 'tiny' object */
     else if (size <= hdr->tiny_max_len) {

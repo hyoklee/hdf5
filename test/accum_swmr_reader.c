@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright by the Board of Trustees of the University of Illinois.         *
+ * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -44,11 +44,11 @@ main(void)
 {
     hid_t    fid  = -1;              /* File ID */
     hid_t    fapl = -1;              /* file access property list ID */
-    H5F_t *  f    = NULL;            /* File pointer */
+    H5F_t   *f    = NULL;            /* File pointer */
     unsigned u;                      /* Local index variable */
     uint8_t  rbuf[1024];             /* Buffer for reading */
     uint8_t  buf[1024];              /* Buffer for holding the expected data */
-    char *   driver         = NULL;  /* VFD string (from env variable) */
+    char    *driver         = NULL;  /* VFD string (from env variable) */
     hbool_t  api_ctx_pushed = FALSE; /* Whether API context pushed */
 
     /* Skip this test if SWMR I/O is not supported for the VFD specified

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -241,9 +240,9 @@ done:
 void *
 H5EA__hdr_alloc_elmts(H5EA_hdr_t *hdr, size_t nelmts)
 {
-    void *   elmts = NULL; /* Element buffer allocated */
+    void    *elmts = NULL; /* Element buffer allocated */
     unsigned idx;          /* Index of element buffer factory in header */
-    void *   ret_value = NULL;
+    void    *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 
@@ -641,9 +640,9 @@ done:
 H5EA_hdr_t *
 H5EA__hdr_protect(H5F_t *f, haddr_t ea_addr, void *ctx_udata, unsigned flags)
 {
-    H5EA_hdr_t *        hdr;   /* Extensible array header */
+    H5EA_hdr_t         *hdr;   /* Extensible array header */
     H5EA_hdr_cache_ud_t udata; /* User data for cache callbacks */
-    H5EA_hdr_t *        ret_value = NULL;
+    H5EA_hdr_t         *ret_value = NULL;
 
     FUNC_ENTER_PACKAGE
 

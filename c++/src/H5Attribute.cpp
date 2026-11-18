@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -511,7 +510,7 @@ Attribute::p_read_fixed_len(const DataType &mem_type, H5std_string &strg) const
 
     // If there is data, allocate buffer and read it.
     if (attr_size > 0) {
-        char * strg_C    = new char[attr_size + 1];
+        char  *strg_C    = new char[attr_size + 1];
         herr_t ret_value = H5Aread(id, mem_type.getId(), strg_C);
         if (ret_value < 0) {
             delete[] strg_C; // de-allocate for fixed-len string
@@ -562,7 +561,7 @@ Attribute::p_read_variable_len(const DataType &mem_type, H5std_string &strg) con
 ///\exception   H5::IdComponentException when the attempt to close the HDF5
 ///             object fails
 // Description:
-//              The underlaying reference counting in the C library ensures
+//              The underlying reference counting in the C library ensures
 //              that the current valid id of this object is properly closed.
 //              Then the object's id is reset to the new id.
 // Programmer   Binh-Minh Ribler - 2000

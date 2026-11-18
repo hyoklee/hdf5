@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- *                                                                           *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -12,6 +11,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
+ * @page CALLBACKS_UG HDF5 Java Callbacks Interface
  * All callback definitions must derive from the Callbacks interface.  Any
  * derived interfaces must define a single public method named "callback".
  * You are responsible for deregistering your callback (if necessary)

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -32,8 +31,8 @@ basic_id_test(void)
 {
     H5I_type_t myType  = H5I_BADID;
     hid_t      arrayID = H5I_INVALID_HID;
-    void *     testObj = NULL;
-    void *     testPtr = NULL;
+    void      *testObj = NULL;
+    void      *testPtr = NULL;
     char       nameString[10];
     hid_t      testID;
     ssize_t    testSize = -1;
@@ -41,7 +40,7 @@ basic_id_test(void)
     int        num_ref;
     hsize_t    num_members;
 
-    /* Try to register an ID with ficticious types */
+    /* Try to register an ID with fictitious types */
     H5E_BEGIN_TRY
     arrayID = H5Iregister((H5I_type_t)420, testObj);
     H5E_END_TRY
@@ -58,7 +57,7 @@ basic_id_test(void)
     if (arrayID != H5I_INVALID_HID)
         goto out;
 
-    /* Try to access IDs with ficticious types */
+    /* Try to access IDs with fictitious types */
     H5E_BEGIN_TRY
     testPtr = H5Iobject_verify((hid_t)100, (H5I_type_t)0);
     H5E_END_TRY
@@ -254,10 +253,10 @@ test_search_func(void H5_ATTR_UNUSED *ptr1, hid_t H5_ATTR_UNUSED id, void H5_ATT
 static int
 id_predefined_test(void)
 {
-    void * testObj;
+    void  *testObj;
     hid_t  testID;
     hid_t  typeID = H5I_INVALID_HID;
-    void * testPtr;
+    void  *testPtr;
     herr_t testErr;
 
     testObj = HDmalloc(sizeof(int));
@@ -691,7 +690,7 @@ test_remove_clear_type(void)
 {
     H5I_type_t     obj_type;
     rct_obj_list_t obj_list;
-    rct_obj_t *    objects = NULL; /* Convenience pointer to objects stored in master list */
+    rct_obj_t     *objects = NULL; /* Convenience pointer to objects stored in master list */
     size_t         list_size;
     long           i, j;
     herr_t         ret; /* return value */

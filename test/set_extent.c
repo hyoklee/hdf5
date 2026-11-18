@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -115,12 +114,12 @@ main(void)
     unsigned    chunk_cache; /* Whether to enable chunk caching */
     int         nerrors = 0;
     const char *env_h5_drvr;     /* File Driver value from environment */
-    hbool_t     contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t     contig_addr_vfd; /* Whether VFD used has a contiguous address space */
 
     env_h5_drvr = HDgetenv("HDF5_DRIVER");
     if (env_h5_drvr == NULL)
         env_h5_drvr = "nomatch";
-    /* Current VFD that does not support contigous address space */
+    /* Current VFD that does not support contiguous address space */
     contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     /* Initialize random number seed */
@@ -178,7 +177,7 @@ main(void)
                 /* Set the "use the earliest version of the format" bounds for
                  * creating objects in the file */
                 if (H5Pset_libver_bounds(my_fapl, H5F_LIBVER_EARLIEST, H5F_LIBVER_LATEST) < 0)
-                TEST_ERROR
+                    TEST_ERROR
 
             /* Tests which use chunked datasets */
             if (!new_format || (new_format && contig_addr_vfd))
@@ -649,7 +648,7 @@ test_rank1(hid_t fapl, hid_t dcpl, hbool_t do_fill_value, hbool_t disable_edge_f
     HDprintf("\n");
 #endif
 
-    /* compare the read array with the shrinked array */
+    /* compare the read array with the shrunk array */
     for (i = 0; i < (int)dims_r[0]; i++)
         if (buf_s[i] != buf_o[i]) {
             HDprintf("buf_s[%d] = %d\n", i, buf_s[i]);
@@ -1055,7 +1054,7 @@ test_rank2(hid_t fapl, hid_t dcpl, hbool_t do_fill_value, hbool_t disable_edge_f
     }
 #endif
 
-    /* compare the read array with the shrinked array */
+    /* compare the read array with the shrunk array */
     for (i = 0; i < (int)dims_r[0]; i++) {
         for (j = 0; j < (int)dims_r[1]; j++) {
             if (buf_s[i][j] != buf_o[i][j]) {
@@ -1536,7 +1535,7 @@ test_rank3(hid_t fapl, hid_t dcpl, hbool_t do_fill_value, hbool_t disable_edge_f
     HDprintf("\n");
 #endif
 
-    /* compare the read array with the shrinked array */
+    /* compare the read array with the shrunk array */
     for (i = 0; i < (int)dims_r[0]; i++) {
         for (j = 0; j < (int)dims_r[1]; j++) {
             for (k = 0; k < (int)dims_r[2]; k++) {
@@ -1734,7 +1733,7 @@ test_external(hid_t fapl)
     hsize_t dims_r[RANK2];                  /* read dimensions */
     hsize_t maxdims[RANK2] = {DIME0, DIM1}; /* only the first dimension can be extendible */
     int     buf_o[DIM0][DIM1];              /* original buffer, for writing */
-    int     buf_s[DIMS0][DIMS1];            /* shrinked buffer, for reading */
+    int     buf_s[DIMS0][DIMS1];            /* shrunk buffer, for reading */
     int     buf_e[DIME0][DIM1];             /* extended buffer, for writing, dimension 1 is the original */
     int     buf_ro[DIM0][DIM1];             /* original buffer for reading */
     int     i, j;
@@ -1946,7 +1945,7 @@ test_external(hid_t fapl)
     }
 #endif
 
-    /* compare the read array with the shrinked array */
+    /* compare the read array with the shrunk array */
     for (i = 0; i < (int)dims_r[0]; i++) {
         for (j = 0; j < (int)dims_r[1]; j++) {
             if (buf_s[i][j] != buf_o[i][j]) {
@@ -2242,7 +2241,7 @@ test_random_rank4(hid_t fapl, hid_t dcpl, hbool_t do_fillvalue, hbool_t disable_
     hsize_t       max_dims[4] = {10, 10, 10, 10}; /* Maximum dimensions */
     hsize_t       old_dims[4];                    /* Old dataset dimensions */
     hsize_t       min_unwritten_dims[4];          /* Minimum dimensions since last write */
-    hsize_t *     valid_dims = old_dims;          /* Dimensions of region still containing written data */
+    hsize_t      *valid_dims = old_dims;          /* Dimensions of region still containing written data */
     hsize_t       cdims[4];                       /* Chunk dimensions */
     const hsize_t mdims[4] = {10, 10, 10, 10};    /* Memory buffer dimensions */
     const hsize_t start[4] = {0, 0, 0, 0};        /* Start for hyperslabe operations on memory */
@@ -2291,8 +2290,9 @@ test_random_rank4(hid_t fapl, hid_t dcpl, hbool_t do_fillvalue, hbool_t disable_
     /* Generate initial dataset size, 1-10, unless using fixed array index or
      * scalar_iter is 0 */
     for (i = 0; i < 4; i++) {
-        dims[i] = (hsize_t)(
-            index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((HDrandom() % 10) + 1)) : 10);
+        dims[i] =
+            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((HDrandom() % 10) + 1))
+                                                       : 10);
         dim_log->arr[0][i] = dims[i];
     } /* end for */
 
@@ -2462,7 +2462,7 @@ test_random_rank4_vl(hid_t fapl, hid_t dcpl, hbool_t do_fillvalue, hbool_t disab
     hsize_t       max_dims[4] = {10, 10, 10, 10}; /* Maximum dimensions */
     hsize_t       old_dims[4];                    /* Old dataset dimensions */
     hsize_t       min_unwritten_dims[4];          /* Minimum dimensions since last write */
-    hsize_t *     valid_dims = old_dims;          /* Dimensions of region still containing written data */
+    hsize_t      *valid_dims = old_dims;          /* Dimensions of region still containing written data */
     hsize_t       cdims[4];                       /* Chunk dimensions */
     const hsize_t mdims[4] = {10, 10, 10, 10};    /* Memory buffer dimensions */
     const hsize_t start[4] = {0, 0, 0, 0};        /* Start for hyperslab operations on memory */
@@ -2540,8 +2540,9 @@ test_random_rank4_vl(hid_t fapl, hid_t dcpl, hbool_t do_fillvalue, hbool_t disab
     /* Generate initial dataset size, 1-10, unless using fixed array index or
      * scalar_iter is 0 */
     for (i = 0; i < 4; i++) {
-        dims[i] = (hsize_t)(
-            index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((HDrandom() % 10) + 1)) : 10);
+        dims[i] =
+            (hsize_t)(index_type != RANK4_INDEX_FARRAY ? (0 == scalar_iter ? 1 : ((HDrandom() % 10) + 1))
+                                                       : 10);
         dim_log->arr[0][i] = dims[i];
     }
 

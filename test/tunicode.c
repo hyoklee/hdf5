@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -317,7 +316,7 @@ test_vl_string(hid_t fid, const char *string)
     hid_t   type_id, space_id, dset_id;
     hsize_t dims = 1;
     hsize_t size; /* Number of bytes used */
-    char *  read_buf[1];
+    char   *read_buf[1];
     herr_t  ret;
 
     /* Create dataspace for datasets */
@@ -582,7 +581,7 @@ test_compound(hid_t fid, const char *string)
     hid_t   s1_tid, s2_tid;
     hid_t   space_id, dset_id;
     hsize_t dim = 1;
-    char *  readbuf;
+    char   *readbuf;
     herr_t  ret;
 
     /* Initialize compound data */
@@ -698,7 +697,7 @@ void
 test_opaque(hid_t H5_ATTR_UNUSED fid, const char *string)
 {
     hid_t  type_id;
-    char * read_buf;
+    char  *read_buf;
     herr_t ret;
 
     /* Create an opaque type and give it a UTF-8 tag */

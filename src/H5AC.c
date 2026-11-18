@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -232,7 +231,7 @@ H5AC_term_package(void)
 hbool_t
 H5AC_cache_image_pending(const H5F_t *f)
 {
-    H5C_t * cache_ptr;
+    H5C_t  *cache_ptr;
     hbool_t ret_value = FALSE; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT_NOERR
@@ -317,7 +316,7 @@ H5AC_create(const H5F_t *f, H5AC_cache_config_t *config_ptr, H5AC_cache_image_co
         aux_ptr->dirty_bytes_threshold   = H5AC__DEFAULT_DIRTY_BYTES_THRESHOLD;
         aux_ptr->dirty_bytes             = 0;
         aux_ptr->metadata_write_strategy = H5AC__DEFAULT_METADATA_WRITE_STRATEGY;
-#if H5AC_DEBUG_DIRTY_BYTES_CREATION
+#ifdef H5AC_DEBUG_DIRTY_BYTES_CREATION
         aux_ptr->dirty_bytes_propagations      = 0;
         aux_ptr->unprotect_dirty_bytes         = 0;
         aux_ptr->unprotect_dirty_bytes_updates = 0;
@@ -952,7 +951,7 @@ herr_t
 H5AC_mark_entry_dirty(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1006,7 +1005,7 @@ herr_t
 H5AC_mark_entry_clean(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1059,7 +1058,7 @@ herr_t
 H5AC_mark_entry_unserialized(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1101,7 +1100,7 @@ herr_t
 H5AC_mark_entry_serialized(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1199,7 +1198,7 @@ herr_t
 H5AC_pin_protected_entry(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1273,7 +1272,7 @@ done:
  *              metadata cache flush.
  *
  *              Initially, this means setting up the slist prior to the
- *              flush.  We do this in a seperate call because
+ *              flush.  We do this in a separate call because
  *              H5F__flush_phase2() make repeated calls to H5AC_flush().
  *              Handling this detail in separate calls allows us to avoid
  *              the overhead of setting up and taking down the skip list
@@ -1325,7 +1324,7 @@ done:
  *              flush.
  *
  *              Initially, this means taking down the slist after the
- *              flush.  We do this in a seperate call because
+ *              flush.  We do this in a separate call because
  *              H5F__flush_phase2() make repeated calls to H5AC_flush().
  *              Handling this detail in separate calls allows us to avoid
  *              the overhead of setting up and taking down the skip list
@@ -1380,7 +1379,7 @@ herr_t
 H5AC_create_flush_dependency(void *parent_thing, void *child_thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1502,7 +1501,7 @@ herr_t
 H5AC_resize_entry(void *thing, size_t new_size)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1617,7 +1616,7 @@ herr_t
 H5AC_unpin_entry(void *thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -1659,7 +1658,7 @@ herr_t
 H5AC_destroy_flush_dependency(void *parent_thing, void *child_thing)
 {
     H5AC_info_t *entry_ptr = NULL;    /* Pointer to the cache entry */
-    H5C_t *      cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache_ptr = NULL;    /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
@@ -2480,7 +2479,7 @@ done:
 /*------------------------------------------------------------------------------
  * Function:    H5AC_expunge_tag_type_metadata()
  *
- * Purpose:     Wrapper for cache level function which expunge entries with
+ * Purpose:     Wrapper for cache level function which expunges entries with
  *              a specific tag and type id.
  *
  * Return:      SUCCEED on success, FAIL otherwise.
@@ -2794,7 +2793,7 @@ herr_t
 H5AC_remove_entry(void *_entry)
 {
     H5AC_info_t *entry     = (H5AC_info_t *)_entry; /* Entry to remove */
-    H5C_t *      cache     = NULL;                  /* Pointer to the entry's associated metadata cache */
+    H5C_t       *cache     = NULL;                  /* Pointer to the entry's associated metadata cache */
     herr_t       ret_value = SUCCEED;               /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)

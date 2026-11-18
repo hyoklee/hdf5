@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -34,7 +33,7 @@ H5TOOLS_DLLVAR int           g_nTasks;
 H5TOOLS_DLLVAR unsigned char g_Parallel;
 H5TOOLS_DLLVAR char          outBuff[];
 H5TOOLS_DLLVAR unsigned      outBuffOffset;
-H5TOOLS_DLLVAR FILE *overflow_file;
+H5TOOLS_DLLVAR FILE         *overflow_file;
 
 /* Maximum size used in a call to malloc for a dataset */
 H5TOOLS_DLLVAR hsize_t H5TOOLS_MALLOCSIZE;
@@ -91,7 +90,7 @@ H5TOOLS_DLL int get_option(int argc, const char *const *argv, const char *opt,
 /*struct taken from the dumper. needed in table struct*/
 typedef struct obj_t {
     haddr_t objno;
-    char *  objname;
+    char   *objname;
     hbool_t displayed; /* Flag to indicate that the object has been displayed */
     hbool_t recorded;  /* Flag for named datatypes to indicate they were found in the group hierarchy */
 } obj_t;
@@ -114,9 +113,12 @@ typedef struct find_objs_t {
 H5TOOLS_DLLVAR unsigned h5tools_nCols; /*max number of columns for outputting  */
 
 /* Definitions of useful routines */
+H5TOOLS_DLL struct subset_t *parse_subset_params(const char *dset);
+
 H5TOOLS_DLL void   indentation(unsigned);
 H5TOOLS_DLL void   print_version(const char *progname);
 H5TOOLS_DLL void   parallel_print(const char *format, ...);
+H5TOOLS_DLL void   parse_hsize_list(const char *h_list, subset_d *d);
 H5TOOLS_DLL herr_t parse_tuple(const char *start, int sep, char **cpy_out, unsigned *nelems,
                                char ***ptrs_out);
 H5TOOLS_DLL void   error_msg(const char *fmt, ...);
@@ -155,7 +157,7 @@ typedef struct {
 /* obtain link info from H5tools_get_symlink_info() */
 typedef struct {
     H5O_type_t trg_type;  /* OUT: target type */
-    char *     trg_path;  /* OUT: target obj path. This must be freed
+    char      *trg_path;  /* OUT: target obj path. This must be freed
                            *      when used with H5tools_get_symlink_info() */
     haddr_t       objno;  /* OUT: target object address */
     unsigned long fileno; /* OUT: File number that target object is located in */

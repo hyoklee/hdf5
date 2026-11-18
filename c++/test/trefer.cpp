@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -446,7 +445,7 @@ test_reference_group()
         file1->close();
 
         /*
-         * Re-open the file and test deferencing group
+         * Re-open the file and test dereferencing group
          */
 
         // Re-open file

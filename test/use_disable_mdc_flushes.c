@@ -40,7 +40,7 @@ const char *progname_g = "use_disable_mdc_flushes"; /* program name */
         goto done;                                                                                           \
     }
 
-char *  filename_g;
+char   *filename_g;
 hsize_t nplanes_g;
 int     use_swmr_g;
 int     chunkplanes_g;
@@ -298,7 +298,7 @@ write_file(void)
     hid_t     dsid; /* dataset ID */
     hid_t     fapl; /* File access property list */
     hid_t     dcpl; /* Dataset creation property list */
-    char *    name;
+    char     *name;
     UC_CTYPE *buffer, *bufptr;                /* data buffer */
     hsize_t   cz = (hsize_t)chunksize_g;      /* Chunk size */
     hid_t     f_sid;                          /* dataset file space id */
@@ -360,7 +360,7 @@ write_file(void)
         return -1;
     }
 
-    /* verify chunk_dims against set paramenters */
+    /* verify chunk_dims against set parameters */
     if (chunk_dims[0] != chunkdims_g[0] || chunk_dims[1] != cz || chunk_dims[2] != cz) {
         HDfprintf(stderr, "chunk size is not as expected. Got dims=(%llu,%llu,%llu)\n",
                   (unsigned long long)chunk_dims[0], (unsigned long long)chunk_dims[1],

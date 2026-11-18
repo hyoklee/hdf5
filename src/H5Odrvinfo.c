@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -25,10 +24,10 @@
 #include "H5Opkg.h"      /* Object headers			*/
 #include "H5MMprivate.h" /* Memory management			*/
 
-static void * H5O_drvinfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
+static void  *H5O_drvinfo_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags,
                                  size_t p_size, const uint8_t *p);
 static herr_t H5O_drvinfo_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O_drvinfo_copy(const void *_mesg, void *_dest);
+static void  *H5O_drvinfo_copy(const void *_mesg, void *_dest);
 static size_t H5O_drvinfo_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__drvinfo_reset(void *_mesg);
 static herr_t H5O__drvinfo_debug(H5F_t *f, const void *_mesg, FILE *stream, int indent, int fwidth);
@@ -38,7 +37,7 @@ const H5O_msg_class_t H5O_MSG_DRVINFO[1] = {{
     H5O_DRVINFO_ID,        /*message id number                     */
     "driver info",         /*message name for debugging            */
     sizeof(H5O_drvinfo_t), /*native message size                   */
-    0,                     /* messages are sharable?       */
+    0,                     /* messages are shareable?       */
     H5O_drvinfo_decode,    /*decode message                        */
     H5O_drvinfo_encode,    /*encode message                        */
     H5O_drvinfo_copy,      /*copy the native value                 */
@@ -79,7 +78,7 @@ H5O_drvinfo_decode(H5F_t H5_ATTR_UNUSED *f, H5O_t H5_ATTR_UNUSED *open_oh, unsig
                    unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_drvinfo_t *mesg;             /* Native message */
-    void *         ret_value = NULL; /* Return value */
+    void          *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -174,8 +173,8 @@ static void *
 H5O_drvinfo_copy(const void *_mesg, void *_dest)
 {
     const H5O_drvinfo_t *mesg      = (const H5O_drvinfo_t *)_mesg;
-    H5O_drvinfo_t *      dest      = (H5O_drvinfo_t *)_dest;
-    void *               ret_value = NULL; /* Return value */
+    H5O_drvinfo_t       *dest      = (H5O_drvinfo_t *)_dest;
+    void                *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 

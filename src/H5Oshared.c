@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -102,7 +101,7 @@ H5O_shared_read(H5F_t *f, H5O_t *open_oh, unsigned *ioflags, const H5O_shared_t 
     H5HF_t *fheap = NULL;
     H5WB_t *wb    = NULL;                /* Wrapped buffer for attribute data */
     uint8_t mesg_buf[H5O_MESG_BUF_SIZE]; /* Buffer for deserializing messages */
-    void *  ret_value = NULL;            /* Return value */
+    void   *ret_value = NULL;            /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -172,7 +171,7 @@ H5O_shared_read(H5F_t *f, H5O_t *open_oh, unsigned *ioflags, const H5O_shared_t 
         else
             /* The shared message is in another object header */
             if (NULL == (ret_value = H5O_msg_read(&oloc, type->id, NULL)))
-            HGOTO_ERROR(H5E_OHDR, H5E_READERROR, NULL, "unable to read message")
+                HGOTO_ERROR(H5E_OHDR, H5E_READERROR, NULL, "unable to read message")
     } /* end else */
 
     /* Mark the message as shared */
@@ -262,7 +261,7 @@ H5O__shared_link_adj(H5F_t *f, H5O_t *open_oh, const H5O_msg_class_t *type, H5O_
         else
             /* The shared message is in another object header */
             if (H5O_link(&oloc, adjust) < 0)
-            HGOTO_ERROR(H5E_OHDR, H5E_LINKCOUNT, FAIL, "unable to adjust shared object link count")
+                HGOTO_ERROR(H5E_OHDR, H5E_LINKCOUNT, FAIL, "unable to adjust shared object link count")
     } /* end if */
     else {
         HDassert(shared->type == H5O_SHARE_TYPE_SOHM || shared->type == H5O_SHARE_TYPE_HERE);
@@ -301,7 +300,7 @@ H5O_shared_decode(H5F_t *f, H5O_t *open_oh, unsigned *ioflags, const uint8_t *bu
 {
     H5O_shared_t sh_mesg;          /* Shared message info */
     unsigned     version;          /* Shared message version */
-    void *       ret_value = NULL; /* Return value */
+    void        *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_NOAPI_NOINIT
 
@@ -621,7 +620,7 @@ done:
  * Function:    H5O__shared_post_copy_file
  *
  * Purpose:     Delete a shared message and replace with a new one.
- *              The function is needed at cases such as coping a shared reg_ref attribute.
+ *              The function is needed at cases such as copying a shared reg_ref attribute.
  *              When a shared reg_ref attribute is copied from one file to
  *              another, the values in file need to be replaced. The only way
  *              to complish that is to delete the old message and write the
@@ -666,7 +665,7 @@ H5O__shared_post_copy_file(H5F_t *f, const H5O_msg_class_t *mesg_type, const H5O
     else
         /* Share the message */
         if (H5SM_try_share(f, NULL, H5SM_WAS_DEFERRED, mesg_type->id, shared_dst, mesg_flags) < 0)
-        HGOTO_ERROR(H5E_OHDR, H5E_BADMESG, FAIL, "can't share message")
+            HGOTO_ERROR(H5E_OHDR, H5E_BADMESG, FAIL, "can't share message")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)

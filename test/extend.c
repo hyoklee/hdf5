@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -29,9 +28,9 @@ const char *FILENAME[] = {"extend", NULL};
 
 /* Data buffers */
 static int **buf1      = NULL;
-static int * buf1_data = NULL;
+static int  *buf1_data = NULL;
 static int **buf2      = NULL;
-static int * buf2_data = NULL;
+static int  *buf2_data = NULL;
 
 /*-------------------------------------------------------------------------
  * Function:	write_data

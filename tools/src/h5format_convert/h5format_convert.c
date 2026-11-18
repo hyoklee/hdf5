@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -38,7 +37,7 @@ static int   verbose_g = 0;
  * Command-line options: The user can specify short or long-named
  * parameters.
  */
-static const char *        s_opts   = "hVvd:n";
+static const char         *s_opts   = "hVvd:n";
 static struct long_options l_opts[] = {{"help", no_arg, 'h'},    {"version", no_arg, 'V'},
                                        {"verbose", no_arg, 'v'}, {"dname", require_arg, 'd'},
                                        {"noop", no_arg, 'n'},    {"enable-error-stack", no_arg, 'E'},

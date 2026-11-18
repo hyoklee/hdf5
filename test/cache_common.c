@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -136,7 +135,7 @@ static void mark_flush_dep_clean(test_entry_t *entry_ptr);
 static herr_t get_initial_load_size(void *udata_ptr, size_t *image_len_ptr, int32_t entry_type);
 static herr_t get_final_load_size(const void *image, size_t image_len, void *udata, size_t *actual_len,
                                   int32_t entry_type);
-static void * deserialize(const void *image_ptr, size_t len, void *udata_ptr, hbool_t *dirty_ptr,
+static void  *deserialize(const void *image_ptr, size_t len, void *udata_ptr, hbool_t *dirty_ptr,
                           int32_t entry_type);
 static herr_t image_len(const void *thing, size_t *image_len_ptr, int32_t entry_type);
 static herr_t pre_serialize(H5F_t *f, void *thing, haddr_t addr, size_t len, haddr_t *new_addr_ptr,
@@ -821,7 +820,7 @@ herr_t
 image_len(const void *thing, size_t *image_length, int32_t entry_type)
 {
     const test_entry_t *entry;
-    test_entry_t *      base_addr;
+    test_entry_t       *base_addr;
     int32_t             type;
     int32_t             idx;
 
@@ -923,7 +922,7 @@ notify_image_len(const void *thing, size_t *image_length)
 /*-------------------------------------------------------------------------
  * Function:    pre_serialize & friends
  *
- * Purpose:    Pre_serialize the supplied entry.  For now this consistes of
+ * Purpose:    Pre_serialize the supplied entry.  For now this consists of
  *         executing any flush operations and loading the appropriate
  *        values into *new_addr_ptr, *new_len_ptr, and *flags_ptr.
  *
@@ -1096,7 +1095,7 @@ notify_pre_serialize(H5F_t *f, void *thing, haddr_t addr, size_t len, haddr_t *n
 /*-------------------------------------------------------------------------
  * Function:    serialize & friends
  *
- * Purpose:    Serialize the supplied entry.  For now this consistes of
+ * Purpose:    Serialize the supplied entry.  For now this consists of
  *         loading the type and index of the entry into the first
  *         three bytes of the image (if it is long enough -- if not
  *         just load the low order byte of the index into the first
@@ -1538,7 +1537,7 @@ add_flush_op(int target_type, int target_idx, int op_code, int type, int idx, hb
  *              Otherwise, set up a pinned entry dependency so we can
  *              test the pinned entry modifications to the flush routine.
  *
- *        Given the types and indicies of the pinned and pinning
+ *        Given the types and indices of the pinned and pinning
  *        entries, add the pinned entry to the list of pinned
  *        entries in the pinning entry, increment the
  *        pinning reference count of the pinned entry, and
@@ -1777,7 +1776,7 @@ execute_flush_op(H5F_t *file_ptr, struct test_entry_t *entry_ptr, struct flush_o
 
             case FLUSH_OP__EXPUNGE:
                 /* the expunge flush op exists to allow us to simulate the
-                 * case in which an entry is removed from the cashe as the
+                 * case in which an entry is removed from the cache as the
                  * the result of the flush of a second entry.  At present,
                  * this can only happen via the take ownership flag, but
                  * we will make this test feature more general to as to make
@@ -1826,8 +1825,8 @@ hbool_t
 entry_in_cache(H5C_t *cache_ptr, int32_t type, int32_t idx)
 {
     hbool_t            in_cache = FALSE; /* will set to TRUE if necessary */
-    test_entry_t *     base_addr;
-    test_entry_t *     entry_ptr;
+    test_entry_t      *base_addr;
+    test_entry_t      *entry_ptr;
     H5C_cache_entry_t *test_ptr = NULL;
 
     HDassert(cache_ptr);
@@ -2322,7 +2321,7 @@ verify_clean(void)
  * Function:    verify_entry_status
  *
  * Purpose:    Verify that a list of entries have the expected status.
- *         If any discrepencies are found, set the failure message
+ *         If any discrepancies are found, set the failure message
  *         and set pass to FALSE.
  *
  *        Do nothing if pass is FALSE on entry.
@@ -2820,7 +2819,7 @@ void
 cork_entry_type(H5F_t *file_ptr, int32_t type)
 {
     if (pass) {
-        H5C_t * cache_ptr;
+        H5C_t  *cache_ptr;
         haddr_t baddrs;
 
         cache_ptr = file_ptr->shared->cache;
@@ -2855,7 +2854,7 @@ void
 uncork_entry_type(H5F_t *file_ptr, int32_t type)
 {
     if (pass) {
-        H5C_t * cache_ptr;
+        H5C_t  *cache_ptr;
         haddr_t baddrs;
 
         cache_ptr = file_ptr->shared->cache;
@@ -2890,7 +2889,7 @@ uncork_entry_type(H5F_t *file_ptr, int32_t type)
 void
 insert_entry(H5F_t *file_ptr, int32_t type, int32_t idx, unsigned int flags)
 {
-    H5C_t *       cache_ptr;
+    H5C_t        *cache_ptr;
     herr_t        result;
     hbool_t       insert_pinned;
     test_entry_t *base_addr;
@@ -3143,9 +3142,9 @@ move_entry(H5C_t *cache_ptr, int32_t type, int32_t idx, hbool_t main_addr)
 void
 protect_entry(H5F_t *file_ptr, int32_t type, int32_t idx)
 {
-    H5C_t *            cache_ptr;
-    test_entry_t *     base_addr;
-    test_entry_t *     entry_ptr;
+    H5C_t             *cache_ptr;
+    test_entry_t      *base_addr;
+    test_entry_t      *entry_ptr;
     haddr_t            baddrs;
     H5C_cache_entry_t *cache_entry_ptr;
 
@@ -3243,9 +3242,9 @@ protect_entry(H5F_t *file_ptr, int32_t type, int32_t idx)
 void
 protect_entry_ro(H5F_t *file_ptr, int32_t type, int32_t idx)
 {
-    H5C_t *            cache_ptr;
-    test_entry_t *     base_addr;
-    test_entry_t *     entry_ptr;
+    H5C_t             *cache_ptr;
+    test_entry_t      *base_addr;
+    test_entry_t      *entry_ptr;
     H5C_cache_entry_t *cache_entry_ptr;
 
     if (pass) {
@@ -3539,7 +3538,7 @@ row_major_scan_forward(H5F_t *file_ptr, int32_t max_index, int32_t lag, hbool_t 
                        hbool_t do_moves, hbool_t move_to_main_addr, hbool_t do_destroys,
                        hbool_t do_mult_ro_protects, int dirty_destroys, int dirty_unprotects)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = 0;
     int32_t idx;
     int32_t local_max_index;
@@ -3833,8 +3832,8 @@ row_major_scan_forward(H5F_t *file_ptr, int32_t max_index, int32_t lag, hbool_t 
 
                     HDassert((!cache_ptr->slist_enabled) ||
                              (cache_ptr->slist_size == cache_ptr->dirty_index_size));
-                } /* end if */
-            }     /* end elsef */
+                }
+            }
 
             if (verbose)
                 HDfprintf(stdout, "\n");
@@ -3869,7 +3868,7 @@ void
 hl_row_major_scan_forward(H5F_t *file_ptr, int32_t max_index, hbool_t verbose, hbool_t reset_stats,
                           hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = 0;
     int32_t idx;
     int32_t i;
@@ -3963,7 +3962,7 @@ row_major_scan_backward(H5F_t *file_ptr, int32_t max_index, int32_t lag, hbool_t
                         hbool_t do_moves, hbool_t move_to_main_addr, hbool_t do_destroys,
                         hbool_t do_mult_ro_protects, int dirty_destroys, int dirty_unprotects)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = NUMBER_OF_ENTRY_TYPES - 1;
     int32_t idx;
     int32_t local_max_index;
@@ -4221,7 +4220,7 @@ void
 hl_row_major_scan_backward(H5F_t *file_ptr, int32_t max_index, hbool_t verbose, hbool_t reset_stats,
                            hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = NUMBER_OF_ENTRY_TYPES - 1;
     int32_t idx;
     int32_t i;
@@ -4314,7 +4313,7 @@ col_major_scan_forward(H5F_t *file_ptr, int32_t max_index, int32_t lag, hbool_t 
                        hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts,
                        int dirty_unprotects)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = 0;
     int32_t idx;
     int32_t local_max_index[NUMBER_OF_ENTRY_TYPES];
@@ -4406,7 +4405,7 @@ hl_col_major_scan_forward(H5F_t *file_ptr, int32_t max_index, hbool_t verbose, h
                           hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts,
                           int dirty_unprotects)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = 0;
     int32_t idx;
     int32_t lag = 200;
@@ -4509,7 +4508,7 @@ col_major_scan_backward(H5F_t *file_ptr, int32_t max_index, int32_t lag, hbool_t
                         hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts,
                         int dirty_unprotects)
 {
-    H5C_t * cache_ptr  = NULL;
+    H5C_t  *cache_ptr  = NULL;
     int     mile_stone = 1;
     int32_t type;
     int32_t idx;
@@ -4613,7 +4612,7 @@ hl_col_major_scan_backward(H5F_t *file_ptr, int32_t max_index, hbool_t verbose, 
                            hbool_t display_stats, hbool_t display_detailed_stats, hbool_t do_inserts,
                            int dirty_unprotects)
 {
-    H5C_t * cache_ptr = NULL;
+    H5C_t  *cache_ptr = NULL;
     int32_t type      = 0;
     int32_t idx       = -1;
     int32_t lag       = 50;
@@ -4974,8 +4973,8 @@ check_and_validate_cache_hit_rate(hid_t file_id, double *hit_rate_ptr, hbool_t d
     int64_t cache_accesses = 0;
     double  expected_hit_rate;
     double  hit_rate;
-    H5F_t * file_ptr  = NULL;
-    H5C_t * cache_ptr = NULL;
+    H5F_t  *file_ptr  = NULL;
+    H5C_t  *cache_ptr = NULL;
 
     /* get a pointer to the files internal data structure */
     if (pass) {
@@ -5099,8 +5098,8 @@ check_and_validate_cache_size(hid_t file_id, size_t *max_size_ptr, size_t *min_c
     size_t   cur_size;
     uint32_t expected_cur_num_entries;
     int      cur_num_entries;
-    H5F_t *  file_ptr  = NULL;
-    H5C_t *  cache_ptr = NULL;
+    H5F_t   *file_ptr  = NULL;
+    H5C_t   *cache_ptr = NULL;
 
     /* get a pointer to the files internal data structure */
     if (pass) {
@@ -5242,7 +5241,7 @@ resize_configs_are_equal(const H5C_auto_size_ctl_t *a, const H5C_auto_size_ctl_t
  *        has both internal and external configuration matching
  *        *config_ptr.
  *
- *        Do nothin on success.  On failure, set pass to FALSE, and
+ *        Do nothing on success.  On failure, set pass to FALSE, and
  *        load an error message into failue_mssg.  Note that
  *        failure_msg is assumed to be at least 128 bytes in length.
  *
@@ -5258,8 +5257,8 @@ void
 validate_mdc_config(hid_t file_id, H5AC_cache_config_t *ext_config_ptr, hbool_t compare_init, int test_num)
 {
     static char         msg[256];
-    H5F_t *             file_ptr  = NULL;
-    H5C_t *             cache_ptr = NULL;
+    H5F_t              *file_ptr  = NULL;
+    H5C_t              *cache_ptr = NULL;
     H5AC_cache_config_t scratch;
     H5C_auto_size_ctl_t int_config;
 

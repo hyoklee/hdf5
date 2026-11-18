@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -281,7 +280,7 @@ main(int argc, char *argv[])
     long     nrecords     = 0;     /* # of records to append */
     long     flush_count  = 10000; /* # of records to write between flushing file */
     hbool_t  verbose      = TRUE;  /* Whether to emit some informational messages */
-    FILE *   verbose_file = NULL;  /* File handle for verbose output */
+    FILE    *verbose_file = NULL;  /* File handle for verbose output */
     hbool_t  old          = FALSE; /* Whether to use non-latest-format when opening file */
     hbool_t  use_seed     = FALSE; /* Set to TRUE if a seed was set on the command line */
     unsigned random_seed  = 0;     /* Random # seed */

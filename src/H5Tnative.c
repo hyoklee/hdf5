@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,7 +42,7 @@ static herr_t H5T__cmp_offset(size_t *comp_size, size_t *offset, size_t elem_siz
  *
  * Purpose:     High-level API to return the native type of a datatype.
  *              The native type is chosen by matching the size and class of
- *              querried datatype from the following native premitive
+ *              queried datatype from the following native primitive
  *              datatypes:
  *                      H5T_NATIVE_CHAR         H5T_NATIVE_UCHAR
  *                      H5T_NATIVE_SHORT        H5T_NATIVE_USHORT
@@ -56,7 +55,7 @@ static herr_t H5T__cmp_offset(size_t *comp_size, size_t *offset, size_t elem_siz
  *                      H5T_NATIVE_LDOUBLE
  *
  *              Compound, array, enum, and VL types all choose among these
- *              types for theire members.  Time, Bifield, Opaque, Reference
+ *              types for their members.  Time, Bitfield, Opaque, Reference
  *              types are only copy out.
  *
  * Return:      Success:        Returns the native data type if successful.
@@ -120,26 +119,26 @@ static H5T_t *
 H5T__get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_align, size_t *offset,
                      size_t *comp_size)
 {
-    H5T_t * dt;               /* Datatype to make native */
-    H5T_t * super_type;       /* Super type of VL, array and enum datatypes */
-    H5T_t * nat_super_type;   /* Native form of VL, array & enum super datatype */
-    H5T_t * new_type  = NULL; /* New native datatype */
-    H5T_t * memb_type = NULL; /* Datatype of member */
+    H5T_t  *dt;               /* Datatype to make native */
+    H5T_t  *super_type;       /* Super type of VL, array and enum datatypes */
+    H5T_t  *nat_super_type;   /* Native form of VL, array & enum super datatype */
+    H5T_t  *new_type  = NULL; /* New native datatype */
+    H5T_t  *memb_type = NULL; /* Datatype of member */
     H5T_t **memb_list = NULL; /* List of compound member IDs */
     size_t *memb_offset =
         NULL; /* List of member offsets in compound type, including member size and alignment */
-    char **     comp_mname     = NULL; /* List of member names in compound type */
-    char *      memb_name      = NULL; /* Enum's member name */
-    void *      memb_value     = NULL; /* Enum's member value */
-    void *      tmp_memb_value = NULL; /* Enum's member value */
-    hsize_t *   dims           = NULL; /* Dimension sizes for array */
+    char      **comp_mname     = NULL; /* List of member names in compound type */
+    char       *memb_name      = NULL; /* Enum's member name */
+    void       *memb_value     = NULL; /* Enum's member value */
+    void       *tmp_memb_value = NULL; /* Enum's member value */
+    hsize_t    *dims           = NULL; /* Dimension sizes for array */
     H5T_class_t h5_class;              /* Class of datatype to make native */
     size_t      size;                  /* Size of datatype to make native */
     size_t      prec;                  /* Precision of datatype to make native */
     int         snmemb;                /* Number of members in compound & enum types */
     unsigned    nmemb = 0;             /* Number of members in compound & enum types */
     unsigned    u;                     /* Local index variable */
-    H5T_t *     ret_value = NULL;      /* Return value */
+    H5T_t      *ret_value = NULL;      /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -687,7 +686,7 @@ H5_GCC_DIAG_OFF("duplicated-branches")
 /*-------------------------------------------------------------------------
  * Function:    H5T__get_native_float
  *
- * Purpose:     Returns the native floatt type of a datatype.
+ * Purpose:     Returns the native float type of a datatype.
  *
  * Return:      Success:        Returns the native data type if successful.
  *

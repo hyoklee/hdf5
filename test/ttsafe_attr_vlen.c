@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -60,7 +59,7 @@ tts_attr_vlen(void)
     hid_t         atid                 = H5I_INVALID_HID; /* Datatype ID for attribute */
     hid_t         asid                 = H5I_INVALID_HID; /* Dataspace ID for attribute */
     hid_t         aid                  = H5I_INVALID_HID; /* The attribute ID */
-    const char *  string_attr          = "2.0";           /* The attribute data */
+    const char   *string_attr          = "2.0";           /* The attribute data */
     int           ret;                                    /* Return value */
     int           i;                                      /* Local index variable */
 
@@ -124,7 +123,7 @@ tts_attr_vlen_thread(void H5_ATTR_UNUSED *client_data)
     hid_t       gid  = H5I_INVALID_HID; /* Group ID */
     hid_t       aid  = H5I_INVALID_HID; /* Attribute ID */
     hid_t       atid = H5I_INVALID_HID; /* Datatype ID for the attribute */
-    char *      string_attr_check;      /* The attribute data being read */
+    char       *string_attr_check;      /* The attribute data being read */
     const char *string_attr = "2.0";    /* The expected attribute data */
     herr_t      ret;                    /* Return value */
 
@@ -136,7 +135,7 @@ tts_attr_vlen_thread(void H5_ATTR_UNUSED *client_data)
     gid = H5Gopen2(fid, "/", H5P_DEFAULT);
     CHECK(gid, H5I_INVALID_HID, "H5Gopen");
 
-    /* Open the attribte */
+    /* Open the attribute */
     aid = H5Aopen(gid, "root_attr", H5P_DEFAULT);
     CHECK(aid, H5I_INVALID_HID, "H5Aopen");
 

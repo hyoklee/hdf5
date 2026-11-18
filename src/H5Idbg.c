@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -74,7 +73,7 @@ static int H5I__id_dump_cb(void *_item, void *_key, void *_udata);
 static int
 H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
 {
-    H5I_id_info_t *   info = (H5I_id_info_t *)_item; /* Pointer to the ID node */
+    H5I_id_info_t    *info = (H5I_id_info_t *)_item; /* Pointer to the ID node */
     H5I_type_t        type = *(H5I_type_t *)_udata;  /* User data */
     const H5G_name_t *path = NULL;                   /* Path to file object */
 
@@ -94,11 +93,15 @@ H5I__id_dump_cb(void *_item, void H5_ATTR_UNUSED *_key, void *_udata)
             break;
         }
         case H5I_DATASET: {
+            H5_GCC_CLANG_DIAG_OFF("discarded-qualifiers")
             path = H5D_nameof(info->object);
+            H5_GCC_CLANG_DIAG_ON("discarded-qualifiers")
             break;
         }
         case H5I_DATATYPE: {
+            H5_GCC_CLANG_DIAG_OFF("discarded-qualifiers")
             path = H5T_nameof(info->object);
+            H5_GCC_CLANG_DIAG_ON("discarded-qualifiers")
             break;
         }
         case H5I_UNINIT:

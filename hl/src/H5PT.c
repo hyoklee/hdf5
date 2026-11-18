@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -855,7 +854,7 @@ herr_t
 H5PTis_varlen(hid_t table_id)
 {
     H5T_class_t type;
-    htbl_t *    table;
+    htbl_t     *table;
 
     /* find the table struct from its ID */
     if ((table = (htbl_t *)H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)

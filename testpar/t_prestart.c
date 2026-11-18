@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -125,7 +124,7 @@ main(int argc, char **argv)
         if (0 == nerrors)
             PASSED();
         else
-            H5_FAILED()
+            H5_FAILED();
     }
 
     return (nerrors != 0);

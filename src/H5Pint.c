@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -47,25 +46,25 @@
 /* Typedef for checking for duplicate class names in parent class */
 typedef struct {
     const H5P_genclass_t *parent;    /* Pointer to parent class */
-    const char *          name;      /* Pointer to name to check */
-    H5P_genclass_t *      new_class; /* Pointer to class during path traversal */
+    const char           *name;      /* Pointer to name to check */
+    H5P_genclass_t       *new_class; /* Pointer to class during path traversal */
 } H5P_check_class_t;
 
 /* Typedef for property list iterator callback */
 typedef struct {
     H5P_iterate_int_t     cb_func;      /* Iterator callback */
-    void *                udata;        /* Iterator callback pointer */
+    void                 *udata;        /* Iterator callback pointer */
     const H5P_genplist_t *plist;        /* Property list pointer */
-    H5SL_t *              seen;         /* Skip list to hold names of properties already seen */
-    int *                 curr_idx_ptr; /* Pointer to current iteration index */
+    H5SL_t               *seen;         /* Skip list to hold names of properties already seen */
+    int                  *curr_idx_ptr; /* Pointer to current iteration index */
     int                   prev_idx;     /* Previous iteration index */
 } H5P_iter_plist_ud_t;
 
 /* Typedef for property list class iterator callback */
 typedef struct {
     H5P_iterate_int_t cb_func;      /* Iterator callback */
-    void *            udata;        /* Iterator callback pointer */
-    int *             curr_idx_ptr; /* Pointer to current iteration index */
+    void             *udata;        /* Iterator callback pointer */
+    int              *curr_idx_ptr; /* Pointer to current iteration index */
     int               prev_idx;     /* Previous iteration index */
 } H5P_iter_pclass_ud_t;
 
@@ -569,7 +568,7 @@ H5P_term_package(void)
 static herr_t
 H5P__do_prop_cb1(H5SL_t *slist, H5P_genprop_t *prop, H5P_prp_cb1_t cb)
 {
-    void *         tmp_value = NULL;    /* Temporary value buffer */
+    void          *tmp_value = NULL;    /* Temporary value buffer */
     H5P_genprop_t *pcopy     = NULL;    /* Copy of property to insert into skip list */
     herr_t         ret_value = SUCCEED; /* Return value */
 
@@ -638,7 +637,7 @@ H5P_genclass_t *
 H5P__copy_pclass(H5P_genclass_t *pclass)
 {
     H5P_genclass_t *new_pclass = NULL; /* Property list class copied */
-    H5P_genprop_t * pcopy;             /* Copy of property to insert into class */
+    H5P_genprop_t  *pcopy;             /* Copy of property to insert into class */
     H5P_genclass_t *ret_value = NULL;  /* return value */
 
     FUNC_ENTER_PACKAGE
@@ -714,11 +713,11 @@ H5P_copy_plist(const H5P_genplist_t *old_plist, hbool_t app_ref)
 {
     H5P_genclass_t *tclass;           /* Temporary class pointer */
     H5P_genplist_t *new_plist = NULL; /* New property list generated from copy */
-    H5P_genprop_t * tmp;              /* Temporary pointer to properties */
-    H5P_genprop_t * new_prop;         /* New property created for copy */
+    H5P_genprop_t  *tmp;              /* Temporary pointer to properties */
+    H5P_genprop_t  *new_prop;         /* New property created for copy */
     hid_t           new_plist_id;     /* Property list ID of new list created */
-    H5SL_node_t *   curr_node;        /* Current node in skip list */
-    H5SL_t *        seen = NULL;      /* Skip list containing properties already seen */
+    H5SL_node_t    *curr_node;        /* Current node in skip list */
+    H5SL_t         *seen = NULL;      /* Skip list containing properties already seen */
     size_t          nseen;            /* Number of items 'seen' */
     hbool_t         has_parent_class; /* Flag to indicate that this property list's class has a parent */
     hid_t           ret_value = H5I_INVALID_HID; /* return value */
@@ -1471,7 +1470,7 @@ H5P__access_class(H5P_genclass_t *pclass, H5P_class_mod_t mod)
 static int
 H5P__open_class_path_cb(void *_obj, hid_t H5_ATTR_UNUSED id, void *_key)
 {
-    H5P_genclass_t *   obj       = (H5P_genclass_t *)_obj;    /* Pointer to the class for this ID */
+    H5P_genclass_t    *obj       = (H5P_genclass_t *)_obj;    /* Pointer to the class for this ID */
     H5P_check_class_t *key       = (H5P_check_class_t *)_key; /* Pointer to key information for comparison */
     int                ret_value = 0;                         /* Return value */
 
@@ -1626,8 +1625,8 @@ H5P__create(H5P_genclass_t *pclass)
 {
     H5P_genclass_t *tclass;           /* Temporary class pointer */
     H5P_genplist_t *plist = NULL;     /* New property list created */
-    H5P_genprop_t * tmp;              /* Temporary pointer to parent class properties */
-    H5SL_t *        seen      = NULL; /* Skip list to hold names of properties already seen */
+    H5P_genprop_t  *tmp;              /* Temporary pointer to parent class properties */
+    H5SL_t         *seen      = NULL; /* Skip list to hold names of properties already seen */
     H5P_genplist_t *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2568,7 +2567,7 @@ H5P__do_prop(H5P_genplist_t *plist, const char *name, H5P_do_plist_op_t plist_op
              H5P_do_pclass_op_t pclass_op, void *udata)
 {
     H5P_genclass_t *tclass;              /* Temporary class pointer */
-    H5P_genprop_t * prop;                /* Temporary property pointer */
+    H5P_genprop_t  *prop;                /* Temporary property pointer */
     herr_t          ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2695,7 +2694,7 @@ H5P__poke_pclass_cb(H5P_genplist_t *plist, const char H5_ATTR_NDEBUG_UNUSED *nam
                     void *_udata)
 {
     H5P_prop_set_ud_t *udata     = (H5P_prop_set_ud_t *)_udata; /* User data for callback */
-    H5P_genprop_t *    pcopy     = NULL;    /* Copy of property to insert into skip list */
+    H5P_genprop_t     *pcopy     = NULL;    /* Copy of property to insert into skip list */
     herr_t             ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2800,8 +2799,8 @@ static herr_t
 H5P__set_plist_cb(H5P_genplist_t *plist, const char *name, H5P_genprop_t *prop, void *_udata)
 {
     H5P_prop_set_ud_t *udata     = (H5P_prop_set_ud_t *)_udata; /* User data for callback */
-    void *             tmp_value = NULL;                        /* Temporary value for property */
-    const void *       prp_value = NULL;                        /* Property value */
+    void              *tmp_value = NULL;                        /* Temporary value for property */
+    const void        *prp_value = NULL;                        /* Property value */
     herr_t             ret_value = SUCCEED;                     /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2876,9 +2875,9 @@ static herr_t
 H5P__set_pclass_cb(H5P_genplist_t *plist, const char *name, H5P_genprop_t *prop, void *_udata)
 {
     H5P_prop_set_ud_t *udata     = (H5P_prop_set_ud_t *)_udata; /* User data for callback */
-    H5P_genprop_t *    pcopy     = NULL;    /* Copy of property to insert into skip list */
-    void *             tmp_value = NULL;    /* Temporary value for property */
-    const void *       prp_value = NULL;    /* Property value */
+    H5P_genprop_t     *pcopy     = NULL;    /* Copy of property to insert into skip list */
+    void              *tmp_value = NULL;    /* Temporary value for property */
+    const void        *prp_value = NULL;    /* Property value */
     herr_t             ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2991,7 +2990,7 @@ done:
  NAME
     H5P_exist_plist
  PURPOSE
-    Internal routine to query the existance of a property in a property list.
+    Internal routine to query the existence of a property in a property list.
  USAGE
     htri_t H5P_exist_plist(plist, name)
         const H5P_genplist_t *plist;  IN: Property list to check
@@ -3050,7 +3049,7 @@ done:
  NAME
     H5P__exist_pclass
  PURPOSE
-    Internal routine to query the existance of a property in a property class.
+    Internal routine to query the existence of a property in a property class.
  USAGE
     herr_t H5P__exist_pclass(pclass, name)
         H5P_genclass_t *pclass;  IN: Property class to check
@@ -3566,7 +3565,7 @@ H5P__cmp_plist_cb(H5P_genprop_t *prop, void *_udata)
 
     /* Check if the property exists in the second property list */
     if ((prop2_exist = H5P_exist_plist(udata->plist2, prop->name)) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, H5_ITER_ERROR, "can't lookup existance of property?")
+        HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, H5_ITER_ERROR, "can't lookup existence of property?")
     if (prop2_exist) {
         const H5P_genprop_t *prop2; /* Pointer to property in second plist */
 
@@ -3835,8 +3834,8 @@ property list.
 static int
 H5P__iterate_plist_cb(void *_item, void *_key, void *_udata)
 {
-    H5P_genprop_t *      item      = (H5P_genprop_t *)_item;        /* Pointer to the property */
-    char *               key       = (char *)_key;                  /* Pointer to the property's name */
+    H5P_genprop_t       *item      = (H5P_genprop_t *)_item;        /* Pointer to the property */
+    char                *key       = (char *)_key;                  /* Pointer to the property's name */
     H5P_iter_plist_ud_t *udata     = (H5P_iter_plist_ud_t *)_udata; /* Pointer to user data */
     int                  ret_value = H5_ITER_CONT;                  /* Return value */
 
@@ -3888,8 +3887,8 @@ deleted, and then chains to the property list callback.
 static int
 H5P__iterate_plist_pclass_cb(void *_item, void *_key, void *_udata)
 {
-    H5P_genprop_t *      item      = (H5P_genprop_t *)_item;        /* Pointer to the property */
-    char *               key       = (char *)_key;                  /* Pointer to the property's name */
+    H5P_genprop_t       *item      = (H5P_genprop_t *)_item;        /* Pointer to the property */
+    char                *key       = (char *)_key;                  /* Pointer to the property's name */
     H5P_iter_plist_ud_t *udata     = (H5P_iter_plist_ud_t *)_udata; /* Pointer to user data */
     int                  ret_value = H5_ITER_CONT;                  /* Return value */
 
@@ -3966,9 +3965,9 @@ int
 H5P__iterate_plist(const H5P_genplist_t *plist, hbool_t iter_all_prop, int *idx, H5P_iterate_int_t cb_func,
                    void *udata)
 {
-    H5P_genclass_t *    tclass;           /* Temporary class pointer */
+    H5P_genclass_t     *tclass;           /* Temporary class pointer */
     H5P_iter_plist_ud_t udata_int;        /* User data for skip list iterator */
-    H5SL_t *            seen      = NULL; /* Skip list to hold names of properties already seen */
+    H5SL_t             *seen      = NULL; /* Skip list to hold names of properties already seen */
     int                 curr_idx  = 0;    /* Current iteration index */
     int                 ret_value = 0;    /* Return value */
 
@@ -4047,7 +4046,7 @@ property list class.
 static int
 H5P__iterate_pclass_cb(void *_item, void H5_ATTR_NDEBUG_UNUSED *_key, void *_udata)
 {
-    H5P_genprop_t *       item      = (H5P_genprop_t *)_item;         /* Pointer to the property */
+    H5P_genprop_t        *item      = (H5P_genprop_t *)_item;         /* Pointer to the property */
     H5P_iter_pclass_ud_t *udata     = (H5P_iter_pclass_ud_t *)_udata; /* Pointer to user data */
     int                   ret_value = 0;                              /* Return value */
 
@@ -4274,7 +4273,7 @@ static herr_t
 H5P__get_cb(H5P_genplist_t *plist, const char *name, H5P_genprop_t *prop, void *_udata)
 {
     H5P_prop_get_ud_t *udata     = (H5P_prop_get_ud_t *)_udata; /* User data for callback */
-    void *             tmp_value = NULL;                        /* Temporary value for property */
+    void              *tmp_value = NULL;                        /* Temporary value for property */
     herr_t             ret_value = SUCCEED;                     /* Return value */
 
     FUNC_ENTER_STATIC
@@ -4388,7 +4387,7 @@ done:
 static herr_t
 H5P__del_plist_cb(H5P_genplist_t *plist, const char *name, H5P_genprop_t *prop, void H5_ATTR_UNUSED *_udata)
 {
-    char * del_name  = NULL;    /* Pointer to deleted name */
+    char  *del_name  = NULL;    /* Pointer to deleted name */
     herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -4456,8 +4455,8 @@ done:
 static herr_t
 H5P__del_pclass_cb(H5P_genplist_t *plist, const char *name, H5P_genprop_t *prop, void H5_ATTR_UNUSED *_udata)
 {
-    char * del_name  = NULL;    /* Pointer to deleted name */
-    void * tmp_value = NULL;    /* Temporary value for property */
+    char  *del_name  = NULL;    /* Pointer to deleted name */
+    void  *tmp_value = NULL;    /* Temporary value for property */
     herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -4517,7 +4516,7 @@ done:
     Returns non-negative on success, negative on failure.
  DESCRIPTION
         Removes a property from a property list.  Both properties which were
-    in existance when the property list was created (i.e. properties registered
+    in existence when the property list was created (i.e. properties registered
     with H5Pregister2) and properties added to the list after it was created
     (i.e. added with H5Pinsert2) may be removed from a property list.
     Properties do not need to be removed a property list before the list itself
@@ -4585,8 +4584,8 @@ H5P__copy_prop_plist(hid_t dst_id, hid_t src_id, const char *name)
 {
     H5P_genplist_t *dst_plist;           /* Pointer to destination property list */
     H5P_genplist_t *src_plist;           /* Pointer to source property list */
-    H5P_genprop_t * prop;                /* Temporary property pointer */
-    H5P_genprop_t * new_prop  = NULL;    /* Pointer to new property */
+    H5P_genprop_t  *prop;                /* Temporary property pointer */
+    H5P_genprop_t  *new_prop  = NULL;    /* Pointer to new property */
     herr_t          ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_PACKAGE
@@ -4598,7 +4597,7 @@ H5P__copy_prop_plist(hid_t dst_id, hid_t src_id, const char *name)
         NULL == (dst_plist = (H5P_genplist_t *)H5I_object(dst_id)))
         HGOTO_ERROR(H5E_PLIST, H5E_NOTFOUND, FAIL, "property object doesn't exist")
 
-    /* If the property exists in the destination alread */
+    /* If the property exists in the destination already */
     if (NULL != H5P__find_prop_plist(dst_plist, name)) {
         /* Delete the property from the destination list, calling the 'close' callback if necessary */
         if (H5P_remove(dst_plist, name) < 0)
@@ -4695,7 +4694,7 @@ H5P__copy_prop_pclass(hid_t dst_id, hid_t src_id, const char *name)
     H5P_genclass_t *src_pclass;          /* Source property class, containing property to copy */
     H5P_genclass_t *dst_pclass;          /* Destination property class */
     H5P_genclass_t *orig_dst_pclass;     /* Original destination property class */
-    H5P_genprop_t * prop;                /* Temporary property pointer */
+    H5P_genprop_t  *prop;                /* Temporary property pointer */
     herr_t          ret_value = SUCCEED; /* return value */
 
     FUNC_ENTER_PACKAGE
@@ -4829,12 +4828,12 @@ H5P_close(void *_plist)
 {
     H5P_genclass_t *tclass; /* Temporary class pointer */
     H5P_genplist_t *plist = (H5P_genplist_t *)_plist;
-    H5SL_t *        seen  = NULL;        /* Skip list to hold names of properties already seen */
+    H5SL_t         *seen  = NULL;        /* Skip list to hold names of properties already seen */
     size_t          nseen;               /* Number of items 'seen' */
     hbool_t         has_parent_class;    /* Flag to indicate that this property list's class has a parent */
     size_t          ndel;                /* Number of items deleted */
-    H5SL_node_t *   curr_node;           /* Current node in skip list */
-    H5P_genprop_t * tmp;                 /* Temporary pointer to properties */
+    H5SL_node_t    *curr_node;           /* Current node in skip list */
+    H5P_genprop_t  *tmp;                 /* Temporary pointer to properties */
     unsigned        make_cb   = 0;       /* Operator data for property free callback */
     herr_t          ret_value = SUCCEED; /* return value */
 
@@ -5094,12 +5093,12 @@ done:
 H5P_genclass_t *
 H5P__open_class_path(const char *path)
 {
-    char *            tmp_path = NULL;  /* Temporary copy of the path */
-    char *            curr_name;        /* Pointer to current component of path name */
-    char *            delimit;          /* Pointer to path delimiter during traversal */
-    H5P_genclass_t *  curr_class;       /* Pointer to class during path traversal */
+    char             *tmp_path = NULL;  /* Temporary copy of the path */
+    char             *curr_name;        /* Pointer to current component of path name */
+    char             *delimit;          /* Pointer to path delimiter during traversal */
+    H5P_genclass_t   *curr_class;       /* Pointer to class during path traversal */
     H5P_check_class_t check_info;       /* Structure to hold the information for checking duplicate names */
-    H5P_genclass_t *  ret_value = NULL; /* Return value */
+    H5P_genclass_t   *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 

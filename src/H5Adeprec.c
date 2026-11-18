@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -103,16 +102,16 @@
 hid_t
 H5Acreate1(hid_t loc_id, const char *name, hid_t type_id, hid_t space_id, hid_t acpl_id)
 {
-    H5A_t *   attr = NULL; /* Attribute created */
+    H5A_t    *attr = NULL; /* Attribute created */
     H5G_loc_t loc;         /* Object location */
-    H5T_t *   type;        /* Datatype to use for attribute */
-    H5S_t *   space;       /* Dataspace to use for attribute */
+    H5T_t    *type;        /* Datatype to use for attribute */
+    H5S_t    *space;       /* Dataspace to use for attribute */
     hid_t     ret_value;   /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE5("i", "i*siii", loc_id, name, type_id, space_id, acpl_id);
 
-    /* check arguments */
+    /* Check arguments */
     if (H5I_ATTR == H5I_get_type(loc_id))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "location is not valid for an attribute")
     if (H5G_loc(loc_id, &loc) < 0)
@@ -172,7 +171,7 @@ hid_t
 H5Aopen_name(hid_t loc_id, const char *name)
 {
     H5G_loc_t loc;         /* Object location */
-    H5A_t *   attr = NULL; /* Attribute opened */
+    H5A_t    *attr = NULL; /* Attribute opened */
     hid_t     ret_value;
 
     FUNC_ENTER_API(FAIL)
@@ -229,13 +228,13 @@ hid_t
 H5Aopen_idx(hid_t loc_id, unsigned idx)
 {
     H5G_loc_t loc;         /* Object location */
-    H5A_t *   attr = NULL; /* Attribute opened */
+    H5A_t    *attr = NULL; /* Attribute opened */
     hid_t     ret_value;
 
     FUNC_ENTER_API(FAIL)
     H5TRACE2("i", "iIu", loc_id, idx);
 
-    /* check arguments */
+    /* Check arguments */
     if (H5I_ATTR == H5I_get_type(loc_id))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "location is not valid for an attribute")
     if (H5G_loc(loc_id, &loc) < 0)
@@ -280,7 +279,7 @@ int
 H5Aget_num_attrs(hid_t loc_id)
 {
     H5O_loc_t *loc; /* Object location for attribute */
-    void *     obj;
+    void      *obj;
     int        ret_value;
 
     FUNC_ENTER_API(FAIL)
@@ -350,7 +349,7 @@ done:
     last operator if it was non-zero, or zero if all attributes were processed.
 
  DESCRIPTION
-        This function interates over the attributes of dataset or group
+        This function iterates over the attributes of dataset or group
     specified with 'loc_id'.  For each attribute of the object, the
     'op_data' and some additional information (specified below) are passed
     to the 'op' function.  The iteration begins with the '*attr_number'

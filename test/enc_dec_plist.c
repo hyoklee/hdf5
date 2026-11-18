@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -23,7 +22,7 @@ static int
 test_encode_decode(hid_t orig_pl)
 {
     hid_t  pl        = (-1); /* Decoded property list */
-    void * temp_buf  = NULL; /* Pointer to encoding buffer */
+    void  *temp_buf  = NULL; /* Pointer to encoding buffer */
     size_t temp_size = 0;    /* Size of encoding buffer */
 
     /* first call to encode returns only the size of the buffer needed */

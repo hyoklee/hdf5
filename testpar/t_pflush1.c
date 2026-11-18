@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -117,7 +116,7 @@ main(int argc, char *argv[])
     hid_t       fid1    = H5I_INVALID_HID;
     hid_t       fid2    = H5I_INVALID_HID;
     hid_t       fapl_id = H5I_INVALID_HID;
-    MPI_File *  mpifh_p = NULL;
+    MPI_File   *mpifh_p = NULL;
     char        name[1024];
     const char *envval = NULL;
     int         mpi_size;
@@ -215,6 +214,7 @@ error:
     HDfflush(stderr);
     HDprintf("*** ERROR ***\n");
     HDprintf("THERE WAS A REAL ERROR IN t_pflush1.\n");
+    HDfflush(stdout);
 
     if (data_g)
         HDfree(data_g);

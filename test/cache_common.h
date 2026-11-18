@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -251,7 +250,7 @@ typedef struct flush_op {
 
 typedef enum test_entry_action_t {
     TEST_ENTRY_ACTION_NUL = 0, /* No action on entry */
-    TEST_ENTRY_ACTION_MOVE     /* Entry is beging moved */
+    TEST_ENTRY_ACTION_MOVE     /* Entry is being moved */
 } test_entry_action_t;
 
 typedef struct test_entry_t {
@@ -262,7 +261,7 @@ typedef struct test_entry_t {
                                    * sanity checking.
                                    */
     test_entry_action_t action;   /* Action being performed on a test entry */
-    H5F_t *             file_ptr; /* pointer to the file in which the
+    H5F_t              *file_ptr; /* pointer to the file in which the
                                    * entry resides, or NULL if the entry
                                    * is not in a file.
                                    */
@@ -370,7 +369,7 @@ typedef struct test_entry_t {
                                                       * been resized by a resize flush
                                                       * op, and the flush function has
                                                       * not yet returned,  This field is
-                                                      * used to turn off overactive santity
+                                                      * used to turn off overactive sanity
                                                       * checking code that would otherwise
                                                       * cause a false test failure.
                                                       */
@@ -391,7 +390,7 @@ typedef struct test_entry_t {
     unsigned flush_dep_npar;                         /* Number of flush dependency parents */
     unsigned flush_dep_nchd;                         /* Number of flush dependency children */
     unsigned
-             flush_dep_ndirty_chd; /* Number of dirty flush dependency children (including grandchildren, etc.) */
+        flush_dep_ndirty_chd; /* Number of dirty flush dependency children (including grandchildren, etc.) */
     hbool_t  pinned_from_client; /* entry was pinned by client call */
     hbool_t  pinned_from_cache;  /* entry was pinned by cache internally */
     unsigned flush_order;        /* Order that entry was flushed in */

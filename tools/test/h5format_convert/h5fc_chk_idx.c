@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -43,8 +42,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-    char *            fname = NULL;
-    char *            dname = NULL;
+    char             *fname = NULL;
+    char             *dname = NULL;
     hid_t             fid   = H5I_INVALID_HID;
     hid_t             did   = H5I_INVALID_HID;
     H5D_chunk_index_t idx_type;

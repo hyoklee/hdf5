@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -565,8 +564,8 @@ test_filespace(hid_t fapl)
                                            FILESPACE_CHUNK2}; /* Chunk dimensions */
     hsize_t attr_dims[FILESPACE_ATTR_NDIMS] = {FILESPACE_ATTR_DIM0,
                                                FILESPACE_ATTR_DIM1}; /* Attribute dimensions */
-    int *   data                            = NULL;                  /* Pointer to dataset buffer */
-    int *   tmp_data;                                                /* Temporary pointer to dataset buffer */
+    int    *data                            = NULL;                  /* Pointer to dataset buffer */
+    int    *tmp_data;                                                /* Temporary pointer to dataset buffer */
     h5_stat_size_t empty_size;                                       /* Size of an empty file */
     h5_stat_size_t file_size;                                        /* Size of each file created */
     herr_t         status;                                           /* Function status return value */
@@ -614,7 +613,7 @@ test_filespace(hid_t fapl)
 
     /* Create common objects for datasets */
 
-    /* Create dataset creation property list for contigous storage */
+    /* Create dataset creation property list for contiguous storage */
     if ((contig_dcpl = H5Pcreate(H5P_DATASET_CREATE)) < 0)
         TEST_ERROR
 
@@ -1096,7 +1095,7 @@ test_filespace(hid_t fapl)
 
     PASSED();
 
-    /* Create simple group hiearchy, remove it & verify file size */
+    /* Create simple group hierarchy, remove it & verify file size */
     TESTING("    simple group hierarchy");
 
     /* Create file */
@@ -1135,7 +1134,7 @@ test_filespace(hid_t fapl)
 
     PASSED();
 
-    /* Create complex group hiearchy, remove it & verify file size */
+    /* Create complex group hierarchy, remove it & verify file size */
     TESTING("    complex group hierarchy");
 
     /* Create file */

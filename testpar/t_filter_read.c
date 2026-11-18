@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -60,8 +59,8 @@ filter_read_internal(const char *filename, hid_t dcpl, hsize_t *dset_size)
     size_t  i, j;          /* Local index variables */
     char    name[32] = "dataset";
     herr_t  hrc;           /* Error status */
-    int *   points = NULL; /* Writing buffer for entire dataset */
-    int *   check  = NULL; /* Reading buffer for selected hyperslab */
+    int    *points = NULL; /* Writing buffer for entire dataset */
+    int    *check  = NULL; /* Reading buffer for selected hyperslab */
 
     /* set up MPI parameters */
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
@@ -207,7 +206,7 @@ test_filter_read(void)
     unsigned      chunk_opts;                               /* Chunk options */
     unsigned      disable_partial_chunk_filters; /* Whether filters are disabled on partial chunks */
     herr_t        hrc;
-    const char *  filename;
+    const char   *filename;
 #ifdef H5_HAVE_FILTER_FLETCHER32
     hsize_t fletcher32_size; /* Size of dataset with Fletcher32 checksum */
 #endif

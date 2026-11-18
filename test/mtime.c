@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -55,7 +54,7 @@ main(void)
     hid_t       fapl, file, space, dset;
     hsize_t     size[1] = {2};
     time_t      now;
-    struct tm * tm;
+    struct tm  *tm;
     H5O_info_t  oi1, oi2;
     signed char buf1[32], buf2[32];
     char        filename[1024];
@@ -113,7 +112,7 @@ main(void)
     if (0 == oi1.ctime) {
         SKIPPED();
         HDputs("    The modification time could not be decoded on this OS.");
-        HDputs("    Modification times will be mantained in the file but");
+        HDputs("    Modification times will be maintained in the file but");
         HDputs("    cannot be queried on this system.  See H5O_mtime_decode().");
         return 0;
     }

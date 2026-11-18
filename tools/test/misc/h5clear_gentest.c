@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -63,7 +62,7 @@ gen_cache_image_file(const char *fname)
     hsize_t                   dims[2];                         /* Dimension sizes */
     hsize_t                   chunks[2];                       /* Chunked dimension sizes */
     int                       i, j;                            /* Local index variables */
-    int **                    buf                = NULL;       /* Buffer for data to write */
+    int                     **buf                = NULL;       /* Buffer for data to write */
     H5AC_cache_image_config_t cache_image_config =             /* Cache image input configuration */
         {H5AC__CURR_CACHE_IMAGE_CONFIG_VERSION, TRUE, FALSE, H5AC__CACHE_IMAGE__ENTRY_AGEOUT__NONE};
 

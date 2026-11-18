@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -256,7 +255,7 @@ done:
 int_f
 h5dsget_label_c(hid_t_f *did, int_f *idx, _fcd label, size_t_f *size)
 {
-    char *  c_label   = NULL;
+    char   *c_label   = NULL;
     ssize_t size_c    = -1;
     int_f   ret_value = 0;
 
@@ -306,7 +305,7 @@ done:
 int_f
 h5dsget_scale_name_c(hid_t_f *did, _fcd name, size_t_f *size)
 {
-    char *  c_scale_name = NULL;
+    char   *c_scale_name = NULL;
     ssize_t size_c       = -1;
     int_f   ret_value    = 0;
 

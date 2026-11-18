@@ -2,7 +2,7 @@
  * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
- * This file is part of HDF5. The full HDF5 copyright notice, including      *
+ * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
  * distribution tree, or in https://www.hdfgroup.org/licenses.               *
@@ -65,7 +65,7 @@ static size_t
 H5Z_filter_dynlib4(unsigned int flags, size_t cd_nelmts, const unsigned int *cd_values, size_t nbytes,
                    size_t *buf_size, void **buf)
 {
-    int *    int_ptr  = (int *)*buf; /* Pointer to the data values */
+    int     *int_ptr  = (int *)*buf; /* Pointer to the data values */
     size_t   buf_left = *buf_size;   /* Amount of data buffer left to process */
     int      add_on   = 0;
     unsigned ver_info[3];

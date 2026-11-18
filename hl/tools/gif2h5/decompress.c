@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -17,7 +16,7 @@
 
 GIFWORD       iWIDE, iHIGH, eWIDE, eHIGH, expand, numcols, strip, nostrip;
 unsigned long cols[256];
-char *        cmd;
+char         *cmd;
 
 FILE *fp;
 

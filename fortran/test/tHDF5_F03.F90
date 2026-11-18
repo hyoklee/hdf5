@@ -7,13 +7,12 @@
 !  src/fortran/test/tHDF5_F03.f90
 !
 ! PURPOSE
-!  This is the test  module used for testing the Fortran2003 HDF
+!  This is the test module used for testing the Fortran2003 HDF
 !  library APIS.
 !
 ! COPYRIGHT
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 !   Copyright by The HDF Group.                                               *
-!   Copyright by the Board of Trustees of the University of Illinois.         *
 !   All rights reserved.                                                      *
 !                                                                             *
 !   This file is part of HDF5.  The full HDF5 copyright notice, including     *

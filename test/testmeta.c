@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -15,7 +14,7 @@
  * This program illustrates assertion errors when linked
  * to HDF5 1.4.1-post2 or 1.4.2-pre3 debug library.
  *
- * If the assertion errors are ignored, the program eventially causes
+ * If the assertion errors are ignored, the program eventually causes
  * an error in H5Gcreate2 when writing object 83381.
  *
  * When writing in single file mode, the assertion errors still occur

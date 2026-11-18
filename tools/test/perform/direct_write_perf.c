@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -23,31 +22,27 @@
 
 #if !defined(WIN32) && !defined(__MINGW32__)
 
-#include <math.h>
-
-#ifdef H5_STDC_HEADERS
 #include <errno.h>
 #include <fcntl.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#endif
-
-#ifdef H5_HAVE_UNISTD_H
-#include <sys/types.h>
-#include <unistd.h>
-#endif
+#include <time.h>
 
 #ifdef H5_HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
 
-#if defined(H5_TIME_WITH_SYS_TIME)
+#ifdef H5_HAVE_SYS_TIME_H
 #include <sys/time.h>
-#include <time.h>
-#elif defined(H5_HAVE_SYS_TIME_H)
-#include <sys/time.h>
-#else
-#include <time.h>
+#endif
+
+#ifdef H5_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef H5_HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 const char *FILENAME[] = {"direct_write", "unix.raw", NULL};
@@ -55,8 +50,7 @@ const char *FILENAME[] = {"direct_write", "unix.raw", NULL};
 /*
  * Print the current location on the standard output stream.
  */
-#define FUNC __func__
-#define AT() printf("   at %s:%d in %s()...\n", __FILE__, __LINE__, FUNC);
+#define AT() printf("   at %s:%d in %s()...\n", __FILE__, __LINE__, __func__);
 #define H5_FAILED()                                                                                          \
     {                                                                                                        \
         puts("*FAILED*");                                                                                    \
@@ -150,7 +144,7 @@ create_file(hid_t fapl_id)
     size_t        buf_size = CHUNK_NY * CHUNK_NZ * sizeof(unsigned int);
 
     const Bytef *z_src;
-    Bytef *      z_dst; /*destination buffer		*/
+    Bytef       *z_dst; /*destination buffer		*/
     uLongf       z_dst_nbytes = (uLongf)DEFLATE_SIZE_ADJUST(buf_size);
     uLong        z_src_nbytes = (uLong)buf_size;
 
@@ -660,7 +654,7 @@ main(void)
     hid_t fapl = H5P_DEFAULT;
     int   i;
 
-    sprintf(filename, "%s.h5", FILENAME[0]);
+    snprintf(filename, sizeof(filename), "%s.h5", FILENAME[0]);
 
     create_file(fapl);
     test_direct_write_uncompressed_data(fapl);

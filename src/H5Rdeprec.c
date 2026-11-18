@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -85,7 +84,7 @@
  *      ref_type    IN: Type of reference to query
  *      ref         IN: Reference to query
  *
- * Return:      Success:	An object type (as defined in H5Gpublic.h)
+ * Return:      Success:    An object type (as defined in H5Gpublic.h)
  *              Failure:    H5G_UNKNOWN
  *
  *-------------------------------------------------------------------------
@@ -139,7 +138,7 @@ hid_t
 H5Rdereference1(hid_t obj_id, H5R_type_t ref_type, const void *_ref)
 {
     H5G_loc_t loc;                         /* Group location */
-    H5F_t *   file      = NULL;            /* File object */
+    H5F_t    *file      = NULL;            /* File object */
     hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)

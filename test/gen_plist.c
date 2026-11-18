@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -45,7 +44,7 @@ main(void)
     double                    w0     = 0.5;
     unsigned                  max_compact;
     unsigned                  min_dense;
-    const char *              c_to_f = "x+32";
+    const char               *c_to_f = "x+32";
     int                       little_endian;
     int                       word_length;
     H5AC_cache_config_t       my_cache_config       = {H5AC__CURR_CACHE_CONFIG_VERSION,
@@ -81,10 +80,10 @@ main(void)
     H5AC_cache_image_config_t my_cache_image_config = {H5AC__CURR_CACHE_IMAGE_CONFIG_VERSION, TRUE, FALSE,
                                                        -1};
 
-    /* check endianess */
+    /* check endianness */
     {
         short int word = 0x0001;
-        char *    byte = (char *)&word;
+        char     *byte = (char *)&word;
 
         if (byte[0] == 1)
             /* little endian */
@@ -448,7 +447,7 @@ encode_plist(hid_t plist_id, int little_endian, int word_length, const char *fil
 {
     int                           fd        = 0; /* file descriptor */
     herr_t                        ret       = 0;
-    void *                        temp_buf  = NULL;
+    void                         *temp_buf  = NULL;
     size_t                        temp_size = 0;
     ssize_t H5_ATTR_NDEBUG_UNUSED write_size;
     char                          filename[1024];

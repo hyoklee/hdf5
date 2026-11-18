@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,7 +23,7 @@
  * parameters. The long-named ones can be partially spelled. When
  * adding more, make sure that they don't clash with each other.
  */
-static const char *        s_opts   = "h";
+static const char         *s_opts   = "h";
 static struct long_options l_opts[] = {{"help", no_arg, 'h'}, {"hel", no_arg, 'h'}, {NULL, 0, '\0'}};
 
 /*-------------------------------------------------------------------------
@@ -100,7 +99,7 @@ leave(int ret)
 int
 main(int argc, char *argv[])
 {
-    char *  ifname;
+    char   *ifname;
     hid_t   ifile = H5I_INVALID_HID;
     hsize_t usize;
     htri_t  testval;

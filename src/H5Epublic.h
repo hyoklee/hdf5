@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -112,7 +111,7 @@ H5_DLLVAR hid_t H5E_ERR_CLS_g;
 #define H5E_BEGIN_TRY                                                                                        \
     {                                                                                                        \
         H5E_auto2_t saved_efunc;                                                                             \
-        void *      H5E_saved_edata;                                                                         \
+        void       *H5E_saved_edata;                                                                         \
                                                                                                              \
         (void)H5Eget_auto2(H5E_DEFAULT, &saved_efunc, &H5E_saved_edata);                                     \
         (void)H5Eset_auto2(H5E_DEFAULT, NULL, NULL);

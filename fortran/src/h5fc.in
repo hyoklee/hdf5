@@ -1,7 +1,6 @@
 #! /bin/sh
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -26,6 +25,7 @@ prefix="@prefix@"
 exec_prefix="@exec_prefix@"
 libdir="@libdir@"
 includedir="@includedir@"
+fmoddir="@fmoddir@"
 HL="@HL@"
 
 ############################################################################
@@ -278,7 +278,7 @@ done
 # It's possible that there isn't a modules flag...
   fmodules=""
   if test -n "$F9XMODFLAG"; then
-    fmodules="${F9XMODFLAG}${includedir}"
+    fmodules="${F9XMODFLAG}${fmoddir}"
   fi
 
 if test "x$do_compile" = "xyes"; then

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -125,7 +124,7 @@ test_misc(hid_t fcpl, hid_t fapl, hbool_t new_format)
     if (H5Gclose(g3) < 0)
         TEST_ERROR
 
-    /* Open all groups with absolute names to check for exsistence */
+    /* Open all groups with absolute names to check for existence */
     if ((g1 = H5Gopen2(fid, "/test_1a", H5P_DEFAULT)) < 0)
         TEST_ERROR
     if ((g2 = H5Gopen2(fid, "/test_1a/sub_1", H5P_DEFAULT)) < 0)
@@ -200,7 +199,7 @@ test_long(hid_t fcpl, hid_t fapl, hbool_t new_format)
 {
     hid_t  fid = (-1); /* File ID */
     hid_t  g1 = (-1), g2 = (-1);
-    char * name1 = NULL, *name2 = NULL;
+    char  *name1 = NULL, *name2 = NULL;
     char   filename[NAME_BUF_SIZE];
     size_t i;
 
@@ -648,7 +647,7 @@ long_compact(hid_t fcpl, hid_t fapl2)
     hid_t          fid     = (-1); /* File ID */
     hid_t          gid     = (-1); /* Group ID */
     hid_t          gid2    = (-1); /* Group ID */
-    char *         objname = NULL; /* Object name */
+    char          *objname = NULL; /* Object name */
     char           filename[NAME_BUF_SIZE];
     h5_stat_size_t empty_size; /* Size of an empty file */
     h5_stat_size_t file_size;  /* Size of each file created */
@@ -1416,7 +1415,7 @@ main(void)
     hid_t       fcpl, fcpl2;     /* File creation property list ID */
     unsigned    new_format;      /* Whether to use the new format or not */
     const char *env_h5_drvr;     /* File Driver value from environment */
-    hbool_t     contig_addr_vfd; /* Whether VFD used has a contigous address space */
+    hbool_t     contig_addr_vfd; /* Whether VFD used has a contiguous address space */
     int         nerrors = 0;
 
     /* Get the VFD to use */
@@ -1424,7 +1423,7 @@ main(void)
     if (env_h5_drvr == NULL)
         env_h5_drvr = "nomatch";
 
-    /* VFD that does not support contigous address space */
+    /* VFD that does not support contiguous address space */
     contig_addr_vfd = (hbool_t)(HDstrcmp(env_h5_drvr, "split") != 0 && HDstrcmp(env_h5_drvr, "multi") != 0);
 
     /* Reset library */

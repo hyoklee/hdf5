@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -84,16 +83,16 @@ struct Input {
     int              inputArchitecture;
     int              inputByteOrder;
     int              rank;
-    hsize_t *        sizeOfDimension;
+    hsize_t         *sizeOfDimension;
     int              outputClass;
     int              outputSize;
     int              outputArchitecture;
     int              outputByteOrder;
-    hsize_t *        sizeOfChunk;
-    hsize_t *        maxsizeOfDimension;
+    hsize_t         *sizeOfChunk;
+    hsize_t         *maxsizeOfDimension;
     int              compressionType;
     int              compressionParam;
-    char *           externFilename;
+    char            *externFilename;
     VOIDP            data;
     int              configOptionVector[NUM_KEYS];
 };

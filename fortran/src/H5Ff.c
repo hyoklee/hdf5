@@ -5,7 +5,6 @@
  * COPYRIGHT
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -48,7 +47,7 @@ h5fcreate_c(_fcd name, int_f *namelen, int_f *access_flags, hid_t_f *crt_prp, hi
 /******/
 {
     int      ret_value = -1;
-    char *   c_name;
+    char    *c_name;
     int_f    c_namelen;
     hid_t    c_file_id;
     unsigned c_access_flags;
@@ -156,7 +155,7 @@ h5fmount_c(hid_t_f *loc_id, _fcd dsetname, int_f *namelen, hid_t_f *file_id, hid
 /******/
 {
     int    ret_value = -1;
-    char * c_name;
+    char  *c_name;
     int_f  c_namelen;
     hid_t  c_loc_id;
     hid_t  c_file_id;
@@ -214,7 +213,7 @@ h5funmount_c(hid_t_f *loc_id, _fcd dsetname, int_f *namelen)
 /******/
 {
     int    ret_value = -1;
-    char * c_name;
+    char  *c_name;
     int_f  c_namelen;
     hid_t  c_loc_id;
     htri_t status;
@@ -265,7 +264,7 @@ h5fopen_c(_fcd name, int_f *namelen, int_f *access_flags, hid_t_f *acc_prp, hid_
 /******/
 {
     int      ret_value = -1;
-    char *   c_name;
+    char    *c_name;
     int_f    c_namelen;
     hid_t    c_file_id;
     unsigned c_access_flags;
@@ -433,7 +432,7 @@ h5fis_hdf5_c(_fcd name, int_f *namelen, int_f *flag)
 /******/
 {
     int    ret_value = -1;
-    char * c_name;
+    char  *c_name;
     int_f  c_namelen;
     htri_t status;
 
@@ -554,7 +553,7 @@ h5fget_obj_ids_c(hid_t_f *file_id, int_f *obj_type, size_t_f *max_objs, hid_t_f 
     size_t   u;
     size_t   c_max_objs;
     ssize_t  c_num_objs;
-    hid_t *  c_obj_ids;
+    hid_t   *c_obj_ids;
 
     c_file_id  = (hid_t)*file_id;
     c_obj_type = (unsigned)*obj_type;
@@ -626,7 +625,7 @@ int_f
 h5fget_name_c(hid_t_f *obj_id, size_t_f *size, _fcd buf, size_t_f *buflen)
 /******/
 {
-    char *  c_buf     = NULL; /* Buffer to hold C string */
+    char   *c_buf     = NULL; /* Buffer to hold C string */
     ssize_t size_c    = -1;
     int_f   ret_value = 0; /* Return value */
 

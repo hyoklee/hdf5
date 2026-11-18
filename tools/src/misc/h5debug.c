@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -239,14 +238,14 @@ main(int argc, char *argv[])
 {
     hid_t       fid  = H5I_INVALID_HID;
     hid_t       fapl = H5I_INVALID_HID;
-    H5F_t *     f;
+    H5F_t      *f;
     haddr_t     addr        = 0;
     int         extra_count = 0; /* Number of extra arguments */
     haddr_t     extra[10];
     uint8_t     sig[H5F_SIGNATURE_LEN];
     size_t      u;
     H5E_auto2_t func           = NULL;
-    void *      edata          = NULL;
+    void       *edata          = NULL;
     hbool_t     api_ctx_pushed = FALSE; /* Whether API context pushed */
     herr_t      status         = SUCCEED;
     int         exit_value     = 0;
@@ -809,8 +808,12 @@ main(int argc, char *argv[])
 done:
     if (fapl > 0)
         H5Pclose(fapl);
-    if (fid > 0)
-        H5Fclose(fid);
+    if (fid > 0) {
+        if (H5Fclose(fid) < 0) {
+            HDfprintf(stderr, "Error in closing file!\n");
+            exit_value = 1;
+        }
+    }
 
     /* Pop API context */
     if (api_ctx_pushed)

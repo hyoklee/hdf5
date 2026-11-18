@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -783,8 +782,8 @@ compare_attribute(hid_t aid, hid_t aid2, hid_t pid, const void *wbuf, hid_t obj_
     H5A_info_t ainfo;               /* Attribute info */
     H5A_info_t ainfo2;              /* Attribute info */
     hssize_t   nelmts;              /* # of elements in dataspace */
-    void *     rbuf  = NULL;        /* Buffer for reading raw data */
-    void *     rbuf2 = NULL;        /* Buffer for reading raw data */
+    void      *rbuf  = NULL;        /* Buffer for reading raw data */
+    void      *rbuf2 = NULL;        /* Buffer for reading raw data */
 
     /* Check the character sets are equal */
     if (H5Aget_info(aid, &ainfo) < 0)
@@ -1222,8 +1221,10 @@ compare_data(hid_t parent1, hid_t parent2, hid_t pid, hid_t tid, size_t nelmts, 
             const hdset_reg_ref_t *ref_buf1, *ref_buf2; /* Aliases for buffers to compare */
 
             /* Loop over elements in buffers */
+            H5_GCC_DIAG_OFF("cast-qual")
             ref_buf1 = (const hdset_reg_ref_t *)buf1;
             ref_buf2 = (const hdset_reg_ref_t *)buf2;
+            H5_GCC_DIAG_ON("cast-qual")
             for (u = 0; u < nelmts; u++, ref_buf1++, ref_buf2++) {
                 hid_t      obj1_id, obj2_id;     /* IDs for objects referenced */
                 hid_t      obj1_sid, obj2_sid;   /* Dataspace IDs for objects referenced */
@@ -1342,8 +1343,8 @@ compare_datasets(hid_t did, hid_t did2, hid_t pid, const void *wbuf)
     htri_t             is_committed2;         /* If the datatype is committed */
     int                nfilters;              /* Number of filters applied to dataset */
     hssize_t           nelmts;                /* # of elements in dataspace */
-    void *             rbuf  = NULL;          /* Buffer for reading raw data */
-    void *             rbuf2 = NULL;          /* Buffer for reading raw data */
+    void              *rbuf  = NULL;          /* Buffer for reading raw data */
+    void              *rbuf2 = NULL;          /* Buffer for reading raw data */
     H5D_space_status_t space_status;          /* Dataset's raw dataspace status */
     H5D_space_status_t space_status2;         /* Dataset's raw dataspace status */
 
@@ -2428,7 +2429,7 @@ test_copy_dataset_versionbounds(hid_t fcpl_src, hid_t fapl_src)
     H5F_libver_t low, high;                   /* File format bounds */
     unsigned     srcdset_layoutversion;       /* Layout version of source dataset */
     int          i, j;                        /* Local index variables */
-    H5D_t *      dsetp = NULL;                /* Pointer to internal dset structure */
+    H5D_t       *dsetp = NULL;                /* Pointer to internal dset structure */
     herr_t       ret;                         /* Generic return value */
 
     TESTING("H5Ocopy(): simple dataset with version bounds");
@@ -2750,7 +2751,7 @@ test_copy_dataset_simple_empty(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
     char    dst_filename[NAME_BUF_SIZE];
 
     if (test_open) {
-        TESTING("H5Ocopy(): empty and openend contiguous dataset");
+        TESTING("H5Ocopy(): empty and opened contiguous dataset");
     }
     else {
         TESTING("H5Ocopy(): empty contiguous dataset");
@@ -3953,7 +3954,7 @@ test_copy_dataset_chunked_empty(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, 
     if ((did = H5Dopen2(fid_src, NAME_DATASET_CHUNKED3, H5P_DEFAULT)) < 0)
         TEST_ERROR
 
-    /* open the copied dataset NAME_DATASET_CHUNKED3 at destinaion */
+    /* open the copied dataset NAME_DATASET_CHUNKED3 at destination */
     if ((did2 = H5Dopen2(fid_dst, NAME_DATASET_CHUNKED3, H5P_DEFAULT)) < 0)
         TEST_ERROR
 
@@ -5956,7 +5957,7 @@ test_copy_dataset_multi_ohdr_chunks(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fa
     else
         /* open the group for copy */
         if ((gid = H5Gopen2(fid_src, NAME_GROUP_TOP, H5P_DEFAULT)) < 0)
-        FAIL_STACK_ERROR
+            FAIL_STACK_ERROR
 
     /* open the destination group */
     if ((gid2 = H5Gopen2(fid_dst, NAME_GROUP_TOP, H5P_DEFAULT)) < 0)
@@ -8633,7 +8634,7 @@ test_copy_soft_link(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t dst_fa
     char    dst_filename[NAME_BUF_SIZE];
 
     if (test_open) {
-        TESTING("H5Ocopy(): openend object through soft link");
+        TESTING("H5Ocopy(): opened object through soft link");
     }
     else {
         TESTING("H5Ocopy(): object through soft link");
@@ -9620,7 +9621,7 @@ test_copy_dataset_contig_named_vl(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl
     char         src_filename[NAME_BUF_SIZE];
     char         dst_filename[NAME_BUF_SIZE];
 
-    TESTING("H5Ocopy(): contigous dataset with named VLEN datatype");
+    TESTING("H5Ocopy(): contiguous dataset with named VLEN datatype");
 
     /* set initial data values */
     for (i = 0; i < DIM_SIZE_1; i++) {
@@ -10179,7 +10180,7 @@ test_copy_dataset_compact_vl_vl(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, 
     unsigned int i, j, k;                    /* Local index variables */
     hsize_t      dim1d[1];                   /* Dataset dimensions */
     hvl_t        buf[DIM_SIZE_1];            /* Buffer for writing data */
-    hvl_t *      tvl;                        /* Temporary pointer to VL information */
+    hvl_t       *tvl;                        /* Temporary pointer to VL information */
     char         src_filename[NAME_BUF_SIZE];
     char         dst_filename[NAME_BUF_SIZE];
 
@@ -10375,15 +10376,15 @@ test_copy_dataset_contig_vl_vl(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, h
     unsigned int i, j, k;                    /* Local index variables */
     hsize_t      dim1d[1];                   /* Dataset dimensions */
     hvl_t        buf[DIM_SIZE_1];            /* Buffer for writing data */
-    hvl_t *      tvl;                        /* Temporary pointer to VL information */
+    hvl_t       *tvl;                        /* Temporary pointer to VL information */
     char         src_filename[NAME_BUF_SIZE];
     char         dst_filename[NAME_BUF_SIZE];
 
     if (test_open) {
-        TESTING("H5Ocopy(): contigous and opened dataset with nested VLEN datatype");
+        TESTING("H5Ocopy(): contiguous and opened dataset with nested VLEN datatype");
     }
     else {
-        TESTING("H5Ocopy(): contigous dataset with nested VLEN datatype");
+        TESTING("H5Ocopy(): contiguous dataset with nested VLEN datatype");
     }
 
     /* set initial data values */
@@ -10574,7 +10575,7 @@ test_copy_dataset_chunked_vl_vl(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, 
     unsigned int i, j, k;                         /* Local index variables */
     hsize_t      dim1d[1];                        /* Dataset dimensions */
     hvl_t        buf[DIM_SIZE_1];                 /* Buffer for writing data */
-    hvl_t *      tvl;                             /* Temporary pointer to VL information */
+    hvl_t       *tvl;                             /* Temporary pointer to VL information */
     hsize_t      chunk_dim1d[1] = {CHUNK_SIZE_1}; /* Chunk dimensions */
     char         src_filename[NAME_BUF_SIZE];
     char         dst_filename[NAME_BUF_SIZE];
@@ -10813,7 +10814,7 @@ test_copy_dataset_compressed_vl_vl(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fap
     unsigned int i, j, k;                         /* Local index variables */
     hsize_t      dim1d[1];                        /* Dataset dimensions */
     hvl_t        buf[DIM_SIZE_1];                 /* Buffer for writing data */
-    hvl_t *      tvl;                             /* Temporary pointer to VL information */
+    hvl_t       *tvl;                             /* Temporary pointer to VL information */
     hsize_t      chunk_dim1d[1] = {CHUNK_SIZE_1}; /* Chunk dimensions */
     char         src_filename[NAME_BUF_SIZE];
     char         dst_filename[NAME_BUF_SIZE];
@@ -11009,7 +11010,7 @@ typedef struct cmpd_vl_t {
  *              Failure:        number of errors
  *
  * Programmer:  Neil Fortner
- *              Tuseday, September 29, 2009
+ *              Tuesday, September 29, 2009
  *
  *-------------------------------------------------------------------------
  */
@@ -13658,7 +13659,7 @@ test_copy_cdt_hier_merge(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t d
         TEST_ERROR
 
     /*
-     * Test 3: copy datsets in /g0 at SRC to DST group /uncopied
+     * Test 3: copy datasets in /g0 at SRC to DST group /uncopied
      */
     if (H5Ocopy(fid_src, NAME_GROUP_TOP "/" SRC_DSET1, fid_dst, NAME_GROUP_UNCOPIED "/" SRC_DSET1, ocpypl_id,
                 H5P_DEFAULT) < 0)
@@ -16239,6 +16240,68 @@ error:
     return (H5_ITER_ERROR);
 } /* end test_copy_iterate_cb */
 
+/*
+ * Test for a bug with copying of v1 object headers where the
+ * new object header would end up with a gap in the header data,
+ * which v1 object header shouldn't have.
+ */
+static int
+test_copy_cdt_v1_header_bug(hid_t fcpl_src, hid_t src_fapl)
+{
+    hid_t file_id   = H5I_INVALID_HID;
+    hid_t type_id   = H5I_INVALID_HID;
+    hid_t ocpypl_id = H5I_INVALID_HID;
+    char  src_filename[NAME_BUF_SIZE];
+
+    TESTING("H5Ocopy(): bug with copying v1 object headers");
+
+    /* Initialize the filenames */
+    h5_fixname(FILENAME[0], src_fapl, src_filename, sizeof src_filename);
+
+    if ((file_id = H5Fcreate(src_filename, H5F_ACC_TRUNC, fcpl_src, src_fapl)) < 0)
+        TEST_ERROR;
+
+    if ((type_id = H5Tcreate(H5T_STRING, 385)) < 0)
+        TEST_ERROR;
+    if (H5Tset_strpad(type_id, H5T_STR_NULLPAD) < 0)
+        TEST_ERROR;
+    if (H5Tset_cset(type_id, H5T_CSET_ASCII) < 0)
+        TEST_ERROR;
+
+    if (H5Tcommit2(file_id, "committed_str_type", type_id, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT) < 0)
+        TEST_ERROR;
+
+    if ((ocpypl_id = H5Pcreate(H5P_OBJECT_COPY)) < 0)
+        TEST_ERROR;
+    if (H5Pset_copy_object(ocpypl_id, H5O_COPY_WITHOUT_ATTR_FLAG) < 0)
+        TEST_ERROR;
+
+    if (H5Ocopy(file_id, "committed_str_type", file_id, "committed_str_type2", ocpypl_id, H5P_DEFAULT) < 0)
+        TEST_ERROR;
+
+    if (H5Tclose(type_id) < 0)
+        TEST_ERROR;
+    if (H5Pclose(ocpypl_id) < 0)
+        TEST_ERROR;
+    if (H5Fclose(file_id) < 0)
+        TEST_ERROR;
+
+    PASSED();
+
+    return 0;
+
+error:
+    H5E_BEGIN_TRY
+    {
+        H5Tclose(type_id);
+        H5Pclose(ocpypl_id);
+        H5Fclose(file_id);
+    }
+    H5E_END_TRY;
+
+    return 1;
+}
+
 static int
 test_copy_iterate(hid_t fcpl_src, hid_t fcpl_dst, hid_t src_fapl, hid_t dst_fapl)
 {
@@ -17402,6 +17465,8 @@ main(void)
             /* Test with dataset opened in the file or not */
             nerrors += test_copy_null_ref(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
             nerrors += test_copy_null_ref_open(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
+
+            nerrors += test_copy_cdt_v1_header_bug(fcpl_src, src_fapl);
 
             nerrors += test_copy_iterate(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
         } /* end if */

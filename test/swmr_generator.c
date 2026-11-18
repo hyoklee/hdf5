@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -221,7 +220,7 @@ gen_skeleton(const char *filename, hbool_t verbose, hbool_t swmr_write, int comp
     if (verbose)
         HDfprintf(stderr, "Closing objects\n");
 
-    /* Close everythign */
+    /* Close everything */
     if (H5Pclose(dcpl) < 0)
         return -1;
     if (H5Sclose(sid) < 0)

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -277,7 +276,7 @@ H5C__construct_cache_image_buffer(H5F_t *f, H5C_t *cache_ptr)
     {
         uint32_t       old_chksum;
         const uint8_t *q;
-        H5C_t *        fake_cache_ptr = NULL;
+        H5C_t         *fake_cache_ptr = NULL;
         unsigned       v;
         herr_t         status; /* Status from decoding */
 
@@ -356,7 +355,7 @@ H5C__construct_cache_image_buffer(H5F_t *f, H5C_t *cache_ptr)
         /* compute the checksum  */
         old_chksum = chksum;
         chksum     = H5_checksum_metadata(cache_ptr->image_buffer,
-                                      (size_t)(cache_ptr->image_data_len - H5F_SIZEOF_CHKSUM), 0);
+                                          (size_t)(cache_ptr->image_data_len - H5F_SIZEOF_CHKSUM), 0);
         HDassert(chksum == old_chksum);
 
         fake_cache_ptr->image_entries = (H5C_image_entry_t *)H5MM_xfree(fake_cache_ptr->image_entries);
@@ -467,7 +466,7 @@ H5C__deserialize_prefetched_entry(H5F_t *f, H5C_t *cache_ptr, H5C_cache_entry_t 
                                              * dirtied during deserialize
                                              */
     size_t             len;                 /* Size of image in file */
-    void *             thing = NULL;        /* Pointer to thing loaded */
+    void              *thing = NULL;        /* Pointer to thing loaded */
     H5C_cache_entry_t *pf_entry_ptr;        /* pointer to the prefetched entry   */
                                             /* supplied in *entry_ptr_ptr.       */
     H5C_cache_entry_t *ds_entry_ptr;        /* Alias for thing loaded, as cache
@@ -591,7 +590,7 @@ H5C__deserialize_prefetched_entry(H5F_t *f, H5C_t *cache_ptr, H5C_cache_entry_t 
      *
      * Note that at present, dirty can't be set to true with prefetched
      * entries.  However this may change, so include this functionality
-     * against that posibility.
+     * against that possibility.
      *
      * Also, note that it is possible for a prefetched entry to be dirty --
      * hence the value assigned to ds_entry_ptr->is_dirty below.
@@ -1161,6 +1160,11 @@ H5C__load_cache_image(H5F_t *f)
     } /* end if */
 
 done:
+    if (ret_value < 0) {
+        if (H5F_addr_defined(cache_ptr->image_addr))
+            cache_ptr->image_buffer = H5MM_xfree(cache_ptr->image_buffer);
+    }
+
     FUNC_LEAVE_NOAPI(ret_value)
 } /* H5C__load_cache_image() */
 
@@ -1179,7 +1183,7 @@ done:
  *		image superblock extension message must be deleted from
  *		the superblock extension and the image block freed
  *
- *		Contrawise, if the file is openened R/O, the metadata
+ *		Contrawise, if the file is opened R/O, the metadata
  *		cache image superblock extension message and image block
  *		must be left as is.  Further, any dirty entries in the
  *		cache image block must be marked as clean to avoid
@@ -1320,7 +1324,7 @@ H5C__image_entry_cmp(const void *_entry1, const void *_entry2)
 herr_t
 H5C__prep_image_for_file_close(H5F_t *f, hbool_t *image_generated)
 {
-    H5C_t * cache_ptr     = NULL;
+    H5C_t  *cache_ptr     = NULL;
     haddr_t eoa_frag_addr = HADDR_UNDEF;
     hsize_t eoa_frag_size = 0;
     herr_t  ret_value     = SUCCEED; /* Return value */
@@ -1464,7 +1468,8 @@ H5C__prep_image_for_file_close(H5F_t *f, hbool_t *image_generated)
             if (HADDR_UNDEF == (cache_ptr->image_addr = H5FD_alloc(f->shared->lf, H5FD_MEM_SUPER, f,
                                                                    (hsize_t)(cache_ptr->image_data_len),
                                                                    &eoa_frag_addr, &eoa_frag_size)))
-            HGOTO_ERROR(H5E_CACHE, H5E_NOSPACE, FAIL, "can't allocate file space for metadata cache image")
+                HGOTO_ERROR(H5E_CACHE, H5E_NOSPACE, FAIL,
+                            "can't allocate file space for metadata cache image")
 
         /* Make note of the eoa after allocation of the cache image
          * block.  This value is used for sanity checking when we
@@ -1871,7 +1876,7 @@ done:
  * Purpose:     Decode the metadata cache image entry from the supplied
  *		buffer into the supplied instance of H5C_image_entry_t.
  *		This includes allocating a buffer for the entry image,
- *		loading it, and seting ie_ptr->image_ptr to point to
+ *		loading it, and setting ie_ptr->image_ptr to point to
  *		the buffer.
  *
  *		Advances the buffer pointer to the first byte
@@ -1893,7 +1898,7 @@ H5C__decode_cache_image_entry(const H5F_t *f, const H5C_t *cache_ptr, const uint
     hbool_t            is_fd_child  = FALSE; /* Only used in assertions */
     haddr_t            addr;
     hsize_t            size = 0;
-    void *             image_ptr;
+    void              *image_ptr;
     uint8_t            flags = 0;
     uint8_t            type_id;
     uint8_t            ring;
@@ -1901,10 +1906,10 @@ H5C__decode_cache_image_entry(const H5F_t *f, const H5C_t *cache_ptr, const uint
     uint16_t           fd_child_count;
     uint16_t           fd_dirty_child_count;
     uint16_t           fd_parent_count;
-    haddr_t *          fd_parent_addrs = NULL;
+    haddr_t           *fd_parent_addrs = NULL;
     int32_t            lru_rank;
     H5C_image_entry_t *ie_ptr = NULL;
-    const uint8_t *    p;
+    const uint8_t     *p;
     herr_t             ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -2251,7 +2256,7 @@ H5C__encode_cache_image_entry(H5F_t *f, H5C_t *cache_ptr, uint8_t **buf, unsigne
 {
     H5C_image_entry_t *ie_ptr;              /* Pointer to entry to encode */
     uint8_t            flags = 0;           /* Flags for entry */
-    uint8_t *          p;                   /* Pointer into cache image buffer */
+    uint8_t           *p;                   /* Pointer into cache image buffer */
     unsigned           u;                   /* Local index value */
     herr_t             ret_value = SUCCEED; /* Return value */
 
@@ -2388,7 +2393,7 @@ done:
  *		also be a flush dependency child.
  *
  *		Finally, note that for purposes of the cache image, flush
- *		dependency height ends when a flush dependecy relation
+ *		dependency height ends when a flush dependency relation
  *		passes off the cache image.
  *
  *		On exit, the flush dependency height of each entry in the
@@ -2550,7 +2555,7 @@ H5C__prep_for_file_close__compute_fd_heights(const H5C_t *cache_ptr)
         entry_ptr = entry_ptr->il_next;
     } /* while (entry_ptr != NULL) */
 
-    /* At present, no extenal parent or child flush dependency links
+    /* At present, no external parent or child flush dependency links
      * should exist -- hence the following assertions.  This will change
      * if we support ageout of entries in the cache image.
      */
@@ -3066,7 +3071,7 @@ H5C__reconstruct_cache_contents(H5F_t *f, H5C_t *cache_ptr)
 {
     H5C_cache_entry_t *pf_entry_ptr;        /* Pointer to prefetched entry */
     H5C_cache_entry_t *parent_ptr;          /* Pointer to parent of prefetched entry */
-    const uint8_t *    p;                   /* Pointer into image buffer */
+    const uint8_t     *p;                   /* Pointer into image buffer */
     unsigned           u, v;                /* Local index variable */
     herr_t             ret_value = SUCCEED; /* Return value */
 
@@ -3278,7 +3283,7 @@ H5C__reconstruct_cache_entry(const H5F_t *f, H5C_t *cache_ptr, const uint8_t **b
     hbool_t is_fd_parent = FALSE;
     hbool_t is_fd_child  = FALSE;
 #endif /* NDEBUG */ /* only used in assertions */
-    const uint8_t *    p;
+    const uint8_t     *p;
     hbool_t            file_is_rw;
     H5C_cache_entry_t *ret_value = NULL; /* Return value */
 
@@ -3432,7 +3437,7 @@ done:
  *		creating if specified.
  *
  *		In general, the size and location of the cache image block
- *		will be unknow at the time that the cache image superblock
+ *		will be unknown at the time that the cache image superblock
  *		message is created.  A subsequent call to this routine will
  *		be used to write the correct data.
  *
@@ -3445,7 +3450,7 @@ done:
 static herr_t
 H5C__write_cache_image_superblock_msg(H5F_t *f, hbool_t create)
 {
-    H5C_t *    cache_ptr;
+    H5C_t     *cache_ptr;
     H5O_mdci_t mdci_msg; /* metadata cache image message */
                          /* to insert in the superblock  */
                          /* extension.			*/

@@ -1,6 +1,5 @@
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -76,11 +75,10 @@ libhdf5_la_SOURCES= H5.c H5checksum.c H5dbg.c H5system.c H5timer.c H5trace.c \
         H5HFspace.c H5HFstat.c H5HFtest.c H5HFtiny.c \
         H5HG.c H5HGcache.c H5HGdbg.c H5HGquery.c \
         H5HL.c H5HLcache.c H5HLdbg.c H5HLint.c H5HLprfx.c H5HLdblk.c\
-        H5HP.c \
         H5I.c H5Idbg.c H5Iint.c H5Itest.c \
         H5L.c H5Lexternal.c H5lib_settings.c \
         H5MF.c H5MFaggr.c H5MFdbg.c H5MFsection.c \
-        H5MM.c H5MP.c H5MPtest.c \
+        H5MM.c \
         H5O.c H5Odeprec.c H5Oainfo.c H5Oalloc.c H5Oattr.c \
         H5Oattribute.c H5Obogus.c H5Obtreek.c H5Ocache.c H5Ocache_image.c \
         H5Ochunk.c \
@@ -163,10 +161,11 @@ bin_SCRIPTS=$(H5CC_NAME)
 # Remove the generated .c file if errors occur unless HDF5_Make_Ignore
 # is set to ignore the error.
 H5Tinit.c: H5detect$(EXEEXT)
-	LD_LIBRARY_PATH="$$LD_LIBRARY_PATH`echo $(LDFLAGS) |                  \
-		sed -e 's/-L/:/g' -e 's/ //g'`"                               \
-	$(RUNSERIAL) ./H5detect$(EXEEXT) > $@  ||                               \
-	    (test $$HDF5_Make_Ignore && echo "*** Error ignored") ||          \
+	@if $(AM_V_P); then set -x; else echo "  GEN      H5Tinit.c"; fi;       \
+	LD_LIBRARY_PATH="$$LD_LIBRARY_PATH`echo $(LDFLAGS) |                    \
+	    sed -e 's/-L/:/g' -e 's/ //g'`"                                     \
+	$(RUNSERIAL) ./H5detect$(EXEEXT)  $@  ||                               	\
+	    (test $$HDF5_Make_Ignore && echo "*** Error ignored") ||            \
 	    ($(RM) $@ ; exit 1)
 
 # Build configuration header file generation
@@ -175,10 +174,11 @@ H5Tinit.c: H5detect$(EXEEXT)
 # Remove the generated .c file if errors occur unless HDF5_Make_Ignore
 # is set to ignore the error.
 H5lib_settings.c: H5make_libsettings$(EXEEXT) libhdf5.settings
-	LD_LIBRARY_PATH="$$LD_LIBRARY_PATH`echo $(LDFLAGS) |                  \
-		sed -e 's/-L/:/g' -e 's/ //g'`"                               \
-	$(RUNSERIAL) ./H5make_libsettings$(EXEEXT) > $@  ||                               \
-	    (test $$HDF5_Make_Ignore && echo "*** Error ignored") ||          \
+	@if $(AM_V_P); then set -x; else echo "  GEN      H5lib_settings.c"; fi;    \
+	LD_LIBRARY_PATH="$$LD_LIBRARY_PATH`echo $(LDFLAGS) |                        \
+	    sed -e 's/-L/:/g' -e 's/ //g'`"                                         \
+	$(RUNSERIAL) ./H5make_libsettings$(EXEEXT)  $@  ||                          \
+	    (test $$HDF5_Make_Ignore && echo "*** Error ignored") ||                \
 	    ($(RM) $@ ; exit 1)
 
 # Error header generation
@@ -205,7 +205,7 @@ $(top_srcdir)/src/H5overflow.h: $(top_srcdir)/src/H5overflow.txt
 
 trace: $(libhdf5_la_SOURCES)
 	@for dep in $? dummy; do                                          \
-	 if test $$dep != "dummy" -a -n "$(PERL)"; then                      \
+	 if test $$dep != "dummy" -a -n "$(PERL)"; then                   \
 	  case "$$dep" in                                                 \
 	   *.c)                                                           \
 	    $(TRACE) $$dep;                                               \

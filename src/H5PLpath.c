@@ -2,7 +2,7 @@
  * Copyright by The HDF Group.                                               *
  * All rights reserved.                                                      *
  *                                                                           *
- * This file is part of HDF5. The full HDF5 copyright notice, including      *
+ * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
  * distribution tree, or in https://www.hdfgroup.org/licenses.               *
@@ -100,7 +100,7 @@ static unsigned H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
 static herr_t
 H5PL__insert_at(const char *path, unsigned int idx)
 {
-    char * path_copy = NULL;    /* copy of path string (for storing) */
+    char  *path_copy = NULL;    /* copy of path string (for storing) */
     herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -181,7 +181,7 @@ H5PL__make_space_at(unsigned int idx)
 static herr_t
 H5PL__replace_at(const char *path, unsigned int idx)
 {
-    char * path_copy = NULL;    /* copy of path string (for storing) */
+    char  *path_copy = NULL;    /* copy of path string (for storing) */
     herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
@@ -231,8 +231,8 @@ H5PL__create_path_table(void)
     char *paths   = NULL;       /* Delimited paths string. Either from the
                                  * environment variable or the default.
                                  */
-    char * next_path = NULL;    /* A path tokenized from the paths string */
-    char * lasts     = NULL;    /* Context pointer for strtok_r() call */
+    char  *next_path = NULL;    /* A path tokenized from the paths string */
+    char  *lasts     = NULL;    /* Context pointer for strtok_r() call */
     herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
@@ -320,7 +320,7 @@ H5PL__close_path_table(void)
  * Purpose:     Gets the number of plugin paths that have been stored.
  *
  * Return:      Success:    The number of paths
- *              Failture:   Can't fail
+ *              Failure:   Can't fail
  *-------------------------------------------------------------------------
  */
 unsigned
@@ -583,8 +583,7 @@ H5PL__find_plugin_in_path_table(const H5PL_search_params_t *search_params, hbool
 
         /* Search for the plugin in this path */
         if (H5PL__find_plugin_in_path(search_params, found, H5PL_paths_g[u], plugin_info) < 0)
-            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, FAIL, "search in path %s encountered an error",
-                        H5PL_paths_g[u])
+            HERROR(H5E_PLUGIN, H5E_CANTGET, "search in path %s encountered an error", H5PL_paths_g[u]);
 
         /* Break out if found */
         if (*found) {
@@ -601,7 +600,7 @@ done:
 /*-------------------------------------------------------------------------
  * Function:    H5PL__find_plugin_in_path
  *
- * Purpose:     Given a path, this function opens the directory and envokes
+ * Purpose:     Given a path, this function opens the directory and invokes
  *              another function to go through all files to find the right
  *              plugin library. Two function definitions are for Unix and
  *              Windows.
@@ -618,8 +617,8 @@ static herr_t
 H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir,
                           const void **plugin_info)
 {
-    char *         path      = NULL;
-    DIR *          dirp      = NULL; /* Directory stream */
+    char          *path      = NULL;
+    DIR           *dirp      = NULL; /* Directory stream */
     struct dirent *dp        = NULL; /* Directory entry */
     herr_t         ret_value = SUCCEED;
 
@@ -636,7 +635,8 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
 
     /* Open the directory */
     if (!(dirp = HDopendir(dir)))
-        HGOTO_ERROR(H5E_PLUGIN, H5E_OPENERROR, FAIL, "can't open directory: %s", dir)
+        HGOTO_ERROR(H5E_PLUGIN, H5E_OPENERROR, FAIL, "can't open directory (%s). Please verify its existence",
+                    dir)
 
     /* Iterate through all entries in the directory */
     while (NULL != (dp = HDreaddir(dirp))) {
@@ -698,7 +698,7 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
 {
     WIN32_FIND_DATAA fdFile;
     HANDLE           hFind = INVALID_HANDLE_VALUE;
-    char *           path  = NULL;
+    char            *path  = NULL;
     char             service[2048];
     herr_t           ret_value = SUCCEED;
 
@@ -714,7 +714,7 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
     *found = FALSE;
 
     /* Specify a file mask. *.* = We want everything! */
-    HDsprintf(service, "%s\\*.dll", dir);
+    HDsnprintf(service, sizeof(service), "%s\\*.dll", dir);
     if ((hFind = FindFirstFileA(service, &fdFile)) == INVALID_HANDLE_VALUE)
         HGOTO_ERROR(H5E_PLUGIN, H5E_OPENERROR, FAIL, "can't open directory")
 

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -125,7 +124,7 @@ create_file(const char *filename, hbool_t verbose, FILE *verbose_file, unsigned 
  *
  * Parameters:
  *              fid: file ID for the SWMR test file
- *              comp_level: the compresssion level
+ *              comp_level: the compression level
  *              index_type: The chunk index type (b1 | b2 | ea | fa)
  *              verbose: whether verbose console output is desired.
  *              verbose_file: file pointer for verbose output
@@ -358,7 +357,7 @@ main(int argc, char *argv[])
     long        nrecords     = 0;     /* # of records to append */
     long        flush_count  = 10000; /* # of records to write between flushing file */
     hbool_t     verbose      = TRUE;  /* Whether to emit some informational messages */
-    FILE *      verbose_file = NULL;  /* File handle for verbose output */
+    FILE       *verbose_file = NULL;  /* File handle for verbose output */
     hbool_t     use_seed     = FALSE; /* Set to TRUE if a seed was set on the command line */
     unsigned    random_seed  = 0;     /* Random # seed */
     int         comp_level   = -1;    /* Compression level (-1 is no compression) */

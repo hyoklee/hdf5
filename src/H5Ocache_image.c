@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -39,7 +38,7 @@
 static void *H5O__mdci_decode(H5F_t *f, H5O_t *open_oh, unsigned mesg_flags, unsigned *ioflags, size_t p_size,
                               const uint8_t *p);
 static herr_t H5O__mdci_encode(H5F_t *f, hbool_t disable_shared, uint8_t *p, const void *_mesg);
-static void * H5O__mdci_copy(const void *_mesg, void *_dest);
+static void  *H5O__mdci_copy(const void *_mesg, void *_dest);
 static size_t H5O__mdci_size(const H5F_t *f, hbool_t disable_shared, const void *_mesg);
 static herr_t H5O__mdci_free(void *mesg);
 static herr_t H5O__mdci_delete(H5F_t *f, H5O_t *open_oh, void *_mesg);
@@ -50,7 +49,7 @@ const H5O_msg_class_t H5O_MSG_MDCI[1] = {{
     H5O_MDCI_MSG_ID,    /* message id number              */
     "mdci",             /* message name for debugging     */
     sizeof(H5O_mdci_t), /* native message size            */
-    0,                  /* messages are sharable?         */
+    0,                  /* messages are shareable?         */
     H5O__mdci_decode,   /* decode message                 */
     H5O__mdci_encode,   /* encode message                 */
     H5O__mdci_copy,     /* copy method                    */
@@ -94,7 +93,7 @@ H5O__mdci_decode(H5F_t *f, H5O_t H5_ATTR_UNUSED *open_oh, unsigned H5_ATTR_UNUSE
                  unsigned H5_ATTR_UNUSED *ioflags, size_t H5_ATTR_UNUSED p_size, const uint8_t *p)
 {
     H5O_mdci_t *mesg;             /* Native message        */
-    void *      ret_value = NULL; /* Return value          */
+    void       *ret_value = NULL; /* Return value          */
 
     FUNC_ENTER_STATIC
 
@@ -172,8 +171,8 @@ static void *
 H5O__mdci_copy(const void *_mesg, void *_dest)
 {
     const H5O_mdci_t *mesg      = (const H5O_mdci_t *)_mesg;
-    H5O_mdci_t *      dest      = (H5O_mdci_t *)_dest;
-    void *            ret_value = NULL; /* Return value */
+    H5O_mdci_t       *dest      = (H5O_mdci_t *)_dest;
+    void             *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -285,7 +284,7 @@ H5O__mdci_delete(H5F_t *f, H5O_t *open_oh, void *_mesg)
          * manager issue is in use, file space for the non-empty self
          * referential free space managers was also allocated from VFD
          * layer at the end of file.  Since these allocations directly
-         * preceeded the cache image allocation they should be directly
+         * preceded the cache image allocation they should be directly
          * adjacent to the cache image block at the end of file.
          *
          * In this case, just call H5MF_tidy_self_referential_fsm_hack().
@@ -302,7 +301,7 @@ H5O__mdci_delete(H5F_t *f, H5O_t *open_oh, void *_mesg)
          *
          * If the hack to work around the persistent self referential
          * free space manager issue is NOT in use, just call H5MF_xfree()
-         * to release the cache iamge.  In principle, we should be able
+         * to release the cache image.  In principle, we should be able
          * to just reduce the EOA to the base address of the cache
          * image block, as there shouldn't be any file space allocation
          * before the first metadata cache access.  However, given

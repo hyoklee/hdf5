@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -63,7 +62,7 @@ dset_ok(hid_t fid, const char *dset_name)
 {
     hid_t   sid     = -1;   /* dataspace ID                     */
     hid_t   did     = -1;   /* dataset ID                       */
-    int *   data    = NULL; /* data buffer                      */
+    int    *data    = NULL; /* data buffer                      */
     hsize_t dims[1] = {0};  /* size of dataset                  */
     int     i;              /* iterator                         */
 
@@ -239,7 +238,7 @@ error:
 int
 main(void)
 {
-    char *      driver = NULL;     /* name of current VFD (from env var)       */
+    char       *driver = NULL;     /* name of current VFD (from env var)       */
     hbool_t     vfd_supports_swmr; /* whether the current VFD supports SWMR    */
     hid_t       fapl_id = -1;      /* file access proplist ID                  */
     char        filename[1024];    /* filename                                 */

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -39,7 +38,7 @@
 #define FILENAME    "ttsafe_cancel.h5"
 #define DATASETNAME "commonname"
 
-void * tts_cancel_thread(void *);
+void  *tts_cancel_thread(void *);
 void   tts_cancel_barrier(void);
 herr_t tts_cancel_callback(void *, hid_t, unsigned, const hsize_t *, void *);
 void   cancellation_cleanup(void *);

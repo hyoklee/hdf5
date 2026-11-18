@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -24,7 +23,7 @@
 
 /* Private typedefs & structs */
 struct H5RS_str_t {
-    char *   s;       /* String to be reference counted */
+    char    *s;       /* String to be reference counted */
     unsigned wrapped; /* Indicates that the string to be ref-counted is not copied */
     unsigned n;       /* Reference count of number of pointers sharing string */
 };
@@ -334,7 +333,7 @@ H5RS_dup(H5RS_str_t *ret_value)
 H5RS_str_t *
 H5RS_dup_str(const char *s)
 {
-    char *      new_str;  /* Duplicate of string */
+    char       *new_str;  /* Duplicate of string */
     size_t      path_len; /* Length of the path */
     H5RS_str_t *ret_value;
 

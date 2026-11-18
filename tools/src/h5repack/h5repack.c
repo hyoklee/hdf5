@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -117,7 +116,7 @@ h5repack_end(pack_opt_t *options)
 int
 h5repack_addfilter(const char *str, pack_opt_t *options)
 {
-    obj_list_t *  obj_list = NULL; /* one object list for the -f and -l option entry */
+    obj_list_t   *obj_list = NULL; /* one object list for the -f and -l option entry */
     filter_info_t filter;          /* filter info for the current -f option entry */
     unsigned      n_objs;          /* number of objects in the current -f or -l option entry */
     int           is_glb;          /* is the filter global */
@@ -352,7 +351,7 @@ copy_attr(hid_t loc_in, hid_t loc_out, named_dt_t **named_dt_head_p, trav_table_
     hid_t         ftype_id = H5I_INVALID_HID; /* file type ID */
     hid_t         wtype_id = H5I_INVALID_HID; /* read/write type ID */
     size_t        msize;                      /* size of type */
-    void *        buf = NULL;                 /* data buffer */
+    void         *buf = NULL;                 /* data buffer */
     hsize_t       nelmts;                     /* number of elements in dataset */
     int           rank;                       /* rank of dataset */
     htri_t        is_named;                   /* Whether the datatype is named */
@@ -521,10 +520,12 @@ copy_attr(hid_t loc_in, hid_t loc_out, named_dt_t **named_dt_head_p, trav_table_
             buf = NULL;
         } /*H5T_REFERENCE*/
 
-        if (options->verbose == 2)
-            HDprintf(FORMAT_OBJ_ATTR_TIME, "attr", read_time, write_time, name);
-        else
-            HDprintf(FORMAT_OBJ_ATTR, "attr", name);
+        if (options->verbose > 0) {
+            if (options->verbose == 2)
+                HDprintf(FORMAT_OBJ_ATTR_TIME, "attr", read_time, write_time, name);
+            else
+                HDprintf(FORMAT_OBJ_ATTR, "attr", name);
+        }
 
         /*---------------------------------------------------------------------
          * close
@@ -687,7 +688,7 @@ check_options(pack_opt_t *options)
 
     for (i = 0; i < options->op_tbl->nelems; i++) {
         pack_info_t pack = options->op_tbl->objs[i];
-        char *      name = pack.path;
+        char       *name = pack.path;
 
         for (j = 0; j < pack.nfilters; j++) {
             if (options->verbose > 0) {
@@ -806,7 +807,7 @@ check_objects(const char *fname, pack_opt_t *options)
 
     for (i = 0; i < options->op_tbl->nelems; i++) {
         pack_info_t obj  = options->op_tbl->objs[i];
-        char *      name = obj.path;
+        char       *name = obj.path;
 
         if (options->verbose > 0)
             HDprintf(" <%s>", name);

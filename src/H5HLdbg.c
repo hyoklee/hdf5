@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -47,10 +46,10 @@
 herr_t
 H5HL_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth)
 {
-    H5HL_t *     h = NULL;
+    H5HL_t      *h = NULL;
     int          free_block;
     H5HL_free_t *freelist;
-    uint8_t *    marker      = NULL;
+    uint8_t     *marker      = NULL;
     size_t       amount_free = 0;
     herr_t       ret_value   = SUCCEED; /* Return value */
 

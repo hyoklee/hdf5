@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -61,7 +60,7 @@ test_transfplist()
         // Find out the length of the transform expression, allocate the buffer
         // for it, then read and verify the expression from the copied plist
         ssize_t tran_len    = dxpl_c_to_f_copy.getDataTransform(NULL);
-        char *  c_to_f_read = (char *)HDmalloc(tran_len + 1);
+        char   *c_to_f_read = (char *)HDmalloc(tran_len + 1);
         HDmemset(c_to_f_read, 0, tran_len + 1);
         dxpl_c_to_f_copy.getDataTransform(c_to_f_read, tran_len + 1);
         verify_val((const char *)c_to_f_read, (const char *)c_to_f, "DSetMemXferPropList::getDataTransform",

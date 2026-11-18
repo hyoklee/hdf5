@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -553,7 +552,7 @@ DSetCreatPropList::setShuffle() const
 ///\exception   H5::PropListIException
 ///\par Description
 ///             The values of space allocation time can be one of the
-///             followings:
+///             following:
 ///             \li \c H5D_ALLOC_TIME_DEFAULT
 ///             \li \c H5D_ALLOC_TIME_EARLY
 ///             \li \c H5D_ALLOC_TIME_LATE

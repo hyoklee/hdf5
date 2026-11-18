@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -52,7 +51,7 @@
 /* internal variables */
 static const char *prog             = NULL;
 static const char *option_prefix    = NULL;
-static char *      filename         = NULL;
+static char       *filename         = NULL;
 static int         compress_percent = 0;
 static int         compress_level   = Z_DEFAULT_COMPRESSION;
 static int         output, random_test = FALSE;
@@ -64,7 +63,7 @@ static void error(const char *fmt, ...);
 static void compress_buffer(Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen);
 
 /* commandline options : long and short form */
-static const char *        s_opts   = "hB:b:c:p:rs:0123456789";
+static const char         *s_opts   = "hB:b:c:p:rs:0123456789";
 static struct long_options l_opts[] = {{"help", no_arg, 'h'},
                                        {"compressability", require_arg, 'c'},
                                        {"file-size", require_arg, 's'},
@@ -87,7 +86,9 @@ error(const char *fmt, ...)
 
     va_start(ap, fmt);
     HDfprintf(stderr, "%s: error: ", prog);
+    H5_GCC_CLANG_DIAG_OFF("format-nonliteral")
     HDvfprintf(stderr, fmt, ap);
+    H5_GCC_CLANG_DIAG_ON("format-nonliteral")
     HDfprintf(stderr, "\n");
     va_end(ap);
     HDexit(EXIT_FAILURE);
@@ -111,7 +112,7 @@ cleanup(void)
 static void
 write_file(Bytef *source, uLongf sourceLen)
 {
-    Bytef *        d_ptr, *dest;
+    Bytef         *d_ptr, *dest;
     uLongf         d_len, destLen;
     struct timeval timer_start, timer_stop;
 
@@ -303,7 +304,7 @@ static unsigned long
 parse_size_directive(const char *size)
 {
     unsigned long s;
-    char *        endptr;
+    char         *endptr;
 
     s = HDstrtoul(size, &endptr, 10);
 
@@ -336,8 +337,8 @@ parse_size_directive(const char *size)
 static void
 fill_with_random_data(Bytef *src, uLongf src_len)
 {
-    register unsigned u;
-    h5_stat_t         stat_buf;
+    unsigned  u;
+    h5_stat_t stat_buf;
 
     if (HDstat("/dev/urandom", &stat_buf) == 0) {
         uLongf len = src_len;
@@ -383,10 +384,10 @@ do_write_test(unsigned long file_size, unsigned long min_buf_size, unsigned long
     uLongf         src_len, total_len;
     struct timeval timer_start, timer_stop;
     double         total_time;
-    Bytef *        src;
+    Bytef         *src;
 
     for (src_len = min_buf_size; src_len <= max_buf_size; src_len <<= 1) {
-        register unsigned long i, iters;
+        unsigned long i, iters;
 
         iters = file_size / src_len;
         src   = (Bytef *)HDcalloc(1, sizeof(Bytef) * src_len);

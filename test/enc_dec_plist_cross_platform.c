@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -28,7 +27,7 @@ int
 main(void)
 {
     if (VERBOSE_MED)
-        HDprintf("Encode/Decode property list endianess\n");
+        HDprintf("Encode/Decode property list endianness\n");
 
     /******* ENCODE/DECODE DCPLS *****/
     TESTING("Default DCPL Encoding/Decoding");
@@ -162,7 +161,7 @@ test_plists(const char *filename_prefix)
     unsigned    config_1, config_2;
     int         fd_1, fd_2;
     size_t      size_1 = 0, size_2 = 0;
-    void *      buf_1 = NULL, *buf_2 = NULL;
+    void       *buf_1 = NULL, *buf_2 = NULL;
     hid_t       plist_1, plist_2;
     char        filename[1024];
     const char *testfile;

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -144,8 +143,8 @@ void *
 tts_acreate_thread(void *client_data)
 {
     hid_t  attribute = H5I_INVALID_HID;
-    char * attribute_name;
-    int *  attribute_data; /* data for attributes */
+    char  *attribute_name;
+    int   *attribute_data; /* data for attributes */
     herr_t status;
 
     ttsafe_name_data_t *attrib_data;
@@ -155,7 +154,7 @@ tts_acreate_thread(void *client_data)
     /* Create attribute */
     attribute_name = gen_name(attrib_data->current_index);
     attribute      = H5Acreate2(attrib_data->dataset, attribute_name, attrib_data->datatype,
-                           attrib_data->dataspace, H5P_DEFAULT, H5P_DEFAULT);
+                                attrib_data->dataspace, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(attribute, H5I_INVALID_HID, "H5Acreate2");
 
     /* Write data to the attribute */

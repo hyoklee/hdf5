@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -65,12 +64,12 @@ static herr_t
 test_cont(char *filename, hid_t fapl)
 {
     hid_t          file = -1;
-    H5F_t *        f    = NULL;
+    H5F_t         *f    = NULL;
     H5O_hdr_info_t hdr_info;
     H5O_loc_t      oh_locA, oh_locB;
     time_t         time_new;
-    const char *   short_name = "T";
-    const char *   long_name  = "This is the message";
+    const char    *short_name = "T";
+    const char    *long_name  = "This is the message";
     size_t         nchunks;
 
     TESTING("object header continuation block");
@@ -180,8 +179,8 @@ test_ohdr_cache(char *filename, hid_t fapl)
     hid_t               file = -1;                            /* File ID */
     hid_t               my_fapl;                              /* FAPL ID */
     H5AC_cache_config_t mdc_config;                           /* Metadata cache configuration info */
-    H5F_t *             f = NULL;                             /* File handle */
-    H5HL_t *            lheap, *lheap2, *lheap3;              /* Pointer to local heaps */
+    H5F_t              *f = NULL;                             /* File handle */
+    H5HL_t             *lheap, *lheap2, *lheap3;              /* Pointer to local heaps */
     haddr_t             lheap_addr, lheap_addr2, lheap_addr3; /* Local heap addresses */
     H5O_loc_t           oh_loc;                               /* Object header location */
     time_t              time_new;                             /* Time value for modification time message */
@@ -320,7 +319,7 @@ test_ohdr_swmr(hbool_t new_format)
     hid_t      sid          = -1;   /* Dataspace ID */
     hid_t      plist        = -1;   /* Dataset creation property list */
     size_t     compact_size = 1024; /* The size of compact dataset */
-    int *      wbuf         = NULL; /* Buffer for writing */
+    int       *wbuf         = NULL; /* Buffer for writing */
     hsize_t    dims[1];             /* Dimension sizes */
     size_t     u;                   /* Iterator */
     int        n;                   /* Data variable */
@@ -583,7 +582,7 @@ test_unknown(unsigned bogus_id, char *filename, hid_t fapl)
 
     TESTING("object with unknown header message & 'shareable' flag set");
 
-    /* Open the dataset with the unknown header message, adn "shareable" flag */
+    /* Open the dataset with the unknown header message, and "shareable" flag */
     if ((did = H5Dopen2(loc_bogus, "Dataset5", H5P_DEFAULT)) < 0)
         FAIL_STACK_ERROR
     if (H5Dclose(did) < 0)
@@ -900,8 +899,8 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
     hid_t   sid                      = H5I_INVALID_HID;
     hid_t   did                      = H5I_INVALID_HID;
     hid_t   aid                      = H5I_INVALID_HID;
-    char *  in_buf                   = NULL;
-    char *  out_buf                  = NULL;
+    char   *in_buf                   = NULL;
+    char   *out_buf                  = NULL;
     size_t  buf_size                 = 0;
     int     out_val                  = 0;
     int     in_val                   = 0;
@@ -1088,13 +1087,13 @@ test_minimized_dset_ohdr_size_comparisons(hid_t fapl_id)
     /* IDs for non-minimized file open */
     hid_t file_f_id   = -1; /* lower 'f' for standard file setting */
     hid_t dset_f_x_id = -1; /* 'x' for default */
-    hid_t dset_f_N_id = -1; /* 'N' for explcit non-minimized dset */
+    hid_t dset_f_N_id = -1; /* 'N' for explicit non-minimized dset */
     hid_t dset_f_Y_id = -1; /* 'Y' for minimized dset */
 
     /* IDs for minimized file open */
     hid_t file_F_id   = -1; /* upper 'F' for minimized file setting */
     hid_t dset_F_x_id = -1; /* 'x' for default */
-    hid_t dset_F_N_id = -1; /* 'N' for explcit non-minimized dset */
+    hid_t dset_F_N_id = -1; /* 'N' for explicit non-minimized dset */
     hid_t dset_F_Y_id = -1; /* 'Y' for minimized dset */
 
     char filename_a[512] = "";
@@ -1799,8 +1798,8 @@ main(void)
 {
     hid_t          fapl = -1;
     hid_t          file = -1;
-    H5F_t *        f    = NULL;
-    const char *   env_h5_drvr;     /* File driver value from environment */
+    H5F_t         *f    = NULL;
+    const char    *env_h5_drvr;     /* File driver value from environment */
     hbool_t        single_file_vfd; /* Whether VFD used stores data in a single file */
     char           filename[1024];
     H5O_hdr_info_t hdr_info;  /* Object info */

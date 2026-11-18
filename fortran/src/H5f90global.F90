@@ -18,12 +18,11 @@
 !  then the PARAMETER of that corresponding array in Fortran must also be changed.
 !
 ! USES
-!  H5FORTRAN_TYPES 	 - This module is generated at run time. See
+!  H5FORTRAN_TYPES - H5FORTRAN_TYPES is generated at run time by H5match_types.c
 !
 ! COPYRIGHT
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 !   Copyright by The HDF Group.                                               *
-!   Copyright by the Board of Trustees of the University of Illinois.         *
 !   All rights reserved.                                                      *
 !                                                                             *
 !   This file is part of HDF5.  The full HDF5 copyright notice, including     *

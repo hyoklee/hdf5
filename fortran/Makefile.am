@@ -1,6 +1,5 @@
 #
 # Copyright by The HDF Group.
-# Copyright by the Board of Trustees of the University of Illinois.
 # All rights reserved.
 #
 # This file is part of HDF5.  The full HDF5 copyright notice, including
@@ -37,6 +36,7 @@ endif
 ## Only recurse into subdirectories if HDF5 is configured to use Fortran.
 if BUILD_FORTRAN_CONDITIONAL
    SUBDIRS=src $(TESTSERIAL_DIR) $(TESTPARALLEL_DIR)
+
 endif
 
 # All directories that have Makefiles

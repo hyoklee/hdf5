@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -137,7 +136,7 @@ test_iter_group(FileAccPropList &fapl)
     int       i;                     /* counting variable */
     hsize_t   idx;                   /* Index in the group */
     char      name[NAMELEN];         /* temporary name buffer */
-    char *    lnames[NDATASETS + 2]; /* Names of the links created */
+    char     *lnames[NDATASETS + 2]; /* Names of the links created */
     iter_info info;                  /* Custom iteration information */
     herr_t    ret;                   /* Generic return value */
 

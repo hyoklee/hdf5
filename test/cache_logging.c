@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -37,7 +36,7 @@ test_logging_api(void)
     hbool_t is_enabled_out;
     hbool_t start_on_access;
     hbool_t start_on_access_out;
-    char *  location = NULL;
+    char   *location = NULL;
     size_t  size;
 
     hid_t   fid = -1;

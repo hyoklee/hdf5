@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -764,7 +763,7 @@ typedef struct H5AC_cache_image_config_t {
      *   H5AC__CACHE_IMAGE__ENTRY_AGEOUT__MAX (100).
      *
      *   \ref H5AC__CACHE_IMAGE__ENTRY_AGEOUT__NONE means that no limit is
-     *   imposed on number of times a prefeteched entry can appear in subsequent
+     *   imposed on number of times a prefetched entry can appear in subsequent
      *   cache images.
      *
      *   A value of 0 prevents prefetched entries from being included in cache

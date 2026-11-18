@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -23,17 +22,11 @@
 #include "hdf5.h"
 #include "H5private.h"
 
-#ifdef H5_STDC_HEADERS
 #include <ctype.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
-#endif
-
-#ifdef H5_HAVE_IO_H
-#include <io.h>
-#endif
 
 #ifdef H5_HAVE_UNISTD_H
 #include <sys/types.h>
@@ -181,8 +174,8 @@ test(fill_t fill_style, const double splits[], hbool_t verbose, hbool_t use_rdcc
     hsize_t     hs_start[1];                   /*hyperslab start offset*/
     hsize_t     hs_count[1] = {1};             /*hyperslab nelmts  */
     int         fd          = (-1);            /*h5 file direct  */
-    int *       had         = NULL;            /*for random filling  */
-    const char *sname       = NULL;            /*fill style nam  */
+    int        *had         = NULL;            /*for random filling  */
+    const char *sname       = NULL;            /*fill style name */
     int         mdc_nelmts;                    /*num meta objs to cache*/
     hsize_t     i, k;
     int         j;

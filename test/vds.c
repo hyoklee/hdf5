@@ -106,8 +106,8 @@ vds_select_equal(hid_t space1, hid_t space2)
 {
     H5S_sel_type type1;
     H5S_sel_type type2;
-    hsize_t *    buf1 = NULL;
-    hsize_t *    buf2 = NULL;
+    hsize_t     *buf1 = NULL;
+    hsize_t     *buf2 = NULL;
     size_t       i;
     htri_t       ret_value = TRUE;
 
@@ -196,7 +196,7 @@ vds_select_equal(hid_t space1, hid_t space2)
             if (nblocks1 != nblocks2)
                 return FALSE;
 
-            /* Allocate block lists.  Do not return directly afer
+            /* Allocate block lists.  Do not return directly after
              * allocating, to make sure buffers are freed. */
             if (NULL ==
                 (buf1 = (hsize_t *)HDmalloc((size_t)2 * (size_t)rank1 * (size_t)nblocks1 * sizeof(*buf1))))
@@ -349,7 +349,7 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
     hid_t              file = -1;        /* File */
     hid_t              dset = -1;        /* Virtual dataset */
     H5D_space_status_t space_status;     /* Dataset space status */
-    void *             plist_buf = NULL; /* Serialized property list buffer */
+    void              *plist_buf = NULL; /* Serialized property list buffer */
     H5O_info_t         oinfo;            /* Object info struct */
     htri_t             tri_ret;
 
@@ -479,7 +479,7 @@ test_api_get_ex_dcpl(test_api_config_t config, hid_t fapl, hid_t dcpl, hid_t *ex
 
     /* Verify examination DCPL is equal to original DCPL.  Do not compare the
      * plist to itself, and do not do the comparison if we reopened the file,
-     * because in that case the extent of the source dset will not be corrent.
+     * because in that case the extent of the source dset will not be current.
      */
     if ((*ex_dcpl != dcpl) && (config != TEST_API_REOPEN_FILE)) {
         if ((tri_ret = H5Pequal(dcpl, *ex_dcpl)) < 0)
@@ -1044,7 +1044,7 @@ test_api(test_api_config_t config, hid_t fapl)
         if ((vspace[i] = H5Screate_simple(2, dims, NULL)) < 0)
             TEST_ERROR
 
-        /* Select row in virual dataspace */
+        /* Select row in virtual dataspace */
         start[0] = (hsize_t)i;
         if (H5Sselect_hyperslab(vspace[i], H5S_SELECT_SET, start, NULL, count, block) < 0)
             TEST_ERROR
@@ -1168,11 +1168,11 @@ error:
 static int
 test_vds_prefix_first(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 {
-    char *      srcfilename             = NULL;
-    char *      srcfilename_map         = NULL;
-    char *      vfilename               = NULL;
-    char *      srcfilenamepct          = NULL;
-    char *      srcfilenamepct_map      = NULL;
+    char       *srcfilename             = NULL;
+    char       *srcfilename_map         = NULL;
+    char       *vfilename               = NULL;
+    char       *srcfilenamepct          = NULL;
+    char       *srcfilenamepct_map      = NULL;
     const char *srcfilenamepct_map_orig = "vds%%%%_src";
     hid_t       srcfile[4]              = {-1, -1, -1, -1}; /* Files with source dsets */
     hid_t       vfile                   = -1;               /* File with virtual dset */
@@ -1181,7 +1181,7 @@ test_vds_prefix_first(unsigned config, hid_t vds_fapl, hid_t src_fapl)
     hid_t       srcspace[4]             = {-1, -1, -1, -1}; /* Source dataspaces */
     hid_t       vspace[4]               = {-1, -1, -1, -1}; /* Virtual dset dataspaces */
     hid_t       memspace                = -1;               /* Memory dataspace */
-    hid_t       srcdset[4]              = {-1, -1, -1, -1}; /* Source datsets */
+    hid_t       srcdset[4]              = {-1, -1, -1, -1}; /* Source datasets */
     hid_t       vdset                   = -1;               /* Virtual dataset */
     hsize_t     dims[4]                 = {10, 26, 0, 0};   /* Data space current size */
     int         buf[10][26];                                /* Write and expected read buffer */
@@ -1446,12 +1446,12 @@ error:
 static int
 test_basic_io(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 {
-    char *      srcfilename             = NULL;
-    char *      srcfilename_map         = NULL;
-    char *      vfilename               = NULL;
-    char *      vfilename2              = NULL;
-    char *      srcfilenamepct          = NULL;
-    char *      srcfilenamepct_map      = NULL;
+    char       *srcfilename             = NULL;
+    char       *srcfilename_map         = NULL;
+    char       *vfilename               = NULL;
+    char       *vfilename2              = NULL;
+    char       *srcfilenamepct          = NULL;
+    char       *srcfilenamepct_map      = NULL;
     const char *srcfilenamepct_map_orig = "vds%%%%_src";
     hid_t       srcfile[4]              = {-1, -1, -1, -1}; /* Files with source dsets */
     hid_t       vfile                   = -1;               /* File with virtual dset */
@@ -1460,7 +1460,7 @@ test_basic_io(unsigned config, hid_t vds_fapl, hid_t src_fapl)
     hid_t       srcspace[4]             = {-1, -1, -1, -1}; /* Source dataspaces */
     hid_t       vspace[4]               = {-1, -1, -1, -1}; /* Virtual dset dataspaces */
     hid_t       memspace                = -1;               /* Memory dataspace */
-    hid_t       srcdset[4]              = {-1, -1, -1, -1}; /* Source datsets */
+    hid_t       srcdset[4]              = {-1, -1, -1, -1}; /* Source datasets */
     hid_t       vdset                   = -1;               /* Virtual dataset */
     hsize_t     dims[4]                 = {10, 26, 0, 0};   /* Data space current size */
     hsize_t     start[4];                                   /* Hyperslab start */
@@ -3659,7 +3659,7 @@ test_unlim(unsigned config, hid_t vds_fapl, hid_t src_fapl)
     hid_t          vspace[4]   = {-1, -1, -1, -1}; /* Virtual dset dataspaces */
     hid_t          memspace    = -1;               /* Memory dataspace */
     hid_t          filespace   = -1;               /* File dataspace */
-    hid_t          srcdset[4]  = {-1, -1, -1, -1}; /* Source datsets */
+    hid_t          srcdset[4]  = {-1, -1, -1, -1}; /* Source datasets */
     hid_t          vdset       = -1;               /* Virtual dataset */
     hsize_t        dims[2]     = {10, 10};         /* Data space current size */
     hsize_t        mdims[2]    = {10, 20};         /* Data space maximum size */
@@ -6655,14 +6655,14 @@ error:
 static int
 test_printf(unsigned config, hid_t vds_fapl, hid_t src_fapl)
 {
-    char *      srcfilename                 = NULL;
-    char *      srcfilename_map             = NULL;
-    char *      srcfilename2                = NULL;
-    char *      srcfilename2_map            = NULL;
-    char *      vfilename                   = NULL;
-    char *      printf_srcfilename_map      = NULL;
-    char *      srcfilenamepct              = NULL;
-    char *      srcfilenamepct_map          = NULL;
+    char       *srcfilename                 = NULL;
+    char       *srcfilename_map             = NULL;
+    char       *srcfilename2                = NULL;
+    char       *srcfilename2_map            = NULL;
+    char       *vfilename                   = NULL;
+    char       *printf_srcfilename_map      = NULL;
+    char       *srcfilenamepct              = NULL;
+    char       *srcfilenamepct_map          = NULL;
     const char *printf_srcfilename_map_orig = "vds_src_%b";
     const char *srcfilenamepct_map_orig     = "vds%%%%_src";
     hid_t       srcfile[4]                  = {-1, -1, -1, -1};         /* Files with source dsets */
@@ -6673,7 +6673,7 @@ test_printf(unsigned config, hid_t vds_fapl, hid_t src_fapl)
     hid_t       vspace[2]                   = {-1, -1};                 /* Virtual dset dataspaces */
     hid_t       memspace                    = -1;                       /* Memory dataspace */
     hid_t       filespace                   = -1;                       /* File dataspace */
-    hid_t       srcdset[6]                  = {-1, -1, -1, -1, -1, -1}; /* Source datsets */
+    hid_t       srcdset[6]                  = {-1, -1, -1, -1, -1, -1}; /* Source datasets */
     hid_t       vdset                       = -1;                       /* Virtual dataset */
     hsize_t     dims[2]                     = {10, 0};                  /* Data space current size */
     hsize_t     mdims[2]                    = {10, 20};                 /* Data space maximum size */
@@ -10381,7 +10381,7 @@ test_all(unsigned config, hid_t vds_fapl, hid_t src_fapl)
     hid_t   vspace[3]   = {-1, -1, -1};         /* Virtual dset dataspaces */
     hid_t   memspace    = -1;                   /* Memory dataspace */
     hid_t   filespace   = -1;                   /* File dataspace */
-    hid_t   srcdset[5]  = {-1, -1, -1, -1, -1}; /* Source datsets */
+    hid_t   srcdset[5]  = {-1, -1, -1, -1, -1}; /* Source datasets */
     hid_t   vdset       = -1;                   /* Virtual dataset */
     hsize_t dims[2]     = {6, 6};               /* Data space current size */
     hsize_t mdims[2]    = {10, 10};             /* Data space maximum size */

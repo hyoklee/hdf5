@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -51,9 +50,9 @@
 herr_t
 H5B_debug(H5F_t *f, haddr_t addr, FILE *stream, int indent, int fwidth, const H5B_class_t *type, void *udata)
 {
-    H5B_t *        bt = NULL;
-    H5UC_t *       rc_shared;           /* Ref-counted shared info */
-    H5B_shared_t * shared;              /* Pointer to shared B-tree info */
+    H5B_t         *bt = NULL;
+    H5UC_t        *rc_shared;           /* Ref-counted shared info */
+    H5B_shared_t  *shared;              /* Pointer to shared B-tree info */
     H5B_cache_ud_t cache_udata;         /* User-data for metadata cache callback */
     unsigned       u;                   /* Local index variable */
     herr_t         ret_value = SUCCEED; /* Return value */
@@ -153,9 +152,9 @@ done:
 herr_t
 H5B__assert(H5F_t *f, haddr_t addr, const H5B_class_t *type, void *udata)
 {
-    H5B_t *        bt = NULL;
-    H5UC_t *       rc_shared;   /* Ref-counted shared info */
-    H5B_shared_t * shared;      /* Pointer to shared B-tree info */
+    H5B_t         *bt = NULL;
+    H5UC_t        *rc_shared;   /* Ref-counted shared info */
+    H5B_shared_t  *shared;      /* Pointer to shared B-tree info */
     H5B_cache_ud_t cache_udata; /* User-data for metadata cache callback */
     int            ncell, cmp;
     static int     ncalls = 0;

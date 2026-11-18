@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -214,8 +213,8 @@ typedef int DATATYPE;
 
 /* Shape Same Tests Definitions */
 typedef enum {
-    IND_CONTIG,  /* Independent IO on contigous datasets */
-    COL_CONTIG,  /* Collective IO on contigous datasets */
+    IND_CONTIG,  /* Independent IO on contiguous datasets */
+    COL_CONTIG,  /* Collective IO on contiguous datasets */
     IND_CHUNKED, /* Independent IO on chunked datasets */
     COL_CHUNKED  /* Collective IO on chunked datasets */
 } ShapeSameTestMethods;
@@ -231,6 +230,7 @@ extern int dxfer_coll_type;
 void test_plist_ed(void);
 void zero_dim_dset(void);
 void test_file_properties(void);
+void test_invalid_libver_bounds_file_close_assert(void);
 void multiple_dset_write(void);
 void multiple_group_write(void);
 void multiple_group_read(void);
@@ -254,6 +254,7 @@ void none_selection_chunk(void);
 void actual_io_mode_tests(void);
 void no_collective_cause_tests(void);
 void test_chunk_alloc(void);
+void test_chunk_alloc_incr_ser_to_par(void);
 void test_filter_read(void);
 void compact_dataset(void);
 void null_dataset(void);

@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -237,10 +236,10 @@ H5A_term_package(void)
 hid_t
 H5Acreate2(hid_t loc_id, const char *attr_name, hid_t type_id, hid_t space_id, hid_t acpl_id, hid_t aapl_id)
 {
-    H5A_t *   attr = NULL;                 /* Attribute created */
+    H5A_t    *attr = NULL;                 /* Attribute created */
     H5G_loc_t loc;                         /* Object location */
-    H5T_t *   type;                        /* Datatype to use for attribute */
-    H5S_t *   space;                       /* Dataspace to use for attribute */
+    H5T_t    *type;                        /* Datatype to use for attribute */
+    H5S_t    *space;                       /* Dataspace to use for attribute */
     hid_t     ret_value = H5I_INVALID_HID; /* Return value                 */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
@@ -317,10 +316,10 @@ hid_t
 H5Acreate_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t type_id, hid_t space_id,
                   hid_t acpl_id, hid_t aapl_id, hid_t lapl_id)
 {
-    H5A_t *   attr = NULL;                 /* Attribute created */
+    H5A_t    *attr = NULL;                 /* Attribute created */
     H5G_loc_t loc;                         /* Object location */
-    H5T_t *   type;                        /* Datatype to use for attribute */
-    H5S_t *   space;                       /* Dataspace to use for attribute */
+    H5T_t    *type;                        /* Datatype to use for attribute */
+    H5S_t    *space;                       /* Dataspace to use for attribute */
     hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
@@ -392,7 +391,7 @@ hid_t
 H5Aopen(hid_t loc_id, const char *attr_name, hid_t aapl_id)
 {
     H5G_loc_t loc;              /* Object location */
-    H5A_t *   attr      = NULL; /* Attribute opened */
+    H5A_t    *attr      = NULL; /* Attribute opened */
     hid_t     ret_value = H5I_INVALID_HID;
 
     FUNC_ENTER_API(H5I_INVALID_HID)
@@ -454,7 +453,7 @@ hid_t
 H5Aopen_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, hid_t aapl_id, hid_t lapl_id)
 {
     H5G_loc_t loc;         /* Object location */
-    H5A_t *   attr = NULL; /* Attribute opened */
+    H5A_t    *attr = NULL; /* Attribute opened */
     hid_t     ret_value;
 
     FUNC_ENTER_API(FAIL)
@@ -525,7 +524,7 @@ hid_t
 H5Aopen_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t n,
                hid_t aapl_id, hid_t lapl_id)
 {
-    H5A_t *   attr = NULL; /* Attribute opened */
+    H5A_t    *attr = NULL; /* Attribute opened */
     H5G_loc_t loc;         /* Object location */
     hid_t     ret_value;   /* Return value */
 
@@ -795,7 +794,7 @@ done:
 ssize_t
 H5Aget_name(hid_t attr_id, size_t buf_size, char *buf)
 {
-    H5A_t * my_attr; /* Attribute object for ID */
+    H5A_t  *my_attr; /* Attribute object for ID */
     ssize_t ret_value = -1;
 
     FUNC_ENTER_API((-1))
@@ -837,7 +836,7 @@ H5Aget_name_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_i
                    char *name /*out*/, size_t size, hid_t lapl_id)
 {
     H5G_loc_t loc;         /* Object location */
-    H5A_t *   attr = NULL; /* Attribute object for name */
+    H5A_t    *attr = NULL; /* Attribute object for name */
     ssize_t   ret_value;   /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -901,7 +900,7 @@ done:
 hsize_t
 H5Aget_storage_size(hid_t attr_id)
 {
-    H5A_t * attr;      /* Attribute object for ID */
+    H5A_t  *attr;      /* Attribute object for ID */
     hsize_t ret_value; /* Return value */
 
     FUNC_ENTER_API(0)
@@ -970,7 +969,7 @@ H5Aget_info_by_name(hid_t loc_id, const char *obj_name, const char *attr_name, H
                     hid_t lapl_id)
 {
     H5G_loc_t loc;                 /* Object location */
-    H5A_t *   attr      = NULL;    /* Attribute object for name */
+    H5A_t    *attr      = NULL;    /* Attribute object for name */
     herr_t    ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1027,7 +1026,7 @@ H5Aget_info_by_idx(hid_t loc_id, const char *obj_name, H5_index_t idx_type, H5_i
                    H5A_info_t *ainfo, hid_t lapl_id)
 {
     H5G_loc_t loc;                 /* Object location */
-    H5A_t *   attr      = NULL;    /* Attribute object for name */
+    H5A_t    *attr      = NULL;    /* Attribute object for name */
     herr_t    ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
@@ -1193,7 +1192,7 @@ done:
     if all attributes were processed.
 
  DESCRIPTION
-        This function interates over the attributes of dataset or group
+        This function iterates over the attributes of dataset or group
     specified with 'loc_id' & 'obj_name'.  For each attribute of the object,
     the 'op_data' and some additional information (specified below) are passed
     to the 'op' function.  The iteration begins with the '*idx'
@@ -1222,7 +1221,7 @@ H5Aiterate2(hid_t loc_id, H5_index_t idx_type, H5_iter_order_t order, hsize_t *i
     FUNC_ENTER_API(FAIL)
     H5TRACE6("e", "iIiIo*hx*x", loc_id, idx_type, order, idx, op, op_data);
 
-    /* check arguments */
+    /* Check arguments */
     if (H5I_ATTR == H5I_get_type(loc_id))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "location is not valid for an attribute")
     if (idx_type <= H5_INDEX_UNKNOWN || idx_type >= H5_INDEX_N)
@@ -1261,7 +1260,7 @@ done:
     if all attributes were processed.
 
  DESCRIPTION
-        This function interates over the attributes of dataset or group
+        This function iterates over the attributes of dataset or group
     specified with 'loc_id' & 'obj_name'.  For each attribute of the object,
     the 'op_data' and some additional information (specified below) are passed
     to the 'op' function.  The iteration begins with the '*idx'

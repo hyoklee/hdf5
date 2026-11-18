@@ -1153,7 +1153,7 @@ gent_udlink(void)
     /* This ud link will dangle, but that's okay */
     fid = H5Fcreate(FILE54, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     H5Lcreate_ud(fid, "udlink1", (H5L_type_t)MY_LINKCLASS, NULL, 0, H5P_DEFAULT, H5P_DEFAULT);
-    strcpy(buf, "foo");
+    strlcpy(buf, "foo", sizeof(buf));
     H5Lcreate_ud(fid, "udlink2", (H5L_type_t)MY_LINKCLASS, buf, 4, H5P_DEFAULT, H5P_DEFAULT);
 
     H5Fclose(fid);
@@ -2084,7 +2084,7 @@ gent_str(void)
                 for (l = 0; l < 10; l++)
                     comp1[i][j].a[k][l] = (l + j + k) * (l + j + k);
             for (k = 0; k < 12; k++)
-                strcpy(comp1[i][j].s[k], "abcdefgh12345678abcdefgh12345678");
+                strlcpy(comp1[i][j].s[k], "abcdefgh12345678abcdefgh12345678", sizeof(comp1[i][j].s[k]));
         }
 
     dataset = H5Dcreate2(fid, "/comp1", f_type, space, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
@@ -11850,10 +11850,11 @@ gent_compound_complex2(void)
                     /* Set up first nested compound */
                     buf[i].d.nested_a = (double)i;
 
-                    strcpy(buf[i].d.nested_string, "This is a test string.");
+                    strlcpy(buf[i].d.nested_string, "This is a test string.", sizeof(buf[i].d.nested_string));
 
                     for (j = 0; j < 4; j++)
-                        strcpy(buf[i].d.nested_string_array[j], "String test");
+                        strlcpy(buf[i].d.nested_string_array[j], "String test",
+                                sizeof(buf[i].d.nested_string_array[j]));
 
                     /* Set up multiple nested compound */
                     buf[i].e.a = (float)i;
@@ -11865,9 +11866,11 @@ gent_compound_complex2(void)
                         buf[i].e.b.multiple_nested_d[j] = (long)(j - i * 10);
                     }
 
-                    strcpy(buf[i].e.c.further_nested_string, "1234567890");
+                    strlcpy(buf[i].e.c.further_nested_string, "1234567890",
+                            sizeof(buf[i].e.c.further_nested_string));
                     for (j = 0; j < 4; j++)
-                        strcpy(buf[i].e.c.further_nested_string_array[j], "STRING ARRAY");
+                        strlcpy(buf[i].e.c.further_nested_string_array[j], "STRING ARRAY",
+                                sizeof(buf[i].e.c.further_nested_string_array[j]));
 
                     for (j = 0; j < 10; j++) {
                         buf[i].e.c.deep_nest.deep_nested_short[j]  = (short)(j + i * 10);

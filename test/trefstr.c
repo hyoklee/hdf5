@@ -235,7 +235,7 @@ test_refstr_wrap(void)
     MESSAGE(5, ("Testing Wrapping Ref-Counted Strings\n"));
 
     /* Initialize buffer */
-    strcpy(buf, "foo");
+    strlcpy(buf, "foo", sizeof(buf));
 
     /* Wrap ref-counted string around existing buffer */
     rs = H5RS_wrap(buf);
@@ -382,7 +382,7 @@ test_refstr_acat(void)
     snprintf(buf, sizeof(buf), "%s", "foobar");
     large_str2 = malloc(1024 + 6);
     CHECK_PTR(large_str2, "malloc");
-    strcpy(large_str2, "foobar");
+    strlcpy(large_str2, "foobar", 1024 + 6);
     memset(&large_str2[6], 'a', 1024);
     large_str2[1029] = '\0';
     cmp              = strcmp(s, large_str2);
@@ -426,7 +426,7 @@ test_refstr_ancat(void)
     /* Get pointer to raw string in ref-counted string */
     s = H5RS_get_str(rs);
     CHECK_PTR(s, "H5RS_get_str");
-    strcpy(buf, "fo");
+    strlcpy(buf, "fo", sizeof(buf));
     cmp = strcmp(s, buf);
     VERIFY(cmp, 0, "strcmp");
 
@@ -437,7 +437,7 @@ test_refstr_ancat(void)
     /* Get pointer to raw string in ref-counted string */
     s = H5RS_get_str(rs);
     CHECK_PTR(s, "H5RS_get_str");
-    strcpy(buf, "foba");
+    strlcpy(buf, "foba", sizeof(buf));
     cmp = strcmp(s, buf);
     VERIFY(cmp, 0, "strcmp");
 
@@ -475,7 +475,7 @@ test_refstr_aputc(void)
     /* Get pointer to raw string in ref-counted string */
     s = H5RS_get_str(rs);
     CHECK_PTR(s, "H5RS_get_str");
-    strcpy(buf, "f");
+    strlcpy(buf, "f", sizeof(buf));
     cmp = strcmp(s, buf);
     VERIFY(cmp, 0, "strcmp");
 
@@ -486,7 +486,7 @@ test_refstr_aputc(void)
     /* Get pointer to raw string in ref-counted string */
     s = H5RS_get_str(rs);
     CHECK_PTR(s, "H5RS_get_str");
-    strcpy(buf, "fo");
+    strlcpy(buf, "fo", sizeof(buf));
     cmp = strcmp(s, buf);
     VERIFY(cmp, 0, "strcmp");
 

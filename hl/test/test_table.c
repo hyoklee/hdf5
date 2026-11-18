@@ -485,9 +485,9 @@ test_table(hid_t fid, int do_write)
      *-------------------------------------------------------------------------
      */
     if (do_write)
-        strcpy(tname, "table2");
+        strlcpy(tname, "table2", sizeof(tname));
     else
-        strcpy(tname, "table1");
+        strlcpy(tname, "table1", sizeof(tname));
 
     rstart   = 0;
     rrecords = 8;
@@ -1163,7 +1163,7 @@ test_table(hid_t fid, int do_write)
 
     /* reset buffer */
     for (i = 0; i < NRECORDS; i++) {
-        strcpy(namepre_out[i].name, "\0");
+        strlcpy(namepre_out[i].name, "\0", sizeof(namepre_out[i].name));
         namepre_out[i].pressure = -1;
     }
 
@@ -1351,7 +1351,7 @@ test_table(hid_t fid, int do_write)
 
     /* reset buffer */
     for (i = 0; i < NRECORDS; i++) {
-        strcpy(namepre_out[i].name, "\0");
+        strlcpy(namepre_out[i].name, "\0", sizeof(namepre_out[i].name));
         namepre_out[i].pressure = -1;
     }
 

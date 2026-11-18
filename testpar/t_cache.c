@@ -6203,7 +6203,7 @@ trace_file_check(int metadata_write_strategy)
             }
             else {
                 config.open_trace_file = true;
-                strcpy(config.trace_file_name, "t_cache_trace.txt");
+                strlcpy(config.trace_file_name, "t_cache_trace.txt", sizeof(config.trace_file_name));
 
                 if (H5AC_set_cache_auto_resize_config(cache_ptr, &config) != SUCCEED) {
                     nerrors++;

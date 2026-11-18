@@ -1257,7 +1257,7 @@ test_vltypes_compound_vlstr(void)
         wdata[i].v.p   = (s2 *)malloc((i + L3_INCM) * sizeof(s2));
         wdata[i].v.len = i + L3_INCM;
         for (t1 = (s2 *)((wdata[i].v).p), j = 0; j < (i + L3_INCM); j++, t1++) {
-            strcat(str, "m");
+            strlcat(str, "m", sizeof(str));
             t1->string = (char *)malloc(strlen(str) * sizeof(char) + 1);
             memcpy(t1->string, str, strlen(str) + 1);
             /*t1->color = red;*/
@@ -1422,12 +1422,12 @@ test_vltypes_compound_vlstr(void)
     CHECK(ret, FAIL, "H5Treclaim");
 
     /* Use this part for new data */
-    strcpy(str, "bbbbbbbb\0");
+    strlcpy(str, "bbbbbbbb\0", sizeof(str));
     for (i = 0; i < SPACE1_DIM1; i++) {
         wdata2[i].v.p   = (s2 *)malloc((i + 1) * sizeof(s2));
         wdata2[i].v.len = i + 1;
         for (t1 = (s2 *)(wdata2[i].v).p, j = 0; j < i + 1; j++, t1++) {
-            strcat(str, "pp");
+            strlcat(str, "pp", sizeof(str));
             t1->string = (char *)malloc(strlen(str) * sizeof(char) + 1);
             memcpy(t1->string, str, strlen(str) + 1);
             t1->color = green;
@@ -2670,16 +2670,16 @@ test_vltypes_fill_value(void)
             /* Layout specific actions */
             switch (layout) {
                 case H5D_COMPACT:
-                    strcpy(dset_name1, "dataset1-compact");
-                    strcpy(dset_name2, "dataset2-compact");
+                    strlcpy(dset_name1, "dataset1-compact", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-compact", sizeof(dset_name2));
                     dset_dspace_id = small_dspace_id;
                     ret            = H5Pset_layout(tmp_dcpl_id, H5D_COMPACT);
                     CHECK(ret, FAIL, "H5Pset_layout");
                     break;
 
                 case H5D_CONTIGUOUS:
-                    strcpy(dset_name1, "dataset1-contig");
-                    strcpy(dset_name2, "dataset2-contig");
+                    strlcpy(dset_name1, "dataset1-contig", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-contig", sizeof(dset_name2));
                     dset_dspace_id = large_dspace_id;
                     break;
 
@@ -2691,15 +2691,15 @@ test_vltypes_fill_value(void)
                     CHECK(ret, FAIL, "H5Pset_chunk");
 #ifdef H5_HAVE_FILTER_DEFLATE
                     if (test_loop == 1) {
-                        strcpy(dset_name1, "dataset1-chunked-compressed");
-                        strcpy(dset_name2, "dataset2-chunked-compressed");
+                        strlcpy(dset_name1, "dataset1-chunked-compressed", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked-compressed", sizeof(dset_name2));
                         ret = H5Pset_deflate(tmp_dcpl_id, 3);
                         CHECK(ret, FAIL, "H5Pset_deflate");
                     } /* end if */
                     else {
 #endif /* H5_HAVE_FILTER_DEFLATE */
-                        strcpy(dset_name1, "dataset1-chunked");
-                        strcpy(dset_name2, "dataset2-chunked");
+                        strlcpy(dset_name1, "dataset1-chunked", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked", sizeof(dset_name2));
 #ifdef H5_HAVE_FILTER_DEFLATE
                     } /* end else */
 #endif                /* H5_HAVE_FILTER_DEFLATE */
@@ -2780,16 +2780,16 @@ test_vltypes_fill_value(void)
             /* Layout specific actions */
             switch (layout) {
                 case H5D_COMPACT:
-                    strcpy(dset_name1, "dataset1-compact");
-                    strcpy(dset_name2, "dataset2-compact");
+                    strlcpy(dset_name1, "dataset1-compact", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-compact", sizeof(dset_name2));
                     dset_dspace_id        = small_dspace_id;
                     dset_select_dspace_id = small_select_dspace_id;
                     dset_elmts            = SPACE4_DIM_SMALL;
                     break;
 
                 case H5D_CONTIGUOUS:
-                    strcpy(dset_name1, "dataset1-contig");
-                    strcpy(dset_name2, "dataset2-contig");
+                    strlcpy(dset_name1, "dataset1-contig", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-contig", sizeof(dset_name2));
                     dset_dspace_id        = large_dspace_id;
                     dset_select_dspace_id = large_select_dspace_id;
                     dset_elmts            = SPACE4_DIM_LARGE;
@@ -2798,13 +2798,13 @@ test_vltypes_fill_value(void)
                 case H5D_CHUNKED:
 #ifdef H5_HAVE_FILTER_DEFLATE
                     if (test_loop == 1) {
-                        strcpy(dset_name1, "dataset1-chunked-compressed");
-                        strcpy(dset_name2, "dataset2-chunked-compressed");
+                        strlcpy(dset_name1, "dataset1-chunked-compressed", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked-compressed", sizeof(dset_name2));
                     } /* end if */
                     else {
 #endif /* H5_HAVE_FILTER_DEFLATE */
-                        strcpy(dset_name1, "dataset1-chunked");
-                        strcpy(dset_name2, "dataset2-chunked");
+                        strlcpy(dset_name1, "dataset1-chunked", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked", sizeof(dset_name2));
 #ifdef H5_HAVE_FILTER_DEFLATE
                     } /* end else */
 #endif                /* H5_HAVE_FILTER_DEFLATE */
@@ -2965,16 +2965,16 @@ test_vltypes_fill_value(void)
             /* Layout specific actions */
             switch (layout) {
                 case H5D_COMPACT:
-                    strcpy(dset_name1, "dataset1-compact");
-                    strcpy(dset_name2, "dataset2-compact");
+                    strlcpy(dset_name1, "dataset1-compact", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-compact", sizeof(dset_name2));
                     dset_dspace_id        = small_dspace_id;
                     dset_select_dspace_id = small_select_dspace_id;
                     dset_elmts            = SPACE4_DIM_SMALL;
                     break;
 
                 case H5D_CONTIGUOUS:
-                    strcpy(dset_name1, "dataset1-contig");
-                    strcpy(dset_name2, "dataset2-contig");
+                    strlcpy(dset_name1, "dataset1-contig", sizeof(dset_name1));
+                    strlcpy(dset_name2, "dataset2-contig", sizeof(dset_name2));
                     dset_dspace_id        = large_dspace_id;
                     dset_select_dspace_id = large_select_dspace_id;
                     dset_elmts            = SPACE4_DIM_LARGE;
@@ -2983,13 +2983,13 @@ test_vltypes_fill_value(void)
                 case H5D_CHUNKED:
 #ifdef H5_HAVE_FILTER_DEFLATE
                     if (test_loop == 1) {
-                        strcpy(dset_name1, "dataset1-chunked-compressed");
-                        strcpy(dset_name2, "dataset2-chunked-compressed");
+                        strlcpy(dset_name1, "dataset1-chunked-compressed", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked-compressed", sizeof(dset_name2));
                     } /* end if */
                     else {
 #endif /* H5_HAVE_FILTER_DEFLATE */
-                        strcpy(dset_name1, "dataset1-chunked");
-                        strcpy(dset_name2, "dataset2-chunked");
+                        strlcpy(dset_name1, "dataset1-chunked", sizeof(dset_name1));
+                        strlcpy(dset_name2, "dataset2-chunked", sizeof(dset_name2));
 #ifdef H5_HAVE_FILTER_DEFLATE
                     } /* end else */
 #endif                /* H5_HAVE_FILTER_DEFLATE */

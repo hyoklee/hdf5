@@ -1252,25 +1252,25 @@ dump_fcpl(hid_t fid)
 
 #ifdef SHOW_FILE_DRIVER
     if (H5FD_CORE == fdriver)
-        strcpy(dname, "H5FD_CORE");
+        strlcpy(dname, "H5FD_CORE", sizeof(dname));
 #ifdef H5_HAVE_DIRECT
     else if (H5FD_DIRECT == fdriver)
-        strcpy(dname, "H5FD_DIRECT");
+        strlcpy(dname, "H5FD_DIRECT", sizeof(dname));
 #endif
     else if (H5FD_FAMILY == fdriver)
-        strcpy(dname, "H5FD_FAMILY");
+        strlcpy(dname, "H5FD_FAMILY", sizeof(dname));
     else if (H5FD_LOG == fdriver)
-        strcpy(dname, "H5FD_LOG");
+        strlcpy(dname, "H5FD_LOG", sizeof(dname));
     else if (H5FD_MPIO == fdriver)
-        strcpy(dname, "H5FD_MPIO");
+        strlcpy(dname, "H5FD_MPIO", sizeof(dname));
     else if (H5FD_MULTI == fdriver)
-        strcpy(dname, "H5FD_MULTI");
+        strlcpy(dname, "H5FD_MULTI", sizeof(dname));
     else if (H5FD_SEC2 == fdriver)
-        strcpy(dname, "H5FD_SEC2");
+        strlcpy(dname, "H5FD_SEC2", sizeof(dname));
     else if (H5FD_STDIO == fdriver)
-        strcpy(dname, "H5FD_STDIO");
+        strlcpy(dname, "H5FD_STDIO", sizeof(dname));
     else
-        strcpy(dname, "Unknown driver");
+        strlcpy(dname, "Unknown driver", sizeof(dname));
 
         /* Take out this because the driver used can be different from the
          * standard output. */
@@ -1592,7 +1592,7 @@ handle_attributes(hid_t fid, const char *attr, void H5_ATTR_UNUSED *data, int H5
 
     /* object name */
     if (j == -1)
-        strcpy(obj_name, "/");
+        strlcpy(obj_name, "/", strlen(attr) + 1);
     else {
         strncpy(obj_name, attr, (size_t)j + 1);
         obj_name[j + 1] = '\0';

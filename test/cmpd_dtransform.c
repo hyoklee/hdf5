@@ -51,8 +51,8 @@ main(void)
     /* Compound datatype */
     if (NULL == (atts = (att_t *)calloc(1, sizeof(att_t))))
         TEST_ERROR;
-    strcpy(atts[0].name, "Name");
-    strcpy(atts[0].unit, "Unit");
+    strlcpy(atts[0].name, "Name", sizeof(atts[0].name));
+    strlcpy(atts[0].unit, "Unit", sizeof(atts[0].unit));
 
     /* String type */
     if ((str_dtyp_id = H5Tcopy(H5T_C_S1)) < 0)

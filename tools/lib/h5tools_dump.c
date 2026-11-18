@@ -3231,7 +3231,7 @@ h5tools_dump_dcpl(FILE *stream, const h5tool_format_t *info, h5tools_context_t *
     if (dcpl_id >= 0)
         nfilters = H5Pget_nfilters(dcpl_id);
 
-    strcpy(f_name, "\0");
+    strlcpy(f_name, "\0", sizeof(f_name));
 
     /*-------------------------------------------------------------------------
      * STORAGE_LAYOUT

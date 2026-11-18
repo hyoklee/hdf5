@@ -4854,7 +4854,7 @@ test_nbit_compound_3(hid_t file)
         power = pow(2.0, 17.0 - 1.0);
         memset(&orig_data[i], 0, sizeof(orig_data[i]));
         orig_data[i].i = (int)(arc4random() % (long)power);
-        strcpy(orig_data[i].str, "fixed-length C string");
+        strlcpy(orig_data[i].str, "fixed-length C string", sizeof(orig_data[i].str));
         orig_data[i].vl_str = strdup("variable-length C string");
 
         orig_data[i].v.p   = malloc((size_t)(i + 1) * sizeof(unsigned int));
@@ -16876,10 +16876,10 @@ dls_01_main(void)
     if (NULL == buffer)
         TEST_ERROR;
 
-    strcpy(buffer, strings[0]);
-    strcpy(buffer + DLS_01_STR_SIZE, strings[1]);
-    strcpy(buffer + DLS_01_STR_SIZE * 2, strings[2]);
-    strcpy(buffer + DLS_01_STR_SIZE * 3, strings[3]);
+    strlcpy(buffer, strings[0], DLS_01_STR_SIZE);
+    strlcpy(buffer + DLS_01_STR_SIZE, strings[1], DLS_01_STR_SIZE);
+    strlcpy(buffer + DLS_01_STR_SIZE * 2, strings[2], DLS_01_STR_SIZE);
+    strlcpy(buffer + DLS_01_STR_SIZE * 3, strings[3], DLS_01_STR_SIZE);
 
     fapl = H5Pcreate(H5P_FILE_ACCESS);
     if (fapl <= 0)
@@ -17998,7 +17998,7 @@ test_downsize_vlen_scalar_dataset(hid_t file)
      */
     /* occur because this is the data at offset zero of the element, and it then looks like a NULL VLEN data
      */
-    strcpy(common_string, VLEN_DS_STRING);
+    strlcpy(common_string, VLEN_DS_STRING, sizeof(common_string));
 
     for (i = 0; i < ds_dim; ++i) {
         compound_data[i].value = VLEN_DS_VALUE;
@@ -19071,14 +19071,14 @@ test_vds_shared_strings(hid_t fapl)
 
     for (int i = 0; i < NUM_MAPPINGS_MANY; i++) {
         if (i % 10 == 0) {
-            strcpy(file_name, "shared_file.h5");
+            strlcpy(file_name, "shared_file.h5", sizeof(file_name));
         }
         else {
             snprintf(file_name, sizeof(file_name), "file_%d.h5", i);
         }
 
         if (i % 5 == 0) {
-            strcpy(dset_name, "/shared_dataset");
+            strlcpy(dset_name, "/shared_dataset", sizeof(dset_name));
         }
         else {
             snprintf(dset_name, sizeof(dset_name), "/dataset_%d", i);

@@ -485,10 +485,10 @@ h5_fixname_real(const char *base_name, hid_t fapl, const char *_suffix, char *fu
                          * subdirectory.  Default to PREFIX's original
                          * prefix value.
                          */
-                        strcpy(fullname, prefix);
+                        strlcpy(fullname, prefix, size);
 
-                strcat(fullname, "/");
-                strcat(fullname, base_name);
+                strlcat(fullname, "/", size);
+                strlcat(fullname, base_name, size);
             }
             else {
                 /* Buffer is too small */
@@ -506,7 +506,7 @@ h5_fixname_real(const char *base_name, hid_t fapl, const char *_suffix, char *fu
         return NULL;
     }
     else {
-        strcpy(fullname, base_name);
+        strlcpy(fullname, base_name, size);
     }
 
     /* Append a suffix */
@@ -514,7 +514,7 @@ h5_fixname_real(const char *base_name, hid_t fapl, const char *_suffix, char *fu
         if (strlen(fullname) + strlen(suffix) >= size)
             return NULL;
 
-        strcat(fullname, suffix);
+        strlcat(fullname, suffix, size);
     }
 
     /* Remove any double slashes in the filename */

@@ -206,6 +206,7 @@ get_unique_name(void)
 {
     const char *prefix = NULL;
     const char *env    = getenv("HDF5_PREFIX");
+    size_t      filename_size;
 
     if (env)
         prefix = env;
@@ -215,19 +216,21 @@ get_unique_name(void)
 
     if (prefix)
         /* 2 = 1 for '/' + 1 for null terminator */
-        filename = (char *)malloc(strlen(prefix) + strlen(ZIP_PERF_FILE) + 2);
+        filename_size = strlen(prefix) + strlen(ZIP_PERF_FILE) + 2;
     else
-        filename = (char *)malloc(strlen(ZIP_PERF_FILE) + 1);
+        filename_size = strlen(ZIP_PERF_FILE) + 1;
+
+    filename = (char *)malloc(filename_size);
 
     if (!filename)
         error("out of memory");
 
     filename[0] = 0;
     if (prefix) {
-        strlcpy(filename, prefix, strlen(prefix) + strlen(ZIP_PERF_FILE) + 2);
-        strcat(filename, "/");
+        strlcpy(filename, prefix, filename_size);
+        strlcat(filename, "/", filename_size);
     }
-    strcat(filename, ZIP_PERF_FILE);
+    strlcat(filename, ZIP_PERF_FILE, filename_size);
 }
 
 /*

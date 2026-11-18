@@ -192,7 +192,7 @@ do_sio(parameters param, results *res)
      */
     /* Open file for write */
 
-    strcpy(base_name, "#sio_tmp");
+    strlcpy(base_name, "#sio_tmp", sizeof(base_name));
     sio_create_filename(iot, base_name, fname, FILENAME_MAX, &param);
 
     if (sio_debug_level > 0)

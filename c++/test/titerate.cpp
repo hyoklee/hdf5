@@ -96,7 +96,7 @@ liter_cb(hid_t H5_ATTR_UNUSED group, const char *name, const H5L_info2_t H5_ATTR
     static int count  = 0;
     static int count2 = 0;
 
-    strcpy(info->name, name);
+    strlcpy(info->name, name, sizeof(info->name));
 
     switch (info->command) {
         case RET_ZERO:

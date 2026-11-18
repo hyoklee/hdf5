@@ -1381,7 +1381,7 @@ main(int argc, char *argv[])
     /* "Default" HDFS configuration */
     hdfs_fa_g->version            = H5FD__CURR_HDFS_FAPL_T_VERSION;
     hdfs_fa_g->stream_buffer_size = 2048;
-    strcpy(hdfs_fa_g->namenode_name, "localhost");
+    strlcpy(hdfs_fa_g->namenode_name, "localhost", sizeof(hdfs_fa_g->namenode_name));
 #endif
 
     if ((hand = parse_command_line(argc, (const char *const *)argv)) == NULL) {
@@ -1523,7 +1523,7 @@ main(int argc, char *argv[])
         if (doxml_g) {
             /* initialize XML */
             /* reset prefix! */
-            strcpy(prefix, "");
+            strlcpy(prefix, "", prefix_len);
 
             /* make sure the URI is initialized to something */
             if (xml_dtd_uri_g == NULL) {

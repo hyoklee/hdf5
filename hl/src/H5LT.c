@@ -1982,7 +1982,7 @@ realloc_and_append(bool _no_user_buf, size_t *len, char *buf, const char *str_to
          */
         if (size_str < *len - 1) {
             if (size_str + size_str_to_add < *len - 1) {
-                strcat(buf, str_to_add);
+                strlcat(buf, str_to_add, *len);
             }
             else {
                 strncat(buf, str_to_add, (*len - 1) - size_str);

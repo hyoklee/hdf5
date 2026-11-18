@@ -87,9 +87,9 @@ test_singleEnd_selElements(hid_t file, bool is_chunked)
 
     /* Construct dataset's name */
     memset(dset_name, 0, (size_t)NAME_LEN);
-    strcat(dset_name, SINGLE_END_DSET);
+    strlcat(dset_name, SINGLE_END_DSET, sizeof(dset_name));
     if (is_chunked)
-        strcat(dset_name, "_chunked");
+        strlcat(dset_name, "_chunked", sizeof(dset_name));
 
     did = H5Dcreate2(file, dset_name, H5T_NATIVE_INT, sid, H5P_DEFAULT, plid, H5P_DEFAULT);
     CHECK(did, FAIL, "H5Dcreate2");
@@ -259,9 +259,9 @@ test_singleEnd_selHyperslab(hid_t file, bool is_chunked)
 
     /* Construct dataset's name */
     memset(dset_name, 0, NAME_LEN);
-    strcat(dset_name, SINGLE_END_DSET);
+    strlcat(dset_name, SINGLE_END_DSET, sizeof(dset_name));
     if (is_chunked)
-        strcat(dset_name, "_chunked");
+        strlcat(dset_name, "_chunked", sizeof(dset_name));
 
     /* Dataspace for the dataset in file */
     sid = H5Screate_simple(4, da_dims, da_dims);
@@ -462,9 +462,9 @@ test_multiple_ends(hid_t file, bool is_chunked)
 
     /* Construct dataset's name */
     memset(dset_name, 0, NAME_LEN);
-    strcat(dset_name, MULTI_ENDS_SEL_HYPER_DSET);
+    strlcat(dset_name, MULTI_ENDS_SEL_HYPER_DSET, sizeof(dset_name));
     if (is_chunked)
-        strcat(dset_name, "_chunked");
+        strlcat(dset_name, "_chunked", sizeof(dset_name));
 
     did = H5Dcreate2(file, dset_name, H5T_NATIVE_INT, sid, H5P_DEFAULT, plid, H5P_DEFAULT);
     CHECK(did, FAIL, "H5Dcreate2");

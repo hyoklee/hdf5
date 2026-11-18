@@ -824,7 +824,7 @@ H5FD__onion_parse_config_str(const char *config_str, H5FD_onion_fapl_info_t *fa)
     fa->revision_num     = H5FD_ONION_FAPL_INFO_REVISION_ID_LATEST;
     fa->force_write_open = 0;
     fa->creation_flags   = 0;
-    strcpy(fa->comment, "initial comment");
+    strlcpy(fa->comment, "initial comment", sizeof(fa->comment));
 
     /* If a single integer is passed in as a string, it's a shortcut for the tools
      * (h5repack, h5diff, h5dump).  Otherwise, the string should have curly brackets,

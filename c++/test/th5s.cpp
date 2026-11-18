@@ -162,7 +162,7 @@ test_h5s_basic()
          * the instructions in space_overflow.c for regenating the th5s.h5 file.
          */
         char *tmp_str = new char[TESTFILE.length() + 1];
-        strcpy(tmp_str, TESTFILE.c_str());
+        strlcpy(tmp_str, TESTFILE.c_str(), TESTFILE.length() + 1);
         const char *testfile = H5_get_srcdir_filename(tmp_str);
         delete[] tmp_str;
 

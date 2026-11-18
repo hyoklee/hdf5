@@ -1244,7 +1244,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
         TEST_ERROR;
 
     /* Write attribute data */
-    strcpy(in_buf, ATTR_SHORT);
+    strlcpy(in_buf, ATTR_SHORT, buf_size);
     if (H5Awrite(aid, H5T_NATIVE_CHAR, in_buf) < 0)
         TEST_ERROR;
 
@@ -1260,7 +1260,7 @@ test_minimized_dset_ohdr_attribute_addition(hid_t fapl_id)
 
     /* modify the string attribute */
     memset(in_buf, 0, buf_size);
-    strcpy(in_buf, ATTR_LONG);
+    strlcpy(in_buf, ATTR_LONG, buf_size);
     if (H5Awrite(aid, H5T_NATIVE_CHAR, in_buf) < 0)
         TEST_ERROR;
 

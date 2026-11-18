@@ -153,8 +153,7 @@ parse_option(int argc, char *const argv[])
             fprintf(stderr, "malloc: failed\n");
             Hgoto_error(-1);
         }
-        strcpy(filename_g, progname_g);
-        strcat(filename_g, ".h5");
+        snprintf(filename_g, strlen(progname_g) + 4, "%s.h5", progname_g);
     }
 
 done:

@@ -113,8 +113,8 @@ AddTest(const char *TestName, void (*TestFunc)(void *), void (*TestSetupFunc)(vo
     else
         TestArray[TestCount].TestSkipFlag = 0;
 
-    strcpy(TestArray[TestCount].Name, TestName);
-    strcpy(TestArray[TestCount].Description, TestDescr);
+    strlcpy(TestArray[TestCount].Name, TestName, sizeof(TestArray[TestCount].Name));
+    strlcpy(TestArray[TestCount].Description, TestDescr, sizeof(TestArray[TestCount].Description));
 
     /* Make a copy of the additional test data given */
     if (TestData) {

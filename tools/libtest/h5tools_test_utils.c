@@ -580,11 +580,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = true;
-        strcpy(fa->fa.aws_region, "u");
-        strcpy(fa->fa.secret_id, "v");
-        strcpy(fa->fa.secret_key, "w");
-        strcpy(fa->token, "x");
-        strcpy(fa->ep_url, "y");
+        strlcpy(fa->fa.aws_region, "u", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "v", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "w", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "x", sizeof(fa->token));
+        strlcpy(fa->ep_url, "y", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("NULL values pointer\n");
@@ -610,11 +610,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = true;
-        strcpy(fa->fa.aws_region, "u");
-        strcpy(fa->fa.secret_id, "v");
-        strcpy(fa->fa.secret_key, "w");
-        strcpy(fa->token, "x");
-        strcpy(fa->ep_url, "y");
+        strlcpy(fa->fa.aws_region, "u", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "v", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "w", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "x", sizeof(fa->token));
+        strlcpy(fa->ep_url, "y", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("all empty values\n");
@@ -639,11 +639,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("successful full set\n");
@@ -668,11 +668,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("NULL region\n");
@@ -697,11 +697,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("empty region; non-empty id, key\n");
@@ -728,11 +728,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("region overflow\n");
@@ -759,11 +759,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("NULL id\n");
@@ -788,11 +788,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("empty id; non-empty region and key\n");
@@ -828,11 +828,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("id overflow\n");
@@ -859,11 +859,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("NULL key\n");
@@ -888,11 +888,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("NULL key\n");
@@ -917,11 +917,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("empty key; non-empty region and id\n");
@@ -946,11 +946,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("empty key and region; non-empty id\n");
@@ -975,11 +975,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("empty key and id; non-empty region\n");
@@ -1015,11 +1015,11 @@ test_populate_ros3_fa(void)
         memset(fa, 0, sizeof(*fa));
         fa->fa.version      = bad_version;
         fa->fa.authenticate = false;
-        strcpy(fa->fa.aws_region, "a");
-        strcpy(fa->fa.secret_id, "b");
-        strcpy(fa->fa.secret_key, "c");
-        strcpy(fa->token, "d");
-        strcpy(fa->ep_url, "e");
+        strlcpy(fa->fa.aws_region, "a", sizeof(fa->fa.aws_region));
+        strlcpy(fa->fa.secret_id, "b", sizeof(fa->fa.secret_id));
+        strlcpy(fa->fa.secret_key, "c", sizeof(fa->fa.secret_key));
+        strlcpy(fa->token, "d", sizeof(fa->token));
+        strlcpy(fa->ep_url, "e", sizeof(fa->ep_url));
 
         if (show_progress) {
             printf("key overflow\n");

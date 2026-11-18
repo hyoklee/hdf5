@@ -2836,7 +2836,7 @@ main(int argc, char *argv[])
     /* "Default" HDFS configuration */
     hdfs_fa->version            = H5FD__CURR_HDFS_FAPL_T_VERSION;
     hdfs_fa->stream_buffer_size = 2048;
-    strcpy(hdfs_fa->namenode_name, "localhost");
+    strlcpy(hdfs_fa->namenode_name, "localhost", sizeof(hdfs_fa->namenode_name));
 #endif /* H5_HAVE_LIBHDFS */
 
     /* Build object display table */

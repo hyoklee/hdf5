@@ -207,16 +207,16 @@ main(void)
     for (i = 0; i < H5_FORTRAN_NUM_REAL_KINDS; i++) {
         if (sizeof(float) == RealKinds_SizeOf[i]) {
             writeTypedef("float", "float", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_FLOAT");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_FLOAT");
         }
         else if (sizeof(double) == RealKinds_SizeOf[i]) {
             writeTypedef("float", "double", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_DOUBLE");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_DOUBLE");
         }
 #ifdef H5_FORTRAN_HAVE_C_LONG_DOUBLE
         else if (sizeof(long double) == RealKinds_SizeOf[i] && found_long_double == 0) {
             writeTypedef("float", "long double", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_LONG_DOUBLE");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_LONG_DOUBLE");
             found_long_double = 1;
         }
 #ifdef H5_HAVE_FLOAT128
@@ -224,13 +224,13 @@ main(void)
         else if (sizeof(__float128) == RealKinds_SizeOf[i] && found_long_double == 1 &&
                  H5_PAC_FC_MAX_REAL_PRECISION > 28) {
             writeTypedef("float", "__float128", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_FLOAT128");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_FLOAT128");
         }
 #else
         else if (sizeof(long double) == RealKinds_SizeOf[i] && found_long_double == 1 &&
                  H5_PAC_FC_MAX_REAL_PRECISION > 28) {
             writeTypedef("float", "long double", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_FLOAT128");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_FLOAT128");
         }
 #endif
 #else /* There is no C_LONG_DOUBLE intrinsic */
@@ -238,12 +238,12 @@ main(void)
         /* Don't select a higher precision than Fortran can support */
         else if (sizeof(__float128) == RealKinds_SizeOf[i]) {
             writeTypedef("float", "__float128", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_FLOAT128");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_FLOAT128");
         }
 #else
         else if (sizeof(long double) == RealKinds_SizeOf[i]) {
             writeTypedef("float", "long double", RealKinds[i]);
-            strcpy(Real_C_TYPES[i], "C_FLOAT128");
+            snprintf(Real_C_TYPES[i], sizeof(Real_C_TYPES[i]), "%s", "C_FLOAT128");
         }
 #endif
 #endif

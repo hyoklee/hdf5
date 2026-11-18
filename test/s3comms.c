@@ -156,11 +156,11 @@ test_s3r_open(void)
     fa->version      = H5FD_CURR_ROS3_FAPL_T_VERSION;
     fa->authenticate = true;
     if (*s3_test_aws_region != '\0')
-        strcpy(fa->aws_region, s3_test_aws_region);
+        strlcpy(fa->aws_region, s3_test_aws_region, sizeof(fa->aws_region));
     else
-        strcpy(fa->aws_region, S3_TEST_DEFAULT_REGION);
-    strcpy(fa->secret_id, s3_test_aws_access_key_id);
-    strcpy(fa->secret_key, s3_test_aws_secret_access_key);
+        strlcpy(fa->aws_region, S3_TEST_DEFAULT_REGION, sizeof(fa->aws_region));
+    strlcpy(fa->secret_id, s3_test_aws_access_key_id, sizeof(fa->secret_id));
+    strlcpy(fa->secret_key, s3_test_aws_secret_access_key, sizeof(fa->secret_key));
 
     if (S3_TEST_MAX_URL_SIZE < snprintf(url_shakespeare, S3_TEST_MAX_URL_SIZE, "%s/%s", s3_test_bucket_url,
                                         S3_TEST_RESOURCE_TEXT_RESTRICTED))
@@ -203,7 +203,7 @@ test_s3r_open(void)
      *******************************/
 
     /* Pass in a bad ID */
-    strcpy(fa->secret_id, "I_MADE_UP_MY_ID");
+    strlcpy(fa->secret_id, "I_MADE_UP_MY_ID", sizeof(fa->secret_id));
     H5E_BEGIN_TRY
     {
         handle = H5FD__s3comms_s3r_open(url_shakespeare, fa, s3_test_aws_session_token, NULL);
@@ -211,10 +211,10 @@ test_s3r_open(void)
     H5E_END_TRY
     if (handle != NULL)
         TEST_ERROR;
-    strcpy(fa->secret_id, s3_test_aws_access_key_id);
+    strlcpy(fa->secret_id, s3_test_aws_access_key_id, sizeof(fa->secret_id));
 
     /* Using an invalid signing key */
-    strcpy(fa->secret_key, "I_AM_A_FAKE_KEY");
+    strlcpy(fa->secret_key, "I_AM_A_FAKE_KEY", sizeof(fa->secret_key));
     H5E_BEGIN_TRY
     {
         handle = H5FD__s3comms_s3r_open(url_shakespeare, fa, s3_test_aws_session_token, NULL);
@@ -222,7 +222,7 @@ test_s3r_open(void)
     H5E_END_TRY
     if (handle != NULL)
         TEST_ERROR;
-    strcpy(fa->secret_key, s3_test_aws_secret_access_key);
+    strlcpy(fa->secret_key, s3_test_aws_secret_access_key, sizeof(fa->secret_key));
 
     /*******************************
      * SUCCESSFUL OPEN (AND CLOSE) *

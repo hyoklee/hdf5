@@ -4001,35 +4001,35 @@ test_comp_vlen_strings(const char *fname1, const char *grp_name, int is_file_new
     comp9_buf.str_vlen = comp9_buf.str_vlen_repeat = vlen_str_buf;
 
     /* copy fixlen string data to compound buffers */
-    strcpy(comp1_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp1_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp1_buf.str_fixlen, fixlen_str_buf, sizeof(comp1_buf.str_fixlen));
+    strlcpy(comp1_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp1_buf.str_fixlen_repeat));
 
-    strcpy(comp2_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp2_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp2_buf.str_fixlen, fixlen_str_buf, sizeof(comp2_buf.str_fixlen));
+    strlcpy(comp2_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp2_buf.str_fixlen_repeat));
 
-    strcpy(comp3_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp3_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp3_buf.str_fixlen, fixlen_str_buf, sizeof(comp3_buf.str_fixlen));
+    strlcpy(comp3_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp3_buf.str_fixlen_repeat));
 
-    strcpy(comp3_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp3_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp3_buf.str_fixlen, fixlen_str_buf, sizeof(comp3_buf.str_fixlen));
+    strlcpy(comp3_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp3_buf.str_fixlen_repeat));
 
-    strcpy(comp4_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp4_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp4_buf.str_fixlen, fixlen_str_buf, sizeof(comp4_buf.str_fixlen));
+    strlcpy(comp4_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp4_buf.str_fixlen_repeat));
 
-    strcpy(comp5_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp5_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp5_buf.str_fixlen, fixlen_str_buf, sizeof(comp5_buf.str_fixlen));
+    strlcpy(comp5_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp5_buf.str_fixlen_repeat));
 
-    strcpy(comp6_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp6_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp6_buf.str_fixlen, fixlen_str_buf, sizeof(comp6_buf.str_fixlen));
+    strlcpy(comp6_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp6_buf.str_fixlen_repeat));
 
-    strcpy(comp7_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp7_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp7_buf.str_fixlen, fixlen_str_buf, sizeof(comp7_buf.str_fixlen));
+    strlcpy(comp7_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp7_buf.str_fixlen_repeat));
 
-    strcpy(comp8_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp8_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp8_buf.str_fixlen, fixlen_str_buf, sizeof(comp8_buf.str_fixlen));
+    strlcpy(comp8_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp8_buf.str_fixlen_repeat));
 
-    strcpy(comp9_buf.str_fixlen, fixlen_str_buf);
-    strcpy(comp9_buf.str_fixlen_repeat, fixlen_str_buf);
+    strlcpy(comp9_buf.str_fixlen, fixlen_str_buf, sizeof(comp9_buf.str_fixlen));
+    strlcpy(comp9_buf.str_fixlen_repeat, fixlen_str_buf, sizeof(comp9_buf.str_fixlen_repeat));
 
     /* copy vlen string array data to compound buffers */
     for (i = 0; i < VLEN_STR_ARRY_DIM; i++) {

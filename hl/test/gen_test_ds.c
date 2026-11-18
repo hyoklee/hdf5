@@ -278,8 +278,8 @@ test_long_attachscales(const char *filename)
     hid_t did = -1;
     char  dsname[32];
     char  scalename[32];
-    strcpy(dsname, DATASET_NAME);
-    strcat(dsname, "al");
+    strlcpy(dsname, DATASET_NAME, sizeof(dsname));
+    strlcat(dsname, "al", sizeof(dsname));
 
     HL_TESTING2("test_long_attachscales");
 
@@ -291,23 +291,23 @@ test_long_attachscales(const char *filename)
         goto out;
 
     if ((did = H5Dopen2(fid, dsname, H5P_DEFAULT)) >= 0) {
-        strcpy(scalename, DS_1_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_1_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM0) < 0)
             goto out;
 
-        strcpy(scalename, DS_2_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_2_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM1) < 0)
             goto out;
 
-        strcpy(scalename, DS_3_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_3_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM2) < 0)
             goto out;
 
-        strcpy(scalename, DS_4_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_4_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM3) < 0)
             goto out;
 
@@ -342,8 +342,8 @@ test_duplicatelong_attachscales(const char *filename)
     hid_t did = -1;
     char  dsname[32];
     char  scalename[32];
-    strcpy(dsname, DATASET_NAME);
-    strcat(dsname, "al2");
+    strlcpy(dsname, DATASET_NAME, sizeof(dsname));
+    strlcat(dsname, "al2", sizeof(dsname));
 
     HL_TESTING2("test_duplicatelong_attachscales");
 
@@ -355,23 +355,23 @@ test_duplicatelong_attachscales(const char *filename)
         goto out;
 
     if ((did = H5Dopen2(fid, dsname, H5P_DEFAULT)) >= 0) {
-        strcpy(scalename, DS_1_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_1_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM0) < 0)
             goto out;
 
-        strcpy(scalename, DS_2_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_2_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM1) < 0)
             goto out;
 
-        strcpy(scalename, DS_3_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_3_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM2) < 0)
             goto out;
 
-        strcpy(scalename, DS_4_NAME);
-        strcat(scalename, "al");
+        strlcpy(scalename, DS_4_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
         if (test_attach_scale(fid, did, scalename, DIM3) < 0)
             goto out;
 
@@ -407,48 +407,48 @@ test_long_scalenames(const char *filename)
     char  dsname[32];
     char  scalename[32];
     char  name[32];
-    strcpy(dsname, DATASET_NAME);
-    strcat(dsname, "al");
+    strlcpy(dsname, DATASET_NAME, sizeof(dsname));
+    strlcat(dsname, "al", sizeof(dsname));
 
     if ((fid = H5Fopen(filename, H5F_ACC_RDWR, H5P_DEFAULT)) < 0)
         goto out;
 
     HL_TESTING2("set long scale/cmp scale name");
     if ((did = H5Dopen2(fid, dsname, H5P_DEFAULT)) >= 0) {
-        strcpy(scalename, DS_1_NAME);
-        strcat(scalename, "al");
-        strcpy(name, SCALE_1_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_1_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, SCALE_1_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM0) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM0) < 0)
             goto out;
 
-        strcpy(scalename, DS_2_NAME);
-        strcat(scalename, "al");
-        strcpy(name, SCALE_2_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_2_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, SCALE_2_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM1) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM1) < 0)
             goto out;
 
-        strcpy(scalename, DS_3_NAME);
-        strcat(scalename, "al");
-        strcpy(name, SCALE_3_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_3_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, SCALE_3_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM2) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM2) < 0)
             goto out;
 
-        strcpy(scalename, DS_4_NAME);
-        strcat(scalename, "al");
-        strcpy(name, SCALE_4_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_4_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, SCALE_4_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM3) < 0)
             goto out;
 
@@ -488,48 +488,48 @@ test_samelong_scalenames(const char *filename)
     char  scalename[32];
     char  name[32];
 
-    strcpy(dsname, DATASET_NAME);
-    strcat(dsname, "al2");
+    strlcpy(dsname, DATASET_NAME, sizeof(dsname));
+    strlcat(dsname, "al2", sizeof(dsname));
 
     if ((fid = open_test_file(filename)) < 0)
         goto out;
 
     HL_TESTING2("set same long scale/cmp scale name");
     if ((did = H5Dopen2(fid, dsname, H5P_DEFAULT)) >= 0) {
-        strcpy(scalename, DS_1_NAME);
-        strcat(scalename, "al");
-        strcpy(name, DS_1_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_1_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, DS_1_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM0) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM0) < 0)
             goto out;
 
-        strcpy(scalename, DS_2_NAME);
-        strcat(scalename, "al");
-        strcpy(name, DS_2_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_2_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, DS_2_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM1) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM1) < 0)
             goto out;
 
-        strcpy(scalename, DS_3_NAME);
-        strcat(scalename, "al");
-        strcpy(name, DS_3_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_3_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, DS_3_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM2) < 0)
             goto out;
 
         if (test_cmp_scalename(fid, did, scalename, name, DIM2) < 0)
             goto out;
 
-        strcpy(scalename, DS_4_NAME);
-        strcat(scalename, "al");
-        strcpy(name, DS_4_NAME);
-        strcat(name, "al");
+        strlcpy(scalename, DS_4_NAME, sizeof(scalename));
+        strlcat(scalename, "al", sizeof(scalename));
+        strlcpy(name, DS_4_NAME, sizeof(name));
+        strlcat(name, "al", sizeof(name));
         if (test_set_scalename(fid, did, scalename, name, DIM3) < 0)
             goto out;
 

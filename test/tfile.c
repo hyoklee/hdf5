@@ -2433,7 +2433,7 @@ test_file_getname(void)
 
     /* Verify that passing a non-null buffer with size 0 still returns the correct name
        size and the buffer is not modified */
-    strcpy(non_null_buf, NON_NULL_BUF);
+    strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
     buf_ptr  = &non_null_buf[4];
     name_len = H5Fget_name(file_id, buf_ptr, 0);
     CHECK(name_len, FAIL, "H5Fget_name");

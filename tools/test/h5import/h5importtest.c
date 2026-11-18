@@ -68,9 +68,9 @@ main(void)
     volatile uint32_t ibyte = 0x01234567;
     /* 0 for big endian, 1 for little endian. */
     if ((*((volatile uint8_t *)(&ibyte))) == 0x67)
-        strcpy(machine_order, "LE");
+        strlcpy(machine_order, "LE", sizeof(machine_order));
     else
-        strcpy(machine_order, "BE");
+        strlcpy(machine_order, "BE", sizeof(machine_order));
 
     /*
      * initialize the row, column, and plane vectors

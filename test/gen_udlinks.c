@@ -19,6 +19,7 @@
  */
 
 #include "hdf5.h"
+#include <stdio.h>
 #include <string.h>
 
 #define NAME_LE_1     "le_extlink1.h5"
@@ -40,12 +41,12 @@ main(void)
 
     switch (H5Tget_order(H5T_NATIVE_INT)) {
         case H5T_ORDER_LE:
-            strcpy(filename1, NAME_LE_1);
-            strcpy(filename2, NAME_LE_2);
+            snprintf(filename1, sizeof(filename1), "%s", NAME_LE_1);
+            snprintf(filename2, sizeof(filename2), "%s", NAME_LE_2);
             break;
         case H5T_ORDER_BE:
-            strcpy(filename1, NAME_BE_1);
-            strcpy(filename2, NAME_BE_2);
+            snprintf(filename1, sizeof(filename1), "%s", NAME_BE_1);
+            snprintf(filename2, sizeof(filename2), "%s", NAME_BE_2);
             break;
         case H5T_ORDER_ERROR:
         case H5T_ORDER_VAX:

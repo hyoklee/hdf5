@@ -64,7 +64,7 @@ main(int argc, char *argv[])
     memset(fname, 0, 32);
     for (i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-f") == 0)
-            strcpy(fname, argv[i + 1]);
+            snprintf(fname, sizeof(fname), "%s", argv[i + 1]);
         else if (strcmp(argv[i], "-g") == 0)
             ngrps = atoi(argv[i + 1]);
         else if (strcmp(argv[i], "-d") == 0)
@@ -275,7 +275,7 @@ create_perf_test_file(const char *fname, int ngrps, int ndsets, int nattrs, hsiz
             buf_str[i][j]                              = 'a' + (i % 26);
         }
         buf_str[i][FIXED_LEN - 1] = 0;
-        strcpy(buf_comp[i].s, buf_str[i]);
+        snprintf(buf_comp[i].s, sizeof(buf_comp[i].s), "%s", buf_str[i]);
 
         len = (1 - cos(i / 8.0)) / 2 * vlen + 1;
         if (!i)
@@ -403,7 +403,7 @@ create_perf_test_file(const char *fname, int ngrps, int ndsets, int nattrs, hsiz
 
         /* 7 add 2D double */
         snprintf(name, sizeof(name), "%05d 2D double", j);
-        strcpy(tmp_name1, name);
+        snprintf(tmp_name1, sizeof(tmp_name1), "%s", name);
         did = H5Dcreate(gid1, name, H5T_NATIVE_DOUBLE, sid_2d, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
         H5Dwrite(did, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf_double2d[0]);
         if (!j)
@@ -420,7 +420,7 @@ create_perf_test_file(const char *fname, int ngrps, int ndsets, int nattrs, hsiz
 
         /* 9 add vlen int array */
         snprintf(name, sizeof(name), "%05d vlen int array", j);
-        strcpy(tmp_name2, name);
+        snprintf(tmp_name2, sizeof(tmp_name2), "%s", name);
         did = H5Dcreate(gid1, name, tid_vlen_i, sid_1d, H5P_DEFAULT, dcpl, H5P_DEFAULT);
         H5Dwrite(did, tid_vlen_i, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf_vlen_i);
         if (!j)
@@ -429,7 +429,7 @@ create_perf_test_file(const char *fname, int ngrps, int ndsets, int nattrs, hsiz
 
         /* 10 add vlen strings */
         snprintf(name, sizeof(name), "%05d vlen strings", j);
-        strcpy(tmp_name3, name);
+        snprintf(tmp_name3, sizeof(tmp_name3), "%s", name);
         did = H5Dcreate(gid1, name, tid_vlen_s, sid_1d, H5P_DEFAULT, dcpl, H5P_DEFAULT);
         H5Dwrite(did, tid_vlen_s, H5S_ALL, H5S_ALL, H5P_DEFAULT, buf_vlen_s);
         if (!j)

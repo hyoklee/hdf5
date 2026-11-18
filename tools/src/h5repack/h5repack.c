@@ -614,23 +614,23 @@ check_options(pack_opt_t *options)
             printf("All objects to modify layout are...\n");
             switch (options->layout_g) {
                 case H5D_COMPACT:
-                    strcpy(slayout, "compact");
+                    strlcpy(slayout, "compact", sizeof(slayout));
                     break;
                 case H5D_CONTIGUOUS:
-                    strcpy(slayout, "contiguous");
+                    strlcpy(slayout, "contiguous", sizeof(slayout));
                     break;
                 case H5D_CHUNKED:
-                    strcpy(slayout, "chunked");
+                    strlcpy(slayout, "chunked", sizeof(slayout));
                     break;
                 case H5D_VIRTUAL:
-                    strcpy(slayout, "virtual");
+                    strlcpy(slayout, "virtual", sizeof(slayout));
                     break;
                 case H5D_LAYOUT_ERROR:
                 case H5D_NLAYOUTS:
                     H5TOOLS_GOTO_ERROR((-1), "invalid layout");
                     break;
                 default:
-                    strcpy(slayout, "invalid layout\n");
+                    strlcpy(slayout, "invalid layout\n", sizeof(slayout));
                     H5TOOLS_GOTO_DONE((-1));
             }
             printf(" Apply %s layout to all", slayout);

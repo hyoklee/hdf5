@@ -1348,8 +1348,8 @@ test_attr_mult_read(hid_t fapl)
     /* Verify Name with too small of a buffer */
     name_len = H5Aget_name(attr, strlen(ATTR1_NAME), attr_name);
     VERIFY(name_len, strlen(ATTR1_NAME), "H5Aget_name");
-    strcpy(temp_name, ATTR1_NAME);            /* make a copy of the name */
-    temp_name[strlen(ATTR1_NAME) - 1] = '\0'; /* truncate it to match the one retrieved */
+    strlcpy(temp_name, ATTR1_NAME, sizeof(temp_name)); /* make a copy of the name */
+    temp_name[strlen(ATTR1_NAME) - 1] = '\0';          /* truncate it to match the one retrieved */
     if (strcmp(attr_name, temp_name) != 0)
         TestErrPrintf("attribute name different: attr_name=%s, should be %s\n", attr_name, temp_name);
 
@@ -1406,8 +1406,8 @@ test_attr_mult_read(hid_t fapl)
     /* Verify Name with too small of a buffer */
     name_len = H5Aget_name(attr, strlen(ATTR2_NAME), attr_name);
     VERIFY(name_len, strlen(ATTR2_NAME), "H5Aget_name");
-    strcpy(temp_name, ATTR2_NAME);            /* make a copy of the name */
-    temp_name[strlen(ATTR2_NAME) - 1] = '\0'; /* truncate it to match the one retrieved */
+    strlcpy(temp_name, ATTR2_NAME, sizeof(temp_name)); /* make a copy of the name */
+    temp_name[strlen(ATTR2_NAME) - 1] = '\0';          /* truncate it to match the one retrieved */
     if (strcmp(attr_name, temp_name) != 0)
         TestErrPrintf("attribute name different: attr_name=%s, should be %s\n", attr_name, temp_name);
 
@@ -1468,8 +1468,8 @@ test_attr_mult_read(hid_t fapl)
     /* Verify Name with too small of a buffer */
     name_len = H5Aget_name(attr, strlen(ATTR3_NAME), attr_name);
     VERIFY(name_len, strlen(ATTR3_NAME), "H5Aget_name");
-    strcpy(temp_name, ATTR3_NAME);            /* make a copy of the name */
-    temp_name[strlen(ATTR3_NAME) - 1] = '\0'; /* truncate it to match the one retrieved */
+    strlcpy(temp_name, ATTR3_NAME, sizeof(temp_name)); /* make a copy of the name */
+    temp_name[strlen(ATTR3_NAME) - 1] = '\0';          /* truncate it to match the one retrieved */
     if (strcmp(attr_name, temp_name) != 0)
         TestErrPrintf("attribute name different: attr_name=%s, should be %s\n", attr_name, temp_name);
 
@@ -4230,7 +4230,7 @@ test_attr_null_space(hid_t fcpl, hid_t fapl)
     /* Add attribute with 'null' dataspace */
 
     /* Create attribute */
-    strcpy(attrname, "null attr");
+    strlcpy(attrname, "null attr", sizeof(attrname));
     attr = H5Acreate2(dataset, attrname, H5T_NATIVE_UINT, null_sid, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(attr, FAIL, "H5Acreate2");
 
@@ -4275,7 +4275,7 @@ test_attr_null_space(hid_t fcpl, hid_t fapl)
     /* Add another attribute with 'null' dataspace */
 
     /* Create attribute */
-    strcpy(attrname, "null attr #2");
+    strlcpy(attrname, "null attr #2", sizeof(attrname));
     attr = H5Acreate2(dataset, attrname, H5T_NATIVE_UINT, null_sid, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(attr, FAIL, "H5Acreate2");
 
@@ -4309,7 +4309,7 @@ test_attr_null_space(hid_t fcpl, hid_t fapl)
     CHECK(dataset, FAIL, "H5Dopen2");
 
     /* Open first attribute */
-    strcpy(attrname, "null attr #2");
+    strlcpy(attrname, "null attr #2", sizeof(attrname));
     attr = H5Aopen(dataset, attrname, H5P_DEFAULT);
     CHECK(attr, FAIL, "H5Aopen");
 
@@ -4352,7 +4352,7 @@ test_attr_null_space(hid_t fcpl, hid_t fapl)
     CHECK(ret, FAIL, "H5Aclose");
 
     /* Open second attribute */
-    strcpy(attrname, "null attr");
+    strlcpy(attrname, "null attr", sizeof(attrname));
     attr = H5Aopen(dataset, attrname, H5P_DEFAULT);
     CHECK(attr, FAIL, "H5Aopen");
 
@@ -6583,7 +6583,7 @@ test_attr_get_name_invalid_buf(hid_t fcpl, hid_t fapl)
 
     /* Verify that passing a non-null buffer with size 0 still returns the correct name
        size and the buffer is not modified */
-    strcpy(non_null_buf, NON_NULL_BUF);
+    strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
     buf_ptr = &non_null_buf[4];
     namelen = H5Aget_name(attr, (size_t)0, buf_ptr);
     CHECK(namelen, FAIL, "H5Aget_name");

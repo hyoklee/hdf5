@@ -930,7 +930,7 @@ run_command(int argc __attribute__((unused)), char **argv, char *cmdline, const 
 #else
 
     /* create a copy of the 1st file passed to the application */
-    strcpy(filepath, fname);
+    strlcpy(filepath, fname, sizeof(filepath));
 
     if (log_output_in_single_file || use_stdout) {
         pid_t   pid;
@@ -993,7 +993,7 @@ run_command(int argc __attribute__((unused)), char **argv, char *cmdline, const 
             nbytes    = strlen(cmdline);
             /* Record the command line for the log! */
             if (nbytes < remaining) {
-                strcpy(&buf[offset], cmdline);
+                strlcpy(&buf[offset], cmdline, (size_t)remaining);
                 thisbuft->chars += nbytes;
                 thisbuft->count -= nbytes;
                 remaining -= nbytes;
@@ -1015,7 +1015,7 @@ run_command(int argc __attribute__((unused)), char **argv, char *cmdline, const 
                 thisbuft->bufsize = BUFT_SIZE;
                 thisbuft->dt      = MPI_CHAR;
                 /* Copy the remaining cmdline text into the new buffer */
-                strcpy(buf, nextpart);
+                strlcpy(buf, nextpart, BUFT_SIZE);
                 /* And update our buffer info */
                 // thisbuft->chars = strlen(nextpart) +1;
                 thisbuft->chars = strlen(nextpart);
@@ -1106,8 +1106,8 @@ run_command(int argc __attribute__((unused)), char **argv, char *cmdline, const 
              * copy of the logpath variable.
              */
             log_len = strlen(logpath);
-            strcpy(logErrors, logpath);
-            strcpy(&logErrors[log_len - 3], "err");
+            strlcpy(logErrors, logpath, sizeof(logErrors));
+            strlcpy(&logErrors[log_len - 3], "err", sizeof(logErrors) - (log_len - 3));
         }
         if (mfu_debug_level == MFU_LOG_VERBOSE) {
             printf("\tCreating logfile: %s\n", logpath);
@@ -1162,7 +1162,7 @@ MFU_PRED_EXEC(mfu_flist flist, uint64_t idx, void *arg)
     toolname = buf;
 
     /* Get a copy of fname */
-    strcpy(filepath, fname);
+    strlcpy(filepath, fname, sizeof(filepath));
 
     /* allocate a char* for each item in the argv array,
      * plus one more for a trailing NULL
@@ -1617,7 +1617,8 @@ main(int argc, char *argv[])
                 k++;
             }
             else {
-                strcpy(ptr, argv[i]);
+                strlcpy(ptr, argv[i],
+                        (size_t)(args_byte_length + pathlen_total) - (size_t)(ptr - args_buf));
                 ptr += strlen(argv[i]);
             }
             *ptr++ = 0;

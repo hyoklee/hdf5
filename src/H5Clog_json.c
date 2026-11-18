@@ -955,9 +955,9 @@ H5C__json_write_protect_entry_log_msg(void *udata, const H5C_cache_entry_t *entr
     assert(entry);
 
     if (H5C__READ_ONLY_FLAG == flags)
-        strcpy(rw_s, "READ");
+        strlcpy(rw_s, "READ", sizeof(rw_s));
     else
-        strcpy(rw_s, "WRITE");
+        strlcpy(rw_s, "WRITE", sizeof(rw_s));
 
     /* Create the log message string */
     snprintf(json_udata->message, H5C_MAX_JSON_LOG_MSG_SIZE, "\

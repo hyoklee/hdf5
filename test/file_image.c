@@ -555,7 +555,7 @@ test_core(void)
     VERIFY(strlen(filename) < (1023 - 5), "file name too long.");
     strncpy(copied_filename, filename, (size_t)1023);
     copied_filename[1023] = '\0';
-    strcat(copied_filename, ".copy");
+    strlcat(copied_filename, ".copy", sizeof(copied_filename));
 
     /* Make a copy of the data file from svn. */
     ret = h5_make_local_copy(filename, copied_filename);

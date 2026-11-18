@@ -1562,7 +1562,7 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr, pack_opt_
     char         f_objname[256];              /* filter objname */
     int          i;
 
-    strcpy(strfilter, "\0");
+    strlcpy(strfilter, "\0", sizeof(strfilter));
 
     /* get information about input filters */
     if ((nfilters = H5Pget_nfilters(dcpl_id)) < 0)
@@ -1573,30 +1573,30 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr, pack_opt_
 
         if ((filtn = H5Pget_filter2(dcpl_id, (unsigned)i, &filt_flags, &cd_nelmts, cd_values,
                                     sizeof(f_objname), f_objname, NULL)) < 0) {
-            strcat(strfilter, "ERROR ");
+            strlcat(strfilter, "ERROR ", sizeof(strfilter));
             continue;
         }
 
         switch (filtn) {
             case H5Z_FILTER_NONE:
-                strcat(strfilter, "NONE ");
+                strlcat(strfilter, "NONE ", sizeof(strfilter));
                 break;
 
             case H5Z_FILTER_DEFLATE:
-                strcat(strfilter, "GZIP ");
+                strlcat(strfilter, "GZIP ", sizeof(strfilter));
 
 #if defined(PRINT_DEBUG)
                 {
                     unsigned level = cd_values[0];
 
                     snprintf(temp, sizeof(temp), "(%d)", level);
-                    strcat(strfilter, temp);
+                    strlcat(strfilter, temp, sizeof(strfilter));
                 }
 #endif
                 break;
 
             case H5Z_FILTER_SZIP:
-                strcat(strfilter, "SZIP ");
+                strlcat(strfilter, "SZIP ", sizeof(strfilter));
 
 #if defined(PRINT_DEBUG)
                 {
@@ -1604,34 +1604,34 @@ print_dataset_info(hid_t dcpl_id, char *objname, double ratio, int pr, pack_opt_
                     unsigned ppb          = cd_values[1];
 
                     snprintf(temp, sizeof(temp), "(%d,", ppb);
-                    strcat(strfilter, temp);
+                    strlcat(strfilter, temp, sizeof(strfilter));
                     if (options_mask & H5_SZIP_EC_OPTION_MASK)
-                        strcpy(temp, "EC) ");
+                        strlcpy(temp, "EC) ", sizeof(temp));
                     else if (options_mask & H5_SZIP_NN_OPTION_MASK)
-                        strcpy(temp, "NN) ");
+                        strlcpy(temp, "NN) ", sizeof(temp));
                 }
-                strcat(strfilter, temp);
+                strlcat(strfilter, temp, sizeof(strfilter));
 #endif
                 break;
 
             case H5Z_FILTER_SHUFFLE:
-                strcat(strfilter, "SHUF ");
+                strlcat(strfilter, "SHUF ", sizeof(strfilter));
                 break;
 
             case H5Z_FILTER_FLETCHER32:
-                strcat(strfilter, "FLET ");
+                strlcat(strfilter, "FLET ", sizeof(strfilter));
                 break;
 
             case H5Z_FILTER_NBIT:
-                strcat(strfilter, "NBIT ");
+                strlcat(strfilter, "NBIT ", sizeof(strfilter));
                 break;
 
             case H5Z_FILTER_SCALEOFFSET:
-                strcat(strfilter, "SCALEOFFSET ");
+                strlcat(strfilter, "SCALEOFFSET ", sizeof(strfilter));
                 break;
 
             default:
-                strcat(strfilter, "UD ");
+                strlcat(strfilter, "UD ", sizeof(strfilter));
                 break;
         } /* end switch */
     }     /* end for each filter */

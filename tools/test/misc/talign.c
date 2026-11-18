@@ -53,7 +53,7 @@ main(void)
 
     printf("%-70s", "Testing alignment in compound datatypes");
 
-    strcpy(string5, "Hi!");
+    strlcpy(string5, "Hi!", sizeof(string5));
     HDunlink(fname);
     fil = H5Fcreate(fname, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 

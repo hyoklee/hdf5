@@ -632,7 +632,7 @@ test_reference_obj(void)
     VERIFY(namelen, strlen(FILE_REF_OBJ), "H5Rget_file_name");
 
     /* Test passing in non-null buffer with buffer size is zero */
-    strcpy(non_null_buf, NON_NULL_BUF);
+    strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
     buf_ptr = &non_null_buf[4];
     namelen = H5Rget_file_name(&rbuf[0], buf_ptr, 0);
     CHECK(namelen, FAIL, "H5Rget_file_name");
@@ -2671,7 +2671,7 @@ test_reference_attr(void)
     /* Testing "Attr1" */
 
     /* Test passing in non-null buffer with buffer size is zero */
-    strcpy(non_null_buf, NON_NULL_BUF);
+    strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
     buf_ptr = &non_null_buf[4];
     namelen = H5Rget_attr_name(&ref_rbuf[0], buf_ptr, 0);
     CHECK(namelen, FAIL, "H5Rget_attr_name");

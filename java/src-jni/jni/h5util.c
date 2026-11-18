@@ -149,7 +149,7 @@ h5str_resize(h5str_t *str, size_t new_len)
         return;
 
     if (new_len > str->max) /* increase memory */
-        strcpy(new_str, str->s);
+        strlcpy(new_str, str->s, new_len);
     else
         strncpy(new_str, str->s, new_len - 1);
 
@@ -178,7 +178,9 @@ h5str_append(h5str_t *str, const char *cstr)
         h5str_resize(str, str->max * 2);
     }
 
-    return strcat(str->s, cstr);
+    strlcat(str->s, cstr, str->max);
+
+    return str->s;
 } /* end h5str_append */
 
 /*

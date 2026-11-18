@@ -652,9 +652,9 @@ verify_ptlengthtype(hid_t fid, const char *table_name, herr_t expected_value)
         ret = SUCCEED;
     else {
         char lenthtype[20];
-        strcpy(lenthtype, "fixed-length");
+        strlcpy(lenthtype, "fixed-length", sizeof(lenthtype));
         if (expected_value == 1)
-            strcpy(lenthtype, "variable-length");
+            strlcpy(lenthtype, "variable-length", sizeof(lenthtype));
         fprintf(stderr, "\nPacket table '%s' should be %s but is not\n", table_name, lenthtype);
         ret = FAIL;
     }
@@ -1009,9 +1009,9 @@ verify_accessors(hid_t fid, const char *table_name, bool uses_vlen_type)
          */
         char lenthtype[20];
         if (uses_vlen_type == true)
-            strcpy(lenthtype, "variable-length");
+            strlcpy(lenthtype, "variable-length", sizeof(lenthtype));
         else
-            strcpy(lenthtype, "fixed-length");
+            strlcpy(lenthtype, "fixed-length", sizeof(lenthtype));
         fprintf(stderr, "\nThe dataset '%s' should be %s but is not\n", table_name, lenthtype);
         goto error;
     }

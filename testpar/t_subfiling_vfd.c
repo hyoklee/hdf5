@@ -332,9 +332,9 @@ validate_file_with_h5fuse(const char *config_filename, char **subfile_names, siz
     subfile_list[0] = '\0';
     for (size_t i = 0; i < num_subfiles; i++) {
         if (i > 0) {
-            strcat(subfile_list, ",");
+            strlcat(subfile_list, ",", sizeof(subfile_list));
         }
-        strcat(subfile_list, subfile_names[i]);
+        strlcat(subfile_list, subfile_names[i], sizeof(subfile_list));
 
         /* Verify each subfile exists before attempting to fuse */
         if (access(subfile_names[i], F_OK) != 0) {

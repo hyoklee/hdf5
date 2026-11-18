@@ -79,9 +79,9 @@ gen_name(int value)
     unsigned length;
     int      i;
 
-    length                     = num_digits(MAX_NUM_NAME - 1);
-    temp                       = (char *)malloc(NAME_OFFSET + length + 1);
-    temp                       = strcpy(temp, "attrib");
+    length = num_digits(MAX_NUM_NAME - 1);
+    temp   = (char *)malloc(NAME_OFFSET + length + 1);
+    strlcpy(temp, "attrib", NAME_OFFSET + length + 1);
     temp[NAME_OFFSET + length] = '\0';
 
     for (i = (int)(length - 1); i >= 0; i--) {

@@ -59,36 +59,36 @@ H5_bandwidth(char *buf /*out*/, size_t bufsize, double nbytes, double nseconds)
     double bw;
 
     if (nseconds <= 0.0)
-        strcpy(buf, "       NaN");
+        strlcpy(buf, "       NaN", bufsize);
     else {
         bw = nbytes / nseconds;
         if (H5_DBL_ABS_EQUAL(bw, 0.0))
-            strcpy(buf, "0.000  B/s");
+            strlcpy(buf, "0.000  B/s", bufsize);
         else if (bw < 1.0)
             snprintf(buf, bufsize, "%10.4e", bw);
         else if (bw < (double)H5_KB) {
             snprintf(buf, bufsize, "%05.4f", bw);
-            strcpy(buf + 5, "  B/s");
+            strlcpy(buf + 5, "  B/s", bufsize - 5);
         }
         else if (bw < (double)H5_MB) {
             snprintf(buf, bufsize, "%05.4f", bw / (double)H5_KB);
-            strcpy(buf + 5, " kB/s");
+            strlcpy(buf + 5, " kB/s", bufsize - 5);
         }
         else if (bw < (double)H5_GB) {
             snprintf(buf, bufsize, "%05.4f", bw / (double)H5_MB);
-            strcpy(buf + 5, " MB/s");
+            strlcpy(buf + 5, " MB/s", bufsize - 5);
         }
         else if (bw < (double)H5_TB) {
             snprintf(buf, bufsize, "%05.4f", bw / (double)H5_GB);
-            strcpy(buf + 5, " GB/s");
+            strlcpy(buf + 5, " GB/s", bufsize - 5);
         }
         else if (bw < (double)H5_PB) {
             snprintf(buf, bufsize, "%05.4f", bw / (double)H5_TB);
-            strcpy(buf + 5, " TB/s");
+            strlcpy(buf + 5, " TB/s", bufsize - 5);
         }
         else if (bw < (double)H5_EB) {
             snprintf(buf, bufsize, "%05.4f", bw / (double)H5_PB);
-            strcpy(buf + 5, " PB/s");
+            strlcpy(buf + 5, " PB/s", bufsize - 5);
         }
         else {
             snprintf(buf, bufsize, "%10.4e", bw);

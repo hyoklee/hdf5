@@ -2058,7 +2058,7 @@ test_deprec(hid_t fapl, bool new_format)
 
     /* Verify that passing a non-null buffer with size 0 still returns the correct name
        size and the buffer is not modified */
-    strcpy(non_null_buf, NON_NULL_BUF);
+    strlcpy(non_null_buf, NON_NULL_BUF, sizeof(non_null_buf));
     buf_ptr = &non_null_buf[4];
     if ((name_len = H5Gget_objname_by_idx(group1_id, (hsize_t)0, buf_ptr, 0)) < 0)
         FAIL_STACK_ERROR;
@@ -10621,9 +10621,10 @@ external_link_win1(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* set up name for target link: "/CWD/tmp_links/extlinks10" */
-    strcpy(tmpname, &cwdpath[2]); /* stripped the drive letter to make it rel drive but absolute path */
-    strcat(tmpname, "/");
-    strcat(tmpname, FILENAME[30]);
+    /* stripped the drive letter to make it rel drive but absolute path */
+    strlcpy(tmpname, &cwdpath[2], sizeof(tmpname));
+    strlcat(tmpname, "/", sizeof(tmpname));
+    strlcat(tmpname, FILENAME[30], sizeof(tmpname));
     h5_fixname(tmpname, fapl, filename2, sizeof filename2);
 
     /* set up name for target file: "extlinks10" */
@@ -10716,9 +10717,10 @@ external_link_win2(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* set up name for target link: "/CWD/tmp_links/extlinks11" */
-    strcpy(tmpname, &cwdpath[2]); /* stripped the drive letter to make it relative drive but absolute path */
-    strcat(tmpname, "/");
-    strcat(tmpname, FILENAME[31]);
+    /* stripped the drive letter to make it relative drive but absolute path */
+    strlcpy(tmpname, &cwdpath[2], sizeof(tmpname));
+    strlcat(tmpname, "/", sizeof(tmpname));
+    strlcat(tmpname, FILENAME[31], sizeof(tmpname));
     h5_fixname(tmpname, fapl, filename2, sizeof filename2);
 
     /* set up name for target file: "tmp_links/extlinks11" */
@@ -10980,9 +10982,10 @@ external_link_win5(hid_t fapl, bool new_format)
         drive += 1;
 
     /* set up name for main file: "/CWD/extlinks0" */
-    strcpy(tmpname, &cwdpath[2]); /* stripped the drive letter to make it rel drive but absolute path */
-    strcat(tmpname, "/");
-    strcat(tmpname, FILENAME[12]);
+    /* stripped the drive letter to make it rel drive but absolute path */
+    strlcpy(tmpname, &cwdpath[2], sizeof(tmpname));
+    strlcat(tmpname, "/", sizeof(tmpname));
+    strlcat(tmpname, FILENAME[12], sizeof(tmpname));
     h5_fixname(tmpname, fapl, filename1, sizeof filename1);
 
     /* set up name for target link: "<drive-letter+1>:tmp_links/extlinks14" */
@@ -11165,9 +11168,9 @@ external_link_win7(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* set up name for target link: "\\127.0.0.1\c$/tmp_links/extlinks10" */
-    strcpy(tmpname, "\\\\127.0.0.1\\c$"); /* absolute path */
-    strcat(tmpname, "/");
-    strcat(tmpname, FILENAME[30]);
+    strlcpy(tmpname, "\\\\127.0.0.1\\c$", sizeof(tmpname)); /* absolute path */
+    strlcat(tmpname, "/", sizeof(tmpname));
+    strlcat(tmpname, FILENAME[30], sizeof(tmpname));
     h5_fixname(tmpname, fapl, filename2, sizeof filename2);
 
     /* set up name for target file: "extlinks15" */
@@ -11348,9 +11351,9 @@ external_link_win9(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* set up name for target link: "\\?\UNC\127.0.0.1\c$/tmp_links/extlinks10" */
-    strcpy(tmpname, "\\\\?\\UNC\127.0.0.1\\c$"); /* absolute path */
-    strcat(tmpname, "/");
-    strcat(tmpname, FILENAME[30]);
+    strlcpy(tmpname, "\\\\?\\UNC\127.0.0.1\\c$", sizeof(tmpname)); /* absolute path */
+    strlcat(tmpname, "/", sizeof(tmpname));
+    strlcat(tmpname, FILENAME[30], sizeof(tmpname));
     h5_fixname(tmpname, fapl, filename2, sizeof filename2);
 
     /* set up name for target file: "extlinks15" */
@@ -14962,7 +14965,7 @@ UD_cb_query(const char *link_name, const void *udata, size_t udata_size, void *b
     if (buf) {
         if (buf_size < 16)
             TEST_ERROR;
-        strcpy((char *)buf, "query succeeded");
+        strlcpy((char *)buf, "query succeeded", buf_size);
     } /* end if */
 
     /* There are 15 characters and a NULL in "query succeeded" */
@@ -15251,7 +15254,7 @@ lapl_udata(hid_t fapl, bool new_format)
     /* Create a non-default lapl with a new property pointing to group a*/
     if ((plist_id = H5Pcreate(H5P_LINK_ACCESS)) < 0)
         TEST_ERROR;
-    strcpy(group_a_name, "group_a");
+    strlcpy(group_a_name, "group_a", sizeof(group_a_name));
     if (H5Pinsert2(plist_id, DEST_PROP_NAME, (size_t)NAME_BUF_SIZE, group_a_name, NULL, NULL, NULL, NULL,
                    NULL, NULL) < 0)
         TEST_ERROR;
@@ -15273,7 +15276,7 @@ lapl_udata(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* Now use the same ud link to access group_b */
-    strcpy(group_b_name, "group_b");
+    strlcpy(group_b_name, "group_b", sizeof(group_b_name));
     if (H5Pset(plist_id, DEST_PROP_NAME, group_b_name) < 0)
         TEST_ERROR;
 
@@ -15429,7 +15432,7 @@ UD_cbsucc_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATTR_UNUSED 
      */
 
     if (buf != NULL && buf_size >= 8)
-        strcpy((char *)buf, "succeed");
+        strlcpy((char *)buf, "succeed", buf_size);
 
     return 8;
 } /* end UD_cbsucc_query() */
@@ -15611,7 +15614,7 @@ ud_link_errors(hid_t fapl, bool new_format)
         TEST_ERROR;
 
     /* Create a user-defined link to the group. */
-    strcpy(group_name, "/group");
+    strlcpy(group_name, "/group", sizeof(group_name));
     if (H5Lcreate_ud(fid, "/ud_link", (H5L_type_t)UD_CBFAIL_TYPE, &group_name, strlen(group_name) + 1,
                      H5P_DEFAULT, H5P_DEFAULT) < 0)
         FAIL_STACK_ERROR;

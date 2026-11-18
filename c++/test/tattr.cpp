@@ -1638,7 +1638,7 @@ test_string_attr(FileAccPropList &fapl)
                           ATTRSTR_DATA.c_str(), read_flstr1.c_str());
 
         // Read and verify the attribute string as a string of chars.
-        strcpy(flstring_att_check, "");
+        strlcpy(flstring_att_check, "", sizeof(flstring_att_check));
         gr_flattr2.read(fls_type, flstring_att_check);
         if (strcmp(flstring_att_check, ATTRSTR_DATA.c_str()) != 0)
             TestErrPrintf("Line %d: Attribute data different: ATTRSTR_DATA=%s,flstring_att_check=%s\n",

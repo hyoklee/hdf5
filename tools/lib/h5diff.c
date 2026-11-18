@@ -720,8 +720,7 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
             if ((obj1fullname = (char *)malloc(strlen(objname1) + 2)) == NULL)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
 
-            strcpy(obj1fullname, "/");
-            strcat(obj1fullname, objname1);
+            snprintf(obj1fullname, strlen(objname1) + 2, "/%s", objname1);
 #endif /* H5_HAVE_ASPRINTF */
         }
         else
@@ -738,8 +737,7 @@ h5diff(const char *fname1, const char *fname2, const char *objname1, const char 
             /* (malloc 2 more for "/" and end-of-line) */
             if ((obj2fullname = (char *)malloc(strlen(objname2) + 2)) == NULL)
                 H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "name buffer allocation failed");
-            strcpy(obj2fullname, "/");
-            strcat(obj2fullname, objname2);
+            snprintf(obj2fullname, strlen(objname2) + 2, "/%s", objname2);
 #endif /* H5_HAVE_ASPRINTF */
         }
         else
@@ -1208,14 +1206,14 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
         if (NULL == (obj1_fullpath = malloc(strlen(grp1_path) + strlen(table->objs[i].name) + 1)))
             H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
         else {
-            strcpy(obj1_fullpath, grp1_path);
-            strcat(obj1_fullpath, table->objs[i].name);
+            snprintf(obj1_fullpath, strlen(grp1_path) + strlen(table->objs[i].name) + 1, "%s%s", grp1_path,
+                     table->objs[i].name);
         }
         if (NULL == (obj2_fullpath = malloc(strlen(grp2_path) + strlen(table->objs[i].name) + 1)))
             H5TOOLS_ERROR(H5DIFF_ERR, "name buffer allocation failed");
         else {
-            strcpy(obj2_fullpath, grp2_path);
-            strcat(obj2_fullpath, table->objs[i].name);
+            snprintf(obj2_fullpath, strlen(grp2_path) + strlen(table->objs[i].name) + 1, "%s%s", grp2_path,
+                     table->objs[i].name);
         }
 #endif
 
@@ -1259,8 +1257,8 @@ diff_match(hid_t file1_id, const char *grp1, trav_info_t *info1, hid_t file2_id,
                     H5TOOLS_GOTO_ERROR(H5DIFF_ERR, "couldn't handle parallel worker task request");
 
             /* Set up args to pass to worker task. */
-            strcpy(args.name1, obj1_fullpath);
-            strcpy(args.name2, obj2_fullpath);
+            strlcpy(args.name1, obj1_fullpath, sizeof(args.name1));
+            strlcpy(args.name2, obj2_fullpath, sizeof(args.name2));
             args.opts    = *opts;
             args.argdata = argdata;
 

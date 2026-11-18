@@ -1822,9 +1822,9 @@ test_array_bkg(void)
     for (i = 0; i < dtsinfo->nsubfields; i++)
         dtsinfo->name[i] = (char *)calloc((size_t)20, sizeof(char));
 
-    strcpy(dtsinfo->name[0], "One");
-    strcpy(dtsinfo->name[1], "Two");
-    strcpy(dtsinfo->name[2], "Three");
+    strlcpy(dtsinfo->name[0], "One", (size_t)20);
+    strlcpy(dtsinfo->name[1], "Two", (size_t)20);
+    strlcpy(dtsinfo->name[2], "Three", (size_t)20);
 
     /* Create file */
     /* ----------- */

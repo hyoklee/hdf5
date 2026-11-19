@@ -624,9 +624,16 @@ typedef struct stat h5_stat_t;
  */
 #if defined(H5_HAVE_COMPLEX_NUMBERS) && defined(H5_HAVE_C99_COMPLEX_NUMBERS) &&                              \
     (!defined(_MSC_VER) || defined(__INTEL_LLVM_COMPILER))
-typedef float _Complex H5_float_complex;
-typedef double _Complex H5_double_complex;
-typedef long double _Complex H5_ldouble_complex;
+/* __extension__ keeps C++ compilers (clang -Wc99-extensions) quiet when
+ * C++ sources include this header */
+#if defined(__GNUC__)
+#define H5_COMPLEX_EXTENSION __extension__
+#else
+#define H5_COMPLEX_EXTENSION
+#endif
+H5_COMPLEX_EXTENSION typedef float _Complex H5_float_complex;
+H5_COMPLEX_EXTENSION typedef double _Complex H5_double_complex;
+H5_COMPLEX_EXTENSION typedef long double _Complex H5_ldouble_complex;
 #endif
 
 /* __int64 is the correct type for the st_size field of the _stati64

@@ -420,7 +420,7 @@ static int my_isinf(int endian, const unsigned char *val, size_t size, size_t mp
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 fpe_handler(int H5_ATTR_UNUSED signo)
 {
     SKIPPED();

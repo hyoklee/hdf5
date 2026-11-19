@@ -44,7 +44,7 @@ static hid_t symbol_tid = H5I_INVALID_HID;
 static int  check_dataset(hid_t fid, unsigned verbose, const char *sym_name, symbol_t *record, hid_t rec_sid);
 static int  read_records(const char *filename, unsigned verbose, unsigned long nseconds, unsigned poll_time,
                          unsigned ncommon, unsigned nrandom);
-static void usage(void);
+static void usage(void) H5_ATTR_NORETURN;
 
 /*-------------------------------------------------------------------------
  * Function:    check_dataset

@@ -40,7 +40,7 @@ static int   create_datasets(hid_t fid, int comp_level, bool verbose, FILE *verb
                              const char *index_type);
 static int   add_records(hid_t fid, bool verbose, FILE *verbose_file, unsigned long nrecords,
                          unsigned long flush_count);
-static void  usage(void);
+static void  usage(void) H5_ATTR_NORETURN;
 
 #define CHUNK_SIZE 50 /* Chunk size for created datasets */
 

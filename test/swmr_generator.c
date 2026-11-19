@@ -46,7 +46,7 @@
 
 static int  gen_skeleton(const char *filename, bool verbose, bool swmr_write, int comp_level,
                          const char *index_type, unsigned random_seed);
-static void usage(void);
+static void usage(void) H5_ATTR_NORETURN;
 
 /*-------------------------------------------------------------------------
  * Function:    gen_skeleton

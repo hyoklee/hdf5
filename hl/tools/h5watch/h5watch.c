@@ -48,7 +48,7 @@ static herr_t slicendump(hid_t did, hsize_t *prev_dims, hsize_t *cur_dims, hsize
 static herr_t monitor_dataset(hid_t fid, char *dsetname);
 static herr_t process_cmpd_fields(hid_t fid, char *dsetname);
 static herr_t check_dataset(hid_t fid, char *dsetname);
-static void   leave(int ret);
+static void   leave(int ret) H5_ATTR_NORETURN;
 static void   usage(const char *prog);
 static void   parse_command_line(int argc, const char *const *argv);
 

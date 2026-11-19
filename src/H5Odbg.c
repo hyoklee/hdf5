@@ -98,14 +98,14 @@ H5O__print_time_field(FILE *stream, int indent, int fwidth, const char *label, c
 herr_t
 H5O__assert(const H5O_t *oh)
 {
-    H5O_mesg_t *curr_msg;            /* Pointer to current message to examine */
-    H5O_mesg_t *tmp_msg;             /* Pointer to temporary message to examine */
-    unsigned    cont_msgs_found = 0; /* # of continuation messages for object */
-    size_t      meta_space;          /* Size of header metadata */
-    size_t      mesg_space;          /* Size of message raw data */
-    size_t      free_space;          /* Size of free space in header */
-    size_t      hdr_size;            /* Size of header's chunks */
-    unsigned    u, v;                /* Local index variables */
+    H5O_mesg_t                    *curr_msg;            /* Pointer to current message to examine */
+    H5O_mesg_t                    *tmp_msg;             /* Pointer to temporary message to examine */
+    unsigned H5_ATTR_NDEBUG_UNUSED cont_msgs_found = 0; /* # of continuation messages for object */
+    size_t H5_ATTR_NDEBUG_UNUSED   meta_space;          /* Size of header metadata */
+    size_t H5_ATTR_NDEBUG_UNUSED   mesg_space;          /* Size of message raw data */
+    size_t H5_ATTR_NDEBUG_UNUSED   free_space;          /* Size of free space in header */
+    size_t H5_ATTR_NDEBUG_UNUSED   hdr_size;            /* Size of header's chunks */
+    unsigned                       u, v;                /* Local index variables */
 
     FUNC_ENTER_PACKAGE_NOERR
 

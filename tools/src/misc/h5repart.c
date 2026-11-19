@@ -41,7 +41,7 @@
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 usage(const char *progname)
 {
     fprintf(stderr, "usage: %s [-v] [-V] [-[b|m] N[g|m|k]] [-family_to_sec2|-family_to_single] SRC DST\n",

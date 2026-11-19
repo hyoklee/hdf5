@@ -366,7 +366,7 @@ read_records(const char *filename, bool verbose, FILE *verbose_file, unsigned ra
     return 0;
 } /* end read_records() */
 
-static void
+H5_ATTR_NORETURN static void
 usage(void)
 {
     printf("\n");

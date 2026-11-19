@@ -51,7 +51,7 @@ static int  check_dataset(hid_t fid, unsigned verbose, const symbol_info_t *symb
                           hid_t rec_sid);
 static int  read_records(const char *filename, unsigned verbose, unsigned long nrecords, unsigned poll_time,
                          unsigned reopen_count);
-static void usage(void);
+static void usage(void) H5_ATTR_NORETURN;
 
 /*-------------------------------------------------------------------------
  * Function:    check_dataset

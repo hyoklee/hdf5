@@ -434,29 +434,23 @@ h5soto_kind_name(h5soto_entry_kind_t kind)
 static h5soto_entry_kind_t
 h5soto_kind_from_id_type(H5I_type_t id_type)
 {
-    switch (id_type) {
-        case H5I_GROUP:
-            return H5SOTO_ENTRY_GROUP;
-        case H5I_DATASET:
-            return H5SOTO_ENTRY_DATASET;
-        case H5I_DATATYPE:
-            return H5SOTO_ENTRY_NAMED_DATATYPE;
-        default:
-            return H5SOTO_ENTRY_USER_LINK;
-    }
+    if (id_type == H5I_GROUP)
+        return H5SOTO_ENTRY_GROUP;
+    if (id_type == H5I_DATASET)
+        return H5SOTO_ENTRY_DATASET;
+    if (id_type == H5I_DATATYPE)
+        return H5SOTO_ENTRY_NAMED_DATATYPE;
+    return H5SOTO_ENTRY_USER_LINK;
 }
 
 static h5soto_entry_kind_t
 h5soto_kind_from_link_type(H5L_type_t link_type)
 {
-    switch (link_type) {
-        case H5L_TYPE_SOFT:
-            return H5SOTO_ENTRY_SOFT_LINK;
-        case H5L_TYPE_EXTERNAL:
-            return H5SOTO_ENTRY_EXTERNAL_LINK;
-        default:
-            return H5SOTO_ENTRY_USER_LINK;
-    }
+    if (link_type == H5L_TYPE_SOFT)
+        return H5SOTO_ENTRY_SOFT_LINK;
+    if (link_type == H5L_TYPE_EXTERNAL)
+        return H5SOTO_ENTRY_EXTERNAL_LINK;
+    return H5SOTO_ENTRY_USER_LINK;
 }
 
 static char *
@@ -771,6 +765,9 @@ h5soto_hash_type_value(const void *value, hid_t type_id, uint64_t *hash)
             break;
         }
 
+        case H5T_NO_CLASS:
+        case H5T_COMPLEX:
+        case H5T_NCLASSES:
         default:
             h5soto_hash_bytes(hash, value, size);
             break;
@@ -1209,6 +1206,9 @@ h5soto_object_signature(hid_t obj_id, h5soto_entry_kind_t kind, uint64_t *signat
             return h5soto_hash_dataset_signature(obj_id, signature_out);
         case H5SOTO_ENTRY_NAMED_DATATYPE:
             return h5soto_hash_named_datatype_signature(obj_id, signature_out);
+        case H5SOTO_ENTRY_SOFT_LINK:
+        case H5SOTO_ENTRY_EXTERNAL_LINK:
+        case H5SOTO_ENTRY_USER_LINK:
         default:
             return FAIL;
     }

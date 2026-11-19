@@ -18114,6 +18114,8 @@ test_dcpl_layout_caching(H5D_layout_t layout_type)
         case (H5D_VIRTUAL):
             layout_msg = "virtual layout";
             break;
+        case (H5D_LAYOUT_ERROR):
+        case (H5D_NLAYOUTS):
         default:
             TEST_ERROR;
             break;
@@ -18215,6 +18217,8 @@ test_dcpl_layout_caching(H5D_layout_t layout_type)
                 TEST_ERROR;
 
             break;
+        case (H5D_LAYOUT_ERROR):
+        case (H5D_NLAYOUTS):
         default:
             TEST_ERROR;
             break;

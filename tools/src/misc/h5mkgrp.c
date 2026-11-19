@@ -52,7 +52,7 @@ static mkgrp_opt_t params_g; /* Command line parameter settings */
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 leave(int ret)
 {
     size_t curr_group;

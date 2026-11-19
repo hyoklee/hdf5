@@ -46,7 +46,7 @@
 
 static hid_t open_skeleton(const char *filename, unsigned verbose);
 static int   addrem_records(hid_t fid, unsigned verbose, unsigned long nops, unsigned long flush_count);
-static void  usage(void);
+static void  usage(void) H5_ATTR_NORETURN;
 
 /*-------------------------------------------------------------------------
  * Function:    open_skeleton

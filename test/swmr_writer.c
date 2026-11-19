@@ -38,7 +38,7 @@ static hid_t open_skeleton(const char *filename, bool verbose, FILE *verbose_fil
                            bool old);
 static int   add_records(hid_t fid, bool verbose, FILE *verbose_file, unsigned long nrecords,
                          unsigned long flush_count);
-static void  usage(void);
+static void  usage(void) H5_ATTR_NORETURN;
 
 /*-------------------------------------------------------------------------
  * Function:    open_skeleton

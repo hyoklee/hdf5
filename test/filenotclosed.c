@@ -29,7 +29,7 @@
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 catch_signal(int H5_ATTR_UNUSED signo)
 {
     exit(EXIT_FAILURE);

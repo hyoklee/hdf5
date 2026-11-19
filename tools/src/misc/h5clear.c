@@ -199,7 +199,7 @@ error:
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 leave(int ret)
 {
     h5tools_close();

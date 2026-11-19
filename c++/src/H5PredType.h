@@ -46,15 +46,15 @@ class H5CPP_DLL PredType : public AtomType {
     /*! \brief This dummy function do not inherit from DataType - it will
         throw a DataTypeIException if invoked.
     */
-    void commit(H5Location &loc, const H5std_string &name);
+    [[noreturn]] void commit(H5Location &loc, const H5std_string &name);
     /*! \brief This dummy function do not inherit from DataType - it will
         throw a DataTypeIException if invoked.
     */
-    void commit(H5Location &loc, const char *name);
+    [[noreturn]] void commit(H5Location &loc, const char *name);
     /*! \brief This dummy function do not inherit from DataType - it will
         throw a DataTypeIException if invoked.
     */
-    bool committed();
+    [[noreturn]] bool committed();
 
     ///\brief PredType constants
     static const PredType &STD_I8BE;

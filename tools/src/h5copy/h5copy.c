@@ -45,7 +45,7 @@ static char                  *str_flag  = NULL;
  *
  *-------------------------------------------------------------------------
  */
-static void
+H5_ATTR_NORETURN static void
 leave(int ret)
 {
     if (fname_src)

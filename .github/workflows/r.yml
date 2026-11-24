@@ -2,8 +2,7 @@ name: r
 
 on:
   push:
-    branches:
-      - develop
+  pull_request:
 
 permissions: read-all
 
@@ -33,12 +32,14 @@ jobs:
           version: '${{ matrix.os.version }}'
           shell: bash
           run: |
-            sudo pkg_add cmake
+            sudo pkg_add cmake libaec
             mkdir build
             cd build
             cmake \
-            -DBUILDNAME:STRING="hk/r" \
+            -DBUILDNAME:STRING="hk/sz/zl" \
             -DCMAKE_BUILD_TYPE=Release \
+            -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=ON \
+            -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=ON \
             -DCTEST_DROP_LOCATION_INIT="/submit.php?project=HDF5" \
             -DCTEST_DROP_SITE_INIT:STRING="my.cdash.org" \
             -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \

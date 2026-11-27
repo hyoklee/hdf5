@@ -19,7 +19,7 @@ jobs:
           compiler: intel
           version: '2025.0'
       - name: mpi
-        uses: mpi4py/setup-mpi@3417e34f1394a16723d7913c236642c24e95fd5a # master
+        uses: mpi4py/setup-mpi@3417e34f1394a16723d7913c236642c24e95fd5a # v1.4.4
         with:
           mpi: intelmpi
       - name: checkout

@@ -15,6 +15,10 @@
 
 #include "H5private.h"
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
 #define RAW_FILE_NAME  "iopipe.raw"
 #define HDF5_FILE_NAME "iopipe.h5"
 #define HEADING        "%-16s"
@@ -85,6 +89,9 @@ synchronize(void)
 {
 #if defined(H5_HAVE_WIN32_API) && !defined(__CYGWIN__)
     _flushall();
+#elif defined(__APPLE__) && TARGET_OS_IPHONE
+    /* system() is unavailable on iOS, tvOS, watchOS, and visionOS */
+    sync();
 #else
     int H5_ATTR_NDEBUG_UNUSED status;
 

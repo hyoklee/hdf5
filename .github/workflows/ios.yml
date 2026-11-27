@@ -107,6 +107,98 @@ jobs:
         otool -l _install/lib/libhdf5.dylib | grep -A4 LC_BUILD_VERSION
       working-directory: ${{ runner.workspace }}/build
 
+  # Build for the iOS Simulator with tests and run them.
+  simulator:
+    name: mac ios simulator
+    runs-on: macos-latest
+    steps:
+    - name: install
+      run: brew install ninja
+    - name: get
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+
+    - name: boot simulator
+      run: |
+        python3 - >> "$GITHUB_ENV" <<'EOF'
+        import json, subprocess
+        def simctl(*a):
+            return json.loads(subprocess.check_output(["xcrun", "simctl", "list", *a, "-j"]))
+        roots = {r["identifier"]: r.get("runtimeRoot", "") for r in simctl("runtimes")["runtimes"]}
+        devices = simctl("devices", "available")["devices"]
+        for runtime in sorted((r for r in devices if ".iOS-" in r), reverse=True):
+            phones = [d for d in devices[runtime] if d["name"].startswith("iPhone")]
+            if phones and roots.get(runtime):
+                print(f"SIMRUN_DEVICE={phones[0]['udid']}")
+                print(f"SIM_RUNTIME_ROOT={roots[runtime]}")
+                break
+        else:
+            raise SystemExit("no iPhone simulator available")
+        EOF
+        echo "BUILD_DIR=$RUNNER_WORKSPACE/simbuild" >> "$GITHUB_ENV"
+        cat "$GITHUB_ENV"
+        # Runtime paths can contain spaces, so read the UDID back instead of sourcing
+        udid=$(sed -n 's/^SIMRUN_DEVICE=//p' "$GITHUB_ENV")
+        xcrun simctl boot "$udid"
+        xcrun simctl bootstatus "$udid"
+
+    - name: build simlaunch
+      run: |
+        mkdir -p "$BUILD_DIR"
+        xcrun -sdk iphonesimulator clang -O2 -target "$(uname -m)-apple-ios16.0-simulator" \
+          config/ios/simlaunch.c -o "$BUILD_DIR/simlaunch"
+        echo "SIMLAUNCH=$BUILD_DIR/simlaunch" >> "$GITHUB_ENV"
+
+    - name: configure
+      run: |
+        cd "$BUILD_DIR"
+        cmake -G Ninja \
+        -DCMAKE_SYSTEM_NAME=iOS \
+        -DCMAKE_OSX_SYSROOT=iphonesimulator \
+        -DCMAKE_OSX_ARCHITECTURES="$(uname -m)" \
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
+        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_CROSSCOMPILING_EMULATOR="$GITHUB_WORKSPACE/config/ios/simrun.sh" \
+        -DBUILD_SHARED_LIBS:BOOL=ON \
+        -DBUILD_STATIC_LIBS:BOOL=OFF \
+        -DBUILD_TESTING:BOOL=ON \
+        -DHDF5_BUILD_TOOLS:BOOL=ON \
+        -DHDF5_BUILD_UTILS:BOOL=OFF \
+        -DHDF5_BUILD_CPP_LIB:BOOL=OFF \
+        -DHDF5_BUILD_FORTRAN:BOOL=OFF \
+        -DHDF5_BUILD_JAVA:BOOL=OFF \
+        -DHDF5_BUILD_HL_LIB:BOOL=OFF \
+        -DHDF5_BUILD_EXAMPLES:BOOL=OFF \
+        -DHDF5_BUILD_DOC:BOOL=OFF \
+        -DHDF5_ENABLE_ZLIB_SUPPORT:BOOL=OFF \
+        -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+        -DHDF5_ENABLE_PLUGIN_SUPPORT:BOOL=OFF \
+        -DHDF5_ENABLE_SUBFILING_VFD:BOOL=OFF \
+        -DHDF5_USE_FILE_LOCKING:BOOL=OFF \
+        -DTEST_SHELL_SCRIPTS:BOOL=OFF \
+        "$GITHUB_WORKSPACE"
+
+    - name: build
+      run: cmake --build .
+      working-directory: ${{ env.BUILD_DIR }}
+
+    # Run a few test programs inside the booted simulator.
+    - name: test in simulator
+      run: |
+        for t in lheap dtypes rtree; do
+          echo "::group::$t"
+          "$GITHUB_WORKSPACE/config/ios/simrun.sh" "$BUILD_DIR/bin/$t"
+          echo "::endgroup::"
+        done
+      working-directory: ${{ env.BUILD_DIR }}/test/H5TEST
+
+    # Most HDF5 tests do not use CMAKE_CROSSCOMPILING_EMULATOR yet, so run
+    # the full suite on the host against the simulator's iOS runtime.
+    - name: test
+      run: DYLD_ROOT_PATH="$SIM_RUNTIME_ROOT" ctest --timeout 1200 --output-on-failure -j "$(sysctl -n hw.ncpu)"
+      working-directory: ${{ env.BUILD_DIR }}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

@@ -138,9 +138,10 @@ jobs:
         EOF
         echo "BUILD_DIR=$RUNNER_WORKSPACE/simbuild" >> "$GITHUB_ENV"
         cat "$GITHUB_ENV"
-        source "$GITHUB_ENV"
-        xcrun simctl boot "$SIMRUN_DEVICE"
-        xcrun simctl bootstatus "$SIMRUN_DEVICE"
+        # Runtime paths can contain spaces, so read the UDID back instead of sourcing
+        udid=$(sed -n 's/^SIMRUN_DEVICE=//p' "$GITHUB_ENV")
+        xcrun simctl boot "$udid"
+        xcrun simctl bootstatus "$udid"
 
     - name: build simlaunch
       run: |

@@ -9,7 +9,8 @@ on:
     branches:
       - develop
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   build:

@@ -165,7 +165,7 @@ if (HDF5_TEST_PARALLEL)
     foreach (api_test ${HDF5_API_TESTS})
       add_test (
         NAME "h5_api_test_parallel_${api_test}"
-        COMMAND $<TARGET_FILE:h5_api_test_driver>
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
         --server ${HDF5_TEST_API_SERVER}
         --client $<TARGET_FILE:h5_api_test_parallel> "${api_test}"
         --serial
@@ -181,7 +181,7 @@ if (HDF5_TEST_PARALLEL)
     foreach (ext_api_test ${HDF5_API_EXT_PARALLEL_TESTS})
       add_test (
         NAME "h5_api_ext_test_parallel_${ext_api_test}"
-        COMMAND $<TARGET_FILE:h5_api_test_driver>
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
         --server ${HDF5_TEST_API_SERVER}
         --client $<TARGET_FILE:${ext_api_test}>
         --serial
@@ -222,7 +222,7 @@ if (HDF5_TEST_PARALLEL)
           foreach (api_test ${HDF5_API_TESTS})
             add_test (
               NAME "${external_vol_tgt}-h5_api_test_parallel_${api_test}"
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
               --server ${HDF5_TEST_API_SERVER}
               --client $<TARGET_FILE:h5_api_test_parallel> "${api_test}"
               --serial
@@ -246,7 +246,7 @@ if (HDF5_TEST_PARALLEL)
           foreach (hdf5_test ${HDF5_API_PAR_TESTS_EXTRA})
             add_test (
               NAME "${external_vol_tgt}-h5_api_test_parallel_${hdf5_test}"
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
               --server ${HDF5_TEST_API_SERVER}
               --client $<TARGET_FILE:${hdf5_test}>
               --serial
@@ -266,7 +266,7 @@ if (HDF5_TEST_PARALLEL)
           foreach (ext_api_test ${HDF5_API_EXT_PARALLEL_TESTS})
             add_test (
               NAME "${external_vol_tgt}-h5_api_ext_test_parallel_${ext_api_test}"
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
               --server ${HDF5_TEST_API_SERVER}
               --client $<TARGET_FILE:${ext_api_test}>
               --serial

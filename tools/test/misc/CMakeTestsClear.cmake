@@ -87,6 +87,7 @@ macro (ADD_H5_CMP testname resultfile resultcode)
         NAME H5CLEAR_CMP-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}.out"
@@ -110,6 +111,7 @@ macro (ADD_H5_ERR_CMP testname resultfile resultcode result_errcheck)
         NAME H5CLEAR_CMP-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}.out"
@@ -147,6 +149,7 @@ macro (ADD_H5_CMP_WITH_COPY testname resultcode resultfile testfile)
         NAME H5CLEAR_CMP-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN};${testfile}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}.out"
@@ -181,6 +184,7 @@ macro (ADD_H5_ERR_CMP_WITH_COPY testname resultcode resultfile testfile)
         NAME H5CLEAR_CMP-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN};${testfile}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}.out"
@@ -202,7 +206,7 @@ macro (ADD_H5_RETTEST testname resultcode)
   if (NOT HDF5_ENABLE_USING_MEMCHECKER)
     add_test (
         NAME H5CLEAR_RET-${testname}
-        COMMAND $<TARGET_FILE:h5clear> ${ARGN}
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> ${ARGN}
     )
     set_tests_properties (H5CLEAR_RET-${testname} PROPERTIES
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles"
@@ -232,6 +236,7 @@ macro (ADD_H5_FILESIZE_TEST testname resultcode resultfile incr_size)
         NAME H5CLEAR_FILESIZE_CMP-${testname}_before_size
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=--filesize;${testname}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}_before_size.out"
@@ -248,12 +253,12 @@ macro (ADD_H5_FILESIZE_TEST testname resultcode resultfile incr_size)
     if (NOT ${incr_size} MATCHES "NONE")
         add_test (
             NAME H5CLEAR_FILESIZE_INCR-${testname}
-            COMMAND $<TARGET_FILE:h5clear> --increment=${incr_size} ${testname}.h5
+            COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> --increment=${incr_size} ${testname}.h5
         )
     else ()
         add_test (
             NAME H5CLEAR_FILESIZE_INCR-${testname}
-            COMMAND $<TARGET_FILE:h5clear> --increment ${testname}.h5
+            COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> --increment ${testname}.h5
         )
     endif ()
     set_tests_properties (H5CLEAR_FILESIZE_INCR-${testname} PROPERTIES
@@ -268,6 +273,7 @@ macro (ADD_H5_FILESIZE_TEST testname resultcode resultfile incr_size)
         NAME H5CLEAR_FILESIZE_CMP-${testname}_after_size
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=--filesize;${testname}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}_after_size.out"
@@ -305,6 +311,7 @@ macro (ADD_H5_FILESIZE_FAIL_TEST testname resultcode resultfile incr_size)
         NAME H5CLEAR_FILESIZE_FAIL_CMP-${testname}_before_size
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=--filesize;${testname}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}_before_size.out"
@@ -321,12 +328,12 @@ macro (ADD_H5_FILESIZE_FAIL_TEST testname resultcode resultfile incr_size)
     if (NOT ${incr_size} MATCHES "NONE")
         add_test (
             NAME H5CLEAR_FILESIZE_FAIL_INCR-${testname}
-            COMMAND $<TARGET_FILE:h5clear> -s --increment=${incr_size} ${testname}.h5
+            COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> -s --increment=${incr_size} ${testname}.h5
         )
     else ()
         add_test (
             NAME H5CLEAR_FILESIZE_FAIL_INCR-${testname}
-            COMMAND $<TARGET_FILE:h5clear> -s --increment ${testname}.h5
+            COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> -s --increment ${testname}.h5
         )
     endif ()
     set_tests_properties (H5CLEAR_FILESIZE_FAIL_INCR-${testname} PROPERTIES
@@ -340,6 +347,7 @@ macro (ADD_H5_FILESIZE_FAIL_TEST testname resultcode resultfile incr_size)
         NAME H5CLEAR_FILESIZE_FAIL_CMP-${testname}_after_size
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5clear>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=--filesize;${testname}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${testname}_after_size.out"
@@ -368,7 +376,7 @@ macro (ADD_H5_TEST testname testfile resultcode)
     # File open succeeds because the library does not check status_flags for file with < v3 superblock
     add_test (
         NAME H5CLEAR-clr_open_chk-${testname}_${resultcode}
-        COMMAND $<TARGET_FILE:clear_open_chk> ${testfile}.h5
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:clear_open_chk> ${testfile}.h5
     )
     set_tests_properties (H5CLEAR-clr_open_chk-${testname}_${resultcode} PROPERTIES
         WILL_FAIL "${resultcode}"
@@ -382,7 +390,7 @@ macro (ADD_H5_TEST testname testfile resultcode)
     # After "h5clear" the file, the subsequent file open succeeds
     add_test (
         NAME H5CLEAR-h5clr-${testname}
-        COMMAND $<TARGET_FILE:h5clear> -s ${testfile}.h5
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5clear> -s ${testfile}.h5
     )
     set_tests_properties (H5CLEAR-h5clr-${testname} PROPERTIES
         DEPENDS H5CLEAR-clr_open_chk-${testname}_${resultcode}
@@ -393,7 +401,7 @@ macro (ADD_H5_TEST testname testfile resultcode)
     endif ()
     add_test (
         NAME H5CLEAR-clr_open_chk-${testname}
-        COMMAND $<TARGET_FILE:clear_open_chk> ${testfile}.h5
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:clear_open_chk> ${testfile}.h5
     )
     set_tests_properties (H5CLEAR-clr_open_chk-${testname} PROPERTIES
         DEPENDS H5CLEAR-h5clr-${testname}

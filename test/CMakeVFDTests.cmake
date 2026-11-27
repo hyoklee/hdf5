@@ -116,6 +116,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
           add_test (NAME VFD-${vfdname}-${vfdtest}
               COMMAND "${CMAKE_COMMAND}"
                   -D "TEST_PROGRAM=$<TARGET_FILE:${vfdtest}>"
+                  -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
                   -D "TEST_ARGS:STRING="
                   -D "TEST_VFD:STRING=${vfdname}"
                   -D "TEST_EXPECT=${resultcode}"
@@ -140,6 +141,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
         add_test (NAME VFD-${vfdname}-${vfdtest}
             COMMAND "${CMAKE_COMMAND}"
                 -D "TEST_PROGRAM=$<TARGET_FILE:${vfdtest}>"
+                -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
                 -D "TEST_ARGS:STRING="
                 -D "TEST_VFD:STRING=${vfdname}"
                 -D "TEST_EXPECT=${resultcode}"
@@ -159,6 +161,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
       add_test (NAME VFD-${vfdname}-${vfdtest}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:${vfdtest}>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING="
               -D "TEST_VFD:STRING=${vfdname}"
               -D "TEST_EXPECT=${resultcode}"
@@ -181,6 +184,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
       add_test (NAME VFD-${vfdname}-${vfdtest}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:${vfdtest}>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING="
               -D "TEST_VFD:STRING=${vfdname}"
               -D "TEST_EXPECT=${resultcode}"
@@ -236,6 +240,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
       add_test (NAME VFD-${vfdname}-fheap
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:fheap>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING="
               -D "TEST_VFD:STRING=${vfdname}"
               -D "TEST_EXPECT=${resultcode}"
@@ -271,7 +276,7 @@ add_custom_target (HDF5_VFDTEST_LIB_files ALL COMMENT "Copying files needed by H
       set (BIN_REL_PATH "../")
     endif ()
 
-    add_test (NAME H5PLUGIN-vfd_plugin COMMAND $<TARGET_FILE:vfd_plugin>)
+    add_test (NAME H5PLUGIN-vfd_plugin COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:vfd_plugin>)
     set_tests_properties (H5PLUGIN-vfd_plugin PROPERTIES
         ENVIRONMENT "HDF5_PLUGIN_PATH=${CMAKE_BINARY_DIR}/null_vfd_plugin_dir;srcdir=${HDF5_TEST_BINARY_DIR}"
         WORKING_DIRECTORY ${HDF5_TEST_BINARY_DIR}

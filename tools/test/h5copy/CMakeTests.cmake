@@ -61,7 +61,7 @@ foreach (external_vol_tgt ${HDF5_EXTERNAL_VOL_TARGETS})
     message (FATAL_ERROR "Could not create directory ${PROJECT_BINARY_DIR}/${ext_vol_dir_name}/testfiles")
   endif()
 
-  add_test(NAME ${external_vol_tgt}-h5copygentest COMMAND $<TARGET_FILE:h5gentest> --h5copy)
+  add_test(NAME ${external_vol_tgt}-h5copygentest COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5gentest> --h5copy)
 
   set_tests_properties (${external_vol_tgt}-h5copygentest PROPERTIES
       ENVIRONMENT "${vol_env}"
@@ -193,7 +193,7 @@ macro (ADD_H5_TEST testname)
     # Remove any output file left over from previous test run
     add_test (
         NAME ${vol_prefix}H5COPY-${testname}-clear-objects
-        COMMAND $<TARGET_FILE:h5delete> ./testfiles/${testname}.out.h5
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> ./testfiles/${testname}.out.h5
     )
     set_tests_properties (${vol_prefix}H5COPY-${testname}-clear-objects PROPERTIES
         # h5delete will return an error code if targeted file does not exist - accept any result
@@ -214,7 +214,7 @@ macro (ADD_H5_TEST testname)
       endif ()
       add_test (
         NAME ${vol_prefix}H5COPY-${testname}-prefill
-        COMMAND $<TARGET_FILE:h5copy> -i ./testfiles/${ARG_INPUT_FILE} -o ./testfiles/${testname}.out.h5 -v -s ${ARG_PREFILL_SRC} -d ${ARG_PREFILL_DEST}
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5copy> -i ./testfiles/${ARG_INPUT_FILE} -o ./testfiles/${testname}.out.h5 -v -s ${ARG_PREFILL_SRC} -d ${ARG_PREFILL_DEST}
       )
       set_tests_properties (${vol_prefix}H5COPY-${testname}-prefill PROPERTIES
           DEPENDS ${vol_prefix}H5COPY-${testname}-clear-objects
@@ -241,13 +241,14 @@ macro (ADD_H5_TEST testname)
     if (NOT DEFINED ARG_ERROR_CHECK OR "${ARG_ERROR_CHECK}" STREQUAL "" OR HDF5_ENABLE_USING_MEMCHECKER)
       add_test (
           NAME ${vol_prefix}H5COPY-${testname}
-          COMMAND $<TARGET_FILE:h5copy> ${fparam_flag} ${fparam} -i ./testfiles/${main_infile} -o ./testfiles/${testname}.out.h5 ${vparam} -s ${ARG_SOURCE_NAME} -d ${ARG_DEST_NAME} ${ARG_UNPARSED_ARGUMENTS}
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5copy> ${fparam_flag} ${fparam} -i ./testfiles/${main_infile} -o ./testfiles/${testname}.out.h5 ${vparam} -s ${ARG_SOURCE_NAME} -d ${ARG_DEST_NAME} ${ARG_UNPARSED_ARGUMENTS}
       )
     else () # Perform the same test with error checking
       add_test (
         NAME ${vol_prefix}H5COPY-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5copy>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS=${fparam_flag};${fparam};-i;./testfiles/${main_infile};-o;./testfiles/${testname}.out.h5;${vparam};-s;${ARG_SOURCE_NAME};-d;${ARG_DEST_NAME}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=./testfiles/${testname}.out.out"
@@ -277,7 +278,7 @@ macro (ADD_H5_TEST testname)
     if (NOT "${ARG_RESULT_CODE}" STREQUAL "2")
       add_test (
           NAME ${vol_prefix}H5COPY-${testname}-DIFF
-          COMMAND $<TARGET_FILE:h5diff> -v ./testfiles/${main_infile} ./testfiles/${testname}.out.h5 ${ARG_SOURCE_NAME} ${ARG_DEST_NAME}
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5diff> -v ./testfiles/${main_infile} ./testfiles/${testname}.out.h5 ${ARG_SOURCE_NAME} ${ARG_DEST_NAME}
       )
       set_tests_properties (${vol_prefix}H5COPY-${testname}-DIFF PROPERTIES
           DEPENDS ${vol_prefix}H5COPY-${testname}
@@ -300,7 +301,7 @@ macro (ADD_H5_TEST testname)
 
     add_test (
         NAME ${vol_prefix}H5COPY-${testname}-clean-objects
-        COMMAND $<TARGET_FILE:h5delete> ./testfiles/${testname}.out.h5
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> ./testfiles/${testname}.out.h5
     )
     set_tests_properties (${vol_prefix}H5COPY-${testname}-clean-objects PROPERTIES
         # h5delete will return an error code if targeted file does not exist - accept any result
@@ -358,7 +359,7 @@ macro (ADD_H5_UD_TEST testname resultcode infile sparam srcname dparam dstname c
       # Remove any output file left over from previous test run
       add_test (
           NAME ${vol_prefix}H5COPY_UD-${testname}-clear-objects
-          COMMAND $<TARGET_FILE:h5delete> testfiles/${testname}.out.h5
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> testfiles/${testname}.out.h5
       )
       set_tests_properties (${vol_prefix}H5COPY_UD-${testname}-clear-objects PROPERTIES
           # h5delete will return an error code if targeted file does not exist - accept any result
@@ -384,6 +385,7 @@ macro (ADD_H5_UD_TEST testname resultcode infile sparam srcname dparam dstname c
         NAME ${vol_prefix}H5COPY_UD-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5copy>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=-v;-i;./testfiles/${infile};-o;./testfiles/${testname}.out.h5;${sparam};${srcname};${dparam};${dstname}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=./testfiles/${infile}.out"
@@ -413,6 +415,7 @@ macro (ADD_H5_UD_TEST testname resultcode infile sparam srcname dparam dstname c
           NAME ${vol_prefix}H5COPY_UD-${testname}-DIFF
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5diff>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=-v;./testfiles/${cmpfile};./testfiles/${testname}.out.h5;${srcname};${dstname}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
               -D "TEST_OUTPUT=./testfiles/${testname}.out.h5.out"
@@ -500,7 +503,7 @@ macro (ADD_H5_UD_ERR_TEST testname resultcode infile sparam srcname dparam dstna
       # Remove any output file left over from previous test run
       add_test (
           NAME ${vol_prefix}H5COPY_UD_ERR-${testname}-clear-objects
-          COMMAND $<TARGET_FILE:h5delete> testfiles/${testname}_ERR.out.h5
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> testfiles/${testname}_ERR.out.h5
       )
       set_tests_properties (${vol_prefix}H5COPY_UD_ERR-${testname}-clear-objects PROPERTIES
           # h5delete will return an error code if targeted file does not exist - accept any result
@@ -528,6 +531,7 @@ macro (ADD_H5_UD_ERR_TEST testname resultcode infile sparam srcname dparam dstna
         NAME ${vol_prefix}H5COPY_UD_ERR-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5copy>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=-v;--enable-error-stack;-i;./testfiles/${infile};-o;./testfiles/${testname}_ERR.out.h5;${sparam};${srcname};${dparam};${dstname}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=./testfiles/${infile}_ERR.out"
@@ -558,6 +562,7 @@ macro (ADD_H5_UD_ERR_TEST testname resultcode infile sparam srcname dparam dstna
           NAME ${vol_prefix}H5COPY_UD_ERR-${testname}-DIFF
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5diff>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=-v;./testfiles/${cmpfile};./testfiles/${testname}_ERR.out.h5;${srcname};${dstname}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
               -D "TEST_OUTPUT=./testfiles/${testname}_ERR.out.h5.out"
@@ -585,7 +590,7 @@ macro (ADD_H5_UD_ERR_TEST testname resultcode infile sparam srcname dparam dstna
 
       add_test (
           NAME ${vol_prefix}H5COPY_UD_ERR-${testname}-clean-objects
-          COMMAND $<TARGET_FILE:h5delete> testfiles/${testname}_ERR.out.h5
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> testfiles/${testname}_ERR.out.h5
       )
       set_tests_properties (${vol_prefix}H5COPY_UD_ERR-${testname}-clean-objects PROPERTIES
           # h5delete will return an error code if targeted file does not exist - accept any result
@@ -630,7 +635,7 @@ macro (ADD_SIMPLE_TEST resultfile resultcode)
 
     # If using memchecker add tests without using scripts
     if (HDF5_ENABLE_USING_MEMCHECKER)
-      add_test (NAME ${vol_prefix}H5COPY-${resultfile} COMMAND $<TARGET_FILE:h5copy> ${ARGN})
+      add_test (NAME ${vol_prefix}H5COPY-${resultfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5copy> ${ARGN})
       if (${resultcode})
         set_tests_properties (${vol_prefix}H5COPY-${resultfile} PROPERTIES WILL_FAIL "true")
       endif ()
@@ -639,6 +644,7 @@ macro (ADD_SIMPLE_TEST resultfile resultcode)
           NAME ${vol_prefix}H5COPY-${resultfile}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5copy>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS=${ARGN}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
               -D "TEST_OUTPUT=./testfiles/${resultfile}.out"

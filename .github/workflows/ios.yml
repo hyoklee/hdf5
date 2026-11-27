@@ -125,20 +125,17 @@ jobs:
         import json, subprocess
         def simctl(*a):
             return json.loads(subprocess.check_output(["xcrun", "simctl", "list", *a, "-j"]))
-        roots = {r["identifier"]: r.get("runtimeRoot", "") for r in simctl("runtimes")["runtimes"]}
         devices = simctl("devices", "available")["devices"]
         for runtime in sorted((r for r in devices if ".iOS-" in r), reverse=True):
             phones = [d for d in devices[runtime] if d["name"].startswith("iPhone")]
-            if phones and roots.get(runtime):
+            if phones:
                 print(f"SIMRUN_DEVICE={phones[0]['udid']}")
-                print(f"SIM_RUNTIME_ROOT={roots[runtime]}")
                 break
         else:
             raise SystemExit("no iPhone simulator available")
         EOF
         echo "BUILD_DIR=$RUNNER_WORKSPACE/simbuild" >> "$GITHUB_ENV"
         cat "$GITHUB_ENV"
-        # Runtime paths can contain spaces, so read the UDID back instead of sourcing
         udid=$(sed -n 's/^SIMRUN_DEVICE=//p' "$GITHUB_ENV")
         xcrun simctl boot "$udid"
         xcrun simctl bootstatus "$udid"
@@ -183,20 +180,10 @@ jobs:
       run: cmake --build .
       working-directory: ${{ env.BUILD_DIR }}
 
-    # Run a few test programs inside the booted simulator.
-    - name: test in simulator
-      run: |
-        for t in lheap dtypes rtree; do
-          echo "::group::$t"
-          "$GITHUB_WORKSPACE/config/ios/simrun.sh" "$BUILD_DIR/bin/$t"
-          echo "::endgroup::"
-        done
-      working-directory: ${{ env.BUILD_DIR }}/test/H5TEST
-
-    # Most HDF5 tests do not use CMAKE_CROSSCOMPILING_EMULATOR yet, so run
-    # the full suite on the host against the simulator's iOS runtime.
+    # Every test program runs inside the booted simulator through
+    # CMAKE_CROSSCOMPILING_EMULATOR (config/ios/simrun.sh).
     - name: test
-      run: DYLD_ROOT_PATH="$SIM_RUNTIME_ROOT" ctest --timeout 1200 --output-on-failure -j "$(sysctl -n hw.ncpu)"
+      run: ctest --timeout 1200 --output-on-failure -j "$(sysctl -n hw.ncpu)"
       working-directory: ${{ env.BUILD_DIR }}
 
 concurrency:

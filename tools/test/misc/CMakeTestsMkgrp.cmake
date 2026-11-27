@@ -135,7 +135,7 @@ macro (ADD_H5_TEST testname)
     if (NOT HDF5_ENABLE_USING_MEMCHECKER)
       add_test (
           NAME ${vol_prefix}H5MKGRP-${testname}-clear-objects
-          COMMAND $<TARGET_FILE:h5delete> ${testname}.h5
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5delete> ${testname}.h5
       )
 
       set_tests_properties (${vol_prefix}H5MKGRP-${testname}-clear-objects PROPERTIES
@@ -155,7 +155,7 @@ macro (ADD_H5_TEST testname)
     # == Main test ==
     add_test (
         NAME ${vol_prefix}H5MKGRP-${testname}
-        COMMAND $<TARGET_FILE:h5mkgrp> ${ARG_RESULT_OPTION} ${testname}.h5 ${ARG_UNPARSED_ARGUMENTS}
+        COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5mkgrp> ${ARG_RESULT_OPTION} ${testname}.h5 ${ARG_UNPARSED_ARGUMENTS}
     )
 
     if ("${vol_prefix}H5MKGRP-${testname}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
@@ -180,6 +180,7 @@ macro (ADD_H5_TEST testname)
       NAME ${vol_prefix}H5MKGRP-${testname}-h5ls
       COMMAND "${CMAKE_COMMAND}"
           -D "TEST_PROGRAM=$<TARGET_FILE:h5ls>"
+          -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
           -D "TEST_ARGS:STRING=-v;-r;${testname}.h5"
           -D "TEST_FOLDER=${vol_workdir}"
           -D "TEST_OUTPUT=${testname}.out"
@@ -211,7 +212,7 @@ endmacro ()
 
 macro (ADD_H5_CMP resultfile resultcode)
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5MKGRP_CMP-${resultfile} COMMAND $<TARGET_FILE:h5mkgrp> ${ARGN})
+    add_test (NAME H5MKGRP_CMP-${resultfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5mkgrp> ${ARGN})
     set_tests_properties (H5MKGRP_CMP-${resultfile} PROPERTIES
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles"
     )
@@ -227,6 +228,7 @@ macro (ADD_H5_CMP resultfile resultcode)
         NAME H5MKGRP_CMP-${resultfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5mkgrp>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${resultfile}.out"

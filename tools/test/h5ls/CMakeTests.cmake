@@ -212,7 +212,7 @@ foreach (external_vol_tgt ${HDF5_EXTERNAL_VOL_TARGETS})
     message (FATAL_ERROR "Could not create directory ${PROJECT_BINARY_DIR}/${external_vol_tgt}/testfiles")
   endif ()
 
-  add_test (NAME ${external_vol_tgt}-h5lsgentest COMMAND $<TARGET_FILE:h5gentest> --h5ls)
+  add_test (NAME ${external_vol_tgt}-h5lsgentest COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5gentest> --h5ls)
   
   set_tests_properties (${external_vol_tgt}-h5lsgentest PROPERTIES
       ENVIRONMENT "${vol_env}"
@@ -301,13 +301,14 @@ macro (ADD_H5_TEST testname)
 
     # If using memchecker add tests without using scripts
     if (HDF5_ENABLE_USING_MEMCHECKER)
-      add_test (NAME ${vol_prefix}H5LS-${testname} COMMAND $<TARGET_FILE:h5ls> ${ARG_UNPARSED_ARGUMENTS})
+      add_test (NAME ${vol_prefix}H5LS-${testname} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5ls> ${ARG_UNPARSED_ARGUMENTS})
     else ()
       # Remove any output file left over from previous test run
       add_test (
           NAME ${vol_prefix}H5LS-${testname}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5ls>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS=${ARG_UNPARSED_ARGUMENTS}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${testname}.out"
@@ -352,6 +353,7 @@ macro (ADD_H5_UD_TEST testname resultcode resultfile)
         NAME H5LS_UD-${testname}-${resultfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5ls>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${resultfile}.out"
@@ -375,7 +377,7 @@ endmacro ()
 macro (ADD_H5_S3TEST resultfile resultcode credtype urlscheme urlpath)
   # If using memchecker add tests without using scripts
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5LS_S3TEST-${resultfile}_${urlscheme}_${credtype} COMMAND $<TARGET_FILE:h5ls> ${ARGN})
+    add_test (NAME H5LS_S3TEST-${resultfile}_${urlscheme}_${credtype} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5ls> ${ARGN})
     if ("${resultcode}" STREQUAL "1")
       set_tests_properties (H5LS_S3TEST-${resultfile}_${urlscheme}_${credtype} PROPERTIES WILL_FAIL "true")
     endif ()
@@ -384,6 +386,7 @@ macro (ADD_H5_S3TEST resultfile resultcode credtype urlscheme urlpath)
         NAME H5LS_S3TEST-${resultfile}_${urlscheme}_${credtype}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5ls>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS=--enable-error-stack;${ARGN};${urlscheme}://${urlpath}/${resultfile}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/S3TEST"
             -D "TEST_OUTPUT=${resultfile}_${urlscheme}_${credtype}.out"

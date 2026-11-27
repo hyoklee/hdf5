@@ -41,6 +41,7 @@ macro (ADD_H5SOTO_TEST testname resultcode reference)
       NAME H5SOTO-${testname}
       COMMAND "${CMAKE_COMMAND}"
           -D "TEST_PROGRAM=$<TARGET_FILE:h5soto>"
+          -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
           -D "TEST_ARGS:STRING=${ARGN}"
           -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
           -D "TEST_OUTPUT=h5soto-${testname}.out"
@@ -91,6 +92,7 @@ add_test (
     NAME H5SOTO-force_overwrite
     COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:h5soto>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING=--materialize=0;--force;--output=exists-output.h5;tst_onion_objs.h5"
         -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
         -D "TEST_OUTPUT=h5soto-force_overwrite.out"
@@ -135,6 +137,7 @@ add_test (
     NAME H5SOTO-materialize_verify
     COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING=materialized-rev3.h5"
         -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
         -D "TEST_OUTPUT=h5dump-materialized-rev3.out"

@@ -71,6 +71,7 @@ macro (ADD_VFD_TEST vfdname resultcode)
           NAME H5REPACK_VFD-${vfdname}-h5repacktest
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5repacktest>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING="
               -D "TEST_VFD:STRING=${vfdname}"
               -D "TEST_EXPECT=${resultcode}"

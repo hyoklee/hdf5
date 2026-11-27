@@ -456,7 +456,7 @@ foreach (external_vol_tgt ${HDF5_EXTERNAL_VOL_TARGETS})
   file (MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${ext_vol_dir_name}/testfiles/std")
 
   # Generate test files
-  add_test (NAME ${external_vol_tgt}-h5dumpgentest COMMAND $<TARGET_FILE:h5gentest> --h5dump)
+  add_test (NAME ${external_vol_tgt}-h5dumpgentest COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5gentest> --h5dump)
   set_tests_properties (${external_vol_tgt}-h5dumpgentest PROPERTIES
       ENVIRONMENT "${vol_env}"
       WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/${ext_vol_dir_name}/testfiles/std"
@@ -501,12 +501,13 @@ add_custom_target (h5dump_vol_files ALL COMMENT "Copying files needed by h5dump 
 macro (ADD_HELP_TEST testname resultcode)
   # If using memchecker add tests without using scripts
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5DUMP-${testname} COMMAND $<TARGET_FILE:h5dump> ${ARGN})
+    add_test (NAME H5DUMP-${testname} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5dump> ${ARGN})
   else ()
     add_test (
         NAME H5DUMP-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles/std"
             -D "TEST_OUTPUT=h5dump-${testname}.out"
@@ -754,7 +755,7 @@ macro (ADD_H5_TEST testname)
 
     # If using memchecker add tests without using scripts
     if (HDF5_ENABLE_USING_MEMCHECKER AND NOT ARG_MASK_ERROR AND NOT ARG_GREP_COMPARE AND NOT DEFINED ARG_H5ERRREF)
-      add_test (NAME ${vol_prefix}H5DUMP-${ctest_testname} COMMAND $<TARGET_FILE:h5dump> ${ARG_ANY_PATHS} ${ARG_UNPARSED_ARGUMENTS} ${ARG_DDL_FILE_CMD} ${BINARY_OUTPUT_FLAG} ${ARG_OUTPUT_FILEARGS} ${ARG_TARGET_FILE})
+      add_test (NAME ${vol_prefix}H5DUMP-${ctest_testname} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5dump> ${ARG_ANY_PATHS} ${ARG_UNPARSED_ARGUMENTS} ${ARG_DDL_FILE_CMD} ${BINARY_OUTPUT_FLAG} ${ARG_OUTPUT_FILEARGS} ${ARG_TARGET_FILE})
       if (${ARG_RESULT_CODE})
         set_tests_properties (${vol_prefix}H5DUMP-${ctest_testname}
             PROPERTIES WILL_FAIL "true"
@@ -765,6 +766,7 @@ macro (ADD_H5_TEST testname)
           NAME ${vol_prefix}H5DUMP-${ctest_testname}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=${ARG_ANY_PATHS};${ARG_UNPARSED_ARGUMENTS};${ARG_DDL_FILE_CMD};${BINARY_OUTPUT_FLAG};${ARG_OUTPUT_FILEARGS};${ARG_TARGET_FILE}"
               -D "TEST_FOLDER=${workdir}"
               -D "TEST_OUTPUT=${testname}.out"
@@ -859,6 +861,7 @@ macro (ADD_H5_TEST_IMPORT conffile resultfile testfile resultcode)
         NAME H5DUMP-IMPORT-${resultfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN};-o;${resultfile}.bin;${testfile}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles/std"
             -D "TEST_OUTPUT=${conffile}.out"
@@ -873,7 +876,7 @@ macro (ADD_H5_TEST_IMPORT conffile resultfile testfile resultcode)
     if ("H5DUMP-IMPORT-${resultfile}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
       set_tests_properties (H5DUMP-IMPORT-${resultfile} PROPERTIES DISABLED true)
     endif ()
-    add_test (NAME H5DUMP-IMPORT-h5import-${resultfile} COMMAND $<TARGET_FILE:h5import> ${resultfile}.bin -c ${conffile}.out -o ${resultfile}.h5)
+    add_test (NAME H5DUMP-IMPORT-h5import-${resultfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5import> ${resultfile}.bin -c ${conffile}.out -o ${resultfile}.h5)
     set_tests_properties (H5DUMP-IMPORT-h5import-${resultfile} PROPERTIES
         DEPENDS H5DUMP-IMPORT-${resultfile}
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles/std"
@@ -881,7 +884,7 @@ macro (ADD_H5_TEST_IMPORT conffile resultfile testfile resultcode)
     if ("H5DUMP-IMPORT-h5import-${resultfile}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
       set_tests_properties (H5DUMP-IMPORT-h5import-${resultfile} PROPERTIES DISABLED true)
     endif ()
-    add_test (NAME H5DUMP-IMPORT-h5diff-${resultfile} COMMAND $<TARGET_FILE:h5diff> ${testfile} ${resultfile}.h5 /integer /integer)
+    add_test (NAME H5DUMP-IMPORT-h5diff-${resultfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5diff> ${testfile} ${resultfile}.h5 /integer /integer)
     set_tests_properties (H5DUMP-IMPORT-h5diff-${resultfile} PROPERTIES
         DEPENDS H5DUMP-IMPORT-h5import-${resultfile}
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles/std"
@@ -908,6 +911,7 @@ macro (ADD_H5_UD_TEST testname resultcode resultfile)
         NAME H5DUMP_UD-${testname}-${resultfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles/std"
             -D "TEST_OUTPUT=${resultfile}.out"
@@ -931,7 +935,7 @@ endmacro ()
 macro (ADD_H5_S3TEST resultfile resultcode credtype urlscheme urlpath)
   # If using memchecker add tests without using scripts
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5DUMP_S3TEST-${resultfile}_${urlscheme}_${credtype} COMMAND $<TARGET_FILE:h5dump> ${ARGN})
+    add_test (NAME H5DUMP_S3TEST-${resultfile}_${urlscheme}_${credtype} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5dump> ${ARGN})
     if (${resultcode})
       set_tests_properties (H5DUMP_S3TEST-${resultfile}_${urlscheme}_${credtype} PROPERTIES WILL_FAIL "true")
     endif ()
@@ -943,6 +947,7 @@ macro (ADD_H5_S3TEST resultfile resultcode credtype urlscheme urlpath)
         NAME H5DUMP_S3TEST-${resultfile}_${urlscheme}_${credtype}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=--enable-error-stack=2;${ARGN};${urlscheme}://${urlpath}/${resultfile}.h5"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/S3TEST"
             -D "TEST_OUTPUT=${resultfile}_${urlscheme}_${credtype}.out"

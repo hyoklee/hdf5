@@ -74,6 +74,7 @@ add_custom_target (H5WATCH_files ALL COMMENT "Copying files needed by H5WATCH te
           NAME H5WATCH_ARGS-h5watch-${resultfile}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5watch>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=${ARGN}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${resultfile}.out"
@@ -98,6 +99,7 @@ add_custom_target (H5WATCH_files ALL COMMENT "Copying files needed by H5WATCH te
           NAME H5WATCH_ARGS-h5watch-${resultfile}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5watch>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=${ARGN}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${resultfile}.out"
@@ -124,6 +126,7 @@ add_custom_target (H5WATCH_files ALL COMMENT "Copying files needed by H5WATCH te
           NAME H5WATCH-${resultfile}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5watch>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=${ARGN}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${resultfile}.out"
@@ -194,7 +197,7 @@ set_tests_properties (H5WATCH-cleanall-objects PROPERTIES FIXTURES_CLEANUP swmr_
 #                                               #
 #################################################################################################
 # create the output files to be used.
-add_test (NAME H5WATCH-h5watchgentest COMMAND $<TARGET_FILE:h5watchgentest>)
+add_test (NAME H5WATCH-h5watchgentest COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5watchgentest>)
 set_tests_properties (H5WATCH-h5watchgentest PROPERTIES
     WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/testfiles"
     DEPENDS H5WATCH-clearall-objects

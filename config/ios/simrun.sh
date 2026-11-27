@@ -19,6 +19,9 @@
 #   SIMLAUNCH       path to the simlaunch helper built for the simulator
 #                   (default: simlaunch next to this script)
 #   SIMRUN_DEVICE   simulator UDID or name (default: booted)
+#   SIMRUN_LIBRARY_PATH
+#                   DYLD_LIBRARY_PATH for the program and its children
+#                   (default: the program's directory)
 #
 # HDF5_*, H5_*, and srcdir variables are forwarded to the program.
 
@@ -40,5 +43,11 @@ case $prog in
   /*) ;;
   *) prog=$PWD/$prog ;;
 esac
+
+# macOS strips DYLD_* variables before running /bin/sh, so DYLD_LIBRARY_PATH
+# set by the test scripts never reaches this script. HDF5 puts test programs
+# and shared libraries in the same directory, so use the program's directory.
+# Child processes the test starts (e.g. SWMR readers) inherit it.
+export SIMCTL_CHILD_DYLD_LIBRARY_PATH="${SIMRUN_LIBRARY_PATH:-$(dirname "$prog")}"
 
 exec xcrun simctl spawn "${SIMRUN_DEVICE:-booted}" "$launcher" "$PWD" "$prog" "$@"

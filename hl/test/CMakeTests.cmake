@@ -106,10 +106,11 @@ set_tests_properties (HL_test-clean-objects PROPERTIES
 macro (HL_ADD_TEST hl_name)
   set (current_test_name "HL_${hl_name}")
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME HL_${hl_name} COMMAND $<TARGET_FILE:hl_${hl_name}>)
+    add_test (NAME HL_${hl_name} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:hl_${hl_name}>)
   else ()
     add_test (NAME HL_${hl_name} COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:hl_${hl_name}>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -123,6 +124,7 @@ macro (HL_ADD_TEST hl_name)
           NAME H5DUMP-HL_${hl_name}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=--enable-error-stack;${hl_name}.h5"
               -D "TEST_FOLDER=${HDF5_HL_TEST_BINARY_DIR}"
               -D "TEST_OUTPUT=h5dump-${hl_name}.out"

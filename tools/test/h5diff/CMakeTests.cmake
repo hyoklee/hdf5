@@ -386,7 +386,7 @@ foreach (external_vol_tgt ${HDF5_EXTERNAL_VOL_TARGETS})
   endif ()
 
   # Generate test files
-  add_test (NAME ${external_vol_tgt}-h5diffgentest COMMAND $<TARGET_FILE:h5gentest> -h5diff)
+  add_test (NAME ${external_vol_tgt}-h5diffgentest COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5gentest> -h5diff)
   set_tests_properties (${external_vol_tgt}-h5diffgentest PROPERTIES
       ENVIRONMENT "${vol_env}"
       WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/${ext_vol_dir_name}/testfiles"
@@ -394,7 +394,7 @@ foreach (external_vol_tgt ${HDF5_EXTERNAL_VOL_TARGETS})
   )
 
   if (H5_HAVE_PARALLEL)
-    add_test (NAME ${external_vol_tgt}-h5diffgentest-PAR COMMAND $<TARGET_FILE:h5gentest> -h5diff)
+    add_test (NAME ${external_vol_tgt}-h5diffgentest-PAR COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5gentest> -h5diff)
     set_tests_properties (${external_vol_tgt}-h5diffgentest-PAR PROPERTIES
         ENVIRONMENT "${vol_env}"
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/PAR/${ext_vol_dir_name}/testfiles"
@@ -558,7 +558,7 @@ macro (ADD_SH5_TEST testname)
 
     # If using memchecker add tests without using scripts
     if (HDF5_ENABLE_USING_MEMCHECKER)
-      add_test (NAME ${vol_prefix}H5DIFF-${testname} COMMAND $<TARGET_FILE:h5diff> ${ARG_UNPARSED_ARGUMENTS})
+      add_test (NAME ${vol_prefix}H5DIFF-${testname} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5diff> ${ARG_UNPARSED_ARGUMENTS})
       if (${ARG_RESULT_CODE})
         set_tests_properties (${vol_prefix}H5DIFF-${testname} PROPERTIES WILL_FAIL "true")
       endif ()
@@ -567,6 +567,7 @@ macro (ADD_SH5_TEST testname)
           NAME ${vol_prefix}H5DIFF-${testname}
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:h5diff>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_ARGS:STRING=${ARG_UNPARSED_ARGUMENTS}"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
               -D "TEST_OUTPUT=${testname}.out"
@@ -704,6 +705,7 @@ macro (ADD_H5_UD_TEST testname resultcode resultfile)
         NAME ${vol_prefix}H5DIFF_UD-${testname}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5diff>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}/testfiles"
             -D "TEST_OUTPUT=${resultfile}.out"

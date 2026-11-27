@@ -54,7 +54,7 @@ add_custom_target (h5jam_files ALL COMMENT "Copying files needed by h5jam tests"
 macro (TEST_H5JAM_OUTPUT expectfile resultcode)
   # If using memchecker add tests without using scripts
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5JAM-${expectfile} COMMAND $<TARGET_FILE:h5jam> ${ARGN})
+    add_test (NAME H5JAM-${expectfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5jam> ${ARGN})
     if (${resultcode})
       set_tests_properties (H5JAM-${expectfile} PROPERTIES WILL_FAIL "true")
     endif ()
@@ -63,6 +63,7 @@ macro (TEST_H5JAM_OUTPUT expectfile resultcode)
         NAME H5JAM-${expectfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5jam>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=${expectfile}.out"
@@ -85,7 +86,7 @@ endmacro ()
 macro (TEST_H5UNJAM_OUTPUT expectfile resultcode)
   # If using memchecker add tests without using scripts
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME H5JAM-UNJAM-${expectfile} COMMAND $<TARGET_FILE:h5unjam> ${ARGN})
+    add_test (NAME H5JAM-UNJAM-${expectfile} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5unjam> ${ARGN})
     if (${resultcode})
       set_tests_properties (H5JAM-UNJAM-${expectfile} PROPERTIES WILL_FAIL "true")
     endif ()
@@ -94,6 +95,7 @@ macro (TEST_H5UNJAM_OUTPUT expectfile resultcode)
         NAME H5JAM-UNJAM-${expectfile}
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5unjam>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS=${ARGN}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=${expectfile}.out"
@@ -114,6 +116,7 @@ macro (CHECKFILE testname testdepends expected actual)
         NAME H5JAM-${testname}-CHECKFILE-H5DMP
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=testfiles/${expected}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=${actual}.new"
@@ -132,6 +135,7 @@ macro (CHECKFILE testname testdepends expected actual)
         NAME H5JAM-${testname}-CHECKFILE-H5DMP_CMP
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:h5dump>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING=${actual}"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
             -D "TEST_OUTPUT=${actual}.out"
@@ -171,7 +175,7 @@ macro (UNJAMTEST testname setfile infile ufile chkfile outfile)
           COMMAND ${CMAKE_COMMAND} -E remove ${ufile}
       )
       set_tests_properties (H5JAM-${testname}-UNJAM_D-clear-objects PROPERTIES DEPENDS H5JAM-${testname}-UNJAM-clear-objects)
-      add_test (NAME H5JAM-${testname}-UNJAM COMMAND $<TARGET_FILE:h5unjam> -i ${infile} -u ${ufile} -o ${outfile})
+      add_test (NAME H5JAM-${testname}-UNJAM COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5unjam> -i ${infile} -u ${ufile} -o ${outfile})
       set_tests_properties (H5JAM-${testname}-UNJAM PROPERTIES
           DEPENDS H5JAM-${testname}-UNJAM_D-clear-objects
       )
@@ -182,6 +186,7 @@ macro (UNJAMTEST testname setfile infile ufile chkfile outfile)
             NAME H5JAM-${testname}-UNJAM
             COMMAND "${CMAKE_COMMAND}"
                 -D "TEST_PROGRAM=$<TARGET_FILE:h5unjam>"
+                -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
                 -D "TEST_ARGS:STRING=-i;${infile};-o;${outfile}"
                 -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
                 -D "TEST_OUTPUT=${outfile}.ufile.txt"
@@ -194,7 +199,7 @@ macro (UNJAMTEST testname setfile infile ufile chkfile outfile)
         )
         set (compare_test "${outfile}.ufile.txt")
       else ()
-        add_test (NAME H5JAM-${testname}-UNJAM COMMAND $<TARGET_FILE:h5unjam> -i ${infile} -o ${outfile})
+        add_test (NAME H5JAM-${testname}-UNJAM COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5unjam> -i ${infile} -o ${outfile})
         set_tests_properties (H5JAM-${testname}-UNJAM PROPERTIES
             DEPENDS H5JAM-${testname}-UNJAM-clear-objects
         )
@@ -217,6 +222,7 @@ macro (UNJAMTEST testname setfile infile ufile chkfile outfile)
           NAME H5JAM-${testname}-UNJAM-CHECK_UB_1
           COMMAND "${CMAKE_COMMAND}"
               -D "TEST_PROGRAM=$<TARGET_FILE:tellub>"
+              -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
               -D "TEST_GET_PROGRAM=$<TARGET_FILE:getub>"
               -D "TEST_CHECKUB=YES"
               -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
@@ -238,6 +244,7 @@ macro (UNJAMTEST testname setfile infile ufile chkfile outfile)
         NAME H5JAM-${testname}-UNJAM-CHECK_NOUB
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:tellub>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_GET_PROGRAM=$<TARGET_FILE:getub>"
             -D "TEST_CHECKUB=NO"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
@@ -267,7 +274,7 @@ macro (JAMTEST testname jamfile infile chkfile outfile)
         COMMAND ${CMAKE_COMMAND} -E remove ${outfile} ${infile}.cpy.h5
     )
   endif ()
-  add_test (NAME H5JAM-${testname} COMMAND $<TARGET_FILE:h5jam> -u testfiles/${jamfile} -i testfiles/${infile} -o ${outfile} ${ARGN})
+  add_test (NAME H5JAM-${testname} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5jam> -u testfiles/${jamfile} -i testfiles/${infile} -o ${outfile} ${ARGN})
   if ("H5JAM-${testname}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
     set_tests_properties (H5JAM-${testname} PROPERTIES DISABLED true)
   endif ()
@@ -291,6 +298,7 @@ macro (JAMTEST testname jamfile infile chkfile outfile)
         NAME H5JAM-${testname}-CHECK_UB_1
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:tellub>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_GET_PROGRAM=$<TARGET_FILE:getub>"
             -D "TEST_CHECKUB=YES"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"
@@ -332,7 +340,7 @@ macro (JAMTEST_NONE testname jamfile infile setfile chkfile)
       set_tests_properties (H5JAM-${testname}_NONE_COPY PROPERTIES DISABLED true)
     endif ()
 
-    add_test (NAME H5JAM-${testname}_NONE COMMAND $<TARGET_FILE:h5jam> -u testfiles/${jamfile} -i ${chkfile} ${ARGN})
+    add_test (NAME H5JAM-${testname}_NONE COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5jam> -u testfiles/${jamfile} -i ${chkfile} ${ARGN})
     set_tests_properties (H5JAM-${testname}_NONE PROPERTIES
         DEPENDS H5JAM-${testname}_NONE_COPY
     )
@@ -358,6 +366,7 @@ macro (JAMTEST_NONE testname jamfile infile setfile chkfile)
         NAME H5JAM-${testname}_NONE-CHECK_UB_1
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:tellub>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_GET_PROGRAM=$<TARGET_FILE:getub>"
             -D "TEST_CHECKUB=YES"
             -D "TEST_FOLDER=${PROJECT_BINARY_DIR}"

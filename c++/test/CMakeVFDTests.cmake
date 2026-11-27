@@ -28,6 +28,7 @@ macro (ADD_VFD_TEST vfdname resultcode)
         NAME CPP_VFD-${vfdname}-cpp_testhdf5
         COMMAND "${CMAKE_COMMAND}"
             -D "TEST_PROGRAM=$<TARGET_FILE:cpp_testhdf5>"
+            -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
             -D "TEST_ARGS:STRING="
             -D "TEST_VFD:STRING=${vfdname}"
             -D "TEST_EXPECT=${resultcode}"

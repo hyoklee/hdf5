@@ -182,7 +182,7 @@ if (HDF5_TEST_SERIAL)
     foreach (api_test ${HDF5_API_TESTS})
       add_test (
           NAME h5_api_test_${api_test}
-          COMMAND $<TARGET_FILE:h5_api_test_driver>
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
               --server ${HDF5_TEST_API_SERVER}
               --client $<TARGET_FILE:h5_api_test> ${api_test}
               --serial
@@ -200,7 +200,7 @@ if (HDF5_TEST_SERIAL)
     foreach (ext_api_test ${HDF5_API_EXT_SERIAL_TESTS})
       add_test (
           NAME h5_api_ext_test_${ext_api_test}
-          COMMAND $<TARGET_FILE:h5_api_test_driver>
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
               --server ${HDF5_TEST_API_SERVER}
               --client $<TARGET_FILE:${ext_api_test}>
               --serial
@@ -241,7 +241,7 @@ if (HDF5_TEST_SERIAL)
         foreach (api_test ${HDF5_API_TESTS})
           add_test (
               NAME ${external_vol_tgt}-h5_api_test_${api_test}
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
                   --server ${HDF5_TEST_API_SERVER}
                   --client $<TARGET_FILE:h5_api_test> ${api_test}
                   --serial
@@ -263,7 +263,7 @@ if (HDF5_TEST_SERIAL)
         foreach (hdf5_test ${HDF5_API_TESTS_EXTRA})
           add_test (
               NAME ${external_vol_tgt}-h5_api_test_${hdf5_test}
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
                   --server ${HDF5_TEST_API_SERVER}
                   --client $<TARGET_FILE:${hdf5_test}>
                   --serial
@@ -283,7 +283,7 @@ if (HDF5_TEST_SERIAL)
         foreach (ext_api_test ${HDF5_API_EXT_SERIAL_TESTS})
           add_test (
               NAME ${external_vol_tgt}-h5_api_ext_test_${ext_api_test}
-              COMMAND $<TARGET_FILE:h5_api_test_driver>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test_driver>
                   --server ${HDF5_TEST_API_SERVER}
                   --client $<TARGET_FILE:${ext_api_test}>
                   --serial
@@ -303,7 +303,7 @@ if (HDF5_TEST_SERIAL)
     foreach (api_test ${HDF5_API_TESTS})
       add_test (
           NAME h5_api_test_${api_test}
-          COMMAND $<TARGET_FILE:h5_api_test> ${api_test}
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test> ${api_test}
       )
       if ("h5_api_test_${api_test}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
         set_tests_properties (h5_api_test_${api_test} PROPERTIES DISABLED true)
@@ -317,7 +317,7 @@ if (HDF5_TEST_SERIAL)
     foreach (ext_api_test ${HDF5_API_EXT_SERIAL_TESTS})
       add_test (
           NAME h5_api_ext_test_${ext_api_test}
-          COMMAND $<TARGET_FILE:${ext_api_test}>
+          COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${ext_api_test}>
       )
       if ("h5_api_ext_test_${ext_api_test}" MATCHES "${HDF5_DISABLE_TESTS_REGEX}")
         set_tests_properties (h5_api_ext_test_${ext_api_test} PROPERTIES DISABLED true)
@@ -354,7 +354,7 @@ if (HDF5_TEST_SERIAL)
         foreach (api_test ${HDF5_API_TESTS})
           add_test (
               NAME ${external_vol_tgt}-h5_api_test_${api_test}
-              COMMAND $<TARGET_FILE:h5_api_test> ${api_test}
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5_api_test> ${api_test}
           )
           set_tests_properties (${external_vol_tgt}-h5_api_test_${api_test}
               PROPERTIES
@@ -372,7 +372,7 @@ if (HDF5_TEST_SERIAL)
         foreach (hdf5_test ${HDF5_API_TESTS_EXTRA})
           add_test (
               NAME ${external_vol_tgt}-h5_api_test_${hdf5_test}
-              COMMAND $<TARGET_FILE:${hdf5_test}>
+              COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${hdf5_test}>
           )
           set_tests_properties (${external_vol_tgt}-h5_api_test_${hdf5_test}
               PROPERTIES

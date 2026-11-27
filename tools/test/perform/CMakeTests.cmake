@@ -51,10 +51,11 @@ if (HDF5_TEST_SERIAL)
   set_tests_properties (PERFORM_h5perform-clean-objects PROPERTIES FIXTURES_CLEANUP clear_perform)
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_h5perf_serial COMMAND $<TARGET_FILE:h5perf_serial>)
+    add_test (NAME PERFORM_h5perf_serial COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5perf_serial>)
   else ()
     add_test (NAME PERFORM_h5perf_serial COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:h5perf_serial>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -73,10 +74,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_chunk COMMAND $<TARGET_FILE:chunk>)
+    add_test (NAME PERFORM_chunk COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:chunk>)
   else ()
     add_test (NAME PERFORM_chunk COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:chunk>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -94,10 +96,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_iopipe COMMAND $<TARGET_FILE:iopipe>)
+    add_test (NAME PERFORM_iopipe COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:iopipe>)
   else ()
     add_test (NAME PERFORM_iopipe COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:iopipe>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -115,10 +118,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_overhead COMMAND $<TARGET_FILE:overhead>)
+    add_test (NAME PERFORM_overhead COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:overhead>)
   else ()
     add_test (NAME PERFORM_overhead COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:overhead>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -136,10 +140,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_perf_meta COMMAND $<TARGET_FILE:perf_meta>)
+    add_test (NAME PERFORM_perf_meta COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:perf_meta>)
   else ()
     add_test (NAME PERFORM_perf_meta COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:perf_meta>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -157,10 +162,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_zip_perf_help COMMAND $<TARGET_FILE:zip_perf> "-h")
+    add_test (NAME PERFORM_zip_perf_help COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:zip_perf> "-h")
   else ()
     add_test (NAME PERFORM_zip_perf_help COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:zip_perf>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"
@@ -178,10 +184,11 @@ if (HDF5_TEST_SERIAL)
   endif ()
 
   if (HDF5_ENABLE_USING_MEMCHECKER)
-    add_test (NAME PERFORM_zip_perf COMMAND $<TARGET_FILE:zip_perf> tfilters.h5)
+    add_test (NAME PERFORM_zip_perf COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:zip_perf> tfilters.h5)
   else ()
     add_test (NAME PERFORM_zip_perf COMMAND "${CMAKE_COMMAND}"
         -D "TEST_PROGRAM=$<TARGET_FILE:zip_perf>"
+        -D "TEST_EMULATOR=${CMAKE_CROSSCOMPILING_EMULATOR}"
         -D "TEST_ARGS:STRING="
         -D "TEST_EXPECT=0"
         -D "TEST_SKIP_COMPARE=TRUE"

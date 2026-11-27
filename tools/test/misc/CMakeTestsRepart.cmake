@@ -82,7 +82,7 @@ set_tests_properties (H5REPART-clean-objects PROPERTIES FIXTURES_CLEANUP clear_t
 # repartition family member size to 20,000 bytes.
 add_test (
     NAME H5REPART-h5repart_20K
-    COMMAND $<TARGET_FILE:h5repart> -m 20000 family_file%05d.h5 fst_family%05d.h5
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5repart> -m 20000 family_file%05d.h5 fst_family%05d.h5
 )
 set_tests_properties (H5REPART-h5repart_20K PROPERTIES
     FIXTURES_REQUIRED clear_testrepart
@@ -94,7 +94,7 @@ endif ()
 # repartition family member size to 5 KB.
 add_test (
     NAME H5REPART-h5repart_5K
-    COMMAND $<TARGET_FILE:h5repart> -m 5k family_file%05d.h5 scd_family%05d.h5
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5repart> -m 5k family_file%05d.h5 scd_family%05d.h5
 )
 set_tests_properties (H5REPART-h5repart_5K PROPERTIES
     FIXTURES_REQUIRED clear_testrepart
@@ -106,7 +106,7 @@ endif ()
 # convert family file to sec2 file of 20,000 bytes
 add_test (
     NAME H5REPART-h5repart_single
-    COMMAND $<TARGET_FILE:h5repart> -m 20000 -family_to_single family_file%05d.h5 family_to_single.h5
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5repart> -m 20000 -family_to_single family_file%05d.h5 family_to_single.h5
 )
 set_tests_properties (H5REPART-h5repart_single PROPERTIES
     FIXTURES_REQUIRED clear_testrepart
@@ -118,7 +118,7 @@ endif ()
 # convert family file to sec2 file of 20,000 bytes (old argument)
 add_test (
     NAME H5REPART-h5repart_sec2
-    COMMAND $<TARGET_FILE:h5repart> -m 20000 -family_to_sec2 family_file%05d.h5 family_to_sec2.h5
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5repart> -m 20000 -family_to_sec2 family_file%05d.h5 family_to_sec2.h5
 )
 set_tests_properties (H5REPART-h5repart_sec2 PROPERTIES
     FIXTURES_REQUIRED clear_testrepart
@@ -130,7 +130,7 @@ endif ()
 # test the output files repartitioned above.
 add_test (
     NAME H5REPART-h5repart_test
-    COMMAND $<TARGET_FILE:h5repart_test>
+    COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:h5repart_test>
 )
 set_tests_properties (H5REPART-h5repart_test PROPERTIES
     DEPENDS "H5REPART-h5repart_20K;H5REPART-h5repart_5K;H5REPART-h5repart_single;H5REPART-h5repart_sec2"

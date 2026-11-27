@@ -36,6 +36,27 @@ if (POLICY CMP0144)
 endif ()
 
 #-----------------------------------------------------------------------------
+# Apple embedded platforms (iOS, tvOS, watchOS, visionOS)
+#
+# CMake builds executables as MACOSX_BUNDLE apps by default on these
+# platforms. The HDF5 tools and tests are command-line programs, so build
+# them as plain executables. This avoids install() errors about a missing
+# BUNDLE DESTINATION and Xcode errors about a missing
+# PRODUCT_BUNDLE_IDENTIFIER.
+#-----------------------------------------------------------------------------
+if (CMAKE_SYSTEM_NAME MATCHES "^(iOS|tvOS|watchOS|visionOS)$")
+  if (NOT DEFINED CACHE{CMAKE_MACOSX_BUNDLE})
+    set (CMAKE_MACOSX_BUNDLE OFF)
+  endif ()
+  if (NOT DEFINED CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER)
+    set (CMAKE_XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "org.hdfgroup.hdf5.$(TARGET_NAME)")
+  endif ()
+  if (NOT DEFINED CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED)
+    set (CMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO")
+  endif ()
+endif ()
+
+#-----------------------------------------------------------------------------
 # Instructions for use : Normal Build
 #
 # For standard build of HDF5 libraries,tests and tools.

@@ -1,9 +1,13 @@
 name: mac ios
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - develop-
+      - develop
+  pull_request:
+    branches:
+      - develop
 
 permissions: read-all
 
@@ -13,7 +17,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: install
-      run: brew install ninja openmpi
+      run: brew install ninja
     - name: get
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -25,8 +29,8 @@ jobs:
         cmake \
         -GXcode \
         -DCMAKE_SYSTEM_NAME=iOS \
-        "-DCMAKE_OSX_ARCHITECTURES=arm64;i386;x86_64" \
-        -DCMAKE_OSX_DEPLOYMENT_TARGET=16.4.99 \
+        "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" \
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
         -DCMAKE_INSTALL_PREFIX=`pwd`/_install \
         -DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO \
         -DCMAKE_IOS_INSTALL_COMBINED=YES \
@@ -95,8 +99,12 @@ jobs:
       run: cmake --build .
       working-directory: ${{ runner.workspace }}/build
 
-    - name: test
-      run: ctest --build . -V
+    # iOS binaries cannot run on the macOS host, so verify the install instead.
+    - name: install
+      run: |
+        cmake --install . --config Debug
+        file _install/lib/libhdf5*.dylib _install/bin/h5dump
+        otool -l _install/lib/libhdf5.dylib | grep -A4 LC_BUILD_VERSION
       working-directory: ${{ runner.workspace }}/build
 
 concurrency:
